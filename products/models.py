@@ -196,4 +196,23 @@ class DesignStory(models.Model):
     
     def __str__(self):
         return f"Story: {self.product.name}"    
-     
+
+class ProductImage(models.Model):
+    """
+    Additional product images (multiple images per product)
+    """
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField(upload_to='products/gallery/')
+    alt_text = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['order']
+        verbose_name_plural = 'Product Images'
+    
+    def __str__(self):
+        return f"{self.product.name} - Image {self.order}"     
