@@ -96,3 +96,12 @@ class DesignStoryAdmin(admin.ModelAdmin):
     list_display = ['product', 'title', 'author', 'created_at']
     search_fields = ['product__name', 'title', 'story']
     list_filter = ['author', 'created_at']
+    
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for ProductImage model
+    """
+    list_display = ['product', 'alt_text', 'order']
+    list_filter = ['product']
+    search_fields = ['product__name', 'alt_text']    
