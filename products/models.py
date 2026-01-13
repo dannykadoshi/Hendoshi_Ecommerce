@@ -99,4 +99,73 @@ class Product(models.Model):
         Returns list of colors that have stock available
         """
         return self.variants.filter(stock__gt=0).values_list('color', flat=True).distinct()
+    
+    
+class ProductVariant(models.Model):
+    """
+    Model for product variants (size and color combinations with individual stock levels)
+    This is essential for POD integration where each size/color combo needs tracking
+    """
+    SIZE_CHOICES = [
+        ('xs', 'XS'),
+        ('s', 'S'),
+        ('m', 'M'),
+        ('l', 'L'),
+        ('xl', 'XL'),
+        ('2xl', '2XL'),
+        ('3xl', '3XL'),
+        ('4xl', '4XL'),
+        ('5xl', '5XL'),
+    ]
+    
+    COLOR_CHOICES = [
+        ('black', 'Black'),
+        ('white', 'White'),
+        ('charcoal', 'Charcoal Grey'),
+        ('navy', 'Navy Blue'),
+        ('red', 'Red'),
+    ]
+    
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='variants'
+    )
+    size = models.CharField(max_length=10, choices=SIZE_CHOICES)
+    color = models.CharField(max_length=20, choices=COLOR_CHOICES)
+    
+    # Stock management
+    stock = models.IntegerField(default=0)
+    
+    # POD SKU (for Printify/Printful integration)
+    sku = models.CharField(max_length=50, unique=True, blank=True)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['size', 'color']
+        verbose_name_plural = 'Product Variants'
+        unique_together = ['product', 'size', 'color']
+    
+    def save(self, *args, **kwargs):
+        """
+        Override save to auto-generate SKU if not provided
+        """
+        if not self.sku:
+            self.sku = f"{self.product.slug}-{self.size}-{self.color}".upper()
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.product.name} - {self.get_size_display()} / {self.get_color_display()}"
+    
+    @property
+    def is_in_stock(self):
+        """
+        Check if variant has stock available
+        """
+        return self.stock > 0
+    
+    
      
