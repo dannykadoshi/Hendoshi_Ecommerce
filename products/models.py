@@ -167,5 +167,33 @@ class ProductVariant(models.Model):
         """
         return self.stock > 0
     
+
+class DesignStory(models.Model):
+    """
+    Custom model for design stories - inspiration and background for each design
+    This adds value and personality to products, encouraging emotional connection
+    """
+    product = models.OneToOneField(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='design_story'
+    )
+    title = models.CharField(max_length=200)
+    story = models.TextField(
+        help_text="Tell the story behind this design - inspiration, meaning, creative process"
+    )
+    author = models.CharField(
+        max_length=100,
+        default="HENDOSHI Design Team"
+    )
     
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = 'Design Stories'
+    
+    def __str__(self):
+        return f"Story: {self.product.name}"    
      
