@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Shopping Cart{% endblock %}
+
+{% block content %}
+
+<div class="cart-page">
+    <div class="container">
+        
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Shopping Cart</li>
+            </ol>
+        </nav>
+
+        <h1 class="page-title mb-5">SHOPPING CART</h1>
+
+        {% if cart_items %}
+            <!-- Cart Items Section -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="cart-items-section">
+                        <div class="cart-header">
+                            <span class="cart-item-count">{{ cart.get_total_items }} item{{ cart.get_total_items|pluralize }}</span>
+                        </div>
+
+                        {% for item in cart_items %}
+                        <div class="cart-item" data-item-id="{{ item.id }}">
+                            <!-- Product Image -->
+                            <div class="cart-item-image">
+                                {% if item.product.main_image %}
+                                    <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                    <div class="placeholder-image-cart">
+                                        <i class="fas fa-image fa-2x"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Product Details -->
+                            <div class="cart-item-details">
+                                <h3 class="cart-item-name">
+                                    <a href="{% url 'product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                </h3>
+                                
+                                <div class="cart-item-specs">
+                                    <span class="spec-label">Size:</span>
+                                    <span class="spec-value">{{ item.size|upper }}</span>
+                                </div>
+                                
+                                <div class="cart-item-specs">
+                                    <span class="spec-label">Color:</span>
+                                    <span class="spec-value">{{ item.color|title }}</span>
+                                </div>
+
+                                <div class="cart-item-price">
+                                    <span class="price-label">Price:</span>
+                                    <span class="price-value">€{{ item.product.base_price }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Quantity & Subtotal -->
+                            <div class="cart-item-quantity">
+                                <label class="qty-label">Quantity:</label>
+                                <form method="POST" action="{% url 'update_cart_item' item.id %}" class="quantity-form">
+                                    {% csrf_token %}
+                                    <div class="quantity-control">
+                                        <button type="button" class="qty-btn-sm qty-minus-sm" onclick="decrementQty(this)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" name="quantity" class="qty-input-sm" value="{{ item.quantity }}" min="1" max="10">
+                                        <button type="button" class="qty-btn-sm qty-plus-sm" onclick="incrementQty(this)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Subtotal -->
+                            <div class="cart-item-subtotal">
+                                <span class="subtotal-label">Subtotal:</span>
+                                <span class="subtotal-value">€{{ item.get_total_price }}</span>
+                            </div>
+
+                            <!-- Remove Button -->
+                            <div class="cart-item-actions">
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn-remove" title="Remove from cart">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Continue Shopping Link -->
+                        <div class="continue-shopping mt-4">
+                            <a href="{% url 'products' %}" class="btn btn-outline-pink">
+                                <i class="fas fa-arrow-left"></i> Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary Sidebar -->
+                <div class="col-lg-4">
+                    <div class="cart-summary">
+                        <h3 class="summary-title">ORDER SUMMARY</h3>
+
+                        <div class="summary-row">
+                            <span class="summary-label">Subtotal:</span>
+                            <span class="summary-value">€{{ subtotal }}</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span class="summary-label">Shipping:</span>
+                            <span class="summary-value shipping-cost">TBD</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span class="summary-label">Tax:</span>
+                            <span class="summary-value tax-cost">TBD</span>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-row total">
+                            <span class="summary-label">Total:</span>
+                            <span class="summary-value">€{{ subtotal }}</span>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <div class="checkout-cta">
+                            <a href="#checkout" class="btn btn-pink btn-lg w-100 checkout-btn">
+                                <i class="fas fa-lock"></i> PROCEED TO CHECKOUT
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                            <p class="checkout-guarantee">
+                                <i class="fas fa-check-circle"></i> Secure • Fast • Easy
+                            </p>
+                        </div>
+
+                        <p class="cart-info mt-3">
+                            <i class="fas fa-shield-alt"></i> Secure checkout with SSL encryption
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <!-- Empty Cart Message -->
+            <div class="empty-cart">
+                <div class="empty-cart-icon">
+                    <i class="fas fa-shopping-cart fa-5x"></i>
+                </div>
+                <h2 class="empty-cart-title">Your Cart is Empty</h2>
+                <p class="empty-cart-text">You haven't added any items to your cart yet.</p>
+                
+                <a href="{% url 'products' %}" class="btn btn-pink btn-lg mt-4">
+                    <i class="fas fa-shopping-bag"></i> START SHOPPING
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- Cart JavaScript -->
+<script>
+    function incrementQty(button) {
+        const input = button.parentElement.querySelector('.qty-input-sm');
+        const max = parseInt(input.max);
+        if (parseInt(input.value) < max) {
+            input.value = parseInt(input.value) + 1;
+            submitQuantityForm(button);
+        }
+    }
+
+    function decrementQty(button) {
+        const input = button.parentElement.querySelector('.qty-input-sm');
+        const min = parseInt(input.min);
+        if (parseInt(input.value) > min) {
+            input.value = parseInt(input.value) - 1;
+            submitQuantityForm(button);
+        }
+    }
+
+    function submitQuantityForm(button) {
+        const form = button.closest('.quantity-form');
+        form.submit();
+    }
+</script>
+
+{% endblock %}
