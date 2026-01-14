@@ -27,8 +27,14 @@
                         <i class="fas fa-sliders-h"></i> Filters & Sort
                     </button>
                     
+                    <!-- Mobile Overlay -->
+                    <div class="filters-overlay" id="filtersOverlay"></div>
+                    
                     <!-- Filters Dropdown Menu -->
                     <div class="filters-dropdown" id="filtersDropdown">
+                        <button class="filters-close-btn" id="filtersCloseBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
                         <div class="filters-dropdown-content">
                             <div class="filter-column">
                                 <h3>Collections</h3>
@@ -154,10 +160,12 @@
 {% endblock %}
 {% block extra_js %}
     <script>
-    // Filters dropdown hover functionality for desktop
+    // Filters dropdown functionality
     document.addEventListener('DOMContentLoaded', function() {
         const filtersBtn = document.getElementById('filtersSortBtn');
         const filtersDropdown = document.getElementById('filtersDropdown');
+        const filtersOverlay = document.getElementById('filtersOverlay');
+        const filtersCloseBtn = document.getElementById('filtersCloseBtn');
         
         if (filtersBtn && filtersDropdown) {
             // For desktop: show on hover
@@ -187,8 +195,28 @@
             filtersBtn.addEventListener('click', function() {
                 if (window.innerWidth < 992) {
                     filtersDropdown.classList.toggle('show');
+                    filtersOverlay.classList.toggle('show');
+                    document.body.style.overflow = filtersDropdown.classList.contains('show') ? 'hidden' : '';
                 }
             });
+            
+            // Close button click
+            if (filtersCloseBtn) {
+                filtersCloseBtn.addEventListener('click', function() {
+                    filtersDropdown.classList.remove('show');
+                    filtersOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Overlay click to close
+            if (filtersOverlay) {
+                filtersOverlay.addEventListener('click', function() {
+                    filtersDropdown.classList.remove('show');
+                    filtersOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            }
         }
     });
     </script>
