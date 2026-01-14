@@ -712,3 +712,243 @@ body {
     background: var(--neon-pink);
     border-radius: 50%;
 }
+
+/* Authentication Pages */
+.auth-page {
+    padding-top: 100px;
+    padding-bottom: 5rem;
+    min-height: 100vh;
+}
+
+.auth-card {
+    background-color: var(--charcoal);
+    padding: 3rem;
+    border-radius: 8px;
+    border: 2px solid var(--gray);
+}
+
+.auth-title {
+    color: var(--neon-pink);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.auth-icon {
+    color: var(--neon-pink);
+    margin-bottom: 2rem;
+}
+
+.auth-form-input {
+    background-color: var(--black) !important;
+    border: 2px solid var(--gray) !important;
+    color: var(--off-white) !important;
+    padding: 0.8rem !important;
+    border-radius: 4px !important;
+}
+
+.auth-form-input:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    outline: none !important;
+    background-color: var(--black) !important;
+    color: var(--off-white) !important;
+}
+
+.auth-form-input::placeholder {
+    color: var(--gray) !important;
+}
+
+.auth-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.auth-link:hover {
+    color: var(--neon-pink);
+    opacity: 0.8;
+}
+
+.form-check-input {
+    background-color: var(--black) !important;
+    border: 2px solid var(--gray) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink) !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+}
+
+.form-label {
+    color: var(--off-white);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Profile Page */
+.profile-page {
+    padding-top: 100px;
+    padding-bottom: 5rem;
+}
+
+.page-title {
+    color: var(--neon-pink);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.profile-card {
+    background-color: var(--charcoal);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 2px solid var(--gray);
+    margin-bottom: 2rem;
+}
+
+.profile-card h2 {
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.info-group {
+    margin-bottom: 1.5rem;
+}
+
+.info-group label {
+    color: var(--gray);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.info-group p {
+    color: var(--off-white);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-form-input {
+    background-color: var(--black) !important;
+    border: 2px solid var(--gray) !important;
+    color: var(--off-white) !important;
+    padding: 0.8rem !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+    transition: all 0.3s !important;
+}
+
+.profile-form-input:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    outline: none !important;
+    background-color: var(--black) !important;
+    color: var(--off-white) !important;
+}
+
+.profile-form-input::placeholder {
+    color: var(--gray) !important;
+}
+
+/* Order History Table */
+.order-table {
+    color: var(--off-white);
+    margin-bottom: 0;
+}
+
+.order-table thead {
+    border-bottom: 2px solid var(--neon-pink);
+}
+
+.order-table th {
+    color: var(--neon-pink);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 1rem;
+}
+
+.order-table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--gray);
+}
+
+.order-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+}
+
+.order-link:hover {
+    color: var(--neon-pink);
+    text-decoration: underline;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.empty-state-icon {
+    color: var(--gray);
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+.empty-state-text {
+    color: var(--gray);
+    font-size: 1.2rem;
+}
+
+/* Email Address Item */
+.email-address-item {
+    background-color: var(--black);
+    border: 1px solid var(--gray);
+    color: var(--off-white);
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.badge.bg-pink {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+    padding: 0.3rem 0.8rem;
+    font-weight: 700;
+}
+
+/* Text Center Utility */
+.text-center {
+    text-align: center;
+}
+
+/* Auth Message Text */
+.auth-message {
+    font-size: 1.1rem;
+}
+
+/* Profile Divider */
+.profile-divider {
+    border-color: var(--gray);
+    opacity: 0.3;
+    margin: 1.5rem 0;
+}
+
+/* Text Danger (for error icons) */
+.text-danger {
+    color: #dc3545 !important;
+}

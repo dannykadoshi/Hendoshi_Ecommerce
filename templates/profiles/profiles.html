@@ -4,14 +4,12 @@
 {% block extra_title %}My Profile{% endblock %}
 
 {% block content %}
-<div class="profile-page py-5" style="margin-top: 100px;">
+<div class="profile-page">
     <div class="container">
         
         <div class="row">
             <div class="col-12">
-                <h1 class="page-title mb-4" style="color: var(--neon-pink); font-weight: 900; text-transform: uppercase; letter-spacing: 3px;">
-                    MY PROFILE
-                </h1>
+                <h1 class="page-title mb-4">MY PROFILE</h1>
             </div>
         </div>
         
@@ -19,27 +17,25 @@
             
             <!-- Profile Information -->
             <div class="col-md-6">
-                <div class="profile-card" style="background: var(--charcoal); padding: 2rem; border-radius: 8px; border: 2px solid var(--gray); margin-bottom: 2rem;">
-                    <h2 style="color: var(--neon-pink); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
-                        <i class="fas fa-user"></i> Account Info
-                    </h2>
+                <div class="profile-card">
+                    <h2><i class="fas fa-user"></i> Account Info</h2>
                     
-                    <div class="info-group mb-3">
-                        <label style="color: var(--gray); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Username:</label>
-                        <p style="color: var(--off-white); font-size: 1.2rem; font-weight: 600;">{{ user.username }}</p>
+                    <div class="info-group">
+                        <label>Username:</label>
+                        <p>{{ user.username }}</p>
                     </div>
                     
-                    <div class="info-group mb-3">
-                        <label style="color: var(--gray); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Email:</label>
-                        <p style="color: var(--off-white); font-size: 1.2rem; font-weight: 600;">{{ user.email }}</p>
+                    <div class="info-group">
+                        <label>Email:</label>
+                        <p>{{ user.email }}</p>
                     </div>
                     
-                    <div class="info-group mb-3">
-                        <label style="color: var(--gray); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Member Since:</label>
-                        <p style="color: var(--off-white); font-size: 1.2rem; font-weight: 600;">{{ user.date_joined|date:"F Y" }}</p>
+                    <div class="info-group">
+                        <label>Member Since:</label>
+                        <p>{{ user.date_joined|date:"F Y" }}</p>
                     </div>
                     
-                    <hr style="border-color: var(--gray); opacity: 0.3; margin: 1.5rem 0;">
+                    <hr class="profile-divider">
                     
                     <a href="{% url 'account_email' %}" class="btn btn-outline-pink w-100 mb-2">
                         <i class="fas fa-envelope"></i> Manage Email
@@ -52,12 +48,10 @@
             
             <!-- Default Delivery Information -->
             <div class="col-md-6">
-                <div class="profile-card" style="background: var(--charcoal); padding: 2rem; border-radius: 8px; border: 2px solid var(--gray); margin-bottom: 2rem;">
-                    <h2 style="color: var(--neon-pink); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
-                        <i class="fas fa-shipping-fast"></i> Default Delivery Info
-                    </h2>
+                <div class="profile-card">
+                    <h2><i class="fas fa-shipping-fast"></i> Default Delivery Info</h2>
                     
-                    <form method="POST" action="{% url 'profile' %}">
+                    <form method="post" action="{% url 'profile' %}">
                         {% csrf_token %}
                         
                         <div class="mb-3">
@@ -101,15 +95,13 @@
         <!-- Order History -->
         <div class="row">
             <div class="col-12">
-                <div class="profile-card" style="background: var(--charcoal); padding: 2rem; border-radius: 8px; border: 2px solid var(--gray);">
-                    <h2 style="color: var(--neon-pink); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
-                        <i class="fas fa-history"></i> Order History
-                    </h2>
+                <div class="profile-card">
+                    <h2><i class="fas fa-history"></i> Order History</h2>
                     
                     {% if orders %}
                         <div class="table-responsive">
-                            <table class="table" style="color: var(--off-white);">
-                                <thead style="border-bottom: 2px solid var(--neon-pink);">
+                            <table class="table order-table">
+                                <thead>
                                     <tr>
                                         <th>Order Number</th>
                                         <th>Date</th>
@@ -120,21 +112,21 @@
                                 </thead>
                                 <tbody>
                                     {% for order in orders %}
-                                    <tr style="border-bottom: 1px solid var(--gray);">
-                                        <td><a href="#" style="color: var(--neon-pink);">{{ order.order_number }}</a></td>
+                                    <tr>
+                                        <td><a href="#" class="order-link">{{ order.order_number }}</a></td>
                                         <td>{{ order.date }}</td>
                                         <td>{{ order.items.count }}</td>
                                         <td>€{{ order.grand_total }}</td>
-                                        <td><span class="badge" style="background: var(--neon-pink); color: var(--black);">{{ order.status }}</span></td>
+                                        <td><span class="badge bg-pink">{{ order.status }}</span></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     {% else %}
-                        <div class="text-center py-5">
-                            <i class="fas fa-shopping-bag fa-4x mb-3" style="color: var(--gray); opacity: 0.5;"></i>
-                            <p style="color: var(--gray); font-size: 1.2rem;">You haven't placed any orders yet.</p>
+                        <div class="empty-state">
+                            <i class="fas fa-shopping-bag fa-4x empty-state-icon"></i>
+                            <p class="empty-state-text">You haven't placed any orders yet.</p>
                             <a href="{% url 'products' %}" class="btn btn-pink mt-3">
                                 <i class="fas fa-shopping-cart"></i> START SHOPPING
                             </a>
@@ -146,46 +138,4 @@
         
     </div>
 </div>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-    .profile-form-input {
-        background: var(--black) !important;
-        border: 2px solid var(--gray) !important;
-        color: var(--off-white) !important;
-        padding: 0.8rem !important;
-        border-radius: 4px !important;
-        width: 100% !important;
-        transition: all 0.3s !important;
-    }
-    
-    .profile-form-input:focus {
-        border-color: var(--neon-pink) !important;
-        box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
-        outline: none !important;
-    }
-    
-    .profile-form-input::placeholder {
-        color: var(--gray) !important;
-    }
-    
-    .table {
-        margin-bottom: 0 !important;
-    }
-    
-    .table th {
-        color: var(--neon-pink) !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        font-size: 0.9rem !important;
-        font-weight: 700 !important;
-        padding: 1rem !important;
-    }
-    
-    .table td {
-        padding: 1rem !important;
-        vertical-align: middle !important;
-    }
-</style>
 {% endblock %}
