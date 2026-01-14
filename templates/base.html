@@ -65,7 +65,7 @@
                                 <span class="badge bg-pink">0</span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown {% if user.is_authenticated %}user-authenticated{% endif %}">
                             <a class="nav-link dropdown-toggle"
                                href="#"
                                id="userMenu"

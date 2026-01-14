@@ -658,3 +658,57 @@ body {
         font-size: 1.8rem;
     }
 }
+
+/* User Dropdown Menu */
+.dropdown-menu {
+    background-color: var(--charcoal) !important;
+    border: 2px solid var(--neon-pink) !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin-top: 0.5rem !important;
+    min-width: 200px;
+}
+
+.dropdown-item {
+    color: var(--off-white) !important;
+    padding: 1rem 1.5rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+}
+
+.dropdown-divider {
+    border-color: var(--neon-pink) !important;
+    margin: 0 !important;
+    opacity: 0.3 !important;
+}
+
+/* User Icon Highlight When Authenticated */
+.nav-item.dropdown .nav-link {
+    position: relative;
+}
+
+.user-authenticated .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--neon-pink);
+    border-radius: 50%;
+}
