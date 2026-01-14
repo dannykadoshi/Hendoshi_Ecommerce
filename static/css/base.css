@@ -250,6 +250,288 @@ body {
     }
 }
 
+/* Cart & Add to Cart Styling */
+
+/* Product Labels & Form Elements */
+.product-label {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+}
+
+.required-star {
+    color: var(--neon-pink);
+    font-size: 1.2rem;
+}
+
+.form-help-text {
+    color: var(--gray);
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* Quantity Selector */
+.quantity-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 200px;
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--charcoal);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15);
+}
+
+.quantity-input {
+    text-align: center;
+    background-color: var(--charcoal) !important;
+    border: none !important;
+    border-left: 1px solid rgba(255, 20, 147, 0.3) !important;
+    border-right: 1px solid rgba(255, 20, 147, 0.3) !important;
+    color: var(--off-white) !important;
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 80px;
+    height: 50px;
+    padding: 0;
+}
+
+/* Remove number spinner arrows */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.qty-btn {
+    padding: 0.75rem 1rem;
+    border: none;
+    background-color: var(--charcoal);
+    color: var(--neon-pink);
+    transition: all 0.3s;
+    cursor: pointer;
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-btn:hover {
+    background-color: var(--neon-pink);
+    color: var(--black);
+}
+
+.qty-btn i {
+    font-size: 1rem;
+}
+
+/* Size & Color Buttons */
+.size-btn, .color-btn {
+    min-width: 70px;
+    margin: 0.25rem;
+    border: 2px solid var(--gray);
+    color: var(--off-white);
+    background-color: var(--charcoal);
+    transition: all 0.3s;
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Hide HTML5 validation messages */
+.size-btn:invalid, .color-btn:invalid {
+    outline: none;
+}
+
+.size-btn::-webkit-validation-bubble,
+.color-btn::-webkit-validation-bubble {
+    display: none !important;
+}
+
+.size-btn:hover, .color-btn:hover {
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    background-color: var(--charcoal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+}
+
+.btn-check:checked + .size-btn,
+.btn-check:checked + .color-btn {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: var(--black);
+    font-weight: 900;
+    transform: scale(1.05);
+}
+
+/* Add to Cart Button */
+.add-to-cart-btn {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    padding: 1rem;
+    transition: all 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+}
+
+/* Design Story Styling */
+.design-story {
+    background-color: rgba(255, 20, 147, 0.05);
+    border-left: 4px solid var(--neon-pink);
+    padding: 1.5rem;
+    border-radius: 4px;
+}
+
+.story-title {
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.story-text {
+    color: var(--off-white);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.story-author {
+    color: var(--gray);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+/* Toast Notifications - Enhanced - FIXED JAN 14 */
+.toast-container-custom {
+    position: fixed !important;
+    top: 120px !important;
+    right: 20px !important;
+    z-index: 99999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    pointer-events: auto !important;
+    width: auto !important;
+    max-width: 400px !important;
+    isolation: isolate !important;
+    /* Force it above all stacking contexts */
+    will-change: transform !important;
+}
+
+.toast {
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    color: var(--off-white);
+    min-width: 380px;
+    box-shadow: 0 12px 32px rgba(255, 20, 147, 0.4);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0;
+    pointer-events: auto;
+}
+
+.toast.show {
+    animation: slideInRight 0.4s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(450px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast-header {
+    background-color: rgba(255, 20, 147, 0.15);
+    border-bottom: 2px solid var(--neon-pink);
+    color: var(--off-white);
+    font-weight: 700;
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.toast-body {
+    padding: 1rem;
+    font-size: 1rem;
+    color: var(--off-white);
+    line-height: 1.6;
+}
+
+.toast-success {
+    border-color: var(--electric-yellow);
+}
+
+.toast-success .toast-header {
+    background-color: rgba(204, 255, 0, 0.15);
+    border-bottom-color: var(--electric-yellow);
+    color: var(--electric-yellow);
+}
+
+.toast-error,
+.toast-danger {
+    border-color: #ff0044;
+}
+
+.toast-error .toast-header,
+.toast-danger .toast-header {
+    background-color: rgba(255, 0, 68, 0.15);
+    border-bottom-color: #ff0044;
+    color: #ff0044;
+}
+
+.toast-warning .toast-header {
+    background-color: rgba(255, 165, 0, 0.15);
+    border-bottom-color: #ffa500;
+    color: #ffa500;
+}
+
+.btn-close {
+    filter: invert(1) brightness(1.2);
+    opacity: 0.7;
+    transition: all 0.3s;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+/* Cart Badge Animation */
+.badge.bg-pink {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
 /* Hero Section */
 .hero {
     margin-top: 76px;
@@ -672,8 +954,12 @@ body {
 
 /* Product Detail Page */
 .product-detail-page {
-    padding-top: 100px;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+    margin-top: 80px;
     min-height: 100vh;
+    position: static !important;
+    transform: none !important;
 }
 
 .breadcrumb {

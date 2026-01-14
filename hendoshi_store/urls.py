@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('home.urls')),  # Home page URLs
     path('products/', include('products.urls')),  # Product URLs
     path('profile/', include('profiles.urls')),  # Profile URLs
+    path('cart/', include('cart.urls')),  # Cart URLs
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Custom error handlers

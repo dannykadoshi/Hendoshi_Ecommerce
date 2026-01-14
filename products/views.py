@@ -102,9 +102,14 @@ def product_detail(request, slug):
     """
     product = get_object_or_404(Product, slug=slug, is_active=True)
     
-    # Get available sizes and colors
-    available_sizes = product.get_available_sizes()
-    available_colors = product.get_available_colors()
+    # Get available sizes and colors (remove duplicates)
+    available_sizes = list(set(product.get_available_sizes()))
+    available_colors = list(set(product.get_available_colors()))
+    
+    # Sort sizes and colors for better display
+    size_order = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl']
+    available_sizes = sorted(available_sizes, key=lambda x: size_order.index(x.lower()) if x.lower() in size_order else 999)
+    available_colors = sorted(available_colors)
     
     # Get related products from same collection
     related_products = Product.objects.filter(

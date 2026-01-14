@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<div class="product-detail-page py-5">
+<div class="product-detail-page">
     <div class="container">
         
         <!-- Breadcrumb -->
@@ -70,57 +70,86 @@
                     <!-- Design Story -->
                     {% if product.design_story %}
                     <div class="design-story mb-4">
-                        <h3>💭 {{ product.design_story.title }}</h3>
-                        <p>{{ product.design_story.story }}</p>
-                        <small class="text-muted">— {{ product.design_story.author }}</small>
+                        <h3 class="story-title">💭 {{ product.design_story.title }}</h3>
+                        <p class="story-text">{{ product.design_story.story }}</p>
+                        <small class="story-author">— {{ product.design_story.author }}</small>
                     </div>
                     {% endif %}
                     
                     <!-- Add to Cart Form -->
-                    <form method="POST" action="#">
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}" id="addToCartForm">
                         {% csrf_token %}
                         
                         <!-- Size Selection -->
                         {% if available_sizes %}
-                        <div class="mb-3">
-                            <label class="form-label">Size:</label>
+                        <div class="mb-4">
+                            <label class="form-label product-label">Select Size <span class="required-star">*</span></label>
                             <div class="size-options">
                                 {% for size in available_sizes %}
                                 <input type="radio" class="btn-check" name="size" id="size-{{ size }}" value="{{ size }}" required>
-                                <label class="btn btn-outline-pink" for="size-{{ size }}">{{ size|upper }}</label>
+                                <label class="btn btn-outline-pink size-btn" for="size-{{ size }}">{{ size|upper }}</label>
                                 {% endfor %}
                             </div>
+                            <small class="form-help-text">Choose your preferred size</small>
                         </div>
                         {% endif %}
                         
                         <!-- Color Selection -->
                         {% if available_colors %}
-                        <div class="mb-3">
-                            <label class="form-label">Color:</label>
+                        <div class="mb-4">
+                            <label class="form-label product-label">Select Color <span class="required-star">*</span></label>
                             <div class="color-options">
                                 {% for color in available_colors %}
                                 <input type="radio" class="btn-check" name="color" id="color-{{ color }}" value="{{ color }}" required>
-                                <label class="btn btn-outline-pink" for="color-{{ color }}">{{ color|title }}</label>
+                                <label class="btn btn-outline-pink color-btn" for="color-{{ color }}">{{ color|title }}</label>
                                 {% endfor %}
                             </div>
+                            <small class="form-help-text">Choose your preferred color</small>
                         </div>
                         {% endif %}
                         
                         <!-- Quantity -->
-                        <div class="mb-3">
-                            <label class="form-label">Quantity:</label>
-                            <input type="number" class="form-control" name="quantity" value="1" min="1" max="10" style="width: 100px;">
+                        <div class="mb-4">
+                            <label class="form-label product-label">Quantity</label>
+                            <div class="quantity-selector-wrapper">
+                                <button type="button" class="qty-btn qty-minus" onclick="decrementQuantity()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="quantity-input" name="quantity" id="quantity" value="1" min="1" max="10" readonly>
+                                <button type="button" class="qty-btn qty-plus" onclick="incrementQuantity()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <small class="form-help-text">Maximum 10 items per order</small>
                         </div>
                         
                         <!-- Buttons -->
-                        <button type="submit" class="btn btn-pink btn-lg w-100 mb-2">
+                        <button type="submit" class="btn btn-pink btn-lg w-100 mb-2 add-to-cart-btn">
                             <i class="fas fa-shopping-cart"></i> ADD TO CART
                         </button>
                         
                         <button type="button" class="btn btn-outline-pink w-100">
-                            <i class="far fa-heart"></i> ADD TO BATTLE VEST
+                            <i class="far fa-heart"></i> ADD TO WISHLIST
                         </button>
                     </form>
+                    
+                    <script>
+                        function incrementQuantity() {
+                            const input = document.getElementById('quantity');
+                            const max = parseInt(input.max);
+                            if (parseInt(input.value) < max) {
+                                input.value = parseInt(input.value) + 1;
+                            }
+                        }
+                        
+                        function decrementQuantity() {
+                            const input = document.getElementById('quantity');
+                            const min = parseInt(input.min);
+                            if (parseInt(input.value) > min) {
+                                input.value = parseInt(input.value) - 1;
+                            }
+                        }
+                    </script>
                     
                 </div>
             </div>

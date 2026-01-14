@@ -50,6 +50,45 @@
         {% block extra_css %}{% endblock %}
     </head>
     <body>
+        <!-- Toast Messages - At body level to ensure it's above all stacking contexts -->
+        {% if messages %}
+            <div class="toast-container-custom">
+                {% for message in messages %}
+                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-message="true">
+                        <div class="toast-header">
+                            {% if message.tags == 'success' %}
+                                <strong class="me-auto"><i class="fas fa-check-circle"></i> Success</strong>
+                            {% elif message.tags == 'error' or message.tags == 'danger' %}
+                                <strong class="me-auto"><i class="fas fa-exclamation-circle"></i> Error</strong>
+                            {% elif message.tags == 'warning' %}
+                                <strong class="me-auto"><i class="fas fa-exclamation-triangle"></i> Warning</strong>
+                            {% else %}
+                                <strong class="me-auto"><i class="fas fa-info-circle"></i> Info</strong>
+                            {% endif %}
+                        </div>
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const toasts = document.querySelectorAll('[data-message="true"]');
+                    toasts.forEach(function(toast, index) {
+                        // Ensure toast is a direct child of body for proper fixed positioning
+                        if (toast.parentElement.className !== 'toast-container-custom') {
+                            document.body.appendChild(toast.parentElement);
+                        }
+                        // Auto-hide after 4 seconds
+                        setTimeout(function() {
+                            toast.style.display = 'none';
+                        }, 4000);
+                    });
+                });
+            </script>
+        {% endif %}
+        
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container-fluid">
@@ -161,9 +200,11 @@
                             <a class="nav-link" href="#"><i class="fas fa-heart"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{% url 'view_cart' %}">
                                 <i class="fas fa-shopping-cart"></i>
-                                <span class="badge bg-pink">0</span>
+                                {% if cart_item_count > 0 %}
+                                <span class="badge bg-pink" id="cartBadge">{{ cart_item_count }}</span>
+                                {% endif %}
                             </a>
                         </li>
                         <li class="nav-item dropdown {% if user.is_authenticated %}user-authenticated{% endif %}">
@@ -204,33 +245,7 @@
                 </div>
             </div>
         </nav>
-        <!-- Messages -->
-        <!-- Messages -->
-        {% if messages %}
-            <div class="message-container">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
-                         role="alert">
-                        <strong>
-                            {% if message.tags == 'success' %}
-                                <i class="fas fa-check-circle"></i> Success!
-                            {% elif message.tags == 'error' or message.tags == 'danger' %}
-                                <i class="fas fa-exclamation-circle"></i> Error!
-                            {% elif message.tags == 'warning' %}
-                                <i class="fas fa-exclamation-triangle"></i> Warning!
-                            {% elif message.tags == 'info' %}
-                                <i class="fas fa-info-circle"></i> Info
-                            {% endif %}
-                        </strong>
-                        {{ message }}
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+        
         <!-- Main Content -->
         <main>
             {% block content %}{% endblock %}
