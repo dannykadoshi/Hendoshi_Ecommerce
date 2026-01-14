@@ -70,11 +70,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Allauth Configuration
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # Allow login with username or email
-ACCOUNT_EMAIL_REQUIRED = True  # Email is required for registration
+# Allauth Configuration (Updated syntax)
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Allow login with username or email
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Email must be verified
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True  # Ask for email twice during signup
-ACCOUNT_USERNAME_MIN_LENGTH = 4  # Minimum username length
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'email2*', 'username*', 'password1*', 'password2*']  # Required signup fields
+ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'  # Redirect to homepage after login
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'  # Redirect to homepage after logout
