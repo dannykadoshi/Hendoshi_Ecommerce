@@ -252,6 +252,12 @@ body {
         display: flex;
         width: auto;
     }
+    
+    .mobile-search-box .search-form {
+        display: flex !important;
+        width: 100% !important;
+        position: relative;
+    }
 }
 
 .search-form .search-wrapper {
@@ -1743,38 +1749,61 @@ main {
 .mobile-search-box {
     max-height: 0;
     overflow: hidden;
-    padding: 0 1rem;
+    padding: 0;
     border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
     transition: max-height 0.3s ease, padding 0.3s ease;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 10;
+    background-color: var(--black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .mobile-search-box.show {
     max-height: 100px;
-    padding: 0.75rem 1rem;
+    padding: 1rem 0;
+}
+
+.mobile-search-box .search-form {
+    width: 90%;
+    max-width: 500px;
+    padding: 0 1rem;
 }
 
 .mobile-search-box .search-wrapper {
     position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .mobile-search-box .search-input {
     width: 100%;
     background-color: var(--charcoal) !important;
-    border: 2px solid var(--gray) !important;
+    border: 2px solid var(--neon-pink) !important;
     color: var(--off-white) !important;
-    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-    border-radius: 5px;
+    padding: 0.6rem 2.5rem 0.6rem 1rem !important;
+    border-radius: 20px !important;
+    font-size: 1rem !important;
 }
 
 .mobile-search-box .search-input:focus {
     border-color: var(--neon-pink) !important;
     outline: none;
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+}
+
+.mobile-search-box .search-input::placeholder {
+    color: var(--gray);
 }
 
 .mobile-search-box .search-btn {
     position: absolute;
-    right: 0.25rem;
+    right: 1rem;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -1782,6 +1811,8 @@ main {
     color: var(--neon-pink);
     padding: 0.5rem;
     cursor: pointer;
+    z-index: 5;
+    font-size: 1.1rem;
 }
 
 /* Product Cards */
