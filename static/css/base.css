@@ -355,8 +355,17 @@ body {
 }
 
 .size-btn::-webkit-validation-bubble,
-.color-btn::-webkit-validation-bubble {
+.color-btn::-webkit-validation-bubble,
+.size-btn::-webkit-validation-bubble-arrow,
+.color-btn::-webkit-validation-bubble-arrow {
     display: none !important;
+}
+
+/* Hide all validation UI elements */
+input::-webkit-validation-bubble,
+input::-webkit-validation-bubble-arrow,
+input:invalid {
+    box-shadow: none !important;
 }
 
 .size-btn:hover, .color-btn:hover {

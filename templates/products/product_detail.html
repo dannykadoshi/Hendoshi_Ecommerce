@@ -77,7 +77,7 @@
                     {% endif %}
                     
                     <!-- Add to Cart Form -->
-                    <form method="POST" action="{% url 'add_to_cart' product.id %}" id="addToCartForm">
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}" id="addToCartForm" novalidate>
                         {% csrf_token %}
                         
                         <!-- Size Selection -->
@@ -148,6 +148,65 @@
                             if (parseInt(input.value) > min) {
                                 input.value = parseInt(input.value) - 1;
                             }
+                        }
+
+                        // Custom form validation with toast messages
+                        const form = document.getElementById('addToCartForm');
+                        
+                        form.addEventListener('submit', function(e) {
+                            // Check if size is selected
+                            const sizeSelected = document.querySelector('input[name="size"]:checked');
+                            if (!sizeSelected) {
+                                e.preventDefault();
+                                showValidationToast('Please select a size before adding to cart.');
+                                return false;
+                            }
+                            
+                            // Check if color is selected
+                            const colorSelected = document.querySelector('input[name="color"]:checked');
+                            if (!colorSelected) {
+                                e.preventDefault();
+                                showValidationToast('Please select a color before adding to cart.');
+                                return false;
+                            }
+                            
+                            // All validations passed, allow form to submit
+                            return true;
+                        });
+
+                        // Function to show validation toast
+                        function showValidationToast(message) {
+                            const toastContainer = document.querySelector('.toast-container-custom') || createToastContainer();
+                            
+                            const toast = document.createElement('div');
+                            toast.className = 'toast show';
+                            toast.setAttribute('role', 'alert');
+                            toast.setAttribute('aria-live', 'assertive');
+                            toast.setAttribute('aria-atomic', 'true');
+                            
+                            toast.innerHTML = `
+                                <div class="toast-header">
+                                    <strong class="me-auto"><i class="fas fa-exclamation-circle"></i> Selection Required</strong>
+                                </div>
+                                <div class="toast-body">
+                                    ${message}
+                                </div>
+                            `;
+                            
+                            toastContainer.appendChild(toast);
+                            
+                            // Auto-hide after 4 seconds
+                            setTimeout(function() {
+                                toast.style.display = 'none';
+                            }, 4000);
+                        }
+
+                        // Function to create toast container if it doesn't exist
+                        function createToastContainer() {
+                            const container = document.createElement('div');
+                            container.className = 'toast-container-custom';
+                            document.body.appendChild(container);
+                            return container;
                         }
                     </script>
                     
