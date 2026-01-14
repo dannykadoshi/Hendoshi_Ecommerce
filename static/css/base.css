@@ -300,6 +300,10 @@ body {
     color: var(--off-white);
 }
 
+.newsletter-form .form-control::placeholder {
+    color: var(--off-white);
+}
+
 .newsletter-form .form-control:focus {
     background-color: var(--charcoal);
     border-color: var(--neon-pink);
@@ -1022,5 +1026,114 @@ body {
     to {
         transform: translateX(0);
         opacity: 1;
+    }
+}
+
+/* 404 Error Page */
+.error-page {
+    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--off-white);
+}
+
+.error-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+.pug-skull-404 {
+    width: 200px;
+    height: 200px;
+    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.6));
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.error-title {
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--neon-pink);
+    text-shadow: 5px 5px 0 var(--electric-yellow);
+    letter-spacing: 5px;
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+.error-subtitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--off-white);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-bottom: 2rem;
+}
+
+.error-message {
+    font-size: 1.3rem;
+    color: var(--gray);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-actions {
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    max-width: 400px;
+    background-color: var(--charcoal);
+    border: 2px solid var(--gray);
+    color: var(--off-white);
+    padding: 0.8rem 1.5rem;
+}
+
+.search-input:focus {
+    background-color: var(--charcoal);
+    border-color: var(--neon-pink);
+    color: var(--off-white);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+}
+
+.search-input::placeholder {
+    color: var(--gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .error-title {
+        font-size: 5rem;
+    }
+
+    .error-subtitle {
+        font-size: 1.8rem;
+    }
+
+    .pug-skull-404 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .error-actions .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .error-actions .btn.me-3 {
+        margin-right: 0 !important;
     }
 }
