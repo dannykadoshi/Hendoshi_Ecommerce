@@ -952,3 +952,70 @@ body {
 .text-danger {
     color: #dc3545 !important;
 }
+
+/* Django Messages / Notifications */
+.message-container {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+.alert {
+    background-color: var(--charcoal) !important;
+    border: 2px solid var(--neon-pink) !important;
+    color: var(--off-white) !important;
+    border-radius: 8px !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3) !important;
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert-success {
+    border-color: var(--neon-pink) !important;
+}
+
+.alert-error,
+.alert-danger {
+    border-color: #dc3545 !important;
+}
+
+.alert-warning {
+    border-color: var(--electric-yellow) !important;
+}
+
+.alert-info {
+    border-color: #17a2b8 !important;
+}
+
+.alert strong {
+    color: var(--neon-pink);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 0.5rem;
+}
+
+.btn-close {
+    background-color: transparent !important;
+    opacity: 0.8 !important;
+    filter: invert(1) !important;
+}
+
+.btn-close:hover {
+    opacity: 1 !important;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
