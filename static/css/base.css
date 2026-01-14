@@ -65,12 +65,29 @@ body {
     background-color: rgba(0, 0, 0, 0.95) !important;
     backdrop-filter: blur(10px);
     border-bottom: 2px solid var(--neon-pink);
-    padding: 1rem 2rem;
+    padding: 1rem 1rem;
+    gap: 1rem;
 }
 
 :root.light-mode .navbar {
     background-color: rgba(255, 255, 255, 0.95) !important;
     border-bottom-color: #E71F7F;
+}
+
+.navbar-toggler {
+    border-color: var(--neon-pink) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 20, 147, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+:root.light-mode .navbar-toggler {
+    border-color: #E71F7F !important;
+}
+
+:root.light-mode .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(231, 31, 127, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
 .logo-text {
@@ -95,19 +112,40 @@ body {
     color: var(--neon-pink) !important;
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--neon-pink);
-    transition: width 0.3s;
+/* Remove underline for icon-only nav links */
+.nav-item .nav-link i {
+    transition: transform 0.3s ease;
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.nav-item .nav-link:hover i {
+    transform: scale(1.15);
+}
+
+.nav-item .nav-link::after {
+    display: none;
+}
+
+/* Mobile Icon Navbar - Always Visible */
+.navbar-icons-mobile {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .navbar-icons-mobile {
+        display: flex !important;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-icons-mobile {
+        display: flex !important;
+        order: 10;
+        margin-left: auto;
+        gap: 1rem;
+    }
 }
 
 .badge.bg-pink {
@@ -291,6 +329,27 @@ body {
     
     .search-title {
         font-size: 1.8rem;
+    }
+    
+    /* Fix icon alignment in mobile menu */
+    .navbar-nav .nav-item {
+        display: flex;
+        align-items: center;
+    }
+    
+    .navbar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem !important;
+        margin: 0 !important;
+    }
+    
+    .navbar-nav .nav-link i {
+        font-size: 1.2rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.5rem 1rem !important;
     }
 }
 
@@ -645,7 +704,7 @@ input:invalid {
     font-size: 1.3rem;
     margin-bottom: 3rem;
     font-weight: 300;
-    color: var(--black);
+    color: var(--off-white);
 }
 
 /* Buttons */
@@ -1845,6 +1904,13 @@ input:invalid {
     text-align: center;
     width: 50px;
     font-weight: 700;
+    -moz-appearance: textfield;
+}
+
+.qty-input-sm::-webkit-outer-spin-button,
+.qty-input-sm::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .qty-input-sm:focus {
@@ -2125,6 +2191,11 @@ input:invalid {
 /* LIGHT MODE THEME STYLES */
 :root.light-mode {
     --brand-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Light Mode - Hero Section */
+:root.light-mode .hero-subtitle {
+    color: #1A1A1A !important;
 }
 
 /* Light Mode - Buttons & Components */

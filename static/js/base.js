@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
             htmlElement.classList.add('light-mode');
             themeToggle.classList.add('light-mode-active');
             themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            themeToggle.title = 'Switch to dark mode';
+            themeToggle.removeAttribute('title');
             localStorage.setItem('theme', 'light');
         } else {
             htmlElement.classList.remove('light-mode');
             themeToggle.classList.remove('light-mode-active');
             themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            themeToggle.title = 'Switch to light mode';
+            themeToggle.removeAttribute('title');
             localStorage.setItem('theme', 'dark');
         }
     }

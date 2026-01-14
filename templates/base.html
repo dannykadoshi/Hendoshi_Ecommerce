@@ -95,6 +95,61 @@
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <span class="logo-text">HENDOSHI</span>
                 </a>
+                
+                <!-- Icon Nav (Always visible on mobile) -->
+                <ul class="navbar-nav navbar-icons-mobile ms-auto me-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-heart"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_cart' %}">
+                            <i class="fas fa-shopping-cart"></i>
+                            {% if cart_item_count > 0 %}
+                            <span class="badge bg-pink" id="cartBadge">{{ cart_item_count }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item dropdown {% if user.is_authenticated %}user-authenticated{% endif %}">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="userMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            {% if user.is_authenticated %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                                </li>
+                                {% if user.is_superuser %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+                
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -195,58 +250,6 @@
                             </button>
                         </div>
                     </form>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-heart"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'view_cart' %}">
-                                <i class="fas fa-shopping-cart"></i>
-                                {% if cart_item_count > 0 %}
-                                <span class="badge bg-pink" id="cartBadge">{{ cart_item_count }}</span>
-                                {% endif %}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link theme-toggle" id="themeToggle" title="Toggle light/dark mode">
-                                <i class="fas fa-moon"></i>
-                            </button>
-                        </li>
-                        <li class="nav-item dropdown {% if user.is_authenticated %}user-authenticated{% endif %}">
-                            <a class="nav-link dropdown-toggle"
-                               href="#"
-                               id="userMenu"
-                               role="button"
-                               data-bs-toggle="dropdown">
-                                <i class="fas fa-user"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                                {% if user.is_authenticated %}
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                                    </li>
-                                    {% if user.is_superuser %}
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a>
-                                        </li>
-                                    {% endif %}
-                                {% else %}
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
