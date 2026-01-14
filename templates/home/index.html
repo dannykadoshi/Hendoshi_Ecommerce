@@ -13,7 +13,7 @@
             <h1 class="hero-title">HENDOSHI</h1>
             <h2 class="hero-slogan">WEAR YOUR WEIRD</h2>
             <p class="hero-subtitle">No Filler. Just Killer. | Metal Meets Mayhem</p>
-            <a href="#" class="btn btn-pink btn-lg">UNLEASH THE WEIRD</a>
+            <a href="{% url 'products' %}" class="btn btn-pink btn-lg">UNLEASH THE WEIRD</a>
         </div>
     </div>
 </section>
@@ -34,7 +34,7 @@
         <h2 class="section-title text-center mb-5">Explore Collections</h2>
         <div class="row g-4">
             <div class="col-md-6 col-lg-3">
-                <div class="collection-card">
+                <div class="collection-card" onclick="window.location.href='{% url 'products' %}?collection=skulls-death'">
                     <div class="collection-image">
                         <i class="fas fa-skull fa-4x"></i>
                     </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="collection-card">
+                <div class="collection-card" onclick="window.location.href='{% url 'products' %}?collection=weird-animals'">
                     <div class="collection-image">
                         <i class="fas fa-dog fa-4x"></i>
                     </div>
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="collection-card">
+                <div class="collection-card" onclick="window.location.href='{% url 'products' %}?collection=gym-therapy'">
                     <div class="collection-image">
                         <i class="fas fa-dumbbell fa-4x"></i>
                     </div>
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="collection-card">
+                <div class="collection-card" onclick="window.location.href='{% url 'products' %}?collection=dark-humor'">
                     <div class="collection-image">
                         <i class="fas fa-theater-masks fa-4x"></i>
                     </div>
