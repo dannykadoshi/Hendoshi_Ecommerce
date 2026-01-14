@@ -89,170 +89,215 @@
             </script>
         {% endif %}
         
+        <!-- Discount Banner -->
+        <div class="discount-banner">
+            <i class="fas fa-gift"></i>
+            <span>10% OFF your first order with code: <strong>WELCOME</strong></span>
+        </div>
+        
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-            <div class="container-fluid">
+        <nav class="navbar navbar-dark fixed-top">
+            <div class="container-fluid navbar-container">
+                <!-- Burger Menu (Mobile only) -->
+                <button class="navbar-burger" id="navBurger" type="button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Logo -->
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <span class="logo-text">HENDOSHI</span>
                 </a>
                 
-                <!-- Icon Nav (Always visible on mobile) -->
-                <ul class="navbar-nav navbar-icons-mobile ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-heart"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'view_cart' %}">
-                            <i class="fas fa-shopping-cart"></i>
-                            {% if cart_item_count > 0 %}
-                            <span class="badge bg-pink" id="cartBadge">{{ cart_item_count }}</span>
-                            {% endif %}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link theme-toggle" id="themeToggle">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    </li>
-                    <li class="nav-item dropdown {% if user.is_authenticated %}user-authenticated{% endif %}">
+                <!-- Desktop Menu (Hidden on Mobile) -->
+                <ul class="navbar-menu desktop-menu">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                            href="#"
-                           id="userMenu"
+                           id="collectionsMenu"
                            role="button"
-                           data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            {% if user.is_authenticated %}
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                                </li>
-                                {% if user.is_superuser %}
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a>
-                                    </li>
-                                {% endif %}
-                            {% else %}
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a>
-                                </li>
-                            {% endif %}
+                           data-bs-toggle="dropdown">Collections</a>
+                        <ul class="dropdown-menu" aria-labelledby="collectionsMenu">
+                            <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=weird-animals">Weird Animals</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=gym-therapy">Gym Therapy</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=dark-humor">Dark Humor</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="productTypeMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">Product Type</a>
+                        <ul class="dropdown-menu" aria-labelledby="productTypeMenu">
+                            <li><a class="dropdown-item" href="{% url 'products' %}?type=tshirt">T-Shirts</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?type=hoodie">Hoodies</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?type=sticker">Stickers</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}?type=accessory">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">Weird Wall</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                 </ul>
                 
-                <button class="navbar-toggler ms-2"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"
-                               href="#"
-                               id="collectionsMenu"
-                               role="button"
-                               data-bs-toggle="dropdown">Collections</a>
-                            <ul class="dropdown-menu" aria-labelledby="collectionsMenu">
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'products' %}">All Products</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'products' %}?collection=weird-animals">Weird Animals</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'products' %}?collection=gym-therapy">Gym Therapy</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{% url 'products' %}?collection=dark-humor">Dark Humor</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"
-                               href="#"
-                               id="productTypeMenu"
-                               role="button"
-                               data-bs-toggle="dropdown">Product Type</a>
-                            <ul class="dropdown-menu" aria-labelledby="productTypeMenu">
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'products' %}">All Products</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'products' %}?type=tshirt">
-                                        <i class="fas fa-tshirt"></i> T-Shirts
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'products' %}?type=hoodie">
-                                        <i class="fas fa-user-ninja"></i> Hoodies
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'products' %}?type=sticker">
-                                        <i class="fas fa-certificate"></i> Stickers
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'products' %}?type=accessory">
-                                        <i class="fas fa-gift"></i> Accessories
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Weird Wall</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                    </ul>
-                    <!-- Search Bar -->
-                    <form class="d-flex search-form mx-3" action="{% url 'search' %}" method="get">
+                <!-- Right Side Icons -->
+                <div class="navbar-right">
+                    <!-- Search (Mobile and Desktop) -->
+                    <form class="search-form" action="{% url 'search' %}" method="get">
                         <div class="search-wrapper">
                             <input class="form-control search-input" 
                                    type="search" 
                                    name="q" 
-                                   placeholder="Search products..." 
+                                   placeholder="Search..." 
                                    value="{{ request.GET.q }}"
                                    aria-label="Search">
-                            {% if request.GET.q %}
-                            <button type="button" class="search-clear" onclick="document.querySelector('.search-input').value=''; this.closest('form').submit();">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            {% endif %}
                             <button class="btn search-btn" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </form>
+                    
+                    <!-- Desktop Icons (Hidden on Mobile) -->
+                    <div class="desktop-icons">
+                        <!-- Favorites Icon -->
+                        <a class="nav-icon" href="#" title="Favorites">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        
+                        <!-- User Account Icon -->
+                        <a class="nav-icon" href="{% url 'account_login' %}" title="Account">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        
+                        <!-- Light Mode Toggle -->
+                        <button class="nav-icon theme-toggle" id="desktopThemeToggle" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Shopping Cart -->
+                    <a class="nav-icon" href="{% url 'view_cart' %}">
+                        <i class="fas fa-shopping-bag"></i>
+                        {% if cart_item_count > 0 %}
+                        <span class="badge bg-pink">{{ cart_item_count }}</span>
+                        {% endif %}
+                    </a>
                 </div>
             </div>
         </nav>
+        
+        <!-- Slide-in Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <!-- Discount Code Section -->
+            <div class="menu-discount-section">
+                <p class="discount-text">10% OFF on your First Order</p>
+                <p class="discount-code">Use Code: <strong>Welcome</strong></p>
+            </div>
+            
+            <!-- Top Menu Icons -->
+            <div class="menu-top-icons">
+                <a href="{% url 'account_login' %}" class="menu-icon">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+                <a href="#" class="menu-icon">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorites</span>
+                </a>
+                <button class="menu-icon" id="currencySwitcher">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentCurrency">US</span>
+                </button>
+            </div>
+            
+            <!-- Currency Submenu -->
+            <div class="menu-submenu" id="currencySubmenu" style="display: none;">
+                <button class="submenu-back" data-back="main">&lt; Back</button>
+                <div class="submenu-content">
+                    <button class="submenu-item" data-currency="US">
+                        <span>🇺🇸 United States</span>
+                    </button>
+                    <button class="submenu-item" data-currency="EU">
+                        <span>🇪🇺 European Union</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main Menu Items -->
+            <div class="menu-main" id="menuMain">
+                <ul class="menu-items">
+                    <li class="menu-item-group">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="collections">Collections</button>
+                        <button class="menu-item-arrow" data-submenu="collections">→</button>
+                    </li>
+                    <li class="menu-item-group">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="product-type">Product Type</button>
+                        <button class="menu-item-arrow" data-submenu="product-type">→</button>
+                    </li>
+                    <li class="menu-item-group">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="weird-wall">Weird Wall</button>
+                        <button class="menu-item-arrow" data-submenu="weird-wall">→</button>
+                    </li>
+                    <li class="menu-item-group">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="about">About</button>
+                        <button class="menu-item-arrow" data-submenu="about">→</button>
+                    </li>
+                    <li class="menu-item-divider"></li>
+                    <li>
+                        <button class="menu-item menu-theme-toggle" id="mobileThemeToggle">
+                            <i class="fas fa-moon"></i> <span>Dark Mode</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Collections Submenu -->
+            <div class="menu-submenu" id="submenuCollections" style="display: none;">
+                <button class="submenu-back" data-back="main">&lt; Collections</button>
+                <div class="submenu-content">
+                    <a href="{% url 'products' %}" class="submenu-item">All Products</a>
+                    <a href="{% url 'products' %}?collection=skulls-death" class="submenu-item">Skulls & Death</a>
+                    <a href="{% url 'products' %}?collection=weird-animals" class="submenu-item">Weird Animals</a>
+                    <a href="{% url 'products' %}?collection=gym-therapy" class="submenu-item">Gym Therapy</a>
+                    <a href="{% url 'products' %}?collection=dark-humor" class="submenu-item">Dark Humor</a>
+                </div>
+            </div>
+            
+            <!-- Product Type Submenu -->
+            <div class="menu-submenu" id="submenuProductType" style="display: none;">
+                <button class="submenu-back" data-back="main">&lt; Product Type</button>
+                <div class="submenu-content">
+                    <a href="{% url 'products' %}?type=tshirt" class="submenu-item">T-Shirts</a>
+                    <a href="{% url 'products' %}?type=hoodie" class="submenu-item">Hoodies</a>
+                    <a href="{% url 'products' %}?type=sticker" class="submenu-item">Stickers</a>
+                    <a href="{% url 'products' %}?type=accessory" class="submenu-item">Accessories</a>
+                </div>
+            </div>
+            
+            <!-- Weird Wall Submenu -->
+            <div class="menu-submenu" id="submenuWeirdWall" style="display: none;">
+                <button class="submenu-back" data-back="main">&lt; Weird Wall</button>
+                <div class="submenu-content">
+                    <a href="#" class="submenu-item">Coming Soon</a>
+                </div>
+            </div>
+            
+            <!-- About Submenu -->
+            <div class="menu-submenu" id="submenuAbout" style="display: none;">
+                <button class="submenu-back" data-back="main">&lt; About</button>
+                <div class="submenu-content">
+                    <a href="#" class="submenu-item">Our Story</a>
+                    <a href="#" class="submenu-item">Contact Us</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
         
         <!-- Main Content -->
         <main>
@@ -332,6 +377,175 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Custom JS -->
         <script src="{% static 'js/base.js' %}"></script>
+        <script>
+            // Mobile Menu Functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                const navBurger = document.getElementById('navBurger');
+                const mobileMenu = document.getElementById('mobileMenu');
+                const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+                const currencySwitcher = document.getElementById('currencySwitcher');
+                const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+                const menuArrows = document.querySelectorAll('.menu-item-arrow');
+                const menuTriggers = document.querySelectorAll('.menu-item-trigger');
+                const submenuBackButtons = document.querySelectorAll('.submenu-back');
+                
+                // Toggle mobile menu
+                function toggleMobileMenu() {
+                    navBurger.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                    mobileMenuOverlay.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
+                }
+                
+                navBurger.addEventListener('click', toggleMobileMenu);
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+                
+                // Menu triggers (Collections, Product Type text)
+                menuTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenuId = this.dataset.submenu;
+                        const submenu = document.getElementById('submenu' + submenuId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''));
+                        
+                        const mainMenu = document.getElementById('menuMain');
+                        mainMenu.style.transform = 'translateX(-100%)';
+                        
+                        if (submenu) {
+                            submenu.style.display = 'block';
+                            setTimeout(() => {
+                                submenu.style.transform = 'translateX(0)';
+                            }, 10);
+                        }
+                    });
+                });
+                
+                // Menu item arrows (submenu navigation)
+                menuArrows.forEach(arrow => {
+                    arrow.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenuId = this.dataset.submenu;
+                        const submenu = document.getElementById('submenu' + submenuId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''));
+                        
+                        const mainMenu = document.getElementById('menuMain');
+                        mainMenu.style.transform = 'translateX(-100%)';
+                        
+                        if (submenu) {
+                            submenu.style.display = 'block';
+                            setTimeout(() => {
+                                submenu.style.transform = 'translateX(0)';
+                            }, 10);
+                        }
+                    });
+                });
+                
+                // Submenu back buttons
+                submenuBackButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenus = document.querySelectorAll('.menu-submenu');
+                        const mainMenu = document.getElementById('menuMain');
+                        
+                        // Move main menu back to visible
+                        mainMenu.style.transform = 'translateX(0)';
+                        
+                        // Hide all submenus
+                        submenus.forEach(submenu => {
+                            submenu.style.transform = 'translateX(100%)';
+                            setTimeout(() => {
+                                submenu.style.display = 'none';
+                            }, 300);
+                        });
+                    });
+                });
+                
+                // Currency switcher
+                currencySwitcher.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const mainMenu = document.getElementById('menuMain');
+                    const currencySubmenu = document.getElementById('currencySubmenu');
+                    
+                    mainMenu.style.transform = 'translateX(-100%)';
+                    currencySubmenu.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        currencySubmenu.style.transform = 'translateX(0)';
+                    }, 10);
+                });
+                
+                // Currency selection
+                const currencyItems = document.querySelectorAll('#currencySubmenu .submenu-item');
+                currencyItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const currency = this.dataset.currency;
+                        document.getElementById('currentCurrency').textContent = currency;
+                        
+                        // Close submenu
+                        const mainMenu = document.getElementById('menuMain');
+                        const currencySubmenu = document.getElementById('currencySubmenu');
+                        mainMenu.style.transform = 'translateX(0)';
+                        currencySubmenu.style.transform = 'translateX(100%)';
+                        
+                        setTimeout(() => {
+                            currencySubmenu.style.display = 'none';
+                            currencySubmenu.style.transform = 'translateX(100%)';
+                        }, 300);
+                    });
+                });
+                
+                // Mobile theme toggle
+                if (mobileThemeToggle) {
+                    mobileThemeToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const html = document.documentElement;
+                        const isDarkMode = html.classList.contains('light-mode');
+                        
+                        if (isDarkMode) {
+                            html.classList.remove('light-mode');
+                            localStorage.setItem('theme', 'dark');
+                            this.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+                        } else {
+                            html.classList.add('light-mode');
+                            localStorage.setItem('theme', 'light');
+                            this.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+                        }
+                    });
+                    
+                    // Update button text on load
+                    const html = document.documentElement;
+                    if (html.classList.contains('light-mode')) {
+                        mobileThemeToggle.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+                    }
+                }
+                
+                // Desktop theme toggle
+                const desktopThemeToggle = document.getElementById('desktopThemeToggle');
+                if (desktopThemeToggle) {
+                    desktopThemeToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const html = document.documentElement;
+                        
+                        if (html.classList.contains('light-mode')) {
+                            html.classList.remove('light-mode');
+                            localStorage.setItem('theme', 'dark');
+                            this.innerHTML = '<i class="fas fa-sun"></i>';
+                        } else {
+                            html.classList.add('light-mode');
+                            localStorage.setItem('theme', 'light');
+                            this.innerHTML = '<i class="fas fa-moon"></i>';
+                        }
+                    });
+                    
+                    // Update icon on load
+                    const html = document.documentElement;
+                    if (html.classList.contains('light-mode')) {
+                        desktopThemeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    } else {
+                        desktopThemeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    }
+                }
+            });
+        </script>
         {% block extra_js %}{% endblock %}
     </body>
 </html>
