@@ -4,123 +4,192 @@
 {% block content %}
     <div class="products-page">
         <div class="container-fluid">
-            <div class="row">
-                <!-- Sidebar Filters -->
-                <div class="col-md-3 filters-sidebar">
-                    <div class="filter-section">
-                        <h3>Collections</h3>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="{% url 'products' %}"
-                                   class="{% if not current_collection %}active{% endif %}">All Products</a>
-                            </li>
+            <!-- Products Header with Filters -->
+            <div class="products-header-section">
+                <div class="products-header">
+                    <h1>
+                        {% if current_collection %}
                             {% for collection in collections %}
-                                <li>
-                                    <a href="{% url 'products' %}?collection={{ collection.slug }}"
-                                       class="{% if current_collection == collection.slug %}active{% endif %}">
-                                        {{ collection.name }}
-                                    </a>
-                                </li>
+                                {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
                             {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="filter-section">
-                        <h3>Product Type</h3>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="{% url 'products' %}"
-                                   class="{% if not current_type %}active{% endif %}">All Types</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'products' %}?type=tshirt"
-                                   class="{% if current_type == 'tshirt' %}active{% endif %}">T-Shirts</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'products' %}?type=hoodie"
-                                   class="{% if current_type == 'hoodie' %}active{% endif %}">Hoodies</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'products' %}?type=sticker"
-                                   class="{% if current_type == 'sticker' %}active{% endif %}">Stickers</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'products' %}?type=accessory"
-                                   class="{% if current_type == 'accessory' %}active{% endif %}">Accessories</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="filter-section">
-                        <h3>Sort By</h3>
-                        <select class="form-select" id="sort-selector">
-                            <option value="{% url 'products' %}">Default</option>
-                            <option value="{% url 'products' %}?sort=price&direction=asc">Price (Low-High)</option>
-                            <option value="{% url 'products' %}?sort=price&direction=desc">Price (High-Low)</option>
-                            <option value="{% url 'products' %}?sort=name&direction=asc">Name (A-Z)</option>
-                            <option value="{% url 'products' %}?sort=name&direction=desc">Name (Z-A)</option>
-                        </select>
+                        {% elif search_term %}
+                            Search Results for "{{ search_term }}"
+                        {% else %}
+                            All Products
+                        {% endif %}
+                    </h1>
+                    <p class="product-count">{{ products.count }} product{{ products.count|pluralize }} found</p>
+                </div>
+                
+                <!-- Filters & Sort Button -->
+                <div class="filters-sort-wrapper">
+                    <button class="btn filters-sort-btn" id="filtersSortBtn">
+                        <i class="fas fa-sliders-h"></i> Filters & Sort
+                    </button>
+                    
+                    <!-- Filters Dropdown Menu -->
+                    <div class="filters-dropdown" id="filtersDropdown">
+                        <div class="filters-dropdown-content">
+                            <div class="filter-column">
+                                <h3>Collections</h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'products' %}" class="{% if not current_collection %}active{% endif %}">All Products</a></li>
+                                    {% for collection in collections %}
+                                        <li><a href="{% url 'products' %}?collection={{ collection.slug }}" class="{% if current_collection == collection.slug %}active{% endif %}">{{ collection.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="filter-column">
+                                <h3>Product Type</h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'products' %}" class="{% if not current_type %}active{% endif %}">All Types</a></li>
+                                    <li><a href="{% url 'products' %}?type=tshirt" class="{% if current_type == 'tshirt' %}active{% endif %}">T-Shirts</a></li>
+                                    <li><a href="{% url 'products' %}?type=hoodie" class="{% if current_type == 'hoodie' %}active{% endif %}">Hoodies</a></li>
+                                    <li><a href="{% url 'products' %}?type=sticker" class="{% if current_type == 'sticker' %}active{% endif %}">Stickers</a></li>
+                                    <li><a href="{% url 'products' %}?type=accessory" class="{% if current_type == 'accessory' %}active{% endif %}">Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div class="filter-column">
+                                <h3>Sort By</h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'products' %}">Default</a></li>
+                                    <li><a href="{% url 'products' %}?sort=price&direction=asc">Price (Low-High)</a></li>
+                                    <li><a href="{% url 'products' %}?sort=price&direction=desc">Price (High-Low)</a></li>
+                                    <li><a href="{% url 'products' %}?sort=name&direction=asc">Name (A-Z)</a></li>
+                                    <li><a href="{% url 'products' %}?sort=name&direction=desc">Name (Z-A)</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Products Grid -->
-                <div class="col-md-9">
-                    <div class="products-header mb-4">
-                        <h1>
-                            {% if current_collection %}
-                                {% for collection in collections %}
-                                    {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
-                                {% endfor %}
-                            {% elif search_term %}
-                                Search Results for "{{ search_term }}"
-                            {% else %}
-                                All Products
-                            {% endif %}
-                        </h1>
-                        <p class="product-count">{{ products.count }} product{{ products.count|pluralize }} found</p>
-                    </div>
-                    {% if products %}
-                        <div class="row g-4">
-                            {% for product in products %}
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="product-card">
-                                        <a href="{% url 'product_detail' product.slug %}">
-                                            <div class="product-image">
-                                                {% if product.main_image %}
-                                                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
-                                                {% else %}
-                                                    <div class="placeholder-image">
-                                                        <i class="fas fa-image fa-3x"></i>
-                                                        <p>No Image</p>
-                                                    </div>
-                                                {% endif %}
-                                                {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
-                                            </div>
-                                            <div class="product-info">
-                                                <h3>{{ product.name }}</h3>
-                                                <p class="product-type">{{ product.get_product_type_display }}</p>
-                                                <p class="product-price">€{{ product.base_price }}</p>
-                                            </div>
-                                        </a>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="products-grid-wrapper">
+                {% if products %}
+                    <div class="products-grid">
+                        {% for product in products %}
+                            <div class="product-card-wrapper">
+                                <div class="product-card">
+                                    <a href="{% url 'product_detail' product.slug %}">
+                                        <div class="product-image">
+                                            {% if product.main_image %}
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                            {% else %}
+                                                <div class="placeholder-image">
+                                                    <i class="fas fa-image fa-3x"></i>
+                                                    <p>No Image</p>
+                                                </div>
+                                            {% endif %}
+                                            {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                                        </div>
+                                        <div class="product-info">
+                                            <h3>{{ product.name }}</h3>
+                                            <p class="product-type">{{ product.get_product_type_display }}</p>
+                                            <p class="product-price">€{{ product.base_price }}</p>
+                                        </div>
+                                    </a>
+                                    <!-- Quick Add overlay -->
+                                    <div class="quick-add">
+                                        <button class="btn btn-quick-add" data-bs-toggle="modal" data-bs-target="#quickAddModal-{{ product.id }}">ADD TO BAG</button>
                                     </div>
                                 </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="no-products text-center py-5">
-                            <i class="fas fa-search fa-4x mb-3 text-pink"></i>
-                            <h2>No Products Found</h2>
-                            <p>Try adjusting your filters or search terms.</p>
-                            <a href="{% url 'products' %}" class="btn btn-pink mt-3">View All Products</a>
-                        </div>
-                    {% endif %}
-                </div>
+
+                                <!-- Quick Add Modal per product -->
+                                <div class="modal fade" id="quickAddModal-{{ product.id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add {{ product.name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% with sizes=product.get_available_sizes colors=product.get_available_colors %}
+                                                {% if sizes|length and colors|length %}
+                                                    <form action="{% url 'add_to_cart' product.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Size</label>
+                                                            <select name="size" class="form-select" required>
+                                                                {% for s in sizes %}
+                                                                    <option value="{{ s }}">{{ s|upper }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Color</label>
+                                                            <select name="color" class="form-select" required>
+                                                                {% for c in colors %}
+                                                                    <option value="{{ c }}">{{ c|capfirst }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="quantity" value="1">
+                                                        <input type="hidden" name="next" value="cart">
+                                                        <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
+                                                    </form>
+                                                {% else %}
+                                                    <p class="text-muted">Please choose options on the product page.</p>
+                                                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-pink w-100">View Product</a>
+                                                {% endif %}
+                                                {% endwith %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-products text-center py-5">
+                        <i class="fas fa-search fa-4x mb-3 text-pink"></i>
+                        <h2>No Products Found</h2>
+                        <p>Try adjusting your filters or search terms.</p>
+                        <a href="{% url 'products' %}" class="btn btn-pink mt-3">View All Products</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
 {% endblock %}
 {% block extra_js %}
     <script>
-    // Sort selector change handler
-    document.getElementById('sort-selector').addEventListener('change', function() {
-        window.location.href = this.value;
+    // Filters dropdown hover functionality for desktop
+    document.addEventListener('DOMContentLoaded', function() {
+        const filtersBtn = document.getElementById('filtersSortBtn');
+        const filtersDropdown = document.getElementById('filtersDropdown');
+        
+        if (filtersBtn && filtersDropdown) {
+            // For desktop: show on hover
+            filtersBtn.addEventListener('mouseenter', function() {
+                if (window.innerWidth >= 992) {
+                    filtersDropdown.classList.add('show');
+                }
+            });
+            
+            filtersBtn.addEventListener('mouseleave', function(e) {
+                if (window.innerWidth >= 992) {
+                    setTimeout(() => {
+                        if (!filtersDropdown.matches(':hover')) {
+                            filtersDropdown.classList.remove('show');
+                        }
+                    }, 100);
+                }
+            });
+            
+            filtersDropdown.addEventListener('mouseleave', function() {
+                if (window.innerWidth >= 992) {
+                    filtersDropdown.classList.remove('show');
+                }
+            });
+            
+            // For mobile: toggle on click
+            filtersBtn.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    filtersDropdown.classList.toggle('show');
+                }
+            });
+        }
     });
     </script>
 {% endblock %}
