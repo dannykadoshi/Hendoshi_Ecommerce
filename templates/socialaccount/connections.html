@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Account Connections{% endblock %}
+
+{% block content %}
+<div class="container auth-page">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="auth-card">
+                <h1 class="auth-title">ACCOUNT CONNECTIONS</h1>
+                
+                <p class="text-center mb-4">You currently have no third-party accounts connected to this account.</p>
+                
+                <div class="empty-state">
+                    <i class="fas fa-link fa-4x empty-state-icon"></i>
+                    <p class="empty-state-text">No social accounts connected</p>
+                </div>
+                
+                <hr class="profile-divider">
+                
+                <h2 class="text-center mb-4 connections-subtitle">Add a Third-Party Account</h2>
+                
+                <p class="text-center empty-state-text">Social authentication is not currently enabled for this site.</p>
+                
+                <div class="text-center mt-4">
+                    <a href="{% url 'profile' %}" class="btn btn-pink">BACK TO PROFILE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

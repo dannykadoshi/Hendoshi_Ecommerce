@@ -720,6 +720,11 @@ body {
     min-height: 100vh;
 }
 
+.connections-subtitle {
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+}
+
 .auth-card {
     background-color: var(--charcoal);
     padding: 3rem;
