@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Confirm Email{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="auth-card" style="background: var(--charcoal); padding: 3rem; border-radius: 8px; text-align: center;">
+                
+                {% if confirmation %}
+                    <i class="fas fa-envelope fa-4x mb-4" style="color: var(--neon-pink);"></i>
+                    <h1 class="mb-4" style="color: var(--neon-pink);">CONFIRM EMAIL</h1>
+                    
+                    <p class="mb-4">Please confirm that <strong>{{ confirmation.email_address.email }}</strong> is your email address.</p>
+                    
+                    <form method="POST" action="{% url 'account_confirm_email' confirmation.key %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-pink btn-lg w-100">CONFIRM EMAIL</button>
+                    </form>
+                {% else %}
+                    <i class="fas fa-times-circle fa-4x mb-4" style="color: #dc3545;"></i>
+                    <h1 class="mb-4">Invalid Link</h1>
+                    <p class="mb-4">This email confirmation link is invalid or has already been used.</p>
+                    <a href="{% url 'account_login' %}" class="btn btn-pink btn-lg">GO TO LOGIN</a>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
