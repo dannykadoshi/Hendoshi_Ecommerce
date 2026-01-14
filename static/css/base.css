@@ -1477,6 +1477,22 @@ main {
     color: var(--neon-pink);
 }
 
+/* Newsletter Form Responsive Fix */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .newsletter-form {
+        min-width: 200px;
+    }
+    
+    .newsletter-form .btn {
+        white-space: normal;
+        word-wrap: break-word;
+        line-height: 1.2;
+        padding: 0.75rem 1rem;
+        height: auto;
+        min-height: 38px;
+    }
+}
+
 /* Messages */
 .message-container {
     position: fixed;
@@ -1879,12 +1895,17 @@ main {
 
 .product-info {
     padding: 1.5rem;
+    padding-bottom: 2.5rem;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .product-info h3 {
     font-size: 1.3rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .product-type {
@@ -1892,13 +1913,26 @@ main {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-collection {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.product-collection i {
+    color: var(--neon-pink);
+    margin-right: 0.25rem;
 }
 
 .product-price {
     color: var(--neon-pink);
     font-size: 1.5rem;
     font-weight: 700;
+    margin-top: auto;
+    margin-bottom: 1rem;
 }
 
 /* Product Detail Page */
