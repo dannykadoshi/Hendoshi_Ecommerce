@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+
+<div class="product-detail-page py-5">
+    <div class="container">
+        
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'products' %}">Shop</a></li>
+                {% if product.collection %}
+                <li class="breadcrumb-item"><a href="{% url 'products' %}?collection={{ product.collection.slug }}">{{ product.collection.name }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active">{{ product.name }}</li>
+            </ol>
+        </nav>
+        
+        <div class="row">
+            
+            <!-- Product Images -->
+            <div class="col-md-6">
+                <div class="product-images">
+                    <div class="main-image mb-3">
+                        {% if product.main_image %}
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid">
+                        {% else %}
+                            <div class="placeholder-image-large">
+                                <i class="fas fa-image fa-5x"></i>
+                                <p>No Image Available</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if product.images.all %}
+                    <div class="image-thumbnails">
+                        {% for image in product.images.all %}
+                        <div class="thumbnail">
+                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Product Details -->
+            <div class="col-md-6">
+                <div class="product-details">
+                    
+                    <h1 class="product-title">{{ product.name }}</h1>
+                    
+                    <div class="product-meta mb-3">
+                        {% if product.collection %}
+                        <span class="collection-badge">{{ product.collection.name }}</span>
+                        {% endif %}
+                        <span class="type-badge">{{ product.get_product_type_display }}</span>
+                    </div>
+                    
+                    <p class="product-price">€{{ product.base_price }}</p>
+                    
+                    <div class="product-description mb-4">
+                        <p>{{ product.description }}</p>
+                    </div>
+                    
+                    <!-- Design Story -->
+                    {% if product.design_story %}
+                    <div class="design-story mb-4">
+                        <h3>💭 {{ product.design_story.title }}</h3>
+                        <p>{{ product.design_story.story }}</p>
+                        <small class="text-muted">— {{ product.design_story.author }}</small>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Add to Cart Form -->
+                    <form method="POST" action="#">
+                        {% csrf_token %}
+                        
+                        <!-- Size Selection -->
+                        {% if available_sizes %}
+                        <div class="mb-3">
+                            <label class="form-label">Size:</label>
+                            <div class="size-options">
+                                {% for size in available_sizes %}
+                                <input type="radio" class="btn-check" name="size" id="size-{{ size }}" value="{{ size }}" required>
+                                <label class="btn btn-outline-pink" for="size-{{ size }}">{{ size|upper }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Color Selection -->
+                        {% if available_colors %}
+                        <div class="mb-3">
+                            <label class="form-label">Color:</label>
+                            <div class="color-options">
+                                {% for color in available_colors %}
+                                <input type="radio" class="btn-check" name="color" id="color-{{ color }}" value="{{ color }}" required>
+                                <label class="btn btn-outline-pink" for="color-{{ color }}">{{ color|title }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Quantity -->
+                        <div class="mb-3">
+                            <label class="form-label">Quantity:</label>
+                            <input type="number" class="form-control" name="quantity" value="1" min="1" max="10" style="width: 100px;">
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <button type="submit" class="btn btn-pink btn-lg w-100 mb-2">
+                            <i class="fas fa-shopping-cart"></i> ADD TO CART
+                        </button>
+                        
+                        <button type="button" class="btn btn-outline-pink w-100">
+                            <i class="far fa-heart"></i> ADD TO BATTLE VEST
+                        </button>
+                    </form>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Related Products -->
+        {% if related_products %}
+        <div class="related-products mt-5">
+            <h2 class="text-center mb-4">You Might Also Like</h2>
+            <div class="row g-4">
+                {% for related in related_products %}
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <a href="{% url 'product_detail' related.slug %}">
+                            <div class="product-image">
+                                {% if related.main_image %}
+                                    <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
+                                {% else %}
+                                    <div class="placeholder-image">
+                                        <i class="fas fa-image fa-2x"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ related.name }}</h3>
+                                <p class="product-price">€{{ related.base_price }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}
