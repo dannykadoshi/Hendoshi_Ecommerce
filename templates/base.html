@@ -42,8 +42,36 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'products' %}">Shop</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Collections</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="collectionsMenu"
+                               role="button"
+                               data-bs-toggle="dropdown">Collections</a>
+                            <ul class="dropdown-menu" aria-labelledby="collectionsMenu">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'products' %}">All Products</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{% url 'products' %}?collection=weird-animals">Weird Animals</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{% url 'products' %}?collection=gym-therapy">Gym Therapy</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{% url 'products' %}?collection=dark-humor">Dark Humor</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Weird Wall</a>
