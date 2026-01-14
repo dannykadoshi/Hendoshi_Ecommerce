@@ -39,9 +39,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'products' %}">Shop</a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"
                                href="#"
@@ -70,6 +67,41 @@
                                 <li>
                                     <a class="dropdown-item"
                                        href="{% url 'products' %}?collection=dark-humor">Dark Humor</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="productTypeMenu"
+                               role="button"
+                               data-bs-toggle="dropdown">Product Type</a>
+                            <ul class="dropdown-menu" aria-labelledby="productTypeMenu">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'products' %}">All Products</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'products' %}?type=tshirt">
+                                        <i class="fas fa-tshirt"></i> T-Shirts
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'products' %}?type=hoodie">
+                                        <i class="fas fa-user-ninja"></i> Hoodies
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'products' %}?type=sticker">
+                                        <i class="fas fa-certificate"></i> Stickers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'products' %}?type=accessory">
+                                        <i class="fas fa-gift"></i> Accessories
+                                    </a>
                                 </li>
                             </ul>
                         </li>
