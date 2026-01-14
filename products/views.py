@@ -3,6 +3,41 @@ from django.db.models import Q
 from .models import Product, Collection
 
 
+def search(request):
+    """
+    View to handle product search
+    """
+    products = Product.objects.filter(is_active=True)
+    query = ''
+    
+    if 'q' in request.GET:
+        query = request.GET['q'].strip()
+        if query:
+            # Search in product name, description, and collection tags
+            queries = (
+                Q(name__icontains=query) | 
+                Q(description__icontains=query) | 
+                Q(collection__name__icontains=query) |
+                Q(collection__description__icontains=query)
+            )
+            products = products.filter(queries).distinct()
+    
+    # Get suggestions if no results (similar collections or popular products)
+    suggestions = []
+    if query and not products.exists():
+        # Get popular products as suggestions
+        suggestions = Product.objects.filter(is_active=True).order_by('-id')[:4]
+    
+    context = {
+        'products': products,
+        'search_term': query,
+        'suggestions': suggestions,
+        'product_count': products.count(),
+    }
+    
+    return render(request, 'products/search_results.html', context)
+
+
 def all_products(request):
     """
     View to show all products with filtering and sorting

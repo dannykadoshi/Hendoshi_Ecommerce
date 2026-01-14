@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="products-page search-results-page">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <!-- Search Header -->
+                <div class="search-header text-center mb-5">
+                    {% if search_term %}
+                        <h1 class="search-title">Search Results for "<span class="search-query">{{ search_term }}</span>"</h1>
+                        <p class="product-count">{{ product_count }} product{{ product_count|pluralize }} found</p>
+                    {% else %}
+                        <h1 class="search-title">Search Products</h1>
+                        <p class="text-muted">Enter a search term to find products</p>
+                    {% endif %}
+                </div>
+
+                {% if products %}
+                    <!-- Products Grid -->
+                    <div class="row g-4">
+                        {% for product in products %}
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="product-card">
+                                    <a href="{% url 'product_detail' product.slug %}">
+                                        <div class="product-image">
+                                            {% if product.main_image %}
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                            {% else %}
+                                                <div class="placeholder-image">
+                                                    <i class="fas fa-image fa-3x"></i>
+                                                    <p>No Image</p>
+                                                </div>
+                                            {% endif %}
+                                            {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                                        </div>
+                                        <div class="product-info">
+                                            <h3>{{ product.name }}</h3>
+                                            {% if product.collection %}
+                                                <p class="product-collection">
+                                                    <i class="fas fa-tag"></i> {{ product.collection.name }}
+                                                </p>
+                                            {% endif %}
+                                            <p class="product-type">{{ product.get_product_type_display }}</p>
+                                            <p class="product-price">€{{ product.base_price }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% elif search_term %}
+                    <!-- No Results Found -->
+                    <div class="no-results text-center">
+                        <div class="no-results-icon">
+                            <i class="fas fa-search fa-5x"></i>
+                        </div>
+                        <h2 class="no-results-title">No Products Found</h2>
+                        <p class="no-results-text">We couldn't find any products matching "<strong>{{ search_term }}</strong>"</p>
+                        
+                        <div class="search-suggestions mt-5">
+                            <h3>Search Tips:</h3>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check-circle"></i> Check your spelling</li>
+                                <li><i class="fas fa-check-circle"></i> Try more general keywords</li>
+                                <li><i class="fas fa-check-circle"></i> Try different keywords</li>
+                            </ul>
+                        </div>
+
+                        {% if suggestions %}
+                            <div class="suggestions-section mt-5">
+                                <h3>You Might Like These</h3>
+                                <div class="row g-4 mt-3">
+                                    {% for product in suggestions %}
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="product-card">
+                                                <a href="{% url 'product_detail' product.slug %}">
+                                                    <div class="product-image">
+                                                        {% if product.main_image %}
+                                                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                                        {% else %}
+                                                            <div class="placeholder-image">
+                                                                <i class="fas fa-image fa-3x"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <h3>{{ product.name }}</h3>
+                                                        <p class="product-price">€{{ product.base_price }}</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="mt-5">
+                            <a href="{% url 'products' %}" class="btn btn-pink btn-lg">Browse All Products</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
