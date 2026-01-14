@@ -146,8 +146,8 @@
                 
                 <!-- Right Side Icons -->
                 <div class="navbar-right">
-                    <!-- Search (Mobile and Desktop) -->
-                    <form class="search-form" action="{% url 'search' %}" method="get">
+                    <!-- Search (Desktop only) -->
+                    <form class="search-form desktop-search" action="{% url 'search' %}" method="get">
                         <div class="search-wrapper">
                             <input class="form-control search-input" 
                                    type="search" 
@@ -161,6 +161,31 @@
                         </div>
                     </form>
                     
+                    <!-- Mobile Icons (Always visible) -->
+                    <div class="mobile-icons">
+                        <!-- Favorites Icon -->
+                        <a class="nav-icon" href="#" title="Favorites">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        
+                        <!-- User Account Dropdown -->
+                        <div class="dropdown">
+                            <button class="nav-icon dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_authenticated %}
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    
                     <!-- Desktop Icons (Hidden on Mobile) -->
                     <div class="desktop-icons">
                         <!-- Favorites Icon -->
@@ -168,10 +193,22 @@
                             <i class="fas fa-heart"></i>
                         </a>
                         
-                        <!-- User Account Icon -->
-                        <a class="nav-icon" href="{% url 'account_login' %}" title="Account">
-                            <i class="fas fa-user"></i>
-                        </a>
+                        <!-- User Account Dropdown -->
+                        <div class="dropdown">
+                            <button class="nav-icon dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_authenticated %}
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
                         
                         <!-- Light Mode Toggle -->
                         <button class="nav-icon theme-toggle" id="desktopThemeToggle" title="Toggle Dark/Light Mode">
@@ -200,18 +237,39 @@
             
             <!-- Top Menu Icons -->
             <div class="menu-top-icons">
-                <a href="{% url 'account_login' %}" class="menu-icon">
+                <button class="menu-icon" id="accountMenuToggle">
                     <i class="fas fa-user"></i>
                     <span>Account</span>
-                </a>
+                </button>
                 <a href="#" class="menu-icon">
                     <i class="fas fa-heart"></i>
                     <span>Favorites</span>
                 </a>
+                <button class="menu-icon" id="mobileSearchToggle">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </button>
                 <button class="menu-icon" id="currencySwitcher">
                     <i class="fas fa-globe"></i>
                     <span id="currentCurrency">US</span>
                 </button>
+            </div>
+
+            <!-- Collapsible Search in Mobile Menu -->
+            <div class="mobile-search-box" id="mobileSearchBox">
+                <form class="search-form" action="{% url 'search' %}" method="get">
+                    <div class="search-wrapper">
+                        <input class="form-control search-input" 
+                               type="search" 
+                               name="q" 
+                               placeholder="Search..." 
+                               value="{{ request.GET.q }}"
+                               aria-label="Search">
+                        <button class="btn search-btn" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
             
             <!-- Currency Submenu -->
@@ -224,6 +282,28 @@
                     <button class="submenu-item" data-currency="EU">
                         <span>🇪🇺 European Union</span>
                     </button>
+                </div>
+            </div>
+            
+            <!-- Account Submenu -->
+            <div class="menu-submenu" id="accountSubmenu" style="display: none;">
+                <button class="submenu-back" data-back="main">&lt; Back</button>
+                <div class="submenu-content">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="submenu-item">
+                            <i class="fas fa-user-circle"></i> <span>Profile</span>
+                        </a>
+                        <a href="{% url 'account_logout' %}" class="submenu-item">
+                            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="submenu-item">
+                            <i class="fas fa-sign-in-alt"></i> <span>Login</span>
+                        </a>
+                        <a href="{% url 'account_signup' %}" class="submenu-item">
+                            <i class="fas fa-user-plus"></i> <span>Sign Up</span>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             
@@ -385,6 +465,8 @@
                 const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
                 const currencySwitcher = document.getElementById('currencySwitcher');
                 const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+                const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+                const mobileSearchBox = document.getElementById('mobileSearchBox');
                 const menuArrows = document.querySelectorAll('.menu-item-arrow');
                 const menuTriggers = document.querySelectorAll('.menu-item-trigger');
                 const submenuBackButtons = document.querySelectorAll('.submenu-back');
@@ -399,6 +481,17 @@
                 
                 navBurger.addEventListener('click', toggleMobileMenu);
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+                                // Mobile search toggle (in burger menu)
+                                if (mobileSearchToggle && mobileSearchBox) {
+                                    mobileSearchToggle.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        mobileSearchBox.classList.toggle('show');
+                                        const input = mobileSearchBox.querySelector('.search-input');
+                                        if (mobileSearchBox.classList.contains('show') && input) {
+                                            setTimeout(() => input.focus(), 100);
+                                        }
+                                    });
+                                }
                 
                 // Menu triggers (Collections, Product Type text)
                 menuTriggers.forEach(trigger => {
@@ -471,6 +564,23 @@
                         currencySubmenu.style.transform = 'translateX(0)';
                     }, 10);
                 });
+                
+                // Account menu toggle
+                const accountMenuToggle = document.getElementById('accountMenuToggle');
+                if (accountMenuToggle) {
+                    accountMenuToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const mainMenu = document.getElementById('menuMain');
+                        const accountSubmenu = document.getElementById('accountSubmenu');
+                        
+                        mainMenu.style.transform = 'translateX(-100%)';
+                        accountSubmenu.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            accountSubmenu.style.transform = 'translateX(0)';
+                        }, 10);
+                    });
+                }
                 
                 // Currency selection
                 const currencyItems = document.querySelectorAll('#currencySubmenu .submenu-item');

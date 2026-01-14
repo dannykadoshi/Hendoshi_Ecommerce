@@ -182,7 +182,7 @@ body {
     padding: 0;
     gap: 0;
     order: 2;
-    flex-shrink: 1;
+    flex: 1 1 auto;
     flex-wrap: nowrap;
 }
 
@@ -264,17 +264,28 @@ body {
     background-color: var(--charcoal) !important;
     border: 2px solid var(--gray) !important;
     color: var(--off-white) !important;
-    padding: 0.5rem 2.5rem 0.5rem 1rem !important;
-    border-radius: 25px !important;
+    padding: 0.35rem 2rem 0.35rem 0.75rem !important;
+    border-radius: 20px !important;
     transition: all 0.3s;
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .search-form .search-input::placeholder {
     color: var(--gray);
 }
 
+
+/* Prevent wrap and tighten spacing between 992px and 1270px */
+@media (min-width: 992px) and (max-width: 1270px) {
+    .navbar-container { gap: 0.25rem; }
+    .logo-text { font-size: 1.4rem; letter-spacing: 2px; text-shadow: 2px 2px 0 var(--neon-pink); }
+    .nav-link { font-size: 0.8rem; padding: 0.6rem 0.4rem !important; margin: 0 0.2rem; }
+    .search-form { width: 170px; }
+    .desktop-icons { gap: 0.5rem; }
+    .nav-icon { font-size: 1rem; }
+    .navbar-right { gap: 0.75rem; }
+}
 .search-form .search-input:focus {
     border-color: var(--neon-pink) !important;
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
@@ -288,7 +299,7 @@ body {
     background: transparent;
     border: none;
     color: var(--neon-pink);
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 0.6rem;
     cursor: pointer;
     transition: all 0.3s;
 }
@@ -323,6 +334,16 @@ body {
     align-items: center;
 }
 
+.mobile-icons {
+    display: none;
+    gap: 1rem;
+    align-items: center;
+}
+
+.desktop-search {
+    display: block;
+}
+
 .theme-toggle {
     background: none;
     border: none;
@@ -332,9 +353,60 @@ body {
     align-items: center;
 }
 
+/* Dropdown menu in navbar */
+.navbar-right .dropdown-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.navbar-right .dropdown-toggle::after {
+    display: none;
+}
+
+.navbar-right .dropdown-menu {
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    border-radius: 0;
+    margin-top: 0.5rem;
+    min-width: 150px;
+}
+
+.navbar-right .dropdown-item {
+    color: var(--off-white);
+    padding: 0.5rem 1rem;
+    transition: all 0.3s;
+}
+
+.navbar-right .dropdown-item:hover {
+    background-color: var(--neon-pink);
+    color: var(--black);
+}
+
+.navbar-right .dropdown-item i {
+    margin-right: 0.5rem;
+    width: 1rem;
+}
+
+.navbar-right .dropdown-divider {
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
 @media (max-width: 991px) {
     .desktop-icons {
         display: none !important;
+    }
+    
+    .desktop-search {
+        display: none !important;
+    }
+    
+    .mobile-icons {
+        display: flex !important;
+    }
+    
+    .navbar-right {
+        gap: 0.5rem;
     }
 }
 
@@ -1399,10 +1471,10 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .products-header h1 {
@@ -1427,7 +1499,7 @@ main {
     background-color: transparent;
     border: 2px solid var(--neon-pink);
     color: var(--neon-pink);
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -1529,7 +1601,7 @@ main {
 /* 2 columns for tablets */
 @media (max-width: 991px) {
     .products-page {
-        padding-top: 150px;
+        padding-top: 120px;
     }
     
     .products-grid {
@@ -1568,6 +1640,7 @@ main {
     .filters-sort-btn {
         width: 100%;
         justify-content: center;
+        padding: 0.5rem 1rem;
     }
     
     .products-header h1 {
@@ -1598,7 +1671,7 @@ main {
     width: 100%;
     background: rgba(0, 0, 0, 0.6);
     border-top: 1px solid rgba(255, 20, 147, 0.3);
-    padding: 0.5rem;
+    padding: 0.4rem;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1620,12 +1693,58 @@ main {
     border: 1px solid rgba(255, 255, 255, 0.2);
     text-transform: uppercase;
     font-weight: 700;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
 }
 
 .btn-quick-add:hover {
     background-color: var(--neon-pink);
     color: var(--black);
     border-color: var(--neon-pink);
+}
+
+/* Mobile menu search box */
+.mobile-search-box {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1rem;
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.mobile-search-box.show {
+    max-height: 100px;
+    padding: 0.75rem 1rem;
+}
+
+.mobile-search-box .search-wrapper {
+    position: relative;
+}
+
+.mobile-search-box .search-input {
+    width: 100%;
+    background-color: var(--charcoal) !important;
+    border: 2px solid var(--gray) !important;
+    color: var(--off-white) !important;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    border-radius: 5px;
+}
+
+.mobile-search-box .search-input:focus {
+    border-color: var(--neon-pink) !important;
+    outline: none;
+}
+
+.mobile-search-box .search-btn {
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--neon-pink);
+    padding: 0.5rem;
+    cursor: pointer;
 }
 
 /* Product Cards */
