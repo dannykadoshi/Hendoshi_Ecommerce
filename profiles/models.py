@@ -24,6 +24,31 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+class Address(models.Model):
+    """
+    Model to store user addresses for checkout and profile
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+    full_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=250)
+    address_line_2 = models.CharField(max_length=250, null=True, blank=True)
+    city = models.CharField(max_length=100)
+    state_or_county = models.CharField(max_length=100)
+    country = models.CharField(max_length=40)
+    postal_code = models.CharField(max_length=20)
+    is_default = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = 'Addresses'
+        ordering = ['-is_default', '-updated_at']
+    
+    def __str__(self):
+        return f"{self.full_name} - {self.city}, {self.country}"
+
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """

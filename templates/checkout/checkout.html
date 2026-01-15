@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}Checkout{% endblock %}
+{% block extra_title %}Checkout - Shipping{% endblock %}
 
 {% block content %}
 <div class="checkout-page container">
@@ -20,9 +20,9 @@
 
     <div class="checkout-header d-flex justify-content-between align-items-center mb-4">
         <div>
-            <p class="eyebrow">Secure Checkout</p>
-            <h1 class="page-title mb-0">Complete Your Order</h1>
-            <p class="text-muted mb-0">No account needed – checkout as a guest or sign in if you already have one.</p>
+            <p class="eyebrow">Shipping Address</p>
+            <h1 class="page-title mb-0">Where should we send your order?</h1>
+            <p class="text-muted mb-0">Enter your shipping address below. Shipping cost will be calculated in the next step.</p>
         </div>
         <a href="{% url 'view_cart' %}" class="btn btn-outline-pink">
             <i class="fas fa-arrow-left"></i> Back to Cart
@@ -34,63 +34,136 @@
             <div class="panel">
                 <div class="panel-header d-flex justify-content-between align-items-center">
                     <div>
-                        <span class="eyebrow">Contact</span>
-                        <h3 class="panel-title mb-0">Contact & Shipping</h3>
+                        <h3 class="panel-title mb-0">Shipping Address</h3>
                     </div>
                     {% if request.user.is_authenticated %}
                         <span class="badge bg-success">Signed in</span>
                     {% else %}
-                        <span class="badge bg-secondary">Guest checkout</span>
+                        <span class="badge bg-secondary">Guest</span>
                     {% endif %}
                 </div>
 
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Please fix the following errors:</h4>
+                        {% for error in form.non_field_errors %}
+                            <p class="mb-2"><i class="fas fa-exclamation-circle"></i> {{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 <form class="checkout-form" method="post" novalidate>
                     {% csrf_token %}
-                    <div class="row g-3">
+
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        {{ form.full_name.label_tag }}
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                            <div class="form-error-text">
+                                <i class="fas fa-exclamation-circle"></i> {{ form.full_name.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        {{ form.phone.label_tag }}
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <div class="form-error-text">
+                                <i class="fas fa-exclamation-circle"></i> {{ form.phone.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Address -->
+                    <div class="mb-3">
+                        {{ form.address.label_tag }}
+                        {{ form.address }}
+                        {% if form.address.errors %}
+                            <div class="form-error-text">
+                                <i class="fas fa-exclamation-circle"></i> {{ form.address.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Address Line 2 -->
+                    <div class="mb-3">
+                        {{ form.address_line_2.label_tag }}
+                        {{ form.address_line_2 }}
+                    </div>
+
+                    <!-- City -->
+                    <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+                            {{ form.city.label_tag }}
+                            {{ form.city }}
+                            {% if form.city.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ form.city.errors.0 }}
+                                </div>
+                            {% endif %}
                         </div>
+
+                        <!-- Country -->
                         <div class="col-md-6">
-                            <label class="form-label">Phone</label>
-                            <input type="tel" class="form-control" name="phone" placeholder="+1 555 123 4567">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">First Name</label>
-                            <input type="text" class="form-control" name="first_name" placeholder="First name" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" placeholder="Last name" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Address</label>
-                            <input type="text" class="form-control" name="address" placeholder="Street address" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">City</label>
-                            <input type="text" class="form-control" name="city" placeholder="City" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">State</label>
-                            <input type="text" class="form-control" name="state" placeholder="State" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">ZIP</label>
-                            <input type="text" class="form-control" name="zip" placeholder="ZIP" required>
+                            {{ form.country.label_tag }}
+                            {{ form.country }}
+                            {% if form.country.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ form.country.errors.0 }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3 mt-4 flex-wrap">
-                        <button type="submit" class="btn btn-pink btn-lg">
-                            <i class="fas fa-lock"></i> Continue to Payment
-                        </button>
-                        <div class="text-muted small">Your cart and details stay saved if you return to cart.</div>
+                    <!-- State/County and Postal Code -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            {{ form.state_or_county.label_tag }}
+                            {{ form.state_or_county }}
+                            {% if form.state_or_county.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ form.state_or_county.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            {{ form.postal_code.label_tag }}
+                            {{ form.postal_code }}
+                            {% if form.postal_code.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ form.postal_code.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
+
+                    <!-- Save to Profile (if logged in) -->
+                    {% if request.user.is_authenticated %}
+                        <div class="form-check mb-4">
+                            {{ form.save_to_profile }}
+                            <label class="form-check-label" for="{{ form.save_to_profile.id_for_label }}">
+                                Save this address to my profile for future orders
+                            </label>
+                        </div>
+                    {% endif %}
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-pink btn-lg w-100">
+                        <i class="fas fa-lock"></i> Continue to Payment
+                    </button>
+
+                    <p class="checkout-helper text-muted small mt-3 mb-0">
+                        <i class="fas fa-info-circle"></i> You can change this address on the next step if needed.
+                    </p>
                 </form>
             </div>
         </div>
 
+        <!-- Order Summary Sidebar -->
         <div class="col-lg-5">
             <div class="panel order-summary">
                 <div class="panel-header d-flex justify-content-between align-items-center">
@@ -131,33 +204,92 @@
                         <span>Subtotal</span>
                         <strong>€{{ subtotal }}</strong>
                     </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Shipping</span>
-                        <span class="text-muted">Calculated at next step</span>
-                    </div>
                     <div class="d-flex justify-content-between">
-                        <span>Tax</span>
-                        <span class="text-muted">Calculated at next step</span>
+                        <span>Shipping</span>
+                        <span class="text-muted">Calculated next</span>
                     </div>
                 </div>
 
                 <div class="summary-divider"></div>
 
                 <div class="d-flex justify-content-between align-items-center">
-                    <span class="h5 mb-0">Total</span>
+                    <span class="h5 mb-0">Subtotal</span>
                     <div class="text-end">
                         <div class="h4 mb-0">€{{ subtotal }}</div>
-                        <small class="text-muted">Before shipping and taxes</small>
+                        <small class="text-muted">+ Shipping in next step</small>
                     </div>
                 </div>
 
                 <div class="mt-4">
-                    <a href="{% url 'view_cart' %}" class="btn btn-pink btn-lg w-100">
-                        <i class="fas fa-arrow-left"></i> Back to Cart
-                    </a>
+                    <a href="{% url 'view_cart' %}" class="btn btn-outline-secondary w-100">Back to Cart</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Handle country change - update state/county label
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.querySelector('select[name="country"]');
+        const stateInput = document.querySelector('input[name="state_or_county"]');
+        const stateLabel = document.querySelector('label[for="id_state_or_county"]');
+        
+        if (countrySelect && stateLabel) {
+            function updateStateLabel() {
+                if (countrySelect.value === 'US') {
+                    stateLabel.textContent = 'State';
+                    stateInput.placeholder = 'State';
+                } else {
+                    stateLabel.textContent = 'State/County';
+                    stateInput.placeholder = 'State/County';
+                }
+            }
+            
+            countrySelect.addEventListener('change', updateStateLabel);
+            updateStateLabel(); // Initial call
+        }
+
+        // Real-time error message removal on user input
+        const formInputs = document.querySelectorAll('.checkout-form .form-control, .checkout-form .form-select');
+        
+        formInputs.forEach(input => {
+            // Remove error on input
+            input.addEventListener('input', function() {
+                const errorElement = this.closest('div').querySelector('.form-error-text');
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+                // Add visual feedback that field has been touched
+                this.classList.add('has-value');
+            });
+            
+            // Also remove error on change for selects
+            input.addEventListener('change', function() {
+                const errorElement = this.closest('div').querySelector('.form-error-text');
+                if (errorElement && this.value.trim() !== '') {
+                    errorElement.style.display = 'none';
+                }
+            });
+            
+            // Check if field has initial value
+            if (input.value.trim() !== '') {
+                input.classList.add('has-value');
+            }
+        });
+
+        // Handle checkbox
+        const checkbox = document.querySelector('.checkout-form .form-check-input');
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                const errorElement = this.closest('div').querySelector('.form-error-text');
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+
 {% endblock %}
+

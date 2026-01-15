@@ -4073,6 +4073,153 @@ main {
     margin: 12px 0;
 }
 
+/* Form Styling & Validation */
+.checkout-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control,
+.form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #f5f5f5;
+    padding: 10px 12px;
+    transition: all 0.2s ease;
+}
+
+.form-control.has-value,
+.form-select.has-value {
+    border-color: rgba(204, 255, 0, 0.5);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--neon-pink);
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: #b8b8b8;
+    opacity: 0.95;
+}
+
+.form-error-text {
+    color: #ff6b6b;
+    font-size: 0.875rem;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-check-input {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-check-input:checked {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.form-check-input:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15);
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    cursor: pointer;
+    color: #f0f0f0;
+}
+
+.alert {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 8px;
+    color: #ff8080;
+    margin-bottom: 20px;
+}
+
+.alert-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ff6b6b;
+    margin-bottom: 8px;
+}
+
+.checkout-helper {
+    margin-top: 12px;
+    color: #d0d0d0;
+}
+
+/* Light Mode Form Styles */
+:root.light-mode .form-control,
+:root.light-mode .form-select {
+    background: white;
+    border-color: #dcdcdc;
+    color: #111111;
+}
+
+:root.light-mode .form-control:focus,
+:root.light-mode .form-select:focus {
+    background: white;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15);
+}
+
+:root.light-mode .form-control::placeholder {
+    color: #8a8a8a;
+}
+
+:root.light-mode .form-error-text {
+    color: #d32f2f;
+}
+
+:root.light-mode .form-check-input {
+    border-color: #ccc;
+    background: white;
+}
+
+:root.light-mode .form-check-input:checked {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+:root.light-mode .form-check-label {
+    color: #333333;
+}
+
+:root.light-mode .alert {
+    background: rgba(211, 47, 47, 0.08);
+    border-color: rgba(211, 47, 47, 0.25);
+    color: #d32f2f;
+}
+
+:root.light-mode .alert-heading {
+    color: #c62828;
+}
+
+:root.light-mode .checkout-helper {
+    color: #666666;
+}
+
 @media (max-width: 768px) {
     .cart-top-cta {
         flex-direction: column;
@@ -4082,4 +4229,7 @@ main {
     .checkout-progress {
         flex-wrap: wrap;
     }
-}
+
+    .form-control,
+    .form-select {
+        font-size: 16px;
