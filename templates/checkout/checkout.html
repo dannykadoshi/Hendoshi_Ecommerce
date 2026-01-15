@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="checkout-page container">
+    <!-- Progress Indicator -->
+    <div class="checkout-progress">
+        {% for step in steps %}
+            <div class="progress-step progress-step-{{ step.status }}">
+                <div class="progress-circle">{{ forloop.counter }}</div>
+                <div class="progress-label">{{ step.label }}</div>
+            </div>
+            {% if not forloop.last %}
+                <div class="progress-divider"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="checkout-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <p class="eyebrow">Secure Checkout</p>
+            <h1 class="page-title mb-0">Complete Your Order</h1>
+            <p class="text-muted mb-0">No account needed – checkout as a guest or sign in if you already have one.</p>
+        </div>
+        <a href="{% url 'view_cart' %}" class="btn btn-outline-pink">
+            <i class="fas fa-arrow-left"></i> Back to Cart
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="panel">
+                <div class="panel-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="eyebrow">Contact</span>
+                        <h3 class="panel-title mb-0">Contact & Shipping</h3>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <span class="badge bg-success">Signed in</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Guest checkout</span>
+                    {% endif %}
+                </div>
+
+                <form class="checkout-form" method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" name="phone" placeholder="+1 555 123 4567">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="first_name" placeholder="First name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="last_name" placeholder="Last name" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-control" name="address" placeholder="Street address" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="city" placeholder="City" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-control" name="state" placeholder="State" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">ZIP</label>
+                            <input type="text" class="form-control" name="zip" placeholder="ZIP" required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mt-4 flex-wrap">
+                        <button type="submit" class="btn btn-pink btn-lg">
+                            <i class="fas fa-lock"></i> Continue to Payment
+                        </button>
+                        <div class="text-muted small">Your cart and details stay saved if you return to cart.</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="panel order-summary">
+                <div class="panel-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="eyebrow">Review</span>
+                        <h3 class="panel-title mb-0">Order Summary</h3>
+                    </div>
+                    <span class="badge bg-dark">{{ cart.get_total_items }} item{{ cart.get_total_items|pluralize }}</span>
+                </div>
+
+                <div class="summary-list">
+                    {% for item in cart_items %}
+                        <div class="summary-item">
+                            <div class="summary-thumb">
+                                {% if item.product.main_image %}
+                                    <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                    <div class="placeholder-image-cart">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="summary-details">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="summary-name">{{ item.product.name }}</h4>
+                                    <span class="summary-price">€{{ item.get_total_price }}</span>
+                                </div>
+                                <div class="text-muted small">
+                                    Size {{ item.size|upper }} · {{ item.color|title }} · Qty {{ item.quantity }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="summary-totals">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <strong>€{{ subtotal }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shipping</span>
+                        <span class="text-muted">Calculated at next step</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Tax</span>
+                        <span class="text-muted">Calculated at next step</span>
+                    </div>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="h5 mb-0">Total</span>
+                    <div class="text-end">
+                        <div class="h4 mb-0">€{{ subtotal }}</div>
+                        <small class="text-muted">Before shipping and taxes</small>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a href="{% url 'view_cart' %}" class="btn btn-pink btn-lg w-100">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

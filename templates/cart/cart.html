@@ -132,13 +132,14 @@
 
                         <!-- Checkout Button -->
                         <div class="checkout-cta">
-                            <a href="#checkout" class="btn btn-pink btn-lg w-100 checkout-btn">
+                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg w-100 checkout-btn {% if not cart_items %}disabled{% endif %}" aria-disabled="{% if not cart_items %}true{% else %}false{% endif %}">
                                 <i class="fas fa-lock"></i> PROCEED TO CHECKOUT
                                 <i class="fas fa-arrow-right ms-2"></i>
                             </a>
                             <p class="checkout-guarantee">
                                 <i class="fas fa-check-circle"></i> Secure • Fast • Easy
                             </p>
+                            <p class="checkout-helper text-muted small mb-0">Checkout as a guest or sign in — your cart stays saved.</p>
                         </div>
 
                         <p class="cart-info mt-3">
@@ -183,6 +184,8 @@
 
 <!-- Cart JavaScript -->
 <script>
+    const initialCartCount = {{ cart.get_total_items|default:0 }};
+
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -253,6 +256,8 @@
                 if (cartBadge) {
                     cartBadge.textContent = data.cart_total_items;
                 }
+
+                syncCheckoutButtons(data.cart_total_items);
                 
                 showToast('Cart updated successfully', 'success');
             } else if (data.error) {
@@ -345,6 +350,8 @@
                         const itemText = data.cart_total_items === 1 ? 'item' : 'items';
                         cartHeader.textContent = `${data.cart_total_items} ${itemText}`;
                     }
+
+                    syncCheckoutButtons(data.cart_total_items);
                     
                     showToast(data.message, 'success');
                 }
@@ -379,6 +386,28 @@
             }
         }, 3000);
     }
+
+    function syncCheckoutButtons(totalItems) {
+        const disabled = totalItems <= 0;
+        document.querySelectorAll('.checkout-btn').forEach(btn => {
+            btn.classList.toggle('disabled', disabled);
+            btn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+            btn.setAttribute('tabindex', disabled ? '-1' : '0');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        syncCheckoutButtons(initialCartCount);
+
+        document.querySelectorAll('.checkout-btn').forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                if (btn.classList.contains('disabled')) {
+                    event.preventDefault();
+                    showToast('Add items to your cart to proceed to checkout.', 'warning');
+                }
+            });
+        });
+    });
 
     // Handle manual input change
     document.querySelectorAll('.qty-input-sm').forEach(input => {
