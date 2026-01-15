@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Invoice - {{ order.order_number }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+        }
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #E71F7F;
+        }
+        .invoice-header h1 {
+            color: #E71F7F;
+            margin: 0;
+        }
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #E71F7F;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th {
+            background-color: #E71F7F;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .totals-table {
+            width: 300px;
+            margin-left: auto;
+        }
+        .totals-table td {
+            text-align: right;
+        }
+        .total-row {
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #f5f5f5;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+        @media print {
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-header">
+        <img src="/media/invoice/hendoshi-logo.png" alt="Hendoshi" style="max-width: 400px; height: auto; margin-bottom: 20px;">
+        <p>Invoice</p>
+    </div>
+
+    <div class="invoice-details">
+        <div>
+            <strong>Invoice Number:</strong> {{ order.order_number }}<br>
+            <strong>Date:</strong> {{ order.created_at|date:"F d, Y" }}<br>
+            <strong>Status:</strong> {{ order.get_status_display }}
+        </div>
+        <div style="text-align: right;">
+            <strong>Customer:</strong><br>
+            {{ order.full_name }}<br>
+            {{ order.email }}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Shipping Address</h2>
+        <p>
+            {{ order.full_name }}<br>
+            {{ order.address }}<br>
+            {% if order.address_line_2 %}{{ order.address_line_2 }}<br>{% endif %}
+            {{ order.city }}, {{ order.state_or_county }} {{ order.postal_code }}<br>
+            {{ order.country }}<br>
+            Phone: {{ order.phone }}
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Order Items</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Details</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>Size: {{ item.size }}, Color: {{ item.color }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>${{ item.get_total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="totals-table">
+            <tr>
+                <td>Subtotal:</td>
+                <td>${{ order.subtotal }}</td>
+            </tr>
+            {% if order.shipping_cost %}
+            <tr>
+                <td>Shipping:</td>
+                <td>${{ order.shipping_cost }}</td>
+            </tr>
+            {% endif %}
+            {% if order.tax_amount %}
+            <tr>
+                <td>Tax:</td>
+                <td>${{ order.tax_amount }}</td>
+            </tr>
+            {% endif %}
+            <tr class="total-row">
+                <td>TOTAL:</td>
+                <td>${{ order.total_amount }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for your purchase!</p>
+        <p>For questions, contact us at support@hendoshi.com</p>
+    </div>
+</body>
+</html>

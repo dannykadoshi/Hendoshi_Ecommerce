@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template.loader import render_to_string
+from datetime import datetime
 from .models import UserProfile, Address
 from .forms import UserProfileForm
 from .address_forms import AddressForm
@@ -20,10 +23,44 @@ def profile(request):
     # Get user's orders
     orders = profile.user.orders.all() if hasattr(profile.user, 'orders') else []
     
+    # Filter by date range if provided
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    
+    if start_date:
+        try:
+            start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+            orders = orders.filter(created_at__gte=start_date_obj)
+        except ValueError:
+            pass
+    
+    if end_date:
+        try:
+            end_date_obj = datetime.strptime(end_date, '%Y-%m-%d')
+            # Add one day to include the end date
+            from datetime import timedelta
+            end_date_obj = end_date_obj + timedelta(days=1)
+            orders = orders.filter(created_at__lt=end_date_obj)
+        except ValueError:
+            pass
+    
+    # Pagination - 10 orders per page
+    paginator = Paginator(orders, 10)
+    page = request.GET.get('page')
+    
+    try:
+        orders_page = paginator.page(page)
+    except PageNotAnInteger:
+        orders_page = paginator.page(1)
+    except EmptyPage:
+        orders_page = paginator.page(paginator.num_pages)
+    
     template = 'profiles/profile.html'
     context = {
         'addresses': addresses,
-        'orders': orders,
+        'orders': orders_page,
+        'start_date': start_date,
+        'end_date': end_date,
         'on_profile_page': True,
     }
     
@@ -101,3 +138,24 @@ def set_default_address(request, address_id):
     
     messages.success(request, 'Default address updated!')
     return redirect('profile')
+
+
+@login_required
+def download_invoice(request, order_number):
+    """Generate and download invoice for an order"""
+    from checkout.models import Order
+    
+    # Get the order and verify it belongs to the user
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    
+    # Render the invoice HTML
+    html_content = render_to_string('profiles/invoice.html', {
+        'order': order,
+        'user': request.user,
+    })
+    
+    # For now, return HTML invoice (can be extended to PDF later)
+    response = HttpResponse(html_content, content_type='text/html')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{order_number}.html"'
+    
+    return response

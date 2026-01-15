@@ -7,4 +7,5 @@ urlpatterns = [
     path('address/edit/<int:address_id>/', views.edit_address, name='edit_address'),
     path('address/delete/<int:address_id>/', views.delete_address, name='delete_address'),
     path('address/set-default/<int:address_id>/', views.set_default_address, name='set_default_address'),
+    path('invoice/<str:order_number>/', views.download_invoice, name='download_invoice'),
 ]
