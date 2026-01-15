@@ -1,0 +1,874 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment - Hendoshi Store{% endblock %}
+
+{% block content %}
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <!-- Progress Indicator -->
+        <div class="progress-container with-top-padding">
+            <div class="progress-bar-wrapper horizontal">
+                {% for step in steps %}
+                    <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
+                        <div class="step-circle">
+                            {% if step.status == 'done' %}
+                                <i class="fas fa-check"></i>
+                            {% else %}
+                                {{ forloop.counter }}
+                            {% endif %}
+                        </div>
+                        <div class="step-label">{{ step.label }}</div>
+                    </div>
+                    {% if not forloop.last %}
+                        <div class="progress-line {% if step.status == 'done' %}completed{% endif %}"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="checkout-content">
+            <div class="checkout-main">
+                <!-- Payment Section -->
+                <section class="payment-section">
+                    <h2><i class="fas fa-credit-card"></i> Payment Information</h2>
+                    
+                    <!-- Error Alert -->
+                    {% if payment_error %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> <strong>Payment Failed</strong>
+                            <p class="mb-0 mt-2">{{ payment_error }}</p>
+                            <p class="mb-0 text-small mt-2">
+                                <a href="{% url 'payment' order.order_number %}" class="alert-link">Try again with a different card</a>
+                            </p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+
+                    <!-- Order Summary Cards -->
+                    <div class="order-summary-cards mb-5">
+                        <div class="summary-card order-card">
+                            <div class="card-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <div class="card-label">Order Number</div>
+                            <div class="card-value">{{ order.order_number }}</div>
+                        </div>
+                        
+                        <div class="summary-card amount-card">
+                            <div class="card-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="card-label">Total Amount</div>
+                            <div class="card-value">${{ order.total_amount }}</div>
+                        </div>
+                        
+                        <div class="summary-card items-card">
+                            <div class="card-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="card-label">Items</div>
+                            <div class="card-value">{{ order.items.all|length }} item(s)</div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Form -->
+                    <form method="POST" class="payment-form" id="paymentForm" novalidate>
+                        {% csrf_token %}
+                        
+                        <fieldset class="form-section">
+                            <legend>Card Information</legend>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.card_number.id_for_label }}" class="form-label">
+                                    Card Number
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                                    {{ form.card_number }}
+                                </div>
+                                {% if form.card_number.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.card_number.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text test-card-hint">
+                                    <i class="fas fa-lightbulb"></i> Test: <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0020 0000 000</strong> (declined)
+                                </small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.expiry_date.id_for_label }}" class="form-label">
+                                        Expiry Date
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                        {{ form.expiry_date }}
+                                    </div>
+                                    {% if form.expiry_date.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.expiry_date.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.cvc.id_for_label }}" class="form-label">
+                                        CVC/CVV
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                        {{ form.cvc }}
+                                    </div>
+                                    {% if form.cvc.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.cvc.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.cardholder_name.id_for_label }}" class="form-label">
+                                    Cardholder Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    {{ form.cardholder_name }}
+                                </div>
+                                {% if form.cardholder_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.cardholder_name.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="form-section">
+                            <legend>Billing Address</legend>
+
+                            <div class="form-check mb-3" id="sameAsShippingContainer"
+                                 data-address="{{ order.address|escapejs }}"
+                                 data-city="{{ order.city|escapejs }}"
+                                 data-postal="{{ order.postal_code|escapejs }}"
+                                 data-country="{{ order.country|escapejs }}">
+                                {{ form.same_as_shipping }}
+                                <label class="form-check-label" for="{{ form.same_as_shipping.id_for_label }}">
+                                    Use shipping address for billing
+                                </label>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.billing_address.id_for_label }}" class="form-label">
+                                    Street Address
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                                    {{ form.billing_address }}
+                                </div>
+                                {% if form.billing_address.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.billing_address.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.billing_city.id_for_label }}" class="form-label">
+                                        City
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.billing_city }}
+                                    {% if form.billing_city.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.billing_city.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.billing_postal_code.id_for_label }}" class="form-label">
+                                        Postal Code
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.billing_postal_code }}
+                                    {% if form.billing_postal_code.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.billing_postal_code.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.billing_country.id_for_label }}" class="form-label">
+                                    Country
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.billing_country }}
+                                {% if form.billing_country.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.billing_country.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+
+                        <!-- Security Notice -->
+                        <div class="security-notice">
+                            <i class="fas fa-lock"></i>
+                            <span>Your payment information is encrypted and secure. We never store your full card details.</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="form-actions mt-4">
+                            <a href="{% url 'checkout' %}" class="btn btn-pink">
+                                <i class="fas fa-arrow-left"></i> Back to Shipping
+                            </a>
+                            <button type="submit" class="btn btn-pink btn-lg">
+                                <i class="fas fa-lock"></i> Pay ${{ order.total_amount }}
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="checkout-sidebar">
+                <!-- Order Items -->
+                <div class="order-items-summary">
+                    <h5><i class="fas fa-list"></i> Order Items</h5>
+                    <div class="items-list">
+                        {% for item in order.items.all %}
+                            <div class="item-summary">
+                                <div class="item-details">
+                                    <strong>{{ item.product.name }}</strong>
+                                    <small class="d-block">
+                                        Size: {{ item.size }}, Color: {{ item.color }}
+                                    </small>
+                                    <small class="d-block text-muted">Qty: {{ item.quantity }}</small>
+                                </div>
+                                <div class="item-price">${{ item.price }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-totals">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Subtotal</td>
+                                <td>${{ order.subtotal }}</td>
+                            </tr>
+                            {% if order.shipping_cost %}
+                                <tr>
+                                    <td>Shipping</td>
+                                    <td>${{ order.shipping_cost }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if order.tax_amount %}
+                                <tr>
+                                    <td>Tax</td>
+                                    <td>${{ order.tax_amount }}</td>
+                                </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td><strong>Total</strong></td>
+                                <td><strong>${{ order.total_amount }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Help Section -->
+                <div class="help-section">
+                    <h6>Need Help?</h6>
+                    <p>
+                        If you experience any issues with payment, please contact us at
+                        <a href="mailto:support@hendoshi.com">support@hendoshi.com</a>
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Horizontal Progress Bar */
+.progress-bar-wrapper.horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.progress-bar-wrapper.horizontal .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.progress-bar-wrapper.horizontal .step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 20, 147, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--off-white);
+    transition: all 0.3s ease;
+    z-index: 2;
+    position: relative;
+}
+
+.progress-bar-wrapper.horizontal .progress-step.completed .step-circle {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+}
+
+.progress-bar-wrapper.horizontal .progress-step.active .step-circle {
+    background-color: var(--electric-yellow);
+    border-color: var(--electric-yellow);
+    color: var(--black);
+    box-shadow: 0 0 20px rgba(204, 255, 0, 0.6);
+    transform: scale(1.1);
+}
+
+.progress-bar-wrapper.horizontal .step-label {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--off-white);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.progress-bar-wrapper.horizontal .progress-step.completed .step-label {
+    color: var(--neon-pink);
+}
+
+.progress-bar-wrapper.horizontal .progress-step.active .step-label {
+    color: var(--electric-yellow);
+    font-weight: 700;
+}
+
+.progress-bar-wrapper.horizontal .progress-line {
+    height: 3px;
+    background-color: rgba(255, 20, 147, 0.2);
+    flex: 1;
+    min-width: 60px;
+    margin: 0 -10px;
+    margin-bottom: 35px;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.progress-bar-wrapper.horizontal .progress-line.completed {
+    background-color: var(--neon-pink);
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .progress-bar-wrapper.horizontal {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .progress-bar-wrapper.horizontal .step-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .progress-bar-wrapper.horizontal .step-label {
+        font-size: 0.75rem;
+    }
+    
+    .progress-bar-wrapper.horizontal .progress-line {
+        min-width: 30px;
+        margin-bottom: 30px;
+    }
+}
+
+/* Order Summary Cards */
+.order-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid;
+}
+
+.summary-card.order-card {
+    border-color: var(--neon-pink);
+}
+
+.summary-card.amount-card {
+    border-color: var(--electric-yellow);
+}
+
+.summary-card.items-card {
+    border-color: var(--neon-pink);
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+}
+
+.summary-card .card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+}
+
+.summary-card.order-card .card-icon {
+    color: var(--neon-pink);
+}
+
+.summary-card.amount-card .card-icon {
+    color: var(--electric-yellow);
+}
+
+.summary-card.items-card .card-icon {
+    color: var(--neon-pink);
+}
+
+.summary-card .card-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--off-white);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.summary-card .card-value {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: white;
+}
+
+.summary-card.amount-card .card-value {
+    font-size: 1.4rem;
+    color: var(--electric-yellow);
+}
+
+@media (max-width: 768px) {
+    .order-summary-cards {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .summary-card {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .summary-card .card-icon {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .summary-card .card-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .summary-card .card-value {
+        font-size: 0.9rem;
+    }
+    
+    .summary-card.amount-card .card-value {
+        font-size: 1.1rem;
+    }
+}
+
+.payment-section fieldset {
+    border: 1px solid var(--neon-pink);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: rgba(255, 20, 147, 0.02);
+}
+
+.payment-section legend {
+    color: var(--neon-pink);
+    font-weight: 700;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.security-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem;
+    background-color: rgba(204, 255, 0, 0.1);
+    border: 1px solid var(--electric-yellow);
+    border-radius: 8px;
+    color: var(--neon-pink);
+    font-size: 0.95rem;
+}
+
+.security-notice i {
+    color: var(--electric-yellow);
+}
+
+.test-card-hint {
+    display: block;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #999999;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.test-card-hint i {
+    margin-right: 0.5rem;
+    color: #666666;
+}
+
+.test-card-hint strong {
+    color: #bbbbbb;
+    font-weight: 600;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.form-actions a {
+    flex: 1;
+    padding: 1rem 2rem;
+    font-weight: 700;
+}
+
+.order-items-summary {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(255, 20, 147, 0.2);
+}
+
+.order-items-summary h5 {
+    margin-bottom: 1.5rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.item-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 20, 147, 0.15);
+    border-radius: 8px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details strong {
+    display: block;
+    color: var(--neon-pink);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.item-details small {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.item-details small.text-muted {
+    color: var(--neon-pink) !important;
+    font-weight: 700;
+}
+
+.item-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--electric-yellow);
+    text-align: right;
+    min-width: 80px;
+}
+
+.order-totals {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(255, 20, 147, 0.2);
+}
+
+.order-totals table {
+    width: 100%;
+}
+
+.order-totals td {
+    padding: 0.75rem 0;
+    font-size: 1rem;
+}
+
+.order-totals td:last-child {
+    text-align: right;
+    color: var(--electric-yellow);
+    font-weight: 600;
+}
+
+.total-row {
+    border-top: 2px solid var(--neon-pink);
+    border-bottom: 2px solid var(--neon-pink);
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.total-row td {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--neon-pink);
+}
+
+.total-row td:last-child {
+    color: var(--electric-yellow);
+}
+
+.help-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(255, 20, 147, 0.05);
+    border: 1px solid var(--neon-pink);
+    border-radius: 8px;
+}
+
+.help-section h6 {
+    color: var(--neon-pink);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.help-section p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.help-section a {
+    color: var(--electric-yellow);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.help-section a:hover {
+    color: var(--neon-pink);
+    text-decoration: underline;
+}
+
+:root.light-mode .payment-section fieldset {
+    background-color: #fff5f8;
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .test-card-hint {
+    background-color: rgba(204, 255, 0, 0.08);
+    border-color: var(--electric-yellow);
+}
+
+:root.light-mode .summary-card {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .summary-card .card-label {
+    color: #666666;
+}
+
+:root.light-mode .summary-card .card-value {
+    color: #222222;
+}
+
+:root.light-mode .summary-card.amount-card .card-value {
+    color: #88cc00;
+}
+
+:root.light-mode .item-summary {
+    background-color: #f9f9f9;
+    border-color: rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .help-section {
+    background-color: #fff5f8;
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+/* Custom Validation Errors */
+.field-error {
+    display: inline-block;
+    color: var(--neon-pink);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: rgba(255, 20, 147, 0.1);
+    border-left: 3px solid var(--neon-pink);
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.field-error i {
+    margin-right: 0.5rem;
+}
+
+.is-invalid {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+}
+
+:root.light-mode .field-error {
+    background-color: rgba(255, 20, 147, 0.08);
+    color: #d91479;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('paymentForm');
+
+    // Real-time removal + success styling (match shipping form)
+    const inputs = document.querySelectorAll('#paymentForm .form-control, #paymentForm .form-select');
+    inputs.forEach(input => {
+        const toggleValueState = () => {
+            if (input.value.trim() !== '') {
+                input.classList.add('has-value');
+            }
+        };
+
+        input.addEventListener('input', () => {
+            const errorElement = input.closest('div')?.querySelector('.form-error-text');
+            if (errorElement) errorElement.remove();
+            toggleValueState();
+        });
+
+        input.addEventListener('change', () => {
+            const errorElement = input.closest('div')?.querySelector('.form-error-text');
+            if (errorElement && input.value.trim() !== '') errorElement.remove();
+            toggleValueState();
+        });
+
+        toggleValueState();
+    });
+
+    form.addEventListener('submit', function(e) {
+        // Clear existing errors
+        document.querySelectorAll('#paymentForm .form-error-text').forEach(el => el.remove());
+
+        let hasErrors = false;
+        const requiredIds = [
+            '{{ form.card_number.id_for_label }}',
+            '{{ form.expiry_date.id_for_label }}',
+            '{{ form.cvc.id_for_label }}',
+            '{{ form.cardholder_name.id_for_label }}',
+            '{{ form.billing_address.id_for_label }}',
+            '{{ form.billing_city.id_for_label }}',
+            '{{ form.billing_postal_code.id_for_label }}',
+            '{{ form.billing_country.id_for_label }}'
+        ];
+
+        requiredIds.forEach(id => {
+            const field = document.getElementById(id);
+            if (field && !field.value.trim()) {
+                showError(field);
+                hasErrors = true;
+            }
+        });
+
+        if (hasErrors) {
+            e.preventDefault();
+            const firstError = document.querySelector('#paymentForm .form-error-text');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    });
+
+    function showError(field) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error-text';
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> This field is required.';
+
+        const container = field.closest('.mb-3, .col-md-6, .col-md-12') || field.parentElement;
+        container.appendChild(errorDiv);
+    }
+
+    // Same as shipping toggle
+    const sameToggle = document.getElementById('{{ form.same_as_shipping.id_for_label }}');
+    const sameContainer = document.getElementById('sameAsShippingContainer');
+    if (sameToggle && sameContainer) {
+        const shippingData = {
+            address: sameContainer.dataset.address || '',
+            city: sameContainer.dataset.city || '',
+            postal: sameContainer.dataset.postal || '',
+            country: sameContainer.dataset.country || '',
+        };
+
+        const setValue = (id, value) => {
+            const field = document.getElementById(id);
+            if (!field) return;
+            field.value = value;
+            if (value.trim() !== '') {
+                field.classList.add('has-value');
+                const err = field.closest('.mb-3, .col-md-6, .col-md-12')?.querySelector('.form-error-text');
+                if (err) err.remove();
+            }
+            field.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        sameToggle.addEventListener('change', () => {
+            if (sameToggle.checked) {
+                setValue('{{ form.billing_address.id_for_label }}', shippingData.address);
+                setValue('{{ form.billing_city.id_for_label }}', shippingData.city);
+                setValue('{{ form.billing_postal_code.id_for_label }}', shippingData.postal);
+                setValue('{{ form.billing_country.id_for_label }}', shippingData.country);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

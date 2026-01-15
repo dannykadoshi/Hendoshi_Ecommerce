@@ -4,25 +4,31 @@
 {% block extra_title %}Order Confirmation{% endblock %}
 
 {% block content %}
-<div class="checkout-page container">
-    <!-- Progress Indicator -->
-    <div class="checkout-progress">
-        {% for step in steps %}
-            <div class="progress-step progress-step-{{ step.status }}">
-                <div class="progress-circle">
-                    {% if step.status == 'done' %}
-                        <i class="fas fa-check"></i>
-                    {% else %}
-                        {{ forloop.counter }}
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <!-- Progress Indicator -->
+        <div class="progress-container with-top-padding">
+            <div class="progress-bar-wrapper horizontal">
+                {% for step in steps %}
+                    <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
+                        <div class="step-circle">
+                            {% if step.status == 'done' %}
+                                <i class="fas fa-check"></i>
+                            {% else %}
+                                {{ forloop.counter }}
+                            {% endif %}
+                        </div>
+                        <div class="step-label">{{ step.label }}</div>
+                    </div>
+                    {% if not forloop.last %}
+                        <div class="progress-line {% if step.status == 'done' %}completed{% endif %}"></div>
                     {% endif %}
-                </div>
-                <div class="progress-label">{{ step.label }}</div>
+                {% endfor %}
             </div>
-            {% if not forloop.last %}
-                <div class="progress-divider"></div>
-            {% endif %}
-        {% endfor %}
-    </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="checkout-content">
 
     <!-- Success Message -->
     <div class="order-success-header">

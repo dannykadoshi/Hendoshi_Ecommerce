@@ -176,6 +176,9 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 {% if user.is_authenticated %}
                                     <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    {% if user.is_staff %}
+                                    <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog"></i> Admin</a></li>
+                                    {% endif %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                 {% else %}
@@ -201,6 +204,9 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 {% if user.is_authenticated %}
                                     <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    {% if user.is_staff %}
+                                    <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog"></i> Admin</a></li>
+                                    {% endif %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                 {% else %}

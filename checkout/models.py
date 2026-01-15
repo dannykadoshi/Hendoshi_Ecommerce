@@ -18,6 +18,14 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('declined', 'Declined'),
+    ]
+    
     order_number = models.CharField(max_length=32, unique=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     email = models.EmailField()
@@ -37,6 +45,11 @@ class Order(models.Model):
     shipping_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    # Payment information
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    payment_error = models.TextField(null=True, blank=True)
+    stripe_payment_intent_id = models.CharField(max_length=255, null=True, blank=True)
     
     # Status and timestamps
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')

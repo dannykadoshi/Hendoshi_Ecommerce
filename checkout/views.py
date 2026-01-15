@@ -4,9 +4,12 @@ from django.views.decorators.http import require_http_methods
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.http import JsonResponse
+import json
 from cart.views import get_or_create_cart
 from cart.models import Cart
 from .forms import ShippingForm
+from .payment_forms import PaymentForm
 from .models import Order, OrderItem
 from profiles.models import Address
 
@@ -66,7 +69,7 @@ def checkout(request):
                 )
                 messages.success(request, 'Address saved to your profile.')
             
-            # Create order and order items from cart
+            # Create order with payment_pending status
             order = Order.objects.create(
                 user=request.user if request.user.is_authenticated else None,
                 email=request.POST.get('email') or request.user.email if request.user.is_authenticated else '',
@@ -79,7 +82,8 @@ def checkout(request):
                 country=form.cleaned_data['country'],
                 postal_code=form.cleaned_data['postal_code'],
                 subtotal=cart.get_subtotal(),
-                total_amount=cart.get_subtotal(),  # TODO: Add shipping/tax calculation
+                total_amount=cart.get_subtotal(),
+                payment_status='pending',  # Order created but awaiting payment
             )
             
             # Create order items
@@ -93,15 +97,11 @@ def checkout(request):
                     price=item.product.base_price,
                 )
             
-            # Send confirmation email
-            send_order_confirmation_email(order)
+            # Store order_number in session for payment page
+            request.session['pending_order_number'] = order.order_number
             
-            # Clear cart
-            cart.items.all().delete()
-            request.session.pop('checkout_form_data', None)
-            
-            # Redirect to confirmation page
-            return redirect('order_confirmation', order_number=order.order_number)
+            # Redirect to payment page
+            return redirect('payment', order_number=order.order_number)
         else:
             # Persist invalid form data to session so user can see their input
             request.session['checkout_form_data'] = request.POST.dict()
@@ -175,3 +175,132 @@ def send_order_confirmation_email(order):
         # Log error but don't fail the order
         print(f"Error sending confirmation email for order {order.order_number}: {str(e)}")
 
+
+def payment(request, order_number):
+    """Display payment page and process payment"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Verify order is pending payment
+    if order.payment_status != 'pending':
+        messages.error(request, 'This order has already been processed.')
+        return redirect('home')
+    
+    # Security: verify user owns this order (or guest can access within session)
+    if order.user and order.user != request.user:
+        messages.error(request, 'You do not have permission to access this payment.')
+        return redirect('home')
+    
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            # Process payment
+            success, error_message = process_payment(order, form.cleaned_data)
+            
+            if success:
+                # Update order payment status
+                order.payment_status = 'completed'
+                order.save()
+                
+                # Send confirmation email
+                send_order_confirmation_email(order)
+                
+                # Clear cart
+                cart = get_or_create_cart(request)
+                cart.items.all().delete()
+                request.session.pop('checkout_form_data', None)
+                request.session.pop('pending_order_number', None)
+                
+                messages.success(request, 'Payment successful! Order confirmed.')
+                return redirect('order_confirmation', order_number=order.order_number)
+            else:
+                # Payment failed - set error on order
+                order.payment_status = 'failed'
+                order.payment_error = error_message
+                order.save()
+                
+                context = {
+                    'form': form,
+                    'order': order,
+                    'payment_error': error_message,
+                    'steps': [
+                        {'label': 'Cart', 'status': 'done'},
+                        {'label': 'Shipping', 'status': 'done'},
+                        {'label': 'Payment', 'status': 'current'},
+                        {'label': 'Confirmation', 'status': 'upcoming'},
+                    ],
+                }
+                return render(request, 'checkout/payment.html', context)
+    else:
+        form = PaymentForm()
+    
+    context = {
+        'form': form,
+        'order': order,
+        'steps': [
+            {'label': 'Cart', 'status': 'done'},
+            {'label': 'Shipping', 'status': 'done'},
+            {'label': 'Payment', 'status': 'current'},
+            {'label': 'Confirmation', 'status': 'upcoming'},
+        ],
+    }
+    
+    return render(request, 'checkout/payment.html', context)
+
+
+def process_payment(order, payment_data):
+    """
+    Process payment with card information.
+    
+    Returns: (success: bool, error_message: str or None)
+    
+    In a real implementation, this would integrate with Stripe or another payment provider.
+    For now, we simulate payment processing with basic validation.
+    """
+    try:
+        # Extract card information
+        card_number = payment_data['card_number']
+        expiry = payment_data['expiry_date']
+        cvc = payment_data['cvc']
+        cardholder = payment_data['cardholder_name']
+        
+        # Simulate payment processing
+        # In production, you would call Stripe API here
+        
+        # For testing: cards starting with 4242 succeed, others fail
+        # In real implementation, use Stripe or another payment processor
+        if card_number.startswith('4242'):
+            # Successful payment
+            return True, None
+        elif card_number.startswith('4000002'):
+            # Card declined
+            return False, 'Your card was declined. Please check your card details and try again.'
+        elif card_number.startswith('4000008'):
+            # Insufficient funds
+            return False, 'Insufficient funds on your card. Please use a different payment method.'
+        elif card_number.startswith('4000003'):
+            # Lost card
+            return False, 'This card has been reported as lost. Please use a different card.'
+        else:
+            # Generic error for testing
+            return False, f'Payment processing failed. Please verify your card details and try again.'
+            
+    except Exception as e:
+        return False, f'An error occurred while processing your payment: {str(e)}'
+
+
+def payment_result(request, order_number):
+    """Display payment result page (success or failure)"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Security: verify user owns this order
+    if order.user and order.user != request.user:
+        messages.error(request, 'You do not have permission to view this order.')
+        return redirect('home')
+    
+    context = {
+        'order': order,
+        'payment_successful': order.payment_status == 'completed',
+        'payment_error': order.payment_error,
+    }
+    
+    return render(request, 'checkout/payment_result.html', context)

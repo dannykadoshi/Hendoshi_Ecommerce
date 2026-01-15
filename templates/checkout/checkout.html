@@ -4,29 +4,37 @@
 {% block extra_title %}Checkout - Shipping{% endblock %}
 
 {% block content %}
-<div class="checkout-page container">
-    <!-- Progress Indicator -->
-    <div class="checkout-progress">
-        {% for step in steps %}
-            <div class="progress-step progress-step-{{ step.status }}">
-                <div class="progress-circle">{{ forloop.counter }}</div>
-                <div class="progress-label">{{ step.label }}</div>
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <!-- Progress Indicator -->
+        <div class="progress-container with-top-padding">
+            <div class="progress-bar-wrapper horizontal">
+                {% for step in steps %}
+                    <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
+                        <div class="step-circle">
+                            {% if step.status == 'done' %}
+                                <i class="fas fa-check"></i>
+                            {% else %}
+                                {{ forloop.counter }}
+                            {% endif %}
+                        </div>
+                        <div class="step-label">{{ step.label }}</div>
+                    </div>
+                    {% if not forloop.last %}
+                        <div class="progress-line {% if step.status == 'done' %}completed{% endif %}"></div>
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% if not forloop.last %}
-                <div class="progress-divider"></div>
-            {% endif %}
-        {% endfor %}
-    </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="checkout-content">
 
     <div class="checkout-header d-flex justify-content-between align-items-center mb-4">
         <div>
-            <p class="eyebrow">Shipping Address</p>
             <h1 class="page-title mb-0">Where should we send your order?</h1>
             <p class="text-muted mb-0">Enter your shipping address below. Shipping cost will be calculated in the next step.</p>
         </div>
-        <a href="{% url 'view_cart' %}" class="btn btn-outline-pink">
-            <i class="fas fa-arrow-left"></i> Back to Cart
-        </a>
     </div>
 
     <div class="row">
@@ -155,10 +163,6 @@
                     <button type="submit" class="btn btn-pink btn-lg w-100">
                         <i class="fas fa-lock"></i> Continue to Payment
                     </button>
-
-                    <p class="checkout-helper text-muted small mt-3 mb-0">
-                        <i class="fas fa-info-circle"></i> You can change this address on the next step if needed.
-                    </p>
                 </form>
             </div>
         </div>
@@ -221,7 +225,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <a href="{% url 'view_cart' %}" class="btn btn-outline-secondary w-100">Back to Cart</a>
+                    <a href="{% url 'view_cart' %}" class="btn btn-pink w-100"><i class="fas fa-arrow-left"></i> Back to Cart</a>
                 </div>
             </div>
         </div>
