@@ -5430,6 +5430,133 @@ main {
     color: #1A1A1A !important;
 }
 
+/* Pagination Styling */
+.pagination {
+    gap: 0.25rem;
+    margin-bottom: 0;
+}
+
+.pagination .page-item {
+    margin: 0;
+}
+
+.pagination .page-item .page-link {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 45px;
+    text-align: center;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: rgba(231, 31, 127, 0.15);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    transform: scale(1.05);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(231, 31, 127, 0.4);
+}
+
+.pagination .page-item.disabled .page-link {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Light Mode Pagination */
+:root.light-mode .pagination .page-item .page-link {
+    background-color: #ffffff;
+    border-color: rgba(231, 31, 127, 0.25);
+    color: #333;
+}
+
+:root.light-mode .pagination .page-item .page-link:hover {
+    background-color: rgba(231, 31, 127, 0.1);
+    border-color: #E71F7F;
+    color: #E71F7F;
+}
+
+:root.light-mode .pagination .page-item.active .page-link {
+    background-color: #E71F7F;
+    border-color: #E71F7F;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(231, 31, 127, 0.3);
+}
+
+:root.light-mode .pagination .page-item.disabled .page-link {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neon-pink);
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff1493;
+}
+
+/* Light Mode Scrollbar */
+:root.light-mode ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+:root.light-mode ::-webkit-scrollbar-thumb {
+    background: #E71F7F;
+    border: 2px solid #ffffff;
+}
+
+:root.light-mode ::-webkit-scrollbar-thumb:hover {
+    background: #c91a6a;
+}
+
+/* Table responsive container scrollbar */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: rgba(231, 31, 127, 0.6);
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-pink);
+}
+
 :root.light-mode .save-payment-method-section .form-check-input:checked {
     background-color: #E71F7F !important;
     border-color: #E71F7F !important;
