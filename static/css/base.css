@@ -3574,3 +3574,114 @@ main {
 :root.light-mode .toast .btn-close {
     filter: none;
 }
+
+/* Confirmation Modal */
+.confirmation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.confirmation-modal {
+    background-color: var(--charcoal);
+    border: 1px solid rgba(255, 20, 147, 0.3);
+    border-radius: 8px;
+    padding: 2rem;
+    min-width: 350px;
+    max-width: 450px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: modalSlideUp 0.3s ease;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.confirmation-message {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.confirmation-buttons .btn {
+    min-width: 100px;
+    font-weight: 600;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    padding: 0.75rem 1.5rem;
+}
+
+.confirmation-buttons .btn-outline-secondary {
+    color: var(--off-white);
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: transparent;
+}
+
+.confirmation-buttons .btn-outline-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--off-white);
+}
+
+.confirmation-buttons .btn-pink {
+    background-color: var(--neon-pink);
+    color: white;
+}
+
+.confirmation-buttons .btn-pink:hover {
+    background-color: #FF69B4;
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
+}
+
+:root.light-mode .confirmation-modal {
+    background-color: white;
+    border-color: rgba(255, 20, 147, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+:root.light-mode .confirmation-message {
+    color: #333333;
+}
+
+:root.light-mode .confirmation-buttons .btn-outline-secondary {
+    color: #333333;
+    border-color: #999999;
+    background-color: white;
+}
+
+:root.light-mode .confirmation-buttons .btn-outline-secondary:hover {
+    background-color: #f5f5f5;
+    border-color: #333333;
+    color: #333333;
+}
+
+:root.light-mode .confirmation-buttons .btn-pink {
+    background-color: var(--neon-pink);
+    color: white;
+}
+
+:root.light-mode .confirmation-buttons .btn-pink:hover {
+    background-color: #FF69B4;
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
+}
