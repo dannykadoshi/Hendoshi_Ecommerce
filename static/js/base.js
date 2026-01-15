@@ -38,6 +38,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Dropdown hover behavior for desktop
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth >= 992) {
+        const dropdowns = document.querySelectorAll('.navbar-right .dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('mouseenter', function() {
+                const toggleBtn = this.querySelector('.dropdown-toggle');
+                const menu = this.querySelector('.dropdown-menu');
+                if (toggleBtn && menu) {
+                    const bsDropdown = new bootstrap.Dropdown(toggleBtn);
+                    bsDropdown.show();
+                }
+            });
+            
+            dropdown.addEventListener('mouseleave', function() {
+                const toggleBtn = this.querySelector('.dropdown-toggle');
+                if (toggleBtn) {
+                    const bsDropdown = new bootstrap.Dropdown(toggleBtn);
+                    bsDropdown.hide();
+                }
+            });
+        });
+    }
+});
+
 // Auto-dismiss messages after 5 seconds
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {

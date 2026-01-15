@@ -166,6 +166,21 @@
     </div>
 </div>
 
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="confirmation-modal-overlay" style="display: none;">
+    <div class="confirmation-modal">
+        <p id="confirmationMessage" class="confirmation-message">Are you sure?</p>
+        <div class="confirmation-buttons">
+            <button type="button" class="btn btn-outline-secondary" onclick="closeConfirmationModal()">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-pink" id="confirmBtn" onclick="executeConfirmation()">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Cart JavaScript -->
 <script>
     function getCookie(name) {
@@ -255,14 +270,40 @@
     function confirmRemove(event, link, productName) {
         event.preventDefault();
         
-        if (confirm(`Are you sure you want to remove "${productName}" from your cart?`)) {
-            const itemId = link.getAttribute('data-item-id');
-            
-            fetch(link.href, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': getCookie('csrftoken')
+        // Store the link data for execution
+        window.pendingRemovalLink = link;
+        window.pendingRemovalItemId = link.getAttribute('data-item-id');
+        
+        // Show custom confirmation modal
+        showConfirmationModal(`Are you sure you want to remove "${productName}" from your cart?`);
+        
+        return false;
+    }
+
+    function showConfirmationModal(message) {
+        document.getElementById('confirmationMessage').textContent = message;
+        document.getElementById('confirmationModal').style.display = 'flex';
+    }
+
+    function closeConfirmationModal() {
+        document.getElementById('confirmationModal').style.display = 'none';
+        window.pendingRemovalLink = null;
+        window.pendingRemovalItemId = null;
+    }
+
+    function executeConfirmation() {
+        const link = window.pendingRemovalLink;
+        const itemId = window.pendingRemovalItemId;
+        
+        if (!link || !itemId) return;
+        
+        closeConfirmationModal();
+        
+        fetch(link.href, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
                 }
             })
             .then(response => response.json())
@@ -308,9 +349,6 @@
                 console.error('Error:', error);
                 showToast('Failed to remove item', 'error');
             });
-        }
-        
-        return false;
     }
 
     function showToast(message, type = 'success') {

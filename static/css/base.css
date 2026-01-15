@@ -60,6 +60,22 @@ body {
     transform: rotate(180deg);
 }
 
+:root.light-mode .theme-toggle {
+    color: var(--neon-pink) !important;
+}
+
+:root.light-mode .theme-toggle:hover {
+    color: #FF69B4 !important;
+}
+
+.theme-toggle.light-mode-active {
+    color: var(--neon-pink) !important;
+}
+
+.theme-toggle.light-mode-active:hover {
+    color: #FF69B4 !important;
+}
+
 /* Navigation */
 .discount-banner {
     background-color: var(--charcoal);
@@ -347,6 +363,8 @@ body {
     position: absolute;
     top: -8px;
     right: -8px;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.4rem;
 }
 
 .desktop-icons {
@@ -390,13 +408,18 @@ body {
     border: 2px solid var(--neon-pink);
     border-radius: 0;
     margin-top: 0.5rem;
-    min-width: 150px;
+    min-width: 180px;
+    right: 0;
+    left: auto !important;
+    transform: none !important;
+    inset: auto 0px auto auto !important;
 }
 
 .navbar-right .dropdown-item {
     color: var(--off-white);
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.25rem;
     transition: all 0.3s;
+    white-space: nowrap;
 }
 
 .navbar-right .dropdown-item:hover {
@@ -405,12 +428,43 @@ body {
 }
 
 .navbar-right .dropdown-item i {
-    margin-right: 0.5rem;
-    width: 1rem;
+    margin-right: 0.75rem;
+    width: 1.2rem;
+    text-align: center;
 }
 
 .navbar-right .dropdown-divider {
     border-color: rgba(255, 20, 147, 0.3);
+}
+
+/* Hover dropdown behavior for desktop */
+@media (min-width: 992px) {
+    .navbar-right .dropdown:hover > .dropdown-menu {
+        display: block !important;
+        right: 0 !important;
+        left: auto !important;
+        transform: none !important;
+        top: 100% !important;
+    }
+}
+
+/* Light mode dropdown styling */
+:root.light-mode .navbar-right .dropdown-menu {
+    background-color: white;
+    border: 2px solid var(--neon-pink);
+}
+
+:root.light-mode .navbar-right .dropdown-item {
+    color: var(--charcoal);
+}
+
+:root.light-mode .navbar-right .dropdown-item:hover {
+    background-color: var(--neon-pink);
+    color: white;
+}
+
+:root.light-mode .navbar-right .dropdown-divider {
+    border-color: rgba(255, 20, 147, 0.2);
 }
 
 @media (max-width: 991px) {
@@ -3355,25 +3409,34 @@ main {
 
 /* Light Mode - Buttons & Components */
 :root.light-mode .btn-outline-pink {
-    border-color: #E71F7F !important;
-    color: #E71F7F !important;
+    border-color: var(--neon-pink) !important;
+    color: var(--neon-pink) !important;
 }
 
 :root.light-mode .btn-outline-pink:hover {
-    background-color: #E71F7F !important;
-    border-color: #E71F7F !important;
+    background-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink) !important;
     color: white !important;
 }
 
 :root.light-mode .btn-pink {
-    background-color: #E71F7F !important;
-    border-color: #E71F7F !important;
+    background-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink) !important;
     color: white !important;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    padding: 1rem 3rem;
 }
 
 :root.light-mode .btn-pink:hover {
-    background-color: #D01B6F !important;
-    border-color: #D01B6F !important;
+    background-color: #FF69B4 !important;
+    border-color: #FF69B4 !important;
+    color: white !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
 }
 
 /* Light Mode - Cards & Containers */
