@@ -95,19 +95,59 @@ def view_cart(request):
 
 def update_cart_item(request, item_id):
     """
-    Update cart item quantity
+    Update cart item quantity (supports AJAX)
     """
     if request.method == 'POST':
         cart = get_or_create_cart(request)
         cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
         
         quantity = int(request.POST.get('quantity', 1))
+        
+        # Check stock availability
+        try:
+            variant = cart_item.product.variants.get(
+                size=cart_item.size,
+                color=cart_item.color
+            )
+            max_stock = variant.stock if variant.stock > 0 else 10
+        except:
+            max_stock = 10
+        
+        if quantity > max_stock:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'error': f'Only {max_stock} items available in stock.'
+                })
+            messages.error(request, f'Only {max_stock} items available in stock.')
+            return redirect('view_cart')
+        
         if quantity > 0:
             cart_item.quantity = quantity
             cart_item.save()
+            
+            # AJAX response
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'item_total': float(cart_item.get_total_price()),
+                    'cart_subtotal': float(cart.get_subtotal()),
+                    'cart_total_items': cart.get_total_items()
+                })
+            
             messages.success(request, 'Cart updated successfully.')
         else:
             cart_item.delete()
+            
+            # AJAX response
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'removed': True,
+                    'cart_subtotal': float(cart.get_subtotal()),
+                    'cart_total_items': cart.get_total_items()
+                })
+            
             messages.success(request, 'Item removed from cart.')
     
     return redirect('view_cart')
@@ -115,12 +155,21 @@ def update_cart_item(request, item_id):
 
 def remove_from_cart(request, item_id):
     """
-    Remove item from cart
+    Remove item from cart (supports AJAX)
     """
     cart = get_or_create_cart(request)
     cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
     product_name = cart_item.product.name
     cart_item.delete()
+    
+    # AJAX response
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True,
+            'message': f'Removed {product_name} from your cart.',
+            'cart_subtotal': float(cart.get_subtotal()),
+            'cart_total_items': cart.get_total_items()
+        })
     
     messages.success(request, f'Removed {product_name} from your cart.')
     return redirect('view_cart')
