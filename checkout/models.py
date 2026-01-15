@@ -1,3 +1,83 @@
 from django.db import models
+from django.contrib.auth.models import User
+from products.models import Product
+from profiles.models import Address
+import uuid
 
-# Create your models here.
+
+class Order(models.Model):
+    """
+    Order model to store customer orders
+    """
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('processing', 'Processing'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
+    order_number = models.CharField(max_length=32, unique=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
+    email = models.EmailField()
+    
+    # Shipping address
+    full_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=250)
+    address_line_2 = models.CharField(max_length=250, null=True, blank=True)
+    city = models.CharField(max_length=100)
+    state_or_county = models.CharField(max_length=100)
+    country = models.CharField(max_length=40)
+    postal_code = models.CharField(max_length=20)
+    
+    # Pricing
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    shipping_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    # Status and timestamps
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Order {self.order_number}"
+    
+    def save(self, *args, **kwargs):
+        """Generate unique order number on creation"""
+        if not self.order_number:
+            # Generate order number: ORD-TIMESTAMP-UUID
+            self.order_number = f"ORD-{uuid.uuid4().hex[:8].upper()}"
+        super().save(*args, **kwargs)
+    
+    def get_shipping_address_display(self):
+        """Return formatted shipping address"""
+        return f"{self.full_name}\n{self.address}\n{self.address_line_2 or ''}\n{self.city}, {self.state_or_county} {self.postal_code}\n{self.country}"
+
+
+class OrderItem(models.Model):
+    """
+    Individual items in an order
+    """
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    size = models.CharField(max_length=10)
+    color = models.CharField(max_length=50)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    class Meta:
+        unique_together = ('order', 'product', 'size', 'color')
+    
+    def __str__(self):
+        return f"{self.product.name} (Order {self.order.order_number})"
+    
+    def get_total_price(self):
+        """Calculate total price for this item"""
+        return self.price * self.quantity

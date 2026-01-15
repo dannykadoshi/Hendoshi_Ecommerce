@@ -1,0 +1,34 @@
+ORDER CONFIRMATION
+
+Order Number: {{ order.order_number }}
+
+Thank you for your purchase!
+
+SHIPPING ADDRESS
+{{ order.full_name }}
+{{ order.address }}
+{% if order.address_line_2 %}{{ order.address_line_2 }}
+{% endif %}{{ order.city }}, {{ order.state_or_county }} {{ order.postal_code }}
+{{ order.country }}
+
+Phone: {{ order.phone }}
+
+ORDER SUMMARY
+{% for item in order_items %}
+{{ item.product.name }}
+Size: {{ item.size|upper }}, Color: {{ item.color|title }}
+Quantity: {{ item.quantity }} × €{{ item.price }} = €{{ item.get_total_price }}
+{% endfor %}
+
+Subtotal:           €{{ order.subtotal }}
+Shipping:           €{{ order.shipping_cost }}
+Tax:                €{{ order.tax_amount }}
+---
+TOTAL AMOUNT:       €{{ order.total_amount }}
+
+WHAT'S NEXT?
+We'll process your order shortly. You'll receive a shipping notification with tracking information as soon as your items ship.
+
+Thank you for shopping with us!
+
+Questions? Contact us at support@hendoshi.com

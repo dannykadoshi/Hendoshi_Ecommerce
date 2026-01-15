@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 40px 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FF2DA1;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .order-number {
+            background: #f9f9f9;
+            border-left: 4px solid #FF2DA1;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .order-number strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .order-number span {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FF2DA1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .items-table {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .items-table th {
+            background-color: #f9f9f9;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+        }
+        .items-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .items-table tr:last-child td {
+            border-bottom: none;
+        }
+        .item-name {
+            font-weight: 600;
+        }
+        .item-specs {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .price {
+            font-weight: 600;
+            color: #FF2DA1;
+        }
+        .totals {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .total-row:last-child {
+            border-bottom: none;
+        }
+        .total-row.grand-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FF2DA1;
+            padding-top: 12px;
+            border-top: 2px solid #eee;
+        }
+        .address-section {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 16px;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #666;
+        }
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Order Confirmed! 🎉</h1>
+            <p>Thank you for your purchase</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Order Number -->
+            <div class="order-number">
+                <strong>Order Number:</strong>
+                <span>{{ order.order_number }}</span>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="section">
+                <h2 class="section-title">Order Summary</h2>
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th class="text-right">Qty</th>
+                            <th class="text-right">Price</th>
+                            <th class="text-right">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_items %}
+                        <tr>
+                            <td>
+                                <div class="item-name">{{ item.product.name }}</div>
+                                <div class="item-specs">
+                                    Size: {{ item.size|upper }} · Color: {{ item.color|title }}
+                                </div>
+                            </td>
+                            <td class="text-right">{{ item.quantity }}</td>
+                            <td class="text-right">€{{ item.price }}</td>
+                            <td class="text-right price">€{{ item.get_total_price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Totals -->
+                <div class="totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <strong>€{{ order.subtotal }}</strong>
+                    </div>
+                    <div class="total-row">
+                        <span>Shipping</span>
+                        <strong>€{{ order.shipping_cost }}</strong>
+                    </div>
+                    <div class="total-row">
+                        <span>Tax</span>
+                        <strong>€{{ order.tax_amount }}</strong>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>Total Amount Charged</span>
+                        <strong>€{{ order.total_amount }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="section">
+                <h2 class="section-title">Shipping Address</h2>
+                <div class="address-section">
+                    <strong>{{ order.full_name }}</strong><br>
+                    {{ order.address }}{% if order.address_line_2 %}<br>{{ order.address_line_2 }}{% endif %}<br>
+                    {{ order.city }}, {{ order.state_or_county }} {{ order.postal_code }}<br>
+                    {{ order.country }}<br><br>
+                    <strong>Phone:</strong> {{ order.phone }}
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="section">
+                <h2 class="section-title">What's Next?</h2>
+                <p>We'll process your order shortly. You'll receive a shipping notification with tracking information as soon as your items ship.</p>
+                <p>Thank you for shopping with us! If you have any questions, please don't hesitate to contact our support team.</p>
+            </div>
+
+            <!-- Call to Action -->
+            <div style="text-align: center;">
+                <p>Keep shopping for more amazing products!</p>
+                <a href="{{ request.build_absolute_uri '/' }}" class="button">Continue Shopping</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2026 Hendoshi Store. All rights reserved.</p>
+            <p>Questions? Contact us at support@hendoshi.com</p>
+        </div>
+    </div>
+</body>
+</html>
