@@ -2743,6 +2743,8 @@ main {
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 3px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .profile-card {
@@ -2803,39 +2805,90 @@ main {
     color: var(--gray) !important;
 }
 
-/* Order History Table */
-.order-table {
-    color: var(--off-white);
-    margin-bottom: 0;
+.table-responsive .order-table {
+    color: var(--off-white) !important;
+    margin-bottom: 0 !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    background-color: transparent !important;
 }
 
-.order-table thead {
-    border-bottom: 2px solid var(--neon-pink);
+.table-responsive .order-table thead {
+    background-color: var(--black) !important;
+    border-bottom: 3px solid var(--neon-pink) !important;
 }
 
-.order-table th {
-    color: var(--neon-pink);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    padding: 1rem;
+.table-responsive .order-table thead tr {
+    background-color: var(--black) !important;
 }
 
-.order-table td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--gray);
+.table-responsive .order-table th {
+    color: var(--neon-pink) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-size: 0.85rem !important;
+    font-weight: 900 !important;
+    padding: 1.2rem !important;
+    text-align: left !important;
+    border: none !important;
+    background-color: var(--black) !important;
+    vertical-align: middle !important;
 }
 
-.order-link {
-    color: var(--neon-pink);
-    text-decoration: none;
+.table-responsive .order-table tbody {
+    background-color: transparent !important;
 }
 
-.order-link:hover {
-    color: var(--neon-pink);
-    text-decoration: underline;
+.table-responsive .order-table tbody tr {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2) !important;
+    transition: all 0.3s ease !important;
+}
+
+.table-responsive .order-table tbody tr:hover {
+    background-color: rgba(255, 20, 147, 0.05) !important;
+}
+
+.table-responsive .order-table tbody tr:last-child {
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2) !important;
+}
+
+.table-responsive .order-table td {
+    padding: 1.2rem !important;
+    vertical-align: middle !important;
+    color: var(--off-white) !important;
+    font-size: 0.95rem !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.table-responsive .order-table td:first-child {
+    font-weight: 600 !important;
+}
+
+/* Order table link styling */
+.table-responsive .order-link {
+    color: var(--neon-pink) !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s !important;
+}
+
+.table-responsive .order-link:hover {
+    color: var(--electric-yellow) !important;
+    text-decoration: underline !important;
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.5) !important;
+}
+
+.table-responsive .badge.bg-pink {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    padding: 0.4rem 0.8rem !important;
+    letter-spacing: 0.5px !important;
+    font-size: 0.75rem !important;
+    display: inline-block !important;
 }
 
 .empty-state {

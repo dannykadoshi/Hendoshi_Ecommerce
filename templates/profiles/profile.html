@@ -114,9 +114,9 @@
                                     {% for order in orders %}
                                     <tr>
                                         <td><a href="#" class="order-link">{{ order.order_number }}</a></td>
-                                        <td>{{ order.date }}</td>
+                                        <td>{{ order.created_at|date:"M d, Y" }}</td>
                                         <td>{{ order.items.count }}</td>
-                                        <td>€{{ order.grand_total }}</td>
+                                        <td>€{{ order.total_amount }}</td>
                                         <td><span class="badge bg-pink">{{ order.status }}</span></td>
                                     </tr>
                                     {% endfor %}
