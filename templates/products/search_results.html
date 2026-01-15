@@ -29,7 +29,12 @@
                                     <a href="{% url 'product_detail' product.slug %}">
                                         <div class="product-image">
                                             {% if product.main_image %}
-                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main">
+                                                {% with second_image=product.images.first %}
+                                                    {% if second_image %}
+                                                        <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover">
+                                                    {% endif %}
+                                                {% endwith %}
                                             {% else %}
                                                 <div class="placeholder-image">
                                                     <i class="fas fa-image fa-3x"></i>
