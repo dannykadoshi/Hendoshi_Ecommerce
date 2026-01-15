@@ -3818,20 +3818,50 @@ main {
     padding: 0.75rem 1.5rem;
 }
 
+
+.confirmation-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
 .confirmation-buttons .btn-outline-secondary {
     color: var(--off-white);
-    border-color: rgba(255, 255, 255, 0.3);
-    background-color: transparent;
+    border: 2px solid var(--neon-pink);
+    background-color: rgba(255, 255, 255, 0.03);
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.confirmation-buttons .btn-outline-secondary i {
+    color: var(--neon-pink);
+    margin-right: 8px;
 }
 
 .confirmation-buttons .btn-outline-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: var(--off-white);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--electric-yellow);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(204, 255, 0, 0.25);
+}
+
+.confirmation-buttons .btn-outline-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px rgba(204, 255, 0, 0.2);
 }
 
 .confirmation-buttons .btn-pink {
     background-color: var(--neon-pink);
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .confirmation-buttons .btn-pink:hover {
@@ -3850,45 +3880,22 @@ main {
 }
 
 :root.light-mode .confirmation-buttons .btn-outline-secondary {
-    color: #333333;
-    border-color: #999999;
-    background-color: white;
+    color: #222222;
+    border: 2px solid var(--neon-pink);
+    background-color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .confirmation-buttons .btn-outline-secondary i {
+    color: var(--neon-pink);
 }
 
 :root.light-mode .confirmation-buttons .btn-outline-secondary:hover {
-    background-color: #f5f5f5;
-    border-color: #333333;
-    color: #333333;
+    background-color: #f4ffe5;
+    border-color: var(--electric-yellow);
+    color: #111111;
+    box-shadow: 0 10px 22px rgba(204, 255, 0, 0.22);
 }
-
-:root.light-mode .confirmation-buttons .btn-pink {
-    background-color: var(--neon-pink);
-    color: white;
-}
-
-:root.light-mode .confirmation-buttons .btn-pink:hover {
-    background-color: #FF69B4;
-    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
-}
-
-/* Checkout & Cart CTA enhancements */
-.cart-top-cta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    margin-bottom: 24px;
-}
-
-.cart-top-title {
-    font-size: 1.25rem;
-    margin: 4px 0 0;
-}
-
 .checkout-btn.disabled {
     opacity: 0.6;
     pointer-events: none;

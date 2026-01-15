@@ -169,12 +169,14 @@
             </div>
 
             <!-- CTA Buttons -->
-            <a href="{% url 'products' %}" class="btn btn-pink btn-lg w-100 mb-2">
-                <i class="fas fa-shopping-bag"></i> Continue Shopping
-            </a>
-            <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100">
-                <i class="fas fa-home"></i> Back to Home
-            </a>
+            <div class="confirmation-buttons">
+                <a href="{% url 'products' %}" class="btn btn-pink btn-lg w-100 mb-2">
+                    <i class="fas fa-shopping-bag"></i> Continue Shopping
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-pink btn-lg w-100 mb-2">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
         </div>
     </div>
 </div>

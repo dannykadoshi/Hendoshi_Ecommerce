@@ -156,6 +156,7 @@ def send_order_confirmation_email(order):
     email_context = {
         'order': order,
         'order_items': order.items.all(),
+        'site_url': settings.SITE_URL if hasattr(settings, 'SITE_URL') else 'http://localhost:8000',
     }
     
     html_message = render_to_string('checkout/emails/order_confirmation.html', email_context)
