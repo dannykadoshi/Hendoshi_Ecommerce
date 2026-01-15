@@ -275,7 +275,7 @@
             <!-- Menu Content Container -->
             <div class="menu-content-wrapper">
             <!-- Currency Submenu -->
-            <div class="menu-submenu" id="currencySubmenu" style="display: none;">
+            <div class="menu-submenu hidden" id="currencySubmenu">
                 <button class="submenu-back" data-back="main">&lt; Back</button>
                 <div class="submenu-content">
                     <button class="submenu-item" data-currency="US">
@@ -288,7 +288,7 @@
             </div>
             
             <!-- Account Submenu -->
-            <div class="menu-submenu" id="accountSubmenu" style="display: none;">
+            <div class="menu-submenu hidden" id="accountSubmenu">
                 <button class="submenu-back" data-back="main">&lt; Back</button>
                 <div class="submenu-content">
                     {% if user.is_authenticated %}
@@ -338,7 +338,7 @@
             </div>
             
             <!-- Collections Submenu -->
-            <div class="menu-submenu" id="submenuCollections" style="display: none;">
+            <div class="menu-submenu hidden" id="submenuCollections">
                 <button class="submenu-back" data-back="main">&lt; Collections</button>
                 <div class="submenu-content">
                     <a href="{% url 'products' %}" class="submenu-item">All Products</a>
@@ -350,7 +350,7 @@
             </div>
             
             <!-- Product Type Submenu -->
-            <div class="menu-submenu" id="submenuProductType" style="display: none;">
+            <div class="menu-submenu hidden" id="submenuProductType">
                 <button class="submenu-back" data-back="main">&lt; Product Type</button>
                 <div class="submenu-content">
                     <a href="{% url 'products' %}?type=tshirt" class="submenu-item">T-Shirts</a>
@@ -361,7 +361,7 @@
             </div>
             
             <!-- Weird Wall Submenu -->
-            <div class="menu-submenu" id="submenuWeirdWall" style="display: none;">
+            <div class="menu-submenu hidden" id="submenuWeirdWall">
                 <button class="submenu-back" data-back="main">&lt; Weird Wall</button>
                 <div class="submenu-content">
                     <a href="#" class="submenu-item">Coming Soon</a>
@@ -369,7 +369,7 @@
             </div>
             
             <!-- About Submenu -->
-            <div class="menu-submenu" id="submenuAbout" style="display: none;">
+            <div class="menu-submenu hidden" id="submenuAbout">
                 <button class="submenu-back" data-back="main">&lt; About</button>
                 <div class="submenu-content">
                     <a href="#" class="submenu-item">Our Story</a>
@@ -507,7 +507,7 @@
                         mainMenu.style.transform = 'translateX(-100%)';
                         
                         if (submenu) {
-                            submenu.style.display = 'block';
+                            submenu.classList.remove('hidden');
                             setTimeout(() => {
                                 submenu.style.transform = 'translateX(0)';
                             }, 10);
@@ -526,7 +526,7 @@
                         mainMenu.style.transform = 'translateX(-100%)';
                         
                         if (submenu) {
-                            submenu.style.display = 'block';
+                            submenu.classList.remove('hidden');
                             setTimeout(() => {
                                 submenu.style.transform = 'translateX(0)';
                             }, 10);
@@ -548,7 +548,7 @@
                         submenus.forEach(submenu => {
                             submenu.style.transform = 'translateX(100%)';
                             setTimeout(() => {
-                                submenu.style.display = 'none';
+                                submenu.classList.add('hidden');
                             }, 300);
                         });
                     });
@@ -561,7 +561,7 @@
                     const currencySubmenu = document.getElementById('currencySubmenu');
                     
                     mainMenu.style.transform = 'translateX(-100%)';
-                    currencySubmenu.style.display = 'block';
+                    currencySubmenu.classList.remove('hidden');
                     
                     setTimeout(() => {
                         currencySubmenu.style.transform = 'translateX(0)';
@@ -577,7 +577,7 @@
                         const accountSubmenu = document.getElementById('accountSubmenu');
                         
                         mainMenu.style.transform = 'translateX(-100%)';
-                        accountSubmenu.style.display = 'block';
+                        accountSubmenu.classList.remove('hidden');
                         
                         setTimeout(() => {
                             accountSubmenu.style.transform = 'translateX(0)';
@@ -600,7 +600,7 @@
                         currencySubmenu.style.transform = 'translateX(100%)';
                         
                         setTimeout(() => {
-                            currencySubmenu.style.display = 'none';
+                            currencySubmenu.classList.add('hidden');
                             currencySubmenu.style.transform = 'translateX(100%)';
                         }, 300);
                     });

@@ -77,7 +77,7 @@
                     {% endif %}
                     
                     <!-- Add to Cart Form -->
-                    <form method="POST" action="{% url 'add_to_cart' product.id %}" id="addToCartForm" novalidate>
+                    <form method="post" action="{% url 'add_to_cart' product.id %}" id="addToCartForm" novalidate>
                         {% csrf_token %}
                         
                         <!-- Size Selection -->

@@ -65,7 +65,7 @@
                             <!-- Quantity & Subtotal -->
                             <div class="cart-item-quantity">
                                 <label class="qty-label">Quantity:</label>
-                                <form method="POST" action="{% url 'update_cart_item' item.id %}" class="quantity-form" data-item-id="{{ item.id }}">
+                                <form method="post" action="{% url 'update_cart_item' item.id %}" class="quantity-form" data-item-id="{{ item.id }}">
                                     {% csrf_token %}
                                     <div class="quantity-control">
                                         <button type="button" class="qty-btn-sm qty-minus-sm" onclick="decrementQty(this)">
@@ -167,7 +167,7 @@
 </div>
 
 <!-- Confirmation Modal -->
-<div id="confirmationModal" class="confirmation-modal-overlay" style="display: none;">
+<div id="confirmationModal" class="confirmation-modal-overlay d-none">
     <div class="confirmation-modal">
         <p id="confirmationMessage" class="confirmation-message">Are you sure?</p>
         <div class="confirmation-buttons">
@@ -282,11 +282,15 @@
 
     function showConfirmationModal(message) {
         document.getElementById('confirmationMessage').textContent = message;
-        document.getElementById('confirmationModal').style.display = 'flex';
+        const modal = document.getElementById('confirmationModal');
+        modal.classList.remove('d-none');
+        modal.style.display = 'flex';
     }
 
     function closeConfirmationModal() {
-        document.getElementById('confirmationModal').style.display = 'none';
+        const modal = document.getElementById('confirmationModal');
+        modal.classList.add('d-none');
+        modal.style.display = 'none';
         window.pendingRemovalLink = null;
         window.pendingRemovalItemId = null;
     }

@@ -636,6 +636,10 @@ body {
     z-index: 2;
 }
 
+.menu-submenu.hidden {
+    display: none;
+}
+
 .menu-items {
     list-style: none;
     padding: 0;
