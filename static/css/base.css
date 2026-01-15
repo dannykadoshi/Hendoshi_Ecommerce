@@ -446,6 +446,10 @@ body {
         transform: none !important;
         top: 100% !important;
     }
+    
+    .desktop-menu .nav-item.dropdown:hover > .dropdown-menu {
+        display: block !important;
+    }
 }
 
 /* Light mode dropdown styling */

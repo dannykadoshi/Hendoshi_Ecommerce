@@ -41,25 +41,42 @@ document.addEventListener('DOMContentLoaded', function() {
 // Dropdown hover behavior for desktop
 document.addEventListener('DOMContentLoaded', function() {
     if (window.innerWidth >= 992) {
-        const dropdowns = document.querySelectorAll('.navbar-right .dropdown');
+        const dropdowns = document.querySelectorAll('.navbar-right .dropdown, .desktop-menu .dropdown');
         
         dropdowns.forEach(dropdown => {
-            dropdown.addEventListener('mouseenter', function() {
-                const toggleBtn = this.querySelector('.dropdown-toggle');
-                const menu = this.querySelector('.dropdown-menu');
-                if (toggleBtn && menu) {
-                    const bsDropdown = new bootstrap.Dropdown(toggleBtn);
+            let hideTimeout;
+            
+            const showDropdown = function() {
+                clearTimeout(hideTimeout);
+                const toggleBtn = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (toggleBtn && menu && !menu.classList.contains('show')) {
+                    const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(toggleBtn);
                     bsDropdown.show();
                 }
-            });
+            };
             
-            dropdown.addEventListener('mouseleave', function() {
-                const toggleBtn = this.querySelector('.dropdown-toggle');
-                if (toggleBtn) {
-                    const bsDropdown = new bootstrap.Dropdown(toggleBtn);
-                    bsDropdown.hide();
-                }
-            });
+            const hideDropdown = function() {
+                hideTimeout = setTimeout(function() {
+                    const toggleBtn = dropdown.querySelector('.dropdown-toggle');
+                    if (toggleBtn) {
+                        const bsDropdown = bootstrap.Dropdown.getInstance(toggleBtn);
+                        if (bsDropdown) {
+                            bsDropdown.hide();
+                        }
+                    }
+                }, 100);
+            };
+            
+            dropdown.addEventListener('mouseenter', showDropdown);
+            dropdown.addEventListener('mouseleave', hideDropdown);
+            
+            // Keep dropdown open when hovering over the menu itself
+            const menu = dropdown.querySelector('.dropdown-menu');
+            if (menu) {
+                menu.addEventListener('mouseenter', showDropdown);
+                menu.addEventListener('mouseleave', hideDropdown);
+            }
         });
     }
 });
