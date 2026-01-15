@@ -46,3 +46,11 @@ class CartItem(models.Model):
     def get_total_price(self):
         """Calculate total price for this cart item"""
         return self.product.base_price * self.quantity
+    
+    def get_variant_stock(self):
+        """Get the stock for this item's specific variant"""
+        try:
+            variant = self.product.variants.get(size=self.size, color=self.color)
+            return variant.stock if variant.stock > 0 else 10
+        except:
+            return 10

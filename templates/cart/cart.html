@@ -65,13 +65,13 @@
                             <!-- Quantity & Subtotal -->
                             <div class="cart-item-quantity">
                                 <label class="qty-label">Quantity:</label>
-                                <form method="POST" action="{% url 'update_cart_item' item.id %}" class="quantity-form">
+                                <form method="POST" action="{% url 'update_cart_item' item.id %}" class="quantity-form" data-item-id="{{ item.id }}">
                                     {% csrf_token %}
                                     <div class="quantity-control">
                                         <button type="button" class="qty-btn-sm qty-minus-sm" onclick="decrementQty(this)">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                        <input type="number" name="quantity" class="qty-input-sm" value="{{ item.quantity }}" min="1" max="10">
+                                        <input type="number" name="quantity" class="qty-input-sm" value="{{ item.quantity }}" min="1" max="{{ item.get_variant_stock }}" data-max="{{ item.get_variant_stock }}">
                                         <button type="button" class="qty-btn-sm qty-plus-sm" onclick="incrementQty(this)">
                                             <i class="fas fa-plus"></i>
                                         </button>
@@ -82,12 +82,12 @@
                             <!-- Subtotal -->
                             <div class="cart-item-subtotal">
                                 <span class="subtotal-label">Subtotal:</span>
-                                <span class="subtotal-value">€{{ item.get_total_price }}</span>
+                                <span class="subtotal-value" data-item-id="{{ item.id }}">€{{ item.get_total_price }}</span>
                             </div>
 
                             <!-- Remove Button -->
                             <div class="cart-item-actions">
-                                <a href="{% url 'remove_from_cart' item.id %}" class="btn-remove" title="Remove from cart">
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn-remove" data-item-id="{{ item.id }}" onclick="return confirmRemove(event, this, '{{ item.product.name }}')" title="Remove from cart">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -110,7 +110,7 @@
 
                         <div class="summary-row">
                             <span class="summary-label">Subtotal:</span>
-                            <span class="summary-value">€{{ subtotal }}</span>
+                            <span class="summary-value" id="cart-subtotal">€{{ subtotal }}</span>
                         </div>
 
                         <div class="summary-row">
@@ -127,7 +127,7 @@
 
                         <div class="summary-row total">
                             <span class="summary-label">Total:</span>
-                            <span class="summary-value">€{{ subtotal }}</span>
+                            <span class="summary-value" id="cart-total">€{{ subtotal }}</span>
                         </div>
 
                         <!-- Checkout Button -->
@@ -168,28 +168,183 @@
 
 <!-- Cart JavaScript -->
 <script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
     function incrementQty(button) {
         const input = button.parentElement.querySelector('.qty-input-sm');
-        const max = parseInt(input.max);
-        if (parseInt(input.value) < max) {
-            input.value = parseInt(input.value) + 1;
-            submitQuantityForm(button);
+        const max = parseInt(input.getAttribute('data-max')) || parseInt(input.max);
+        const currentValue = parseInt(input.value);
+        
+        if (currentValue < max) {
+            input.value = currentValue + 1;
+            updateCartAjax(button);
+        } else {
+            showToast('Maximum stock reached', 'warning');
         }
     }
 
     function decrementQty(button) {
         const input = button.parentElement.querySelector('.qty-input-sm');
         const min = parseInt(input.min);
-        if (parseInt(input.value) > min) {
-            input.value = parseInt(input.value) - 1;
-            submitQuantityForm(button);
+        const currentValue = parseInt(input.value);
+        
+        if (currentValue > min) {
+            input.value = currentValue - 1;
+            updateCartAjax(button);
         }
     }
 
-    function submitQuantityForm(button) {
+    function updateCartAjax(button) {
         const form = button.closest('.quantity-form');
-        form.submit();
+        const formData = new FormData(form);
+        const itemId = form.getAttribute('data-item-id');
+        
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update item subtotal
+                const subtotalElement = document.querySelector(`.subtotal-value[data-item-id="${itemId}"]`);
+                if (subtotalElement && data.item_total) {
+                    subtotalElement.textContent = '€' + data.item_total.toFixed(2);
+                }
+                
+                // Update cart totals
+                document.getElementById('cart-subtotal').textContent = '€' + data.cart_subtotal.toFixed(2);
+                document.getElementById('cart-total').textContent = '€' + data.cart_subtotal.toFixed(2);
+                
+                // Update cart count in navbar
+                const cartBadge = document.querySelector('.nav-icon .badge');
+                if (cartBadge) {
+                    cartBadge.textContent = data.cart_total_items;
+                }
+                
+                showToast('Cart updated successfully', 'success');
+            } else if (data.error) {
+                showToast(data.error, 'error');
+                // Reset to previous value
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('Failed to update cart', 'error');
+        });
     }
+
+    function confirmRemove(event, link, productName) {
+        event.preventDefault();
+        
+        if (confirm(`Are you sure you want to remove "${productName}" from your cart?`)) {
+            const itemId = link.getAttribute('data-item-id');
+            
+            fetch(link.href, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove cart item from DOM
+                    const cartItem = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
+                    if (cartItem) {
+                        cartItem.style.opacity = '0';
+                        cartItem.style.transform = 'translateX(-20px)';
+                        setTimeout(() => {
+                            cartItem.remove();
+                            
+                            // Check if cart is now empty
+                            const remainingItems = document.querySelectorAll('.cart-item');
+                            if (remainingItems.length === 0) {
+                                location.reload();
+                            }
+                        }, 300);
+                    }
+                    
+                    // Update cart totals
+                    document.getElementById('cart-subtotal').textContent = '€' + data.cart_subtotal.toFixed(2);
+                    document.getElementById('cart-total').textContent = '€' + data.cart_subtotal.toFixed(2);
+                    
+                    // Update cart count in navbar
+                    const cartBadge = document.querySelector('.nav-icon .badge');
+                    if (cartBadge) {
+                        cartBadge.textContent = data.cart_total_items;
+                    }
+                    
+                    // Update cart item count header
+                    const cartHeader = document.querySelector('.cart-item-count');
+                    if (cartHeader) {
+                        const itemText = data.cart_total_items === 1 ? 'item' : 'items';
+                        cartHeader.textContent = `${data.cart_total_items} ${itemText}`;
+                    }
+                    
+                    showToast(data.message, 'success');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Failed to remove item', 'error');
+            });
+        }
+        
+        return false;
+    }
+
+    function showToast(message, type = 'success') {
+        // Create toast notification
+        const toastHtml = `
+            <div class="toast show toast-${type}" role="alert" style="position: fixed; top: 120px; right: 20px; z-index: 9999;">
+                <div class="toast-header">
+                    <strong class="me-auto">${type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Warning'}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">${message}</div>
+            </div>
+        `;
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = toastHtml;
+        document.body.appendChild(tempDiv.firstElementChild);
+        
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            const toast = tempDiv.firstElementChild;
+            if (toast) {
+                toast.remove();
+            }
+        }, 3000);
+    }
+
+    // Handle manual input change
+    document.querySelectorAll('.qty-input-sm').forEach(input => {
+        input.addEventListener('change', function() {
+            const button = this.parentElement.querySelector('.qty-btn-sm');
+            updateCartAjax(button);
+        });
+    });
 </script>
 
 {% endblock %}
