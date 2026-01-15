@@ -21,6 +21,35 @@
             color: #E71F7F;
             margin: 0;
         }
+        .invoice-title {
+            font-size: 26px;
+            font-weight: 800;
+            font-family: "Arial Black", Arial, Helvetica, sans-serif;
+            text-transform: uppercase;
+            color: #333;
+            letter-spacing: 1.2px;
+            margin-top: 18px; /* Move title lower for separation */
+        }
+
+        /* Totals styling */
+        .totals-table {
+            width: 300px;
+            margin-left: auto;
+        }
+        .totals-table .total-row td {
+            background-color: rgba(231, 31, 127, 0.08);
+            border-top: 2px solid #E71F7F;
+            border-bottom: 2px solid #E71F7F;
+        }
+        .totals-table .total-row td:first-child {
+            text-transform: uppercase;
+            color: #E71F7F;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .totals-table .total-row td:last-child {
+            font-weight: 800;
+        }
         .invoice-details {
             display: flex;
             justify-content: space-between;
@@ -81,8 +110,12 @@
 </head>
 <body>
     <div class="invoice-header">
-        <img src="/media/invoice/hendoshi-logo.png" alt="Hendoshi" style="max-width: 400px; height: auto; margin-bottom: 20px;">
-        <p>Invoice</p>
+        {% if logo_data_uri %}
+            <img src="{{ logo_data_uri }}" alt="Hendoshi" style="max-width: 220px; height: auto; margin-bottom: 12px;" />
+        {% else %}
+            <h1 style="font-size: 28px; margin: 0;">HENDOSHI</h1>
+        {% endif %}
+        <div class="invoice-title">INVOICE</div>
     </div>
 
     <div class="invoice-details">

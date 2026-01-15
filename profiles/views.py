@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
+from django.conf import settings
+import os
+import base64
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from datetime import datetime
@@ -148,14 +151,26 @@ def download_invoice(request, order_number):
     # Get the order and verify it belongs to the user
     order = get_object_or_404(Order, order_number=order_number, user=request.user)
     
+    # Build base64 data URI for logo so downloaded HTML renders the image
+    logo_data_uri = None
+    try:
+        logo_path = os.path.join(settings.MEDIA_ROOT, 'invoice', 'hendoshi-logo.png')
+        if os.path.exists(logo_path):
+            with open(logo_path, 'rb') as f:
+                encoded = base64.b64encode(f.read()).decode('ascii')
+                logo_data_uri = f'data:image/png;base64,{encoded}'
+    except Exception:
+        logo_data_uri = None
+
     # Render the invoice HTML
-    html_content = render_to_string('profiles/invoice.html', {
+    html_context = {
         'order': order,
         'user': request.user,
-    })
+        'logo_data_uri': logo_data_uri,
+    }
+    html_content = render_to_string('profiles/invoice.html', html_context)
     
-    # For now, return HTML invoice (can be extended to PDF later)
+    # Return HTML invoice for download
     response = HttpResponse(html_content, content_type='text/html')
     response['Content-Disposition'] = f'attachment; filename="invoice_{order_number}.html"'
-    
     return response
