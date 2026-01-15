@@ -365,10 +365,21 @@ body {
 
 .nav-icon .badge {
     position: absolute;
-    top: -8px;
-    right: -8px;
-    font-size: 0.65rem;
-    padding: 0.25rem 0.4rem;
+    top: -4px;
+    right: -4px;
+    font-size: 0.5rem;
+    font-weight: 700;
+    width: 15px;
+    height: 15px;
+    min-width: 15px;
+    max-width: 15px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    line-height: 1;
+    aspect-ratio: 1 / 1;
 }
 
 .desktop-icons {
@@ -1282,18 +1293,9 @@ input:invalid {
     opacity: 1;
 }
 
-/* Cart Badge Animation */
+/* Cart Badge - No Animation */
 .badge.bg-pink {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+    /* Removed pulse animation for cleaner look */
 }
 
 /* Main Content */
@@ -2241,6 +2243,11 @@ main {
 
 :root.light-mode .nav-icon:hover {
     color: var(--electric-yellow);
+}
+
+:root.light-mode .nav-icon .badge {
+    background-color: #000000 !important;
+    color: white !important;
 }
 
 :root.light-mode .newsletter-form .form-control {
