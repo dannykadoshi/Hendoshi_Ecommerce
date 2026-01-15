@@ -46,6 +46,37 @@
                         </div>
                     {% endif %}
 
+                    <!-- Saved Payment Methods (for authenticated users) -->
+                    {% if user.is_authenticated and saved_payment_methods %}
+                        <div class="saved-payment-methods mb-5">
+                            <h5 class="mb-3"><i class="fas fa-wallet"></i> Your Saved Cards</h5>
+                            <div class="payment-method-tabs">
+                                {% for method in saved_payment_methods %}
+                                    <div class="payment-method-option">
+                                        <input type="radio" name="use_saved_payment" id="saved_{{ method.id }}" value="{{ method.id }}" class="form-check-input">
+                                        <label for="saved_{{ method.id }}" class="payment-method-label">
+                                            <div class="method-header">
+                                                <i class="fas fa-credit-card"></i>
+                                                <span class="method-name">{{ method.get_display_name }}</span>
+                                                {% if method.is_default %}
+                                                    <span class="badge bg-pink">Default</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="method-expiry">Expires: {{ method.expiry_date }}</div>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <hr>
+                            <div class="form-check">
+                                <input type="radio" name="use_saved_payment" id="use_new_card" value="" class="form-check-input" checked>
+                                <label class="form-check-label" for="use_new_card">
+                                    Use a different card
+                                </label>
+                            </div>
+                        </div>
+                    {% endif %}
+
                     <!-- Order Summary Cards -->
                     <div class="order-summary-cards mb-5">
                         <div class="summary-card order-card">
@@ -219,6 +250,22 @@
                                 {% endif %}
                             </div>
                         </fieldset>
+
+                        <!-- Save Card Option (for authenticated users) -->
+                        {% if user.is_authenticated and form.save_card %}
+                            <fieldset class="form-section">
+                                <legend>Payment Preferences</legend>
+                                <div class="form-check">
+                                    {{ form.save_card }}
+                                    <label class="form-check-label" for="{{ form.save_card.id_for_label }}">
+                                        {{ form.save_card.label }}
+                                    </label>
+                                </div>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-lock"></i> Your card details will be securely saved and masked for future use.
+                                </small>
+                            </fieldset>
+                        {% endif %}
 
                         <!-- Security Notice -->
                         <div class="security-notice">

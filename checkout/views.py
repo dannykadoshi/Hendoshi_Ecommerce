@@ -11,7 +11,7 @@ from cart.models import Cart
 from .forms import ShippingForm
 from .payment_forms import PaymentForm
 from .models import Order, OrderItem
-from profiles.models import Address
+from profiles.models import Address, SavedPaymentMethod
 
 
 def checkout(request):
@@ -190,52 +190,78 @@ def payment(request, order_number):
         messages.error(request, 'You do not have permission to access this payment.')
         return redirect('home')
     
+    # Get saved payment methods if user is authenticated
+    saved_payment_methods = []
+    if request.user.is_authenticated:
+        saved_payment_methods = request.user.saved_payment_methods.all()
+    
     if request.method == 'POST':
-        form = PaymentForm(request.POST)
-        if form.is_valid():
-            # Process payment
-            success, error_message = process_payment(order, form.cleaned_data)
-            
-            if success:
-                # Update order payment status
-                order.payment_status = 'completed'
-                order.save()
+        # Check if using saved payment method
+        use_saved = request.POST.get('use_saved_payment')
+        
+        if use_saved and request.user.is_authenticated:
+            # Process with saved payment method
+            try:
+                saved_method = request.user.saved_payment_methods.get(id=use_saved)
+                # For saved methods, we'd use the saved card info
+                success, error_message = process_payment_with_saved_method(order, saved_method)
+            except SavedPaymentMethod.DoesNotExist:
+                success, error_message = False, 'Invalid payment method selected.'
+        else:
+            # Process with new card
+            form = PaymentForm(request.POST)
+            if form.is_valid():
+                # Process payment
+                success, error_message = process_payment(order, form.cleaned_data)
                 
-                # Send confirmation email
-                send_order_confirmation_email(order)
-                
-                # Clear cart
-                cart = get_or_create_cart(request)
-                cart.items.all().delete()
-                request.session.pop('checkout_form_data', None)
-                request.session.pop('pending_order_number', None)
-                
-                messages.success(request, 'Payment successful! Order confirmed.')
-                return redirect('order_confirmation', order_number=order.order_number)
+                # Save payment method if checkbox is checked
+                if success and request.user.is_authenticated and form.cleaned_data.get('save_card'):
+                    save_payment_method(request.user, form.cleaned_data)
             else:
-                # Payment failed - set error on order
-                order.payment_status = 'failed'
-                order.payment_error = error_message
-                order.save()
-                
-                context = {
-                    'form': form,
-                    'order': order,
-                    'payment_error': error_message,
-                    'steps': [
-                        {'label': 'Cart', 'status': 'done'},
-                        {'label': 'Shipping', 'status': 'done'},
-                        {'label': 'Payment', 'status': 'current'},
-                        {'label': 'Confirmation', 'status': 'upcoming'},
-                    ],
-                }
-                return render(request, 'checkout/payment.html', context)
+                success, error_message = False, 'Invalid payment information.'
+        
+        if success:
+            # Update order payment status
+            order.payment_status = 'completed'
+            order.save()
+            
+            # Send confirmation email
+            send_order_confirmation_email(order)
+            
+            # Clear cart
+            cart = get_or_create_cart(request)
+            cart.items.all().delete()
+            request.session.pop('checkout_form_data', None)
+            request.session.pop('pending_order_number', None)
+            
+            messages.success(request, 'Payment successful! Order confirmed.')
+            return redirect('order_confirmation', order_number=order.order_number)
+        else:
+            # Payment failed - set error on order
+            order.payment_status = 'failed'
+            order.payment_error = error_message
+            order.save()
+            
+            context = {
+                'form': PaymentForm() if not use_saved else None,
+                'order': order,
+                'payment_error': error_message,
+                'saved_payment_methods': saved_payment_methods,
+                'steps': [
+                    {'label': 'Cart', 'status': 'done'},
+                    {'label': 'Shipping', 'status': 'done'},
+                    {'label': 'Payment', 'status': 'current'},
+                    {'label': 'Confirmation', 'status': 'upcoming'},
+                ],
+            }
+            return render(request, 'checkout/payment.html', context)
     else:
         form = PaymentForm()
     
     context = {
         'form': form,
         'order': order,
+        'saved_payment_methods': saved_payment_methods,
         'steps': [
             {'label': 'Cart', 'status': 'done'},
             {'label': 'Shipping', 'status': 'done'},
@@ -284,6 +310,52 @@ def process_payment(order, payment_data):
             # Generic error for testing
             return False, f'Payment processing failed. Please verify your card details and try again.'
             
+    except Exception as e:
+        return False, f'An error occurred while processing your payment: {str(e)}'
+
+
+def save_payment_method(user, payment_data):
+    """
+    Save a payment method for future use
+    """
+    try:
+        card_number = payment_data['card_number']
+        # Mask card number - only store last 4 digits
+        masked_card = f"{'*' * (len(card_number) - 4)}{card_number[-4:]}"
+        
+        # Determine card type from number
+        card_type = 'visa'  # Default
+        if card_number.startswith('5'):
+            card_type = 'mastercard'
+        elif card_number.startswith('34') or card_number.startswith('37'):
+            card_type = 'amex'
+        elif card_number.startswith('6011'):
+            card_type = 'discover'
+        
+        SavedPaymentMethod.objects.create(
+            user=user,
+            card_number=masked_card,
+            card_holder=payment_data.get('cardholder_name', ''),
+            expiry_date=payment_data['expiry_date'],
+            card_type=card_type,
+        )
+    except Exception as e:
+        print(f"Error saving payment method: {str(e)}")
+
+
+def process_payment_with_saved_method(order, saved_method):
+    """
+    Process payment using a saved payment method
+    
+    Returns: (success: bool, error_message: str or None)
+    """
+    try:
+        # In a real implementation, use the saved payment method details
+        # For now, simulate success based on card type
+        if saved_method.card_type == 'visa':
+            return True, None
+        else:
+            return False, 'Payment processing with saved method failed. Please try another method.'
     except Exception as e:
         return False, f'An error occurred while processing your payment: {str(e)}'
 

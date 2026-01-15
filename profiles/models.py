@@ -49,6 +49,39 @@ class Address(models.Model):
         return f"{self.full_name} - {self.city}, {self.country}"
 
 
+class SavedPaymentMethod(models.Model):
+    """
+    Model to store saved payment methods for users
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_payment_methods')
+    card_number = models.CharField(max_length=19)  # Masked except last 4 digits
+    card_holder = models.CharField(max_length=100)
+    expiry_date = models.CharField(max_length=5)  # MM/YY format
+    card_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('visa', 'Visa'),
+            ('mastercard', 'Mastercard'),
+            ('amex', 'American Express'),
+            ('discover', 'Discover'),
+        ],
+        default='visa'
+    )
+    is_default = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = 'Saved Payment Methods'
+        ordering = ['-is_default', '-created_at']
+    
+    def __str__(self):
+        return f"{self.card_type.title()} ending in {self.card_number[-4:]}"
+    
+    def get_display_name(self):
+        """Return a display-friendly name for the card"""
+        return f"{self.card_type.title()} ending in {self.card_number[-4:]}"
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """

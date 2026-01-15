@@ -114,6 +114,15 @@ class PaymentForm(forms.Form):
         }),
         label='Billing Country',
     )
+    
+    # Save card option
+    save_card = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input',
+        }),
+        label='Save this card for future purchases',
+    )
 
     same_as_shipping = forms.BooleanField(
         required=False,

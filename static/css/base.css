@@ -4802,3 +4802,219 @@ main {
 :root.light-mode .step-content p {
     color: #555;
 }
+
+/* SAVED PAYMENT METHODS STYLES */
+.saved-payment-methods-section {
+    background-color: rgba(255, 20, 147, 0.05);
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.saved-payment-methods-section h4 {
+    color: var(--neon-pink);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.saved-payment-methods-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.saved-payment-method-item {
+    background-color: var(--charcoal);
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 6px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.saved-payment-method-item:hover {
+    border-color: var(--neon-pink);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.2);
+}
+
+.saved-payment-method-item input[type="radio"] {
+    margin-right: 1rem;
+}
+
+.saved-payment-method-item input[type="radio"]:checked ~ .payment-method-details {
+    color: var(--neon-pink);
+}
+
+.saved-payment-method-item input[type="radio"]:checked + label {
+    color: var(--neon-pink);
+    font-weight: 700;
+}
+
+.payment-method-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    flex: 1;
+}
+
+.payment-method-label input[type="radio"] {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--neon-pink);
+}
+
+.payment-method-details {
+    margin-left: 2.5rem;
+    color: var(--off-white);
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.card-display-name {
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.card-expiry {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.default-badge {
+    display: inline-block;
+    background-color: var(--neon-pink);
+    color: var(--black);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 0.5rem;
+}
+
+.use-new-card-option {
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.use-new-card-label {
+    font-weight: 700;
+    color: var(--off-white);
+}
+
+/* Save Payment Method Section */
+.save-payment-method-section {
+    background-color: rgba(255, 20, 147, 0.05);
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.save-payment-method-section .form-check {
+    display: flex;
+    align-items: center;
+}
+
+.save-payment-method-section .form-check-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+    margin-top: 0;
+    accent-color: var(--neon-pink);
+    cursor: pointer;
+    background-color: var(--black) !important;
+    border: 2px solid var(--neon-pink) !important;
+}
+
+.save-payment-method-section .form-check-input:checked {
+    background-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink) !important;
+}
+
+.save-payment-method-section .form-check-label {
+    margin-bottom: 0;
+    cursor: pointer;
+    color: var(--off-white);
+    font-weight: 700;
+    flex: 1;
+}
+
+.save-card-info {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    margin-left: 3rem;
+}
+
+.save-card-info i {
+    color: var(--neon-pink);
+    margin-right: 0.3rem;
+}
+
+/* Light Mode - Saved Payment Methods */
+:root.light-mode .saved-payment-methods-section,
+:root.light-mode .save-payment-method-section {
+    background-color: rgba(231, 31, 127, 0.05);
+    border-color: #E71F7F;
+}
+
+:root.light-mode .saved-payment-methods-section h4 {
+    color: #E71F7F;
+}
+
+:root.light-mode .saved-payment-method-item {
+    background-color: white;
+    border-color: rgba(231, 31, 127, 0.2);
+}
+
+:root.light-mode .saved-payment-method-item:hover {
+    border-color: #E71F7F;
+}
+
+:root.light-mode .payment-method-details {
+    color: #1A1A1A;
+}
+
+:root.light-mode .card-expiry {
+    color: #666666;
+}
+
+:root.light-mode .default-badge {
+    background-color: #E71F7F;
+    color: white;
+}
+
+:root.light-mode .payment-method-label input[type="radio"] {
+    accent-color: #E71F7F;
+}
+
+:root.light-mode .use-new-card-label,
+:root.light-mode .save-payment-method-section .form-check-label {
+    color: #1A1A1A;
+}
+
+:root.light-mode .save-card-info {
+    color: #666666;
+}
+
+:root.light-mode .save-card-info i {
+    color: #E71F7F;
+}
+
+:root.light-mode .save-payment-method-section .form-check-input {
+    background-color: white !important;
+    border-color: #E71F7F !important;
+}
+
+:root.light-mode .save-payment-method-section .form-check-input:checked {
+    background-color: #E71F7F !important;
+    border-color: #E71F7F !important;
+}

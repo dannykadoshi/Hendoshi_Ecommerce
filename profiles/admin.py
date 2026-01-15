@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, Address
+from .models import UserProfile, Address, SavedPaymentMethod
 
 
 @admin.register(UserProfile)
@@ -21,6 +21,29 @@ class AddressAdmin(admin.ModelAdmin):
         }),
         ('Address Information', {
             'fields': ('full_name', 'phone', 'address', 'address_line_2', 'city', 'state_or_county', 'country', 'postal_code')
+        }),
+        ('Settings', {
+            'fields': ('is_default',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(SavedPaymentMethod)
+class SavedPaymentMethodAdmin(admin.ModelAdmin):
+    list_display = ('user', 'get_display_name', 'is_default', 'created_at')
+    list_filter = ('card_type', 'is_default', 'created_at')
+    search_fields = ('user__username', 'user__email', 'card_holder')
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ('User', {
+            'fields': ('user',)
+        }),
+        ('Card Information', {
+            'fields': ('card_number', 'card_holder', 'expiry_date', 'card_type')
         }),
         ('Settings', {
             'fields': ('is_default',)
