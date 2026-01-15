@@ -278,23 +278,23 @@
                                 </small>
                             </fieldset>
                         {% endif %}
-
-                        <!-- Security Notice -->
-                        <div class="security-notice">
-                            <i class="fas fa-lock"></i>
-                            <span>Your payment information is encrypted and secure. We never store your full card details.</span>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="form-actions mt-4">
-                            <a href="{% url 'checkout' %}" class="btn btn-pink">
-                                <i class="fas fa-arrow-left"></i> Back to Shipping
-                            </a>
-                            <button type="submit" class="btn btn-pink btn-lg">
-                                <i class="fas fa-lock"></i> Pay ${{ order.total_amount }}
-                            </button>
-                        </div>
                     </form>
+
+                    <!-- Security Notice - Always Visible -->
+                    <div class="security-notice mt-4">
+                        <i class="fas fa-lock"></i>
+                        <span>Your payment information is encrypted and secure. We never store your full card details.</span>
+                    </div>
+
+                    <!-- Action Buttons - Always Visible -->
+                    <div class="form-actions mt-4">
+                        <a href="{% url 'checkout' %}" class="btn btn-pink">
+                            <i class="fas fa-arrow-left"></i> Back to Shipping
+                        </a>
+                        <button type="submit" form="paymentForm" class="btn btn-pink btn-lg">
+                            <i class="fas fa-lock"></i> Pay ${{ order.total_amount }}
+                        </button>
+                    </div>
                 </section>
             </div>
 
