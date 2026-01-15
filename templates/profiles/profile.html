@@ -4,21 +4,20 @@
 {% block extra_title %}My Profile{% endblock %}
 
 {% block content %}
-<div class="profile-page">
-    <div class="container">
-        
-        <div class="row">
-            <div class="col-12">
-                <h1 class="page-title mb-4">MY PROFILE</h1>
-            </div>
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <div class="checkout-header" style="margin-top: 3rem;">
+            <h1 class="page-title">MY PROFILE</h1>
         </div>
         
-        <div class="row">
-            
-            <!-- Profile Information -->
-            <div class="col-md-6">
-                <div class="profile-card">
-                    <h2><i class="fas fa-user"></i> Account Info</h2>
+        <!-- Account Info & Default Delivery Info -->
+        <div class="checkout-content" style="margin-top: 2rem;">
+            <div class="checkout-main">
+                <div class="row">
+                    <!-- Profile Information -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="profile-card">
+                            <h2><i class="fas fa-user"></i> Account Info</h2>
                     
                     <div class="info-group">
                         <label>Username:</label>
@@ -47,7 +46,7 @@
             </div>
             
             <!-- Default Delivery Information -->
-            <div class="col-md-6">
+            <div class="col-lg-6 mb-4">
                 <div class="profile-card">
                     <h2><i class="fas fa-shipping-fast"></i> Default Delivery Info</h2>
                     
@@ -89,7 +88,6 @@
                     </form>
                 </div>
             </div>
-            
         </div>
         
         <!-- Order History -->
@@ -113,7 +111,7 @@
                                 <tbody>
                                     {% for order in orders %}
                                     <tr>
-                                        <td><a href="#" class="order-link">{{ order.order_number }}</a></td>
+                                        <td><a href="{% url 'order_detail' order.order_number %}" class="order-link">{{ order.order_number }}</a></td>
                                         <td>{{ order.created_at|date:"M d, Y" }}</td>
                                         <td>{{ order.items.count }}</td>
                                         <td>€{{ order.total_amount }}</td>
@@ -135,7 +133,29 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all form inputs in the delivery info form
+    const formInputs = document.querySelectorAll('.profile-card form .profile-form-input');
+    
+    formInputs.forEach(input => {
+        // Add visual feedback on input
+        input.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+        
+        // Check if field has initial value and add class
+        if (input.value.trim() !== '') {
+            input.classList.add('has-value');
+        }
+    });
+});
+</script>
 {% endblock %}

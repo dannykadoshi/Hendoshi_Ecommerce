@@ -376,3 +376,75 @@ def payment_result(request, order_number):
     }
     
     return render(request, 'checkout/payment_result.html', context)
+
+
+def order_detail(request, order_number):
+    """Display detailed order information"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Security: verify user owns this order or is staff
+    if order.user:
+        if order.user != request.user and not request.user.is_staff:
+            messages.error(request, 'You do not have permission to view this order.')
+            return redirect('home')
+    else:
+        # Guest order - verify by email in session or deny access
+        if not request.user.is_staff:
+            guest_email = request.session.get('guest_email')
+            if guest_email != order.email:
+                messages.error(request, 'You do not have permission to view this order.')
+                return redirect('home')
+    
+    context = {
+        'order': order,
+    }
+    
+    return render(request, 'checkout/order_detail.html', context)
+
+
+def reorder(request, order_number):
+    """Add all items from a previous order to the cart"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Security: verify user owns this order
+    if order.user and order.user != request.user:
+        messages.error(request, 'You do not have permission to access this order.')
+        return redirect('home')
+    
+    # Get or create cart
+    cart = get_or_create_cart(request)
+    
+    # Add all order items to cart
+    items_added = 0
+    items_skipped = 0
+    
+    for item in order.items.all():
+        # Check if variant still exists and has stock
+        try:
+            variant = item.product.variants.get(size=item.size, color=item.color)
+            if variant.stock >= item.quantity:
+                # Add to cart
+                from cart.models import CartItem
+                cart_item, created = CartItem.objects.get_or_create(
+                    cart=cart,
+                    product=item.product,
+                    size=item.size,
+                    color=item.color,
+                    defaults={'quantity': item.quantity}
+                )
+                if not created:
+                    cart_item.quantity += item.quantity
+                    cart_item.save()
+                items_added += 1
+            else:
+                items_skipped += 1
+        except:
+            items_skipped += 1
+    
+    if items_added > 0:
+        messages.success(request, f'{items_added} item(s) added to your cart!')
+    
+    if items_skipped > 0:
+        messages.warning(request, f'{items_skipped} item(s) could not be added (out of stock or unavailable).')
+    
+    return redirect('view_cart')

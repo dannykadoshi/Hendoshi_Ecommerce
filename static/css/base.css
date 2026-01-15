@@ -2748,19 +2748,32 @@ main {
 }
 
 .profile-card {
-    background-color: var(--charcoal);
+    background-color: rgba(0, 0, 0, 0.3);
     padding: 2rem;
-    border-radius: 8px;
-    border: 2px solid var(--gray);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 20, 147, 0.15);
     margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+    border-color: rgba(255, 20, 147, 0.3);
+    box-shadow: 0 8px 24px rgba(255, 20, 147, 0.1);
 }
 
 .profile-card h2 {
     color: var(--neon-pink);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-card h2 i {
+    color: var(--neon-pink);
 }
 
 .info-group {
@@ -2769,40 +2782,52 @@ main {
 
 .info-group label {
     color: var(--gray);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     display: block;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 .info-group p {
     color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
     margin: 0;
 }
 
+.profile-divider {
+    margin: 1.5rem 0;
+    border-color: rgba(255, 20, 147, 0.15);
+}
+
 .profile-form-input {
-    background-color: var(--black) !important;
-    border: 2px solid var(--gray) !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 20, 147, 0.15) !important;
     color: var(--off-white) !important;
     padding: 0.8rem !important;
-    border-radius: 4px !important;
+    border-radius: 6px !important;
     width: 100% !important;
     transition: all 0.3s !important;
 }
 
 .profile-form-input:focus {
     border-color: var(--neon-pink) !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15) !important;
     outline: none !important;
-    background-color: var(--black) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
     color: var(--off-white) !important;
 }
 
 .profile-form-input::placeholder {
-    color: var(--gray) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.profile-form-input.has-value {
+    border-color: rgba(204, 255, 0, 0.5) !important;
+    background-color: rgba(204, 255, 0, 0.05) !important;
+    box-shadow: 0 0 0 0.1rem rgba(204, 255, 0, 0.1) !important;
 }
 
 .table-responsive .order-table {
@@ -2814,24 +2839,24 @@ main {
 }
 
 .table-responsive .order-table thead {
-    background-color: var(--black) !important;
-    border-bottom: 3px solid var(--neon-pink) !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border-bottom: 2px solid rgba(255, 20, 147, 0.3) !important;
 }
 
 .table-responsive .order-table thead tr {
-    background-color: var(--black) !important;
+    background-color: transparent !important;
 }
 
 .table-responsive .order-table th {
     color: var(--neon-pink) !important;
     text-transform: uppercase !important;
-    letter-spacing: 1.5px !important;
-    font-size: 0.85rem !important;
-    font-weight: 900 !important;
-    padding: 1.2rem !important;
+    letter-spacing: 1px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    padding: 1rem 1.2rem !important;
     text-align: left !important;
     border: none !important;
-    background-color: var(--black) !important;
+    background-color: transparent !important;
     vertical-align: middle !important;
 }
 
@@ -2841,20 +2866,20 @@ main {
 
 .table-responsive .order-table tbody tr {
     background-color: transparent !important;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
     transition: all 0.3s ease !important;
 }
 
 .table-responsive .order-table tbody tr:hover {
-    background-color: rgba(255, 20, 147, 0.05) !important;
+    background-color: rgba(255, 20, 147, 0.08) !important;
 }
 
 .table-responsive .order-table tbody tr:last-child {
-    border-bottom: 1px solid rgba(255, 20, 147, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
 }
 
 .table-responsive .order-table td {
-    padding: 1.2rem !important;
+    padding: 1rem 1.2rem !important;
     vertical-align: middle !important;
     color: var(--off-white) !important;
     font-size: 0.95rem !important;
@@ -3891,6 +3916,81 @@ main {
 
 :root.light-mode .footer a:hover {
     color: #B8D400;
+}
+
+/* Light Mode - Profile Page */
+:root.light-mode .profile-card {
+    background-color: #ffffff;
+    border-color: rgba(255, 20, 147, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .profile-card:hover {
+    border-color: #E71F7F;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+:root.light-mode .profile-card h2 {
+    color: #E71F7F;
+}
+
+:root.light-mode .info-group label {
+    color: #666666;
+}
+
+:root.light-mode .info-group p {
+    color: #222222;
+}
+
+:root.light-mode .profile-form-input {
+    background-color: #f9f9f9 !important;
+    border-color: #dcdcdc !important;
+    color: #222222 !important;
+}
+
+:root.light-mode .profile-form-input:focus {
+    border-color: #E71F7F !important;
+    background-color: #ffffff !important;
+}
+
+:root.light-mode .profile-form-input::placeholder {
+    color: #999999 !important;
+}
+
+:root.light-mode .profile-form-input.has-value {
+    border-color: #88cc00 !important;
+    background-color: rgba(136, 204, 0, 0.08) !important;
+    box-shadow: 0 0 0 0.1rem rgba(136, 204, 0, 0.15) !important;
+}
+
+:root.light-mode .table-responsive .order-table th {
+    color: #E71F7F !important;
+    background-color: #f5f5f5;
+}
+
+:root.light-mode .table-responsive .order-table thead {
+    background-color: #f9f9f9;
+    border-bottom-color: rgba(231, 31, 127, 0.2);
+}
+
+:root.light-mode .table-responsive .order-table tbody tr {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .table-responsive .order-table tbody tr:hover {
+    background-color: #fff5f8;
+}
+
+:root.light-mode .table-responsive .order-table td {
+    color: #222222 !important;
+}
+
+:root.light-mode .table-responsive .order-link {
+    color: #E71F7F !important;
+}
+
+:root.light-mode .table-responsive .order-link:hover {
+    color: #B8D400 !important;
 }
 
 /* Toast notifications */
@@ -5044,4 +5144,476 @@ main {
 :root.light-mode .save-payment-method-section .form-check-input:checked {
     background-color: #E71F7F !important;
     border-color: #E71F7F !important;
+}
+
+/* ORDER DETAIL PAGE STYLES */
+.order-detail-page {
+    padding-top: 100px;
+    padding-bottom: 5rem;
+    min-height: 100vh;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .order-detail-page {
+        padding-top: 105px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .order-detail-page {
+        padding-top: 95px;
+    }
+}
+
+@media (max-width: 767px) {
+    .order-detail-page {
+        padding-top: 95px;
+    }
+}
+
+.order-detail-header {
+    margin-bottom: 2rem;
+}
+
+.order-detail-subtitle {
+    color: var(--neon-pink);
+    font-size: 0.95rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.order-detail-info {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin: 0 !important;
+}
+
+.order-detail-info i {
+    color: var(--neon-pink);
+    margin-right: 0.3rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.header-actions .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.order-status-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.status-card {
+    background-color: var(--charcoal);
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+}
+
+.status-card:hover {
+    border-color: var(--neon-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.2);
+}
+
+.status-icon {
+    font-size: 2rem;
+    color: var(--neon-pink);
+    flex-shrink: 0;
+}
+
+.status-info {
+    flex: 1;
+}
+
+.status-label {
+    color: var(--gray);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.status-value {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.status-value.status-delivered {
+    color: #00d26a;
+}
+
+.status-value.status-shipped {
+    color: #0dcaf0;
+}
+
+.status-value.status-processing {
+    color: #ffb800;
+}
+
+.status-value.status-cancelled {
+    color: #ff4444;
+}
+
+.status-value.payment-completed {
+    color: #00d26a;
+}
+
+.status-value.payment-failed {
+    color: #ff4444;
+}
+
+.tracking-number {
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+}
+
+.order-section {
+    background-color: var(--charcoal);
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    color: var(--neon-pink);
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-item-card {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 20, 147, 0.1);
+    border-radius: 6px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.order-item-card:hover {
+    border-color: var(--neon-pink);
+    background-color: rgba(255, 20, 147, 0.05);
+}
+
+.item-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+}
+
+.placeholder-image i {
+    margin-bottom: 0.25rem;
+}
+
+.placeholder-image p {
+    font-size: 0.7rem;
+    margin: 0;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    color: var(--off-white);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.item-specs {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.item-specs .spec {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.item-specs .spec strong {
+    color: var(--off-white);
+    margin-right: 0.25rem;
+}
+
+.item-price {
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.item-total {
+    text-align: right;
+}
+
+.total-label {
+    color: var(--gray);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.total-price {
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.reorder-section {
+    border-top: 2px solid rgba(255, 20, 147, 0.2);
+    padding-top: 2rem;
+    margin-top: 2rem;
+}
+
+.address-card {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 20, 147, 0.1);
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+.address-name {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.address-line {
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+}
+
+.address-phone {
+    color: var(--gray);
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+}
+
+.address-phone i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.summary-breakdown {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 20, 147, 0.1);
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+}
+
+.summary-row.total {
+    font-size: 1.3rem;
+    padding-top: 1rem;
+}
+
+.summary-label {
+    color: var(--off-white);
+    font-weight: 600;
+}
+
+.summary-value {
+    color: var(--off-white);
+    font-weight: 700;
+}
+
+.summary-row.total .summary-label {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary-row.total .summary-value {
+    color: var(--neon-pink);
+    font-weight: 900;
+    font-size: 1.8rem;
+}
+
+.summary-divider {
+    border-color: rgba(255, 20, 147, 0.3);
+    margin: 1rem 0;
+}
+
+.support-card {
+    background-color: rgba(255, 20, 147, 0.05);
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.support-card i {
+    color: var(--neon-pink);
+}
+
+.support-card h4 {
+    color: var(--off-white);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.support-card p {
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Order Detail */
+@media (max-width: 768px) {
+    .order-status-bar {
+        grid-template-columns: 1fr;
+    }
+    
+    .order-item-card {
+        grid-template-columns: 80px 1fr;
+        gap: 1rem;
+    }
+    
+    .item-total {
+        grid-column: 1 / -1;
+        text-align: left;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 20, 147, 0.1);
+        margin-top: 1rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .header-actions .btn {
+        flex: 1;
+    }
+}
+
+/* Light Mode - Order Detail */
+:root.light-mode .status-card,
+:root.light-mode .order-section,
+:root.light-mode .address-card,
+:root.light-mode .summary-breakdown,
+:root.light-mode .order-item-card {
+    background-color: white;
+    border-color: rgba(231, 31, 127, 0.2);
+}
+
+:root.light-mode .status-card:hover,
+:root.light-mode .order-item-card:hover {
+    border-color: #E71F7F;
+}
+
+:root.light-mode .status-icon {
+    color: #E71F7F;
+}
+
+:root.light-mode .status-label,
+:root.light-mode .item-specs .spec,
+:root.light-mode .item-price,
+:root.light-mode .address-line,
+:root.light-mode .address-phone,
+:root.light-mode .support-card p {
+    color: #666666;
+}
+
+:root.light-mode .status-value,
+:root.light-mode .item-name,
+:root.light-mode .address-name,
+:root.light-mode .summary-label,
+:root.light-mode .summary-value,
+:root.light-mode .support-card h4 {
+    color: #1A1A1A;
+}
+
+:root.light-mode .section-title {
+    color: #E71F7F;
+}
+
+:root.light-mode .summary-row.total .summary-value,
+:root.light-mode .total-price {
+    color: #E71F7F;
+}
+
+:root.light-mode .support-card {
+    background-color: rgba(231, 31, 127, 0.05);
+    border-color: #E71F7F;
+}
+
+:root.light-mode .support-card i {
+    color: #E71F7F;
+}
+
+:root.light-mode .address-phone i {
+    color: #E71F7F;
+}
+
+/* Light Mode - Order Detail Text */
+:root.light-mode .order-detail-subtitle {
+    color: #E71F7F;
+}
+
+:root.light-mode .order-detail-info {
+    color: #666666;
+}
+
+:root.light-mode .order-detail-info i {
+    color: #E71F7F;
 }

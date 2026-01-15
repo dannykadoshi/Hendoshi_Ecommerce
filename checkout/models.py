@@ -53,6 +53,7 @@ class Order(models.Model):
     
     # Status and timestamps
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    tracking_number = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

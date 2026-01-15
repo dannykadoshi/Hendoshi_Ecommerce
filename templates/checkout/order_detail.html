@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order {{ order.order_number }} - Hendoshi Store{% endblock %}
+
+{% block content %}
+<div class="container order-detail-page mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <!-- Header -->
+            <div class="order-detail-header mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div>
+                        <h1 class="page-title mb-2">Order Details</h1>
+                        <p class="order-detail-subtitle">Order #{{ order.order_number }}</p>
+                    </div>
+                    <div class="header-actions">
+                        <a href="{% url 'profile' %}" class="btn btn-pink me-2">
+                            <i class="fas fa-arrow-left"></i> Back to Orders
+                        </a>
+                        <button onclick="window.print()" class="btn btn-pink">
+                            <i class="fas fa-print"></i> Print Invoice
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Status Bar -->
+            <div class="order-status-bar mb-4">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-label">Order Date</div>
+                        <div class="status-value">{{ order.created_at|date:"F d, Y" }}</div>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="status-icon">
+                        {% if order.status == 'delivered' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% elif order.status == 'shipped' %}
+                            <i class="fas fa-shipping-fast"></i>
+                        {% elif order.status == 'processing' %}
+                            <i class="fas fa-cog fa-spin"></i>
+                        {% elif order.status == 'cancelled' %}
+                            <i class="fas fa-times-circle"></i>
+                        {% else %}
+                            <i class="fas fa-clock"></i>
+                        {% endif %}
+                    </div>
+                    <div class="status-info">
+                        <div class="status-label">Order Status</div>
+                        <div class="status-value status-{{ order.status }}">{{ order.get_status_display }}</div>
+                    </div>
+                </div>
+                
+                {% if order.tracking_number %}
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-label">Tracking Number</div>
+                        <div class="status-value tracking-number">{{ order.tracking_number }}</div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-label">Payment Status</div>
+                        <div class="status-value payment-{{ order.payment_status }}">{{ order.get_payment_status_display }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Order Items -->
+                <div class="col-lg-8 mb-4">
+                    <div class="order-section">
+                        <h3 class="section-title"><i class="fas fa-box-open"></i> Order Items</h3>
+                        
+                        <div class="order-items-list">
+                            {% for item in order.items.all %}
+                            <div class="order-item-card">
+                                <div class="item-image">
+                                    {% if item.product.main_image %}
+                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                                    {% elif item.product.images.first %}
+                                        <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}">
+                                    {% else %}
+                                        <div class="placeholder-image">
+                                            <i class="fas fa-image fa-3x"></i>
+                                            <p>No Image</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="item-details">
+                                    <h4 class="item-name">{{ item.product.name }}</h4>
+                                    <div class="item-specs">
+                                        <span class="spec"><strong>Size:</strong> {{ item.size }}</span>
+                                        <span class="spec"><strong>Color:</strong> {{ item.color }}</span>
+                                        <span class="spec"><strong>Quantity:</strong> {{ item.quantity }}</span>
+                                    </div>
+                                    <div class="item-price">
+                                        <span class="unit-price">€{{ item.price }} each</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="item-total">
+                                    <div class="total-label">Total</div>
+                                    <div class="total-price">€{{ item.get_total_price }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Reorder Button -->
+                        <div class="reorder-section mt-4">
+                            <form method="post" action="{% url 'reorder' order.order_number %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-pink btn-lg w-100">
+                                    <i class="fas fa-redo"></i> Reorder All Items
+                                </button>
+                            </form>
+                            <p class="order-detail-info text-center mt-2 mb-0">
+                                <small><i class="fas fa-info-circle"></i> Items will be added to your cart</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <!-- Shipping Address -->
+                    <div class="order-section mb-4">
+                        <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> Shipping Address</h3>
+                        <div class="address-card">
+                            <p class="address-name">{{ order.full_name }}</p>
+                            <p class="address-line">{{ order.address }}</p>
+                            {% if order.address_line_2 %}
+                            <p class="address-line">{{ order.address_line_2 }}</p>
+                            {% endif %}
+                            <p class="address-line">{{ order.city }}, {{ order.state_or_county }} {{ order.postal_code }}</p>
+                            <p class="address-line">{{ order.country }}</p>
+                            <p class="address-phone"><i class="fas fa-phone"></i> {{ order.phone }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="order-section">
+                        <h3 class="section-title"><i class="fas fa-receipt"></i> Order Summary</h3>
+                        
+                        <div class="summary-breakdown">
+                            <div class="summary-row">
+                                <span class="summary-label">Subtotal</span>
+                                <span class="summary-value">€{{ order.subtotal }}</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span class="summary-label">Shipping</span>
+                                <span class="summary-value">€{{ order.shipping_cost }}</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span class="summary-label">Tax</span>
+                                <span class="summary-value">€{{ order.tax_amount }}</span>
+                            </div>
+                            
+                            <hr class="summary-divider">
+                            
+                            <div class="summary-row total">
+                                <span class="summary-label">Order Total</span>
+                                <span class="summary-value">€{{ order.total_amount }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Support -->
+                    <div class="order-section mt-4">
+                        <div class="support-card">
+                            <i class="fas fa-headset fa-2x mb-3"></i>
+                            <h4>Need Help?</h4>
+                            <p>Contact our support team if you have any questions about your order.</p>
+                            <a href="mailto:support@hendoshi.com" class="btn btn-outline-pink w-100">
+                                <i class="fas fa-envelope"></i> Contact Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Print-specific styles -->
+<style media="print">
+    .navbar, .footer, .header-actions, .reorder-section, .support-card {
+        display: none !important;
+    }
+    
+    .order-detail-page {
+        margin-top: 0 !important;
+    }
+    
+    .order-item-card {
+        page-break-inside: avoid;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .order-section {
+        border: 1px solid #ddd !important;
+        background: white !important;
+    }
+</style>
+{% endblock %}
