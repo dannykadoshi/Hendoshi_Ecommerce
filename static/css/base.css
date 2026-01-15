@@ -2039,8 +2039,12 @@ main {
 }
 
 .quick-add-modal .btn-close {
-    filter: invert(1) brightness(1.6);
+    --bs-btn-close-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23FF1493' stroke-linecap='round' stroke-width='2' d='M3 3l10 10M13 3L3 13'/%3E%3C/svg%3E");
     opacity: 1;
+    filter: none !important;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 1em;
 }
 
 .quick-add-modal .btn-close:hover {
@@ -2081,8 +2085,12 @@ main {
 }
 
 :root.light-mode .quick-add-modal .btn-close {
-    filter: invert(0) brightness(0.2);
+    --bs-btn-close-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23E71F7F' stroke-linecap='round' stroke-width='2' d='M3 3l10 10M13 3L3 13'/%3E%3C/svg%3E");
     opacity: 1;
+    filter: none !important;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 1em;
 }
 
 /* Enhance quick add button styling to match brand and avoid gray fallback */
@@ -2106,6 +2114,29 @@ main {
     border-color: #E71F7F;
     color: #FFFFFF;
     box-shadow: 0 8px 20px rgba(231, 31, 127, 0.3);
+}
+
+/* Light mode: make nav icons pink */
+:root.light-mode .nav-icon {
+    color: var(--neon-pink);
+}
+
+/* Light mode: quick add bar and button colors */
+:root.light-mode .quick-add {
+    background: #ffffff;
+    border-top: 1px solid rgba(231, 31, 127, 0.3);
+}
+
+:root.light-mode .btn-quick-add {
+    background: #f2f2f2;
+    color: #1a1a1a;
+    border: 1px solid #dcdcdc;
+}
+
+:root.light-mode .btn-quick-add:hover {
+    background: var(--neon-pink);
+    color: var(--black);
+    border-color: var(--neon-pink);
 }
 
 /* Product Detail Page */
