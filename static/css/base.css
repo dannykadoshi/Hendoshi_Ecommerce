@@ -76,6 +76,10 @@ body {
     color: #FF69B4 !important;
 }
 
+:root.light-mode .theme-toggle:hover {
+    color: var(--electric-yellow) !important;
+}
+
 /* Navigation */
 .discount-banner {
     background-color: var(--charcoal);
@@ -397,6 +401,17 @@ body {
     background: none;
     border: none;
     padding: 0;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-right .dropdown-toggle:hover,
+.navbar-right .dropdown-toggle:focus,
+.navbar-right .dropdown-toggle:active {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .navbar-right .dropdown-toggle::after {
@@ -2214,6 +2229,10 @@ main {
 /* Light mode: make nav icons pink */
 :root.light-mode .nav-icon {
     color: var(--neon-pink);
+}
+
+:root.light-mode .nav-icon:hover {
+    color: var(--electric-yellow);
 }
 
 /* Light mode: quick add bar and button colors */
