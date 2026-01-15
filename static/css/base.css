@@ -2748,28 +2748,30 @@ main {
 }
 
 .profile-card {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 2rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 20, 147, 0.15);
-    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 20px;
     transition: all 0.3s ease;
 }
 
 .profile-card:hover {
-    border-color: rgba(255, 20, 147, 0.3);
-    box-shadow: 0 8px 24px rgba(255, 20, 147, 0.1);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .profile-card h2 {
     color: var(--neon-pink);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .profile-card h2 i {
@@ -2803,10 +2805,10 @@ main {
 }
 
 .profile-form-input {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid rgba(255, 20, 147, 0.15) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
     color: var(--off-white) !important;
-    padding: 0.8rem !important;
+    padding: 10px 12px !important;
     border-radius: 6px !important;
     width: 100% !important;
     transition: all 0.3s !important;
@@ -2816,7 +2818,7 @@ main {
     border-color: var(--neon-pink) !important;
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15) !important;
     outline: none !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
     color: var(--off-white) !important;
 }
 
@@ -3920,18 +3922,19 @@ main {
 
 /* Light Mode - Profile Page */
 :root.light-mode .profile-card {
-    background-color: #ffffff;
-    border-color: rgba(255, 20, 147, 0.2);
+    background: #f9f9f9;
+    border: 1px solid #e2e2e2;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 :root.light-mode .profile-card:hover {
-    border-color: #E71F7F;
+    border-color: #d4d4d4;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 :root.light-mode .profile-card h2 {
     color: #E71F7F;
+    border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
 :root.light-mode .info-group label {
@@ -3943,14 +3946,15 @@ main {
 }
 
 :root.light-mode .profile-form-input {
-    background-color: #f9f9f9 !important;
+    background: white !important;
     border-color: #dcdcdc !important;
     color: #222222 !important;
 }
 
 :root.light-mode .profile-form-input:focus {
     border-color: #E71F7F !important;
-    background-color: #ffffff !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.1) !important;
 }
 
 :root.light-mode .profile-form-input::placeholder {
@@ -3959,7 +3963,7 @@ main {
 
 :root.light-mode .profile-form-input.has-value {
     border-color: #88cc00 !important;
-    background-color: rgba(136, 204, 0, 0.08) !important;
+    background: rgba(136, 204, 0, 0.05) !important;
     box-shadow: 0 0 0 0.1rem rgba(136, 204, 0, 0.15) !important;
 }
 
@@ -5612,6 +5616,76 @@ main {
 
 :root.light-mode .order-detail-info {
     color: #666666;
+}
+
+/* Back to Top Button */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-pink), #ff006e);
+    border: 2px solid var(--neon-pink);
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+}
+
+.back-to-top-btn.show {
+    display: flex;
+    animation: slideUp 0.3s ease;
+}
+
+.back-to-top-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6);
+    background: linear-gradient(135deg, #ff006e, var(--neon-pink));
+}
+
+.back-to-top-btn:active {
+    transform: translateY(-1px);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Light Mode - Back to Top Button */
+:root.light-mode .back-to-top-btn {
+    background: linear-gradient(135deg, #FF2DA1, #FF007A);
+    border-color: #E71F7F;
+    box-shadow: 0 8px 20px rgba(231, 31, 127, 0.3);
+}
+
+:root.light-mode .back-to-top-btn:hover {
+    box-shadow: 0 12px 30px rgba(231, 31, 127, 0.5);
+    background: linear-gradient(135deg, #FF007A, #FF2DA1);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .back-to-top-btn {
+        width: 45px;
+        height: 45px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        font-size: 1rem;
+    }
 }
 
 :root.light-mode .order-detail-info i {

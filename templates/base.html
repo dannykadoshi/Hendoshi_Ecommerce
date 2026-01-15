@@ -666,5 +666,33 @@
             });
         </script>
         {% block extra_js %}{% endblock %}
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" class="back-to-top-btn" title="Back to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+
+        <script>
+        // Back to Top Button Functionality
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        // Scroll to top when clicked
+        backToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        </script>
     </body>
 </html>
