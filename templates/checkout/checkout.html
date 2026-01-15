@@ -60,7 +60,50 @@
                     </div>
                 {% endif %}
 
-                <form class="checkout-form" method="post" novalidate>
+                <!-- Saved Addresses Selection (for authenticated users) -->
+                {% if request.user.is_authenticated and saved_addresses %}
+                <div class="saved-addresses-section mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0"><i class="fas fa-address-book"></i> Use Saved Address</h5>
+                        <button type="button" class="btn btn-outline-pink btn-sm" id="useNewAddressBtn">
+                            <i class="fas fa-plus"></i> Use New Address
+                        </button>
+                    </div>
+                    
+                    <div class="saved-address-cards" id="savedAddressCards">
+                        {% for address in saved_addresses %}
+                        <div class="saved-address-card {% if address.is_default %}selected{% endif %}" 
+                             data-address-id="{{ address.id }}"
+                             data-full-name="{{ address.full_name }}"
+                             data-phone="{{ address.phone }}"
+                             data-address="{{ address.address }}"
+                             data-address-line-2="{{ address.address_line_2 }}"
+                             data-city="{{ address.city }}"
+                             data-state="{{ address.state_or_county }}"
+                             data-country="{{ address.country }}"
+                             data-postal="{{ address.postal_code }}">
+                            <div class="address-card-header">
+                                <strong>{{ address.full_name }}</strong>
+                                {% if address.is_default %}
+                                    <span class="badge bg-pink">Default</span>
+                                {% endif %}
+                            </div>
+                            <div class="address-card-body">
+                                <p class="mb-1">{{ address.address }}</p>
+                                {% if address.address_line_2 %}
+                                    <p class="mb-1">{{ address.address_line_2 }}</p>
+                                {% endif %}
+                                <p class="mb-1">{{ address.city }}, {{ address.state_or_county }} {{ address.postal_code }}</p>
+                                <p class="mb-0">{{ address.country }} • {{ address.phone }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr class="my-4">
+                </div>
+                {% endif %}
+
+                <form class="checkout-form" method="post" novalidate id="checkoutForm">
                     {% csrf_token %}
 
                     <!-- Full Name -->
@@ -235,6 +278,64 @@
 <script>
     // Handle country change - update state/county label
     document.addEventListener('DOMContentLoaded', function() {
+        // Saved address selection
+        const savedAddressCards = document.querySelectorAll('.saved-address-card');
+        const useNewAddressBtn = document.getElementById('useNewAddressBtn');
+        const savedAddressSection = document.getElementById('savedAddressCards');
+        const checkoutForm = document.getElementById('checkoutForm');
+        
+        // Auto-fill form from selected address
+        function fillFormFromAddress(card) {
+            if (card) {
+                document.querySelector('[name="full_name"]').value = card.dataset.fullName || '';
+                document.querySelector('[name="phone"]').value = card.dataset.phone || '';
+                document.querySelector('[name="address"]').value = card.dataset.address || '';
+                document.querySelector('[name="address_line_2"]').value = card.dataset.addressLine2 || '';
+                document.querySelector('[name="city"]').value = card.dataset.city || '';
+                document.querySelector('[name="state_or_county"]').value = card.dataset.state || '';
+                document.querySelector('[name="country"]').value = card.dataset.country || '';
+                document.querySelector('[name="postal_code"]').value = card.dataset.postal || '';
+                
+                // Add has-value class to filled inputs
+                document.querySelectorAll('.checkout-form .form-control').forEach(input => {
+                    if (input.value.trim() !== '') {
+                        input.classList.add('has-value');
+                    }
+                });
+            }
+        }
+        
+        // Handle address card selection
+        savedAddressCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selected class from all cards
+                savedAddressCards.forEach(c => c.classList.remove('selected'));
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                // Fill form
+                fillFormFromAddress(this);
+            });
+        });
+        
+        // Auto-fill from default address on load
+        const defaultCard = document.querySelector('.saved-address-card.selected');
+        if (defaultCard) {
+            fillFormFromAddress(defaultCard);
+        }
+        
+        // Use new address button
+        if (useNewAddressBtn) {
+            useNewAddressBtn.addEventListener('click', function() {
+                // Clear all selections
+                savedAddressCards.forEach(c => c.classList.remove('selected'));
+                // Clear form
+                document.querySelectorAll('.checkout-form .form-control').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('has-value');
+                });
+            });
+        }
+        
         const countrySelect = document.querySelector('select[name="country"]');
         const stateInput = document.querySelector('input[name="state_or_county"]');
         const stateLabel = document.querySelector('label[for="id_state_or_county"]');

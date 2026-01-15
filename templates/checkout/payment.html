@@ -30,55 +30,9 @@
         <!-- Main Content -->
         <div class="checkout-content">
             <div class="checkout-main">
-                <!-- Payment Section -->
-                <section class="payment-section">
-                    <h2><i class="fas fa-credit-card"></i> Payment Information</h2>
-                    
-                    <!-- Error Alert -->
-                    {% if payment_error %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fas fa-exclamation-circle"></i> <strong>Payment Failed</strong>
-                            <p class="mb-0 mt-2">{{ payment_error }}</p>
-                            <p class="mb-0 text-small mt-2">
-                                <a href="{% url 'payment' order.order_number %}" class="alert-link">Try again with a different card</a>
-                            </p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    {% endif %}
-
-                    <!-- Saved Payment Methods (for authenticated users) -->
-                    {% if user.is_authenticated and saved_payment_methods %}
-                        <div class="saved-payment-methods mb-5">
-                            <h5 class="mb-3"><i class="fas fa-wallet"></i> Your Saved Cards</h5>
-                            <div class="payment-method-tabs">
-                                {% for method in saved_payment_methods %}
-                                    <div class="payment-method-option">
-                                        <input type="radio" name="use_saved_payment" id="saved_{{ method.id }}" value="{{ method.id }}" class="form-check-input">
-                                        <label for="saved_{{ method.id }}" class="payment-method-label">
-                                            <div class="method-header">
-                                                <i class="fas fa-credit-card"></i>
-                                                <span class="method-name">{{ method.get_display_name }}</span>
-                                                {% if method.is_default %}
-                                                    <span class="badge bg-pink">Default</span>
-                                                {% endif %}
-                                            </div>
-                                            <div class="method-expiry">Expires: {{ method.expiry_date }}</div>
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <hr>
-                            <div class="form-check">
-                                <input type="radio" name="use_saved_payment" id="use_new_card" value="" class="form-check-input" checked>
-                                <label class="form-check-label" for="use_new_card">
-                                    Use a different card
-                                </label>
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    <!-- Order Summary Cards -->
-                    <div class="order-summary-cards mb-5">
+                <!-- Order Summary Cards -->
+                <section class="order-summary-section mb-5">
+                    <div class="order-summary-cards">
                         <div class="summary-card order-card">
                             <div class="card-icon">
                                 <i class="fas fa-file-invoice"></i>
@@ -103,6 +57,64 @@
                             <div class="card-value">{{ order.items.all|length }} item(s)</div>
                         </div>
                     </div>
+                </section>
+
+                <!-- Payment Section -->
+                <section class="payment-section">
+                    <h2><i class="fas fa-wallet"></i> Your Saved Cards</h2>
+                    
+                    <!-- Error Alert -->
+                    {% if payment_error %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> <strong>Payment Failed</strong>
+                            <p class="mb-0 mt-2">{{ payment_error }}</p>
+                            <p class="mb-0 text-small mt-2">
+                                <a href="{% url 'payment' order.order_number %}" class="alert-link">Try again with a different card</a>
+                            </p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+
+                    <!-- Saved Payment Methods (for authenticated users) -->
+                    {% if user.is_authenticated and saved_payment_methods %}
+                        <div class="saved-payment-methods mb-5">
+                            <div class="saved-payment-cards mb-4">
+                                {% for method in saved_payment_methods %}
+                                    <label class="payment-card-item {% if method.is_default %}default-card{% endif %}" for="saved_{{ method.id }}" data-card-id="{{ method.id }}" data-last-four="{{ method.last_four }}" data-expiry="{{ method.expiry_date }}" data-cardholder="{{ method.cardholder_name }}">
+                                        <input type="radio" name="use_saved_payment" id="saved_{{ method.id }}" value="{{ method.id }}" class="form-check-input payment-radio saved-card-radio" {% if method.is_default %}checked{% endif %}>
+                                        <div class="payment-card-content">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="card-type-icon">
+                                                    <i class="fab fa-cc-{{ method.card_type|lower }}"></i>
+                                                </div>
+                                                <div class="flex-fill">
+                                                    <div class="card-number">{{ method.get_display_name }}</div>
+                                                    <div class="card-expiry">Expires {{ method.expiry_date }}</div>
+                                                </div>
+                                                {% if method.is_default %}
+                                                    <span class="badge bg-pink">Default</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="text-center mb-4">
+                                <button type="button" class="btn btn-outline-pink btn-sm" id="useNewCardBtn">
+                                    <i class="fas fa-plus-circle me-2"></i>Use a Different Card
+                                </button>
+                            </div>
+                            
+                            <div id="newCardFormSection" style="display: none;">
+                                <div class="alert alert-info" style="background-color: rgba(231, 31, 127, 0.1); border: 1px solid rgba(231, 31, 127, 0.3); color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-info-circle me-2"></i>Enter new card details below
+                                </div>
+                            </div>
+                            
+                            <hr class="my-4">
+                        </div>
+                    {% endif %}
 
                     <!-- Payment Form -->
                     <form method="post" class="payment-form" id="paymentForm" novalidate>
@@ -914,6 +926,68 @@ document.addEventListener('DOMContentLoaded', function() {
                 setValue('{{ form.billing_postal_code.id_for_label }}', shippingData.postal);
                 setValue('{{ form.billing_country.id_for_label }}', shippingData.country);
             }
+        });
+    }
+});
+
+// Toggle new card form visibility
+document.addEventListener('DOMContentLoaded', function() {
+    const useNewCardBtn = document.getElementById('useNewCardBtn');
+    const newCardFormSection = document.getElementById('newCardFormSection');
+    const paymentForm = document.getElementById('paymentForm');
+    const savedCardRadios = document.querySelectorAll('.saved-card-radio');
+    
+    // Form fields
+    const cardNumberField = document.getElementById('id_card_number');
+    const expiryField = document.getElementById('id_expiry_date');
+    const cvcField = document.getElementById('id_cvc');
+    const cardholderField = document.getElementById('id_cardholder_name');
+    
+    // Initially ALWAYS hide form if there are saved cards
+    if (savedCardRadios.length > 0 && paymentForm) {
+        paymentForm.style.display = 'none';
+    }
+    
+    if (useNewCardBtn && newCardFormSection) {
+        useNewCardBtn.addEventListener('click', function() {
+            // Uncheck all saved cards
+            savedCardRadios.forEach(radio => radio.checked = false);
+            
+            // Show the new card alert and form
+            newCardFormSection.style.display = 'block';
+            if (paymentForm) {
+                paymentForm.style.display = 'block';
+            }
+            
+            // Clear and enable all form fields
+            if (cardNumberField) cardNumberField.value = '';
+            if (expiryField) expiryField.value = '';
+            if (cvcField) cvcField.value = '';
+            if (cardholderField) cardholderField.value = '';
+            
+            // Scroll to payment form
+            if (paymentForm) {
+                paymentForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+        
+        // When a saved card is selected
+        savedCardRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    // Hide new card section and form
+                    newCardFormSection.style.display = 'none';
+                    if (paymentForm) {
+                        paymentForm.style.display = 'none';
+                    }
+                    
+                    // Get card data from label
+                    const label = this.closest('label');
+                    const cardId = label.getAttribute('data-card-id');
+                    
+                    console.log('Selected saved card:', cardId);
+                }
+            });
         });
     }
 });

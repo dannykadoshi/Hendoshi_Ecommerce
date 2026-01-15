@@ -22,6 +22,11 @@ def checkout(request):
         messages.info(request, 'Your cart is empty. Add items before checking out.')
         return redirect('view_cart')
 
+    # Get saved addresses for authenticated users
+    saved_addresses = []
+    if request.user.is_authenticated:
+        saved_addresses = request.user.addresses.all()
+
     # Initialize form with session data if available, else with user profile data
     initial_data = {}
     
@@ -56,7 +61,8 @@ def checkout(request):
             
             # Save address to profile if user is authenticated and checkbox is checked
             if request.user.is_authenticated and form.cleaned_data.get('save_to_profile'):
-                Address.objects.create(
+                # Check if address already exists to avoid duplicates
+                address, created = Address.objects.get_or_create(
                     user=request.user,
                     full_name=form.cleaned_data['full_name'],
                     phone=form.cleaned_data['phone'],
@@ -67,7 +73,10 @@ def checkout(request):
                     country=form.cleaned_data['country'],
                     postal_code=form.cleaned_data['postal_code'],
                 )
-                messages.success(request, 'Address saved to your profile.')
+                if created:
+                    messages.success(request, 'Address saved to your profile.')
+                else:
+                    messages.info(request, 'This address is already in your address book.')
             
             # Create order with payment_pending status
             order = Order.objects.create(

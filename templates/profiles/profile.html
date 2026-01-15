@@ -10,7 +10,7 @@
             <h1 class="page-title">MY PROFILE</h1>
         </div>
         
-        <!-- Account Info & Default Delivery Info -->
+        <!-- Account Info & Address Book -->
         <div class="checkout-content" style="margin-top: 2rem;">
             <div class="checkout-main">
                 <div class="row">
@@ -45,47 +45,71 @@
                 </div>
             </div>
             
-            <!-- Default Delivery Information -->
+            <!-- Address Book -->
             <div class="col-lg-6 mb-4">
                 <div class="profile-card">
-                    <h2><i class="fas fa-shipping-fast"></i> Default Delivery Info</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="mb-0"><i class="fas fa-address-book"></i> Address Book</h2>
+                        <a href="{% url 'add_address' %}" class="btn btn-pink btn-sm">
+                            <i class="fas fa-plus"></i> Add Address
+                        </a>
+                    </div>
                     
-                    <form method="post" action="{% url 'profile' %}">
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            {{ form.default_phone_number }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            {{ form.default_street_address1 }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            {{ form.default_street_address2 }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            {{ form.default_town_or_city }}
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form.default_county }}
+                    {% if addresses %}
+                        <div class="address-list">
+                            {% for address in addresses %}
+                            <div class="address-card-item {% if address.is_default %}default-address{% endif %}">
+                                <div class="address-header">
+                                    <div class="address-title">
+                                        <strong>{{ address.full_name }}</strong>
+                                        {% if address.is_default %}
+                                            <span class="badge bg-pink ms-2">Default</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="address-actions">
+                                        <a href="{% url 'edit_address' address.id %}" class="btn-icon" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        {% if not address.is_default %}
+                                            <button type="button" class="btn-icon" title="Delete" onclick="showDeleteConfirmation({{ address.id }}, '{{ address.full_name }}')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="address-content">
+                                    <p class="mb-1">{{ address.address }}</p>
+                                    {% if address.address_line_2 %}
+                                        <p class="mb-1">{{ address.address_line_2 }}</p>
+                                    {% endif %}
+                                    <p class="mb-1">{{ address.city }}, {{ address.state_or_county }} {{ address.postal_code }}</p>
+                                    <p class="mb-1">{{ address.country }}</p>
+                                    <p class="mb-0"><i class="fas fa-phone"></i> {{ address.phone }}</p>
+                                </div>
+                                
+                                {% if not address.is_default %}
+                                <div class="address-footer">
+                                    <form method="post" action="{% url 'set_default_address' address.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-pink btn-sm w-100">
+                                            <i class="fas fa-star"></i> Set as Default
+                                        </button>
+                                    </form>
+                                </div>
+                                {% endif %}
                             </div>
-                            <div class="col-md-6 mb-3">
-                                {{ form.default_postcode }}
-                            </div>
+                            {% endfor %}
                         </div>
-                        
-                        <div class="mb-3">
-                            {{ form.default_country }}
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="fas fa-map-marker-alt fa-3x empty-state-icon"></i>
+                            <p class="empty-state-text">No addresses saved yet.</p>
+                            <a href="{% url 'add_address' %}" class="btn btn-pink mt-3">
+                                <i class="fas fa-plus"></i> Add Your First Address
+                            </a>
                         </div>
-                        
-                        <button type="submit" class="btn btn-pink w-100">
-                            <i class="fas fa-save"></i> UPDATE INFORMATION
-                        </button>
-                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -136,26 +160,48 @@
     </div>
 </div>
 
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="confirmation-modal-overlay d-none">
+    <div class="confirmation-modal">
+        <p id="confirmationMessage" class="confirmation-message">Are you sure?</p>
+        <div class="confirmation-buttons">
+            <button type="button" class="btn btn-outline-secondary" onclick="closeConfirmationModal()">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-pink" id="confirmBtn" onclick="executeDeleteConfirmation()">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden form for deletion -->
+<form id="deleteAddressForm" method="post" style="display: none;">
+    {% csrf_token %}
+</form>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all form inputs in the delivery info form
-    const formInputs = document.querySelectorAll('.profile-card form .profile-form-input');
-    
-    formInputs.forEach(input => {
-        // Add visual feedback on input
-        input.addEventListener('input', function() {
-            if (this.value.trim() !== '') {
-                this.classList.add('has-value');
-            } else {
-                this.classList.remove('has-value');
-            }
-        });
-        
-        // Check if field has initial value and add class
-        if (input.value.trim() !== '') {
-            input.classList.add('has-value');
-        }
-    });
-});
+let addressToDelete = null;
+
+function showDeleteConfirmation(addressId, addressName) {
+    addressToDelete = addressId;
+    const message = `Are you sure you want to delete "${addressName}" address?`;
+    document.getElementById('confirmationMessage').textContent = message;
+    document.getElementById('confirmationModal').classList.remove('d-none');
+}
+
+function closeConfirmationModal() {
+    document.getElementById('confirmationModal').classList.add('d-none');
+    addressToDelete = null;
+}
+
+function executeDeleteConfirmation() {
+    if (addressToDelete) {
+        const form = document.getElementById('deleteAddressForm');
+        form.action = `/profile/address/delete/${addressToDelete}/`;
+        form.submit();
+    }
+    closeConfirmationModal();
+}
 </script>
 {% endblock %}

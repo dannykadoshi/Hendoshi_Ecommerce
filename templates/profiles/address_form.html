@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}{{ action }} Address{% endblock %}
+
+{% block content %}
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <div class="checkout-header" style="margin-top: 3rem;">
+            <h1 class="page-title">{{ action }} Address</h1>
+        </div>
+        
+        <div class="checkout-content" style="margin-top: 2rem;">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="profile-card">
+                        <form method="post" class="address-form">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <!-- Full Name -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
+                                    {{ form.full_name }}
+                                    {% if form.full_name.errors %}
+                                        <div class="text-danger mt-1">
+                                            <small>{{ form.full_name.errors.0 }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Phone -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                        <div class="text-danger mt-1">
+                                            <small>{{ form.phone.errors.0 }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Street Address -->
+                            <div class="mb-3">
+                                <label for="{{ form.address.id_for_label }}">{{ form.address.label }}</label>
+                                {{ form.address }}
+                                {% if form.address.errors %}
+                                    <div class="text-danger mt-1">
+                                        <small>{{ form.address.errors.0 }}</small>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Address Line 2 -->
+                            <div class="mb-3">
+                                <label for="{{ form.address_line_2.id_for_label }}">{{ form.address_line_2.label }}</label>
+                                {{ form.address_line_2 }}
+                            </div>
+                            
+                            <div class="row">
+                                <!-- City -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.city.id_for_label }}">{{ form.city.label }}</label>
+                                    {{ form.city }}
+                                    {% if form.city.errors %}
+                                        <div class="text-danger mt-1">
+                                            <small>{{ form.city.errors.0 }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- State/County -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.state_or_county.id_for_label }}">{{ form.state_or_county.label }}</label>
+                                    {{ form.state_or_county }}
+                                    {% if form.state_or_county.errors %}
+                                        <div class="text-danger mt-1">
+                                            <small>{{ form.state_or_county.errors.0 }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <!-- Country -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.country.id_for_label }}">{{ form.country.label }}</label>
+                                    {{ form.country }}
+                                    {% if form.country.errors %}
+                                        <div class="text-danger mt-1">
+                                            <small>{{ form.country.errors.0 }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Postal Code -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.postal_code.id_for_label }}">{{ form.postal_code.label }}</label>
+                                    {{ form.postal_code }}
+                                    {% if form.postal_code.errors %}
+                                        <div class="text-danger mt-1">
+                                            <small>{{ form.postal_code.errors.0 }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Set as Default -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    {{ form.is_default }}
+                                    <label class="form-check-label" for="{{ form.is_default.id_for_label }}">
+                                        {{ form.is_default.label }}
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="d-flex gap-3">
+                                <button type="submit" class="btn btn-pink flex-fill">
+                                    <i class="fas fa-save"></i> {{ action }} Address
+                                </button>
+                                <a href="{% url 'profile' %}" class="btn btn-pink flex-fill">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add has-value class for filled inputs
+    const formInputs = document.querySelectorAll('.address-form .profile-form-input');
+    
+    formInputs.forEach(input => {
+        // Add visual feedback on input
+        input.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+        
+        // Check if field has initial value
+        if (input.value.trim() !== '') {
+            input.classList.add('has-value');
+        }
+    });
+});
+</script>
+{% endblock %}
