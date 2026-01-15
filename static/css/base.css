@@ -1991,6 +1991,123 @@ main {
     margin-bottom: 1rem;
 }
 
+/* Quick Add Modal */
+.quick-add-modal .modal-content {
+    background-color: var(--charcoal);
+    color: var(--off-white);
+    border: 2px solid var(--neon-pink);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.quick-add-modal .modal-header {
+    border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+    padding: 1rem 1.25rem;
+}
+
+.quick-add-modal .modal-title {
+    color: var(--neon-pink);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.quick-add-modal .modal-body {
+    padding: 1.25rem 1.25rem 1.75rem;
+}
+
+.quick-add-modal .form-label {
+    color: var(--off-white);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.quick-add-modal .form-select {
+    background-color: var(--black);
+    border: 2px solid var(--gray);
+    color: var(--off-white);
+    padding: 0.9rem 1rem;
+    font-weight: 700;
+}
+
+.quick-add-modal .form-select:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.15rem rgba(255, 20, 147, 0.25);
+    background-color: var(--black);
+    color: var(--off-white);
+}
+
+.quick-add-modal .btn-close {
+    filter: invert(1) brightness(1.6);
+    opacity: 1;
+}
+
+.quick-add-modal .btn-close:hover {
+    opacity: 1;
+}
+
+.quick-add-modal .btn-pink {
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* Light mode override for quick add modal */
+:root.light-mode .quick-add-modal .modal-content {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+    border-color: #E71F7F;
+}
+
+:root.light-mode .quick-add-modal .modal-title {
+    color: #E71F7F;
+}
+
+:root.light-mode .quick-add-modal .form-label {
+    color: #1A1A1A;
+}
+
+:root.light-mode .quick-add-modal .form-select {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+    border-color: #ccc;
+}
+
+:root.light-mode .quick-add-modal .form-select:focus {
+    border-color: #E71F7F;
+    box-shadow: 0 0 0 0.15rem rgba(231, 31, 127, 0.25);
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+}
+
+:root.light-mode .quick-add-modal .btn-close {
+    filter: invert(0) brightness(0.2);
+    opacity: 1;
+}
+
+/* Enhance quick add button styling to match brand and avoid gray fallback */
+.quick-add-modal .btn-pink {
+    background: linear-gradient(135deg, var(--neon-pink), #ff2ca3);
+    border: 2px solid var(--neon-pink);
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.35);
+    padding: 0.9rem 1rem;
+}
+
+.quick-add-modal .btn-pink:hover {
+    background: linear-gradient(135deg, #ff2ca3, var(--neon-pink));
+    transform: translateY(-2px);
+}
+
+:root.light-mode .quick-add-modal .btn-pink {
+    background: linear-gradient(135deg, #E71F7F, #ff4fb3);
+    border-color: #E71F7F;
+    color: #FFFFFF;
+    box-shadow: 0 8px 20px rgba(231, 31, 127, 0.3);
+}
+
 /* Product Detail Page */
 .product-detail-page {
     padding-top: 3rem;
