@@ -1549,7 +1549,7 @@ main {
 /* Buttons */
 .btn-pink {
     background-color: var(--neon-pink);
-    color: var(--black);
+    color: #FFFFFF;
     border: none;
     padding: 1rem 3rem;
     font-size: 1.2rem;
@@ -2462,7 +2462,7 @@ a.btn-pink {
 .quick-add-modal .btn-pink {
     background: linear-gradient(135deg, var(--neon-pink), #ff2ca3);
     border: 2px solid var(--neon-pink);
-    color: var(--black);
+    color: #FFFFFF;
     text-transform: uppercase;
     letter-spacing: 1px;
     box-shadow: 0 8px 20px rgba(255, 20, 147, 0.35);

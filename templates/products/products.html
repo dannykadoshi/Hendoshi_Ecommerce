@@ -135,7 +135,14 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <input type="hidden" name="quantity" value="1">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Quantity</label>
+                                                            <select name="quantity" class="form-select" required>
+                                                                {% for q in "123456789"|make_list %}
+                                                                    <option value="{{ q }}">{{ q }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
                                                         <input type="hidden" name="next" value="cart">
                                                         <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
                                                     </form>

@@ -66,7 +66,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="fas fa-address-book"></i> Use Saved Address</h5>
                         <button type="button" class="btn btn-outline-pink btn-sm" id="useNewAddressBtn">
-                            <i class="fas fa-plus"></i> Use New Address
+                            <i class="fas fa-plus"></i> Add New Address
                         </button>
                     </div>
                     
@@ -103,6 +103,8 @@
                 </div>
                 {% endif %}
 
+                <!-- Address Form (hidden by default for logged-in users with saved addresses) -->
+                <div id="addressFormContainer" {% if request.user.is_authenticated and saved_addresses %}style="display: none;"{% endif %}>
                 <form class="checkout-form" method="post" novalidate id="checkoutForm">
                     {% csrf_token %}
 
@@ -117,7 +119,8 @@
                         {% endif %}
                     </div>
 
-                    <!-- Email -->
+                    <!-- Email (visible for guests, hidden for logged-in users) -->
+                    {% if not request.user.is_authenticated %}
                     <div class="mb-3">
                         {{ form.email.label_tag }}
                         {{ form.email }}
@@ -127,6 +130,10 @@
                             </div>
                         {% endif %}
                     </div>
+                    {% else %}
+                    <!-- Hidden email field for logged-in users (uses their email) -->
+                    <input type="hidden" name="email" value="{{ request.user.email }}">
+                    {% endif %}
 
                     <!-- Phone -->
                     <div class="mb-3">
@@ -212,12 +219,13 @@
                             </label>
                         </div>
                     {% endif %}
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-pink btn-lg w-100">
-                        <i class="fas fa-lock"></i> Continue to Payment
-                    </button>
                 </form>
+                </div>
+
+                <!-- Submit Button (always visible) -->
+                <button type="submit" form="checkoutForm" class="btn btn-pink btn-lg w-100">
+                    <i class="fas fa-lock"></i> Continue to Payment
+                </button>
             </div>
         </div>
 
@@ -323,6 +331,11 @@
                 savedAddressCards.forEach(c => c.classList.remove('selected'));
                 // Add selected class to clicked card
                 this.classList.add('selected');
+                // Hide the form
+                const formContainer = document.getElementById('addressFormContainer');
+                if (formContainer) {
+                    formContainer.style.display = 'none';
+                }
                 // Fill form
                 fillFormFromAddress(this);
             });
@@ -335,10 +348,22 @@
         }
         
         // Use new address button
+        
+        // Show form if there are validation errors
+        const formContainer = document.getElementById('addressFormContainer');
+        const hasFormErrors = document.querySelectorAll('.form-error-text').length > 0;
+        if (formContainer && hasFormErrors) {
+            formContainer.style.display = 'block';
+        }
+        
         if (useNewAddressBtn) {
             useNewAddressBtn.addEventListener('click', function() {
                 // Clear all selections
                 savedAddressCards.forEach(c => c.classList.remove('selected'));
+                // Show the form
+                if (formContainer) {
+                    formContainer.style.display = 'block';
+                }
                 // Clear form
                 document.querySelectorAll('.checkout-form .form-control').forEach(input => {
                     input.value = '';

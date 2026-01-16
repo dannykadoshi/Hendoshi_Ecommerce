@@ -89,6 +89,14 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Quantity</label>
+                                                            <select name="quantity" class="form-select" required>
+                                                                {% for q in "123456789"|make_list %}
+                                                                    <option value="{{ q }}">{{ q }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
                                                         <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
                                                     </form>
                                                 {% else %}

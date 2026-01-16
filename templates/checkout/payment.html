@@ -129,21 +129,6 @@
                             </div>
                         </fieldset>
 
-                        {% if user.is_authenticated %}
-                        <fieldset class="form-section">
-                            <legend>Save Payment Method</legend>
-                            <div class="form-check" style="margin-bottom: 1rem;">
-                                <input type="checkbox" class="form-check-input" id="saveCard" name="save_card">
-                                <label class="form-check-label" for="saveCard">
-                                    Save this card for future purchases
-                                </label>
-                            </div>
-                            <small class="form-text text-muted">
-                                <i class="fas fa-lock"></i> Your card details will be securely saved and masked for future use.
-                            </small>
-                        </fieldset>
-                        {% endif %}
-
                         <div class="security-notice mt-4">
                             <i class="fas fa-lock"></i>
                             <span>Your payment information is encrypted. Card data is handled securely by Stripe.</span>
@@ -507,7 +492,7 @@
 
 .form-actions a.btn-pink {
     background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
+    color: #FFFFFF !important;
     border: none !important;
     text-decoration: none !important;
     display: inline-flex !important;
