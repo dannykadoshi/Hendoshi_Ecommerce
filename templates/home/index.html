@@ -7,7 +7,23 @@
 
 <!-- Hero Section -->
 <section class="hero">
-    <!-- Background carousel -->
+    <!-- Content - Left side -->
+    <div class="hero-content text-center">
+        <picture>
+            <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
+            <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
+        </picture>
+        <picture>
+            <source srcset="{% static 'images/wear-your-weird.webp' %}" type="image/webp">
+            <img src="{% static 'images/wear-your-weird.png' %}" alt="Wear Your Weird" class="hero-slogan-static">
+        </picture>
+        <picture>
+            <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
+            <img src="{% static 'images/pug-skull.png' %}" alt="Pug Skull" class="hero-pug-skull">
+        </picture>
+        <a href="{% url 'products' %}" class="btn btn-pink btn-lg">BROWSE DESIGNS</a>
+    </div>
+    <!-- Background carousel - Right side -->
     <div class="hero-carousel">
         <div class="carousel-slide active" style="background-image: url('{% static 'images/feed-my-demons-tee.webp' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'images/hendoshi-gothic-tee.webp' %}');"></div>
@@ -15,24 +31,6 @@
         <div class="carousel-slide" style="background-image: url('{% static 'images/dead-warpig-tee.webp' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'images/friends-festival-tee.webp' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'images/no-regrets-tee.webp' %}');"></div>
-    </div>
-    <div class="hero-background"></div>
-    <div class="container">
-        <div class="hero-content text-center">
-            <picture>
-                <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
-                <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
-            </picture>
-            <picture>
-                <source srcset="{% static 'images/wear-your-weird.webp' %}" type="image/webp">
-                <img src="{% static 'images/wear-your-weird.png' %}" alt="Wear Your Weird" class="hero-slogan-static">
-            </picture>
-            <picture>
-                <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
-                <img src="{% static 'images/pug-skull.png' %}" alt="Pug Skull" class="hero-pug-skull">
-            </picture>
-            <a href="{% url 'products' %}" class="btn btn-pink btn-lg">BROWSE DESIGNS</a>
-        </div>
     </div>
 </section>
 
