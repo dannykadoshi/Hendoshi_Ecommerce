@@ -1,3 +1,163 @@
+/* Bulk archive bar styling */
+.bulk-archive-bar {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1.5rem;
+    gap: 1.2rem;
+    border: 1px solid rgba(255, 20, 147, 0.10);
+}
+.bulk-archive-bar .btn-pink {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+}
+.bulk-archive-bar label {
+    color: var(--off-white);
+    font-weight: 600;
+    font-size: 1rem;
+}
+.product-checkbox-wrapper {
+    position: absolute;
+    z-index: 3;
+    background: rgba(0,0,0,0.7);
+    border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product-checkbox-wrapper.bottom-right {
+    bottom: 12px;
+    right: 12px;
+    top: auto;
+    left: auto;
+}
+.product-select-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--neon-pink);
+    border-radius: 4px;
+    border: 2px solid var(--neon-pink);
+    background: #181818;
+    transition: box-shadow 0.2s;
+}
+.product-select-checkbox:focus {
+    box-shadow: 0 0 0 2px var(--electric-yellow);
+    outline: none;
+}
+/* Archived Products Table - styled like order history */
+.table-responsive .archived-products-table {
+    color: var(--off-white) !important;
+    margin-bottom: 0 !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    background-color: transparent !important;
+}
+
+.table-responsive .archived-products-table thead {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border-bottom: 2px solid rgba(255, 20, 147, 0.3) !important;
+}
+
+.table-responsive .archived-products-table thead tr {
+    background-color: transparent !important;
+}
+
+.table-responsive .archived-products-table th {
+    color: var(--neon-pink) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    padding: 1rem 1.2rem !important;
+    text-align: left !important;
+    border: none !important;
+    background-color: transparent !important;
+    vertical-align: middle !important;
+}
+
+.table-responsive .archived-products-table tbody {
+    background-color: transparent !important;
+}
+
+.table-responsive .archived-products-table tbody tr {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
+    transition: all 0.3s ease !important;
+}
+
+.table-responsive .archived-products-table tbody tr:hover {
+    background-color: rgba(255, 20, 147, 0.08) !important;
+}
+
+.table-responsive .archived-products-table tbody tr:last-child {
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
+}
+
+.table-responsive .archived-products-table td {
+    padding: 1rem 1.2rem !important;
+    vertical-align: middle !important;
+    color: var(--off-white) !important;
+    font-size: 0.95rem !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.table-responsive .archived-products-table td:first-child {
+    font-weight: 600 !important;
+}
+
+.table-responsive .archived-products-table .btn-success.btn-sm {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+    border: none !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 0.5rem 1.2rem !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    transition: all 0.3s !important;
+    box-shadow: 0 2px 8px rgba(255,20,147,0.10) !important;
+}
+.table-responsive .archived-products-table .btn-success.btn-sm:hover {
+    background-color: var(--electric-yellow) !important;
+    color: var(--black) !important;
+    box-shadow: 0 8px 32px rgba(255,20,147,0.18) !important;
+}
+
+/* Light mode overrides for archived products table */
+:root.light-mode .table-responsive .archived-products-table th {
+    color: #E71F7F !important;
+    background-color: #f5f5f5;
+}
+:root.light-mode .table-responsive .archived-products-table thead {
+    background-color: #f9f9f9;
+    border-bottom-color: rgba(231, 31, 127, 0.2);
+}
+:root.light-mode .table-responsive .archived-products-table tbody tr {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+:root.light-mode .table-responsive .archived-products-table tbody tr:hover {
+    background-color: #fff5f8;
+}
+:root.light-mode .table-responsive .archived-products-table td {
+    color: #222222 !important;
+}
+.table-responsive .archived-products-table .btn-success.btn-sm {
+    background-color: #E71F7F !important;
+    color: #fff !important;
+}
+/* Add extra top margin to archived products table inside archive page */
+.container.archived-products-table-container {
+    margin-top: 140px !important;
+}
+/* Move archived products container lower from navbar */
+.archived-products-container {
+    margin-top: 48px;
+}
 /* File Input Button Styling - Cross-browser, force white text and green hover */
 input[type="file"]::-webkit-file-upload-button,
 input[type="file"]::file-selector-button {

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Archived Products - HENDOSHI{% endblock %}
+
+{% block content %}
+<div class="container mt-5 archived-products-table-container">
+    <h1 class="mb-4">Archived Products</h1>
+    {% if archived_products %}
+        <div class="table-responsive">
+        <table class="table archived-products-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Collection</th>
+                    <th>Type</th>
+                    <th>Date Archived</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in archived_products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.collection.name }}</td>
+                    <td>{{ product.product_type }}</td>
+                    <td>{{ product.updated_at|date:'Y-m-d H:i' }}</td>
+                    <td>
+                        <form method="post" action="{% url 'restore_product' product.slug %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Restore</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">No archived products found.</div>
+    {% endif %}
+</div>
+{% endblock %}

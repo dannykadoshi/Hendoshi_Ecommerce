@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Restore Product - HENDOSHI{% endblock %}
+
+{% block content %}
+<div class="delete-confirmation-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="auth-card text-center delete-card">
+                    <i class="fas fa-undo-alt delete-icon" style="color: var(--electric-yellow);"></i>
+                    <h1 class="auth-title mb-4">RESTORE PRODUCT?</h1>
+                    <p class="delete-product-name mb-4">
+                        Are you sure you want to restore <strong>{{ product.name }}</strong>?
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="delete-button-group">
+                            <button type="submit" class="btn btn-success btn-delete-product">
+                                <i class="fas fa-undo-alt"></i> RESTORE
+                            </button>
+                            <a href="{% url 'archived_products' %}" class="btn btn-outline-pink btn-delete-product">
+                                CANCEL
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

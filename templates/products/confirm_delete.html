@@ -4,48 +4,186 @@
 {% block title %}Delete {{ product.name }} - HENDOSHI{% endblock %}
 
 {% block content %}
-<div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <div class="auth-card text-center">
-                <i class="fas fa-exclamation-triangle delete-icon"></i>
-                
-                <h1 class="auth-title mb-4">DELETE PRODUCT?</h1>
-                
-                <p class="text-muted mb-4">
-                    Are you sure you want to permanently delete <strong class="delete-name">{{ product.name }}</strong>?
-                </p>
-                
-                <p class="text-danger mb-5">
-                    <small>This action cannot be undone. All variants, images, and design stories associated with this product will be deleted.</small>
-                </p>
+<div class="delete-confirmation-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="auth-card text-center delete-card">
+                    <i class="fas fa-exclamation-triangle delete-icon"></i>
 
-                <form method="post" id="deleteForm">
-                    {% csrf_token %}
-                    
-                    <button type="submit" class="btn btn-danger btn-delete">
-                        <i class="fas fa-trash"></i> DELETE
-                    </button>
-                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-secondary btn-cancel-delete">
-                        CANCEL
-                    </a>
-                </form>
+                    <h1 class="auth-title mb-4">DELETE PRODUCT?</h1>
+
+                    <p class="delete-product-name mb-4">
+                        Are you sure you want to permanently delete <strong>{{ product.name }}</strong>?
+                    </p>
+
+                    {% if active_in_orders %}
+                        <p class="delete-warning mb-5" style="color: #fff;">
+                            <strong>Cannot delete this product:</strong><br>
+                            This product is part of one or more active orders and cannot be deleted or archived.<br>
+                            Please fulfill or cancel all related orders before deleting this product.
+                        </p>
+                    {% else %}
+                        <p class="delete-warning mb-5">
+                            This action cannot be undone. All variants, images, and design stories associated with this product will be deleted.
+                        </p>
+                    {% endif %}
+
+                    <form method="post" id="deleteForm">
+                        {% csrf_token %}
+
+                        <div class="delete-button-group">
+                            <button type="submit" class="btn btn-pink btn-delete-product" {% if active_in_orders %}disabled style="opacity:0.6;cursor:not-allowed;"{% endif %}>
+                                <i class="fas fa-trash"></i> DELETE
+                            </button>
+                            <a href="{% url 'products' %}" class="btn btn-outline-pink btn-delete-product">
+                                CANCEL
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-.btn-danger:hover {
-    background-color: #c82333 !important;
-    transform: translateY(-2px);
+.delete-confirmation-wrapper {
+    margin-top: 150px;
+    margin-bottom: 80px;
+    min-height: calc(100vh - 300px);
 }
 
-.btn-outline-secondary:hover {
+.delete-card {
+    padding: 3rem 2rem;
+}
+
+.delete-icon {
+    font-size: 4rem;
+    color: var(--neon-pink);
+    margin-bottom: 1.5rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.delete-product-name {
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.delete-product-name strong {
+    color: var(--neon-pink);
+    font-weight: 700;
+}
+
+.delete-warning {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    background: rgba(255, 20, 147, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--neon-pink);
+}
+
+.delete-button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-delete-product,
+.delete-button-group .btn-pink {
     background-color: var(--neon-pink);
-    border-color: var(--neon-pink) !important;
-    color: white !important;
-    transform: translateY(-2px);
+    color: #FFFFFF;
+    border: 2px solid var(--neon-pink);
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 180px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-delete-product:hover,
+.delete-button-group .btn-pink:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
+
+.delete-button-group .btn-outline-pink {
+    background-color: transparent;
+    color: var(--neon-pink);
+    border: 2px solid var(--neon-pink);
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 180px;
+    text-align: center;
+}
+
+.delete-button-group .btn-outline-pink:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    border-color: var(--electric-yellow);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(204, 255, 0, 0.5);
+}
+
+/* Light Mode Overrides */
+:root.light-mode .delete-product-name {
+    color: var(--black);
+}
+
+:root.light-mode .delete-warning {
+    color: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 20, 147, 0.08);
+}
+
+:root.light-mode .btn-delete-product,
+:root.light-mode .delete-button-group .btn-pink {
+    background-color: var(--neon-pink);
+    color: white;
+}
+
+:root.light-mode .btn-delete-product:hover,
+:root.light-mode .delete-button-group .btn-pink:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+}
+
+:root.light-mode .delete-button-group .btn-outline-pink {
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+:root.light-mode .delete-button-group .btn-outline-pink:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    border-color: var(--electric-yellow);
 }
 </style>
 {% endblock %}
