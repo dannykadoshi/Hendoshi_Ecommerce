@@ -1385,7 +1385,7 @@ main {
     min-height: 100%;
     background: 
         repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 20, 147, 0.15) 10px, rgba(255, 20, 147, 0.15) 11px),
-        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255, 215, 0, 0.1) 10px, rgba(255, 215, 0, 0.1) 11px),
+        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0, 255, 0, 0.1) 10px, rgba(0, 255, 0, 0.1) 11px),
         linear-gradient(135deg, #000 0%, #1a1a1a 100%);
     display: flex;
     flex-direction: column;
