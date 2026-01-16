@@ -9,4 +9,5 @@ urlpatterns = [
     path('confirmation/<str:order_number>/', views.order_confirmation, name='order_confirmation'),
     path('order/<str:order_number>/', views.order_detail, name='order_detail'),
     path('order/<str:order_number>/reorder/', views.reorder, name='reorder'),
+    path('activate/<str:order_number>/<str:token>/', views.activate_account, name='activate_account'),
 ]

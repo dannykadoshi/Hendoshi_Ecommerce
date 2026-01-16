@@ -8,11 +8,18 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+
+from .forms import ShippingForm, ActivateAccountForm
+from .models import Order, OrderItem
+from cart.models import Cart, CartItem
+from cart.views import get_or_create_cart
+from products.models import Product
+from profiles.models import Address
 
 from cart.views import get_or_create_cart
 from .forms import ShippingForm
@@ -527,3 +534,42 @@ def reorder(request, order_number):
         messages.warning(request, f'{items_skipped} item(s) could not be added (out of stock or unavailable).')
     
     return redirect('view_cart')
+
+
+def activate_account(request, order_number, token):
+    """Allow guest users to activate their account and set password"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Verify token matches and account not already activated
+    if order.activation_token != token:
+        messages.error(request, 'Invalid activation link.')
+        return redirect('home')
+    
+    if order.account_activated:
+        messages.info(request, 'This account has already been activated. You can now login.')
+        return redirect('account_login')
+    
+    if request.method == 'POST':
+        form = ActivateAccountForm(request.POST)
+        if form.is_valid():
+            # Set password for guest user
+            order.user.set_password(form.cleaned_data['password'])
+            order.user.save()
+            
+            # Mark order as activated
+            order.account_activated = True
+            order.activation_token = None  # Clear token for security
+            order.save()
+            
+            messages.success(request, 'Account activated successfully! You can now login.')
+            return redirect('account_login')
+    else:
+        form = ActivateAccountForm()
+    
+    context = {
+        'form': form,
+        'order': order,
+    }
+    
+    return render(request, 'checkout/activate_account.html', context)
+

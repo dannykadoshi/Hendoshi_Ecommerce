@@ -257,3 +257,33 @@ class ShippingForm(forms.Form):
                     self.add_error('postal_code', 'Enter a valid UK postcode.')
         
         return cleaned_data
+
+
+class ActivateAccountForm(forms.Form):
+    """Form for guest users to set their password and activate account"""
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your password',
+        }),
+        min_length=8,
+        help_text='Password must be at least 8 characters long.'
+    )
+    password_confirm = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirm your password',
+        }),
+        label='Confirm Password'
+    )
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+        
+        if password and password_confirm:
+            if password != password_confirm:
+                self.add_error('password_confirm', 'Passwords do not match.')
+        
+        return cleaned_data

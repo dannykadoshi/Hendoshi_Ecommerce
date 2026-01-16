@@ -239,6 +239,15 @@
             <!-- Next Steps -->
             <div class="section">
                 <h2 class="section-title">What's Next?</h2>
+                {% if order.user and not order.account_activated %}
+                    <p style="margin-bottom: 20px;"><strong>Complete Your Account Setup</strong></p>
+                    <p>You've checked out as a guest. Create your account now to access your order history and future purchases!</p>
+                    <div style="text-align: center; margin: 25px 0;">
+                        <a href="{{ site_url }}/checkout/activate/{{ order.order_number }}/{{ order.activation_token }}/" style="display: inline-block; background-color: #FF2DA1; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; margin-bottom: 15px;">Activate Your Account</a>
+                    </div>
+                    <p style="font-size: 12px; color: #666; margin-top: 15px;">This link is unique to your order and will expire after account activation.</p>
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+                {% endif %}
                 <p>We'll process your order shortly. You'll receive a shipping notification with tracking information as soon as your items ship.</p>
                 <p>Thank you for shopping with us! If you have any questions, please don't hesitate to contact our support team.</p>
             </div>
