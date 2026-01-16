@@ -16,10 +16,13 @@
             </picture>
             <picture>
                 <source srcset="{% static 'images/wear-your-weird.webp' %}" type="image/webp">
-                <img src="{% static 'images/wear-your-weird.png' %}" alt="Wear Your Weird" class="hero-slogan-image">
+                <img src="{% static 'images/wear-your-weird.png' %}" alt="Wear Your Weird" class="hero-slogan-static">
             </picture>
-            <p class="hero-subtitle">No Filler. Just Killer. | Metal Meets Mayhem</p>
-            <a href="{% url 'products' %}" class="btn btn-pink btn-lg">UNLEASH THE WEIRD</a>
+            <picture>
+                <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
+                <img src="{% static 'images/pug-skull.png' %}" alt="Pug Skull" class="hero-pug-skull">
+            </picture>
+            <a href="{% url 'products' %}" class="btn btn-pink btn-lg">BROWSE DESIGNS</a>
         </div>
     </div>
 </section>

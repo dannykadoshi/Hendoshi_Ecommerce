@@ -1386,17 +1386,9 @@ main {
     height: auto;
     filter: drop-shadow(5px 5px 0 var(--neon-pink));
     animation: glitch-logo 3s infinite;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
-.hero-slogan-image {
-    max-width: 600px;
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(5px 5px 0 var(--neon-pink));
-    animation: glitch-logo 3s infinite;
-    margin-bottom: 1rem;
-}
 
 @keyframes glitch {
     0%, 100% { text-shadow: 5px 5px 0 var(--neon-pink); }
@@ -1410,6 +1402,36 @@ main {
     25% { filter: drop-shadow(-5px 5px 0 var(--electric-yellow)); }
     50% { filter: drop-shadow(5px -5px 0 var(--neon-pink)); }
     75% { filter: drop-shadow(-5px -5px 0 var(--electric-yellow)); }
+}
+
+/* Static slogan image sized to match hero logo width */
+.hero-slogan-static {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 0.25rem;
+}
+
+/* Pug skull image with bounce animation and green shadow */
+.hero-pug-skull {
+    max-width: 150px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 1.5rem;
+    filter: drop-shadow(3px 3px 0 #00ff00);
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes flash-green {
+    0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+    50% { filter: drop-shadow(0 0 15px #00ff00); }
 }
 
 .hero-slogan {
