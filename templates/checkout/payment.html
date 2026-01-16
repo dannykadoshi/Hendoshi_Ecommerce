@@ -61,239 +61,111 @@
 
                 <!-- Payment Section -->
                 <section class="payment-section">
-                    <h2><i class="fas fa-wallet"></i> Your Saved Cards</h2>
-                    
-                    <!-- Error Alert -->
+                    <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
+
                     {% if payment_error %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <i class="fas fa-exclamation-circle"></i> <strong>Payment Failed</strong>
                             <p class="mb-0 mt-2">{{ payment_error }}</p>
-                            <p class="mb-0 text-small mt-2">
-                                <a href="{% url 'payment' order.order_number %}" class="alert-link">Try again with a different card</a>
-                            </p>
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     {% endif %}
 
-                    <!-- Saved Payment Methods (for authenticated users) -->
-                    {% if user.is_authenticated and saved_payment_methods %}
-                        <div class="saved-payment-methods mb-5">
-                            <div class="saved-payment-cards mb-4">
-                                {% for method in saved_payment_methods %}
-                                    <label class="payment-card-item {% if method.is_default %}default-card{% endif %}" for="saved_{{ method.id }}" data-card-id="{{ method.id }}" data-last-four="{{ method.last_four }}" data-expiry="{{ method.expiry_date }}" data-cardholder="{{ method.cardholder_name }}">
-                                        <input type="radio" name="use_saved_payment" id="saved_{{ method.id }}" value="{{ method.id }}" class="form-check-input payment-radio saved-card-radio" {% if method.is_default %}checked{% endif %}>
-                                        <div class="payment-card-content">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <div class="card-type-icon">
-                                                    <i class="fab fa-cc-{{ method.card_type|lower }}"></i>
-                                                </div>
-                                                <div class="flex-fill">
-                                                    <div class="card-number">{{ method.get_display_name }}</div>
-                                                    <div class="card-expiry">Expires {{ method.expiry_date }}</div>
-                                                </div>
-                                                {% if method.is_default %}
-                                                    <span class="badge bg-pink">Default</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </label>
-                                {% endfor %}
-                            </div>
-                            
-                            <div class="text-center mb-4">
-                                <button type="button" class="btn btn-outline-pink btn-sm" id="useNewCardBtn">
-                                    <i class="fas fa-plus-circle me-2"></i>Use a Different Card
-                                </button>
-                            </div>
-                            
-                            <div id="newCardFormSection" class="d-none">
-                                <div class="alert alert-info alert-card-info">
-                                    <i class="fas fa-info-circle me-2"></i>Enter new card details below
-                                </div>
-                            </div>
-                            
-                            <hr class="my-4">
-                        </div>
-                    {% endif %}
-
-                    <!-- Payment Form -->
-                    <form method="post" class="payment-form" id="paymentForm" novalidate>
+                    <form method="post"
+                          action="{% url 'payment' order.order_number %}"
+                          class="payment-form"
+                          id="paymentForm"
+                          novalidate
+                          data-client-secret="{{ client_secret }}"
+                          data-public-key="{{ stripe_public_key }}"
+                          data-order-number="{{ order.order_number }}"
+                          data-email="{{ order.email }}"
+                          data-full-name="{{ order.full_name }}"
+                          data-success-url="{% url 'order_confirmation' order.order_number %}"
+                          data-failure-url="{% url 'payment_result' order.order_number %}">
                         {% csrf_token %}
-                        
+
                         <fieldset class="form-section">
                             <legend>Card Information</legend>
-                            
+
                             <div class="mb-3">
-                                <label for="{{ form.card_number.id_for_label }}" class="form-label">
-                                    Card Number
-                                    <span class="text-danger">*</span>
+                                <label class="form-label" for="card-element">
+                                    Card Details <span class="text-danger">*</span>
                                 </label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
-                                    {{ form.card_number }}
-                                </div>
-                                {% if form.card_number.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.card_number.errors.0 }}
-                                    </div>
-                                {% endif %}
+                                <div id="card-element" class="stripe-card-element" aria-label="Card input"></div>
+                                <div id="card-errors" class="card-errors" role="alert" aria-live="polite"></div>
                                 <small class="form-text test-card-hint">
-                                    <i class="fas fa-lightbulb"></i> Test: <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0020 0000 000</strong> (declined)
+                                    <i class="fas fa-lightbulb"></i> Test with <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0025 0000 3155</strong> (3D Secure).
                                 </small>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="{{ form.expiry_date.id_for_label }}" class="form-label">
-                                        Expiry Date
-                                        <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="cardholderName" class="form-label">Cardholder Name</label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                        {{ form.expiry_date }}
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        <input type="text"
+                                               id="cardholderName"
+                                               name="cardholder_name"
+                                               class="form-control"
+                                               value="{{ order.full_name }}"
+                                               autocomplete="cc-name"
+                                               placeholder="Name on card">
                                     </div>
-                                    {% if form.expiry_date.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.expiry_date.errors.0 }}
-                                        </div>
-                                    {% endif %}
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="{{ form.cvc.id_for_label }}" class="form-label">
-                                        CVC/CVV
-                                        <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="billingPostalCode" class="form-label">Postal Code</label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                        {{ form.cvc }}
+                                        <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                                        <input type="text"
+                                               id="billingPostalCode"
+                                               name="billing_postal_code"
+                                               class="form-control"
+                                               value="{{ order.postal_code }}"
+                                               autocomplete="postal-code"
+                                               placeholder="Postal / ZIP code">
                                     </div>
-                                    {% if form.cvc.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.cvc.errors.0 }}
-                                        </div>
-                                    {% endif %}
                                 </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="{{ form.cardholder_name.id_for_label }}" class="form-label">
-                                    Cardholder Name
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    {{ form.cardholder_name }}
-                                </div>
-                                {% if form.cardholder_name.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.cardholder_name.errors.0 }}
-                                    </div>
-                                {% endif %}
                             </div>
                         </fieldset>
 
+                        {% if user.is_authenticated %}
                         <fieldset class="form-section">
-                            <legend>Billing Address</legend>
-
-                            <div class="form-check mb-3" id="sameAsShippingContainer"
-                                 data-address="{{ order.address|escapejs }}"
-                                 data-city="{{ order.city|escapejs }}"
-                                 data-postal="{{ order.postal_code|escapejs }}"
-                                 data-country="{{ order.country|escapejs }}">
-                                {{ form.same_as_shipping }}
-                                <label class="form-check-label" for="{{ form.same_as_shipping.id_for_label }}">
-                                    Use shipping address for billing
+                            <legend>Save Payment Method</legend>
+                            <div class="form-check" style="margin-bottom: 1rem;">
+                                <input type="checkbox" class="form-check-input" id="saveCard" name="save_card">
+                                <label class="form-check-label" for="saveCard">
+                                    Save this card for future purchases
                                 </label>
                             </div>
-                            
-                            <div class="mb-3">
-                                <label for="{{ form.billing_address.id_for_label }}" class="form-label">
-                                    Street Address
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
-                                    {{ form.billing_address }}
-                                </div>
-                                {% if form.billing_address.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.billing_address.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="{{ form.billing_city.id_for_label }}" class="form-label">
-                                        City
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    {{ form.billing_city }}
-                                    {% if form.billing_city.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.billing_city.errors.0 }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="{{ form.billing_postal_code.id_for_label }}" class="form-label">
-                                        Postal Code
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    {{ form.billing_postal_code }}
-                                    {% if form.billing_postal_code.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.billing_postal_code.errors.0 }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="{{ form.billing_country.id_for_label }}" class="form-label">
-                                    Country
-                                    <span class="text-danger">*</span>
-                                </label>
-                                {{ form.billing_country }}
-                                {% if form.billing_country.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ form.billing_country.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-lock"></i> Your card details will be securely saved and masked for future use.
+                            </small>
                         </fieldset>
-
-                        <!-- Save Card Option (for authenticated users) -->
-                        {% if user.is_authenticated and form.save_card %}
-                            <fieldset class="form-section">
-                                <legend>Payment Preferences</legend>
-                                <div class="form-check">
-                                    {{ form.save_card }}
-                                    <label class="form-check-label" for="{{ form.save_card.id_for_label }}">
-                                        {{ form.save_card.label }}
-                                    </label>
-                                </div>
-                                <small class="form-text text-muted">
-                                    <i class="fas fa-lock"></i> Your card details will be securely saved and masked for future use.
-                                </small>
-                            </fieldset>
                         {% endif %}
+
+                        <div class="security-notice mt-4">
+                            <i class="fas fa-lock"></i>
+                            <span>Your payment information is encrypted. Card data is handled securely by Stripe.</span>
+                        </div>
+
+                        <div class="form-actions mt-4">
+                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg">
+                                <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>Back to Shipping
+                            </a>
+                            <button type="submit" class="btn btn-pink btn-lg" id="submitPayment">
+                                <span class="default-text"><i class="fas fa-lock"></i> Pay ${{ order.total_amount }}</span>
+                                <span class="loading-text d-none">
+                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    Processing...
+                                </span>
+                            </button>
+                        </div>
                     </form>
 
-                    <!-- Security Notice - Always Visible -->
-                    <div class="security-notice mt-4">
-                        <i class="fas fa-lock"></i>
-                        <span>Your payment information is encrypted and secure. We never store your full card details.</span>
-                    </div>
-
-                    <!-- Action Buttons - Always Visible -->
-                    <div class="form-actions mt-4">
-                        <a href="{% url 'checkout' %}" class="btn btn-pink">
-                            <i class="fas fa-arrow-left"></i> Back to Shipping
-                        </a>
-                        <button type="submit" form="paymentForm" class="btn btn-pink btn-lg">
-                            <i class="fas fa-lock"></i> Pay ${{ order.total_amount }}
-                        </button>
+                    <div id="paymentLoading" class="payment-loading-overlay d-none" aria-hidden="true">
+                        <div class="spinner-border text-light" role="status"></div>
+                        <p class="mt-3 mb-0">Confirming payment…</p>
                     </div>
                 </section>
             </div>
@@ -628,11 +500,28 @@
     justify-content: space-between;
 }
 
-.form-actions a {
+.form-actions a,
+.form-actions button {
     flex: 1;
-    padding: 1rem 2rem;
-    font-weight: 700;
 }
+
+.form-actions a.btn-pink {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+    border: none !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.form-actions a.btn-pink:hover {
+    background-color: var(--electric-yellow) !important;
+    color: var(--black) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
+
 
 .order-items-summary {
     margin-top: 2rem;
@@ -825,171 +714,9 @@
     color: #d91479;
 }
 </style>
+{% endblock %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('paymentForm');
-
-    // Real-time removal + success styling (match shipping form)
-    const inputs = document.querySelectorAll('#paymentForm .form-control, #paymentForm .form-select');
-    inputs.forEach(input => {
-        const toggleValueState = () => {
-            if (input.value.trim() !== '') {
-                input.classList.add('has-value');
-            }
-        };
-
-        input.addEventListener('input', () => {
-            const errorElement = input.closest('div')?.querySelector('.form-error-text');
-            if (errorElement) errorElement.remove();
-            toggleValueState();
-        });
-
-        input.addEventListener('change', () => {
-            const errorElement = input.closest('div')?.querySelector('.form-error-text');
-            if (errorElement && input.value.trim() !== '') errorElement.remove();
-            toggleValueState();
-        });
-
-        toggleValueState();
-    });
-
-    form.addEventListener('submit', function(e) {
-        // Clear existing errors
-        document.querySelectorAll('#paymentForm .form-error-text').forEach(el => el.remove());
-
-        let hasErrors = false;
-        const requiredIds = [
-            '{{ form.card_number.id_for_label }}',
-            '{{ form.expiry_date.id_for_label }}',
-            '{{ form.cvc.id_for_label }}',
-            '{{ form.cardholder_name.id_for_label }}',
-            '{{ form.billing_address.id_for_label }}',
-            '{{ form.billing_city.id_for_label }}',
-            '{{ form.billing_postal_code.id_for_label }}',
-            '{{ form.billing_country.id_for_label }}'
-        ];
-
-        requiredIds.forEach(id => {
-            const field = document.getElementById(id);
-            if (field && !field.value.trim()) {
-                showError(field);
-                hasErrors = true;
-            }
-        });
-
-        if (hasErrors) {
-            e.preventDefault();
-            const firstError = document.querySelector('#paymentForm .form-error-text');
-            if (firstError) {
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-    });
-
-    function showError(field) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error-text';
-        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> This field is required.';
-
-        const container = field.closest('.mb-3, .col-md-6, .col-md-12') || field.parentElement;
-        container.appendChild(errorDiv);
-    }
-
-    // Same as shipping toggle
-    const sameToggle = document.getElementById('{{ form.same_as_shipping.id_for_label }}');
-    const sameContainer = document.getElementById('sameAsShippingContainer');
-    if (sameToggle && sameContainer) {
-        const shippingData = {
-            address: sameContainer.dataset.address || '',
-            city: sameContainer.dataset.city || '',
-            postal: sameContainer.dataset.postal || '',
-            country: sameContainer.dataset.country || '',
-        };
-
-        const setValue = (id, value) => {
-            const field = document.getElementById(id);
-            if (!field) return;
-            field.value = value;
-            if (value.trim() !== '') {
-                field.classList.add('has-value');
-                const err = field.closest('.mb-3, .col-md-6, .col-md-12')?.querySelector('.form-error-text');
-                if (err) err.remove();
-            }
-            field.dispatchEvent(new Event('change', { bubbles: true }));
-        };
-
-        sameToggle.addEventListener('change', () => {
-            if (sameToggle.checked) {
-                setValue('{{ form.billing_address.id_for_label }}', shippingData.address);
-                setValue('{{ form.billing_city.id_for_label }}', shippingData.city);
-                setValue('{{ form.billing_postal_code.id_for_label }}', shippingData.postal);
-                setValue('{{ form.billing_country.id_for_label }}', shippingData.country);
-            }
-        });
-    }
-});
-
-// Toggle new card form visibility
-document.addEventListener('DOMContentLoaded', function() {
-    const useNewCardBtn = document.getElementById('useNewCardBtn');
-    const newCardFormSection = document.getElementById('newCardFormSection');
-    const paymentForm = document.getElementById('paymentForm');
-    const savedCardRadios = document.querySelectorAll('.saved-card-radio');
-    
-    // Form fields
-    const cardNumberField = document.getElementById('id_card_number');
-    const expiryField = document.getElementById('id_expiry_date');
-    const cvcField = document.getElementById('id_cvc');
-    const cardholderField = document.getElementById('id_cardholder_name');
-    
-    // Initially ALWAYS hide form if there are saved cards
-    if (savedCardRadios.length > 0 && paymentForm) {
-        paymentForm.style.display = 'none';
-    }
-    
-    if (useNewCardBtn && newCardFormSection) {
-        useNewCardBtn.addEventListener('click', function() {
-            // Uncheck all saved cards
-            savedCardRadios.forEach(radio => radio.checked = false);
-            
-            // Show the new card alert and form
-            newCardFormSection.style.display = 'block';
-            if (paymentForm) {
-                paymentForm.style.display = 'block';
-            }
-            
-            // Clear and enable all form fields
-            if (cardNumberField) cardNumberField.value = '';
-            if (expiryField) expiryField.value = '';
-            if (cvcField) cvcField.value = '';
-            if (cardholderField) cardholderField.value = '';
-            
-            // Scroll to payment form
-            if (paymentForm) {
-                paymentForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-        
-        // When a saved card is selected
-        savedCardRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.checked) {
-                    // Hide new card section and form
-                    newCardFormSection.style.display = 'none';
-                    if (paymentForm) {
-                        paymentForm.style.display = 'none';
-                    }
-                    
-                    // Get card data from label
-                    const label = this.closest('label');
-                    const cardId = label.getAttribute('data-card-id');
-                    
-                    console.log('Selected saved card:', cardId);
-                }
-            });
-        });
-    }
-});
-</script>
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/stripe-payment.js' %}"></script>
 {% endblock %}

@@ -117,6 +117,17 @@
                         {% endif %}
                     </div>
 
+                    <!-- Email -->
+                    <div class="mb-3">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="form-error-text">
+                                <i class="fas fa-exclamation-circle"></i> {{ form.email.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
                     <!-- Phone -->
                     <div class="mb-3">
                         {{ form.phone.label_tag }}

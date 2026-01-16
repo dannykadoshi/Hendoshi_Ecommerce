@@ -1557,6 +1557,8 @@ main {
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.3s;
+    display: inline-block;
+    text-decoration: none;
 }
 
 .btn-pink:hover {
@@ -1564,6 +1566,18 @@ main {
     color: var(--black);
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
+
+a.btn-pink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-lg {
+    padding: 1.5rem 3rem !important;
+    font-size: 1.3rem !important;
 }
 
 /* Philosophy Strip */
@@ -4167,6 +4181,37 @@ main {
     color: #222222 !important;
 }
 
+/* Stripe Payment Elements */
+.payment-section {
+    position: relative;
+}
+
+.stripe-card-element {
+    border: 1px solid var(--neon-pink);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.card-errors {
+    color: #ff6b6b;
+    margin-top: 0.5rem;
+    min-height: 1.25rem;
+}
+
+.payment-loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+}
+
 :root.light-mode .order-summary {
     color: #111111;
 }
@@ -4549,9 +4594,60 @@ main {
     color: #111111;
     box-shadow: 0 10px 22px rgba(204, 255, 0, 0.22);
 }
+
 .checkout-btn.disabled {
     opacity: 0.6;
     pointer-events: none;
+}
+
+/* Checkout Payment Page - Form Actions */
+.form-actions a {
+    color: var(--off-white);
+    border: 2px solid #555;
+    background-color: rgba(255, 255, 255, 0.03);
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    text-decoration: none;
+}
+
+.form-actions a:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(255, 20, 147, 0.25);
+}
+
+.form-actions a:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .form-actions a {
+    border-color: #ddd;
+    color: #222;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .form-actions a:hover {
+    background-color: #f5f5f5;
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    box-shadow: 0 10px 22px rgba(255, 20, 147, 0.22);
+}
+
+:root.light-mode .form-actions a:active {
+    box-shadow: 0 6px 16px rgba(255, 20, 147, 0.15);
+}
+
+/* Hide Stripe Autofill Link */
+.StripeElement__iframe[title*="Autofill"],
+.autofill-button {
+    display: none !important;
 }
 
 .checkout-cta .checkout-helper {
