@@ -1,3 +1,25 @@
+.btn-delete-product {
+    background-color: var(--neon-pink);
+    color: #fff;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 14px;
+    transition: all 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 2rem;
+    box-shadow: 0 4px 24px rgba(255,20,147,0.10);
+}
+.btn-delete-product:hover, .btn-delete-product:focus {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    box-shadow: 0 8px 32px rgba(255,20,147,0.18);
+    outline: none;
+}
 /* Edit Product Icon (Admin Only) */
 .edit-product-icon {
     position: absolute;
