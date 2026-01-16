@@ -51,6 +51,10 @@ class Order(models.Model):
     payment_error = models.TextField(null=True, blank=True)
     stripe_payment_intent_id = models.CharField(max_length=255, null=True, blank=True)
     
+    # Guest account activation
+    activation_token = models.CharField(max_length=255, null=True, blank=True, editable=False)
+    account_activated = models.BooleanField(default=False)
+    
     # Status and timestamps
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     tracking_number = models.CharField(max_length=100, null=True, blank=True)

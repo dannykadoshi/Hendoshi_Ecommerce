@@ -1,8 +1,10 @@
 from decimal import Decimal, ROUND_HALF_UP
 import json
 import stripe
+import secrets
 
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse
@@ -196,10 +198,31 @@ def checkout(request):
                 else:
                     messages.info(request, 'This address is already in your address book.')
             
+            # Create guest user if not authenticated
+            user_for_order = request.user if request.user.is_authenticated else None
+            activation_token = None
+            if not request.user.is_authenticated:
+                email = form.cleaned_data.get('email', '')
+                # Create guest user with unusable password
+                # Check if user with this email already exists
+                user_for_order, created = User.objects.get_or_create(
+                    email=email,
+                    defaults={
+                        'username': f'guest_{secrets.token_hex(8)}',  # Unique username
+                        'first_name': form.cleaned_data['full_name'].split()[0] if form.cleaned_data['full_name'] else 'Guest',
+                    }
+                )
+                if created:
+                    user_for_order.set_unusable_password()
+                    user_for_order.save()
+                # Generate activation token for guest users
+                activation_token = secrets.token_urlsafe(48)
+            
             # Create order with payment_pending status
             order = Order.objects.create(
-                user=request.user if request.user.is_authenticated else None,
+                user=user_for_order,
                 email=form.cleaned_data.get('email') or (request.user.email if request.user.is_authenticated else ''),
+                activation_token=activation_token,
                 full_name=form.cleaned_data['full_name'],
                 phone=form.cleaned_data['phone'],
                 address=form.cleaned_data['address'],
@@ -256,8 +279,8 @@ def order_confirmation(request, order_number):
     """Display order confirmation page"""
     order = get_object_or_404(Order, order_number=order_number)
     
-    # Security: verify user owns this order
-    if order.user and order.user != request.user:
+    # Security: verify user owns this order (or guest can access their order)
+    if order.user and order.user != request.user and request.user.is_authenticated:
         messages.error(request, 'You do not have permission to view this order.')
         return redirect('home')
     
@@ -316,7 +339,7 @@ def payment(request, order_number):
         return redirect('checkout')
 
     # Security: verify user owns this order (or guest can access within session)
-    if order.user and order.user != request.user:
+    if order.user and order.user != request.user and request.user.is_authenticated:
         messages.error(request, 'You do not have permission to access this payment.')
         return redirect('home')
 
@@ -384,8 +407,8 @@ def payment_result(request, order_number):
     """Display payment result page (success or failure)"""
     order = get_object_or_404(Order, order_number=order_number)
     
-    # Security: verify user owns this order
-    if order.user and order.user != request.user:
+    # Security: verify user owns this order (or guest can access their order)
+    if order.user and order.user != request.user and request.user.is_authenticated:
         messages.error(request, 'You do not have permission to view this order.')
         return redirect('home')
     
@@ -458,7 +481,11 @@ def reorder(request, order_number):
     """Add all items from a previous order to the cart"""
     order = get_object_or_404(Order, order_number=order_number)
     
-    # Security: verify user owns this order
+    # Security: reorder only for authenticated users who own the order
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must be logged in to reorder.')
+        return redirect('login')
+    
     if order.user and order.user != request.user:
         messages.error(request, 'You do not have permission to access this order.')
         return redirect('home')
