@@ -1,3 +1,28 @@
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from django.shortcuts import redirect
+
+# Bulk archive (soft delete) products
+@login_required
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+@require_POST
+def bulk_archive_products(request):
+    product_ids = request.POST.getlist('product_ids')
+    if not product_ids:
+        messages.warning(request, 'No products selected for archiving.')
+        return redirect('products')
+    products = Product.objects.filter(id__in=product_ids, is_archived=False)
+    count = 0
+    for product in products:
+        product.is_archived = True
+        product.save()
+        count += 1
+    if count:
+        messages.success(request, f'{count} product(s) archived successfully!')
+    else:
+        messages.info(request, 'No products were archived.')
+    return redirect('products')
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -18,7 +43,7 @@ def search(request):
     """
     View to handle product search
     """
-    products = Product.objects.filter(is_active=True)
+    products = Product.objects.filter(is_active=True, is_archived=False)
     query = ''
     
     if 'q' in request.GET:
@@ -37,7 +62,7 @@ def search(request):
     suggestions = []
     if query and not products.exists():
         # Get popular products as suggestions
-        suggestions = Product.objects.filter(is_active=True).order_by('-id')[:4]
+        suggestions = Product.objects.filter(is_active=True, is_archived=False).order_by('-id')[:4]
     
     context = {
         'products': products,
@@ -53,7 +78,7 @@ def all_products(request):
     """
     View to show all products with filtering and sorting
     """
-    products = Product.objects.filter(is_active=True)
+    products = Product.objects.filter(is_active=True, is_archived=False)
     collections = Collection.objects.all()
     query = None
     selected_collection = None
@@ -111,7 +136,7 @@ def product_detail(request, slug):
     """
     View to show individual product details
     """
-    product = get_object_or_404(Product, slug=slug, is_active=True)
+    product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
     
     # Get available sizes and colors (remove duplicates)
     available_sizes = list(set(product.get_available_sizes()))
@@ -309,18 +334,33 @@ def edit_product(request, slug):
 @user_passes_test(is_staff_or_admin)
 def delete_product(request, slug):
     """
-    View to delete a product
+    View to delete (archive) a product, blocking if in active orders
     """
+    from checkout.models import OrderItem
     product = get_object_or_404(Product, slug=slug)
-    
+
+    # Define active order statuses
+    ACTIVE_STATUSES = ['pending', 'confirmed', 'processing', 'shipped', 'delivered']
+
+    # Check if product is in any active order
+    active_order_items = OrderItem.objects.filter(
+        product=product,
+        order__status__in=ACTIVE_STATUSES
+    )
+
     if request.method == 'POST':
+        if active_order_items.exists():
+            messages.error(request, f'Cannot archive product "{product.name}" because it is part of one or more active orders.')
+            return redirect('edit_product', slug=product.slug)
         product_name = product.name
-        product.delete()
-        messages.success(request, f'Product "{product_name}" deleted successfully!')
+        product.is_archived = True
+        product.save()
+        messages.success(request, f'Product "{product_name}" archived successfully!')
         return redirect('products')
-    
+
     context = {
         'product': product,
+        'active_in_orders': active_order_items.exists(),
     }
-    
+
     return render(request, 'products/confirm_delete.html', context)

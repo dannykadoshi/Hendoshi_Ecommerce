@@ -27,6 +27,8 @@ class Collection(models.Model):
         return self.name
     
 class Product(models.Model):
+    # Soft delete (archive)
+    is_archived = models.BooleanField(default=False, help_text="If true, product is archived and hidden from frontend.")
     """
     Main product model for HENDOSHI apparel and merchandise
     """
