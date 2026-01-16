@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Product - HENDOSHI{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5 product-form-container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="auth-card">
+                <h1 class="auth-title text-center mb-5">CREATE NEW PRODUCT</h1>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" id="createProductForm" novalidate>
+                    {% csrf_token %}
+
+                    <!-- BASIC INFORMATION SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Basic Information</h3>
+                        
+                        <!-- Product Name -->
+                        <div class="mb-4">
+                            <label for="{{ product_form.name.id_for_label }}" class="form-label">Product Name *</label>
+                            {{ product_form.name }}
+                            <div class="form-error-text hidden-error"></div>
+                            {% if product_form.name.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ product_form.name.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="mb-4">
+                            <label for="{{ product_form.description.id_for_label }}" class="form-label">Description *</label>
+                            {{ product_form.description }}
+                            <div class="form-error-text hidden-error"></div>
+                            {% if product_form.description.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ product_form.description.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div class="mb-4">
+                            <label for="{{ product_form.meta_description.id_for_label }}" class="form-label">SEO Meta Description (Optional)</label>
+                            {{ product_form.meta_description }}
+                            <small class="helper-text d-block mt-2">Max 160 characters for search engines</small>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORIZATION SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Categorization</h3>
+                        
+                        <div class="row">
+                            <!-- Collection -->
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ product_form.collection.id_for_label }}" class="form-label">Collection *</label>
+                                {{ product_form.collection }}
+                                {% if product_form.collection.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.collection.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Product Type -->
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ product_form.product_type.id_for_label }}" class="form-label">Product Type *</label>
+                                {{ product_form.product_type }}
+                                {% if product_form.product_type.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.product_type.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRICING & IMAGES SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Pricing & Images</h3>
+                        
+                        <!-- Base Price -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ product_form.base_price.id_for_label }}" class="form-label">Price *</label>
+                                {{ product_form.base_price }}
+                                {% if product_form.base_price.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.base_price.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Main Image -->
+                        <div class="mb-4">
+                            <label for="{{ product_form.main_image.id_for_label }}" class="form-label">Main Product Image *</label>
+                            {{ product_form.main_image }}
+                            {% if product_form.main_image.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ product_form.main_image.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <small class="helper-text d-block mt-2">Primary image for product display</small>
+                        </div>
+
+                        <!-- Additional Images -->
+                        <div class="mb-4">
+                            <h4 class="mb-3">Additional Images (Gallery)</h4>
+                            <div class="image-formset-container">
+                                {{ image_formset.management_form }}
+                                {% for form in image_formset %}
+                                    <div class="image-form-row mb-4 p-4">
+                                        <div class="row align-items-end">
+                                            <div class="col-md-7">
+                                                <label class="form-label">Image</label>
+                                                {{ form.image }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Alt Text</label>
+                                                {{ form.alt_text }}
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label">Order</label>
+                                                {{ form.order }}
+                                            </div>
+                                        </div>
+                                        {% if form.id %}
+                                            <div class="mt-3">
+                                                {{ form.DELETE }}
+                                                <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <small class="helper-text d-block">Add up to {{ image_formset.extra }} additional images for product gallery</small>
+                        </div>
+                    </div>
+
+                    <!-- SIZE & COLOR VARIANTS SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Size & Color Options</h3>
+                        <p class="helper-text mb-4">Add size/color combinations with stock quantities</p>
+                        
+                        <div class="variant-formset-container">
+                            {{ variant_formset.management_form }}
+                            {% for form in variant_formset %}
+                                <div class="variant-form-row mb-4 p-4">
+                                    <div class="row align-items-end">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Size *</label>
+                                            {{ form.size }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Color *</label>
+                                            {{ form.color }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Stock Quantity *</label>
+                                            {{ form.stock }}
+                                        </div>
+                                    </div>
+                                    {% if form.id %}
+                                        <div class="mt-3">
+                                            {{ form.DELETE }}
+                                            <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <small class="helper-text d-block">Add at least 1 variant (e.g., Black XL with stock of 10)</small>
+                    </div>
+
+                    <!-- DESIGN STORY SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Design Story (Optional)</h3>
+                        <p class="helper-text mb-4">Add the story behind this design</p>
+                        
+                        <!-- Story Title -->
+                        <div class="mb-4">
+                            <label for="{{ design_form.title.id_for_label }}" class="form-label">Story Title</label>
+                            {{ design_form.title }}
+                        </div>
+
+                        <!-- Story Text -->
+                        <div class="mb-4">
+                            <label for="{{ design_form.story.id_for_label }}" class="form-label">Design Story</label>
+                            {{ design_form.story }}
+                            <small class="helper-text d-block mt-2">Tell the inspiration and creative process behind this design</small>
+                        </div>
+
+                        <!-- Author -->
+                        <div class="mb-4">
+                            <label for="{{ design_form.author.id_for_label }}" class="form-label">Author</label>
+                            {{ design_form.author }}
+                        </div>
+                    </div>
+
+                    <!-- STATUS SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Status</h3>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    {{ product_form.is_active }}
+                                    <label class="form-check-label" for="{{ product_form.is_active.id_for_label }}">
+                                        Publish (make visible)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    {{ product_form.featured }}
+                                    <label class="form-check-label" for="{{ product_form.featured.id_for_label }}">
+                                        Feature product
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBMIT BUTTONS -->
+                    <div class="form-section text-center">
+                        <button type="submit" class="btn btn-pink">
+                            CREATE PRODUCT
+                        </button>
+                        <a href="{% url 'products' %}" class="btn btn-outline-pink ms-3">
+                            CANCEL
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formInputs = document.querySelectorAll('#createProductForm .form-control');
+    
+    formInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            const errorElement = this.closest('div').querySelector('.form-error-text');
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+            if (this.value.trim() !== '') {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+
+        input.addEventListener('blur', function() {
+            if (this.value.trim() !== '') {
+                this.classList.add('has-value');
+            }
+        });
+
+        input.addEventListener('focus', function() {
+            const errorElement = this.closest('div').querySelector('.form-error-text');
+            if (errorElement && !this.hasAttribute('required')) {
+                errorElement.style.display = 'none';
+            }
+        });
+
+        if (input.value.trim() !== '') {
+            input.classList.add('has-value');
+        }
+    });
+});
+</script>
+
+<style>
+.form-section {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+}
+
+.form-section:last-child {
+    border-bottom: none;
+}
+
+.image-form-row, .variant-form-row {
+    transition: all 0.3s ease;
+}
+
+.image-form-row:hover, .variant-form-row:hover {
+    border-color: var(--neon-pink) !important;
+    background-color: rgba(26, 26, 26, 0.9) !important;
+}
+</style>
+{% endblock %}
