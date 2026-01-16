@@ -10,7 +10,12 @@
             <div class="auth-card">
                 <div class="relative-container">
                     <h1 class="auth-title text-center mb-5">EDIT PRODUCT</h1>
-                    <a href="{% url 'product_detail' product.slug %}" class="btn-close-auth"></a>
+                    <a href="{% url 'product_detail' product.slug %}" class="btn-close-auth" aria-label="Close">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto;">
+                            <line x1="9" y1="9" x2="23" y2="23" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="23" y1="9" x2="9" y2="23" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </a>
                 </div>
 
                 {% if messages %}
@@ -115,7 +120,10 @@
                                     <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="image-preview-current">
                                 </div>
                             {% endif %}
-                            {{ product_form.main_image }}
+                            <div class="file-input-wrapper position-relative" style="display: flex; align-items: center;">
+                                {{ product_form.main_image }}
+                                <span class="clear-file-x" title="Remove selection" style="display:none;cursor:pointer;margin-left:8px;font-size:1.3em;color:#e74c3c;user-select:none;">&times;</span>
+                            </div>
                             {% if product_form.main_image.errors %}
                                 <div class="form-error-text">
                                     <i class="fas fa-exclamation-circle"></i> {{ product_form.main_image.errors.0 }}
@@ -127,10 +135,11 @@
                         <!-- Additional Images -->
                         <div class="mb-4">
                             <h4 class="mb-3">Additional Images (Gallery)</h4>
-                            <div class="image-formset-container">
-                                {{ image_formset.management_form }}
+                            <div class="image-formset-container" id="imageFormsetContainer">
+                                <div style="display:none;">{{ image_formset.management_form }}</div>
                                 {% for form in image_formset %}
                                     <div class="image-form-row mb-4 p-4">
+                                        <div style="display:none;">{{ form.id }}</div>
                                         {% if form.instance.image %}
                                             <div class="mb-3">
                                                 <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="image-preview-current">
@@ -139,7 +148,10 @@
                                         <div class="row align-items-end">
                                             <div class="col-md-7">
                                                 <label class="form-label">Image</label>
-                                                {{ form.image }}
+                                                <div class="file-input-wrapper position-relative" style="display: flex; align-items: center;">
+                                                    {{ form.image }}
+                                                    <span class="clear-file-x" title="Remove selection" style="display:none;cursor:pointer;margin-left:8px;font-size:1.3em;color:#e74c3c;user-select:none;">&times;</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <label class="form-label">Alt Text</label>
@@ -150,16 +162,16 @@
                                                 {{ form.order }}
                                             </div>
                                         </div>
-                                        {% if form.id %}
-                                            <div class="mt-3">
-                                                {{ form.DELETE }}
-                                                <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
-                                            </div>
-                                        {% endif %}
+                                        <div class="mt-3">
+                                            {{ form.DELETE }}
+                                            <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
+                                        </div>
                                     </div>
                                 {% endfor %}
                             </div>
-                            <small class="helper-text d-block">Add up to {{ image_formset.extra }} additional images for product gallery</small>
+                            <button type="button" class="btn btn-outline-pink btn-sm" id="addImageBtn">
+                                <i class="fas fa-plus"></i> Add Another Image
+                            </button>
                         </div>
                     </div>
 
@@ -167,11 +179,12 @@
                     <div class="form-section mb-5">
                         <h3 class="section-title mb-4">Size & Color Options</h3>
                         <p class="helper-text mb-4">Manage size/color combinations with stock quantities</p>
-                        
-                        <div class="variant-formset-container">
-                            {{ variant_formset.management_form }}
+
+                        <div class="variant-formset-container" id="variantFormsetContainer">
+                            <div style="display:none;">{{ variant_formset.management_form }}</div>
                             {% for form in variant_formset %}
                                 <div class="variant-form-row mb-4 p-4">
+                                    <div style="display:none;">{{ form.id }}</div>
                                     <div class="row align-items-end">
                                         <div class="col-md-4">
                                             <label class="form-label">Size *</label>
@@ -186,15 +199,16 @@
                                             {{ form.stock }}
                                         </div>
                                     </div>
-                                    {% if form.id %}
-                                        <div class="mt-3">
-                                            {{ form.DELETE }}
-                                            <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
-                                        </div>
-                                    {% endif %}
+                                    <div class="mt-3">
+                                        {{ form.DELETE }}
+                                        <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
+                        <button type="button" class="btn btn-outline-pink btn-sm" id="addVariantBtn">
+                            <i class="fas fa-plus"></i> Add Size/Color Variant
+                        </button>
                     </div>
 
                     <!-- STATUS SECTION -->
@@ -254,12 +268,14 @@
 
                     <!-- SUBMIT BUTTONS -->
                     <div class="form-section text-center mb-4">
-                        <button type="submit" class="btn btn-pink">
-                            UPDATE PRODUCT
-                        </button>
-                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-pink">
-                            CANCEL
-                        </a>
+                        <div class="product-edit-btn-group">
+                            <button type="submit" class="btn btn-pink">
+                                UPDATE PRODUCT
+                            </button>
+                            <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-pink">
+                                CANCEL
+                            </a>
+                        </div>
                     </div>
 
                     <!-- DELETE BUTTON -->
@@ -276,15 +292,73 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const formInputs = document.querySelectorAll('#editProductForm .form-control');
-    
+    // Get ALL form inputs including formset fields
+    const formInputs = document.querySelectorAll('#editProductForm .form-control, #editProductForm select.auth-form-input, #editProductForm input.auth-form-input');
+
+    // File input clear X logic for main image
+    const mainFileInput = document.querySelector('input[type="file"][name$="main_image"]');
+    const mainClearX = document.querySelector('.file-input-wrapper > .clear-file-x');
+    if (mainFileInput && mainClearX) {
+        mainFileInput.addEventListener('change', function() {
+            mainClearX.style.display = mainFileInput.value ? 'inline' : 'none';
+        });
+        mainClearX.addEventListener('click', function(e) {
+            e.preventDefault();
+            mainFileInput.value = '';
+            mainClearX.style.display = 'none';
+        });
+    }
+
+    // File input clear X logic for additional images
+    document.querySelectorAll('.image-form-row .file-input-wrapper').forEach(function(wrapper) {
+        const fileInput = wrapper.querySelector('input[type="file"]');
+        const clearX = wrapper.querySelector('.clear-file-x');
+        if (fileInput && clearX) {
+            fileInput.addEventListener('change', function() {
+                clearX.style.display = fileInput.value ? 'inline' : 'none';
+            });
+            clearX.addEventListener('click', function(e) {
+                e.preventDefault();
+                fileInput.value = '';
+                clearX.style.display = 'none';
+            });
+        }
+    });
+
+    // Function to check if input has value (works for text, select, and number inputs)
+    function checkInputValue(input) {
+        if (input.tagName === 'SELECT') {
+            // For select elements, check if a value is selected
+            return input.value !== '' && input.value !== null;
+        } else if (input.type === 'number') {
+            // For number inputs, check if value exists
+            return input.value !== '';
+        } else {
+            // For text inputs
+            return input.value.trim() !== '';
+        }
+    }
+
     formInputs.forEach(input => {
+        // Skip file inputs and checkboxes
+        if (input.type === 'file' || input.type === 'checkbox') {
+            return;
+        }
+
         input.addEventListener('input', function() {
             const errorElement = this.closest('div').querySelector('.form-error-text');
             if (errorElement) {
                 errorElement.style.display = 'none';
             }
-            if (this.value.trim() !== '') {
+            if (checkInputValue(this)) {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+
+        input.addEventListener('change', function() {
+            if (checkInputValue(this)) {
                 this.classList.add('has-value');
             } else {
                 this.classList.remove('has-value');
@@ -292,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         input.addEventListener('blur', function() {
-            if (this.value.trim() !== '') {
+            if (checkInputValue(this)) {
                 this.classList.add('has-value');
             }
         });
@@ -304,10 +378,175 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        if (input.value.trim() !== '') {
+        // Set initial state for all inputs with values
+        if (checkInputValue(input)) {
             input.classList.add('has-value');
         }
     });
+
+    // Add Image Button Functionality
+    const addImageBtn = document.getElementById('addImageBtn');
+    const imageFormsetContainer = document.getElementById('imageFormsetContainer');
+
+    if (addImageBtn && imageFormsetContainer) {
+        addImageBtn.addEventListener('click', function() {
+            const totalForms = document.querySelector('input[name="images-TOTAL_FORMS"]');
+            const formCount = parseInt(totalForms.value);
+            const lastForm = imageFormsetContainer.querySelector('.image-form-row:last-of-type');
+
+            if (lastForm) {
+                const newForm = lastForm.cloneNode(true);
+
+                // Add position relative for positioning the close button
+                newForm.style.position = 'relative';
+                newForm.classList.add('dynamically-added');
+
+                // Update form index in all fields
+                const formRegex = new RegExp('images-\\d+-', 'g');
+                newForm.innerHTML = newForm.innerHTML.replace(formRegex, `images-${formCount}-`);
+
+                // Clear values in cloned form
+                newForm.querySelectorAll('input[type="text"], input[type="number"], input[type="file"]').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('has-value');
+                });
+
+                // Remove existing image preview
+                const imagePreview = newForm.querySelector('.image-preview-current');
+                if (imagePreview && imagePreview.parentElement) {
+                    imagePreview.parentElement.remove();
+                }
+
+                // Uncheck DELETE checkbox
+                const deleteCheckbox = newForm.querySelector('input[type="checkbox"]');
+                if (deleteCheckbox) {
+                    deleteCheckbox.checked = false;
+                }
+
+                // Add close button
+                const closeBtn = document.createElement('button');
+                closeBtn.type = 'button';
+                closeBtn.className = 'btn-close-formset';
+                closeBtn.innerHTML = '&times;';
+                closeBtn.title = 'Remove this form';
+                closeBtn.addEventListener('click', function() {
+                    newForm.remove();
+                    // Decrement total forms count
+                    totalForms.value = parseInt(totalForms.value) - 1;
+                });
+                newForm.insertBefore(closeBtn, newForm.firstChild);
+
+                // Append new form
+                imageFormsetContainer.appendChild(newForm);
+
+                // Increment total forms count
+                totalForms.value = formCount + 1;
+
+                // Re-initialize event listeners for new form
+                const newInputs = newForm.querySelectorAll('.form-control, select.auth-form-input, input.auth-form-input');
+                newInputs.forEach(input => {
+                    if (input.type === 'file' || input.type === 'checkbox') return;
+
+                    input.addEventListener('input', function() {
+                        if (checkInputValue(this)) {
+                            this.classList.add('has-value');
+                        } else {
+                            this.classList.remove('has-value');
+                        }
+                    });
+
+                    input.addEventListener('change', function() {
+                        if (checkInputValue(this)) {
+                            this.classList.add('has-value');
+                        } else {
+                            this.classList.remove('has-value');
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    // Add Variant Button Functionality
+    const addVariantBtn = document.getElementById('addVariantBtn');
+    const variantFormsetContainer = document.getElementById('variantFormsetContainer');
+
+    if (addVariantBtn && variantFormsetContainer) {
+        addVariantBtn.addEventListener('click', function() {
+            const totalForms = document.querySelector('input[name="variants-TOTAL_FORMS"]');
+            const formCount = parseInt(totalForms.value);
+            const lastForm = variantFormsetContainer.querySelector('.variant-form-row:last-of-type');
+
+            if (lastForm) {
+                const newForm = lastForm.cloneNode(true);
+
+                // Add position relative for positioning the close button
+                newForm.style.position = 'relative';
+                newForm.classList.add('dynamically-added');
+
+                // Update form index in all fields
+                const formRegex = new RegExp('variants-\\d+-', 'g');
+                newForm.innerHTML = newForm.innerHTML.replace(formRegex, `variants-${formCount}-`);
+
+                // Clear values in cloned form
+                newForm.querySelectorAll('input[type="text"], input[type="number"], select').forEach(input => {
+                    if (input.tagName === 'SELECT') {
+                        input.selectedIndex = 0;
+                    } else {
+                        input.value = '';
+                    }
+                    input.classList.remove('has-value');
+                });
+
+                // Uncheck DELETE checkbox
+                const deleteCheckbox = newForm.querySelector('input[type="checkbox"]');
+                if (deleteCheckbox) {
+                    deleteCheckbox.checked = false;
+                }
+
+                // Add close button
+                const closeBtn = document.createElement('button');
+                closeBtn.type = 'button';
+                closeBtn.className = 'btn-close-formset';
+                closeBtn.innerHTML = '&times;';
+                closeBtn.title = 'Remove this form';
+                closeBtn.addEventListener('click', function() {
+                    newForm.remove();
+                    // Decrement total forms count
+                    totalForms.value = parseInt(totalForms.value) - 1;
+                });
+                newForm.insertBefore(closeBtn, newForm.firstChild);
+
+                // Append new form
+                variantFormsetContainer.appendChild(newForm);
+
+                // Increment total forms count
+                totalForms.value = formCount + 1;
+
+                // Re-initialize event listeners for new form
+                const newInputs = newForm.querySelectorAll('.form-control, select.auth-form-input, input.auth-form-input');
+                newInputs.forEach(input => {
+                    if (input.type === 'file' || input.type === 'checkbox') return;
+
+                    input.addEventListener('input', function() {
+                        if (checkInputValue(this)) {
+                            this.classList.add('has-value');
+                        } else {
+                            this.classList.remove('has-value');
+                        }
+                    });
+
+                    input.addEventListener('change', function() {
+                        if (checkInputValue(this)) {
+                            this.classList.add('has-value');
+                        } else {
+                            this.classList.remove('has-value');
+                        }
+                    });
+                });
+            }
+        });
+    }
 });
 </script>
 
@@ -322,12 +561,62 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .image-form-row, .variant-form-row {
+    position: relative;
     transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background-color: rgba(20, 20, 20, 0.5);
 }
 
 .image-form-row:hover, .variant-form-row:hover {
     border-color: var(--neon-pink) !important;
     background-color: rgba(26, 26, 26, 0.9) !important;
+}
+
+.clear-file-x {
+    color: #ff1493;
+    transition: color 0.2s;
+}
+
+.clear-file-x:hover {
+    color: #ff69b4;
+    text-shadow: 0 0 2px #fff;
+}
+
+.btn-close-formset {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #ff1493;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close-formset:hover {
+    background: rgba(255, 20, 147, 0.2);
+    color: #ff69b4;
+    transform: scale(1.1);
+}
+
+/* Make sure formset fields also get green border when filled */
+.image-form-row .auth-form-input.has-value,
+.variant-form-row .auth-form-input.has-value,
+.image-form-row select.has-value,
+.variant-form-row select.has-value {
+    border-color: rgba(204, 255, 0, 0.5) !important;
+    background: rgba(0, 0, 0, 0.5) !important;
 }
 </style>
 {% endblock %}

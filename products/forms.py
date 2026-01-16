@@ -91,7 +91,8 @@ class ProductForm(forms.ModelForm):
 
     def clean_main_image(self):
         image = self.cleaned_data.get('main_image')
-        if not image:
+        # Only require image if creating new product (no instance yet)
+        if not image and not self.instance.pk:
             raise forms.ValidationError('Main product image is required.')
         return image
 
@@ -140,7 +141,6 @@ class ProductImageForm(forms.ModelForm):
             'image': forms.FileInput(attrs={
                 'class': 'form-control auth-form-input',
                 'accept': 'image/*',
-                'required': 'required'
             }),
             'alt_text': forms.TextInput(attrs={
                 'class': 'form-control auth-form-input',
@@ -153,6 +153,13 @@ class ProductImageForm(forms.ModelForm):
                 'value': '0'
             }),
         }
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        # Only require image if creating new image (no instance yet)
+        if not image and not self.instance.pk:
+            raise forms.ValidationError('Image is required.')
+        return image
 
 
 class DesignStoryForm(forms.ModelForm):
@@ -201,7 +208,7 @@ ProductVariantFormSet = inlineformset_factory(
     Product,
     ProductVariant,
     form=ProductVariantForm,
-    extra=3,
+    extra=0,  # Don't show extra empty forms by default
     can_delete=True
 )
 
@@ -209,6 +216,6 @@ ProductImageFormSet = inlineformset_factory(
     Product,
     ProductImage,
     form=ProductImageForm,
-    extra=2,
+    extra=0,  # Don't show extra empty forms by default
     can_delete=True
 )

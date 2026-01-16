@@ -231,26 +231,10 @@ def edit_product(request, slug):
             design_story_instance = None
         design_form = DesignStoryForm(request.POST, instance=design_story_instance)
 
-        if product_form.is_valid() and design_form.is_valid():
+        if product_form.is_valid() and variant_formset.is_valid() and image_formset.is_valid() and design_form.is_valid():
             product = product_form.save()
-
-            if variant_formset.is_valid():
-                variant_formset.save()
-            else:
-                for form in variant_formset:
-                    if form.errors:
-                        for error in form.errors.values():
-                            messages.error(request, f'Variant error: {error}')
-                return render(request, 'products/edit_product.html', {
-                    'product': product,
-                    'product_form': product_form,
-                    'variant_formset': variant_formset,
-                    'image_formset': image_formset,
-                    'design_form': design_form,
-                })
-
-            if image_formset.is_valid():
-                image_formset.save()
+            variant_formset.save()
+            image_formset.save()
 
             # Save design story
             design_story = design_form.save(commit=False)
@@ -260,12 +244,44 @@ def edit_product(request, slug):
             messages.success(request, f'Product "{product.name}" updated successfully!')
             return redirect('product_detail', slug=product.slug)
         else:
-            for field, errors in product_form.errors.items():
-                for error in errors:
-                    messages.error(request, f'{field}: {error}')
-            for field, errors in design_form.errors.items():
-                for error in errors:
-                    messages.error(request, f'Design Story {field}: {error}')
+            # Display all form errors
+            if not product_form.is_valid():
+                for field, errors in product_form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'Product {field}: {error}')
+
+            if not design_form.is_valid():
+                for field, errors in design_form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'Design Story {field}: {error}')
+
+            if not variant_formset.is_valid():
+                # Check for non-form errors
+                if variant_formset.non_form_errors():
+                    for error in variant_formset.non_form_errors():
+                        messages.error(request, f'Variant formset error: {error}')
+                # Check individual form errors
+                for i, form in enumerate(variant_formset):
+                    if form.errors:
+                        for field, errors in form.errors.items():
+                            if field != '__all__':
+                                messages.error(request, f'Variant #{i+1} {field}: {errors[0]}')
+                            else:
+                                messages.error(request, f'Variant #{i+1}: {errors[0]}')
+
+            if not image_formset.is_valid():
+                # Check for non-form errors
+                if image_formset.non_form_errors():
+                    for error in image_formset.non_form_errors():
+                        messages.error(request, f'Image formset error: {error}')
+                # Check individual form errors
+                for i, form in enumerate(image_formset):
+                    if form.errors:
+                        for field, errors in form.errors.items():
+                            if field != '__all__':
+                                messages.error(request, f'Image #{i+1} {field}: {errors[0]}')
+                            else:
+                                messages.error(request, f'Image #{i+1}: {errors[0]}')
     else:
         product_form = ProductForm(instance=product)
         variant_formset = ProductVariantFormSet(instance=product)
