@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="description" content="Invoice for order {{ order.order_number }} - Hendoshi Alternative Apparel">
+    <meta name="keywords" content="invoice, order, hendoshi, alternative apparel">
     <title>Invoice - {{ order.order_number }}</title>
     <style>
         body {
@@ -20,6 +22,12 @@
         .invoice-header h1 {
             color: #E71F7F;
             margin: 0;
+            font-size: 28px;
+        }
+        .invoice-header img {
+            max-width: 220px;
+            height: auto;
+            margin-bottom: 12px;
         }
         .invoice-title {
             font-size: 26px;
@@ -54,6 +62,9 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 30px;
+        }
+        .invoice-details-right {
+            text-align: right;
         }
         .section {
             margin-bottom: 30px;
@@ -111,9 +122,9 @@
 <body>
     <div class="invoice-header">
         {% if logo_data_uri %}
-            <img src="{{ logo_data_uri }}" alt="Hendoshi" style="max-width: 220px; height: auto; margin-bottom: 12px;" />
+            <img src="{{ logo_data_uri }}" alt="Hendoshi" />
         {% else %}
-            <h1 style="font-size: 28px; margin: 0;">HENDOSHI</h1>
+            <h1>HENDOSHI</h1>
         {% endif %}
         <div class="invoice-title">INVOICE</div>
     </div>
@@ -124,7 +135,7 @@
             <strong>Date:</strong> {{ order.created_at|date:"F d, Y" }}<br>
             <strong>Status:</strong> {{ order.get_status_display }}
         </div>
-        <div style="text-align: right;">
+        <div class="invoice-details-right">
             <strong>Customer:</strong><br>
             {{ order.full_name }}<br>
             {{ order.email }}

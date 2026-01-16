@@ -6,12 +6,12 @@
 {% block content %}
 <div class="container checkout-container mt-5 mb-5">
     <div class="checkout-wrapper">
-        <div class="checkout-header" style="margin-top: 3rem;">
+        <div class="checkout-header checkout-header-spaced">
             <h1 class="page-title">MY PROFILE</h1>
         </div>
         
         <!-- Account Info & Address Book -->
-        <div class="checkout-content" style="margin-top: 2rem;">
+        <div class="checkout-content checkout-content-spaced">
             <div class="checkout-main">
                 <div class="row">
                     <!-- Profile Information -->
@@ -50,7 +50,7 @@
                 <div class="profile-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2 class="mb-0"><i class="fas fa-address-book"></i> Address Book</h2>
-                        <a href="{% url 'add_address' %}" class="btn btn-pink" style="height: 38px; padding: 0.375rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <a href="{% url 'add_address' %}" class="btn btn-pink btn-address-add">
                             <i class="fas fa-plus"></i> Add Address
                         </a>
                     </div>
@@ -134,10 +134,10 @@
                                 <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date }}">
                             </div>
                             <div class="col-md-4 d-flex gap-2">
-                                <button type="submit" class="btn btn-pink" style="height: 38px; padding: 0.375rem 1rem;">
+                                <button type="submit" class="btn btn-pink btn-form-action">
                                     <i class="fas fa-filter"></i> Filter
                                 </button>
-                                <a href="{% url 'profile' %}" class="btn btn-outline-pink" style="height: 38px; padding: 0.375rem 1rem; display: flex; align-items: center; justify-content: center;">
+                                <a href="{% url 'profile' %}" class="btn btn-outline-pink btn-form-cancel">
                                     <i class="fas fa-times me-2"></i> Clear
                                 </a>
                             </div>
@@ -251,7 +251,7 @@
 </div>
 
 <!-- Hidden form for deletion -->
-<form id="deleteAddressForm" method="post" style="display: none;">
+<form id="deleteAddressForm" method="post" class="d-none">
     {% csrf_token %}
 </form>
 
