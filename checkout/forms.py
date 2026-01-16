@@ -108,6 +108,16 @@ class ShippingForm(forms.Form):
         })
     )
     
+    email = forms.EmailField(
+        max_length=254,
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Email address',
+            'aria-label': 'Email address'
+        })
+    )
+    
     phone = forms.CharField(
         max_length=20,
         required=True,

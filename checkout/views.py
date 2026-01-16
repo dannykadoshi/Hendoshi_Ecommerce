@@ -1,17 +1,135 @@
-from django.contrib import messages
-from django.shortcuts import redirect, render, get_object_or_404
-from django.views.decorators.http import require_http_methods
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
-from django.http import JsonResponse
+from decimal import Decimal, ROUND_HALF_UP
 import json
+import stripe
+
+from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import redirect, render, get_object_or_404
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
 from cart.views import get_or_create_cart
-from cart.models import Cart
 from .forms import ShippingForm
-from .payment_forms import PaymentForm
 from .models import Order, OrderItem
-from profiles.models import Address, SavedPaymentMethod
+from profiles.models import Address
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+def _get_amount_cents(amount):
+    """Convert Decimal amount to stripe-friendly integer (in cents)."""
+    return int((Decimal(amount) * Decimal('100')).quantize(Decimal('1'), rounding=ROUND_HALF_UP))
+
+
+def _create_or_update_payment_intent(order):
+    """
+    Create or update a PaymentIntent for the order total.
+    Returns the stripe PaymentIntent object.
+    """
+    amount_cents = _get_amount_cents(order.total_amount)
+
+    try:
+        if order.stripe_payment_intent_id:
+            existing_intent = stripe.PaymentIntent.retrieve(order.stripe_payment_intent_id)
+            if existing_intent and existing_intent.amount == amount_cents and existing_intent.status not in ['canceled']:
+                return existing_intent
+    except Exception:
+        # If retrieval fails, create a new intent
+        pass
+
+    # Build PaymentIntent parameters
+    intent_params = {
+        'amount': amount_cents,
+        'currency': settings.STRIPE_CURRENCY,
+        'metadata': {
+            'order_number': order.order_number,
+            'email': order.email or 'guest@hendoshi.local',
+        },
+        'automatic_payment_methods': {'enabled': True},
+    }
+    
+    # Only include receipt_email if order has a valid email
+    if order.email and '@' in order.email:
+        intent_params['receipt_email'] = order.email
+
+    intent = stripe.PaymentIntent.create(**intent_params)
+
+    order.stripe_payment_intent_id = intent.id
+    order.save(update_fields=['stripe_payment_intent_id'])
+    return intent
+
+
+def _finalize_order_payment(order, payment_intent, request=None):
+    """Mark order as paid and perform side-effects idempotently."""
+    already_completed = order.payment_status == 'completed'
+
+    intent_id = payment_intent.get('id') if isinstance(payment_intent, dict) else payment_intent.id
+
+    order.payment_status = 'completed'
+    order.payment_error = ''
+    order.status = 'confirmed'
+    order.stripe_payment_intent_id = intent_id
+    order.save(update_fields=['payment_status', 'payment_error', 'status', 'stripe_payment_intent_id'])
+
+    if not already_completed:
+        send_order_confirmation_email(order)
+
+    if request:
+        cart = get_or_create_cart(request)
+        cart.items.all().delete()
+        request.session.pop('checkout_form_data', None)
+        request.session.pop('pending_order_number', None)
+
+
+def _record_failed_payment(order, payment_intent):
+    """Store failure reason on the order."""
+    error_message = ''
+    last_error = None
+    if payment_intent:
+        if isinstance(payment_intent, dict):
+            last_error = payment_intent.get('last_payment_error')
+        else:
+            last_error = getattr(payment_intent, 'last_payment_error', None)
+
+    if last_error:
+        if isinstance(last_error, dict):
+            error_message = last_error.get('message', '')
+        else:
+            error_message = last_error.message or ''
+
+    order.payment_status = 'failed'
+    order.payment_error = error_message or 'Payment could not be completed.'
+    order.save(update_fields=['payment_status', 'payment_error'])
+
+
+def _get_order_from_intent(intent):
+    """Resolve the order from PaymentIntent metadata."""
+    metadata = intent.get('metadata', {}) if isinstance(intent, dict) else getattr(intent, 'metadata', {})
+    order_number = metadata.get('order_number') if metadata else None
+    if not order_number:
+        return None
+    try:
+        return Order.objects.get(order_number=order_number)
+    except Order.DoesNotExist:
+        return None
+
+
+def _handle_payment_intent_succeeded(intent):
+    order = _get_order_from_intent(intent)
+    if not order:
+        return
+    _finalize_order_payment(order, intent)
+
+
+def _handle_payment_intent_failed(intent):
+    order = _get_order_from_intent(intent)
+    if not order:
+        return
+    _record_failed_payment(order, intent)
 
 
 def checkout(request):
@@ -81,7 +199,7 @@ def checkout(request):
             # Create order with payment_pending status
             order = Order.objects.create(
                 user=request.user if request.user.is_authenticated else None,
-                email=request.POST.get('email') or request.user.email if request.user.is_authenticated else '',
+                email=form.cleaned_data.get('email') or (request.user.email if request.user.is_authenticated else ''),
                 full_name=form.cleaned_data['full_name'],
                 phone=form.cleaned_data['phone'],
                 address=form.cleaned_data['address'],
@@ -186,91 +304,70 @@ def send_order_confirmation_email(order):
 
 
 def payment(request, order_number):
-    """Display payment page and process payment"""
+    """Display payment page and coordinate Stripe payment confirmation."""
     order = get_object_or_404(Order, order_number=order_number)
-    
-    # Verify order is pending payment
-    if order.payment_status != 'pending':
-        messages.error(request, 'This order has already been processed.')
-        return redirect('home')
-    
+
+    if order.payment_status == 'completed':
+        messages.info(request, 'This order is already paid.')
+        return redirect('order_confirmation', order_number=order.order_number)
+
+    if not settings.STRIPE_PUBLIC_KEY or not settings.STRIPE_SECRET_KEY:
+        messages.error(request, 'Stripe is not configured. Please add your API keys.')
+        return redirect('checkout')
+
     # Security: verify user owns this order (or guest can access within session)
     if order.user and order.user != request.user:
         messages.error(request, 'You do not have permission to access this payment.')
         return redirect('home')
-    
-    # Get saved payment methods if user is authenticated
-    saved_payment_methods = []
-    if request.user.is_authenticated:
-        saved_payment_methods = request.user.saved_payment_methods.all()
-    
-    if request.method == 'POST':
-        # Check if using saved payment method
-        use_saved = request.POST.get('use_saved_payment')
-        
-        if use_saved and request.user.is_authenticated:
-            # Process with saved payment method
-            try:
-                saved_method = request.user.saved_payment_methods.get(id=use_saved)
-                # For saved methods, we'd use the saved card info
-                success, error_message = process_payment_with_saved_method(order, saved_method)
-            except SavedPaymentMethod.DoesNotExist:
-                success, error_message = False, 'Invalid payment method selected.'
-        else:
-            # Process with new card
-            form = PaymentForm(request.POST)
-            if form.is_valid():
-                # Process payment
-                success, error_message = process_payment(order, form.cleaned_data)
-                
-                # Save payment method if checkbox is checked
-                if success and request.user.is_authenticated and form.cleaned_data.get('save_card'):
-                    save_payment_method(request.user, form.cleaned_data)
-            else:
-                success, error_message = False, 'Invalid payment information.'
-        
-        if success:
-            # Update order payment status
-            order.payment_status = 'completed'
-            order.save()
-            
-            # Send confirmation email
-            send_order_confirmation_email(order)
-            
-            # Clear cart
-            cart = get_or_create_cart(request)
-            cart.items.all().delete()
-            request.session.pop('checkout_form_data', None)
-            request.session.pop('pending_order_number', None)
-            
-            messages.success(request, 'Payment successful! Order confirmed.')
-            return redirect('order_confirmation', order_number=order.order_number)
-        else:
-            # Payment failed - set error on order
-            order.payment_status = 'failed'
-            order.payment_error = error_message
-            order.save()
-            
-            context = {
-                'form': PaymentForm() if not use_saved else None,
-                'order': order,
-                'payment_error': error_message,
-                'saved_payment_methods': saved_payment_methods,
-                'steps': [
-                    {'label': 'Cart', 'status': 'done'},
-                    {'label': 'Shipping', 'status': 'done'},
-                    {'label': 'Payment', 'status': 'current'},
-                    {'label': 'Confirmation', 'status': 'upcoming'},
-                ],
-            }
-            return render(request, 'checkout/payment.html', context)
-    else:
-        form = PaymentForm()
-    
+
+    # Handle AJAX postback after Stripe confirmation
+    if request.method == 'POST' and request.headers.get('Content-Type', '').startswith('application/json'):
+        try:
+            data = json.loads(request.body or '{}')
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid payload.'}, status=400)
+
+        payment_intent_id = data.get('payment_intent_id')
+        if not payment_intent_id:
+            return JsonResponse({'error': 'Payment intent is required.'}, status=400)
+
+        try:
+            intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        except Exception:
+            return JsonResponse({'error': 'Unable to verify payment. Please try again.'}, status=400)
+
+        if intent.metadata.get('order_number') != order.order_number:
+            return JsonResponse({'error': 'Payment does not match this order.'}, status=400)
+
+        if intent.status == 'succeeded':
+            _finalize_order_payment(order, intent, request)
+            return JsonResponse({'redirect_url': reverse('order_confirmation', args=[order.order_number])})
+
+        if intent.status in ['processing', 'requires_action']:
+            order.payment_status = 'processing'
+            order.status = 'processing'
+            order.stripe_payment_intent_id = intent.id
+            order.save(update_fields=['payment_status', 'status', 'stripe_payment_intent_id'])
+            return JsonResponse({'redirect_url': reverse('payment_result', args=[order.order_number])})
+
+        _record_failed_payment(order, intent)
+        return JsonResponse(
+            {
+                'error': order.payment_error,
+                'redirect_url': reverse('payment_result', args=[order.order_number]),
+            },
+            status=400,
+        )
+
+    # GET request: ensure PaymentIntent exists and render form
+    intent = _create_or_update_payment_intent(order)
+    payment_error = order.payment_error if order.payment_status == 'failed' else None
+
     context = {
-        'form': form,
         'order': order,
-        'saved_payment_methods': saved_payment_methods,
+        'payment_error': payment_error,
+        'client_secret': intent.client_secret,
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
         'steps': [
             {'label': 'Cart', 'status': 'done'},
             {'label': 'Shipping', 'status': 'done'},
@@ -278,95 +375,9 @@ def payment(request, order_number):
             {'label': 'Confirmation', 'status': 'upcoming'},
         ],
     }
-    
+
     return render(request, 'checkout/payment.html', context)
 
-
-def process_payment(order, payment_data):
-    """
-    Process payment with card information.
-    
-    Returns: (success: bool, error_message: str or None)
-    
-    In a real implementation, this would integrate with Stripe or another payment provider.
-    For now, we simulate payment processing with basic validation.
-    """
-    try:
-        # Extract card information
-        card_number = payment_data['card_number']
-        expiry = payment_data['expiry_date']
-        cvc = payment_data['cvc']
-        cardholder = payment_data['cardholder_name']
-        
-        # Simulate payment processing
-        # In production, you would call Stripe API here
-        
-        # For testing: cards starting with 4242 succeed, others fail
-        # In real implementation, use Stripe or another payment processor
-        if card_number.startswith('4242'):
-            # Successful payment
-            return True, None
-        elif card_number.startswith('4000002'):
-            # Card declined
-            return False, 'Your card was declined. Please check your card details and try again.'
-        elif card_number.startswith('4000008'):
-            # Insufficient funds
-            return False, 'Insufficient funds on your card. Please use a different payment method.'
-        elif card_number.startswith('4000003'):
-            # Lost card
-            return False, 'This card has been reported as lost. Please use a different card.'
-        else:
-            # Generic error for testing
-            return False, f'Payment processing failed. Please verify your card details and try again.'
-            
-    except Exception as e:
-        return False, f'An error occurred while processing your payment: {str(e)}'
-
-
-def save_payment_method(user, payment_data):
-    """
-    Save a payment method for future use
-    """
-    try:
-        card_number = payment_data['card_number']
-        # Mask card number - only store last 4 digits
-        masked_card = f"{'*' * (len(card_number) - 4)}{card_number[-4:]}"
-        
-        # Determine card type from number
-        card_type = 'visa'  # Default
-        if card_number.startswith('5'):
-            card_type = 'mastercard'
-        elif card_number.startswith('34') or card_number.startswith('37'):
-            card_type = 'amex'
-        elif card_number.startswith('6011'):
-            card_type = 'discover'
-        
-        SavedPaymentMethod.objects.create(
-            user=user,
-            card_number=masked_card,
-            card_holder=payment_data.get('cardholder_name', ''),
-            expiry_date=payment_data['expiry_date'],
-            card_type=card_type,
-        )
-    except Exception as e:
-        print(f"Error saving payment method: {str(e)}")
-
-
-def process_payment_with_saved_method(order, saved_method):
-    """
-    Process payment using a saved payment method
-    
-    Returns: (success: bool, error_message: str or None)
-    """
-    try:
-        # In a real implementation, use the saved payment method details
-        # For now, simulate success based on card type
-        if saved_method.card_type == 'visa':
-            return True, None
-        else:
-            return False, 'Payment processing with saved method failed. Please try another method.'
-    except Exception as e:
-        return False, f'An error occurred while processing your payment: {str(e)}'
 
 
 def payment_result(request, order_number):
@@ -385,6 +396,38 @@ def payment_result(request, order_number):
     }
     
     return render(request, 'checkout/payment_result.html', context)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def stripe_webhook(request):
+    """Handle Stripe webhook events for payment intents."""
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    webhook_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    if not webhook_secret:
+        # If no webhook secret configured, acknowledge to avoid noisy failures in test
+        return HttpResponse(status=200)
+
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
+    except ValueError:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError:
+        return HttpResponse(status=400)
+
+    event_type = event.get('type')
+    intent = event['data']['object']
+
+    if event_type == 'payment_intent.succeeded':
+        _handle_payment_intent_succeeded(intent)
+    elif event_type == 'payment_intent.payment_failed':
+        _handle_payment_intent_failed(intent)
+
+    return HttpResponse(status=200)
 
 
 def order_detail(request, order_number):
