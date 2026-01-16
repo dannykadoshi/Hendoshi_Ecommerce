@@ -224,10 +224,16 @@ def edit_product(request, slug):
         product_form = ProductForm(request.POST, request.FILES, instance=product)
         variant_formset = ProductVariantFormSet(request.POST, instance=product)
         image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
-        
-        if product_form.is_valid():
+        # Handle design story
+        try:
+            design_story_instance = product.design_story
+        except DesignStory.DoesNotExist:
+            design_story_instance = None
+        design_form = DesignStoryForm(request.POST, instance=design_story_instance)
+
+        if product_form.is_valid() and design_form.is_valid():
             product = product_form.save()
-            
+
             if variant_formset.is_valid():
                 variant_formset.save()
             else:
@@ -240,31 +246,46 @@ def edit_product(request, slug):
                     'product_form': product_form,
                     'variant_formset': variant_formset,
                     'image_formset': image_formset,
+                    'design_form': design_form,
                 })
-            
+
             if image_formset.is_valid():
                 image_formset.save()
-            
+
+            # Save design story
+            design_story = design_form.save(commit=False)
+            design_story.product = product
+            design_story.save()
+
             messages.success(request, f'Product "{product.name}" updated successfully!')
             return redirect('product_detail', slug=product.slug)
         else:
             for field, errors in product_form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
+            for field, errors in design_form.errors.items():
+                for error in errors:
+                    messages.error(request, f'Design Story {field}: {error}')
     else:
         product_form = ProductForm(instance=product)
         variant_formset = ProductVariantFormSet(instance=product)
         image_formset = ProductImageFormSet(instance=product)
-    
+        try:
+            design_story_instance = product.design_story
+        except DesignStory.DoesNotExist:
+            design_story_instance = None
+        design_form = DesignStoryForm(instance=design_story_instance)
+
     context = {
         'product': product,
         'product_form': product_form,
         'variant_formset': variant_formset,
         'image_formset': image_formset,
+        'design_form': design_form,
         'page_title': f'Edit {product.name}',
         'is_create': False,
     }
-    
+
     return render(request, 'products/edit_product.html', context)
 
 

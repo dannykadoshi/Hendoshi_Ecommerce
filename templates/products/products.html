@@ -77,6 +77,11 @@
                         {% for product in products %}
                             <div class="product-card-wrapper">
                                 <div class="product-card">
+                                                {% if request.user.is_staff or request.user.is_superuser %}
+                                                <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                {% endif %}
                                     <a href="{% url 'product_detail' product.slug %}">
                                         <div class="product-image">
                                             {% if product.main_image %}
