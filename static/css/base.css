@@ -1580,6 +1580,11 @@ a.btn-pink {
     font-size: 1.3rem !important;
 }
 
+.btn-sm {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+}
+
 /* Philosophy Strip */
 .philosophy-strip {
     background-color: var(--neon-pink);
@@ -2860,6 +2865,11 @@ a.btn-pink {
     color: var(--off-white) !important;
     padding: 0.8rem !important;
     border-radius: 4px !important;
+}
+
+.auth-form-input.has-value {
+    border-color: rgba(204, 255, 0, 0.5) !important;
+    background: rgba(0, 0, 0, 0.5) !important;
 }
 
 .auth-form-input:focus {

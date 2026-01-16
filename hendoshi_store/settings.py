@@ -43,18 +43,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # Required by allauth
     
-    # Allauth apps
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    
-    # Hendoshi Apps
+    # Hendoshi Apps (must be before allauth for custom template precedence)
     'home',
     'products',
     'cart',
     'checkout',
     'profiles',
     'community',
+    
+    # Allauth apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 # Django Sites Framework (required by allauth)
@@ -72,7 +72,10 @@ AUTHENTICATION_BACKENDS = [
 # Allauth Configuration
 # Allauth Configuration (Updated syntax)
 ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Allow login with username or email
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Email must be verified
+# Allauth settings
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'email2*', 'username*', 'password1*', 'password2*']  # Required signup fields
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'

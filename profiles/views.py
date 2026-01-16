@@ -11,6 +11,8 @@ from datetime import datetime
 from .models import UserProfile, Address
 from .forms import UserProfileForm
 from .address_forms import AddressForm
+from checkout.forms import EditAccountForm
+from allauth.account.models import EmailAddress
 
 
 @login_required
@@ -125,6 +127,75 @@ def delete_address(request, address_id):
         messages.success(request, 'Address deleted successfully!')
     
     return redirect('profile')
+
+
+@login_required
+def set_default_address(request, address_id):
+    """Set an address as default"""
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+    
+    # Unset all other defaults
+    Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+    
+    # Set this one as default
+    address.is_default = True
+    address.save()
+    
+    messages.success(request, 'Default address updated!')
+    return redirect('profile')
+
+
+@login_required
+def edit_account(request):
+    """Allow user to edit their account information (username and email)"""
+    if request.method == 'POST':
+        form = EditAccountForm(request.POST, user=request.user)
+        if form.is_valid():
+            old_email = request.user.email
+            new_email = form.cleaned_data['email']
+            
+            # Update username
+            request.user.username = form.cleaned_data['username']
+            request.user.email = new_email
+            request.user.save()
+            
+            # If email changed, handle email verification
+            if old_email != new_email:
+                # Mark old email as not primary/verified
+                EmailAddress.objects.filter(user=request.user, email=old_email).update(primary=False, verified=False)
+                
+                # Create new email address record and request verification
+                email_address, created = EmailAddress.objects.get_or_create(
+                    user=request.user,
+                    email=new_email,
+                    defaults={'verified': False, 'primary': True}
+                )
+                if not created:
+                    email_address.primary = True
+                    email_address.verified = False
+                    email_address.save()
+                
+                # Send verification email
+                email_address.send_confirmation(request)
+                
+                messages.success(request, 'Account updated! Please verify your new email address by clicking the link sent to it.')
+            else:
+                messages.success(request, 'Account information updated successfully!')
+            
+            return redirect('profile')
+    else:
+        form = EditAccountForm(
+            initial={
+                'username': request.user.username,
+                'email': request.user.email,
+            },
+            user=request.user
+        )
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'profiles/edit_account.html', context)
 
 
 @login_required

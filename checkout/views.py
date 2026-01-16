@@ -222,6 +222,14 @@ def checkout(request):
                 if created:
                     user_for_order.set_unusable_password()
                     user_for_order.save()
+                    # Auto-verify email for guest checkout (they already proved email ownership)
+                    from allauth.account.models import EmailAddress
+                    EmailAddress.objects.create(
+                        user=user_for_order,
+                        email=email,
+                        verified=True,
+                        primary=True
+                    )
                 # Generate activation token for guest users
                 activation_token = secrets.token_urlsafe(48)
             
@@ -552,6 +560,8 @@ def activate_account(request, order_number, token):
     if request.method == 'POST':
         form = ActivateAccountForm(request.POST)
         if form.is_valid():
+            # Update username
+            order.user.username = form.cleaned_data['username']
             # Set password for guest user
             order.user.set_password(form.cleaned_data['password'])
             order.user.save()

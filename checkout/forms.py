@@ -261,6 +261,14 @@ class ShippingForm(forms.Form):
 
 class ActivateAccountForm(forms.Form):
     """Form for guest users to set their password and activate account"""
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Choose a username',
+        }),
+        help_text='Username will be used to login to your account.'
+    )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
@@ -278,12 +286,55 @@ class ActivateAccountForm(forms.Form):
     )
     
     def clean(self):
+        from django.contrib.auth.models import User
         cleaned_data = super().clean()
+        username = cleaned_data.get('username')
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
+        
+        # Check if username already exists
+        if username and User.objects.filter(username=username).exists():
+            self.add_error('username', 'This username is already taken. Please choose another.')
         
         if password and password_confirm:
             if password != password_confirm:
                 self.add_error('password_confirm', 'Passwords do not match.')
+        
+        return cleaned_data
+
+
+class EditAccountForm(forms.Form):
+    """Form for users to edit their account information"""
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Username',
+        })
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Email address',
+        })
+    )
+    
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+    
+    def clean(self):
+        from django.contrib.auth.models import User
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        email = cleaned_data.get('email')
+        
+        # Check if username already exists (excluding current user)
+        if username and User.objects.filter(username=username).exclude(pk=self.user.pk).exists():
+            self.add_error('username', 'This username is already taken. Please choose another.')
+        
+        # Check if email already exists (excluding current user)
+        if email and User.objects.filter(email=email).exclude(pk=self.user.pk).exists():
+            self.add_error('email', 'This email is already registered. Please use another.')
         
         return cleaned_data
