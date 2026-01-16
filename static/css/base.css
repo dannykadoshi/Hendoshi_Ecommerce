@@ -2845,6 +2845,29 @@ a.btn-pink {
     border: 2px solid var(--gray);
 }
 
+.btn-close-auth {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 20, 147, 0.1);
+}
+
+.btn-close-auth:hover {
+    color: white;
+    background-color: var(--neon-pink);
+    transform: rotate(90deg);
+}
+
 .auth-title {
     color: var(--neon-pink);
     text-align: center;
