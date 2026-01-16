@@ -4,7 +4,7 @@
 {% block extra_title %}Activate Account{% endblock %}
 
 {% block content %}
-<div class="container checkout-container mt-5 mb-5" style="margin-top: 100px !important;">
+<div class="container checkout-container mt-5 mb-5 activate-account-container">
     <div class="checkout-wrapper">
         <!-- Main Content -->
         <div class="checkout-content">
@@ -27,7 +27,7 @@
                         <div class="form-section">
                             <p class="mb-2">
                                 <strong>Order Number:</strong>
-                                <span style="color: #FF2DA1;">{{ order.order_number }}</span>
+                                <span class="order-number-highlight">{{ order.order_number }}</span>
                             </p>
                             <p class="mb-0">
                                 <strong>Email:</strong>

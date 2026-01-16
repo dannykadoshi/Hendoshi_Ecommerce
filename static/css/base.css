@@ -2692,18 +2692,26 @@ a.btn-pink {
 }
 
 .btn-outline-pink {
-    color: var(--neon-pink);
-    border-color: var(--neon-pink);
-    background-color: transparent;
-    font-weight: 700;
+    background-color: var(--neon-pink);
+    color: #FFFFFF;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 900;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    display: inline-block;
+    text-decoration: none;
 }
 
 .btn-outline-pink:hover,
 .btn-check:checked + .btn-outline-pink {
-    background-color: var(--neon-pink);
+    background-color: var(--electric-yellow);
     color: var(--black);
-    border-color: var(--neon-pink);
+    border: none;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
 }
 
 /* No Products */
@@ -4018,9 +4026,9 @@ a.btn-pink {
 }
 
 :root.light-mode .btn-outline-pink:hover {
-    background-color: var(--neon-pink) !important;
-    border-color: var(--neon-pink) !important;
-    color: white !important;
+    background-color: var(--electric-yellow) !important;
+    border-color: var(--electric-yellow) !important;
+    color: var(--black) !important;
 }
 
 :root.light-mode .btn-pink {
@@ -6408,4 +6416,670 @@ a.btn-pink {
 
 :root.light-mode .order-detail-info i {
     color: #E71F7F;
+}
+
+/* PRODUCT FORM PAGE STYLES */
+.product-form-container {
+    padding-top: 6rem !important;
+}
+
+.relative-container {
+    position: relative;
+}
+
+.hidden-error {
+    display: none;
+}
+
+.image-preview-current {
+    max-width: 200px;
+    border-radius: 4px;
+    border: 1px solid var(--neon-pink);
+}
+
+.delete-label {
+    color: var(--neon-pink);
+}
+
+.btn-delete-product {
+    background-color: rgba(220, 53, 69, 0.7);
+    color: white;
+    margin-top: 1rem;
+}
+
+/* Delete Confirmation Page Styles */
+.delete-icon {
+    font-size: 4rem;
+    color: var(--neon-pink);
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.delete-name {
+    color: var(--off-white);
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    margin-right: 1rem;
+}
+
+.btn-delete:hover {
+    background-color: #bb2d3b;
+    color: white;
+}
+
+.btn-cancel-delete {
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    background-color: transparent;
+}
+
+.btn-cancel-delete:hover {
+    background-color: var(--neon-pink);
+    color: var(--black);
+    border-color: var(--neon-pink);
+}
+
+.form-section {
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.section-heading {
+    color: var(--neon-pink);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-heading i {
+    color: var(--neon-pink);
+}
+
+.form-label {
+    color: var(--off-white);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    display: block;
+    font-size: 0.95rem;
+}
+
+.form-label .required-star {
+    color: var(--neon-pink);
+    margin-left: 0.25rem;
+}
+
+.form-control,
+.form-select {
+    background-color: var(--black) !important;
+    border: 2px solid var(--gray) !important;
+    color: var(--off-white) !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 6px !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control::placeholder,
+.form-select::placeholder {
+    color: var(--gray) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    outline: none !important;
+    background-color: var(--black) !important;
+    color: var(--off-white) !important;
+}
+
+.form-control.has-value,
+.form-select.has-value {
+    border-color: rgba(204, 255, 0, 0.5) !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 255, 0, 0.1) !important;
+}
+
+.helper-text {
+    color: #ffffff !important;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray);
+    border-radius: 4px;
+    background-color: var(--black);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    accent-color: var(--neon-pink);
+}
+
+.form-check-input:checked {
+    background-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink) !important;
+}
+
+.form-check-input:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+    outline: none;
+}
+
+.form-check-label {
+    color: var(--off-white);
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0;
+    padding-top: 0.25rem;
+}
+
+/* File Input Styling */
+.form-control[type="file"] {
+    padding: 0.5rem !important;
+    cursor: pointer !important;
+}
+
+.form-control[type="file"]::file-selector-button {
+    background-color: var(--neon-pink);
+    color: var(--black);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+}
+
+.form-control[type="file"]::file-selector-button:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    transform: scale(1.05);
+}
+
+/* Variant Form Row Styling */
+.variant-form-row,
+.image-form-row {
+    background-color: rgba(26, 26, 26, 0.7);
+    border: 1px solid var(--neon-pink);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.variant-form-row:hover,
+.image-form-row:hover {
+    border-color: var(--electric-yellow);
+    background-color: rgba(26, 26, 26, 0.85);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.2);
+}
+
+.variant-form-row .form-row,
+.image-form-row .form-row {
+    margin-bottom: 1rem;
+}
+
+.variant-form-row .form-row:last-child,
+.image-form-row .form-row:last-child {
+    margin-bottom: 0;
+}
+
+.variant-form-row .form-label,
+.image-form-row .form-label {
+    color: var(--off-white);
+    font-size: 0.9rem;
+}
+
+.variant-form-row .form-control,
+.image-form-row .form-control {
+    background-color: var(--black) !important;
+    border-color: var(--gray) !important;
+}
+
+.variant-form-row .form-control:focus,
+.image-form-row .form-control:focus {
+    border-color: var(--neon-pink) !important;
+}
+
+/* Stock Quantity Input Styling */
+.stock-quantity-input {
+    text-align: center;
+    background-color: var(--charcoal) !important;
+    border: 2px solid var(--neon-pink) !important;
+    color: var(--off-white) !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.5rem !important;
+    border-radius: 4px !important;
+    width: 100%;
+    max-width: 150px;
+}
+
+/* Remove number spinner arrows */
+.stock-quantity-input::-webkit-outer-spin-button,
+.stock-quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.stock-quantity-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.stock-quantity-input:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    outline: none !important;
+    background-color: var(--charcoal) !important;
+    color: var(--off-white) !important;
+}
+
+/* Formset Management Buttons */
+.add-form-btn,
+.delete-form-btn {
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 0.85rem;
+}
+
+.add-form-btn {
+    background-color: var(--neon-pink);
+    color: var(--black);
+}
+
+.add-form-btn:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+}
+
+.delete-form-btn {
+    background-color: transparent;
+    border: 2px solid #ff4444;
+    color: #ff4444;
+}
+
+.delete-form-btn:hover {
+    background-color: #ff4444;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+}
+
+/* Form Actions Section */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(255, 20, 147, 0.2);
+    margin-top: 3rem;
+}
+
+.form-actions .btn {
+    min-width: 150px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    font-size: 1rem;
+}
+
+.form-actions .btn-submit {
+    background-color: var(--neon-pink);
+    color: var(--black);
+    border-color: var(--neon-pink);
+}
+
+.form-actions .btn-submit:hover {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    border-color: var(--electric-yellow);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+}
+
+.form-actions .btn-cancel {
+    background-color: transparent;
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.form-actions .btn-cancel:hover {
+    background-color: var(--neon-pink);
+    color: var(--black);
+    border-color: var(--neon-pink);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.3);
+}
+
+/* Quantity Input Spinner Styling */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+    background-color: var(--neon-pink);
+    color: var(--black);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+input[type="number"]::-webkit-outer-spin-button {
+    margin-right: -2px;
+}
+
+/* Number input styling */
+input[type="number"] {
+    position: relative;
+}
+
+/* Image Preview Styling */
+.image-preview {
+    max-width: 200px;
+    height: 200px;
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--black);
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    flex-direction: column;
+}
+
+.image-preview-placeholder i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+}
+
+/* Form Errors */
+.invalid-feedback,
+.error-message {
+    color: #ff4444;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #ff4444 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 68, 68, 0.25) !important;
+}
+
+/* Success States */
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: var(--electric-yellow) !important;
+    box-shadow: 0 0 0 0.2rem rgba(204, 255, 0, 0.25) !important;
+}
+
+/* Light Mode - Product Form */
+:root.light-mode .form-section {
+    background-color: white;
+    border-color: rgba(231, 31, 127, 0.2);
+}
+
+:root.light-mode .section-heading {
+    color: #E71F7F;
+}
+
+:root.light-mode .section-heading i {
+    color: #E71F7F;
+}
+
+:root.light-mode .form-label {
+    color: #222;
+}
+
+:root.light-mode .form-control,
+:root.light-mode .form-select {
+    background-color: white !important;
+    border-color: #ddd !important;
+    color: #111 !important;
+}
+
+:root.light-mode .form-control::placeholder,
+:root.light-mode .form-select::placeholder {
+    color: #999 !important;
+}
+
+:root.light-mode .form-control:focus,
+:root.light-mode .form-select:focus {
+    border-color: #E71F7F !important;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25) !important;
+}
+
+:root.light-mode .helper-text {
+    color: #333 !important;
+}
+
+:root.light-mode .form-check-input {
+    background-color: white;
+    border-color: #ddd;
+}
+
+:root.light-mode .form-check-input:checked {
+    background-color: #E71F7F !important;
+    border-color: #E71F7F !important;
+}
+
+:root.light-mode .form-check-label {
+    color: #333;
+}
+
+:root.light-mode .form-control[type="file"]::file-selector-button {
+    background-color: #E71F7F;
+    color: white;
+}
+
+:root.light-mode .form-control[type="file"]::file-selector-button:hover {
+    background-color: #B8D400;
+}
+
+:root.light-mode .variant-form-row,
+:root.light-mode .image-form-row {
+    background-color: rgba(231, 31, 127, 0.05);
+    border-color: rgba(231, 31, 127, 0.2);
+}
+
+:root.light-mode .variant-form-row:hover,
+:root.light-mode .image-form-row:hover {
+    border-color: #E71F7F;
+    background-color: rgba(231, 31, 127, 0.08);
+}
+
+:root.light-mode .stock-quantity-input {
+    background-color: white !important;
+    border-color: #E71F7F !important;
+    color: #111 !important;
+}
+
+:root.light-mode .stock-quantity-input:focus {
+    border-color: #E71F7F !important;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25) !important;
+}
+
+:root.light-mode .form-actions {
+    border-color: rgba(231, 31, 127, 0.2);
+}
+
+:root.light-mode .form-actions .btn-submit {
+    background-color: #E71F7F;
+    border-color: #E71F7F;
+    color: white;
+}
+
+:root.light-mode .form-actions .btn-submit:hover {
+    background-color: #B8D400;
+    border-color: #B8D400;
+    color: #000;
+}
+
+:root.light-mode .form-actions .btn-cancel {
+    color: #E71F7F;
+    border-color: #E71F7F;
+}
+
+:root.light-mode .form-actions .btn-cancel:hover {
+    background-color: #E71F7F;
+    color: white;
+}
+
+:root.light-mode .image-preview {
+    border-color: #E71F7F;
+}
+
+:root.light-mode .image-preview-placeholder {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+:root.light-mode .form-control.is-invalid,
+:root.light-mode .form-select.is-invalid {
+    border-color: #ff4444 !important;
+}
+
+:root.light-mode .form-control.is-valid,
+:root.light-mode .form-select.is-valid {
+    border-color: #88cc00 !important;
+}
+
+/* Light Mode - Delete Confirmation Page */
+:root.light-mode .delete-icon {
+    color: #E71F7F;
+}
+
+:root.light-mode .delete-name {
+    color: #222;
+}
+
+:root.light-mode .btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+:root.light-mode .btn-delete:hover {
+    background-color: #bb2d3b;
+}
+
+:root.light-mode .btn-cancel-delete {
+    color: #E71F7F;
+    border-color: #E71F7F;
+    background-color: white;
+}
+
+:root.light-mode .btn-cancel-delete:hover {
+    background-color: #E71F7F;
+    color: white;
+}
+
+:root.light-mode .image-preview-current {
+    border-color: #E71F7F;
+}
+
+:root.light-mode .delete-label {
+    color: #E71F7F;
+}
+
+:root.light-mode .btn-delete-product {
+    background-color: #dc3545;
+}
+
+/* Shared UI Classes */
+.auth-icon-large {
+    font-size: 3rem;
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.alert-success-styled {
+    border: 2px solid var(--electric-yellow) !important;
+    background-color: rgba(204, 255, 0, 0.1) !important;
+}
+
+.panel-pink {
+    border: 2px solid var(--neon-pink) !important;
+}
+
+.verify-email-footer {
+    color: #CCCCCC;
+    font-size: 0.95rem;
+}
+
+.back-icon {
+    margin-right: 0.5rem;
+}
+
+.profile-card-centered {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.activate-account-container {
+    margin-top: 100px !important;
+}
+
+.order-number-highlight {
+    color: #FF2DA1;
 }
