@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
     
+    // Exit if theme toggle button doesn't exist on this page
+    if (!themeToggle) {
+        return;
+    }
+    
     // Check for saved theme preference or default to system preference
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -121,4 +126,69 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Change slide every 6 seconds
     setInterval(nextSlide, 6000);
+});
+
+// Newsletter Form Validation
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('newsletterForm');
+    if (!form) return;
+    
+    const emailInput = document.getElementById('newsletter-email');
+    const errorDiv = form.querySelector('.newsletter-error');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous error
+        errorDiv.classList.remove('show');
+        emailInput.classList.remove('invalid');
+        
+        // Validate email
+        const email = emailInput.value.trim();
+        
+        if (!email) {
+            showError('Please enter your email address');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            showError('Please enter a valid email address (e.g., you@example.com)');
+            return;
+        }
+        
+        // If validation passes, submit the form (implement actual submission here)
+        console.log('Newsletter signup:', email);
+        emailInput.value = '';
+        showSuccess();
+    });
+    
+    function showError(message) {
+        errorDiv.textContent = message;
+        errorDiv.classList.add('show');
+        emailInput.classList.add('invalid');
+        
+        // Auto-hide error after 4 seconds
+        setTimeout(function() {
+            errorDiv.classList.remove('show');
+            emailInput.classList.remove('invalid');
+        }, 4000);
+    }
+    
+    function showSuccess() {
+        errorDiv.textContent = '✓ Thanks for subscribing!';
+        errorDiv.style.borderLeftColor = '#00ff00';
+        errorDiv.style.color = '#00ff00';
+        errorDiv.classList.add('show');
+        
+        setTimeout(function() {
+            errorDiv.classList.remove('show');
+            errorDiv.style.borderLeftColor = '';
+            errorDiv.style.color = '';
+        }, 3000);
+    }
+    
+    function isValidEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
 });

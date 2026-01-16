@@ -715,6 +715,27 @@ body {
     white-space: nowrap;
 }
 
+/* Newsletter Form Validation */
+.newsletter-error {
+    display: none;
+    background-color: rgba(231, 31, 127, 0.1);
+    border-left: 3px solid var(--neon-pink);
+    color: var(--neon-pink);
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 4px;
+}
+
+.newsletter-error.show {
+    display: block;
+}
+
+.newsletter-form input.invalid {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25);
+}
+
 .menu-items {
     list-style: none;
     padding: 0;
