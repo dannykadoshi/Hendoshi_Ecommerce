@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Verify Your Email Address{% endblock %}
+
+{% block content %}
+<div class="container auth-page">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="auth-card text-center">
+                <i class="fas fa-envelope fa-4x auth-icon"></i>
+                <h1 class="auth-title">VERIFY YOUR EMAIL</h1>
+                
+                <div class="verify-email-content">
+                    <p class="mb-4">We've sent a verification email to your inbox. Please click the link in that email to verify your account and complete the signup process.</p>
+                    
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Didn't receive the email?</strong> Check your spam folder or wait a few moments for it to arrive. If you still don't receive it, contact us.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <p class="mb-0" style="color: #CCCCCC; font-size: 0.95rem;">
+                        Need to change your email? 
+                        <a href="{% url 'account_email' %}" class="auth-link">Manage email addresses</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .verify-email-content p {
+        color: var(--off-white);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .verify-email-content .alert {
+        background-color: rgba(30, 144, 255, 0.1);
+        border: 2px solid rgba(30, 144, 255, 0.3);
+        color: var(--off-white);
+        margin-top: 1.5rem;
+    }
+    
+    .verify-email-content .alert-info {
+        border-color: rgba(30, 144, 255, 0.3);
+    }
+    
+    .verify-email-content hr {
+        border-color: var(--gray);
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
