@@ -1389,6 +1389,15 @@ main {
     margin-bottom: 1rem;
 }
 
+.hero-slogan-image {
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(5px 5px 0 var(--neon-pink));
+    animation: glitch-logo 3s infinite;
+    margin-bottom: 1rem;
+}
+
 @keyframes glitch {
     0%, 100% { text-shadow: 5px 5px 0 var(--neon-pink); }
     25% { text-shadow: -5px 5px 0 var(--electric-yellow); }

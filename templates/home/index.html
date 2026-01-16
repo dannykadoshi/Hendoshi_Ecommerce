@@ -14,7 +14,10 @@
                 <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
                 <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
             </picture>
-            <h2 class="hero-slogan">WEAR YOUR WEIRD</h2>
+            <picture>
+                <source srcset="{% static 'images/wear-your-weird.webp' %}" type="image/webp">
+                <img src="{% static 'images/wear-your-weird.png' %}" alt="Wear Your Weird" class="hero-slogan-image">
+            </picture>
             <p class="hero-subtitle">No Filler. Just Killer. | Metal Meets Mayhem</p>
             <a href="{% url 'products' %}" class="btn btn-pink btn-lg">UNLEASH THE WEIRD</a>
         </div>
