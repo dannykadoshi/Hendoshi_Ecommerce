@@ -1,8 +1,10 @@
-from django.urls import path
+
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
     path('', views.checkout, name='checkout'),
+    path('admin/', include('checkout.admin_urls')),
     path('payment/<str:order_number>/', views.payment, name='payment'),
     path('payment-result/<str:order_number>/', views.payment_result, name='payment_result'),
     path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),

@@ -1,3 +1,4 @@
+
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -9,9 +10,12 @@ from django.shortcuts import redirect
 @require_POST
 def bulk_archive_products(request):
     product_ids = request.POST.getlist('product_ids')
+    action = request.POST.get('action', 'archive')
     if not product_ids:
-        messages.warning(request, 'No products selected for archiving.')
+        messages.warning(request, 'No products selected.')
         return redirect('products')
+    if action == 'delete':
+        return bulk_delete_products(request, product_ids)
     products = Product.objects.filter(id__in=product_ids, is_archived=False)
     count = 0
     for product in products:
@@ -22,6 +26,24 @@ def bulk_archive_products(request):
         messages.success(request, f'{count} product(s) archived successfully!')
     else:
         messages.info(request, 'No products were archived.')
+    return redirect('products')
+
+# Bulk permanent delete products
+@login_required
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def bulk_delete_products(request, product_ids=None):
+    if product_ids is None:
+        product_ids = request.POST.getlist('product_ids')
+    if not product_ids:
+        messages.warning(request, 'No products selected for deletion.')
+        return redirect('products')
+    products = Product.objects.filter(id__in=product_ids)
+    count = products.count()
+    products.delete()
+    if count:
+        messages.success(request, f'{count} product(s) permanently deleted!')
+    else:
+        messages.info(request, 'No products were deleted.')
     return redirect('products')
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q

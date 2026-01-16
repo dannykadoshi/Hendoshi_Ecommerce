@@ -178,7 +178,6 @@
                                     <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
                                     {% if user.is_staff %}
                                     <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-cog"></i> Admin</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -207,7 +206,6 @@
                                     <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
                                     {% if user.is_staff %}
                                     <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-cog"></i> Admin</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -303,14 +301,6 @@
                         <a href="{% url 'profile' %}" class="submenu-item">
                             <i class="fas fa-user-circle"></i> <span>Profile</span>
                         </a>
-                        {% if user.is_staff %}
-                        <a href="{% url 'admin:index' %}" class="submenu-item">
-                            <i class="fas fa-cog"></i> <span>Admin</span>
-                        </a>
-                        <a href="{% url 'archived_products' %}" class="submenu-item">
-                            <i class="fas fa-archive"></i> <span>Archived Products</span>
-                        </a>
-                        {% endif %}
                         <a href="{% url 'account_logout' %}" class="submenu-item">
                             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                         </a>
