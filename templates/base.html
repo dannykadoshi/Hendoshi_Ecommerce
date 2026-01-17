@@ -160,69 +160,79 @@
                             </button>
                         </div>
                     </form>
-                    
+
                     <!-- Mobile Icons (Always visible) -->
                     <div class="mobile-icons">
-                        <!-- Favorites Icon -->
                         <a class="nav-icon" href="#" title="Favorites">
                             <i class="fas fa-heart"></i>
                         </a>
-                        
-                        <!-- User Account Dropdown -->
                         <div class="dropdown">
                             <button class="nav-icon dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
                                 <i class="fas fa-user"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 {% if user.is_authenticated %}
-                                    <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
                                     {% if user.is_staff %}
-                                    <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-cog"></i> Admin</a></li>
+                                    <li class="admin-panel-dropdown-wrapper" style="position:relative;">
+                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#" style="display:flex;align-items:center;justify-content:space-between;">
+                                            <span><i class="fas fa-cog"></i> Admin Panel</span>
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                        <ul class="dropdown-menu admin-panel-submenu" style="position:absolute;top:0;left:100%;min-width:200px;display:none;z-index:1051;">
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
+                                        </ul>
+                                    </li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                 {% else %}
-                                    <li><a class="dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
                                 {% endif %}
                             </ul>
                         </div>
                     </div>
-                    
+
                     <!-- Desktop Icons (Hidden on Mobile) -->
                     <div class="desktop-icons">
-                        <!-- Favorites Icon -->
                         <a class="nav-icon" href="#" title="Favorites">
                             <i class="fas fa-heart"></i>
                         </a>
-                        
-                        <!-- User Account Dropdown -->
                         <div class="dropdown">
                             <button class="nav-icon dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
                                 <i class="fas fa-user"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 {% if user.is_authenticated %}
-                                    <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
                                     {% if user.is_staff %}
-                                    <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-cog"></i> Admin</a></li>
+                                    <li class="admin-panel-dropdown-wrapper" style="position:relative;">
+                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#" style="display:flex;align-items:center;justify-content:space-between;">
+                                            <span><i class="fas fa-cog"></i> Admin Panel</span>
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                        <ul class="dropdown-menu admin-panel-submenu" style="position:absolute;top:0;left:100%;min-width:200px;display:none;z-index:1051;">
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
+                                        </ul>
+                                    </li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                 {% else %}
-                                    <li><a class="dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
                                 {% endif %}
                             </ul>
                         </div>
-                        
-                        <!-- Light Mode Toggle -->
                         <button class="nav-icon theme-toggle" id="desktopThemeToggle" title="Toggle Dark/Light Mode">
                             <i class="fas fa-moon"></i>
                         </button>
                     </div>
-                    
-                    <!-- Shopping Cart -->
                     <a class="nav-icon" href="{% url 'view_cart' %}">
                         <i class="fas fa-shopping-bag"></i>
                         {% if cart_item_count > 0 %}
@@ -301,6 +311,12 @@
                         <a href="{% url 'profile' %}" class="submenu-item">
                             <i class="fas fa-user-circle"></i> <span>Profile</span>
                         </a>
+                        {% if user.is_staff %}
+                        <button class="submenu-item submenu-trigger" data-submenu="admin-panel">
+                            <i class="fas fa-cog"></i> <span>Admin Panel</span>
+                            <span class="submenu-arrow">→</span>
+                        </button>
+                        {% endif %}
                         <a href="{% url 'account_logout' %}" class="submenu-item">
                             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                         </a>
@@ -312,6 +328,22 @@
                             <i class="fas fa-user-plus"></i> <span>Sign Up</span>
                         </a>
                     {% endif %}
+                </div>
+            </div>
+
+            <!-- Admin Panel Submenu -->
+            <div class="menu-submenu hidden" id="submenuAdminPanel">
+                <button class="submenu-back" data-back="account">&lt; Admin Panel</button>
+                <div class="submenu-content">
+                    <a href="{% url 'admin:index' %}" class="submenu-item">
+                        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                    </a>
+                    <a href="{% url 'archived_products' %}" class="submenu-item">
+                        <i class="fas fa-archive"></i> <span>Archived Products</span>
+                    </a>
+                    <a href="{% url 'admin_orders_list' %}" class="submenu-item">
+                        <i class="fas fa-clipboard-list"></i> <span>Admin Orders</span>
+                    </a>
                 </div>
             </div>
             
@@ -468,6 +500,57 @@
         <!-- Custom JS -->
         <script src="{% static 'js/base.js' %}"></script>
         <script>
+            // Admin Panel Dropdown - Click only (submenu opens to the left)
+            document.addEventListener('DOMContentLoaded', function() {
+                function closeAllAdminSubmenus() {
+                    document.querySelectorAll('.admin-panel-submenu').forEach(menu => {
+                        menu.classList.remove('show');
+                        if (menu.parentElement) menu.parentElement.classList.remove('show');
+                    });
+                }
+
+                // Handle Admin Panel click to toggle submenu (open to left)
+                document.querySelectorAll('.admin-panel-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const wrapper = this.closest('.admin-panel-dropdown-wrapper');
+                        const submenu = wrapper.querySelector('.admin-panel-submenu');
+                        // Toggle .show class for submenu
+                        const isOpen = submenu.classList.contains('show');
+                        closeAllAdminSubmenus();
+                        if (!isOpen) {
+                            submenu.classList.add('show');
+                            wrapper.classList.add('show');
+                        }
+                    });
+                });
+
+                // Prevent submenu from closing when clicking inside it
+                document.querySelectorAll('.admin-panel-submenu').forEach(submenu => {
+                    submenu.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'A' || e.target.closest('a')) {
+                            return;
+                        }
+                        e.stopPropagation();
+                    });
+                });
+
+                // Close submenu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.admin-panel-dropdown-wrapper')) {
+                        closeAllAdminSubmenus();
+                    }
+                });
+
+                // Close submenu when parent dropdown closes
+                document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
+                    parentDropdown.addEventListener('hidden.bs.dropdown', function() {
+                        closeAllAdminSubmenus();
+                    });
+                });
+            });
+
             // Mobile Menu Functionality
             document.addEventListener('DOMContentLoaded', function() {
                 const navBurger = document.getElementById('navBurger');
@@ -545,19 +628,50 @@
                 submenuBackButtons.forEach(btn => {
                     btn.addEventListener('click', function(e) {
                         e.preventDefault();
-                        const submenus = document.querySelectorAll('.menu-submenu');
-                        const mainMenu = document.getElementById('menuMain');
-                        
-                        // Move main menu back to visible
-                        mainMenu.style.transform = 'translateX(0)';
-                        
-                        // Hide all submenus
-                        submenus.forEach(submenu => {
-                            submenu.style.transform = 'translateX(100%)';
+                        const backTo = this.dataset.back;
+                        const currentSubmenu = this.closest('.menu-submenu');
+
+                        if (backTo === 'main') {
+                            // Going back to main menu
+                            const mainMenu = document.getElementById('menuMain');
+                            mainMenu.style.transform = 'translateX(0)';
+
+                            currentSubmenu.style.transform = 'translateX(100%)';
                             setTimeout(() => {
-                                submenu.classList.add('hidden');
+                                currentSubmenu.classList.add('hidden');
                             }, 300);
-                        });
+                        } else if (backTo === 'account') {
+                            // Going back to account submenu
+                            const accountSubmenu = document.getElementById('accountSubmenu');
+
+                            currentSubmenu.style.transform = 'translateX(100%)';
+                            setTimeout(() => {
+                                currentSubmenu.classList.add('hidden');
+                                accountSubmenu.style.transform = 'translateX(0)';
+                            }, 300);
+                        }
+                    });
+                });
+
+                // Handle submenu triggers (like Admin Panel)
+                const submenuTriggers = document.querySelectorAll('.submenu-trigger');
+                submenuTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenuId = this.dataset.submenu;
+                        const targetSubmenu = document.getElementById('submenu' + submenuId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''));
+                        const currentSubmenu = this.closest('.menu-submenu');
+
+                        if (targetSubmenu) {
+                            // Hide current submenu
+                            currentSubmenu.style.transform = 'translateX(-100%)';
+
+                            // Show target submenu
+                            targetSubmenu.classList.remove('hidden');
+                            setTimeout(() => {
+                                targetSubmenu.style.transform = 'translateX(0)';
+                            }, 10);
+                        }
                     });
                 });
                 

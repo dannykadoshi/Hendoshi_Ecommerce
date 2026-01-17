@@ -777,14 +777,26 @@ body {
     inset: auto 0px auto auto !important;
 }
 
-.navbar-right .dropdown-item {
+
+.navbar-right .dropdown-item,
+.navbar-right .menu-dropdown-item {
     color: var(--off-white);
     padding: 0.75rem 1.25rem;
     transition: all 0.3s;
     white-space: nowrap;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.navbar-right .dropdown-item:hover {
+.navbar-right .dropdown-item:hover,
+.navbar-right .menu-dropdown-item:hover {
     background-color: var(--neon-pink);
     color: var(--black);
 }
@@ -820,11 +832,14 @@ body {
     border: 2px solid var(--neon-pink);
 }
 
-:root.light-mode .navbar-right .dropdown-item {
+
+:root.light-mode .navbar-right .dropdown-item,
+:root.light-mode .navbar-right .menu-dropdown-item {
     color: var(--charcoal);
 }
 
-:root.light-mode .navbar-right .dropdown-item:hover {
+:root.light-mode .navbar-right .dropdown-item:hover,
+:root.light-mode .navbar-right .menu-dropdown-item:hover {
     background-color: var(--neon-pink);
     color: white;
 }
@@ -7400,4 +7415,87 @@ input[type="number"] {
 
 .order-number-highlight {
     color: #FF2DA1;
+}
+/* Nested Dropdown (Dropend) Styling for Admin Panel */
+
+.dropdown-menu .dropend .dropdown-toggle::after {
+    margin-left: auto;
+    border-top: 0.3em solid transparent;
+    border-right: 0;
+    border-bottom: 0.3em solid transparent;
+    border-left: 0.3em solid;
+}
+
+.dropdown-menu .dropdown-item.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Mobile Menu Submenu Arrow */
+.submenu-arrow {
+    margin-left: auto;
+    font-size: 1.2rem;
+    color: var(--neon-pink);
+}
+
+.submenu-trigger {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Admin Panel dropdown toggle - normal state (white text in dark mode, charcoal in light mode) */
+.dropdown-menu .admin-panel-dropdown > a.dropdown-item,
+.dropdown-menu .admin-panel-dropdown > a.dropdown-toggle {
+    color: white;
+}
+
+/* Light mode Admin Panel text color */
+:root.light-mode .dropdown-menu .admin-panel-dropdown > a.dropdown-item,
+:root.light-mode .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle {
+    color: var(--charcoal) !important;
+}
+
+/* Admin Panel dropdown toggle hover effect */
+.dropdown-menu .admin-panel-dropdown > a.dropdown-item:hover,
+.dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+}
+
+/* Prevent Admin Panel submenu from opening on hover - click only */
+@media (min-width: 992px) {
+    /* Position the parent li to be relative for absolute positioning of submenu */
+    .dropdown-menu .admin-panel-dropdown {
+        position: relative;
+    }
+
+    /* Hide submenu by default - only show when .show class is added via JavaScript */
+    .dropdown-menu .admin-panel-submenu {
+        display: none !important;
+        position: absolute;
+        right: 100%;
+        left: auto;
+        top: 0;
+        margin-left: 0;
+        margin-top: 0;
+        z-index: 1050;
+        min-width: 200px;
+    }
+
+    /* Show submenu when .show class is added */
+    .dropdown-menu .admin-panel-submenu.show {
+        display: block !important;
+    }
+}
+
+/* Light mode Admin Panel submenu */
+:root.light-mode .dropdown-menu .admin-panel-submenu {
+    background-color: white;
+    border: 2px solid var(--neon-pink);
 }
