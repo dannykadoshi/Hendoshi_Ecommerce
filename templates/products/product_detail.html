@@ -25,9 +25,14 @@
             <!-- Product Images -->
             <div class="col-md-6">
                 <div class="product-images">
-                    <div class="main-image mb-3">
+                    <div class="main-image mb-3" id="mainImageContainer">
                         {% if product.main_image %}
-                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}">
+                            {% with second_image=product.images.first %}
+                                {% if second_image %}
+                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="img-fluid main-img-hover">
+                                {% endif %}
+                            {% endwith %}
                         {% else %}
                             <div class="placeholder-image-large">
                                 <i class="fas fa-image fa-5x"></i>
@@ -35,11 +40,16 @@
                             </div>
                         {% endif %}
                     </div>
-                    
-                    {% if product.images.all %}
+
+                    {% if product.images.all or product.main_image %}
                     <div class="image-thumbnails">
+                        {% if product.main_image %}
+                        <div class="thumbnail active" data-image-url="{{ product.main_image.url }}">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }} - Main">
+                        </div>
+                        {% endif %}
                         {% for image in product.images.all %}
-                        <div class="thumbnail">
+                        <div class="thumbnail" data-image-url="{{ image.image.url }}">
                             <img src="{{ image.image.url }}" alt="{{ image.alt_text }}">
                         </div>
                         {% endfor %}
@@ -425,6 +435,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 {% endif %}
+</script>
+
+<script>
+// Product Image Gallery functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const mainImageContainer = document.getElementById('mainImageContainer');
+    const mainImage = document.getElementById('mainProductImage');
+    const thumbnails = document.querySelectorAll('.image-thumbnails .thumbnail');
+
+    // Mobile tap-to-flip functionality for main image
+    if (mainImageContainer) {
+        mainImageContainer.addEventListener('click', function() {
+            // Only on mobile
+            if (window.innerWidth < 992) {
+                mainImageContainer.classList.toggle('image-flipped');
+            }
+        });
+    }
+
+    // Thumbnail click functionality
+    if (thumbnails.length > 0 && mainImage) {
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                const newImageUrl = this.getAttribute('data-image-url');
+
+                // Update main image
+                mainImage.src = newImageUrl;
+
+                // Update active thumbnail
+                thumbnails.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Reset flip state on mobile
+                if (mainImageContainer) {
+                    mainImageContainer.classList.remove('image-flipped');
+                }
+            });
+        });
+    }
+});
 </script>
 
 {% endblock %}

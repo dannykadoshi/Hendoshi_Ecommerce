@@ -245,7 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Update cart count badge
                     updateCartCount(data.cart_count);
                 } else {
-                    showToast(data.message || 'Could not add to cart', 'error');
+                    // Surface backend message when add-to-cart fails
+                    showToast(data.message || 'Could not add to cart', 'info');
                 }
             })
             .catch(error => {
@@ -304,7 +305,14 @@ function removeFromVest(slug) {
             updateVestCount(data.item_count);
             showToast(data.message, 'info');
         } else {
-            showToast(data.message || 'Failed to remove item', 'error');
+            // Backend returned non-success; surface server message and sync UI if needed
+            showToast(data.message || 'Failed to remove item', 'info');
+            if (data.in_vest) {
+                const itemCard = document.querySelector(`[data-slug="${slug}"]`);
+                if (itemCard) {
+                    itemCard.classList.add('in-vest');
+                }
+            }
         }
     })
     .catch(error => {
@@ -329,7 +337,8 @@ function addVestItemToCart(slug, name) {
         if (data.success) {
             showToast(`${name} added to cart!`, 'success');
         } else {
-            showToast(data.message || 'Could not add to cart', 'error');
+            // Surface backend message when cart add fails
+            showToast(data.message || 'Could not add to cart', 'info');
         }
     })
     .catch(error => {
@@ -344,12 +353,12 @@ function updateVestCount(count) {
 
     if (mobileBadge) {
         mobileBadge.textContent = count;
-        mobileBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        mobileBadge.style.display = count > 0 ? 'flex' : 'none';
     }
 
     if (desktopBadge) {
         desktopBadge.textContent = count;
-        desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        desktopBadge.style.display = count > 0 ? 'flex' : 'none';
     }
 }
 

@@ -155,6 +155,8 @@
                             <h4 class="mb-3">Additional Images (Gallery)</h4>
                             <div class="image-formset-container" id="imageFormsetContainer">
                                 <div style="display:none;">{{ image_formset.management_form }}</div>
+                                <!-- Empty form template for JS cloning when there are no existing image forms -->
+                                <div id="emptyImageFormTemplate" style="display:none;">{{ image_formset.empty_form.as_p|safe }}</div>
                                 {% for form in image_formset %}
                                     <div class="image-form-row mb-4 p-4">
                                         <div style="display:none;">{{ form.id }}</div>
@@ -821,11 +823,46 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mainFileInput && mainClearX) {
         mainFileInput.addEventListener('change', function() {
             mainClearX.style.display = mainFileInput.value ? 'inline' : 'none';
+            // Show preview using same markup as existing main image preview
+            const wrapper = mainFileInput.closest('.file-input-wrapper');
+            if (wrapper) {
+                const existingPreview = wrapper.parentElement.querySelector('.image-preview-current');
+                if (existingPreview && existingPreview.parentElement) existingPreview.parentElement.remove();
+                if (mainFileInput.files && mainFileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'mb-3';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Preview';
+                        img.className = 'image-preview-current';
+                        div.appendChild(img);
+                        // insert preview before the file input wrapper (same structure as existing main image)
+                        wrapper.parentElement.insertBefore(div, wrapper);
+                        // remove any stray 'Preview' text-only nodes that may exist from empty form markup
+                        Array.from(wrapper.parentElement.childNodes).forEach(function(node) {
+                            try {
+                                const text = (node.textContent || '').trim().toLowerCase();
+                                if (text === 'preview') node.remove();
+                            } catch (err) {
+                                // ignore
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(mainFileInput.files[0]);
+                }
+            }
         });
         mainClearX.addEventListener('click', function(e) {
             e.preventDefault();
             mainFileInput.value = '';
             mainClearX.style.display = 'none';
+            const wrapper = mainFileInput.closest('.file-input-wrapper');
+            if (wrapper) {
+                const prev = wrapper.parentElement.querySelector('.image-preview-current');
+                if (prev && prev.parentElement) prev.parentElement.remove();
+            }
         });
     }
 
@@ -909,81 +946,116 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageFormsetContainer = document.getElementById('imageFormsetContainer');
 
     if (addImageBtn && imageFormsetContainer) {
+        function attachImageInputListeners(wrapper) {
+            if (!wrapper) return;
+            const fileInput = wrapper.querySelector('input[type="file"]');
+            const clearX = wrapper.querySelector('.clear-file-x');
+
+            // ensure clearX exists
+            if (clearX) {
+                clearX.style.display = fileInput && fileInput.value ? 'inline' : 'none';
+                clearX.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (fileInput) fileInput.value = '';
+                    clearX.style.display = 'none';
+                    const prev = wrapper.querySelector('.image-preview-current');
+                    if (prev && prev.parentElement) prev.parentElement.remove();
+                });
+            }
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    if (clearX) clearX.style.display = fileInput.value ? 'inline' : 'none';
+                    // Show preview
+                    const existingPreview = wrapper.querySelector('.image-preview-current');
+                    if (existingPreview && existingPreview.parentElement) existingPreview.parentElement.remove();
+                        if (fileInput.files && fileInput.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                                const div = document.createElement('div');
+                                div.className = 'mb-3';
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.alt = 'Preview';
+                                img.className = 'image-preview-current';
+                                div.appendChild(img);
+                                // remove any stray 'Preview' text-only nodes inside this row (from empty form)
+                                Array.from(wrapper.querySelectorAll('*')).forEach(function(node) {
+                                    try {
+                                        const text = (node.textContent || '').trim().toLowerCase();
+                                        if (text === 'preview') node.remove();
+                                    } catch (err) {}
+                                });
+                                // insert preview at the top of the form row (same markup as main image preview)
+                                wrapper.insertBefore(div, wrapper.firstChild);
+                        };
+                        reader.readAsDataURL(fileInput.files[0]);
+                    }
+                });
+            }
+        }
+
         addImageBtn.addEventListener('click', function() {
             const totalForms = document.querySelector('input[name="images-TOTAL_FORMS"]');
-            const formCount = parseInt(totalForms.value);
+            const formCount = parseInt(totalForms.value || '0');
             const lastForm = imageFormsetContainer.querySelector('.image-form-row:last-of-type');
+            let newForm;
 
             if (lastForm) {
-                const newForm = lastForm.cloneNode(true);
-
-                // Add position relative for positioning the close button
+                newForm = lastForm.cloneNode(true);
                 newForm.style.position = 'relative';
                 newForm.classList.add('dynamically-added');
-
-                // Update form index in all fields
                 const formRegex = new RegExp('images-\\d+-', 'g');
                 newForm.innerHTML = newForm.innerHTML.replace(formRegex, `images-${formCount}-`);
-
-                // Clear values in cloned form
                 newForm.querySelectorAll('input[type="text"], input[type="number"], input[type="file"]').forEach(input => {
                     input.value = '';
                     input.classList.remove('has-value');
                 });
-
-                // Remove existing image preview
                 const imagePreview = newForm.querySelector('.image-preview-current');
                 if (imagePreview && imagePreview.parentElement) {
                     imagePreview.parentElement.remove();
                 }
-
-                // Uncheck DELETE checkbox
                 const deleteCheckbox = newForm.querySelector('input[type="checkbox"]');
-                if (deleteCheckbox) {
-                    deleteCheckbox.checked = false;
-                }
-
-                // Add close button
-                const closeBtn = document.createElement('button');
-                closeBtn.type = 'button';
-                closeBtn.className = 'btn-close-formset';
-                closeBtn.innerHTML = '&times;';
-                closeBtn.title = 'Remove this form';
-                closeBtn.addEventListener('click', function() {
-                    newForm.remove();
-                    // Decrement total forms count
-                    totalForms.value = parseInt(totalForms.value) - 1;
-                });
-                newForm.insertBefore(closeBtn, newForm.firstChild);
-
-                // Append new form
-                imageFormsetContainer.appendChild(newForm);
-
-                // Increment total forms count
-                totalForms.value = formCount + 1;
-
-                // Re-initialize event listeners for new form
-                const newInputs = newForm.querySelectorAll('.form-control, select.auth-form-input, input.auth-form-input');
-                newInputs.forEach(input => {
-                    if (input.type === 'file' || input.type === 'checkbox') return;
-
-                    input.addEventListener('input', function() {
-                        if (checkInputValue(this)) {
-                            this.classList.add('has-value');
-                        } else {
-                            this.classList.remove('has-value');
-                        }
-                    });
-
-                    input.addEventListener('change', function() {
-                        if (checkInputValue(this)) {
-                            this.classList.add('has-value');
-                        } else {
-                            this.classList.remove('has-value');
-                        }
-                    });
-                });
+                if (deleteCheckbox) deleteCheckbox.checked = false;
+            } else {
+                // Use empty form template
+                const template = document.getElementById('emptyImageFormTemplate');
+                newForm = document.createElement('div');
+                newForm.className = 'image-form-row mb-4 p-4 dynamically-added';
+                newForm.innerHTML = template.innerHTML.replace(/__prefix__/g, formCount);
             }
+
+            // Add close button
+            const totalFormsField = document.querySelector('input[name="images-TOTAL_FORMS"]');
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'btn-close-formset';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.title = 'Remove this form';
+            closeBtn.addEventListener('click', function() {
+                newForm.remove();
+                totalFormsField.value = parseInt(totalFormsField.value) - 1;
+            });
+            newForm.insertBefore(closeBtn, newForm.firstChild);
+
+            // Append new form and update total
+            imageFormsetContainer.appendChild(newForm);
+            totalForms.value = formCount + 1;
+
+            // Attach listeners for preview and clear
+            attachImageInputListeners(newForm);
+
+            // Re-init inputs for value styling
+            const newInputs = newForm.querySelectorAll('.form-control, select.auth-form-input, input.auth-form-input');
+            newInputs.forEach(input => {
+                if (input.type === 'file' || input.type === 'checkbox') return;
+                input.addEventListener('input', function() {
+                    if (checkInputValue(this)) this.classList.add('has-value'); else this.classList.remove('has-value');
+                });
+                input.addEventListener('change', function() {
+                    if (checkInputValue(this)) this.classList.add('has-value'); else this.classList.remove('has-value');
+                });
+            });
         });
     }
 

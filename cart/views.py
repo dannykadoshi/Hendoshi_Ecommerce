@@ -75,11 +75,10 @@ def add_to_cart(request, product_id):
 
         # Return JSON for AJAX requests
         if is_ajax:
-            cart_count = cart.items.count()
             return JsonResponse({
                 'success': True,
                 'message': message,
-                'cart_count': cart_count
+                'cart_count': cart.get_total_items()
             })
 
         messages.success(request, message)

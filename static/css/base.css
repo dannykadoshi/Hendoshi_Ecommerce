@@ -3171,11 +3171,51 @@ a.btn-pink {
     border: 3px solid var(--neon-pink);
     border-radius: 8px;
     overflow: hidden;
+    position: relative;
 }
 
 .main-image img {
     width: 100%;
     height: auto;
+    transition: opacity 0.3s ease;
+}
+
+.main-image .main-img-primary {
+    position: relative;
+    z-index: 1;
+}
+
+.main-image .main-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 2;
+}
+
+/* Desktop hover effect for main image */
+@media (min-width: 992px) {
+    .main-image:hover .main-img-primary {
+        opacity: 0;
+    }
+
+    .main-image:hover .main-img-hover {
+        opacity: 1;
+    }
+}
+
+/* Mobile tap effect for main image */
+@media (max-width: 991px) {
+    .main-image.image-flipped .main-img-primary {
+        opacity: 0;
+    }
+
+    .main-image.image-flipped .main-img-hover {
+        opacity: 1;
+    }
 }
 
 .placeholder-image-large {
@@ -3190,7 +3230,8 @@ a.btn-pink {
 
 .image-thumbnails {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .thumbnail {
@@ -3200,11 +3241,17 @@ a.btn-pink {
     border-radius: 4px;
     overflow: hidden;
     cursor: pointer;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, transform 0.2s;
 }
 
 .thumbnail:hover {
     border-color: var(--neon-pink);
+    transform: scale(1.05);
+}
+
+.thumbnail.active {
+    border-color: var(--neon-pink);
+    border-width: 3px;
 }
 
 .thumbnail img {
@@ -7887,15 +7934,18 @@ input[type="number"] {
     right: -8px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: #000;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    padding: 2px 6px;
+    padding: 0;
     border-radius: 50%;
     min-width: 18px;
+    width: 18px;
     height: 18px;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    line-height: 1;
     box-shadow: 0 2px 8px rgba(255, 20, 147, 0.5);
     animation: pulse 2s infinite;
 }

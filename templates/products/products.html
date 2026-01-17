@@ -542,6 +542,17 @@
                         if (typeof showToast === 'function') {
                             showToast(data.message, isInVest ? 'info' : 'success');
                         }
+                    } else {
+                        // Backend returned a non-success response (e.g., already in vest)
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Action not completed', 'info');
+                        }
+                        // If server indicates item is in vest, ensure UI reflects that
+                        if (data.in_vest) {
+                            this.classList.add('in-vest');
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                        }
                     }
                 })
                 .catch(error => {
