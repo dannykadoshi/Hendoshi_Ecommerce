@@ -7507,3 +7507,437 @@ input[type="number"] {
     background-color: white;
     border: 2px solid var(--neon-pink);
 }
+
+/* ================================
+   BATTLE VEST (WISHLIST) STYLES
+   ================================ */
+
+/* Battle Vest Icon in Navigation */
+.battle-vest-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.vest-count-badge,
+.cart-count-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.cart-icon {
+    position: relative;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(255, 20, 147, 0.5);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(255, 20, 147, 0.8);
+    }
+}
+
+/* Battle Vest Page */
+.battle-vest-page {
+    padding: 10rem 0 4rem;
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%);
+}
+
+.battle-vest-header {
+    margin-bottom: 3rem;
+}
+
+.vest-title {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.vest-title i {
+    -webkit-text-fill-color: var(--neon-pink);
+    margin-right: 1rem;
+}
+
+.vest-subtitle {
+    font-size: 1.2rem;
+    color: var(--off-white);
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+}
+
+.vest-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.vest-stat-item {
+    font-size: 1.1rem;
+    color: var(--electric-yellow);
+    font-weight: 600;
+}
+
+.vest-stat-item i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+/* Battle Vest Grid */
+.battle-vest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Vest Item Card */
+.vest-item-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.vest-item-card:hover {
+    border-color: var(--neon-pink);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+}
+
+.vest-item-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.vest-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.vest-item-card:hover .vest-item-image {
+    transform: scale(1.05);
+}
+
+/* Remove Button */
+.vest-remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.vest-remove-btn:hover {
+    background: var(--neon-pink);
+    color: #000;
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Quick View Button */
+.vest-quick-view-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--electric-yellow);
+    color: var(--electric-yellow);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2;
+    font-size: 0.9rem;
+}
+
+.vest-item-card:hover .vest-quick-view-btn {
+    opacity: 1;
+    bottom: 20px;
+}
+
+.vest-quick-view-btn:hover {
+    background: var(--electric-yellow);
+    color: #000;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Vest Item Info */
+.vest-item-info {
+    padding: 1.5rem;
+}
+
+.vest-item-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--off-white);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.vest-item-title:hover {
+    color: var(--neon-pink);
+}
+
+.vest-item-collection {
+    font-size: 0.85rem;
+    color: var(--electric-yellow);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vest-item-price {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--neon-pink);
+    margin-bottom: 0.5rem;
+}
+
+.vest-item-date {
+    font-size: 0.8rem;
+    color: var(--off-white);
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+.vest-add-cart-btn {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    border: none;
+    color: #000;
+    font-weight: 700;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.vest-add-cart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+}
+
+/* Empty Vest State */
+.empty-vest {
+    padding: 5rem 2rem;
+}
+
+.empty-vest-icon {
+    font-size: 8rem;
+    color: var(--neon-pink);
+    opacity: 0.3;
+    margin-bottom: 2rem;
+}
+
+.empty-vest-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--off-white);
+    margin-bottom: 1rem;
+}
+
+.empty-vest-text {
+    font-size: 1.2rem;
+    color: var(--off-white);
+    opacity: 0.7;
+    margin-bottom: 2rem;
+}
+
+/* Vest Actions */
+.vest-actions {
+    padding: 2rem 0;
+}
+
+/* Battle Vest Button on Product Detail */
+.battle-vest-btn {
+    transition: all 0.3s ease;
+}
+
+.battle-vest-btn.in-vest {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    border-color: transparent;
+    color: #000;
+}
+
+.battle-vest-btn.in-vest:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+}
+
+.battle-vest-btn .heart-icon {
+    transition: all 0.3s ease;
+}
+
+.battle-vest-btn:hover .heart-icon {
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .vest-title {
+        font-size: 2rem;
+    }
+
+    .vest-stat-item {
+        font-size: 1rem;
+    }
+
+    .battle-vest-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .empty-vest-icon {
+        font-size: 5rem;
+    }
+
+    .empty-vest-title {
+        font-size: 1.8rem;
+    }
+
+    .empty-vest-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .battle-vest-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vest-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Battle Vest Light Mode */
+:root.light-mode .battle-vest-page {
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+:root.light-mode .vest-title {
+    background: linear-gradient(135deg, var(--neon-pink), #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+:root.light-mode .vest-subtitle {
+    color: #495057;
+}
+
+:root.light-mode .vest-stat-item {
+    background: rgba(255, 20, 147, 0.1);
+    color: #333;
+}
+
+:root.light-mode .vest-item-card {
+    background: #fff;
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .vest-item-card:hover {
+    border-color: var(--neon-pink);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .vest-item-image-wrapper {
+    background: #f8f9fa;
+}
+
+:root.light-mode .vest-item-title {
+    color: #212529;
+}
+
+:root.light-mode .vest-item-title:hover {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .vest-item-collection {
+    color: #6c757d;
+}
+
+:root.light-mode .vest-item-price {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .vest-item-date {
+    color: #6c757d;
+}
+
+:root.light-mode .vest-remove-btn {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .vest-remove-btn:hover {
+    background: var(--neon-pink);
+    color: #fff;
+}
+
+:root.light-mode .vest-quick-view-btn {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--electric-yellow);
+    color: #333;
+}
+
+:root.light-mode .vest-quick-view-btn:hover {
+    background: var(--electric-yellow);
+    color: #000;
+}
+
+:root.light-mode .empty-vest-icon {
+    color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .empty-vest-title {
+    color: #212529;
+}
+
+:root.light-mode .empty-vest-text {
+    color: #6c757d;
+}

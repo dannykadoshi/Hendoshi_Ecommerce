@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}My Battle Vest{% endblock %}
+
+{% block content %}
+<div class="battle-vest-page">
+    <div class="container">
+
+        <!-- Battle Vest Header -->
+        <div class="battle-vest-header text-center mb-5">
+            <h1 class="vest-title">
+                <i class="fas fa-shield-alt"></i> MY BATTLE VEST
+            </h1>
+            <p class="vest-subtitle">Your curated collection of metal masterpieces</p>
+            {% if item_count > 0 %}
+            <div class="vest-stats">
+                <span class="vest-stat-item">
+                    <i class="fas fa-tshirt"></i> {{ item_count }} Item{{ item_count|pluralize }}
+                </span>
+                <span class="vest-stat-item">
+                    <i class="fas fa-coins"></i> Total Value: €{{ total_value }}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if vest_items %}
+        <!-- Battle Vest Grid -->
+        <div class="battle-vest-grid">
+            {% for item in vest_items %}
+            <div class="vest-item-card" data-slug="{{ item.product.slug }}">
+                <div class="vest-item-image-wrapper">
+                    <a href="{% url 'product_detail' item.product.slug %}">
+                        {% if item.product.main_image %}
+                            <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="vest-item-image">
+                        {% else %}
+                            <div class="placeholder-image">
+                                <i class="fas fa-image fa-3x"></i>
+                            </div>
+                        {% endif %}
+                    </a>
+
+                    <!-- Remove Button -->
+                    <button class="vest-remove-btn" onclick="removeFromVest('{{ item.product.slug }}')" title="Remove from Battle Vest">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <!-- Quick View Button -->
+                    <a href="{% url 'product_detail' item.product.slug %}" class="vest-quick-view-btn">
+                        <i class="fas fa-eye"></i> Quick View
+                    </a>
+                </div>
+
+                <div class="vest-item-info">
+                    <a href="{% url 'product_detail' item.product.slug %}" class="vest-item-title">
+                        {{ item.product.name }}
+                    </a>
+
+                    {% if item.product.collection %}
+                    <p class="vest-item-collection">{{ item.product.collection.name }}</p>
+                    {% endif %}
+
+                    <p class="vest-item-price">€{{ item.product.base_price }}</p>
+
+                    <p class="vest-item-date">
+                        <i class="far fa-clock"></i> Added {{ item.added_at|timesince }} ago
+                    </p>
+
+                    <!-- Add to Cart Button -->
+                    <a href="{% url 'product_detail' item.product.slug %}" class="btn btn-pink w-100 vest-add-cart-btn">
+                        <i class="fas fa-shopping-cart"></i> ADD TO CART
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Battle Vest Actions -->
+        <div class="vest-actions text-center mt-5">
+            <a href="{% url 'products' %}" class="btn btn-outline-pink btn-lg">
+                <i class="fas fa-plus-circle"></i> DISCOVER MORE DESIGNS
+            </a>
+        </div>
+
+        {% else %}
+        <!-- Empty Battle Vest -->
+        <div class="empty-vest text-center">
+            <div class="empty-vest-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2 class="empty-vest-title">Your Battle Vest is Empty</h2>
+            <p class="empty-vest-text">
+                Start building your collection of metal masterpieces!<br>
+                Browse our designs and pin your favorites.
+            </p>
+            <a href="{% url 'products' %}" class="btn btn-pink btn-lg mt-4">
+                <i class="fas fa-tshirt"></i> SHOP ALL PRODUCTS
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<script>
+// Remove item from Battle Vest
+function removeFromVest(slug) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    if (!confirm('Remove this item from your Battle Vest?')) {
+        return;
+    }
+
+    fetch(`/products/${slug}/remove-from-vest/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the item card with animation
+            const itemCard = document.querySelector(`[data-slug="${slug}"]`);
+            if (itemCard) {
+                itemCard.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    itemCard.remove();
+
+                    // Check if vest is now empty
+                    const remainingItems = document.querySelectorAll('.vest-item-card');
+                    if (remainingItems.length === 0) {
+                        location.reload(); // Reload to show empty state
+                    }
+                }, 300);
+            }
+
+            // Update count in navigation
+            updateVestCount(data.item_count);
+
+            // Show toast
+            showToast(data.message, 'info');
+        } else {
+            showToast(data.message || 'Failed to remove item', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Failed to remove item from Battle Vest', 'error');
+    });
+}
+
+function updateVestCount(count) {
+    // Update both mobile and desktop count badges
+    const mobileBadge = document.getElementById('battleVestCount');
+    const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+    if (mobileBadge) {
+        mobileBadge.textContent = count;
+        mobileBadge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+
+    if (desktopBadge) {
+        desktopBadge.textContent = count;
+        desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+}
+
+function showToast(message, type = 'success') {
+    const toastContainer = document.querySelector('.toast-container-custom') || createToastContainer();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast show';
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+
+    const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+    const headerText = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
+
+    toast.innerHTML = `
+        <div class="toast-header">
+            <strong class="me-auto"><i class="fas ${iconClass}"></i> ${headerText}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            ${message}
+        </div>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.className = 'toast-container-custom';
+    document.body.appendChild(container);
+    return container;
+}
+
+// Fade out animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeOut {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: scale(0.9); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+
+{% endblock %}

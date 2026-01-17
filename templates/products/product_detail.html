@@ -134,10 +134,16 @@
                         <button type="submit" class="btn btn-pink btn-lg w-100 mb-2 add-to-cart-btn">
                             <i class="fas fa-shopping-cart"></i> ADD TO CART
                         </button>
-                        
-                        <button type="button" class="btn btn-outline-pink w-100">
-                            <i class="far fa-heart"></i> ADD TO WISHLIST
+
+                        {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-pink w-100 battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
+                            <i class="far fa-heart heart-icon"></i> <span class="vest-btn-text">ADD TO BATTLE VEST</span>
                         </button>
+                        {% else %}
+                        <button type="button" class="btn btn-outline-pink w-100" onclick="window.location.href='{% url 'account_login' %}?next={{ request.path }}'">
+                            <i class="fas fa-sign-in-alt"></i> LOGIN TO ADD TO BATTLE VEST
+                        </button>
+                        {% endif %}
                     </form>
                     
                     <script>
@@ -251,8 +257,174 @@
             </div>
         </div>
         {% endif %}
-        
+
     </div>
 </div>
+
+<script>
+{% if user.is_authenticated %}
+// Battle Vest (Wishlist) functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const battleVestBtn = document.getElementById('battleVestBtn');
+    const productSlug = battleVestBtn.dataset.productSlug;
+    const heartIcon = battleVestBtn.querySelector('.heart-icon');
+    const btnText = battleVestBtn.querySelector('.vest-btn-text');
+
+    // Check if product is already in vest on page load
+    checkInVest();
+
+    // Add click handler
+    battleVestBtn.addEventListener('click', function() {
+        const isInVest = heartIcon.classList.contains('fas');
+
+        if (isInVest) {
+            // Remove from vest
+            removeFromVest();
+        } else {
+            // Add to vest
+            addToVest();
+        }
+    });
+
+    function checkInVest() {
+        fetch(`/products/${productSlug}/check-in-vest/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.in_vest) {
+                    // Product is in vest - show filled heart
+                    heartIcon.classList.remove('far');
+                    heartIcon.classList.add('fas');
+                    btnText.textContent = 'IN YOUR BATTLE VEST';
+                    battleVestBtn.classList.add('in-vest');
+                }
+                updateVestCount(data.item_count);
+            })
+            .catch(error => console.error('Error checking vest:', error));
+    }
+
+    function addToVest() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/products/${productSlug}/add-to-vest/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update button to filled heart
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                btnText.textContent = 'IN YOUR BATTLE VEST';
+                battleVestBtn.classList.add('in-vest');
+
+                // Show success toast
+                showToast(data.message, 'success');
+
+                // Update count
+                updateVestCount(data.item_count);
+            } else {
+                showToast(data.message, 'info');
+            }
+        })
+        .catch(error => {
+            console.error('Error adding to vest:', error);
+            showToast('Failed to add to Battle Vest', 'error');
+        });
+    }
+
+    function removeFromVest() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/products/${productSlug}/remove-from-vest/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update button to outline heart
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                btnText.textContent = 'ADD TO BATTLE VEST';
+                battleVestBtn.classList.remove('in-vest');
+
+                // Show info toast
+                showToast(data.message, 'info');
+
+                // Update count
+                updateVestCount(data.item_count);
+            } else {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error removing from vest:', error);
+            showToast('Failed to remove from Battle Vest', 'error');
+        });
+    }
+
+    function updateVestCount(count) {
+        // Update both mobile and desktop count badges
+        const mobileBadge = document.getElementById('battleVestCount');
+        const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+        if (mobileBadge) {
+            mobileBadge.textContent = count;
+            mobileBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+
+        if (desktopBadge) {
+            desktopBadge.textContent = count;
+            desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+    }
+
+    function showToast(message, type = 'success') {
+        const toastContainer = document.querySelector('.toast-container-custom') || createToastContainer();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast show';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+
+        const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+        const headerText = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
+
+        toast.innerHTML = `
+            <div class="toast-header">
+                <strong class="me-auto"><i class="fas ${iconClass}"></i> ${headerText}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function createToastContainer() {
+        const container = document.createElement('div');
+        container.className = 'toast-container-custom';
+        document.body.appendChild(container);
+        return container;
+    }
+});
+{% endif %}
+</script>
 
 {% endblock %}

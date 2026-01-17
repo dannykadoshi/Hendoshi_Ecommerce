@@ -14,6 +14,12 @@ urlpatterns = [
     path('api/generate-design-story/', views.generate_design_story, name='generate_design_story'),
     path('api/generate-product-description/', views.generate_product_description, name='generate_product_description'),
 
+    # Battle Vest (Wishlist)
+    path('battle-vest/', views.battle_vest, name='battle_vest'),
+    path('<slug:slug>/add-to-vest/', views.add_to_battle_vest, name='add_to_battle_vest'),
+    path('<slug:slug>/remove-from-vest/', views.remove_from_battle_vest, name='remove_from_battle_vest'),
+    path('<slug:slug>/check-in-vest/', views.check_in_battle_vest, name='check_in_battle_vest'),
+
     # Product browsing
     path('', views.all_products, name='products'),
     path('search/', views.search, name='search'),

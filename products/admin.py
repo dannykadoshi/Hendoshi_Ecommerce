@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Collection, Product, ProductVariant, DesignStory, ProductImage
+from .models import Collection, Product, ProductVariant, DesignStory, ProductImage, BattleVest, BattleVestItem
 
 
 @admin.register(Collection)
@@ -62,7 +62,7 @@ class ProductAdmin(admin.ModelAdmin):
         'created_at'
     ]
     list_filter = ['collection', 'product_type', 'is_active', 'featured']
-    search_fields = ['name', 'description']
+    search_fields = ['name', 'description', 'slug']
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ['is_active', 'featured']
     
@@ -111,4 +111,42 @@ class ProductImageAdmin(admin.ModelAdmin):
     """
     list_display = ['product', 'alt_text', 'order']
     list_filter = ['product']
-    search_fields = ['product__name', 'alt_text']    
+    search_fields = ['product__name', 'alt_text']
+
+
+class BattleVestItemInline(admin.TabularInline):
+    """
+    Inline admin for battle vest items
+    """
+    model = BattleVestItem
+    extra = 0
+    fields = ['product', 'added_at']
+    readonly_fields = ['added_at']
+    autocomplete_fields = ['product']
+
+
+@admin.register(BattleVest)
+class BattleVestAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for BattleVest model
+    """
+    list_display = ['user', 'get_item_count', 'created_at', 'updated_at']
+    search_fields = ['user__username', 'user__email']
+    readonly_fields = ['created_at', 'updated_at']
+    inlines = [BattleVestItemInline]
+
+    def get_item_count(self, obj):
+        return obj.get_item_count()
+    get_item_count.short_description = 'Item Count'
+
+
+@admin.register(BattleVestItem)
+class BattleVestItemAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for BattleVestItem model
+    """
+    list_display = ['product', 'battle_vest', 'added_at']
+    list_filter = ['added_at']
+    search_fields = ['product__name', 'battle_vest__user__username']
+    autocomplete_fields = ['product', 'battle_vest']
+    readonly_fields = ['added_at']    

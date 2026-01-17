@@ -50,7 +50,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Product, Collection, ProductVariant, ProductImage, DesignStory
+from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem
 from .forms import (
     ProductForm,
     ProductVariantForm,
@@ -675,3 +675,146 @@ Each description MUST be under 500 characters."""
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+# ================================
+# BATTLE VEST (WISHLIST) VIEWS
+# ================================
+
+@login_required
+def battle_vest(request):
+    """
+    Display user's Battle Vest (wishlist) page
+    Shows all saved products in a grid layout
+    """
+    # Get or create user's battle vest
+    vest, created = BattleVest.objects.get_or_create(user=request.user)
+    
+    # Get all items in the vest with related product data
+    vest_items = vest.items.select_related('product', 'product__collection').all()
+    
+    # Calculate total value
+    total_value = vest.get_total_value()
+    
+    context = {
+        'vest': vest,
+        'vest_items': vest_items,
+        'total_value': total_value,
+        'item_count': vest.get_item_count(),
+    }
+    
+    return render(request, 'products/battle_vest.html', context)
+
+
+@login_required
+@require_POST
+def add_to_battle_vest(request, slug):
+    """
+    Add a product to user's Battle Vest (wishlist)
+    Returns JSON response for AJAX calls
+    """
+    try:
+        # Get the product
+        product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
+        
+        # Get or create user's battle vest
+        vest, created = BattleVest.objects.get_or_create(user=request.user)
+        
+        # Try to add the item (will fail if duplicate due to unique_together)
+        vest_item, item_created = BattleVestItem.objects.get_or_create(
+            battle_vest=vest,
+            product=product
+        )
+        
+        if item_created:
+            # New item added
+            return JsonResponse({
+                'success': True,
+                'message': f'{product.name} pinned to your Battle Vest! 🛡️',
+                'item_count': vest.get_item_count(),
+                'in_vest': True
+            })
+        else:
+            # Item already exists
+            return JsonResponse({
+                'success': False,
+                'message': f'{product.name} is already in your Battle Vest!',
+                'item_count': vest.get_item_count(),
+                'in_vest': True
+            })
+    
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+
+@login_required
+@require_POST
+def remove_from_battle_vest(request, slug):
+    """
+    Remove a product from user's Battle Vest (wishlist)
+    Returns JSON response for AJAX calls
+    """
+    try:
+        # Get the product
+        product = get_object_or_404(Product, slug=slug)
+        
+        # Get user's battle vest
+        vest = get_object_or_404(BattleVest, user=request.user)
+        
+        # Try to find and delete the item
+        vest_item = BattleVestItem.objects.filter(
+            battle_vest=vest,
+            product=product
+        ).first()
+        
+        if vest_item:
+            vest_item.delete()
+            return JsonResponse({
+                'success': True,
+                'message': f'{product.name} removed from your Battle Vest.',
+                'item_count': vest.get_item_count(),
+                'in_vest': False
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'message': 'Item not found in your Battle Vest.',
+                'item_count': vest.get_item_count(),
+                'in_vest': False
+            })
+    
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+
+@login_required
+def check_in_battle_vest(request, slug):
+    """
+    Check if a product is in user's Battle Vest
+    Returns JSON response for AJAX calls
+    """
+    try:
+        product = get_object_or_404(Product, slug=slug)
+        vest = BattleVest.objects.filter(user=request.user).first()
+        
+        in_vest = False
+        if vest:
+            in_vest = BattleVestItem.objects.filter(
+                battle_vest=vest,
+                product=product
+            ).exists()
+        
+        return JsonResponse({
+            'in_vest': in_vest,
+            'item_count': vest.get_item_count() if vest else 0
+        })
+    
+    except Exception as e:
+        return JsonResponse({
+            'error': str(e)
+        }, status=500)

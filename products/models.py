@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 
 class Collection(models.Model):
@@ -216,10 +217,66 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='products/gallery/')
     alt_text = models.CharField(max_length=200, blank=True)
     order = models.PositiveIntegerField(default=0)
-    
+
     class Meta:
         ordering = ['order']
         verbose_name_plural = 'Product Images'
-    
+
     def __str__(self):
-        return f"{self.product.name} - Image {self.order}"     
+        return f"{self.product.name} - Image {self.order}"
+
+
+class BattleVest(models.Model):
+    """
+    User's Battle Vest (Wishlist) - Metal-themed collection of saved products
+    One-to-One relationship with User (each user has one battle vest)
+    """
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='battle_vest'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Battle Vest'
+        verbose_name_plural = 'Battle Vests'
+
+    def __str__(self):
+        return f"{self.user.username}'s Battle Vest"
+
+    def get_item_count(self):
+        """Return the number of items in the battle vest"""
+        return self.items.count()
+
+    def get_total_value(self):
+        """Calculate total value of all items in the vest"""
+        return sum(item.product.base_price for item in self.items.all())
+
+
+class BattleVestItem(models.Model):
+    """
+    Individual items in a user's Battle Vest
+    Links products to a user's wishlist with timestamp
+    """
+    battle_vest = models.ForeignKey(
+        BattleVest,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='battle_vest_items'
+    )
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Battle Vest Item'
+        verbose_name_plural = 'Battle Vest Items'
+        ordering = ['-added_at']  # Most recently added first
+        unique_together = ['battle_vest', 'product']  # Prevent duplicates
+
+    def __str__(self):
+        return f"{self.product.name} in {self.battle_vest.user.username}'s vest"     
