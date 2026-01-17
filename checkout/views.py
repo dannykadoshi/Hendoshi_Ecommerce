@@ -485,10 +485,12 @@ def order_detail(request, order_number):
                 messages.error(request, 'You do not have permission to view this order.')
                 return redirect('home')
     
+    # Determine source for back button
+    source = request.GET.get('from')
     context = {
         'order': order,
+        'order_source': source,
     }
-    
     return render(request, 'checkout/order_detail.html', context)
 
 

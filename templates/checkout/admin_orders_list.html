@@ -56,8 +56,8 @@
             </thead>
             <tbody>
                 {% for order in page_obj %}
-                <tr onclick="window.location='{% url 'order_detail' order.order_number %}'" style="cursor:pointer;">
-                    <td><a href="{% url 'order_detail' order.order_number %}" class="order-link">{{ order.order_number }}</a></td>
+                <tr onclick="window.location='{% url 'order_detail' order.order_number %}?from=admin'" style="cursor:pointer;">
+                    <td><a href="{% url 'order_detail' order.order_number %}?from=admin" class="order-link">{{ order.order_number }}</a></td>
                     <td>{{ order.created_at|date:"M d, Y H:i" }}</td>
                     <td>{{ order.items.count }}</td>
                     <td>€{{ order.total_amount }}</td>
