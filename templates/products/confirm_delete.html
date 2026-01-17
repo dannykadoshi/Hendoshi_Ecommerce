@@ -18,7 +18,7 @@
                     </p>
 
                     {% if active_in_orders %}
-                        <p class="delete-warning mb-5" style="color: #fff;">
+                        <p class="delete-warning mb-5">
                             <strong>Cannot delete this product:</strong><br>
                             This product is part of one or more active orders and cannot be deleted or archived.<br>
                             Please fulfill or cancel all related orders before deleting this product.
@@ -33,7 +33,7 @@
                         {% csrf_token %}
 
                         <div class="delete-button-group">
-                            <button type="submit" class="btn btn-pink btn-delete-product" {% if active_in_orders %}disabled style="opacity:0.6;cursor:not-allowed;"{% endif %}>
+                            <button type="submit" class="btn btn-pink btn-delete-product" {% if active_in_orders %}disabled{% endif %}>
                                 <i class="fas fa-trash"></i> DELETE
                             </button>
                             <a href="{% url 'products' %}" class="btn btn-outline-pink btn-delete-product">

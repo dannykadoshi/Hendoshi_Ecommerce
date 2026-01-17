@@ -26,7 +26,7 @@
                     <td>{{ product.product_type }}</td>
                     <td>{{ product.updated_at|date:'Y-m-d H:i' }}</td>
                     <td>
-                        <form method="post" action="{% url 'restore_product' product.slug %}" style="display:inline;">
+                        <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-success btn-sm">Restore</button>
                         </form>

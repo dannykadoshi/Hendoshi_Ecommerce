@@ -47,7 +47,7 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ product_form.description.id_for_label }}" class="form-label mb-0">Description *</label>
-                                <button type="button" id="generateDescriptionBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                <button type="button" id="generateDescriptionBtn" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
@@ -64,14 +64,14 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ product_form.meta_description.id_for_label }}" class="form-label mb-0">SEO Meta Description (Optional)</label>
-                                <button type="button" id="generateMetaBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                <button type="button" id="generateMetaBtn" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
                             {{ product_form.meta_description }}
                             <div class="d-flex justify-content-between align-items-center mt-1">
                                 <small class="helper-text">Max 160 characters for search engines</small>
-                                <small id="meta-char-count" style="color: var(--neon-pink); font-weight: 500;">0 / 160</small>
+                                <small id="meta-char-count" class="meta-char-count">0 / 160</small>
                             </div>
                         </div>
                     </div>
@@ -212,34 +212,32 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ design_form.title.id_for_label }}" class="form-label mb-0">Story Title</label>
-                                <button type="button" id="generateStoryTitleBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                <button type="button" id="generateStoryTitleBtn" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
                             {{ design_form.title }}
                         </div>
 
-
                         <!-- Story Text -->
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ design_form.story.id_for_label }}" class="form-label mb-0">Design Story</label>
-                                <button type="button" id="generateStoryContentBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                <button type="button" id="generateStoryContentBtn" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
                             <!-- Quill Editor Container -->
-                            <div id="quill-editor" style="height: 200px;"></div>
+                            <div id="quill-editor" class="quill-editor-fixed-height"></div>
                             <!-- Hidden textarea to store the actual data -->
-                            <div style="display: none;">
+                            <div class="formset-hidden">
                                 {{ design_form.story }}
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-1">
                                 <small class="helper-text">Tell the inspiration and creative process behind this design</small>
-                                <small id="story-char-count" style="color: var(--neon-pink); font-weight: 500;">0 / 500</small>
+                                <small id="story-char-count" class="story-char-count">0 / 500</small>
                             </div>
                         </div>
-
 
                         <!-- Author -->
                         <div class="mb-4">
@@ -667,24 +665,24 @@
                 </form>
 
                 <!-- AI Suggestions Modal -->
-                <div id="aiSuggestionsModal" class="ai-modal" style="display: none;">
+                <div id="aiSuggestionsModal" class="ai-modal">
                     <div class="ai-modal-content">
                         <div class="ai-modal-header">
                             <h3><i class="fas fa-sparkles"></i> AI-Generated SEO Descriptions</h3>
-                            <button type="button" class="ai-modal-close" id="closeModal">&times;</button>
+                            <button type="button" class="ai-modal-close" id="closeModal">×</button>
                         </div>
                         <div class="ai-modal-body">
-                            <div id="loadingSpinner" style="text-align: center; padding: 40px;">
-                                <div class="spinner-border" style="color: var(--neon-pink);" role="status">
+                            <div id="loadingSpinner" class="loading-spinner-center">
+                                <div class="spinner-border spinner-border-pink" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
-                                <p style="margin-top: 15px; color: #fff;">Generating SEO descriptions...</p>
+                                <p class="modal-loading-text">Generating SEO descriptions...</p>
                             </div>
-                            <div id="suggestionsContainer" style="display: none;">
-                                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">Click on a suggestion to use it:</p>
+                            <div id="suggestionsContainer" class="formset-hidden">
+                                <p class="modal-helper-text">Click on a suggestion to use it:</p>
                                 <div id="suggestionsList"></div>
                             </div>
-                            <div id="errorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
+                            <div id="errorContainer" class="error-container">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <p id="errorMessage"></p>
                             </div>
@@ -693,24 +691,24 @@
                 </div>
 
                 <!-- AI Design Story Modal -->
-                <div id="aiDesignStoryModal" class="ai-modal" style="display: none;">
+                <div id="aiDesignStoryModal" class="ai-modal">
                     <div class="ai-modal-content">
                         <div class="ai-modal-header">
                             <h3><i class="fas fa-sparkles"></i> <span id="storyModalTitle">AI-Generated Suggestions</span></h3>
-                            <button type="button" class="ai-modal-close" id="closeStoryModal">&times;</button>
+                            <button type="button" class="ai-modal-close" id="closeStoryModal">×</button>
                         </div>
                         <div class="ai-modal-body">
-                            <div id="storyLoadingSpinner" style="text-align: center; padding: 40px;">
-                                <div class="spinner-border" style="color: var(--neon-pink);" role="status">
+                            <div id="storyLoadingSpinner" class="loading-spinner-center">
+                                <div class="spinner-border spinner-border-pink" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
-                                <p style="margin-top: 15px; color: #fff;">Generating suggestions...</p>
+                                <p class="modal-loading-text">Generating suggestions...</p>
                             </div>
-                            <div id="storySuggestionsContainer" style="display: none;">
-                                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">Click on a suggestion to use it:</p>
+                            <div id="storySuggestionsContainer" class="formset-hidden">
+                                <p class="modal-helper-text">Click on a suggestion to use it:</p>
                                 <div id="storySuggestionsList"></div>
                             </div>
-                            <div id="storyErrorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
+                            <div id="storyErrorContainer" class="error-container">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <p id="storyErrorMessage"></p>
                             </div>
@@ -718,46 +716,20 @@
                     </div>
                 </div>
 
-                <!-- AI Description Input Modal -->
-                <div id="aiDescriptionInputModal" class="ai-modal" style="display: none;">
+                <!-- AI Description Suggestions Modal -->
+                <div id="aiDescriptionInputModal" class="ai-modal">
                     <div class="ai-modal-content">
                         <div class="ai-modal-header">
                             <h3><i class="fas fa-lightbulb"></i> Describe Your Product</h3>
-                            <button type="button" class="ai-modal-close" id="closeDescInputModal">&times;</button>
+                            <button type="button" class="ai-modal-close" id="closeDescInputModal">×</button>
                         </div>
                         <div class="ai-modal-body">
-                            <p style="color: #aaa; margin-bottom: 20px;">Enter a brief description or keywords about your product. AI will create SEO-optimized, sales-focused descriptions.</p>
-                            <textarea id="descriptionInput" rows="5" class="form-control" placeholder="Example: Black hoodie with skull design, streetwear style, premium cotton, sizes S-XXL..." style="background: #0a0a0a; border: 2px solid var(--electric-yellow); color: #fff; padding: 15px; border-radius: 8px; font-size: 15px;"></textarea>
+                            <p class="modal-helper-text">Enter a brief description or keywords about your product. AI will create SEO-optimized, sales-focused descriptions.</p>
+                            <textarea id="descriptionInput" rows="5" class="form-control desc-input" placeholder="Example: Black hoodie with skull design, streetwear style, premium cotton, sizes S-XXL..."></textarea>
                             <div class="text-center mt-4">
                                 <button type="button" id="submitDescriptionInput" class="btn btn-pink">
                                     <i class="fas fa-magic"></i> Generate Descriptions
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- AI Description Suggestions Modal -->
-                <div id="aiDescriptionModal" class="ai-modal" style="display: none;">
-                    <div class="ai-modal-content" style="max-width: 800px;">
-                        <div class="ai-modal-header">
-                            <h3><i class="fas fa-sparkles"></i> AI-Generated Product Descriptions</h3>
-                            <button type="button" class="ai-modal-close" id="closeDescModal">&times;</button>
-                        </div>
-                        <div class="ai-modal-body">
-                            <div id="descLoadingSpinner" style="text-align: center; padding: 40px;">
-                                <div class="spinner-border" style="color: var(--neon-pink);" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p style="margin-top: 15px; color: #fff;">Generating SEO-optimized descriptions...</p>
-                            </div>
-                            <div id="descSuggestionsContainer" style="display: none;">
-                                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">Click on a description to use it:</p>
-                                <div id="descSuggestionsList"></div>
-                            </div>
-                            <div id="descErrorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <p id="descErrorMessage"></p>
                             </div>
                         </div>
                     </div>

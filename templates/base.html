@@ -180,7 +180,7 @@
                         {% if user.is_authenticated %}
                         <a class="nav-icon battle-vest-icon" href="{% url 'battle_vest' %}" title="Battle Vest">
                             <i class="fas fa-shield-alt"></i>
-                            <span class="vest-count-badge" id="battleVestCount" style="display: none;">0</span>
+                            <span class="vest-count-badge" id="battleVestCount">0</span>
                         </a>
                         {% else %}
                         <a class="nav-icon" href="{% url 'account_login' %}" title="Login to access Battle Vest">
@@ -195,12 +195,12 @@
                                 {% if user.is_authenticated %}
                                     <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
                                     {% if user.is_staff %}
-                                    <li class="admin-panel-dropdown-wrapper" style="position:relative;">
-                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#" style="display:flex;align-items:center;justify-content:space-between;">
+                                    <li class="admin-panel-dropdown-wrapper">
+                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#">
                                             <span><i class="fas fa-cog"></i> Admin Panel</span>
                                             <i class="fas fa-angle-right"></i>
                                         </a>
-                                        <ul class="dropdown-menu admin-panel-submenu" style="position:absolute;top:0;left:100%;min-width:200px;display:none;z-index:1051;">
+                                        <ul class="dropdown-menu admin-panel-submenu">
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
@@ -222,7 +222,7 @@
                         {% if user.is_authenticated %}
                         <a class="nav-icon battle-vest-icon" href="{% url 'battle_vest' %}" title="Battle Vest">
                             <i class="fas fa-shield-alt"></i>
-                            <span class="vest-count-badge" id="battleVestCountDesktop" style="display: none;">0</span>
+                            <span class="vest-count-badge" id="battleVestCountDesktop">0</span>
                         </a>
                         {% else %}
                         <a class="nav-icon" href="{% url 'account_login' %}" title="Login to access Battle Vest">
@@ -237,12 +237,12 @@
                                 {% if user.is_authenticated %}
                                     <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
                                     {% if user.is_staff %}
-                                    <li class="admin-panel-dropdown-wrapper" style="position:relative;">
-                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#" style="display:flex;align-items:center;justify-content:space-between;">
+                                    <li class="admin-panel-dropdown-wrapper">
+                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#">
                                             <span><i class="fas fa-cog"></i> Admin Panel</span>
                                             <i class="fas fa-angle-right"></i>
                                         </a>
-                                        <ul class="dropdown-menu admin-panel-submenu" style="position:absolute;top:0;left:100%;min-width:200px;display:none;z-index:1051;">
+                                        <ul class="dropdown-menu admin-panel-submenu">
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
@@ -263,7 +263,7 @@
                     </div>
                     <a class="nav-icon cart-icon" href="{% url 'view_cart' %}">
                         <i class="fas fa-shopping-bag"></i>
-                        <span class="cart-count-badge" id="cartCountBadge" {% if not cart_item_count or cart_item_count == 0 %}style="display: none;"{% endif %}>{{ cart_item_count|default:0 }}</span>
+                        <span class="cart-count-badge {% if not cart_item_count or cart_item_count == 0 %}badge-hidden{% endif %}" id="cartCountBadge">{{ cart_item_count|default:0 }}</span>
                     </a>
                 </div>
             </div>
