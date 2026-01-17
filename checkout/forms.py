@@ -2,6 +2,48 @@ from django import forms
 from django.core.exceptions import ValidationError
 import re
 
+# ...existing code...
+
+# Restore EditAccountForm for profile editing (must be below all imports and other class definitions)
+class EditAccountForm(forms.Form):
+    """Form for users to edit their account information"""
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Username',
+        })
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Email address',
+        })
+    )
+    
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+    
+    def clean(self):
+        from django.contrib.auth.models import User
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        email = cleaned_data.get('email')
+        
+        # Check if username already exists (excluding current user)
+        if username and User.objects.filter(username=username).exclude(pk=self.user.pk).exists():
+            self.add_error('username', 'This username is already taken. Please choose another.')
+        
+        # Check if email already exists (excluding current user)
+        if email and User.objects.filter(email=email).exclude(pk=self.user.pk).exists():
+            self.add_error('email', 'This email is already registered. Please use another.')
+        
+        return cleaned_data
+from django import forms
+from django.core.exceptions import ValidationError
+import re
+
 
 COUNTRY_CHOICES = [
     ('', '-- Select Country --'),
@@ -303,38 +345,26 @@ class ActivateAccountForm(forms.Form):
         return cleaned_data
 
 
-class EditAccountForm(forms.Form):
-    """Form for users to edit their account information"""
-    username = forms.CharField(
-        max_length=150,
-        widget=forms.TextInput(attrs={
+
+# Form for admin to update order status
+class OrderStatusUpdateForm(forms.Form):
+    new_status = forms.ChoiceField(
+        choices=[
+            ('pending', 'Pending'),
+            ('confirmed', 'Confirmed'),
+            ('processing', 'Processing'),
+            ('shipped', 'Shipped'),
+            ('delivered', 'Delivered'),
+            ('cancelled', 'Cancelled'),
+        ],
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    note = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={
             'class': 'form-control',
-            'placeholder': 'Username',
+            'placeholder': 'Optional note for status change',
+            'rows': 2
         })
     )
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Email address',
-        })
-    )
-    
-    def __init__(self, *args, user=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.user = user
-    
-    def clean(self):
-        from django.contrib.auth.models import User
-        cleaned_data = super().clean()
-        username = cleaned_data.get('username')
-        email = cleaned_data.get('email')
-        
-        # Check if username already exists (excluding current user)
-        if username and User.objects.filter(username=username).exclude(pk=self.user.pk).exists():
-            self.add_error('username', 'This username is already taken. Please choose another.')
-        
-        # Check if email already exists (excluding current user)
-        if email and User.objects.filter(email=email).exclude(pk=self.user.pk).exists():
-            self.add_error('email', 'This email is already registered. Please use another.')
-        
-        return cleaned_data

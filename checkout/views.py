@@ -471,7 +471,7 @@ def stripe_webhook(request):
 def order_detail(request, order_number):
     """Display detailed order information"""
     order = get_object_or_404(Order, order_number=order_number)
-    
+
     # Security: verify user owns this order or is staff
     if order.user:
         if order.user != request.user and not request.user.is_staff:
@@ -484,12 +484,55 @@ def order_detail(request, order_number):
             if guest_email != order.email:
                 messages.error(request, 'You do not have permission to view this order.')
                 return redirect('home')
-    
+
+    # Admin status update logic
+    from .forms import OrderStatusUpdateForm
+    from .models import OrderStatusLog
+    status_logs = order.status_logs.order_by('-timestamp')
+    status_form = None
+    if request.user.is_staff:
+        if request.method == 'POST' and 'update_status' in request.POST:
+            status_form = OrderStatusUpdateForm(request.POST)
+            if status_form.is_valid():
+                new_status = status_form.cleaned_data['new_status']
+                note = status_form.cleaned_data['note']
+                old_status = order.status
+                if new_status != old_status:
+                    # Update order status
+                    order.status = new_status
+                    order.save(update_fields=['status'])
+                    # Log status change
+                    OrderStatusLog.objects.create(
+                        order=order,
+                        old_status=old_status,
+                        new_status=new_status,
+                        admin_user=request.user,
+                        note=note
+                    )
+                    # Send email notification to customer
+                    try:
+                        subject = f"Your order {order.order_number} status updated"
+                        message = f"Hello,\n\nYour order status has changed from {old_status} to {new_status}."
+                        if note:
+                            message += f"\n\nNote from admin: {note}"
+                        message += "\n\nThank you for shopping with us!"
+                        send_mail(subject, message, None, [order.email], fail_silently=True)
+                    except Exception:
+                        pass
+                    messages.success(request, f"Order status updated to {new_status} and customer notified.")
+                    return redirect(request.path + f'?from={request.GET.get("from", "admin")}')
+                else:
+                    messages.info(request, "Order is already in this status.")
+        else:
+            status_form = OrderStatusUpdateForm(initial={'new_status': order.status})
+
     # Determine source for back button
     source = request.GET.get('from')
     context = {
         'order': order,
         'order_source': source,
+        'status_form': status_form,
+        'status_logs': status_logs,
     }
     return render(request, 'checkout/order_detail.html', context)
 

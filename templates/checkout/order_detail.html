@@ -87,6 +87,50 @@
                 </div>
             </div>
 
+            {% if request.user.is_staff %}
+            <!-- Admin: Order Status Update Form -->
+            <div class="order-section mb-4">
+                <h3 class="section-title"><i class="fas fa-edit"></i> Update Order Status</h3>
+                <form method="post" class="status-update-form">
+                    {% csrf_token %}
+                    <div class="status-update-fields">
+                        <div class="status-update-field status-update-field-full">
+                            <label for="id_new_status">New status:</label>
+                            {{ status_form.new_status }}
+                        </div>
+                        <div class="status-update-field status-update-field-full">
+                            <label for="id_note">Note:</label>
+                            {{ status_form.note }}
+                        </div>
+                    </div>
+                    <button type="submit" name="update_status" class="btn btn-pink mt-3 status-update-btn">Update Status</button>
+                </form>
+            </div>
+            <!-- Admin: Status Log -->
+            <div class="order-section mb-4">
+                <h3 class="section-title"><i class="fas fa-history"></i> Status Change Log</h3>
+                {% if status_logs %}
+                <ul class="status-log-list">
+                    {% for log in status_logs %}
+                    <li class="status-log-item">
+                        <div class="status-log-row">
+                            <span class="status-log-date">{{ log.timestamp|date:"Y-m-d H:i" }}</span>
+                            <span class="status-badge status-{{ log.old_status }}">{{ log.old_status }}</span>
+                            <i class="fas fa-arrow-right status-arrow"></i>
+                            <span class="status-badge status-{{ log.new_status }}">{{ log.new_status }}</span>
+                            {% if log.admin_user %}<span class="status-log-admin"><span class="status-log-by">by</span> <span class="status-log-admin-name">{{ log.admin_user.username }}</span></span>{% endif %}
+                        </div>
+                        {% if log.note %}
+                        <div class="status-log-note">Note: {{ log.note }}</div>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted">No status changes yet.</p>
+                {% endif %}
+            </div>
+            {% endif %}
             <div class="row">
                 <!-- Order Items -->
                 <div class="col-lg-8 mb-4">
@@ -209,22 +253,158 @@
 </div>
 
 <!-- Print-specific styles -->
-<style media="print">
+<style>
+.status-update-field-full {
+    flex: 1 1 100%;
+    min-width: 220px;
+}
+.status-update-form select,
+.status-update-form textarea {
+    width: 100%;
+    min-width: 180px;
+    max-width: 100%;
+}
+.status-update-btn {
+    width: 150px !important;
+    font-size: 1rem !important;
+    padding: 0.7rem 1.2rem !important;
+    font-weight: 700;
+    border-radius: 7px;
+}
+/* --- Admin Status Update Form --- */
+.status-update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+.status-update-fields {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.status-update-field {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.status-update-form label {
+    color: var(--neon-pink);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.5px;
+}
+.status-update-form textarea,
+.status-update-form select {
+    background: var(--charcoal);
+    color: var(--off-white);
+    border: 1.5px solid var(--neon-pink);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+.status-update-form textarea:focus,
+.status-update-form select:focus {
+    outline: 2px solid var(--neon-pink);
+}
+.status-update-form .btn-pink {
+    width: 220px;
+    align-self: flex-start;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* --- Status Change Log --- */
+.status-log-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.status-log-item {
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid rgba(255,20,147,0.15);
+    border-radius: 7px;
+    padding: 1.1rem 1.5rem 0.9rem 1.5rem;
+    color: var(--off-white);
+    font-size: 1.05rem;
+    box-shadow: 0 2px 8px 0 rgba(255,20,147,0.04);
+}
+.status-log-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    font-size: 1.08rem;
+}
+.status-log-date {
+    color: var(--gray);
+    font-size: 0.98rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+.status-badge {
+    display: inline-block;
+    padding: 0.25em 0.85em;
+    border-radius: 1em;
+    font-size: 0.98em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--charcoal);
+    border: 1.5px solid var(--neon-pink);
+    color: var(--neon-pink);
+    margin: 0 0.1em;
+}
+.status-badge.status-pending { background: #222; color: #ffb347; border-color: #ffb347; }
+.status-badge.status-confirmed { background: #222; color: #00e6e6; border-color: #00e6e6; }
+.status-badge.status-processing { background: #222; color: #ff69b4; border-color: #ff69b4; }
+.status-badge.status-shipped { background: #222; color: #00ff99; border-color: #00ff99; }
+.status-badge.status-delivered { background: #222; color: #00ff00; border-color: #00ff00; }
+.status-badge.status-cancelled { background: #222; color: #ff4d4d; border-color: #ff4d4d; }
+.status-arrow {
+    color: var(--gray);
+    font-size: 1.1em;
+    margin: 0 0.2em;
+}
+.status-log-admin {
+    margin-left: 0.5em;
+    font-weight: 600;
+}
+.status-log-by {
+    color: var(--gray);
+    font-weight: 600;
+}
+.status-log-admin-name {
+    color: var(--neon-pink);
+    font-weight: 700;
+}
+.status-log-note {
+    color: #b3b3b3;
+    font-size: 0.97em;
+    margin-top: 0.5em;
+    margin-left: 0.2em;
+    font-style: italic;
+    border-left: 3px solid var(--neon-pink);
+    padding-left: 0.8em;
+}
+@media (max-width: 600px) {
+    .status-update-fields { flex-direction: column; gap: 1rem; }
+    .status-update-form .btn-pink { width: 100%; }
+    .status-log-item { padding: 1rem 0.7rem; }
+}
+/* Print-specific styles */
+@media print {
     .navbar, .footer, .header-actions, .reorder-section, .support-card {
         display: none !important;
     }
-    
-    .order-detail-page {
-        margin-top: 0 !important;
-    }
-    
-    .order-item-card {
-        page-break-inside: avoid;
-    }
-    
-    body {
-        background: white !important;
-        color: black !important;
-    }
+    .order-detail-page { margin-top: 0 !important; }
+    .order-item-card { page-break-inside: avoid; }
+    body { background: white !important; color: black !important; }
+}
 </style>
 {% endblock %}

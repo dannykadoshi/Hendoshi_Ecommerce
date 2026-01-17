@@ -4,6 +4,25 @@ from products.models import Product
 from profiles.models import Address
 import uuid
 
+# ...existing code...
+
+
+class OrderStatusLog(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='status_logs')
+    old_status = models.CharField(max_length=20)
+    new_status = models.CharField(max_length=20)
+    admin_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    note = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Order {self.order.order_number}: {self.old_status} → {self.new_status} by {self.admin_user} at {self.timestamp}"
+from django.db import models
+from django.contrib.auth.models import User
+from products.models import Product
+from profiles.models import Address
+import uuid
+
 
 class Order(models.Model):
     """
