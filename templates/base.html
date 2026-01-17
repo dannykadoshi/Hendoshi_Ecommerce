@@ -67,7 +67,7 @@
         {% if messages %}
             <div class="toast-container-custom">
                 {% for message in messages %}
-                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-message="true">
+                    <div class="toast show toast-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true" data-message="true">
                         <div class="toast-header">
                             {% if message.tags == 'success' %}
                                 <strong class="me-auto"><i class="fas fa-check-circle"></i> Success</strong>
@@ -78,6 +78,7 @@
                             {% else %}
                                 <strong class="me-auto"><i class="fas fa-info-circle"></i> Info</strong>
                             {% endif %}
+                            <button type="button" class="btn-close btn-close-white" onclick="this.closest('.toast').style.display='none'"></button>
                         </div>
                         <div class="toast-body">
                             {{ message }}
@@ -282,10 +283,17 @@
                     <i class="fas fa-user"></i>
                     <span>Account</span>
                 </button>
-                <a href="#" class="menu-icon">
+                {% if user.is_authenticated %}
+                <a href="{% url 'battle_vest' %}" class="menu-icon">
                     <i class="fas fa-heart"></i>
                     <span>Favorites</span>
                 </a>
+                {% else %}
+                <a href="{% url 'account_login' %}" class="menu-icon">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorites</span>
+                </a>
+                {% endif %}
                 <button class="menu-icon" id="mobileSearchToggle">
                     <i class="fas fa-search"></i>
                     <span>Search</span>

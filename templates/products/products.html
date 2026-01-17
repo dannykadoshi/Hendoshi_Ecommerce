@@ -75,10 +75,12 @@
                 {% if products %}
                 <form method="post" action="{% url 'bulk_archive_products' %}" id="bulkArchiveForm">
                     {% csrf_token %}
+                    <input type="hidden" name="action" id="bulkAction" value="archive">
                     <div class="bulk-archive-bar d-flex align-items-center mb-3">
                         <input type="checkbox" id="selectAllProducts" class="form-check-input">
                         <label for="selectAllProducts" class="form-label mb-0 ms-2">Select All</label>
                         <button type="submit" class="btn btn-pink btn-sm ms-3" id="bulkArchiveBtn" disabled>Archive Selected</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm ms-2" id="bulkDeleteBtn" disabled>Delete Selected</button>
                     </div>
 
                     <div class="products-grid">
@@ -93,6 +95,18 @@
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 {% endif %}
+
+                                <!-- Battle Vest Button -->
+                                {% if user.is_authenticated %}
+                                <button type="button" class="product-vest-btn" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                {% else %}
+                                <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn" title="Login to add to Battle Vest">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                                {% endif %}
+
                                 <a href="{% url 'product_detail' product.slug %}">
                                     <div class="product-image">
                                         {% if product.main_image %}
@@ -185,32 +199,100 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content delete-confirm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="delete-icon-wrapper">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <p class="delete-message">
+                        Are you sure you want to permanently delete <strong id="deleteCount">0</strong> product(s)?
+                    </p>
+                    <p class="delete-warning">
+                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash-alt"></i> Delete Permanently
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block extra_js %}
     <script>
-    // Bulk select and enable/disable archive button
+    // Bulk select and enable/disable archive/delete buttons
     document.addEventListener('DOMContentLoaded', function() {
         const selectAll = document.getElementById('selectAllProducts');
         const checkboxes = document.querySelectorAll('.product-select-checkbox');
         const archiveBtn = document.getElementById('bulkArchiveBtn');
-        function updateArchiveBtn() {
+        const deleteBtn = document.getElementById('bulkDeleteBtn');
+        const actionInput = document.getElementById('bulkAction');
+
+        function updateButtons() {
             const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-            archiveBtn.disabled = !anyChecked;
+            if (archiveBtn) archiveBtn.disabled = !anyChecked;
+            if (deleteBtn) deleteBtn.disabled = !anyChecked;
         }
+
         if (selectAll) {
             selectAll.addEventListener('change', function() {
                 checkboxes.forEach(cb => { cb.checked = selectAll.checked; });
-                updateArchiveBtn();
+                updateButtons();
             });
         }
+
         checkboxes.forEach(cb => {
             cb.addEventListener('change', function() {
-                updateArchiveBtn();
+                updateButtons();
                 if (!cb.checked && selectAll.checked) selectAll.checked = false;
                 if (Array.from(checkboxes).every(c => c.checked)) selectAll.checked = true;
             });
         });
-        updateArchiveBtn();
+
+        // Set action based on which button is clicked
+        if (archiveBtn) {
+            archiveBtn.addEventListener('click', function() {
+                actionInput.value = 'archive';
+            });
+        }
+
+        // Delete button opens modal
+        const deleteModal = document.getElementById('deleteConfirmModal');
+        const deleteCountEl = document.getElementById('deleteCount');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const form = document.getElementById('bulkArchiveForm');
+
+        if (deleteBtn && deleteModal) {
+            const bsModal = new bootstrap.Modal(deleteModal);
+
+            deleteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+                deleteCountEl.textContent = checkedCount;
+                bsModal.show();
+            });
+
+            confirmDeleteBtn.addEventListener('click', function() {
+                actionInput.value = 'delete';
+                bsModal.hide();
+                form.submit();
+            });
+        }
+
+        updateButtons();
     });
     document.addEventListener('DOMContentLoaded', function() {
         const filtersBtn = document.getElementById('filtersSortBtn');
@@ -286,6 +368,84 @@
                 }
             });
         }
+
+        // Battle Vest buttons functionality
+        const vestButtons = document.querySelectorAll('.product-vest-btn[data-product-slug]');
+
+        // Check which products are already in vest
+        vestButtons.forEach(btn => {
+            const slug = btn.dataset.productSlug;
+            fetch(`/products/${slug}/check-vest/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.in_vest) {
+                        btn.classList.add('in-vest');
+                        btn.querySelector('i').classList.remove('far');
+                        btn.querySelector('i').classList.add('fas');
+                    }
+                })
+                .catch(error => console.error('Error checking vest:', error));
+        });
+
+        // Handle vest button clicks
+        vestButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const slug = this.dataset.productSlug;
+                const icon = this.querySelector('i');
+                const isInVest = this.classList.contains('in-vest');
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                const url = isInVest
+                    ? `/products/${slug}/remove-from-vest/`
+                    : `/products/${slug}/add-to-vest/`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (isInVest) {
+                            this.classList.remove('in-vest');
+                            icon.classList.remove('fas');
+                            icon.classList.add('far');
+                        } else {
+                            this.classList.add('in-vest');
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                        }
+
+                        // Update vest count in navigation
+                        const mobileBadge = document.getElementById('battleVestCount');
+                        const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+                        if (mobileBadge) {
+                            mobileBadge.textContent = data.item_count;
+                            mobileBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
+                        }
+                        if (desktopBadge) {
+                            desktopBadge.textContent = data.item_count;
+                            desktopBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
+                        }
+
+                        // Show toast notification
+                        if (typeof showToast === 'function') {
+                            showToast(data.message, isInVest ? 'info' : 'success');
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
     });
     </script>
 {% endblock %}

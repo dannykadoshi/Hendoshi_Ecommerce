@@ -4,6 +4,9 @@
 {% block extra_title %}My Battle Vest{% endblock %}
 
 {% block content %}
+<!-- Hidden form for CSRF token -->
+<form id="csrfForm" style="display:none;">{% csrf_token %}</form>
+
 <div class="battle-vest-page">
     <div class="container">
 
