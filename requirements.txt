@@ -22,4 +22,5 @@ sqlparse==0.5.5
 tqdm==4.67.1
 whitenoise==6.11.0
 stripe==11.4.1
+google-generativeai==0.8.3
 

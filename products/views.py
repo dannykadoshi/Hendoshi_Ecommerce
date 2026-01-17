@@ -386,3 +386,84 @@ def delete_product(request, slug):
     }
 
     return render(request, 'products/confirm_delete.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def generate_seo_meta_description(request):
+    """
+    AI-powered SEO meta description generator using Google Gemini
+    """
+    import json
+    from django.http import JsonResponse
+    import google.generativeai as genai
+    from decouple import config
+
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        product_description = data.get('description', '').strip()
+        product_name = data.get('name', '').strip()
+
+        if not product_description:
+            return JsonResponse({'error': 'Product description is required'}, status=400)
+
+        # Configure Gemini AI
+        api_key = config('GEMINI_API_KEY')
+        genai.configure(api_key=api_key)
+
+        # List available models and use the first supported one
+        available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+
+        # Prefer flash models, fall back to pro
+        model_name = None
+        for model_option in available_models:
+            if 'flash' in model_option.lower():
+                model_name = model_option
+                break
+
+        if not model_name and available_models:
+            model_name = available_models[0]
+
+        if not model_name:
+            return JsonResponse({'error': 'No compatible AI model found'}, status=500)
+
+        model = genai.GenerativeModel(model_name)
+
+        # Create prompt for SEO meta description
+        prompt = f"""Generate 3 SEO-optimized meta descriptions for this product.
+
+Product Name: {product_name}
+Product Description: {product_description}
+
+Requirements:
+- Maximum 160 characters each
+- Include relevant keywords
+- Be compelling and encourage clicks
+- Focus on benefits and unique selling points
+- Use action-oriented language
+
+Return ONLY 3 meta descriptions, one per line, without numbering or extra text."""
+
+        # Generate suggestions
+        response = model.generate_content(prompt)
+        suggestions_text = response.text.strip()
+
+        # Parse suggestions (split by newlines and clean)
+        suggestions = [s.strip() for s in suggestions_text.split('\n') if s.strip()]
+
+        # Filter out any that are too long and limit to 3
+        suggestions = [s for s in suggestions if len(s) <= 160][:3]
+
+        if not suggestions:
+            return JsonResponse({'error': 'Failed to generate valid suggestions'}, status=500)
+
+        return JsonResponse({
+            'success': True,
+            'suggestions': suggestions
+        })
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
