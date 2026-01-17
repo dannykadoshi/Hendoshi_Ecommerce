@@ -205,14 +205,24 @@
                         
                         <!-- Story Title -->
                         <div class="mb-4">
-                            <label for="{{ design_form.title.id_for_label }}" class="form-label">Story Title</label>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ design_form.title.id_for_label }}" class="form-label mb-0">Story Title</label>
+                                <button type="button" id="generateStoryTitleBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
                             {{ design_form.title }}
                         </div>
 
 
                         <!-- Story Text -->
                         <div class="mb-4">
-                            <label for="{{ design_form.story.id_for_label }}" class="form-label">Design Story</label>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ design_form.story.id_for_label }}" class="form-label mb-0">Design Story</label>
+                                <button type="button" id="generateStoryContentBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
                             <!-- Quill Editor Container -->
                             <div id="quill-editor" style="height: 200px;"></div>
                             <!-- Hidden textarea to store the actual data -->
@@ -398,6 +408,111 @@
                                     modal.style.display = 'none';
                                 }
                             });
+
+                            // Design Story AI Generation
+                            const storyModal = document.getElementById('aiDesignStoryModal');
+                            const storyModalTitle = document.getElementById('storyModalTitle');
+                            const closeStoryModal = document.getElementById('closeStoryModal');
+                            const storyLoadingSpinner = document.getElementById('storyLoadingSpinner');
+                            const storySuggestionsContainer = document.getElementById('storySuggestionsContainer');
+                            const storySuggestionsList = document.getElementById('storySuggestionsList');
+                            const storyErrorContainer = document.getElementById('storyErrorContainer');
+                            const storyErrorMessage = document.getElementById('storyErrorMessage');
+
+                            async function generateDesignStory(type) {
+                                const productName = document.getElementById('id_name').value.trim();
+                                const productDescription = document.getElementById('id_description').value.trim();
+
+                                if (!productName || !productDescription) {
+                                    alert('Please enter product name and description first!');
+                                    return;
+                                }
+
+                                // Update modal title
+                                storyModalTitle.textContent = type === 'title' ? 'AI-Generated Story Titles' : 'AI-Generated Design Stories';
+
+                                // Show modal with loading state
+                                storyModal.style.display = 'flex';
+                                storyLoadingSpinner.style.display = 'block';
+                                storySuggestionsContainer.style.display = 'none';
+                                storyErrorContainer.style.display = 'none';
+
+                                try {
+                                    const response = await fetch('{% url "generate_design_story" %}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': '{{ csrf_token }}'
+                                        },
+                                        body: JSON.stringify({
+                                            name: productName,
+                                            description: productDescription,
+                                            type: type
+                                        })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success) {
+                                        storyLoadingSpinner.style.display = 'none';
+                                        storySuggestionsContainer.style.display = 'block';
+                                        storySuggestionsList.innerHTML = '';
+
+                                        const suggestions = type === 'title' ? data.titles : data.stories;
+
+                                        if (suggestions && suggestions.length > 0) {
+                                            suggestions.forEach((suggestion) => {
+                                                const card = document.createElement('div');
+                                                card.className = 'suggestion-card';
+                                                card.innerHTML = `
+                                                    <div class="suggestion-text">${suggestion}</div>
+                                                    <div class="suggestion-length">${suggestion.length} characters</div>
+                                                `;
+                                                card.addEventListener('click', function() {
+                                                    if (type === 'title') {
+                                                        document.getElementById('id_title').value = suggestion;
+                                                    } else {
+                                                        quill.setText(suggestion);
+                                                        updateStoryCharCount();
+                                                    }
+                                                    storyModal.style.display = 'none';
+                                                });
+                                                storySuggestionsList.appendChild(card);
+                                            });
+                                        } else {
+                                            throw new Error('No suggestions generated');
+                                        }
+                                    } else {
+                                        throw new Error(data.error || 'Failed to generate suggestions');
+                                    }
+                                } catch (error) {
+                                    storyLoadingSpinner.style.display = 'none';
+                                    storyErrorContainer.style.display = 'block';
+                                    storyErrorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                }
+                            }
+
+                            // Title generation button
+                            document.getElementById('generateStoryTitleBtn').addEventListener('click', function() {
+                                generateDesignStory('title');
+                            });
+
+                            // Story content generation button
+                            document.getElementById('generateStoryContentBtn').addEventListener('click', function() {
+                                generateDesignStory('story');
+                            });
+
+                            // Close story modal
+                            closeStoryModal.addEventListener('click', function() {
+                                storyModal.style.display = 'none';
+                            });
+
+                            // Close modal when clicking outside
+                            storyModal.addEventListener('click', function(e) {
+                                if (e.target === storyModal) {
+                                    storyModal.style.display = 'none';
+                                }
+                            });
                         });
                     </script>
                     {% endblock %}
@@ -459,6 +574,32 @@
                             <div id="errorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <p id="errorMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Design Story Modal -->
+                <div id="aiDesignStoryModal" class="ai-modal" style="display: none;">
+                    <div class="ai-modal-content">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-sparkles"></i> <span id="storyModalTitle">AI-Generated Suggestions</span></h3>
+                            <button type="button" class="ai-modal-close" id="closeStoryModal">&times;</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <div id="storyLoadingSpinner" style="text-align: center; padding: 40px;">
+                                <div class="spinner-border" style="color: var(--neon-pink);" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p style="margin-top: 15px; color: #fff;">Generating suggestions...</p>
+                            </div>
+                            <div id="storySuggestionsContainer" style="display: none;">
+                                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">Click on a suggestion to use it:</p>
+                                <div id="storySuggestionsList"></div>
+                            </div>
+                            <div id="storyErrorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p id="storyErrorMessage"></p>
                             </div>
                         </div>
                     </div>

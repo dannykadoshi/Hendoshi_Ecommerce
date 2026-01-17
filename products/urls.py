@@ -11,6 +11,7 @@ urlpatterns = [
     path('archived/<slug:slug>/restore/', restore_product, name='restore_product'),
     path('bulk-archive/', views.bulk_archive_products, name='bulk_archive_products'),
     path('api/generate-seo-meta/', views.generate_seo_meta_description, name='generate_seo_meta'),
+    path('api/generate-design-story/', views.generate_design_story, name='generate_design_story'),
 
     # Product browsing
     path('', views.all_products, name='products'),

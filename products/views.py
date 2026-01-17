@@ -467,3 +467,114 @@ Return ONLY 3 meta descriptions, one per line, without numbering or extra text."
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def generate_design_story(request):
+    """
+    AI-powered design story generator using Google Gemini
+    """
+    import json
+    from django.http import JsonResponse
+    import google.generativeai as genai
+    from decouple import config
+
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        product_name = data.get('name', '').strip()
+        product_description = data.get('description', '').strip()
+        generation_type = data.get('type', 'both')  # 'title', 'story', or 'both'
+
+        if not product_name or not product_description:
+            return JsonResponse({'error': 'Product name and description are required'}, status=400)
+
+        # Configure Gemini AI
+        api_key = config('GEMINI_API_KEY')
+        genai.configure(api_key=api_key)
+
+        # List available models and use the first supported one
+        available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+
+        # Prefer flash models, fall back to pro
+        model_name = None
+        for model_option in available_models:
+            if 'flash' in model_option.lower():
+                model_name = model_option
+                break
+
+        if not model_name and available_models:
+            model_name = available_models[0]
+
+        if not model_name:
+            return JsonResponse({'error': 'No compatible AI model found'}, status=500)
+
+        model = genai.GenerativeModel(model_name)
+
+        result = {}
+
+        # Generate title suggestions
+        if generation_type in ['title', 'both']:
+            title_prompt = f"""Generate 3 creative and catchy design story titles for this product.
+
+Product Name: {product_name}
+Product Description: {product_description}
+
+Requirements:
+- Maximum 50 characters each
+- Be creative and evocative
+- Capture the essence of the design
+- Use compelling language
+
+Return ONLY 3 titles, one per line, without numbering or extra text."""
+
+            title_response = model.generate_content(title_prompt)
+            title_suggestions = [s.strip() for s in title_response.text.strip().split('\n') if s.strip()]
+            title_suggestions = [s for s in title_suggestions if len(s) <= 200][:3]
+
+            if title_suggestions:
+                result['titles'] = title_suggestions
+
+        # Generate story suggestions
+        if generation_type in ['story', 'both']:
+            story_prompt = f"""Generate 3 compelling design story descriptions for this product.
+
+Product Name: {product_name}
+Product Description: {product_description}
+
+Requirements:
+- Maximum 500 characters each
+- Tell the inspiration and creative process behind this design
+- Be emotional and engaging
+- Focus on the "why" behind the design
+- Use storytelling techniques
+
+Return ONLY 3 design stories, separated by "---", without numbering or extra formatting."""
+
+            story_response = model.generate_content(story_prompt)
+            story_text = story_response.text.strip()
+
+            # Split by --- or newlines
+            if '---' in story_text:
+                story_suggestions = [s.strip() for s in story_text.split('---') if s.strip()]
+            else:
+                # Try splitting by double newlines
+                story_suggestions = [s.strip() for s in story_text.split('\n\n') if s.strip()]
+
+            # Filter by length
+            story_suggestions = [s for s in story_suggestions if len(s) <= 500][:3]
+
+            if story_suggestions:
+                result['stories'] = story_suggestions
+
+        if not result:
+            return JsonResponse({'error': 'Failed to generate valid suggestions'}, status=500)
+
+        result['success'] = True
+        return JsonResponse(result)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
