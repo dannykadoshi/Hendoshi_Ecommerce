@@ -45,7 +45,12 @@
 
                         <!-- Product Description -->
                         <div class="mb-4">
-                            <label for="{{ product_form.description.id_for_label }}" class="form-label">Description *</label>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ product_form.description.id_for_label }}" class="form-label mb-0">Description *</label>
+                                <button type="button" id="generateDescriptionBtn" class="btn btn-sm" style="background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); color: #000; font-weight: 600; padding: 4px 12px; border-radius: 6px; font-size: 12px;">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
                             {{ product_form.description }}
                             <div class="form-error-text hidden-error"></div>
                             {% if product_form.description.errors %}
@@ -513,6 +518,114 @@
                                     storyModal.style.display = 'none';
                                 }
                             });
+
+                            // Product Description AI Generation
+                            const descInputModal = document.getElementById('aiDescriptionInputModal');
+                            const descModal = document.getElementById('aiDescriptionModal');
+                            const descriptionInput = document.getElementById('descriptionInput');
+                            const closeDescInputModal = document.getElementById('closeDescInputModal');
+                            const closeDescModal = document.getElementById('closeDescModal');
+                            const submitDescriptionInput = document.getElementById('submitDescriptionInput');
+                            const descLoadingSpinner = document.getElementById('descLoadingSpinner');
+                            const descSuggestionsContainer = document.getElementById('descSuggestionsContainer');
+                            const descSuggestionsList = document.getElementById('descSuggestionsList');
+                            const descErrorContainer = document.getElementById('descErrorContainer');
+                            const descErrorMessage = document.getElementById('descErrorMessage');
+
+                            // Open input modal when clicking Generate with AI
+                            document.getElementById('generateDescriptionBtn').addEventListener('click', function() {
+                                const productName = document.getElementById('id_name').value.trim();
+                                if (!productName) {
+                                    alert('Please enter a product name first!');
+                                    return;
+                                }
+                                descInputModal.style.display = 'flex';
+                                descriptionInput.focus();
+                            });
+
+                            // Submit description input and generate
+                            submitDescriptionInput.addEventListener('click', async function() {
+                                const productName = document.getElementById('id_name').value.trim();
+                                const userInput = descriptionInput.value.trim();
+
+                                if (!userInput) {
+                                    alert('Please enter a description or keywords!');
+                                    return;
+                                }
+
+                                // Close input modal, open suggestions modal with loading
+                                descInputModal.style.display = 'none';
+                                descModal.style.display = 'flex';
+                                descLoadingSpinner.style.display = 'block';
+                                descSuggestionsContainer.style.display = 'none';
+                                descErrorContainer.style.display = 'none';
+
+                                try {
+                                    const response = await fetch('{% url "generate_product_description" %}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': '{{ csrf_token }}'
+                                        },
+                                        body: JSON.stringify({
+                                            name: productName,
+                                            input: userInput
+                                        })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success && data.descriptions) {
+                                        descLoadingSpinner.style.display = 'none';
+                                        descSuggestionsContainer.style.display = 'block';
+                                        descSuggestionsList.innerHTML = '';
+
+                                        data.descriptions.forEach((description) => {
+                                            const card = document.createElement('div');
+                                            card.className = 'suggestion-card';
+                                            card.innerHTML = `
+                                                <div class="suggestion-text">${description}</div>
+                                                <div class="suggestion-length">${description.length} characters</div>
+                                            `;
+                                            card.addEventListener('click', function() {
+                                                document.getElementById('id_description').value = description;
+                                                descModal.style.display = 'none';
+                                                descriptionInput.value = ''; // Clear input for next time
+                                            });
+                                            descSuggestionsList.appendChild(card);
+                                        });
+                                    } else {
+                                        throw new Error(data.error || 'Failed to generate descriptions');
+                                    }
+                                } catch (error) {
+                                    descLoadingSpinner.style.display = 'none';
+                                    descErrorContainer.style.display = 'block';
+                                    descErrorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                }
+                            });
+
+                            // Close description input modal
+                            closeDescInputModal.addEventListener('click', function() {
+                                descInputModal.style.display = 'none';
+                            });
+
+                            // Close description suggestions modal
+                            closeDescModal.addEventListener('click', function() {
+                                descModal.style.display = 'none';
+                            });
+
+                            // Close modals when clicking outside
+                            descInputModal.addEventListener('click', function(e) {
+                                if (e.target === descInputModal) {
+                                    descInputModal.style.display = 'none';
+                                }
+                            });
+
+                            descModal.addEventListener('click', function(e) {
+                                if (e.target === descModal) {
+                                    descModal.style.display = 'none';
+                                }
+                            });
                         });
                     </script>
                     {% endblock %}
@@ -600,6 +713,51 @@
                             <div id="storyErrorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <p id="storyErrorMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Description Input Modal -->
+                <div id="aiDescriptionInputModal" class="ai-modal" style="display: none;">
+                    <div class="ai-modal-content">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-lightbulb"></i> Describe Your Product</h3>
+                            <button type="button" class="ai-modal-close" id="closeDescInputModal">&times;</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <p style="color: #aaa; margin-bottom: 20px;">Enter a brief description or keywords about your product. AI will create SEO-optimized, sales-focused descriptions.</p>
+                            <textarea id="descriptionInput" rows="5" class="form-control" placeholder="Example: Black hoodie with skull design, streetwear style, premium cotton, sizes S-XXL..." style="background: #0a0a0a; border: 2px solid var(--electric-yellow); color: #fff; padding: 15px; border-radius: 8px; font-size: 15px;"></textarea>
+                            <div class="text-center mt-4">
+                                <button type="button" id="submitDescriptionInput" class="btn btn-pink">
+                                    <i class="fas fa-magic"></i> Generate Descriptions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Description Suggestions Modal -->
+                <div id="aiDescriptionModal" class="ai-modal" style="display: none;">
+                    <div class="ai-modal-content" style="max-width: 800px;">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-sparkles"></i> AI-Generated Product Descriptions</h3>
+                            <button type="button" class="ai-modal-close" id="closeDescModal">&times;</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <div id="descLoadingSpinner" style="text-align: center; padding: 40px;">
+                                <div class="spinner-border" style="color: var(--neon-pink);" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p style="margin-top: 15px; color: #fff;">Generating SEO-optimized descriptions...</p>
+                            </div>
+                            <div id="descSuggestionsContainer" style="display: none;">
+                                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">Click on a description to use it:</p>
+                                <div id="descSuggestionsList"></div>
+                            </div>
+                            <div id="descErrorContainer" style="display: none; color: #ff6b6b; text-align: center; padding: 20px;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p id="descErrorMessage"></p>
                             </div>
                         </div>
                     </div>

@@ -578,3 +578,100 @@ Return ONLY 3 design stories, separated by "---", without numbering or extra for
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def generate_product_description(request):
+    """
+    AI-powered product description generator using Google Gemini
+    Generates SEO-optimized, sales-focused descriptions based on user input
+    """
+    import json
+    from django.http import JsonResponse
+    import google.generativeai as genai
+    from decouple import config
+
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        product_name = data.get('name', '').strip()
+        user_input = data.get('input', '').strip()  # User's brief/keywords
+
+        if not product_name or not user_input:
+            return JsonResponse({'error': 'Product name and description brief are required'}, status=400)
+
+        # Configure Gemini AI
+        api_key = config('GEMINI_API_KEY')
+        genai.configure(api_key=api_key)
+
+        # List available models and use the first supported one
+        available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+
+        # Prefer flash models, fall back to pro
+        model_name = None
+        for model_option in available_models:
+            if 'flash' in model_option.lower():
+                model_name = model_option
+                break
+
+        if not model_name and available_models:
+            model_name = available_models[0]
+
+        if not model_name:
+            return JsonResponse({'error': 'No compatible AI model found'}, status=500)
+
+        model = genai.GenerativeModel(model_name)
+
+        # Create prompt for product description
+        prompt = f"""Generate 3 SEO-optimized, sales-focused product descriptions based on this information.
+
+Product Name: {product_name}
+Brief/Keywords: {user_input}
+
+Requirements:
+- MAXIMUM 500 characters each (this is CRITICAL - must be under 500 characters)
+- Optimize for SEO with relevant keywords naturally integrated
+- Focus on benefits and unique selling points
+- Use persuasive, action-oriented language
+- Include key features
+- Write in an engaging, conversational tone
+- Make customers want to buy
+- Be concise and impactful
+
+Return 3 different descriptions separated by "---", without numbering or extra formatting.
+Each description MUST be under 500 characters."""
+
+        response = model.generate_content(prompt)
+        descriptions_text = response.text.strip()
+
+        # Split by --- or double newlines
+        if '---' in descriptions_text:
+            descriptions = [s.strip() for s in descriptions_text.split('---') if s.strip()]
+        else:
+            # Try splitting by triple newlines
+            descriptions = [s.strip() for s in descriptions_text.split('\n\n\n') if s.strip()]
+
+        # Filter by length (max 500 characters) and take first 3
+        descriptions = [d for d in descriptions if len(d) <= 500][:3]
+
+        # If no descriptions under 500 chars, truncate the existing ones
+        if not descriptions:
+            # Fall back to truncating
+            if '---' in descriptions_text:
+                descriptions = [s.strip()[:500] for s in descriptions_text.split('---') if s.strip()][:3]
+            else:
+                descriptions = [s.strip()[:500] for s in descriptions_text.split('\n\n\n') if s.strip()][:3]
+
+        if not descriptions:
+            return JsonResponse({'error': 'Failed to generate valid descriptions'}, status=500)
+
+        return JsonResponse({
+            'success': True,
+            'descriptions': descriptions
+        })
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
