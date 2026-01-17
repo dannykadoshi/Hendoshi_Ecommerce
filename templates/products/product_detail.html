@@ -51,8 +51,15 @@
             <!-- Product Details -->
             <div class="col-md-6">
                 <div class="product-details">
-                    
-                    <h1 class="product-title">{{ product.name }}</h1>
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h1 class="product-title mb-0">{{ product.name }}</h1>
+                        {% if request.user.is_staff or request.user.is_superuser %}
+                        <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
                     
                     <div class="product-meta mb-3">
                         {% if product.collection %}
@@ -68,12 +75,12 @@
                     </div>
                     
                     <!-- Design Story -->
-                    {% if product.design_story %}
-                    <div class="design-story mb-4">
-                        <h3 class="story-title">💭 {{ product.design_story.title }}</h3>
-                        <p class="story-text">{{ product.design_story.story }}</p>
-                        <small class="story-author">— {{ product.design_story.author }}</small>
-                    </div>
+                    {% if product.design_story and product.design_story.status == 'published' %}
+                        <div class="design-story mb-4">
+                            <h3 class="story-title">💭 {{ product.design_story.title }}</h3>
+                            <p class="story-text">{{ product.design_story.story }}</p>
+                            <small class="story-author">— {{ product.design_story.author }}</small>
+                        </div>
                     {% endif %}
                     
                     <!-- Add to Cart Form -->

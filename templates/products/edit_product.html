@@ -3,6 +3,11 @@
 
 {% block title %}Edit {{ product.name }} - HENDOSHI{% endblock %}
 
+{% block extra_css %}
+<!-- Quill CSS -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5 mb-5 product-form-container">
     <div class="row">
@@ -62,7 +67,10 @@
                         <div class="mb-4">
                             <label for="{{ product_form.meta_description.id_for_label }}" class="form-label">SEO Meta Description (Optional)</label>
                             {{ product_form.meta_description }}
-                            <small class="d-block mt-2 helper-text">Max 160 characters for search engines</small>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <small class="helper-text">Max 160 characters for search engines</small>
+                                <small id="meta-char-count" style="color: var(--neon-pink); font-weight: 500;">0 / 160</small>
+                            </div>
                         </div>
                     </div>
 
@@ -248,7 +256,16 @@
                         </div>
                         <div class="mb-4">
                             <label for="{{ design_form.story.id_for_label }}" class="form-label">Story *</label>
-                            {{ design_form.story }}
+                            <!-- Quill Editor Container -->
+                            <div id="quill-editor" style="height: 200px;"></div>
+                            <!-- Hidden textarea to store the actual data -->
+                            <div style="display: none;">
+                                {{ design_form.story }}
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <small class="helper-text">Max 500 characters</small>
+                                <small id="story-char-count" style="color: var(--neon-pink); font-weight: 500;">0 / 500</small>
+                            </div>
                             {% if design_form.story.errors %}
                                 <div class="form-error-text">
                                     <i class="fas fa-exclamation-circle"></i> {{ design_form.story.errors.0 }}
@@ -264,6 +281,94 @@
                                 </div>
                             {% endif %}
                         </div>
+                        <div class="mb-4">
+                            <label for="{{ design_form.status.id_for_label }}" class="form-label">Status</label>
+                            {{ design_form.status }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Preview</label>
+                            <div id="story-preview" class="p-3" style="background:#181818;border-radius:8px;min-height:60px;color:#fff;border:1px solid #333;">{{ design_form.story.value|default_if_none:'' }}</div>
+                        </div>
+                    <!-- Quill JS -->
+                    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+                    <script>
+                        // Initialize Quill editor
+                        var quill = new Quill('#quill-editor', {
+                            theme: 'snow',
+                            modules: {
+                                toolbar: [
+                                    ['bold', 'italic', 'underline'],
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    ['link'],
+                                    ['clean']
+                                ]
+                            },
+                            placeholder: 'Tell me the design story...'
+                        });
+
+                        // Update character count and preview for Quill editor
+                        function updateStoryCharCountAndPreview() {
+                            var text = quill.getText();
+                            var length = text.trim().length;
+                            var counter = document.getElementById('story-char-count');
+                            if (counter) {
+                                counter.textContent = length + ' / 500';
+                                if (length > 500) {
+                                    counter.style.color = '#ff1493';
+                                } else {
+                                    counter.style.color = 'var(--neon-pink)';
+                                }
+                            }
+                            var preview = document.getElementById('story-preview');
+                            if (preview) {
+                                preview.textContent = text.trim();
+                            }
+                        }
+
+                        // Sync Quill content with hidden textarea
+                        quill.on('text-change', function() {
+                            var textarea = document.getElementById('id_story');
+                            if (textarea) {
+                                // Store plain text in textarea (since model has max 500 chars)
+                                textarea.value = quill.getText().trim();
+                            }
+                            updateStoryCharCountAndPreview();
+                        });
+
+                        // Update character count for SEO meta description
+                        function updateMetaCharCount(textarea) {
+                            var count = textarea.value.length;
+                            var counter = document.getElementById('meta-char-count');
+                            if (counter) {
+                                counter.textContent = count + ' / 160';
+                                if (count > 160) {
+                                    counter.style.color = '#ff1493';
+                                } else {
+                                    counter.style.color = 'var(--neon-pink)';
+                                }
+                            }
+                        }
+
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Initialize meta description counter
+                            var metaField = document.getElementById('id_meta_description');
+                            if (metaField) {
+                                updateMetaCharCount(metaField);
+                                metaField.addEventListener('input', function() {
+                                    updateMetaCharCount(this);
+                                });
+                            }
+
+                            // Load existing content into Quill
+                            var storyTextarea = document.getElementById('id_story');
+                            if (storyTextarea && storyTextarea.value) {
+                                quill.setText(storyTextarea.value);
+                            }
+
+                            // Initialize story counter and preview
+                            updateStoryCharCountAndPreview();
+                        });
+                    </script>
                     </div>
 
                     <!-- SUBMIT BUTTONS -->
@@ -617,6 +722,89 @@ document.addEventListener('DOMContentLoaded', function() {
 .variant-form-row select.has-value {
     border-color: rgba(204, 255, 0, 0.5) !important;
     background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Quill Editor Dark Theme Styling */
+.ql-toolbar.ql-snow {
+    background-color: #1a1a1a !important;
+    border: 2px solid var(--electric-yellow) !important;
+    border-bottom: none !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.ql-container.ql-snow {
+    background-color: #0a0a0a !important;
+    border: 2px solid var(--electric-yellow) !important;
+    border-top: none !important;
+    border-radius: 0 0 8px 8px !important;
+    color: #fff !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.ql-editor {
+    min-height: 200px;
+    color: #fff !important;
+    font-size: 15px;
+}
+
+.ql-editor.ql-blank::before {
+    color: #666 !important;
+    font-style: normal !important;
+}
+
+/* Toolbar buttons */
+.ql-toolbar.ql-snow .ql-stroke {
+    stroke: var(--neon-pink) !important;
+}
+
+.ql-toolbar.ql-snow .ql-fill {
+    fill: var(--neon-pink) !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label {
+    color: var(--neon-pink) !important;
+}
+
+/* Active/hover states */
+.ql-toolbar.ql-snow button:hover .ql-stroke,
+.ql-toolbar.ql-snow button:focus .ql-stroke,
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+    stroke: var(--electric-yellow) !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-fill,
+.ql-toolbar.ql-snow button:focus .ql-fill,
+.ql-toolbar.ql-snow button.ql-active .ql-fill {
+    fill: var(--electric-yellow) !important;
+}
+
+.ql-toolbar.ql-snow button:hover,
+.ql-toolbar.ql-snow button:focus,
+.ql-toolbar.ql-snow button.ql-active {
+    background-color: rgba(255, 20, 147, 0.1) !important;
+}
+
+/* Editor content styling */
+.ql-editor strong {
+    color: var(--neon-pink) !important;
+}
+
+.ql-editor em {
+    color: var(--electric-yellow) !important;
+}
+
+.ql-editor a {
+    color: var(--neon-pink) !important;
+}
+
+/* Focus state */
+#quill-editor:focus-within .ql-container {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.3) !important;
+}
+
+#quill-editor:focus-within .ql-toolbar {
+    border-color: var(--neon-pink) !important;
 }
 </style>
 {% endblock %}

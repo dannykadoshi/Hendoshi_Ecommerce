@@ -313,6 +313,14 @@ input[type="file"]::-ms-browse:hover {
     opacity: 1;
     outline: none;
 }
+/* Edit icon in product detail - non-absolute positioning */
+.product-details .edit-product-icon {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex-shrink: 0;
+    margin-left: 15px;
+}
 .product-card {
     position: relative;
 }

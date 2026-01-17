@@ -168,7 +168,7 @@ class DesignStoryForm(forms.ModelForm):
     """
     class Meta:
         model = DesignStory
-        fields = ['title', 'story', 'author']
+        fields = ['title', 'story', 'author', 'status']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control auth-form-input',
@@ -179,12 +179,17 @@ class DesignStoryForm(forms.ModelForm):
                 'class': 'form-control auth-form-input',
                 'placeholder': 'Tell the story behind this design...',
                 'rows': 8,
-                'required': 'required'
+                'maxlength': '500',
+                'required': 'required',
+                'oninput': 'updateCharCount(this)'
             }),
             'author': forms.TextInput(attrs={
                 'class': 'form-control auth-form-input',
                 'placeholder': 'Author Name',
                 'value': 'HENDOSHI Design Team'
+            }),
+            'status': forms.Select(attrs={
+                'class': 'form-control auth-form-input',
             }),
         }
 
@@ -200,6 +205,8 @@ class DesignStoryForm(forms.ModelForm):
             raise forms.ValidationError('Design story is required.')
         if len(story) < 20:
             raise forms.ValidationError('Story must be at least 20 characters long.')
+        if len(story) > 500:
+            raise forms.ValidationError('Story must be at most 500 characters.')
         return story
 
 

@@ -175,6 +175,10 @@ class DesignStory(models.Model):
     Custom model for design stories - inspiration and background for each design
     This adds value and personality to products, encouraging emotional connection
     """
+    STATUS_CHOICES = [
+        ("draft", "Draft"),
+        ("published", "Published"),
+    ]
     product = models.OneToOneField(
         'Product',
         on_delete=models.CASCADE,
@@ -182,13 +186,14 @@ class DesignStory(models.Model):
     )
     title = models.CharField(max_length=200)
     story = models.TextField(
-        help_text="Tell the story behind this design - inspiration, meaning, creative process"
+        max_length=500,
+        help_text="Tell the story behind this design - inspiration, meaning, creative process. Max 500 characters."
     )
     author = models.CharField(
         max_length=100,
         default="HENDOSHI Design Team"
     )
-    
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="draft")
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

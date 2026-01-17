@@ -37,7 +37,14 @@ class DesignStoryInline(admin.StackedInline):
     """
     model = DesignStory
     extra = 0
-    fields = ['title', 'story', 'author']
+    fields = ['title', 'story', 'author', 'status', 'story_preview']
+    readonly_fields = ['story_preview']
+
+    def story_preview(self, obj):
+        if obj and obj.story:
+            return obj.story
+        return "(No story)"
+    story_preview.short_description = "Preview"
 
 
 @admin.register(Product)
