@@ -215,7 +215,7 @@ ProductVariantFormSet = inlineformset_factory(
     Product,
     ProductVariant,
     form=ProductVariantForm,
-    extra=0,  # Don't show extra empty forms by default
+    extra=1,  # Show one empty form by default for create view
     can_delete=True
 )
 
@@ -223,6 +223,6 @@ ProductImageFormSet = inlineformset_factory(
     Product,
     ProductImage,
     form=ProductImageForm,
-    extra=0,  # Don't show extra empty forms by default
+    extra=1,  # Show one empty form by default for create view
     can_delete=True
 )
