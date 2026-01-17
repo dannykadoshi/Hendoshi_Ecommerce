@@ -23,5 +23,6 @@ urlpatterns = [
     # Product browsing
     path('', views.all_products, name='products'),
     path('search/', views.search, name='search'),
+    path('<int:product_id>/variant-options/', views.get_variant_options, name='get_variant_options'),
     path('<slug:slug>/', views.product_detail, name='product_detail'),
 ]

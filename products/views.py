@@ -96,6 +96,35 @@ def search(request):
     return render(request, 'products/search_results.html', context)
 
 
+def get_variant_options(request, product_id):
+    """
+    API endpoint to get available sizes and colors for a product
+    Used by quick add modals in product grid and battle vest
+    """
+    try:
+        product = get_object_or_404(Product, id=product_id, is_active=True)
+        sizes = list(product.get_available_sizes())
+        colors = list(product.get_available_colors())
+
+        # If no variants with stock, return all possible sizes/colors from variants
+        if not sizes:
+            sizes = list(product.variants.values_list('size', flat=True).distinct())
+        if not colors:
+            colors = list(product.variants.values_list('color', flat=True).distinct())
+
+        return JsonResponse({
+            'success': True,
+            'sizes': sizes,
+            'colors': colors,
+            'product_name': product.name
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=400)
+
+
 def all_products(request):
     """
     View to show all products with filtering and sorting

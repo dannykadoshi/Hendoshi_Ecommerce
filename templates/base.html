@@ -815,6 +815,46 @@
         </script>
         {% block extra_js %}{% endblock %}
 
+        <!-- Global Toast Notification Function -->
+        <script>
+        function showToast(message, type = 'success') {
+            // Get or create toast container
+            let toastContainer = document.querySelector('.toast-container-custom');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container-custom';
+                document.body.appendChild(toastContainer);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'toast show toast-' + type;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+
+            const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            const headerText = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
+
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <strong class="me-auto"><i class="fas ${iconClass}"></i> ${headerText}</strong>
+                    <button type="button" class="btn-close btn-close-white" onclick="this.closest('.toast').remove()"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+        </script>
+
         <!-- Back to Top Button -->
         <button id="backToTopBtn" class="back-to-top-btn" title="Back to top">
             <i class="fas fa-arrow-up"></i>

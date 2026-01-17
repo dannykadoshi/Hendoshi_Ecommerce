@@ -10,18 +10,18 @@
 
 <!-- Custom Modal for Remove Confirmation -->
 <div id="removeVestModal" class="modal fade" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 16px; background: #181818; color: #fff; border: 2px solid #ff2fa0;">
-            <div class="modal-header" style="border-bottom: none;">
-                <h5 class="modal-title" id="removeVestModalLabel" style="font-weight: bold;">Remove from Battle Vest</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered quick-add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeVestModalLabel">Remove from Battle Vest</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <p style="font-size: 1.2rem;">Remove this item from your Battle Vest?</p>
+                <p class="mb-0" style="font-size: 1.1rem;">Remove this item from your Battle Vest?</p>
             </div>
-            <div class="modal-footer" style="border-top: none; justify-content: center;">
+            <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-outline-pink px-4" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-pink px-4" id="confirmRemoveVestBtn">OK</button>
+                <button type="button" class="btn btn-pink px-4" id="confirmRemoveVestBtn">Remove</button>
             </div>
         </div>
     </div>
@@ -31,11 +31,11 @@
 
     <!-- Add to Cart Modal -->
     <div id="addToCartVestModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartVestModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius: 16px; background: #181818; color: #fff; border: 2px solid #ff2fa0;">
-                <div class="modal-header" style="border-bottom: none;">
-                    <h5 class="modal-title" id="addToCartVestModalLabel" style="font-weight: bold;">Add to Cart</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered quick-add-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addToCartVestModalLabel">Add to Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addToCartVestForm">
@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: `size=${size}&color=${color}&quantity=${quantity}`
@@ -241,6 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     showToast(`${vestProductName} added to cart!`, 'success');
                     bootstrap.Modal.getInstance(document.getElementById('addToCartVestModal')).hide();
+                    // Update cart count badge
+                    updateCartCount(data.cart_count);
                 } else {
                     showToast(data.message || 'Could not add to cart', 'error');
                 }
@@ -347,6 +350,15 @@ function updateVestCount(count) {
     if (desktopBadge) {
         desktopBadge.textContent = count;
         desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+}
+
+function updateCartCount(count) {
+    // Update cart count badge
+    const cartBadge = document.getElementById('cartCountBadge');
+    if (cartBadge) {
+        cartBadge.textContent = count;
+        cartBadge.style.display = count > 0 ? 'flex' : 'none';
     }
 }
 

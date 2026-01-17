@@ -133,52 +133,50 @@
                                     </a>
                                     <!-- Quick Add overlay -->
                                     <div class="quick-add">
-                                        <button class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}">ADD TO BAG</button>
+                                        <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}">ADD TO BAG</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Quick Add Modal per product -->
-                            <!-- Unified Quick Add Modal (shared for all products) -->
-                            {% if forloop.first %}
-                            <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered quick-add-modal">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="quickAddFormUnified">
-                                                <input type="hidden" name="product_id" id="quickAddProductId">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Size</label>
-                                                    <select name="size" id="quickAddSizeSelect" class="form-select" required></select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Color</label>
-                                                    <select name="color" id="quickAddColorSelect" class="form-select" required></select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Quantity</label>
-                                                    <select name="quantity" id="quickAddQuantitySelect" class="form-select" required>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select>
-                                                </div>
-                                                <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>
                 </form>
+                <!-- Unified Quick Add Modal (MUST be outside the bulk archive form) -->
+                <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered quick-add-modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="quickAddFormUnified">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" id="quickAddProductId">
+                                    <div class="mb-3">
+                                        <label class="form-label">Size</label>
+                                        <select name="size" id="quickAddSizeSelect" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Color</label>
+                                        <select name="color" id="quickAddColorSelect" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Quantity</label>
+                                        <select name="quantity" id="quickAddQuantitySelect" class="form-select" required>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% else %}
                     <div class="no-products text-center py-5">
                         <i class="fas fa-search fa-4x mb-3 text-pink"></i>
@@ -274,6 +272,7 @@
                                 method: 'POST',
                                 headers: {
                                     'X-CSRFToken': csrfToken,
+                                    'X-Requested-With': 'XMLHttpRequest',
                                     'Content-Type': 'application/x-www-form-urlencoded'
                                 },
                                 body: `size=${size}&color=${color}&quantity=${quantity}`
@@ -285,6 +284,12 @@
                                         showToast(`${quickAddModalTitle.textContent} added to cart!`, 'success');
                                     }
                                     bootstrap.Modal.getInstance(quickAddModal).hide();
+                                    // Update cart count badge
+                                    const cartBadge = document.getElementById('cartCountBadge');
+                                    if (cartBadge && data.cart_count !== undefined) {
+                                        cartBadge.textContent = data.cart_count;
+                                        cartBadge.style.display = data.cart_count > 0 ? 'flex' : 'none';
+                                    }
                                 } else {
                                     if (typeof showToast === 'function') {
                                         showToast(data.message || 'Could not add to cart', 'error');

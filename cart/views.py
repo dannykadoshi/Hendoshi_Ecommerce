@@ -23,29 +23,39 @@ def get_or_create_cart(request):
 def add_to_cart(request, product_id):
     """
     Add product to cart with size and color validation
+    Supports both regular form submissions and AJAX requests
     """
     if request.method == 'POST':
         product = get_object_or_404(Product, id=product_id, is_active=True)
         size = request.POST.get('size')
         color = request.POST.get('color')
         quantity = int(request.POST.get('quantity', 1))
-        
+
+        # Check if this is an AJAX request
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
         # Validation
         if not size:
+            if is_ajax:
+                return JsonResponse({'success': False, 'message': 'Please select a size.'})
             messages.error(request, 'Please select a size before adding to cart.')
             return redirect('product_detail', slug=product.slug)
-        
+
         if not color:
+            if is_ajax:
+                return JsonResponse({'success': False, 'message': 'Please select a color.'})
             messages.error(request, 'Please select a color before adding to cart.')
             return redirect('product_detail', slug=product.slug)
-        
+
         if quantity < 1:
+            if is_ajax:
+                return JsonResponse({'success': False, 'message': 'Quantity must be at least 1.'})
             messages.error(request, 'Quantity must be at least 1.')
             return redirect('product_detail', slug=product.slug)
-        
+
         # Get or create cart
         cart = get_or_create_cart(request)
-        
+
         # Check if item already exists in cart with same size/color
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart,
@@ -54,27 +64,32 @@ def add_to_cart(request, product_id):
             color=color,
             defaults={'quantity': quantity}
         )
-        
+
         if not created:
             # Item exists, update quantity
             cart_item.quantity += quantity
             cart_item.save()
-            messages.success(
-                request, 
-                f'Updated {product.name} quantity to {cart_item.quantity} in your cart.'
-            )
+            message = f'Updated {product.name} quantity to {cart_item.quantity} in your cart.'
         else:
-            messages.success(
-                request, 
-                f'Added {product.name} ({size}, {color}) to your cart!'
-            )
-        
+            message = f'Added {product.name} ({size.upper()}, {color.title()}) to your cart!'
+
+        # Return JSON for AJAX requests
+        if is_ajax:
+            cart_count = cart.items.count()
+            return JsonResponse({
+                'success': True,
+                'message': message,
+                'cart_count': cart_count
+            })
+
+        messages.success(request, message)
+
         # Return to product page or cart
         next_url = request.POST.get('next', 'product_detail')
         if next_url == 'cart':
             return redirect('view_cart')
         return redirect('product_detail', slug=product.slug)
-    
+
     return redirect('products')
 
 

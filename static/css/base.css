@@ -3060,6 +3060,15 @@ a.btn-pink {
     box-shadow: 0 8px 20px rgba(231, 31, 127, 0.3);
 }
 
+.quick-add-modal .modal-footer {
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
+    padding: 1rem 1.25rem;
+}
+
+:root.light-mode .quick-add-modal .modal-footer {
+    border-top: 1px solid rgba(231, 31, 127, 0.2);
+}
+
 /* Light mode: make nav icons pink */
 :root.light-mode .nav-icon {
     color: var(--neon-pink);
@@ -4887,6 +4896,17 @@ a.btn-pink {
 /* Stripe Payment Elements */
 .payment-section {
     position: relative;
+}
+
+.payment-section h2 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
 }
 
 .stripe-card-element {
