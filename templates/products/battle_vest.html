@@ -4,10 +4,66 @@
 {% block extra_title %}My Battle Vest{% endblock %}
 
 {% block content %}
+
 <!-- Hidden form for CSRF token -->
 <form id="csrfForm" style="display:none;">{% csrf_token %}</form>
 
+<!-- Custom Modal for Remove Confirmation -->
+<div id="removeVestModal" class="modal fade" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 16px; background: #181818; color: #fff; border: 2px solid #ff2fa0;">
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title" id="removeVestModalLabel" style="font-weight: bold;">Remove from Battle Vest</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p style="font-size: 1.2rem;">Remove this item from your Battle Vest?</p>
+            </div>
+            <div class="modal-footer" style="border-top: none; justify-content: center;">
+                <button type="button" class="btn btn-outline-pink px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-pink px-4" id="confirmRemoveVestBtn">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="battle-vest-page">
+
+    <!-- Add to Cart Modal -->
+    <div id="addToCartVestModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartVestModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 16px; background: #181818; color: #fff; border: 2px solid #ff2fa0;">
+                <div class="modal-header" style="border-bottom: none;">
+                    <h5 class="modal-title" id="addToCartVestModalLabel" style="font-weight: bold;">Add to Cart</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addToCartVestForm">
+                        <input type="hidden" name="product_id" id="vestProductId">
+                        <div class="mb-3">
+                            <label class="form-label">Size</label>
+                            <select name="size" id="vestSizeSelect" class="form-select" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Color</label>
+                            <select name="color" id="vestColorSelect" class="form-select" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quantity</label>
+                            <select name="quantity" id="vestQuantitySelect" class="form-select" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
 
         <!-- Battle Vest Header -->
@@ -45,7 +101,7 @@
                     </a>
 
                     <!-- Remove Button -->
-                    <button class="vest-remove-btn" onclick="removeFromVest('{{ item.product.slug }}')" title="Remove from Battle Vest">
+                    <button class="vest-remove-btn" onclick="openRemoveVestModal('{{ item.product.slug }}')" title="Remove from Battle Vest">
                         <i class="fas fa-times"></i>
                     </button>
 
@@ -71,9 +127,9 @@
                     </p>
 
                     <!-- Add to Cart Button -->
-                    <a href="{% url 'product_detail' item.product.slug %}" class="btn btn-pink w-100 vest-add-cart-btn">
+                    <button class="btn btn-pink w-100 vest-add-cart-btn" onclick="openAddToCartVestModal({{ item.product.id }}, '{{ item.product.name|escapejs }}')">
                         <i class="fas fa-shopping-cart"></i> ADD TO CART
-                    </a>
+                    </button>
                 </div>
             </div>
             {% endfor %}
@@ -107,14 +163,118 @@
 </div>
 
 <script>
-// Remove item from Battle Vest
+// Modal logic for Add to Cart from Battle Vest
+let vestProductId = null;
+let vestProductName = '';
+function openAddToCartVestModal(productId, productName) {
+    vestProductId = productId;
+    vestProductName = productName;
+    document.getElementById('vestProductId').value = productId;
+    console.log('openAddToCartVestModal called for productId:', productId, 'productName:', productName);
+    // Fetch available sizes/colors via AJAX
+    fetch(`/products/${productId}/variant-options/`)
+        .then(response => response.json())
+        .then(data => {
+            const sizeSelect = document.getElementById('vestSizeSelect');
+            const colorSelect = document.getElementById('vestColorSelect');
+            sizeSelect.innerHTML = '';
+            colorSelect.innerHTML = '';
+            data.sizes.forEach(s => {
+                sizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+            });
+            data.colors.forEach(c => {
+                colorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+            });
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('addToCartVestModal'));
+            modal.show();
+        })
+        .catch(() => {
+            if (typeof showToast === 'function') {
+                showToast('Could not load product options. Redirecting...', 'error');
+            }
+            // Try to find the slug in the DOM for this product card
+            var card = document.querySelector('.vest-item-card[data-slug] input[value="' + productId + '"]');
+            var slug = null;
+            if (card) {
+                slug = card.closest('.vest-item-card').getAttribute('data-slug');
+            }
+            if (!slug) {
+                // fallback: try to find any .vest-item-card with this productId
+                var cards = document.querySelectorAll('.vest-item-card');
+                cards.forEach(function(c) {
+                    if (c.innerHTML.indexOf('value="' + productId + '"') !== -1) {
+                        slug = c.getAttribute('data-slug');
+                    }
+                });
+            }
+            if (slug) {
+                window.location.href = `/products/${slug}/`;
+            } else {
+                window.location.href = '/products/';
+            }
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ...existing code...
+    // Add to Cart Vest Form submit
+    const addToCartVestForm = document.getElementById('addToCartVestForm');
+    if (addToCartVestForm) {
+        addToCartVestForm.onsubmit = function(e) {
+            e.preventDefault();
+            const productId = document.getElementById('vestProductId').value;
+            const size = document.getElementById('vestSizeSelect').value;
+            const color = document.getElementById('vestColorSelect').value;
+            const quantity = document.getElementById('vestQuantitySelect').value;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            fetch(`/cart/add/${productId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `size=${size}&color=${color}&quantity=${quantity}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(`${vestProductName} added to cart!`, 'success');
+                    bootstrap.Modal.getInstance(document.getElementById('addToCartVestModal')).hide();
+                } else {
+                    showToast(data.message || 'Could not add to cart', 'error');
+                }
+            })
+            .catch(error => {
+                showToast('Could not add to cart', 'error');
+            });
+        };
+    }
+});
+
+// Modal logic for Remove from Battle Vest
+let vestSlugToRemove = null;
+function openRemoveVestModal(slug) {
+    vestSlugToRemove = slug;
+    const modal = new bootstrap.Modal(document.getElementById('removeVestModal'));
+    modal.show();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmBtn = document.getElementById('confirmRemoveVestBtn');
+    if (confirmBtn) {
+        confirmBtn.onclick = function() {
+            if (vestSlugToRemove) {
+                removeFromVest(vestSlugToRemove);
+                vestSlugToRemove = null;
+                bootstrap.Modal.getInstance(document.getElementById('removeVestModal')).hide();
+            }
+        };
+    }
+});
+
 function removeFromVest(slug) {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    if (!confirm('Remove this item from your Battle Vest?')) {
-        return;
-    }
-
     fetch(`/products/${slug}/remove-from-vest/`, {
         method: 'POST',
         headers: {
@@ -131,7 +291,6 @@ function removeFromVest(slug) {
                 itemCard.style.animation = 'fadeOut 0.3s ease-out';
                 setTimeout(() => {
                     itemCard.remove();
-
                     // Check if vest is now empty
                     const remainingItems = document.querySelectorAll('.vest-item-card');
                     if (remainingItems.length === 0) {
@@ -139,11 +298,7 @@ function removeFromVest(slug) {
                     }
                 }, 300);
             }
-
-            // Update count in navigation
             updateVestCount(data.item_count);
-
-            // Show toast
             showToast(data.message, 'info');
         } else {
             showToast(data.message || 'Failed to remove item', 'error');
@@ -152,6 +307,30 @@ function removeFromVest(slug) {
     .catch(error => {
         console.error('Error:', error);
         showToast('Failed to remove item from Battle Vest', 'error');
+    });
+}
+
+// Add to Cart from Battle Vest with toast
+function addVestItemToCart(slug, name) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch(`/cart/add/${slug}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity: 1 })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(`${name} added to cart!`, 'success');
+        } else {
+            showToast(data.message || 'Could not add to cart', 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Could not add to cart', 'error');
     });
 }
 

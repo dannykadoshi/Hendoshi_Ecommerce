@@ -76,12 +76,14 @@
                 <form method="post" action="{% url 'bulk_archive_products' %}" id="bulkArchiveForm">
                     {% csrf_token %}
                     <input type="hidden" name="action" id="bulkAction" value="archive">
+                    {% if request.user.is_staff or request.user.is_superuser %}
                     <div class="bulk-archive-bar d-flex align-items-center mb-3">
                         <input type="checkbox" id="selectAllProducts" class="form-check-input">
                         <label for="selectAllProducts" class="form-label mb-0 ms-2">Select All</label>
                         <button type="submit" class="btn btn-pink btn-sm ms-3" id="bulkArchiveBtn" disabled>Archive Selected</button>
                         <button type="submit" class="btn btn-outline-danger btn-sm ms-2" id="bulkDeleteBtn" disabled>Delete Selected</button>
                     </div>
+                    {% endif %}
 
                     <div class="products-grid">
                         {% for product in products %}
@@ -95,95 +97,84 @@
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 {% endif %}
-
-                                <!-- Battle Vest Button -->
-                                {% if user.is_authenticated %}
-                                <button type="button" class="product-vest-btn" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                {% else %}
-                                <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn" title="Login to add to Battle Vest">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                {% endif %}
-
-                                <a href="{% url 'product_detail' product.slug %}">
-                                    <div class="product-image">
-                                        {% if product.main_image %}
-                                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main">
-                                            {% with second_image=product.images.first %}
-                                                {% if second_image %}
-                                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover">
-                                                {% endif %}
-                                            {% endwith %}
-                                        {% else %}
-                                            <div class="placeholder-image">
-                                                <i class="fas fa-image fa-3x"></i>
-                                                <p>No Image</p>
-                                            </div>
-                                        {% endif %}
-                                        {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                                <div class="product-card-inner">
+                                    <!-- Battle Vest Button (always same style) -->
+                                    {% if user.is_authenticated %}
+                                    <button type="button" class="product-vest-btn" data-product-slug="{{ product.slug }}" title="Add to Battle Vest" style="background:none;border:none;padding:0;position:absolute;top:16px;left:16px;z-index:10;">
+                                        <i class="far fa-heart heart-gradient-icon"></i>
+                                    </button>
+                                    {% else %}
+                                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn" title="Login to add to Battle Vest" style="background:none;border:none;padding:0;position:absolute;top:16px;left:16px;z-index:10;">
+                                        <i class="far fa-heart heart-gradient-icon"></i>
+                                    </a>
+                                    {% endif %}
+                                    <a href="{% url 'product_detail' product.slug %}">
+                                        <div class="product-image" style="position:relative;">
+                                            {% if product.main_image %}
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main">
+                                                {% with second_image=product.images.first %}
+                                                    {% if second_image %}
+                                                        <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover">
+                                                    {% endif %}
+                                                {% endwith %}
+                                            {% else %}
+                                                <div class="placeholder-image">
+                                                    <i class="fas fa-image fa-3x"></i>
+                                                    <p>No Image</p>
+                                                </div>
+                                            {% endif %}
+                                            {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                                        </div>
+                                        <div class="product-info">
+                                            <h3>{{ product.name }}</h3>
+                                            <p class="product-type">{{ product.get_product_type_display }}</p>
+                                            <p class="product-price">€{{ product.base_price }}</p>
+                                        </div>
+                                    </a>
+                                    <!-- Quick Add overlay -->
+                                    <div class="quick-add">
+                                        <button class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}">ADD TO BAG</button>
                                     </div>
-                                    <div class="product-info">
-                                        <h3>{{ product.name }}</h3>
-                                        <p class="product-type">{{ product.get_product_type_display }}</p>
-                                        <p class="product-price">€{{ product.base_price }}</p>
-                                    </div>
-                                </a>
-                                <!-- Quick Add overlay -->
-                                <div class="quick-add">
-                                    <button class="btn btn-quick-add" data-bs-toggle="modal" data-bs-target="#quickAddModal-{{ product.id }}">ADD TO BAG</button>
                                 </div>
                             </div>
                             <!-- Quick Add Modal per product -->
-                            <div class="modal fade" id="quickAddModal-{{ product.id }}" tabindex="-1" aria-hidden="true">
+                            <!-- Unified Quick Add Modal (shared for all products) -->
+                            {% if forloop.first %}
+                            <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered quick-add-modal">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Add {{ product.name }}</h5>
+                                            <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            {% with sizes=product.get_available_sizes colors=product.get_available_colors %}
-                                            {% if sizes|length and colors|length %}
-                                                <form action="{% url 'add_to_cart' product.id %}" method="post">
-                                                    {% csrf_token %}
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Size</label>
-                                                        <select name="size" class="form-select" required>
-                                                            {% for s in sizes %}
-                                                                <option value="{{ s }}">{{ s|upper }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Color</label>
-                                                        <select name="color" class="form-select" required>
-                                                            {% for c in colors %}
-                                                                <option value="{{ c }}">{{ c|capfirst }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Quantity</label>
-                                                        <select name="quantity" class="form-select" required>
-                                                            {% for q in "123456789"|make_list %}
-                                                                <option value="{{ q }}">{{ q }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                    <input type="hidden" name="next" value="cart">
-                                                    <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
-                                                </form>
-                                            {% else %}
-                                                <p class="text-muted">Please choose options on the product page.</p>
-                                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-pink w-100">View Product</a>
-                                            {% endif %}
-                                            {% endwith %}
+                                            <form id="quickAddFormUnified">
+                                                <input type="hidden" name="product_id" id="quickAddProductId">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Size</label>
+                                                    <select name="size" id="quickAddSizeSelect" class="form-select" required></select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Color</label>
+                                                    <select name="color" id="quickAddColorSelect" class="form-select" required></select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Quantity</label>
+                                                    <select name="quantity" id="quickAddQuantitySelect" class="form-select" required>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>
@@ -233,6 +224,113 @@
 {% endblock %}
 {% block extra_js %}
     <script>
+                // Unified Quick Add Modal logic for product grid
+                document.addEventListener('DOMContentLoaded', function() {
+                    const quickAddBtns = document.querySelectorAll('.product-grid-add-bag-btn');
+                    const quickAddModal = document.getElementById('quickAddModalUnified');
+                    const quickAddForm = document.getElementById('quickAddFormUnified');
+                    const quickAddProductId = document.getElementById('quickAddProductId');
+                    const quickAddSizeSelect = document.getElementById('quickAddSizeSelect');
+                    const quickAddColorSelect = document.getElementById('quickAddColorSelect');
+                    const quickAddQuantitySelect = document.getElementById('quickAddQuantitySelect');
+                    const quickAddModalTitle = document.getElementById('quickAddModalTitle');
+                    quickAddBtns.forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const productId = btn.getAttribute('data-product-id');
+                            const productSlug = btn.getAttribute('data-product-slug');
+                            const productName = btn.getAttribute('data-product-name');
+                            quickAddProductId.value = productId;
+                            quickAddModalTitle.textContent = `Add ${productName}`;
+                            // Fetch options
+                            fetch(`/products/${productId}/variant-options/`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    quickAddSizeSelect.innerHTML = '';
+                                    quickAddColorSelect.innerHTML = '';
+                                    data.sizes.forEach(s => {
+                                        quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                                    });
+                                    data.colors.forEach(c => {
+                                        quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                                    });
+                                    const modal = new bootstrap.Modal(quickAddModal);
+                                    modal.show();
+                                })
+                                .catch(() => {
+                                    window.location.href = `/products/${productSlug}/`;
+                                });
+                        });
+                    });
+                    if (quickAddForm) {
+                        quickAddForm.onsubmit = function(e) {
+                            e.preventDefault();
+                            const productId = quickAddProductId.value;
+                            const size = quickAddSizeSelect.value;
+                            const color = quickAddColorSelect.value;
+                            const quantity = quickAddQuantitySelect.value;
+                            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                            fetch(`/cart/add/${productId}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': csrfToken,
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: `size=${size}&color=${color}&quantity=${quantity}`
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    if (typeof showToast === 'function') {
+                                        showToast(`${quickAddModalTitle.textContent} added to cart!`, 'success');
+                                    }
+                                    bootstrap.Modal.getInstance(quickAddModal).hide();
+                                } else {
+                                    if (typeof showToast === 'function') {
+                                        showToast(data.message || 'Could not add to cart', 'error');
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+        // Add gradient style for heart icon (fill only the heart when selected)
+        const style = document.createElement('style');
+        style.textContent = `
+            .heart-gradient-icon {
+                font-size: 1.5rem;
+                color: transparent;
+                transition: color 0.2s;
+                background: none;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                position: relative;
+            }
+            .heart-gradient-icon:before {
+                content: "\f004";
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                color: transparent;
+                -webkit-text-stroke: 2px #ff2fa0;
+                text-stroke: 2px #ff2fa0;
+                background: none;
+                transition: color 0.2s, -webkit-text-stroke 0.2s;
+            }
+            .product-vest-btn.in-vest .heart-gradient-icon,
+            .product-vest-btn:focus.in-vest .heart-gradient-icon {
+                background: linear-gradient(135deg, #ff2fa0 0%, #ffe666 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+            }
+            .product-vest-btn.in-vest .heart-gradient-icon:before,
+            .product-vest-btn:focus.in-vest .heart-gradient-icon:before {
+                color: inherit;
+                -webkit-text-stroke: 0;
+                text-stroke: 0;
+            }
+        `;
+        document.head.appendChild(style);
     // Bulk select and enable/disable archive/delete buttons
     document.addEventListener('DOMContentLoaded', function() {
         const selectAll = document.getElementById('selectAllProducts');
@@ -375,7 +473,7 @@
         // Check which products are already in vest
         vestButtons.forEach(btn => {
             const slug = btn.dataset.productSlug;
-            fetch(`/products/${slug}/check-vest/`)
+            fetch(`/products/${slug}/check-in-vest/`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.in_vest) {
