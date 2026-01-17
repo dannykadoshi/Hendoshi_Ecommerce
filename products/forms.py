@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory, modelformset_factory
 from .models import Product, ProductVariant, ProductImage, DesignStory, Collection
+from .models import ProductType
 
 
 class ProductForm(forms.ModelForm):
@@ -95,6 +96,26 @@ class ProductForm(forms.ModelForm):
         if not image and not self.instance.pk:
             raise forms.ValidationError('Main product image is required.')
         return image
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Ensure collection select uses live DB queryset
+        try:
+            self.fields['collection'].queryset = Collection.objects.all().order_by('name')
+        except Exception:
+            pass
+
+        # Build product_type choices from DB ProductType entries, fallback to static PRODUCT_TYPES
+        try:
+            db_types = list(ProductType.objects.all().values_list('slug', 'name'))
+            # Merge DB types first, then add any static types that aren't present
+            static = getattr(Product, 'PRODUCT_TYPES', [])
+            static_filtered = [s for s in static if s[0] not in {d[0] for d in db_types}]
+            combined = [(slug, name) for slug, name in db_types] + static_filtered
+            self.fields['product_type'].choices = combined
+        except Exception:
+            # If ProductType table isn't available (migration state), leave default choices
+            pass
 
 
 class ProductVariantForm(forms.ModelForm):
@@ -226,3 +247,24 @@ ProductImageFormSet = inlineformset_factory(
     extra=1,  # Show one empty form by default for create view
     can_delete=True
 )
+
+
+class CollectionForm(forms.ModelForm):
+    class Meta:
+        model = Collection
+        fields = ['name', 'slug', 'description', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control auth-form-input'}),
+            'slug': forms.TextInput(attrs={'class': 'form-control auth-form-input'}),
+            'description': forms.Textarea(attrs={'class': 'form-control auth-form-input', 'rows': 3}),
+        }
+
+
+class ProductTypeForm(forms.ModelForm):
+    class Meta:
+        model = ProductType
+        fields = ['name', 'slug']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control auth-form-input', 'required': True}),
+            'slug': forms.TextInput(attrs={'class': 'form-control auth-form-input'}),
+        }

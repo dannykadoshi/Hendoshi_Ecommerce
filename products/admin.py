@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Collection, Product, ProductVariant, DesignStory, ProductImage, BattleVest, BattleVestItem
+from .models import ProductType
 
 
 @admin.register(Collection)
@@ -150,3 +151,10 @@ class BattleVestItemAdmin(admin.ModelAdmin):
     search_fields = ['product__name', 'battle_vest__user__username']
     autocomplete_fields = ['product', 'battle_vest']
     readonly_fields = ['added_at']    
+
+
+@admin.register(ProductType)
+class ProductTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+    search_fields = ['name']

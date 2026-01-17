@@ -135,10 +135,16 @@
                         <ul class="dropdown-menu" aria-labelledby="collectionsMenu">
                             <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=weird-animals">Weird Animals</a></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=gym-therapy">Gym Therapy</a></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?collection=dark-humor">Dark Humor</a></li>
+                            {% if site_collections %}
+                                {% for c in site_collections %}
+                                    <li><a class="dropdown-item" href="{% url 'products' %}?collection={{ c.slug }}">{{ c.name }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=weird-animals">Weird Animals</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=gym-therapy">Gym Therapy</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=dark-humor">Dark Humor</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -148,10 +154,16 @@
                            role="button"
                            data-bs-toggle="dropdown">Product Type</a>
                         <ul class="dropdown-menu" aria-labelledby="productTypeMenu">
-                            <li><a class="dropdown-item" href="{% url 'products' %}?type=tshirt">T-Shirts</a></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?type=hoodie">Hoodies</a></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?type=sticker">Stickers</a></li>
-                            <li><a class="dropdown-item" href="{% url 'products' %}?type=accessory">Accessories</a></li>
+                            {% if site_product_types %}
+                                {% for t in site_product_types %}
+                                    <li><a class="dropdown-item" href="{% url 'products' %}?type={{ t.slug }}">{{ t.name }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=tshirt">T-Shirts</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=hoodie">Hoodies</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=sticker">Stickers</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=accessory">Accessories</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#">Weird Wall</a></li>
@@ -202,6 +214,8 @@
                                         </a>
                                         <ul class="dropdown-menu admin-panel-submenu">
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_collections' %}"><i class="fas fa-th-large"></i> Collections</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_product_types' %}"><i class="fas fa-tags"></i> Product Types</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
@@ -245,6 +259,8 @@
                                         </a>
                                         <ul class="dropdown-menu admin-panel-submenu">
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_collections' %}"><i class="fas fa-th-large"></i> Collections</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_product_types' %}"><i class="fas fa-tags"></i> Product Types</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
@@ -373,6 +389,12 @@
                     <a href="{% url 'admin:index' %}" class="submenu-item">
                         <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
                     </a>
+                    <a href="{% url 'admin_list_collections' %}" class="submenu-item">
+                        <i class="fas fa-th-large"></i> <span>Collections</span>
+                    </a>
+                    <a href="{% url 'admin_list_product_types' %}" class="submenu-item">
+                        <i class="fas fa-tags"></i> <span>Product Types</span>
+                    </a>
                     <a href="{% url 'create_product' %}" class="submenu-item">
                         <i class="fas fa-plus-circle"></i> <span>Create Product</span>
                     </a>
@@ -418,10 +440,16 @@
                 <button class="submenu-back" data-back="main">&lt; Collections</button>
                 <div class="submenu-content">
                     <a href="{% url 'products' %}" class="submenu-item">All Products</a>
-                    <a href="{% url 'products' %}?collection=skulls-death" class="submenu-item">Skulls & Death</a>
-                    <a href="{% url 'products' %}?collection=weird-animals" class="submenu-item">Weird Animals</a>
-                    <a href="{% url 'products' %}?collection=gym-therapy" class="submenu-item">Gym Therapy</a>
-                    <a href="{% url 'products' %}?collection=dark-humor" class="submenu-item">Dark Humor</a>
+                    {% if site_collections %}
+                        {% for c in site_collections %}
+                            <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item">{{ c.name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="{% url 'products' %}?collection=skulls-death" class="submenu-item">Skulls & Death</a>
+                        <a href="{% url 'products' %}?collection=weird-animals" class="submenu-item">Weird Animals</a>
+                        <a href="{% url 'products' %}?collection=gym-therapy" class="submenu-item">Gym Therapy</a>
+                        <a href="{% url 'products' %}?collection=dark-humor" class="submenu-item">Dark Humor</a>
+                    {% endif %}
                 </div>
             </div>
             
@@ -429,10 +457,16 @@
             <div class="menu-submenu hidden" id="submenuProductType">
                 <button class="submenu-back" data-back="main">&lt; Product Type</button>
                 <div class="submenu-content">
-                    <a href="{% url 'products' %}?type=tshirt" class="submenu-item">T-Shirts</a>
-                    <a href="{% url 'products' %}?type=hoodie" class="submenu-item">Hoodies</a>
-                    <a href="{% url 'products' %}?type=sticker" class="submenu-item">Stickers</a>
-                    <a href="{% url 'products' %}?type=accessory" class="submenu-item">Accessories</a>
+                    {% if site_product_types %}
+                        {% for t in site_product_types %}
+                            <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item">{{ t.name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="{% url 'products' %}?type=tshirt" class="submenu-item">T-Shirts</a>
+                        <a href="{% url 'products' %}?type=hoodie" class="submenu-item">Hoodies</a>
+                        <a href="{% url 'products' %}?type=sticker" class="submenu-item">Stickers</a>
+                        <a href="{% url 'products' %}?type=accessory" class="submenu-item">Accessories</a>
+                    {% endif %}
                 </div>
             </div>
             

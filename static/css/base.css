@@ -299,6 +299,80 @@
     background-color: #E71F7F !important;
     color: #fff !important;
 }
+
+/* Make small-muted text visible on dark admin list items */
+.auth-card .list-group-item .text-muted {
+    color: rgba(255,255,255,0.65) !important;
+}
+
+/* Collection form: make current file link pink and add spacing before change file input
+   Only apply to plain anchors (not buttons) so .btn-pink keeps its white text */
+.auth-card .mb-3 a:not(.btn) {
+    color: var(--neon-pink) !important;
+    display: inline-block;
+    margin-bottom: 0.6rem;
+}
+
+.auth-card .mb-3 input[type="file"] {
+    margin-top: 0.6rem;
+}
+
+/* Ensure action buttons inside admin tables/lists have readable white text */
+.archived-products-table .btn-outline-pink,
+.archived-products-table .btn-outline-danger,
+.auth-card .table .btn-outline-pink,
+.auth-card .table .btn-outline-danger {
+    color: #fff !important;
+    border-color: rgba(231,31,127,0.9) !important;
+}
+
+.archived-products-table .btn-outline-pink:hover,
+.auth-card .table .btn-outline-pink:hover {
+    background: var(--neon-pink) !important;
+    color: #000 !important;
+}
+
+.archived-products-table .btn-outline-danger:hover,
+.auth-card .table .btn-outline-danger:hover {
+    background: #dc3545 !important;
+    color: #fff !important;
+}
+
+/* Make admin table buttons match checkout CTA look */
+.archived-products-table .btn-outline-pink,
+.auth-card .table .btn-outline-pink {
+    background: linear-gradient(135deg, var(--neon-pink), #ff006e) !important;
+    color: #fff !important;
+    border: 2px solid var(--neon-pink) !important;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45) !important;
+    padding: 0.6rem 1rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.25s ease !important;
+}
+
+.archived-products-table .btn-outline-pink:hover,
+.auth-card .table .btn-outline-pink:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6) !important;
+}
+
+/* Delete buttons use solid red like standard danger CTA */
+.archived-products-table .btn-outline-danger,
+.auth-card .table .btn-outline-danger {
+    background: #dc3545 !important;
+    color: #fff !important;
+    border: 2px solid #b02a37 !important;
+    padding: 0.55rem 0.9rem !important;
+    font-weight: 800 !important;
+}
+
+.archived-products-table .btn-outline-danger:hover,
+.auth-card .table .btn-outline-danger:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(220,53,69,0.35) !important;
+}
 /* Add extra top margin to archived products table inside archive page */
 .container.archived-products-table-container {
     margin-top: 140px !important;
@@ -460,6 +534,34 @@ input[type="file"]::-ms-browse:hover {
     color: var(--black);
     box-shadow: 0 8px 32px rgba(255,20,147,0.18);
     outline: none;
+}
+/* Admin CRUD list styling to match dark layout (remove white boxes) */
+.auth-card .list-group {
+    background: transparent;
+    border: none;
+}
+
+.auth-card .list-group .list-group-item {
+    background: rgba(255,255,255,0.02);
+    color: var(--off-white);
+    border: none;
+    padding: 1rem 1.25rem;
+}
+
+.auth-card .list-group .list-group-item .text-muted {
+    color: rgba(255,255,255,0.6);
+}
+
+.auth-card .list-group .list-group-item .btn-outline-pink,
+.auth-card .list-group .list-group-item .btn-outline-danger {
+    background: transparent;
+}
+
+/* Ensure the create button stands out on admin pages */
+.auth-card .text-end .btn-pink {
+    padding: 1rem 1.5rem;
+    font-weight: 900;
+    font-size: 1rem;
 }
 /* Edit Product Icon (Admin Only) */
 .edit-product-icon {

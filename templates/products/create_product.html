@@ -265,21 +265,37 @@
                     <!-- Quill JS -->
                     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
                     <script>
-                        // Initialize Quill editor (guard to avoid double-init)
-                        if (!window.__quill_initialized_for_quill_editor) {
-                            window.__quill_initialized_for_quill_editor = true;
-                            var quill = new Quill('#quill-editor', {
-                            theme: 'snow',
-                            modules: {
-                                toolbar: [
-                                    ['bold', 'italic', 'underline'],
-                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                    ['link'],
-                                    ['clean']
-                                ]
-                            },
-                            placeholder: 'Tell me the design story...'
-                            });
+                        // Initialize Quill editor (use shared global instance)
+                            if (!window.__quill_editor) {
+                                window.__quill_editor = new Quill('#quill-editor', {
+                                    theme: 'snow',
+                                    modules: {
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline'],
+                                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                            ['link'],
+                                            ['clean']
+                                        ]
+                                    },
+                                    placeholder: 'Tell me the design story...'
+                                });
+                            }
+                            var quill = window.__quill_editor;
+
+                        // Helper to read Django CSRF cookie
+                        function getCookie(name) {
+                            let cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                const cookies = document.cookie.split(';');
+                                for (let i = 0; i < cookies.length; i++) {
+                                    const cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
                         }
 
                         // Update character count for Quill editor
@@ -371,7 +387,7 @@
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
-                                            'X-CSRFToken': '{{ csrf_token }}'
+                                            'X-CSRFToken': getCookie('csrftoken')
                                         },
                                         body: JSON.stringify({
                                             name: productName,
@@ -459,7 +475,7 @@
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
-                                            'X-CSRFToken': '{{ csrf_token }}'
+                                            'X-CSRFToken': getCookie('csrftoken')
                                         },
                                         body: JSON.stringify({
                                             name: productName,
@@ -556,7 +572,55 @@
                             });
 
                             // Submit description input and generate
-                            submitDescriptionInput.addEventListener('click', async function() {
+                            function sanitizeAIError(raw) {
+                                if (!raw) return 'AI service temporarily unavailable. Please try again later.';
+                                const low = String(raw).toLowerCase();
+                                if (low.includes('quota') || low.includes('429')) return 'AI quota exceeded. Please try again later.';
+                                if (low.length > 300) return 'AI service temporarily unavailable. Please try again later.';
+                                if (low.includes('http') || low.includes('https') || low.includes('{') || low.includes('}')) return 'AI service temporarily unavailable. Please try again later.';
+                                return String(raw);
+                            }
+
+                            let descRetryTimer = null;
+                            function startDescRetryCountdown(seconds) {
+                                const genBtn = document.getElementById('generateDescriptionBtn');
+                                if (genBtn) genBtn.disabled = true;
+
+                                // Clear existing timer and retry button
+                                if (descRetryTimer) { clearInterval(descRetryTimer); descRetryTimer = null; }
+                                const existing = document.getElementById('descRetryBtn');
+                                if (existing) existing.remove();
+
+                                let remaining = Math.max(0, Math.floor(seconds));
+                                const retryBtn = document.createElement('button');
+                                retryBtn.id = 'descRetryBtn';
+                                retryBtn.className = 'btn btn-pink mt-3';
+                                retryBtn.disabled = true;
+                                retryBtn.textContent = `Retry (${remaining}s)`;
+                                descErrorContainer.appendChild(retryBtn);
+
+                                descRetryTimer = setInterval(() => {
+                                    remaining -= 1;
+                                    if (remaining <= 0) {
+                                        clearInterval(descRetryTimer);
+                                        descRetryTimer = null;
+                                        retryBtn.disabled = false;
+                                        retryBtn.textContent = 'Retry now';
+                                        if (genBtn) genBtn.disabled = false;
+                                    } else {
+                                        retryBtn.textContent = `Retry (${remaining}s)`;
+                                    }
+                                }, 1000);
+
+                                retryBtn.addEventListener('click', function() {
+                                    // Clean up UI then retry
+                                    retryBtn.remove();
+                                    descErrorContainer.style.display = 'none';
+                                    handleSubmitDescription();
+                                });
+                            }
+
+                            async function handleSubmitDescription() {
                                 const productName = document.getElementById('id_name').value.trim();
                                 const userInput = descriptionInput.value.trim();
 
@@ -573,11 +637,16 @@
                                 descErrorContainer.style.display = 'none';
 
                                 try {
+                                    const csrfToken = getCookie('csrftoken') || (document.querySelector('input[name="csrfmiddlewaretoken"]') ? document.querySelector('input[name="csrfmiddlewaretoken"]').value : '');
+                                    console.log('AI description request', { productName, userInput, csrfTokenPresent: !!csrfToken });
+                                    const genBtn = document.getElementById('generateDescriptionBtn');
+                                    if (genBtn) genBtn.disabled = true;
                                     const response = await fetch('{% url "generate_product_description" %}', {
                                         method: 'POST',
+                                        credentials: 'same-origin',
                                         headers: {
                                             'Content-Type': 'application/json',
-                                            'X-CSRFToken': '{{ csrf_token }}'
+                                            'X-CSRFToken': csrfToken
                                         },
                                         body: JSON.stringify({
                                             name: productName,
@@ -585,9 +654,19 @@
                                         })
                                     });
 
-                                    const data = await response.json();
+                                    let data;
+                                    try {
+                                        data = await response.json();
+                                    } catch (jsonErr) {
+                                        // Non-JSON response (e.g., provider HTML or plain text). Map to friendly messages.
+                                        if (!response.ok) {
+                                            if (response.status === 429) throw new Error('AI quota exceeded. Please try again later.');
+                                            throw new Error('AI service temporarily unavailable. Please try again later.');
+                                        }
+                                        throw new Error('Unexpected AI response. Please try again.');
+                                    }
 
-                                    if (data.success && data.descriptions) {
+                                    if (response.ok && data.success && data.descriptions) {
                                         descLoadingSpinner.style.display = 'none';
                                         descSuggestionsContainer.style.display = 'block';
                                         descSuggestionsList.innerHTML = '';
@@ -606,13 +685,38 @@
                                             });
                                             descSuggestionsList.appendChild(card);
                                         });
+                                    } else if (!response.ok) {
+                                        // If server provided retry_seconds, show countdown UI
+                                        if (data && data.retry_seconds) {
+                                            descLoadingSpinner.style.display = 'none';
+                                            descErrorContainer.style.display = 'block';
+                                            descErrorMessage.textContent = sanitizeAIError(data.error);
+                                            startDescRetryCountdown(data.retry_seconds);
+                                            return;
+                                        }
+                                        throw new Error(sanitizeAIError(data.error));
                                     } else {
-                                        throw new Error(data.error || 'Failed to generate descriptions');
+                                        throw new Error(sanitizeAIError(data.error || 'Failed to generate descriptions'));
                                     }
                                 } catch (error) {
                                     descLoadingSpinner.style.display = 'none';
                                     descErrorContainer.style.display = 'block';
                                     descErrorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                    const genBtn = document.getElementById('generateDescriptionBtn');
+                                    if (genBtn && !descRetryTimer) genBtn.disabled = false;
+                                }
+                            }
+
+                            // Attach direct listener if element exists
+                            if (submitDescriptionInput) {
+                                submitDescriptionInput.addEventListener('click', handleSubmitDescription);
+                            }
+
+                            // Fallback: delegated listener to ensure clicks are handled
+                            document.addEventListener('click', function(e) {
+                                const el = e.target.closest && e.target.closest('#submitDescriptionInput');
+                                if (el) {
+                                    handleSubmitDescription();
                                 }
                             });
 
@@ -744,6 +848,32 @@
                                 <button type="button" id="submitDescriptionInput" class="btn btn-pink">
                                     <i class="fas fa-magic"></i> Generate Descriptions
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Description Suggestions Modal -->
+                <div id="aiDescriptionModal" class="ai-modal">
+                    <div class="ai-modal-content ai-modal-content--wide">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-sparkles"></i> AI-Generated Product Descriptions</h3>
+                            <button type="button" class="ai-modal-close" id="closeDescModal">×</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <div id="descLoadingSpinner" class="loading-spinner-center">
+                                <div class="spinner-border spinner-border-pink" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="modal-loading-text">Generating SEO-optimized descriptions...</p>
+                            </div>
+                            <div id="descSuggestionsContainer" class="formset-hidden">
+                                <p class="modal-helper-text">Click on a description to use it:</p>
+                                <div id="descSuggestionsList"></div>
+                            </div>
+                            <div id="descErrorContainer" class="error-container">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p id="descErrorMessage"></p>
                             </div>
                         </div>
                     </div>

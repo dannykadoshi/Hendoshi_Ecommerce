@@ -314,7 +314,24 @@
                     <!-- Quill JS -->
                     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
                     <script>
-                        // Initialize Quill editor
+                        // Helper to read Django CSRF cookie
+                        function getCookie(name) {
+                            let cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                const cookies = document.cookie.split(';');
+                                for (let i = 0; i < cookies.length; i++) {
+                                    const cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
+                        }
+
+                    
+                        // Initialize Quill editor and expose global instance for shared usage
                         var quill = new Quill('#quill-editor', {
                             theme: 'snow',
                             modules: {
@@ -327,6 +344,7 @@
                             },
                             placeholder: 'Tell me the design story...'
                         });
+                        window.__quill_editor = quill;
 
                         // Update character count and preview for Quill editor
                         function updateStoryCharCountAndPreview() {
@@ -420,7 +438,7 @@
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
-                                            'X-CSRFToken': '{{ csrf_token }}'
+                                            'X-CSRFToken': getCookie('csrftoken')
                                         },
                                         body: JSON.stringify({
                                             name: productName,
@@ -508,7 +526,7 @@
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
-                                            'X-CSRFToken': '{{ csrf_token }}'
+                                            'X-CSRFToken': getCookie('csrftoken')
                                         },
                                         body: JSON.stringify({
                                             name: productName,
@@ -604,6 +622,52 @@
                                 descriptionInput.focus();
                             });
 
+                            function sanitizeAIError(raw) {
+                                if (!raw) return 'AI service temporarily unavailable. Please try again later.';
+                                const low = String(raw).toLowerCase();
+                                if (low.includes('quota') || low.includes('429')) return 'AI quota exceeded. Please try again later.';
+                                if (low.length > 300) return 'AI service temporarily unavailable. Please try again later.';
+                                if (low.includes('http') || low.includes('https') || low.includes('{') || low.includes('}')) return 'AI service temporarily unavailable. Please try again later.';
+                                return String(raw);
+                            }
+
+                            let descRetryTimer = null;
+                            function startDescRetryCountdown(seconds) {
+                                const genBtn = document.getElementById('generateDescriptionBtn');
+                                if (genBtn) genBtn.disabled = true;
+
+                                if (descRetryTimer) { clearInterval(descRetryTimer); descRetryTimer = null; }
+                                const existing = document.getElementById('descRetryBtn');
+                                if (existing) existing.remove();
+
+                                let remaining = Math.max(0, Math.floor(seconds));
+                                const retryBtn = document.createElement('button');
+                                retryBtn.id = 'descRetryBtn';
+                                retryBtn.className = 'btn btn-pink mt-3';
+                                retryBtn.disabled = true;
+                                retryBtn.textContent = `Retry (${remaining}s)`;
+                                descErrorContainer.appendChild(retryBtn);
+
+                                descRetryTimer = setInterval(() => {
+                                    remaining -= 1;
+                                    if (remaining <= 0) {
+                                        clearInterval(descRetryTimer);
+                                        descRetryTimer = null;
+                                        retryBtn.disabled = false;
+                                        retryBtn.textContent = 'Retry now';
+                                        if (genBtn) genBtn.disabled = false;
+                                    } else {
+                                        retryBtn.textContent = `Retry (${remaining}s)`;
+                                    }
+                                }, 1000);
+
+                                retryBtn.addEventListener('click', function() {
+                                    retryBtn.remove();
+                                    descErrorContainer.style.display = 'none';
+                                    submitDescriptionInput.click();
+                                });
+                            }
+
                             // Submit description input and generate
                             submitDescriptionInput.addEventListener('click', async function() {
                                 const productName = document.getElementById('id_name').value.trim();
@@ -622,11 +686,13 @@
                                 descErrorContainer.style.display = 'none';
 
                                 try {
+                                    const genBtn = document.getElementById('generateDescriptionBtn');
+                                    if (genBtn) genBtn.disabled = true;
                                     const response = await fetch('{% url "generate_product_description" %}', {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
-                                            'X-CSRFToken': '{{ csrf_token }}'
+                                            'X-CSRFToken': getCookie('csrftoken')
                                         },
                                         body: JSON.stringify({
                                             name: productName,
@@ -634,9 +700,18 @@
                                         })
                                     });
 
-                                    const data = await response.json();
+                                    let data;
+                                    try {
+                                        data = await response.json();
+                                    } catch (jsonErr) {
+                                        if (!response.ok) {
+                                            if (response.status === 429) throw new Error('AI quota exceeded. Please try again later.');
+                                            throw new Error('AI service temporarily unavailable. Please try again later.');
+                                        }
+                                        throw new Error('Unexpected AI response. Please try again.');
+                                    }
 
-                                    if (data.success && data.descriptions) {
+                                    if (response.ok && data.success && data.descriptions) {
                                         descLoadingSpinner.style.display = 'none';
                                         descSuggestionsContainer.style.display = 'block';
                                         descSuggestionsList.innerHTML = '';
@@ -655,13 +730,24 @@
                                             });
                                             descSuggestionsList.appendChild(card);
                                         });
+                                    } else if (!response.ok) {
+                                        if (data && data.retry_seconds) {
+                                            descLoadingSpinner.style.display = 'none';
+                                            descErrorContainer.style.display = 'block';
+                                            descErrorMessage.textContent = sanitizeAIError(data.error);
+                                            startDescRetryCountdown(data.retry_seconds);
+                                            return;
+                                        }
+                                        throw new Error(sanitizeAIError(data.error));
                                     } else {
-                                        throw new Error(data.error || 'Failed to generate descriptions');
+                                        throw new Error(sanitizeAIError(data.error || 'Failed to generate descriptions'));
                                     }
                                 } catch (error) {
                                     descLoadingSpinner.style.display = 'none';
                                     descErrorContainer.style.display = 'block';
                                     descErrorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                    const genBtn = document.getElementById('generateDescriptionBtn');
+                                    if (genBtn && !descRetryTimer) genBtn.disabled = false;
                                 }
                             });
 

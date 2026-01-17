@@ -673,8 +673,42 @@ Requirements:
 Return 3 different descriptions separated by "---", without numbering or extra formatting.
 Each description MUST be under 500 characters."""
 
-        response = model.generate_content(prompt)
-        descriptions_text = response.text.strip()
+        import logging
+        from django.conf import settings
+
+        try:
+            response = model.generate_content(prompt)
+            descriptions_text = response.text.strip()
+        except Exception as e:
+            logging.exception('AI generate_content failed')
+            raw = str(e)
+            # In DEBUG, return the raw error to help debugging
+            if getattr(settings, 'DEBUG', False):
+                return JsonResponse({'error': raw}, status=500)
+
+            # Try to extract a retry delay (seconds) from common provider messages
+            import re
+            retry_seconds = None
+            m = re.search(r'retry[_ ]?delay[^0-9]*(\d+\.?\d*)', raw, re.I)
+            if not m:
+                m = re.search(r'please retry in\s*(\d+\.?\d*)', raw, re.I)
+            if m:
+                try:
+                    retry_seconds = int(float(m.group(1)))
+                except Exception:
+                    retry_seconds = None
+
+            lower_msg = raw.lower()
+            if 'quota' in lower_msg or '429' in lower_msg:
+                payload = {'error': 'AI quota exceeded. Please try again later.'}
+                if retry_seconds is not None:
+                    payload['retry_seconds'] = retry_seconds
+                return JsonResponse(payload, status=429)
+
+            payload = {'error': 'AI service temporarily unavailable. Please try again later.'}
+            if retry_seconds is not None:
+                payload['retry_seconds'] = retry_seconds
+            return JsonResponse(payload, status=503)
 
         # Split by --- or double newlines
         if '---' in descriptions_text:
@@ -703,7 +737,14 @@ Each description MUST be under 500 characters."""
         })
 
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        import logging
+        from django.conf import settings
+
+        logging.exception('Error in generate_product_description')
+        if getattr(settings, 'DEBUG', False):
+            return JsonResponse({'error': str(e)}, status=500)
+
+        return JsonResponse({'error': 'AI service temporarily unavailable. Please try again later.'}, status=503)
 
 # ================================
 # BATTLE VEST (WISHLIST) VIEWS

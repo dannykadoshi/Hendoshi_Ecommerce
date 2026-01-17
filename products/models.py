@@ -26,6 +26,28 @@ class Collection(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class ProductType(models.Model):
+    """
+    Optional DB-backed Product Type to allow runtime creation of product types.
+    This is additive and will not affect existing `Product.product_type` values.
+    """
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=120, unique=True, blank=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Product Type'
+        verbose_name_plural = 'Product Types'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
     
 class Product(models.Model):
     # Soft delete (archive)

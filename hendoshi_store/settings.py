@@ -113,6 +113,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',  # Add this
                 'cart.context_processors.cart_contents',  # Cart context
+                'products.context_processors.site_collections_and_types',
             ],
         },
     },
