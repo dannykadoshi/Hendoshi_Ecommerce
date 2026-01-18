@@ -14,7 +14,7 @@ class ProductSitemap(Sitemap):
         return obj.updated_at
 
     def location(self, obj):
-        return f"/products/{obj.slug}/"
+        return reverse('product_detail', args=[obj.slug])
 
 
 class CollectionSitemap(Sitemap):
@@ -25,8 +25,7 @@ class CollectionSitemap(Sitemap):
         return Collection.objects.all()
 
     def location(self, obj):
-        # Collections are represented via the products listing with a query param
-        return f"/products/?collection={obj.slug}"
+        return reverse('collection_detail', args=[obj.slug])
 
 
 class StaticViewSitemap(Sitemap):

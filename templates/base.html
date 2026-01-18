@@ -30,6 +30,9 @@
         <title>HENDOSHI |
             {% block extra_title %}{% endblock %}
         </title>
+        {% block canonical %}
+        <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
+        {% endblock %}
         <script>
         // Set theme before page renders for no flicker
         (function() {
