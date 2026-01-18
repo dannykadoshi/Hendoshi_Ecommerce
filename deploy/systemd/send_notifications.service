@@ -1,0 +1,13 @@
+[Unit]
+Description=Hendoshi: Send pending wishlist notifications
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/path/to/Hendoshi_Ecommerce
+ExecStart=/path/to/venv/bin/python manage.py send_notifications --batch-size=200
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

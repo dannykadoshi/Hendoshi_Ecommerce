@@ -1,0 +1,4 @@
+# Cron job to send pending wishlist notifications
+# Run hourly at minute 0
+# Add this line to your crontab (crontab -e)
+0 * * * * cd /path/to/Hendoshi_Ecommerce && /path/to/venv/bin/python manage.py send_notifications --batch-size=200 >> /var/log/hendoshi/send_notifications.log 2>&1

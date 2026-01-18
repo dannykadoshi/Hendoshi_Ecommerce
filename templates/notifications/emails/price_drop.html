@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Price drop notification from Hendoshi Store">
+    <title>Price Drop Alert - Hendoshi Store</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .discount-badge {
+            display: inline-block;
+            background: #FFD700;
+            color: #1a1a1a;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 16px;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .product-card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid #eee;
+        }
+        .product-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+        .product-info {
+            padding: 20px;
+        }
+        .product-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FF2DA1;
+            margin: 0 0 12px 0;
+        }
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 18px;
+        }
+        .sale-price {
+            color: #FF2DA1;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .savings {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 16px;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+        }
+        .battle-vest-note {
+            background: #fff3e0;
+            border-left: 4px solid #FF2DA1;
+            padding: 12px 16px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        .footer a {
+            color: #FF2DA1;
+            text-decoration: underline;
+        }
+        .unsubscribe-links {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #ddd;
+        }
+        .unsubscribe-links a {
+            color: #888;
+            margin: 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PRICE DROP ALERT!</h1>
+            <p>An item in your Battle Vest just went on sale</p>
+            <div class="discount-badge">{{ notification.price_drop_percentage }}% OFF</div>
+        </div>
+
+        <div class="content">
+            <div class="battle-vest-note">
+                <strong>Hey {{ user.first_name|default:user.username }}!</strong> Great news - a product you've been eyeing is now on sale!
+            </div>
+
+            <div class="product-card">
+                {% if product.main_image %}
+                <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                {% endif %}
+                <div class="product-info">
+                    <h2 class="product-name">{{ product.name }}</h2>
+
+                    <div class="price-container">
+                        <span class="original-price">${{ notification.original_price }}</span>
+                        <span class="sale-price">${{ notification.new_price }}</span>
+                        <span class="savings">Save ${{ notification.original_price|add:"-"|add:notification.new_price|default:"" }}</span>
+                    </div>
+
+                    <p class="product-description">{{ product.description|truncatewords:30 }}</p>
+
+                    <a href="{{ product_url }}" class="cta-button">GRAB IT NOW</a>
+                </div>
+            </div>
+
+            <p style="text-align: center; color: #666; margin-top: 24px;">
+                Don't wait too long - sale prices don't last forever!
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>You're receiving this because <strong>{{ product.name }}</strong> is in your Battle Vest.</p>
+            <p>Copyright 2026 Hendoshi Store. All rights reserved.</p>
+
+            <div class="unsubscribe-links">
+                <a href="{{ unsubscribe_url }}">Unsubscribe from all</a> |
+                <a href="{{ site_url }}/notifications/unsubscribe/{{ unsubscribe_token }}/sale/">Stop sale alerts</a> |
+                <a href="{{ preferences_url }}">Manage preferences</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

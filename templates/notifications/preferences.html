@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Notification Preferences{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 120px; margin-bottom: 60px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="profile-card">
+                <div class="text-center mb-4">
+                    <i class="fas fa-bell fa-3x" style="color: var(--pink);"></i>
+                    <h1 class="mt-3" style="color: var(--pink);">Notification Preferences</h1>
+                    <p class="text-muted">Control how you receive alerts for your Battle Vest items</p>
+                </div>
+
+                <form method="post" id="notificationForm">
+                    {% csrf_token %}
+
+                    <div class="notification-section mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="email_notifications_enabled"
+                                   name="email_notifications_enabled"
+                                   {% if preferences.email_notifications_enabled %}checked{% endif %}>
+                            <label class="form-check-label" for="email_notifications_enabled">
+                                <strong>Enable Email Notifications</strong>
+                                <small class="d-block text-muted">Master toggle for all notification emails</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr style="border-color: var(--border-color);">
+
+                    <div class="notification-options mt-4" id="notificationOptions">
+                        <p class="mb-3"><strong>Notify me when items in my Battle Vest:</strong></p>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="sale_notifications"
+                                   name="sale_notifications"
+                                   {% if preferences.sale_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="sale_notifications">
+                                <i class="fas fa-tag" style="color: var(--pink);"></i>
+                                Go on sale (price drops)
+                                <small class="d-block text-muted">Get alerted when items drop in price</small>
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="restock_notifications"
+                                   name="restock_notifications"
+                                   {% if preferences.restock_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="restock_notifications">
+                                <i class="fas fa-box" style="color: var(--pink);"></i>
+                                Are back in stock
+                                <small class="d-block text-muted">Get alerted when out-of-stock items return</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-pink w-100">
+                        <i class="fas fa-save"></i> Save Preferences
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .notification-section {
+        padding: 16px;
+        background: var(--card-bg);
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--pink);
+        border-color: var(--pink);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--pink);
+        box-shadow: 0 0 0 0.25rem rgba(255, 45, 161, 0.25);
+    }
+
+    .form-switch .form-check-input {
+        width: 3em;
+        height: 1.5em;
+    }
+
+    #notificationOptions {
+        transition: opacity 0.3s ease;
+    }
+
+    #notificationOptions.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const masterToggle = document.getElementById('email_notifications_enabled');
+    const optionsSection = document.getElementById('notificationOptions');
+
+    function updateOptionsState() {
+        if (masterToggle.checked) {
+            optionsSection.classList.remove('disabled');
+        } else {
+            optionsSection.classList.add('disabled');
+        }
+    }
+
+    masterToggle.addEventListener('change', updateOptionsState);
+    updateOptionsState();
+});
+</script>
+{% endblock %}

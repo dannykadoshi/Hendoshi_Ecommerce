@@ -12,6 +12,7 @@ urlpatterns = [
     path('profile/', include('profiles.urls')),  # Profile URLs
     path('cart/', include('cart.urls')),  # Cart URLs
     path('checkout/', include('checkout.urls')),  # Checkout URLs
+    path('notifications/', include('notifications.urls')),  # Notification URLs
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Custom error handlers

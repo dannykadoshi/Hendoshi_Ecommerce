@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Unsubscribed{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 120px; margin-bottom: 60px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="profile-card text-center">
+                {% if success %}
+                <i class="fas fa-check-circle fa-4x mb-3" style="color: #4CAF50;"></i>
+                <h1 style="color: #4CAF50;">You've Been Unsubscribed</h1>
+
+                <p class="mt-3">
+                    {% if unsubscribe_type == 'all' %}
+                        You will no longer receive any email notifications from us.
+                    {% elif unsubscribe_type == 'sale' %}
+                        You will no longer receive price drop alerts.
+                    {% elif unsubscribe_type == 'restock' %}
+                        You will no longer receive back-in-stock alerts.
+                    {% endif %}
+                </p>
+
+                <div class="alert alert-info mt-4" style="background: rgba(255, 45, 161, 0.1); border-color: var(--pink);">
+                    <i class="fas fa-info-circle me-2" style="color: var(--pink);"></i>
+                    <span>Changed your mind? You can update your preferences anytime in your
+                    <a href="{% url 'profile' %}" style="color: var(--pink);">profile settings</a>.</span>
+                </div>
+
+                {% else %}
+                <i class="fas fa-exclamation-circle fa-4x mb-3" style="color: #f44336;"></i>
+                <h1 style="color: #f44336;">Something Went Wrong</h1>
+                <p class="mt-3">We couldn't process your unsubscribe request. Please try again or contact support.</p>
+                {% endif %}
+
+                <div class="mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-pink btn-lg">
+                        <i class="fas fa-shopping-bag me-2"></i> Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

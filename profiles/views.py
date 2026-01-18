@@ -60,6 +60,10 @@ def profile(request):
     except EmptyPage:
         orders_page = paginator.page(paginator.num_pages)
     
+    # Get notification preferences
+    from notifications.models import NotificationPreference
+    notification_prefs, _ = NotificationPreference.objects.get_or_create(user=request.user)
+
     template = 'profiles/profile.html'
     context = {
         'addresses': addresses,
@@ -67,8 +71,9 @@ def profile(request):
         'start_date': start_date,
         'end_date': end_date,
         'on_profile_page': True,
+        'notification_prefs': notification_prefs,
     }
-    
+
     return render(request, template, context)
 
 

@@ -58,6 +58,8 @@ class ProductAdmin(admin.ModelAdmin):
         'collection',
         'product_type',
         'base_price',
+        'sale_price',
+        'is_on_sale',
         'is_active',
         'featured',
         'created_at'
@@ -65,8 +67,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['collection', 'product_type', 'is_active', 'featured']
     search_fields = ['name', 'description', 'slug']
     prepopulated_fields = {'slug': ('name',)}
-    list_editable = ['is_active', 'featured']
-    
+    list_editable = ['is_active', 'featured', 'sale_price']
+
     fieldsets = (
         ('Basic Information', {
             'fields': ('name', 'slug', 'description')
@@ -76,6 +78,10 @@ class ProductAdmin(admin.ModelAdmin):
         }),
         ('Pricing & Images', {
             'fields': ('base_price', 'main_image')
+        }),
+        ('Sale Settings', {
+            'fields': ('sale_price', 'sale_start', 'sale_end'),
+            'description': 'Set a sale price and optional date range. Leave dates blank for an indefinite sale.'
         }),
         ('SEO & Status', {
             'fields': ('meta_description', 'is_active', 'featured')

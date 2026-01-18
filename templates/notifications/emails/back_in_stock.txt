@@ -1,0 +1,28 @@
+BACK IN STOCK!
+==============
+
+Hey {{ user.first_name|default:user.username }}!
+
+The wait is over - that item you've had your eye on is back!
+
+{{ product.name }}
+------------------
+{% if notification.variant %}Size: {{ notification.variant.get_size_display }} | Color: {{ notification.variant.get_color_display }}
+{% endif %}
+Price: ${{ product.current_price }}
+
+{{ product.description|truncatewords:30 }}
+
+Act fast - these items tend to sell out quickly!
+
+Shop now: {{ product_url }}
+
+---
+
+You're receiving this because {{ product.name }} is in your Battle Vest.
+
+Unsubscribe from all: {{ unsubscribe_url }}
+Stop restock alerts: {{ site_url }}/notifications/unsubscribe/{{ unsubscribe_token }}/restock/
+Manage preferences: {{ preferences_url }}
+
+Copyright 2026 Hendoshi Store. All rights reserved.

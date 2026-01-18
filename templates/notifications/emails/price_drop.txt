@@ -1,0 +1,30 @@
+PRICE DROP ALERT!
+==================
+
+Hey {{ user.first_name|default:user.username }}!
+
+Great news - a product in your Battle Vest just went on sale!
+
+{{ product.name }}
+------------------
+Was: ${{ notification.original_price }}
+Now: ${{ notification.new_price }}
+You Save: {{ notification.price_drop_percentage }}%
+
+{{ product.description|truncatewords:30 }}
+
+Shop now: {{ product_url }}
+
+---
+
+Don't wait too long - sale prices don't last forever!
+
+---
+
+You're receiving this because {{ product.name }} is in your Battle Vest.
+
+Unsubscribe from all: {{ unsubscribe_url }}
+Stop sale alerts: {{ site_url }}/notifications/unsubscribe/{{ unsubscribe_token }}/sale/
+Manage preferences: {{ preferences_url }}
+
+Copyright 2026 Hendoshi Store. All rights reserved.

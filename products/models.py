@@ -83,6 +83,23 @@ class Product(models.Model):
     
     # Pricing
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
+    sale_price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Optional sale price. Leave blank if not on sale."
+    )
+    sale_start = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the sale starts (optional)"
+    )
+    sale_end = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the sale ends (optional)"
+    )
     
     # Images
     main_image = models.ImageField(upload_to='products/', null=True, blank=True)
@@ -124,6 +141,46 @@ class Product(models.Model):
         Returns list of colors that have stock available
         """
         return self.variants.filter(stock__gt=0).values_list('color', flat=True).distinct()
+
+    @property
+    def is_on_sale(self):
+        """Check if product is currently on sale"""
+        from django.utils import timezone
+        if not self.sale_price:
+            return False
+
+        now = timezone.now()
+
+        # If no date constraints, it's on sale
+        if not self.sale_start and not self.sale_end:
+            return True
+
+        # Check date constraints
+        if self.sale_start and now < self.sale_start:
+            return False
+        if self.sale_end and now > self.sale_end:
+            return False
+
+        return True
+
+    @property
+    def current_price(self):
+        """Returns the current effective price"""
+        if self.is_on_sale:
+            return self.sale_price
+        return self.base_price
+
+    @property
+    def discount_percentage(self):
+        """Calculate discount percentage if on sale"""
+        if self.is_on_sale and self.base_price > 0:
+            discount = ((self.base_price - self.sale_price) / self.base_price) * 100
+            return int(round(discount, 0))
+        return 0
+
+    def has_any_stock(self):
+        """Check if any variant has stock"""
+        return self.variants.filter(stock__gt=0).exists()
     
     
 class ProductVariant(models.Model):
