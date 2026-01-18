@@ -33,6 +33,9 @@ urlpatterns = [
     path('<slug:slug>/remove-from-vest/', views.remove_from_battle_vest, name='remove_from_battle_vest'),
     path('<slug:slug>/check-in-vest/', views.check_in_battle_vest, name='check_in_battle_vest'),
 
+    # Canonical collection pages
+    path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),
+
     # Product browsing
     path('', views.all_products, name='products'),
     path('search/', views.search, name='search'),

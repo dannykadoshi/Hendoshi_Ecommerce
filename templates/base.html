@@ -137,7 +137,7 @@
                             <li><hr class="dropdown-divider"></li>
                             {% if site_collections %}
                                 {% for c in site_collections %}
-                                    <li><a class="dropdown-item" href="{% url 'products' %}?collection={{ c.slug }}">{{ c.name }}</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'collection_detail' c.slug %}">{{ c.name }}</a></li>
                                 {% endfor %}
                             {% else %}
                                 <li><a class="dropdown-item" href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a></li>
@@ -445,10 +445,10 @@
                             <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item">{{ c.name }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'products' %}?collection=skulls-death" class="submenu-item">Skulls & Death</a>
-                        <a href="{% url 'products' %}?collection=weird-animals" class="submenu-item">Weird Animals</a>
-                        <a href="{% url 'products' %}?collection=gym-therapy" class="submenu-item">Gym Therapy</a>
-                        <a href="{% url 'products' %}?collection=dark-humor" class="submenu-item">Dark Humor</a>
+                        <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item">Skulls & Death</a>
+                        <a href="{% url 'collection_detail' 'weird-animals' %}" class="submenu-item">Weird Animals</a>
+                        <a href="{% url 'collection_detail' 'gym-therapy' %}" class="submenu-item">Gym Therapy</a>
+                        <a href="{% url 'collection_detail' 'dark-humor' %}" class="submenu-item">Dark Humor</a>
                     {% endif %}
                 </div>
             </div>

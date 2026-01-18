@@ -14,7 +14,7 @@
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'products' %}">Shop</a></li>
                 {% if product.collection %}
-                <li class="breadcrumb-item"><a href="{% url 'products' %}?collection={{ product.collection.slug }}">{{ product.collection.name }}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'collection_detail' product.collection.slug %}">{{ product.collection.name }}</a></li>
                 {% endif %}
                 <li class="breadcrumb-item active">{{ product.name }}</li>
             </ol>

@@ -41,7 +41,7 @@
                                 <ul class="list-unstyled">
                                     <li><a href="{% url 'products' %}" class="{% if not current_collection %}active{% endif %}">All Products</a></li>
                                     {% for collection in collections %}
-                                        <li><a href="{% url 'products' %}?collection={{ collection.slug }}" class="{% if current_collection == collection.slug %}active{% endif %}">{{ collection.name }}</a></li>
+                                        <li><a href="{% url 'collection_detail' collection.slug %}" class="{% if current_collection == collection.slug %}active{% endif %}">{{ collection.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
