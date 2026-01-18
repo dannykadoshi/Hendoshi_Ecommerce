@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+# Point to sitemap
+Sitemap: https://hendoshi-ecommerce.onrender.com/sitemap.xml
