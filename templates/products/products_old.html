@@ -16,7 +16,7 @@
                             </li>
                             {% for collection in collections %}
                                 <li>
-                                    <a href="{% url 'products' %}?collection={{ collection.slug }}"
+                                    <a href="{% url 'collection_detail' collection.slug %}"
                                        class="{% if current_collection == collection.slug %}active{% endif %}">
                                         {{ collection.name }}
                                     </a>

@@ -1,4 +1,5 @@
 from .models import Collection, ProductType, Product
+from django.conf import settings
 
 
 def site_collections_and_types(request):
@@ -24,4 +25,5 @@ def site_collections_and_types(request):
     return {
         'site_collections': collections,
         'site_product_types': combined_types,
+        'SITE_URL': getattr(settings, 'SITE_URL', 'http://localhost:8000'),
     }

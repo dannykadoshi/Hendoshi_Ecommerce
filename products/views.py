@@ -214,6 +214,49 @@ def product_detail(request, slug):
     return render(request, 'products/product_detail.html', context)
 
 
+def collection_detail(request, slug):
+    """
+    Canonical collection page that lists products for a given collection slug.
+    Reuses the `products/products.html` template for consistency.
+    """
+    collection = get_object_or_404(Collection, slug=slug)
+    products = Product.objects.filter(collection=collection, is_active=True, is_archived=False)
+    collections = Collection.objects.all()
+
+    # Support sorting and filtering similar to all_products
+    query = request.GET.get('q')
+    selected_type = request.GET.get('type')
+    sort = request.GET.get('sort')
+    direction = request.GET.get('direction')
+
+    if query:
+        products = products.filter(Q(name__icontains=query) | Q(description__icontains=query))
+
+    if selected_type:
+        products = products.filter(product_type=selected_type)
+
+    if sort:
+        sortkey = sort
+        if sortkey == 'name':
+            sortkey = 'name'
+        if sortkey == 'price':
+            sortkey = 'base_price'
+        if direction == 'desc':
+            sortkey = f'-{sortkey}'
+        products = products.order_by(sortkey)
+
+    context = {
+        'products': products,
+        'collections': collections,
+        'search_term': query,
+        'current_collection': collection.slug,
+        'current_type': selected_type,
+        'current_sorting': f'{sort}_{direction}',
+    }
+
+    return render(request, 'products/products.html', context)
+
+
 def is_staff_or_admin(user):
     """
     Check if user is staff or admin
