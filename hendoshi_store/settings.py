@@ -35,6 +35,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',  # Unfold admin UI (place before django.contrib.admin)
+    'unfold.contrib.forms',  # optional: improved form widgets (Select2, etc.)
+    'unfold.contrib.inlines',  # optional: improved inline UI
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

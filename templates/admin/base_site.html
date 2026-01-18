@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load static i18n %}
+
+{% block title %}{{ site_header|default:_('Site administration') }}{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Site administration') }}</a></h1>
+{% endblock %}
