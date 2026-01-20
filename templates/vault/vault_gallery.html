@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}The Vault - Where Weirdos Become Legends{% endblock %}
+
+{% block content %}
+<div class="container my-5 vault-container">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4 fw-bold text-uppercase vault-gallery-title">
+                The Vault
+            </h1>
+            <p class="lead vault-lead">
+                Where weirdos become legends. See how others rock their HENDOSHI gear.
+            </p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-center">
+                <form method="get" class="d-flex gap-2 align-items-center">
+                    <label for="product_filter" class="vault-filter-label">Filter by Product:</label>
+                    <div class="position-relative">
+                        <input type="text" id="product_filter" class="form-control vault-filter-select" placeholder="Type to search products..." autocomplete="off">
+                        <input type="hidden" name="product" id="product_value">
+                        <div id="product-dropdown" class="vault-dropdown">
+                            <div class="vault-dropdown-item" data-value="">All Photos</div>
+                            {% for product in all_products %}
+                            <div class="vault-dropdown-item" data-value="{{ product.slug }}">{{ product.name }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-pink btn-sm">Filter</button>
+                    {% if product_filter %}
+                    <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-danger">Clear</a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Grid -->
+    <div class="row g-4" id="photo-grid">
+        {% for photo in photos %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="vault-card">
+                <div class="vault-image-container">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-image">
+                    <div class="vault-overlay">
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <a href="{% url 'vault:photo_detail' photo.id %}" class="vault-overlay-link">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            {% if user.is_authenticated %}
+                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-outline-pink{% endif %} btn-sm vault-like-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="vault-info">
+                    <p class="vault-caption mb-2">{{ photo.caption|truncatechars:50 }}</p>
+                    <p class="vault-user mb-1">
+                        by {{ photo.user.username }}
+                    </p>
+                    <p class="vault-likes mb-0" id="likes-{{ photo.id }}">
+                        <i class="fas fa-heart"></i> {{ photo.likes.count }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="vault-empty">No photos yet. Be the first to submit!</p>
+            {% if user.is_authenticated %}
+            <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink">Submit Your Photo</a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="btn btn-pink">Login to Submit</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <nav aria-label="Vault pagination">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if product_filter %}&product={{ product_filter }}{% endif %}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <a class="page-link" href="#">{{ num }}</a>
+                        </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if product_filter %}&product={{ product_filter }}{% endif %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if product_filter %}&product={{ product_filter }}{% endif %}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Submit Button -->
+    {% if user.is_authenticated %}
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink btn-lg">
+                <i class="fas fa-plus-circle"></i> Submit Your Photo
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/vault.js' %}"></script>
+{% endblock %}

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'profiles',
     'community',
     'notifications',
+    'vault',
     
     # Allauth apps
     'allauth',

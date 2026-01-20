@@ -169,7 +169,7 @@
                             {% endif %}
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#">Weird Wall</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'vault:vault_gallery' %}">The Vault</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                 </ul>
                 
@@ -222,7 +222,7 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
-                                        </ul>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>                                        </ul>
                                     </li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
@@ -267,7 +267,7 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
-                                        </ul>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>                                        </ul>
                                     </li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
@@ -406,6 +406,9 @@
                     </a>
                     <a href="{% url 'admin_orders_list' %}" class="submenu-item">
                         <i class="fas fa-clipboard-list"></i> <span>Admin Orders</span>
+                    </a>
+                    <a href="{% url 'vault:moderate_photos' %}" class="submenu-item">
+                        <i class="fas fa-gavel"></i> <span>Moderate Vault</span>
                     </a>
                 </div>
             </div>

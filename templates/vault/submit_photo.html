@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Submit to The Vault{% endblock %}
+
+{% block content %}
+<div class="container my-5 vault-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card vault-card">
+                <div class="card-header text-center position-relative vault-card-header">
+                    <a href="{% url 'vault:vault_gallery' %}" class="close-btn" title="Back to Vault">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    <h2 class="mb-0 vault-submit-title">
+                        Submit to The Vault
+                    </h2>
+                    <p class="mb-0 mt-2 vault-submit-subtitle">
+                        Share your HENDOSHI style with the community
+                    </p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data" id="submit-form">
+                        {% csrf_token %}
+
+                        <!-- Image Upload -->
+                        <div class="mb-4">
+                            <label for="id_image" class="form-label vault-form-label">
+                                Your Photo *
+                            </label>
+                            <input type="file" name="image" id="id_image" class="form-control vault-form-input" accept="image/*" required>
+                            <div class="form-text vault-form-text">
+                                JPG or PNG only. Max 5MB. Show off your HENDOSHI gear!
+                            </div>
+                        </div>
+
+                        <!-- Caption -->
+                        <div class="mb-4">
+                            <label for="id_caption" class="form-label vault-form-label">
+                                Caption (Optional)
+                            </label>
+                            <textarea name="caption" id="id_caption" class="form-control vault-form-textarea" rows="3" maxlength="800"
+                                      placeholder="Tell us about your look..."></textarea>
+                            <div class="form-text vault-form-text">
+                                <span id="char-count">0</span>/800 characters
+                            </div>
+                        </div>
+
+                        <!-- Product Tagging -->
+                        <div class="mb-4">
+                            <label for="product_tags" class="form-label vault-form-label">
+                                Tag Products (Optional)
+                            </label>
+                            <div class="position-relative">
+                                <div class="vault-multi-select" id="product_tags">
+                                    <div class="vault-selected-tags" id="selected_tags"></div>
+                                    <input type="text" class="vault-tag-input" id="tag_input" placeholder="Type to search products..." autocomplete="off">
+                                </div>
+                                <input type="hidden" name="products" id="product_ids">
+                                <div id="product_dropdown" class="vault-multi-dropdown">
+                                    {% for collection_name, products in collections.items %}
+                                    <div class="vault-collection-group">
+                                        <div class="vault-collection-header">{{ collection_name }}</div>
+                                        {% for product in products %}
+                                        <div class="vault-dropdown-item" data-value="{{ product.id }}" data-name="{{ product.name }}">
+                                            {{ product.name }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-text vault-form-text">
+                                Search and select multiple products you're wearing in your photo
+                            </div>
+                        </div>
+
+                        <!-- Consent -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input vault-checkbox" type="checkbox" id="consent" required>
+                                <label class="form-check-label vault-check-label" for="consent">
+                                    I agree to have my photo displayed publicly in The Vault gallery
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-pink btn-lg" id="submit-btn">
+                                <i class="fas fa-upload"></i> Submit for Approval
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/vault.js' %}"></script>
+{% endblock %}

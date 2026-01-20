@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Moderate Vault Photos{% endblock %}
+
+{% block content %}
+<div class="container my-5 vault-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="vault-moderate-title">
+                    <i class="fas fa-gavel"></i> Moderation Queue
+                </h1>
+                <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
+                    <i class="fas fa-eye"></i> View Public Gallery
+                </a>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-card mb-4">
+                <form method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label vault-form-label vault-moderate-label">Status</label>
+                        <select name="status" class="form-select vault-filter-select">
+                            <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
+                            <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                            <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label vault-form-label vault-moderate-label">Username</label>
+                        <input type="text" name="username" class="form-control vault-form-input" placeholder="Filter by username" value="{{ username_filter }}">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-pink me-2">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <a href="{% url 'vault:moderate_photos' %}" class="btn btn-outline-danger">
+                            <i class="fas fa-times"></i> Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bulk Actions -->
+            {% if photos %}
+            <div class="bulk-actions-card mb-4">
+                <form id="bulk-form" method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <button type="submit" name="bulk_action" value="approve" class="btn btn-success me-2">
+                                <i class="fas fa-check"></i> Bulk Approve
+                            </button>
+                            <button type="submit" name="bulk_action" value="reject" class="btn btn-danger">
+                                <i class="fas fa-times"></i> Bulk Reject
+                            </button>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input vault-checkbox" type="checkbox" id="select-all">
+                            <label class="form-check-label vault-check-label" for="select-all">
+                                Select All
+                            </label>
+                        </div>
+                    </div>
+                    <input type="hidden" name="selected_photos" id="selected-photos" value="">
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- Photos Grid -->
+            <div class="row g-4">
+                {% for photo in photos %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="moderation-card">
+                        <div class="moderation-image-container">
+                        <input type="checkbox" class="photo-checkbox vault-checkbox" value="{{ photo.id }}">
+                            <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'Submission' }}" class="moderation-image">
+                            <div class="moderation-status status-{{ photo.status }}">
+                                {{ photo.get_status_display }}
+                            </div>
+                        </div>
+                        <div class="moderation-info">
+                            <h5 class="moderation-caption">{{ photo.caption|truncatechars:50|default:"No caption" }}</h5>
+                            <p class="moderation-user">
+                                <i class="fas fa-user"></i> {{ photo.user.username }}
+                            </p>
+                            <p class="moderation-date">
+                                <i class="fas fa-calendar"></i> {{ photo.created_at|date:"M j, Y H:i" }}
+                            </p>
+                            {% if photo.tagged_products.all %}
+                            <div class="moderation-tags">
+                                <small class="vault-small">Tagged: {{ photo.tagged_products.all|join:", " }}</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="moderation-actions">
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="approve">
+                                <button type="submit" class="btn btn-success btn-sm me-2" onclick="return confirm('Approve this photo?')">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                            </form>
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="reject">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Reject this photo?')">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox fa-3x vault-empty-icon"></i>
+                        <h3 class="vault-empty-title">No photos to moderate</h3>
+                        <p class="vault-empty-text">All caught up! Check back later for new submissions.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const photoCheckboxes = document.querySelectorAll('.photo-checkbox');
+    const selectedPhotosInput = document.getElementById('selected-photos');
+
+    function updateSelectedPhotos() {
+        const selected = Array.from(photoCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        selectedPhotosInput.value = selected.join(',');
+    }
+
+    selectAllCheckbox.addEventListener('change', function() {
+        photoCheckboxes.forEach(cb => {
+            cb.checked = this.checked;
+        });
+        updateSelectedPhotos();
+    });
+
+    photoCheckboxes.forEach(cb => {
+        cb.addEventListener('change', updateSelectedPhotos);
+    });
+
+    // Update on page load
+    updateSelectedPhotos();
+});
+</script>
+{% endblock %}

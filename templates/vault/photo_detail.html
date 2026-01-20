@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}{{ photo.caption|default:"Vault Photo" }} - The Vault{% endblock %}
+
+{% block content %}
+<div class="container my-5 vault-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Photo Display -->
+            <div class="vault-detail-card mb-4">
+                <div class="vault-detail-image-container">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image">
+                </div>
+                <div class="vault-detail-info">
+                    {% if photo.caption %}
+                    <h3 class="vault-detail-caption">{{ photo.caption }}</h3>
+                    {% endif %}
+                    <p class="vault-detail-user">
+                        <i class="fas fa-user"></i> Submitted by {{ photo.user.username }}
+                    </p>
+                    <p class="vault-detail-date">
+                        <i class="fas fa-calendar"></i> {{ photo.created_at|date:"M j, Y" }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tagged Products -->
+            {% if photo.tagged_products.all %}
+            <div class="vault-products-section">
+                <h4 class="section-title vault-section-title">
+                    <i class="fas fa-shopping-bag"></i> Shop This Look
+                </h4>
+                <div class="row g-3">
+                    {% for product in photo.tagged_products.all %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                <div class="placeholder-image d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-image vault-placeholder-icon"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ product.name }}</h3>
+                                <p class="product-type">{{ product.get_product_type_display }}</p>
+                                <p class="product-price">
+                                    {% if product.sale_price %}
+                                    <span class="vault-strike-price">${{ product.base_price }}</span>
+                                    ${{ product.sale_price }}
+                                    {% else %}
+                                    ${{ product.base_price }}
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-pink w-100">
+                                    View Product
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Navigation -->
+            <div class="vault-navigation mt-4">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                    <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
+                        <i class="fas fa-arrow-left"></i> Back to Gallery
+                    </a>
+                    <div class="d-flex gap-2 mt-3 mt-sm-0">
+                        <button class="btn btn-outline-pink" onclick="sharePhoto()">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                        {% if user.is_authenticated %}
+                        <button id="like-button-{{ photo.id }}" class="{% if liked %}btn-pink{% else %}btn-outline-pink{% endif %}" onclick="likePhoto({{ photo.id }})">
+                            <i class="fas fa-heart"></i> Like ({{ photo.likes.count }})
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Share This Photo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Share Link</label>
+                    <input type="text" class="form-control" id="shareUrl" readonly value="{{ request.build_absolute_uri }}">
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&text={{ photo.caption|default:'Check out this HENDOSHI look!'|urlencode }}" target="_blank" class="btn btn-outline-primary">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-outline-primary">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/vault.js' %}"></script>
+{% endblock %}
