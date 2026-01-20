@@ -58,14 +58,9 @@
                                 </div>
                                 <input type="hidden" name="products" id="product_ids">
                                 <div id="product_dropdown" class="vault-multi-dropdown">
-                                    {% for collection_name, products in collections.items %}
-                                    <div class="vault-collection-group">
-                                        <div class="vault-collection-header">{{ collection_name }}</div>
-                                        {% for product in products %}
-                                        <div class="vault-dropdown-item" data-value="{{ product.id }}" data-name="{{ product.name }}">
-                                            {{ product.name }}
-                                        </div>
-                                        {% endfor %}
+                                    {% for product in all_products %}
+                                    <div class="vault-dropdown-item" data-value="{{ product.id }}" data-name="{{ product.name }}">
+                                        {{ product.name }}
                                     </div>
                                     {% endfor %}
                                 </div>

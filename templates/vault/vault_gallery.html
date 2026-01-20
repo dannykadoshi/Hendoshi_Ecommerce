@@ -16,6 +16,29 @@
         </div>
     </div>
 
+    <!-- Submit Section -->
+    {% if user.is_authenticated %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="vault-submit-container">
+                <div class="vault-submit-content">
+                    <div class="vault-submit-icon">
+                        <i class="fas fa-camera-retro"></i>
+                    </div>
+                    <h3 class="vault-submit-title">Show Off Your HENDOSHI Style!</h3>
+                    <p class="vault-submit-text">
+                        Join the weird and wonderful community. Share your photos and become part of the legend.
+                        Every HENDOSHI wearer has a story - what's yours?
+                    </p>
+                    <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink btn-lg vault-submit-btn">
+                        <i class="fas fa-plus-circle"></i> Submit Your Photo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Filters -->
     <div class="row mb-4">
         <div class="col-12">
@@ -123,16 +146,6 @@
     </div>
     {% endif %}
 
-    <!-- Submit Button -->
-    {% if user.is_authenticated %}
-    <div class="row mt-5">
-        <div class="col-12 text-center">
-            <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink btn-lg">
-                <i class="fas fa-plus-circle"></i> Submit Your Photo
-            </a>
-        </div>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}
 

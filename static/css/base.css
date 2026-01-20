@@ -9477,3 +9477,533 @@ datalist option {
     text-transform: none;
     letter-spacing: 0;
 }
+
+/* ========================================
+   CUSTOM TOAST MESSAGE STYLING
+   ======================================== */
+
+/* Toast Container */
+.toast-container-custom {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+/* Individual Toast Messages */
+.toast-container-custom .toast {
+    pointer-events: auto;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    animation: slideInRight 0.3s ease-out;
+    opacity: 0;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Toast Header */
+.toast-container-custom .toast-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.toast-container-custom .toast-header strong {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Toast Body */
+.toast-container-custom .toast-body {
+    padding: 16px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--off-white);
+}
+
+/* Success Toast */
+.toast-container-custom .toast-success {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.9), rgba(34, 197, 94, 0.9));
+    border-left: 4px solid #28a745;
+}
+
+.toast-container-custom .toast-success .toast-header {
+    background: rgba(40, 167, 69, 0.2);
+    color: #d4edda;
+}
+
+.toast-container-custom .toast-success .toast-header strong {
+    color: #d4edda;
+}
+
+.toast-container-custom .toast-success .toast-body {
+    color: #d4edda;
+}
+
+/* Error/Danger Toast */
+.toast-container-custom .toast-error,
+.toast-container-custom .toast-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.9), rgba(255, 82, 82, 0.9));
+    border-left: 4px solid #dc3545;
+}
+
+.toast-container-custom .toast-error .toast-header,
+.toast-container-custom .toast-danger .toast-header {
+    background: rgba(220, 53, 69, 0.2);
+    color: #f8d7da;
+}
+
+.toast-container-custom .toast-error .toast-header strong,
+.toast-container-custom .toast-danger .toast-header strong {
+    color: #f8d7da;
+}
+
+.toast-container-custom .toast-error .toast-body,
+.toast-container-custom .toast-danger .toast-body {
+    color: #f8d7da;
+}
+
+/* Warning Toast */
+.toast-container-custom .toast-warning {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.9), rgba(255, 214, 0, 0.9));
+    border-left: 4px solid #ffc107;
+}
+
+.toast-container-custom .toast-warning .toast-header {
+    background: rgba(255, 193, 7, 0.2);
+    color: #212529;
+}
+
+.toast-container-custom .toast-warning .toast-header strong {
+    color: #212529;
+}
+
+.toast-container-custom .toast-warning .toast-body {
+    color: #212529;
+}
+
+/* Info Toast */
+.toast-container-custom .toast-info {
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.9), rgba(0, 181, 204, 0.9));
+    border-left: 4px solid #17a2b8;
+}
+
+.toast-container-custom .toast-info .toast-header {
+    background: rgba(23, 162, 184, 0.2);
+    color: #d1ecf1;
+}
+
+.toast-container-custom .toast-info .toast-header strong {
+    color: #d1ecf1;
+}
+
+.toast-container-custom .toast-info .toast-body {
+    color: #d1ecf1;
+}
+
+/* Close Button */
+.toast-container-custom .btn-close {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.toast-container-custom .btn-close:hover {
+    opacity: 1;
+}
+
+/* Icons */
+.toast-container-custom .toast-header i {
+    font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .toast-container-custom {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+
+    .toast-container-custom .toast {
+        margin-bottom: 8px;
+    }
+}
+
+/* Animation for toast removal */
+.toast-container-custom .toast.fade {
+    animation: slideOutRight 0.3s ease-in forwards;
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   VAULT CONFIRMATION MODAL STYLING
+   ======================================== */
+
+.vault-confirm-modal .modal-content {
+    background: var(--charcoal);
+    border: 2px solid rgba(255, 20, 147, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+}
+
+.vault-confirm-modal .modal-header {
+    background: rgba(255, 20, 147, 0.1);
+    border-bottom: 2px solid rgba(255, 20, 147, 0.2);
+    padding: 1.5rem 2rem;
+    border-radius: 14px 14px 0 0;
+}
+
+.vault-modal-title {
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.vault-modal-icon {
+    color: var(--pink);
+    font-size: 1.5rem;
+}
+
+.vault-confirm-modal .modal-body {
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.vault-modal-message-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.vault-modal-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 20, 147, 0.15);
+    border: 3px solid var(--pink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: vault-modal-pulse 2s infinite ease-in-out;
+}
+
+@keyframes vault-modal-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(255, 20, 147, 0);
+        transform: scale(1.05);
+    }
+}
+
+.vault-modal-main-icon {
+    font-size: 2.5rem;
+    color: var(--pink);
+}
+
+.vault-modal-message {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 400px;
+}
+
+.vault-confirm-modal .modal-footer {
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 2px solid rgba(255, 20, 147, 0.2);
+    padding: 1.5rem 2rem;
+    border-radius: 0 0 14px 14px;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.vault-modal-btn-cancel {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--off-white);
+    padding: 0.75rem 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.vault-modal-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.vault-modal-btn-confirm {
+    padding: 0.75rem 2rem;
+    border-radius: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.vault-modal-btn-confirm.btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.vault-modal-btn-confirm.btn-success:hover {
+    background: linear-gradient(135deg, #218838, #1aa085);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+}
+
+.vault-modal-btn-confirm.btn-danger {
+    background: linear-gradient(135deg, #dc3545, #fd7e14);
+    color: white;
+}
+
+.vault-modal-btn-confirm.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333, #e8680d);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+}
+
+.vault-modal-btn-confirm.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+}
+
+.vault-modal-btn-confirm.btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800, #e8680d);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+}
+
+/* Modal backdrop */
+.vault-confirm-modal .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .vault-confirm-modal .modal-dialog {
+        margin: 1rem;
+    }
+
+    .vault-confirm-modal .modal-header,
+    .vault-confirm-modal .modal-body,
+    .vault-confirm-modal .modal-footer {
+        padding: 1.25rem;
+    }
+
+    .vault-modal-title {
+        font-size: 1.1rem;
+    }
+
+    .vault-modal-message {
+        font-size: 1rem;
+    }
+
+    .vault-modal-btn-cancel,
+    .vault-modal-btn-confirm {
+        padding: 0.625rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* ========================================
+   VAULT REJECTION REASON STYLING
+   ======================================== */
+
+.vault-rejection-reason {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
+}
+
+.vault-rejection-label {
+    display: block;
+    color: var(--off-white);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vault-rejection-label i {
+    color: var(--pink);
+}
+
+.vault-rejection-textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 20, 147, 0.3);
+    border-radius: 8px;
+    color: var(--off-white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+.vault-rejection-textarea:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
+    outline: none;
+}
+
+.vault-rejection-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.vault-rejection-char-count {
+    text-align: right;
+    margin-top: 0.5rem;
+}
+
+.vault-rejection-char-count small {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Animation for rejection reason container */
+.vault-rejection-reason {
+    animation: slideDownFadeIn 0.3s ease-out;
+}
+
+@keyframes slideDownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Vault Submit Container */
+.vault-submit-container {
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.08), rgba(255, 105, 180, 0.05));
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    margin: 0 auto;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vault-submit-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 20, 147, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 105, 180, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.vault-submit-content {
+    position: relative;
+    z-index: 1;
+}
+
+.vault-submit-icon {
+    font-size: 3rem;
+    color: #ff1493;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.vault-submit-title {
+    color: #ff1493;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vault-submit-text {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vault-submit-btn {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+}
+
+.vault-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+}

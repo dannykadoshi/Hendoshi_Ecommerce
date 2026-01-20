@@ -12,6 +12,7 @@ class VaultPhoto(models.Model):
         ('pending', 'Pending Approval'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
+        ('archived', 'Archived'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vault_photos')

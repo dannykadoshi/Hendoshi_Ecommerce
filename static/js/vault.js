@@ -178,7 +178,74 @@ function initializePhotoDetailShare() {
         shareUrlInput.select();
         shareUrlInput.setSelectionRange(0, 99999);
     };
-}
+    // Copy share link functionality
+    window.copyShareLink = function() {
+        const shareUrlInput = document.getElementById('shareUrl');
+        const url = shareUrlInput.value;
+
+        // Try modern clipboard API first
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(function() {
+                showCopyFeedback('Link copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                fallbackCopyTextToClipboard(url);
+            });
+        } else {
+            // Fallback for older browsers
+            fallbackCopyTextToClipboard(url);
+        }
+    };;
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showCopyFeedback('Link copied to clipboard!');
+            } else {
+                showCopyFeedback('Failed to copy link', true);
+            }
+        } catch (err) {
+            showCopyFeedback('Failed to copy link', true);
+        }
+
+        document.body.removeChild(textArea);
+    }
+
+    function showCopyFeedback(message, isError = false) {
+        // Remove any existing feedback
+        const existingFeedback = document.querySelector('.copy-feedback');
+        if (existingFeedback) {
+            existingFeedback.remove();
+        }
+
+        // Create feedback element
+        const feedback = document.createElement('div');
+        feedback.className = `copy-feedback alert alert-${isError ? 'danger' : 'success'} alert-dismissible fade show`;
+        feedback.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 250px;';
+        feedback.innerHTML = `
+            <i class="fas fa-${isError ? 'exclamation-triangle' : 'check-circle'}"></i> ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(feedback);
+
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            if (feedback.parentNode) {
+                feedback.remove();
+            }
+        }, 3000);
+    }}
 
 // Submit Photo Multi-Select
 function initializeSubmitMultiSelect() {
@@ -254,7 +321,7 @@ function initializeSubmitMultiSelect() {
     }
 
     function updateHiddenInput() {
-        hiddenInput.value = selectedProducts.join(',');
+        hiddenInput.value = selectedProducts.filter(id => id && id.trim()).join(',');
     }
 
     function selectItem(item) {
@@ -400,6 +467,85 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Photo Detail Keyboard Navigation
+function initializePhotoDetailKeyboardNav() {
+    document.addEventListener('keydown', function(e) {
+        // Only handle keyboard navigation if we're not in an input field
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        // Find previous and next buttons in the photo navigation section
+        const photoNav = document.querySelector('.vault-photo-navigation');
+        let prevButton = null;
+        let nextButton = null;
+
+        if (photoNav) {
+            const navButtons = photoNav.querySelectorAll('a.btn');
+            navButtons.forEach(button => {
+                if (button.querySelector('.fa-chevron-left')) {
+                    prevButton = button;
+                } else if (button.querySelector('.fa-chevron-right')) {
+                    nextButton = button;
+                }
+            });
+        }
+
+        if (e.key === 'ArrowLeft' && prevButton) {
+            e.preventDefault();
+            prevButton.click();
+        } else if (e.key === 'ArrowRight' && nextButton) {
+            e.preventDefault();
+            nextButton.click();
+        }
+    });
+}
+
+// Moderation Bulk Selection
+function initializeModerationBulkSelection() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const photoCheckboxes = document.querySelectorAll('.photo-checkbox');
+    const selectedPhotosInput = document.getElementById('selected-photos');
+    const bulkForm = document.querySelector('form[action*="moderate"]');
+
+    function updateSelectedPhotos() {
+        const selectedIds = Array.from(photoCheckboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+        selectedPhotosInput.value = selectedIds.join(',');
+    }
+
+    function updateSelectAllState() {
+        const checkedBoxes = document.querySelectorAll('.photo-checkbox:checked');
+        const totalBoxes = photoCheckboxes.length;
+        selectAllCheckbox.checked = checkedBoxes.length === totalBoxes;
+        selectAllCheckbox.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < totalBoxes;
+    }
+
+    // Handle select all checkbox
+    selectAllCheckbox.addEventListener('change', function() {
+        photoCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateSelectedPhotos();
+    });
+
+    // Handle individual checkboxes
+    photoCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateSelectAllState();
+            updateSelectedPhotos();
+        });
+    });
+
+    // Update hidden input before form submission
+    if (bulkForm) {
+        bulkForm.addEventListener('submit', function() {
+            updateSelectedPhotos();
+        });
+    }
+}
+
 // Initialize vault functionality based on current page
 document.addEventListener('DOMContentLoaded', function() {
     // Gallery page
@@ -412,11 +558,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('shareModal')) {
         initializePhotoDetailLikes();
         initializePhotoDetailShare();
+        initializePhotoDetailKeyboardNav();
     }
 
     // Submit photo page
     if (document.getElementById('product_tags')) {
         initializeSubmitMultiSelect();
         initializeSubmitFormValidation();
+    }
+
+    // Moderation page
+    if (document.getElementById('select-all')) {
+        initializeModerationBulkSelection();
     }
 });

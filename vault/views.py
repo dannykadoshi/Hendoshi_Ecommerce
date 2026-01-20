@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
 from .models import VaultPhoto
 from products.models import Product
 
@@ -82,23 +85,20 @@ def submit_photo(request):
 
         # Add tagged products
         if product_ids:
-            products = Product.objects.filter(id__in=product_ids)
-            photo.tagged_products.set(products)
+            # Filter out empty strings and convert to integers
+            valid_product_ids = [int(pid) for pid in product_ids if pid and pid.strip()]
+            if valid_product_ids:
+                products = Product.objects.filter(id__in=valid_product_ids)
+                photo.tagged_products.set(products)
 
         messages.success(request, 'Your photo has been submitted for approval. You will be notified once it\'s reviewed.')
         return redirect('vault:vault_gallery')
 
     # GET request - show form
-    products = Product.objects.filter(is_archived=False).select_related('collection').order_by('collection__name', 'name')
-    collections = {}
-    for product in products:
-        collection_name = product.collection.name if product.collection else 'Other'
-        if collection_name not in collections:
-            collections[collection_name] = []
-        collections[collection_name].append(product)
+    products = Product.objects.filter(is_archived=False).order_by('name')
     
     context = {
-        'collections': collections,
+        'all_products': products,
     }
     return render(request, 'vault/submit_photo.html', context)
 
@@ -109,9 +109,31 @@ def photo_detail(request, photo_id):
     """
     photo = get_object_or_404(VaultPhoto, id=photo_id, status='approved')
     liked = photo.likes.filter(id=request.user.id).exists() if request.user.is_authenticated else False
+
+    # Get all approved photos ordered by creation date (newest first) - exclude archived
+    all_photos = list(VaultPhoto.objects.filter(status='approved').order_by('-created_at'))
+
+    # Find current photo's position
+    current_index = None
+    for i, p in enumerate(all_photos):
+        if p.id == photo.id:
+            current_index = i
+            break
+
+    # Get previous and next photos
+    prev_photo = None
+    next_photo = None
+    if current_index is not None:
+        if current_index > 0:
+            prev_photo = all_photos[current_index - 1]
+        if current_index < len(all_photos) - 1:
+            next_photo = all_photos[current_index + 1]
+
     context = {
         'photo': photo,
         'liked': liked,
+        'prev_photo': prev_photo,
+        'next_photo': next_photo,
     }
     return render(request, 'vault/photo_detail.html', context)
 
@@ -132,7 +154,8 @@ def moderate_photos(request):
 
         if bulk_action:
             # Handle bulk actions
-            photo_ids = [int(pid) for pid in request.POST.getlist('selected_photos') if pid]
+            selected_photos_str = request.POST.get('selected_photos', '')
+            photo_ids = [int(pid.strip()) for pid in selected_photos_str.split(',') if pid.strip()]
             photos = VaultPhoto.objects.filter(id__in=photo_ids)
             if bulk_action == 'approve':
                 photos.update(status='approved')
@@ -140,6 +163,13 @@ def moderate_photos(request):
             elif bulk_action == 'reject':
                 photos.update(status='rejected')
                 messages.success(request, f'Rejected {photos.count()} photos.')
+            elif bulk_action == 'archive':
+                photos.update(status='archived')
+                messages.success(request, f'Archived {photos.count()} photos.')
+            elif bulk_action == 'delete':
+                count = photos.count()
+                photos.delete()
+                messages.success(request, f'Permanently deleted {count} photos.')
         elif photo_id and action:
             # Handle single actions
             photo = get_object_or_404(VaultPhoto, id=photo_id)
@@ -150,25 +180,74 @@ def moderate_photos(request):
             elif action == 'reject':
                 photo.status = 'rejected'
                 photo.save()
-                messages.success(request, f'Photo by {photo.user.username} rejected.')
+
+                # Send rejection email with reason if provided
+                rejection_reason = request.POST.get('rejection_reason', '').strip()
+                if rejection_reason:
+                    try:
+                        # Check if user has vault photo notifications enabled
+                        from notifications.models import NotificationPreference
+                        prefs = NotificationPreference.objects.get_or_create(user=photo.user)[0]
+                        if prefs.email_notifications_enabled and prefs.vault_photo_notifications:
+                            # Send email to user
+                            subject = f'Your HENDOSHI Vault photo has been reviewed'
+                            context = {
+                                'user': photo.user,
+                                'photo': photo,
+                                'rejection_reason': rejection_reason,
+                                'site_url': settings.SITE_URL,
+                            }
+                            html_message = render_to_string('notifications/emails/photo_rejected.html', context)
+                            plain_message = f"""
+                            Hi {photo.user.username},
+
+                            Your photo submission to The HENDOSHI Vault has been reviewed.
+
+                            Unfortunately, your photo was not approved for the following reason:
+
+                            {rejection_reason}
+
+                            You can submit a new photo anytime at: {settings.SITE_URL}/vault/submit/
+
+                            Best regards,
+                            The HENDOSHI Team
+                            """
+
+                            send_mail(
+                                subject=subject,
+                                message=plain_message,
+                                from_email=settings.DEFAULT_FROM_EMAIL,
+                                recipient_list=[photo.user.email],
+                                html_message=html_message,
+                                fail_silently=True
+                            )
+                            messages.success(request, f'Photo by {photo.user.username} rejected and notification email sent.')
+                        else:
+                            messages.success(request, f'Photo by {photo.user.username} rejected. (User has notifications disabled)')
+                    except Exception as e:
+                        messages.warning(request, f'Photo rejected but email notification failed: {str(e)}')
+                else:
+                    messages.success(request, f'Photo by {photo.user.username} rejected.')
+            elif action == 'archive':
+                photo.status = 'archived'
+                photo.save()
+                messages.success(request, f'Photo by {photo.user.username} archived.')
+            elif action == 'delete':
+                photo.delete()
+                messages.success(request, f'Photo by {photo.user.username} permanently deleted.')
 
         return redirect('vault:moderate_photos')
 
-    photos = VaultPhoto.objects.filter(status='pending').select_related('user').prefetch_related('tagged_products')
-
     # Filter options
     status_filter = request.GET.get('status', 'pending')
-    if status_filter != 'all':
-        photos = photos.filter(status=status_filter)
-
-    username_filter = request.GET.get('username')
-    if username_filter:
-        photos = photos.filter(user__username__icontains=username_filter)
+    if status_filter == 'all':
+        photos = VaultPhoto.objects.all().select_related('user').prefetch_related('tagged_products')
+    else:
+        photos = VaultPhoto.objects.filter(status=status_filter).select_related('user').prefetch_related('tagged_products')
 
     context = {
         'photos': photos,
         'status_filter': status_filter,
-        'username_filter': username_filter,
     }
     return render(request, 'vault/moderate_photos.html', context)
 

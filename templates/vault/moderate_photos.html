@@ -18,27 +18,18 @@
 
             <!-- Filters -->
             <div class="filters-card mb-4">
-                <form method="get" class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label vault-form-label vault-moderate-label">Status</label>
-                        <select name="status" class="form-select vault-filter-select">
-                            <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
-                            <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
-                            <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
-                            <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label vault-form-label vault-moderate-label">Username</label>
-                        <input type="text" name="username" class="form-control vault-form-input" placeholder="Filter by username" value="{{ username_filter }}">
-                    </div>
-                    <div class="col-md-4 d-flex align-items-end">
-                        <button type="submit" class="btn btn-pink me-2">
-                            <i class="fas fa-filter"></i> Filter
-                        </button>
-                        <a href="{% url 'vault:moderate_photos' %}" class="btn btn-outline-danger">
-                            <i class="fas fa-times"></i> Clear
-                        </a>
+                <form method="get" id="status-filter-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label vault-form-label vault-moderate-label">Status</label>
+                            <select name="status" class="form-select vault-filter-select" id="status-filter">
+                                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
+                                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                                <option value="archived" {% if status_filter == 'archived' %}selected{% endif %}>Archived</option>
+                                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -50,19 +41,44 @@
                     {% csrf_token %}
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
+                            {% if status_filter == 'pending' %}
                             <button type="submit" name="bulk_action" value="approve" class="btn btn-success me-2">
                                 <i class="fas fa-check"></i> Bulk Approve
                             </button>
                             <button type="submit" name="bulk_action" value="reject" class="btn btn-danger">
                                 <i class="fas fa-times"></i> Bulk Reject
                             </button>
+                            {% elif status_filter == 'approved' %}
+                            <button type="submit" name="bulk_action" value="archive" class="btn btn-warning me-2">
+                                <i class="fas fa-archive"></i> Bulk Archive
+                            </button>
+                            <button type="submit" name="bulk_action" value="delete" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Bulk Delete
+                            </button>
+                            {% elif status_filter == 'rejected' %}
+                            <button type="submit" name="bulk_action" value="approve" class="btn btn-success me-2">
+                                <i class="fas fa-check"></i> Bulk Approve
+                            </button>
+                            <button type="submit" name="bulk_action" value="delete" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Bulk Delete
+                            </button>
+                            {% elif status_filter == 'archived' %}
+                            <button type="submit" name="bulk_action" value="delete" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Bulk Delete
+                            </button>
+                            {% else %}
+                            <!-- For 'all' status, show limited bulk actions -->
+                            <span class="text-muted">Bulk actions not available when viewing all statuses</span>
+                            {% endif %}
                         </div>
+                        {% if status_filter != 'all' %}
                         <div class="form-check">
                             <input class="form-check-input vault-checkbox" type="checkbox" id="select-all">
                             <label class="form-check-label vault-check-label" for="select-all">
                                 Select All
                             </label>
                         </div>
+                        {% endif %}
                     </div>
                     <input type="hidden" name="selected_photos" id="selected-photos" value="">
                 </form>
@@ -96,11 +112,12 @@
                             {% endif %}
                         </div>
                         <div class="moderation-actions">
+                            {% if photo.status == 'pending' %}
                             <form method="post" class="vault-inline-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="approve">
-                                <button type="submit" class="btn btn-success btn-sm me-2" onclick="return confirm('Approve this photo?')">
+                                <button type="button" class="btn btn-success btn-sm me-2" onclick="confirmVaultAction('approve', '{{ photo.id }}', 'Approve Photo', 'Are you sure you want to approve this photo? It will be visible in the public gallery.', 'fa-check-circle', 'Approve', 'btn-success')">
                                     <i class="fas fa-check"></i> Approve
                                 </button>
                             </form>
@@ -108,10 +125,63 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="reject">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Reject this photo?')">
+                                <input type="hidden" name="rejection_reason" value="">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('reject', '{{ photo.id }}', 'Reject Photo', 'Are you sure you want to reject this photo? The user will be notified.', 'fa-times-circle', 'Reject', 'btn-danger', true)">
                                     <i class="fas fa-times"></i> Reject
                                 </button>
                             </form>
+                            {% elif photo.status == 'approved' %}
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="archive">
+                                <button type="button" class="btn btn-warning btn-sm me-2" onclick="confirmVaultAction('archive', '{{ photo.id }}', 'Archive Photo', 'Are you sure you want to archive this photo? It will be hidden from the public gallery but can be restored later.', 'fa-archive', 'Archive', 'btn-warning')">
+                                    <i class="fas fa-archive"></i> Archive
+                                </button>
+                            </form>
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('delete', '{{ photo.id }}', 'Delete Photo', 'Are you sure you want to permanently delete this photo? This action cannot be undone!', 'fa-trash', 'Delete Forever', 'btn-danger')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                            {% elif photo.status == 'rejected' %}
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="approve">
+                                <button type="button" class="btn btn-success btn-sm me-2" onclick="confirmVaultAction('approve', '{{ photo.id }}', 'Approve Photo', 'Are you sure you want to approve this previously rejected photo?', 'fa-check-circle', 'Approve', 'btn-success')">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                            </form>
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('delete', '{{ photo.id }}', 'Delete Photo', 'Are you sure you want to permanently delete this rejected photo? This action cannot be undone!', 'fa-trash', 'Delete Forever', 'btn-danger')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                            {% elif photo.status == 'archived' %}
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="approve">
+                                <button type="button" class="btn btn-success btn-sm me-2" onclick="confirmVaultAction('approve', '{{ photo.id }}', 'Restore Photo', 'Are you sure you want to restore this archived photo to the public gallery?', 'fa-undo', 'Restore', 'btn-success')">
+                                    <i class="fas fa-undo"></i> Restore
+                                </button>
+                            </form>
+                            <form method="post" class="vault-inline-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('delete', '{{ photo.id }}', 'Delete Photo', 'Are you sure you want to permanently delete this archived photo? This action cannot be undone!', 'fa-trash', 'Delete Forever', 'btn-danger')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -131,32 +201,215 @@
 {% endblock %}
 
 {% block extra_js %}
+<style>
+/* Vault moderation status styles */
+.moderation-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+}
+
+.status-pending {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.status-approved {
+    background-color: #28a745;
+}
+
+.status-rejected {
+    background-color: #dc3545;
+}
+
+.status-archived {
+    background-color: #6c757d;
+}
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const selectAllCheckbox = document.getElementById('select-all');
-    const photoCheckboxes = document.querySelectorAll('.photo-checkbox');
-    const selectedPhotosInput = document.getElementById('selected-photos');
-
-    function updateSelectedPhotos() {
-        const selected = Array.from(photoCheckboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-        selectedPhotosInput.value = selected.join(',');
+    // Auto-submit status filter when changed
+    const statusFilter = document.getElementById('status-filter');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', function() {
+            document.getElementById('status-filter-form').submit();
+        });
     }
 
-    selectAllCheckbox.addEventListener('change', function() {
-        photoCheckboxes.forEach(cb => {
-            cb.checked = this.checked;
+    // Bulk selection functionality (only when select-all checkbox exists)
+    const selectAllCheckbox = document.getElementById('select-all');
+    if (selectAllCheckbox) {
+        const photoCheckboxes = document.querySelectorAll('.photo-checkbox');
+        const selectedPhotosInput = document.getElementById('selected-photos');
+
+        function updateSelectedPhotos() {
+            const selected = Array.from(photoCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+            selectedPhotosInput.value = selected.join(',');
+        }
+
+        selectAllCheckbox.addEventListener('change', function() {
+            photoCheckboxes.forEach(cb => {
+                cb.checked = this.checked;
+            });
+            updateSelectedPhotos();
         });
+
+        photoCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateSelectedPhotos);
+        });
+
+        // Update on page load
         updateSelectedPhotos();
-    });
-
-    photoCheckboxes.forEach(cb => {
-        cb.addEventListener('change', updateSelectedPhotos);
-    });
-
-    // Update on page load
-    updateSelectedPhotos();
+    }
 });
 </script>
+
+<!-- Custom Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="vaultConfirmModal" tabindex="-1" aria-labelledby="vaultConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="vaultConfirmModalLabel">
+                    <i class="fas fa-question-circle vault-modal-icon"></i>
+                    <span id="modal-title-text">Confirm Action</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon" id="modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message" id="modal-message">Are you sure you want to perform this action?</p>
+
+                    <!-- Rejection Reason Textarea (only shown for reject actions) -->
+                    <div class="vault-rejection-reason" id="rejection-reason-container" style="display: none;">
+                        <label for="rejection-reason" class="vault-rejection-label">
+                            <i class="fas fa-comment-dots"></i> Rejection Reason (Optional)
+                        </label>
+                        <textarea
+                            class="form-control vault-rejection-textarea"
+                            id="rejection-reason"
+                            name="rejection_reason"
+                            rows="3"
+                            placeholder="Please provide feedback to help the user understand why their photo was rejected..."
+                            maxlength="500"></textarea>
+                        <div class="vault-rejection-char-count">
+                            <small class="text-muted">
+                                <span id="rejection-char-count">0</span>/500 characters
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn vault-modal-btn-confirm" id="modal-confirm-btn">
+                    <i class="fas fa-check"></i> <span id="modal-confirm-text">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Vault Confirmation Modal Functionality
+let currentFormToSubmit = null;
+
+function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction = false) {
+    // Update modal content
+    document.getElementById('modal-title-text').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
+    document.getElementById('modal-confirm-text').textContent = confirmText;
+
+    // Update confirm button styling
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    confirmBtn.className = `btn vault-modal-btn-confirm ${confirmClass}`;
+
+    // Handle rejection reason textarea
+    const rejectionContainer = document.getElementById('rejection-reason-container');
+    const rejectionTextarea = document.getElementById('rejection-reason');
+
+    if (isRejectAction) {
+        rejectionContainer.style.display = 'block';
+        rejectionTextarea.value = ''; // Clear previous value
+        updateRejectionCharCount();
+
+        // Focus on textarea after modal is shown
+        setTimeout(() => {
+            rejectionTextarea.focus();
+        }, 500);
+    } else {
+        rejectionContainer.style.display = 'none';
+        rejectionTextarea.value = '';
+    }
+
+    // Store the form to submit
+    currentFormToSubmit = form;
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
+    modal.show();
+}
+
+// Character count for rejection reason
+function updateRejectionCharCount() {
+    const textarea = document.getElementById('rejection-reason');
+    const counter = document.getElementById('rejection-char-count');
+    const count = textarea.value.length;
+    counter.textContent = count;
+
+    // Change color based on character count
+    if (count > 450) {
+        counter.style.color = '#dc3545';
+    } else if (count > 400) {
+        counter.style.color = '#ffc107';
+    } else {
+        counter.style.color = '#6c757d';
+    }
+}
+
+// Add event listener for textarea
+document.getElementById('rejection-reason').addEventListener('input', updateRejectionCharCount);
+
+// Handle modal confirm button click
+document.getElementById('modal-confirm-btn').addEventListener('click', function() {
+    if (currentFormToSubmit) {
+        // If this is a rejection, include the rejection reason
+        const rejectionReason = document.getElementById('rejection-reason').value;
+        if (rejectionReason.trim()) {
+            const reasonInput = currentFormToSubmit.querySelector('input[name="rejection_reason"]');
+            if (reasonInput) {
+                reasonInput.value = rejectionReason.trim();
+            }
+        }
+        currentFormToSubmit.submit();
+    }
+    // Hide modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('vaultConfirmModal'));
+    modal.hide();
+});
+
+// Vault-specific confirmation functions
+function confirmVaultAction(action, photoId, title, message, iconClass, confirmText, confirmClass, isRejectAction = false) {
+    // Find the form for this action
+    const form = document.querySelector(`form input[name="photo_id"][value="${photoId}"]`).closest('form');
+    form.querySelector('input[name="action"]').value = action;
+
+    showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction);
+    return false; // Prevent default form submission
+}
+</script>
+
 {% endblock %}
