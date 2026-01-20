@@ -15,12 +15,14 @@ class NotificationPreferenceAdmin(admin.ModelAdmin):
         'email_notifications_enabled',
         'sale_notifications',
         'restock_notifications',
+        'vault_photo_notifications',
         'updated_at'
     ]
     list_filter = [
         'email_notifications_enabled',
         'sale_notifications',
-        'restock_notifications'
+        'restock_notifications',
+        'vault_photo_notifications'
     ]
     search_fields = ['user__username', 'user__email']
     readonly_fields = ['unsubscribe_token', 'created_at', 'updated_at']

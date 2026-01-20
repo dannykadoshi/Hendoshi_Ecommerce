@@ -2,63 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Price drop notification from Hendoshi Store">
-    <title>Price Drop Alert - Hendoshi Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Drop Alert - HENDOSHI</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Montserrat', Arial, sans-serif;
+            line-height: 1.6;
             color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
             max-width: 600px;
             margin: 0 auto;
-            background-color: white;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .email-container {
+            background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .header {
-            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+        .email-header {
+            background: linear-gradient(135deg, #000000, #333333);
             color: white;
-            padding: 40px 20px;
+            padding: 30px 40px;
             text-align: center;
         }
-        .header h1 {
+        .email-header h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .header p {
-            margin: 8px 0 0 0;
-            font-size: 14px;
-            opacity: 0.95;
+        .email-header .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff1493;
+            margin-bottom: 10px;
         }
-        .discount-badge {
+        .email-body {
+            padding: 40px;
+        }
+        .email-content h2 {
+            color: #28a745;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .price-drop-badge {
             display: inline-block;
-            background: #FFD700;
-            color: #1a1a1a;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 700;
             font-size: 18px;
-            margin-top: 16px;
-        }
-        .content {
-            padding: 30px 20px;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .product-card {
-            background: #f9f9f9;
+            background: #f8f9fa;
             border-radius: 12px;
             overflow: hidden;
             margin: 20px 0;
-            border: 1px solid #eee;
+            border: 1px solid #e9ecef;
         }
         .product-image {
             width: 100%;
-            max-height: 300px;
+            max-height: 250px;
             object-fit: cover;
             display: block;
         }
@@ -68,7 +79,7 @@
         .product-name {
             font-size: 20px;
             font-weight: 700;
-            color: #FF2DA1;
+            color: #ff1493;
             margin: 0 0 12px 0;
         }
         .price-container {
@@ -76,6 +87,7 @@
             align-items: center;
             gap: 12px;
             margin: 16px 0;
+            flex-wrap: wrap;
         }
         .original-price {
             text-decoration: line-through;
@@ -83,13 +95,13 @@
             font-size: 18px;
         }
         .sale-price {
-            color: #FF2DA1;
+            color: #ff1493;
             font-size: 24px;
             font-weight: 700;
         }
         .savings {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: #d4edda;
+            color: #155724;
             padding: 4px 10px;
             border-radius: 4px;
             font-size: 14px;
@@ -102,89 +114,119 @@
         }
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
             color: white;
-            padding: 14px 32px;
-            border-radius: 8px;
             text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
             font-weight: 600;
-            text-align: center;
-            margin-top: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0;
+            transition: transform 0.2s ease;
         }
         .cta-button:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
         }
         .battle-vest-note {
-            background: #fff3e0;
-            border-left: 4px solid #FF2DA1;
-            padding: 12px 16px;
-            margin: 20px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        .footer {
-            background-color: #f5f5f5;
+            background: #fff3cd;
+            border-left: 4px solid #ff1493;
             padding: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            border-top: 1px solid #eee;
+            margin: 20px 0;
+            border-radius: 4px;
         }
-        .footer a {
-            color: #FF2DA1;
-            text-decoration: underline;
+        .battle-vest-note h3 {
+            color: #ff1493;
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .email-footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .email-footer p {
+            margin: 5px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            color: #ff1493;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 18px;
         }
         .unsubscribe-links {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
         }
         .unsubscribe-links a {
-            color: #888;
+            color: #6c757d;
             margin: 0 8px;
+            text-decoration: underline;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>PRICE DROP ALERT!</h1>
-            <p>An item in your Battle Vest just went on sale</p>
-            <div class="discount-badge">{{ notification.price_drop_percentage }}% OFF</div>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">HENDOSHI</div>
+            <h1>Price Drop Alert</h1>
         </div>
 
-        <div class="content">
-            <div class="battle-vest-note">
-                <strong>Hey {{ user.first_name|default:user.username }}!</strong> Great news - a product you've been eyeing is now on sale!
-            </div>
-
-            <div class="product-card">
-                {% if product.main_image %}
-                <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
-                {% endif %}
-                <div class="product-info">
-                    <h2 class="product-name">{{ product.name }}</h2>
-
-                    <div class="price-container">
-                        <span class="original-price">${{ notification.original_price }}</span>
-                        <span class="sale-price">${{ notification.new_price }}</span>
-                        <span class="savings">Save ${{ notification.original_price|add:"-"|add:notification.new_price|default:"" }}</span>
-                    </div>
-
-                    <p class="product-description">{{ product.description|truncatewords:30 }}</p>
-
-                    <a href="{{ product_url }}" class="cta-button">GRAB IT NOW</a>
+        <div class="email-body">
+            <div class="email-content">
+                <div class="battle-vest-note">
+                    <h3><i class="fas fa-bell"></i> Hey {{ user.first_name|default:user.username }}!</h3>
+                    <p>Great news! An item from your Battle Vest just went on sale. Don't miss out on this amazing deal!</p>
                 </div>
-            </div>
 
-            <p style="text-align: center; color: #666; margin-top: 24px;">
-                Don't wait too long - sale prices don't last forever!
-            </p>
+                <div class="price-drop-badge">{{ notification.price_drop_percentage }}% OFF</div>
+
+                <div class="product-card">
+                    {% if product.main_image %}
+                    <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                    {% endif %}
+                    <div class="product-info">
+                        <h2 class="product-name">{{ product.name }}</h2>
+
+                        <div class="price-container">
+                            <span class="original-price">${{ notification.original_price }}</span>
+                            <span class="sale-price">${{ notification.new_price }}</span>
+                            <span class="savings">Save ${{ notification.price_savings }}</span>
+                        </div>
+
+                        <p class="product-description">{{ product.description|truncatewords:30 }}</p>
+
+                        <div style="text-align: center;">
+                            <a href="{{ product_url }}" class="cta-button">
+                                <i class="fas fa-shopping-bag"></i> Shop Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; color: #666; margin-top: 24px;">
+                    Sale prices don't last forever - grab yours before it's gone! 🖤
+                </p>
+            </div>
         </div>
 
-        <div class="footer">
-            <p>You're receiving this because <strong>{{ product.name }}</strong> is in your Battle Vest.</p>
-            <p>Copyright 2026 Hendoshi Store. All rights reserved.</p>
+        <div class="email-footer">
+            <div class="social-links">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p><strong>HENDOSHI</strong> - Wear Your Weird</p>
+            <p>This email was sent because <strong>{{ product.name }}</strong> is in your Battle Vest.</p>
 
             <div class="unsubscribe-links">
                 <a href="{{ unsubscribe_url }}">Unsubscribe from all</a> |

@@ -23,6 +23,10 @@ class NotificationPreference(models.Model):
         default=True,
         help_text="Receive emails when out-of-stock wishlist items are back"
     )
+    vault_photo_notifications = models.BooleanField(
+        default=True,
+        help_text="Receive emails when your vault photo submissions are reviewed"
+    )
 
     # Global unsubscribe
     email_notifications_enabled = models.BooleanField(

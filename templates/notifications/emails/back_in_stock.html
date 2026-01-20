@@ -2,63 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Back in stock notification from Hendoshi Store">
-    <title>Back in Stock - Hendoshi Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back in Stock - HENDOSHI</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Montserrat', Arial, sans-serif;
+            line-height: 1.6;
             color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
             max-width: 600px;
             margin: 0 auto;
-            background-color: white;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .email-container {
+            background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .header {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        .email-header {
+            background: linear-gradient(135deg, #000000, #333333);
             color: white;
-            padding: 40px 20px;
+            padding: 30px 40px;
             text-align: center;
         }
-        .header h1 {
+        .email-header h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .header p {
-            margin: 8px 0 0 0;
-            font-size: 14px;
-            opacity: 0.95;
+        .email-header .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff1493;
+            margin-bottom: 10px;
+        }
+        .email-body {
+            padding: 40px;
+        }
+        .email-content h2 {
+            color: #17a2b8;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         .stock-badge {
             display: inline-block;
-            background: white;
-            color: #2E7D32;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 700;
             font-size: 16px;
-            margin-top: 16px;
-        }
-        .content {
-            padding: 30px 20px;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .product-card {
-            background: #f9f9f9;
+            background: #f8f9fa;
             border-radius: 12px;
             overflow: hidden;
             margin: 20px 0;
-            border: 1px solid #eee;
+            border: 1px solid #e9ecef;
         }
         .product-image {
             width: 100%;
-            max-height: 300px;
+            max-height: 250px;
             object-fit: cover;
             display: block;
         }
@@ -68,12 +79,12 @@
         .product-name {
             font-size: 20px;
             font-weight: 700;
-            color: #FF2DA1;
+            color: #ff1493;
             margin: 0 0 12px 0;
         }
         .variant-info {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: #d1ecf1;
+            color: #0c5460;
             padding: 10px 16px;
             border-radius: 6px;
             font-size: 14px;
@@ -81,7 +92,7 @@
             display: inline-block;
         }
         .price {
-            color: #FF2DA1;
+            color: #ff1493;
             font-size: 22px;
             font-weight: 700;
             margin: 16px 0;
@@ -92,102 +103,141 @@
             margin: 16px 0;
         }
         .urgency-text {
-            background: #fff3e0;
-            border-left: 4px solid #ff9800;
-            padding: 12px 16px;
-            margin: 16px 0;
-            font-size: 14px;
-            color: #e65100;
-            font-weight: 500;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .urgency-text h3 {
+            color: #856404;
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 600;
         }
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
             color: white;
-            padding: 14px 32px;
-            border-radius: 8px;
             text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
             font-weight: 600;
-            text-align: center;
-            margin-top: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0;
+            transition: transform 0.2s ease;
         }
         .cta-button:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
         }
         .battle-vest-note {
-            background: #e3f2fd;
-            border-left: 4px solid #2196F3;
-            padding: 12px 16px;
-            margin: 20px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        .footer {
-            background-color: #f5f5f5;
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
             padding: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            border-top: 1px solid #eee;
+            margin: 20px 0;
+            border-radius: 4px;
         }
-        .footer a {
-            color: #FF2DA1;
-            text-decoration: underline;
+        .battle-vest-note h3 {
+            color: #17a2b8;
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .email-footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .email-footer p {
+            margin: 5px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            color: #ff1493;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 18px;
         }
         .unsubscribe-links {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
         }
         .unsubscribe-links a {
-            color: #888;
+            color: #6c757d;
             margin: 0 8px;
+            text-decoration: underline;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>BACK IN STOCK!</h1>
-            <p>An item you wanted is available again</p>
-            <div class="stock-badge">NOW AVAILABLE</div>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">HENDOSHI</div>
+            <h1>Back in Stock</h1>
         </div>
 
-        <div class="content">
-            <div class="battle-vest-note">
-                <strong>Hey {{ user.first_name|default:user.username }}!</strong> The wait is over - that item you've had your eye on is back!
-            </div>
-
-            <div class="product-card">
-                {% if product.main_image %}
-                <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
-                {% endif %}
-                <div class="product-info">
-                    <h2 class="product-name">{{ product.name }}</h2>
-
-                    {% if notification.variant %}
-                    <div class="variant-info">
-                        <strong>Size:</strong> {{ notification.variant.get_size_display }} |
-                        <strong>Color:</strong> {{ notification.variant.get_color_display }}
-                    </div>
-                    {% endif %}
-
-                    <div class="price">${{ product.current_price }}</div>
-
-                    <p class="product-description">{{ product.description|truncatewords:30 }}</p>
-
-                    <div class="urgency-text">
-                        Act fast - these items tend to sell out quickly!
-                    </div>
-
-                    <a href="{{ product_url }}" class="cta-button">GET IT BEFORE IT'S GONE</a>
+        <div class="email-body">
+            <div class="email-content">
+                <div class="battle-vest-note">
+                    <h3><i class="fas fa-box-open"></i> Hey {{ user.first_name|default:user.username }}!</h3>
+                    <p>The wait is over! That item you've been waiting for is back in stock and ready for you.</p>
                 </div>
+
+                <div class="stock-badge">Now Available</div>
+
+                <div class="product-card">
+                    {% if product.main_image %}
+                    <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                    {% endif %}
+                    <div class="product-info">
+                        <h2 class="product-name">{{ product.name }}</h2>
+
+                        {% if notification.variant %}
+                        <div class="variant-info">
+                            <strong>Size:</strong> {{ notification.variant.get_size_display }} |
+                            <strong>Color:</strong> {{ notification.variant.get_color_display }}
+                        </div>
+                        {% endif %}
+
+                        <div class="price">${{ product.current_price }}</div>
+
+                        <p class="product-description">{{ product.description|truncatewords:30 }}</p>
+
+                        <div class="urgency-text">
+                            <h3><i class="fas fa-clock"></i> Limited Stock Alert</h3>
+                            <p>These items tend to sell out quickly - don't miss your chance!</p>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <a href="{{ product_url }}" class="cta-button">
+                                <i class="fas fa-shopping-cart"></i> Shop Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; color: #666; margin-top: 24px;">
+                    Thanks for your patience - we hope you love your new HENDOSHI gear! 🖤
+                </p>
             </div>
         </div>
 
-        <div class="footer">
-            <p>You're receiving this because <strong>{{ product.name }}</strong> is in your Battle Vest.</p>
-            <p>Copyright 2026 Hendoshi Store. All rights reserved.</p>
+        <div class="email-footer">
+            <div class="social-links">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p><strong>HENDOSHI</strong> - Wear Your Weird</p>
+            <p>This email was sent because <strong>{{ product.name }}</strong> is in your Battle Vest.</p>
 
             <div class="unsubscribe-links">
                 <a href="{{ unsubscribe_url }}">Unsubscribe from all</a> |
