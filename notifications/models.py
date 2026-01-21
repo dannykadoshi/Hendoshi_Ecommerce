@@ -27,6 +27,10 @@ class NotificationPreference(models.Model):
         default=True,
         help_text="Receive emails when your vault photo submissions are reviewed"
     )
+    vault_featured_notifications = models.BooleanField(
+        default=True,
+        help_text="Receive emails when your vault photos are featured"
+    )
 
     # Global unsubscribe
     email_notifications_enabled = models.BooleanField(

@@ -92,6 +92,8 @@ def unsubscribe_one_click(request, token, notification_type):
         prefs.restock_notifications = False
     elif notification_type == 'vault':
         prefs.vault_photo_notifications = False
+    elif notification_type == 'vault_featured':
+        prefs.vault_featured_notifications = False
     elif notification_type == 'all':
         prefs.email_notifications_enabled = False
 
