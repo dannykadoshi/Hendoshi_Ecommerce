@@ -34,7 +34,21 @@
             <div class="vault-detail-card mb-4">
                 <div class="vault-detail-image-container position-relative d-inline-block">
                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image">
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and user != photo.user %}
+                    <div class="vault-voting-buttons position-absolute bottom-0 end-0 m-3">
+                        <div class="d-flex gap-2 mb-2">
+                            <button id="upvote-button-{{ photo.id }}" class="btn btn-sm {% if user_upvoted %}btn-success{% else %}btn-outline-success{% endif %}" onclick="votePhoto({{ photo.id }}, 'up')" title="Upvote this photo">
+                                <i class="fas fa-thumbs-up"></i> {{ photo.upvotes.count }}
+                            </button>
+                            <button id="downvote-button-{{ photo.id }}" class="btn btn-sm {% if user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %}" onclick="votePhoto({{ photo.id }}, 'down')" title="Downvote this photo">
+                                <i class="fas fa-thumbs-down"></i> {{ photo.downvotes.count }}
+                            </button>
+                        </div>
+                        <button id="like-button-{{ photo.id }}" class="btn btn-sm {% if liked %}btn-pink{% else %}btn-outline-pink{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like this photo">
+                            <i class="fas fa-heart"></i> {{ photo.likes.count }}
+                        </button>
+                    </div>
+                    {% elif user.is_authenticated %}
                     <button id="like-button-{{ photo.id }}" class="btn btn-sm position-absolute bottom-0 end-0 m-3 {% if liked %}btn-pink{% else %}btn-outline-pink{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like this photo">
                         <i class="fas fa-heart"></i> {{ photo.likes.count }}
                     </button>

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Hall of Fame Overview - HENDOSHI{% endblock %}
+
+{% block content %}
+<div class="container my-5 vault-container">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4 fw-bold text-uppercase vault-gallery-title">
+                <i class="fas fa-trophy"></i> Hall of Fame
+            </h1>
+            <p class="lead vault-lead">
+                Celebrating the legendary photos that have been featured in The Vault.
+                <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.
+            </p>
+
+            <!-- Hall of Fame Description -->
+            <div class="hall-of-fame-description">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="hall-of-fame-intro-card">
+                            <h3 class="hall-of-fame-subtitle">
+                                <i class="fas fa-crown"></i> The Pinnacle of HENDOSHI Excellence
+                            </h3>
+                            <p class="hall-of-fame-description-text">
+                                Welcome to the <strong>HENDOSHI Hall of Fame</strong> - where the most extraordinary, boundary-pushing,
+                                and community-loved photos ascend to legendary status. These aren't just featured photos;
+                                they're the crown jewels of our weird and wonderful community.
+                            </p>
+
+                            <h4 class="hall-of-fame-qualification-title">
+                                <i class="fas fa-star-half-alt"></i> How Photos Earn Their Trophy
+                            </h4>
+                            <div class="hall-of-fame-qualification-grid">
+                                <div class="qualification-item">
+                                    <div class="qualification-icon">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="qualification-content">
+                                        <h5>Community Heat</h5>
+                                        <p>Photos that ignite passion and spark endless discussions among HENDOSHI wearers worldwide.</p>
+                                    </div>
+                                </div>
+                                <div class="qualification-item">
+                                    <div class="qualification-icon">
+                                        <i class="fas fa-magic"></i>
+                                    </div>
+                                    <div class="qualification-content">
+                                        <h5>Creative Brilliance</h5>
+                                        <p>Showcasing innovative styling, unexpected combinations, and the pure artistry of self-expression.</p>
+                                    </div>
+                                </div>
+                                <div class="qualification-item">
+                                    <div class="qualification-icon">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <div class="qualification-content">
+                                        <h5>Authentic Spirit</h5>
+                                        <p>Capturing the genuine weirdness, confidence, and unapologetic individuality that defines our community.</p>
+                                    </div>
+                                </div>
+                                <div class="qualification-item">
+                                    <div class="qualification-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="qualification-content">
+                                        <h5>Viral Momentum</h5>
+                                        <p>Building massive engagement through likes, shares, and the organic spread of HENDOSHI magic.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hall-of-fame-legend">
+                                <p class="legend-text">
+                                    <em>Every photo in this hall has proven itself worthy - not through algorithms or artificial metrics,
+                                    but through the genuine love and admiration of fellow weirdos who recognize greatness when they see it.
+                                    These are the photos that don't just show HENDOSHI gear; they embody the HENDOSHI spirit.</em>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-pink btn-lg me-3">
+                    <i class="fas fa-images"></i> View Hall of Fame Gallery
+                </a>
+                <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink btn-lg">
+                    <i class="fas fa-arrow-left"></i> Back to The Vault
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -13,26 +13,91 @@
             <p class="lead vault-lead">
                 Where weirdos become legends. See how others rock their HENDOSHI gear.
             </p>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-outline-pink">
+                    <i class="fas fa-trophy"></i> Hall of Fame
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink">
+                    <i class="fas fa-plus"></i> Submit Photo
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 
-    <!-- Submit Section -->
-    {% if user.is_authenticated %}
+    <!-- Featured Photos Carousel -->
+    {% if featured_photos %}
     <div class="row mb-5">
         <div class="col-12">
-            <div class="vault-submit-container">
-                <div class="vault-submit-content">
-                    <div class="vault-submit-icon">
-                        <i class="fas fa-camera-retro"></i>
-                    </div>
-                    <h3 class="vault-submit-title">Show Off Your HENDOSHI Style!</h3>
-                    <p class="vault-submit-text">
-                        Join the weird and wonderful community. Share your photos and become part of the legend.
-                        Every HENDOSHI wearer has a story - what's yours?
+            <div class="vault-featured-section">
+                <div class="vault-featured-header">
+                    <h2 class="vault-featured-title">
+                        <i class="fas fa-star"></i> This Week's Featured Photos
+                    </h2>
+                    <p class="vault-featured-subtitle">The best of the weird and wonderful HENDOSHI community</p>
+                    <p class="vault-featured-note">
+                        <i class="fab fa-instagram"></i> Featured photos will also be showcased on HENDOSHI's Instagram page
                     </p>
-                    <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink btn-lg vault-submit-btn">
-                        <i class="fas fa-plus-circle"></i> Submit Your Photo
-                    </a>
+                </div>
+
+                <div class="vault-featured-carousel">
+                    <div class="vault-featured-track" id="featured-track">
+                        {% for photo in featured_photos %}
+                        <div class="vault-featured-item">
+                            <div class="vault-featured-card">
+                                <div class="vault-featured-image-container">
+                                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-featured-image">
+                                    <div class="vault-featured-overlay">
+                                        <div class="vault-featured-badge">
+                                            <i class="fas fa-star"></i> FEATURED
+                                        </div>
+                                        <div class="vault-featured-actions">
+                                            <a href="{% url 'vault:photo_detail' photo.id %}" class="vault-featured-link">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if user.is_authenticated %}
+                                            {% if user != photo.user %}
+                                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} vault-featured-vote-btn" title="Upvote">
+                                                <i class="fas fa-thumbs-up"></i>
+                                            </button>
+                                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} vault-featured-vote-btn" title="Downvote">
+                                                <i class="fas fa-thumbs-down"></i>
+                                            </button>
+                                            {% endif %}
+                                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-outline-pink{% endif %} btn-sm vault-featured-like-btn">
+                                                <i class="fas fa-heart"></i>
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vault-featured-info">
+                                    <div class="vault-featured-caption-container">
+                                        {% if photo.caption %}
+                                        <p class="vault-featured-caption">{{ photo.caption|truncatechars:40 }}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="vault-featured-user-container">
+                                        <p class="vault-featured-user">by {{ photo.user.username }}</p>
+                                    </div>
+                                    <div class="vault-featured-likes-container">
+                                        <p class="vault-featured-likes" id="featured-likes-{{ photo.id }}">
+                                            <i class="fas fa-heart"></i> {{ photo.likes.count }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <button class="vault-carousel-btn vault-carousel-prev" id="featured-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="vault-carousel-btn vault-carousel-next" id="featured-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -77,6 +142,14 @@
                                 <i class="fas fa-eye"></i>
                             </a>
                             {% if user.is_authenticated %}
+                            {% if user != photo.user %}
+                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} vault-vote-btn" title="Upvote">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} vault-vote-btn" title="Downvote">
+                                <i class="fas fa-thumbs-down"></i>
+                            </button>
+                            {% endif %}
                             <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-outline-pink{% endif %} btn-sm vault-like-btn">
                                 <i class="fas fa-heart"></i>
                             </button>
@@ -150,6 +223,29 @@
 {% endblock %}
 
 {% block extra_css %}
+<style>
+.vault-featured-vote-btn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+}
+
+.vault-vote-btn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1px;
+}
+</style>
 {% endblock %}
 
 {% block extra_js %}

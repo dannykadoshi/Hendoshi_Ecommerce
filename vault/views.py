@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.utils import timezone
 from .models import VaultPhoto
 from products.models import Product
 
@@ -26,6 +27,18 @@ def vault_gallery(request):
                     vaultphoto_id=OuterRef('pk'),
                     user_id=request.user.id
                 )
+            ),
+            user_upvoted=Exists(
+                VaultPhoto.upvotes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            ),
+            user_downvoted=Exists(
+                VaultPhoto.downvotes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
             )
         )
 
@@ -33,6 +46,36 @@ def vault_gallery(request):
     product_filter = request.GET.get('product')
     if product_filter:
         photos = photos.filter(tagged_products__slug=product_filter)
+
+    # Get featured photos (separate from main photos query)
+    featured_photos = VaultPhoto.objects.filter(
+        status='approved',
+        is_featured=True,
+        featured_until__gt=timezone.now()
+    ).select_related('user').prefetch_related('tagged_products').order_by('-feature_score')[:10]
+
+    # Annotate featured photos with liked status for authenticated users
+    if request.user.is_authenticated:
+        featured_photos = featured_photos.annotate(
+            is_liked=Exists(
+                VaultPhoto.likes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            ),
+            user_upvoted=Exists(
+                VaultPhoto.upvotes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            ),
+            user_downvoted=Exists(
+                VaultPhoto.downvotes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            )
+        )
 
     # Pagination
     paginator = Paginator(photos, 20)  # 20 photos per page
@@ -47,6 +90,7 @@ def vault_gallery(request):
         'page_obj': page_obj,
         'product_filter': product_filter,
         'all_products': all_products,
+        'featured_photos': featured_photos,
     }
     return render(request, 'vault/vault_gallery.html', context)
 
@@ -109,6 +153,8 @@ def photo_detail(request, photo_id):
     """
     photo = get_object_or_404(VaultPhoto, id=photo_id, status='approved')
     liked = photo.likes.filter(id=request.user.id).exists() if request.user.is_authenticated else False
+    user_upvoted = photo.upvotes.filter(id=request.user.id).exists() if request.user.is_authenticated else False
+    user_downvoted = photo.downvotes.filter(id=request.user.id).exists() if request.user.is_authenticated else False
 
     # Get all approved photos ordered by creation date (newest first) - exclude archived
     all_photos = list(VaultPhoto.objects.filter(status='approved').order_by('-created_at'))
@@ -132,6 +178,8 @@ def photo_detail(request, photo_id):
     context = {
         'photo': photo,
         'liked': liked,
+        'user_upvoted': user_upvoted,
+        'user_downvoted': user_downvoted,
         'prev_photo': prev_photo,
         'next_photo': next_photo,
     }
@@ -176,7 +224,49 @@ def moderate_photos(request):
             if action == 'approve':
                 photo.status = 'approved'
                 photo.save()
-                messages.success(request, f'Photo by {photo.user.username} approved.')
+
+                # Send approval email to the user
+                try:
+                    # Check if user has vault photo notifications enabled
+                    from notifications.models import NotificationPreference
+                    prefs = NotificationPreference.objects.get_or_create(user=photo.user)[0]
+                    if prefs.email_notifications_enabled and prefs.vault_photo_notifications:
+                        # Send approval email
+                        subject = '🎉 Your HENDOSHI Vault Photo is Approved!'
+                        context = {
+                            'user': photo.user,
+                            'photo': photo,
+                            'site_url': settings.SITE_URL,
+                        }
+                        html_message = render_to_string('notifications/emails/photo_approved.html', context)
+                        plain_message = f"""
+                        Hi {photo.user.username},
+
+                        Congratulations! 🎉 Your photo has been approved and is now live in The HENDOSHI Vault!
+
+                        "{photo.caption or 'Untitled'}"
+
+                        View your approved photo: {settings.SITE_URL}/vault/photo/{photo.id}/
+
+                        Keep sharing your HENDOSHI style! 🖤
+
+                        Best regards,
+                        The HENDOSHI Team
+                        """
+
+                        send_mail(
+                            subject=subject,
+                            message=plain_message,
+                            from_email=settings.DEFAULT_FROM_EMAIL,
+                            recipient_list=[photo.user.email],
+                            html_message=html_message,
+                            fail_silently=True
+                        )
+                        messages.success(request, f'Photo by {photo.user.username} approved and notification email sent.')
+                    else:
+                        messages.success(request, f'Photo by {photo.user.username} approved. (User has notifications disabled)')
+                except Exception as e:
+                    messages.warning(request, f'Photo approved but email notification failed: {str(e)}')
             elif action == 'reject':
                 photo.status = 'rejected'
                 photo.save()
@@ -240,14 +330,21 @@ def moderate_photos(request):
 
     # Filter options
     status_filter = request.GET.get('status', 'pending')
+    search_query = request.GET.get('search', '').strip()
+
     if status_filter == 'all':
         photos = VaultPhoto.objects.all().select_related('user').prefetch_related('tagged_products')
     else:
         photos = VaultPhoto.objects.filter(status=status_filter).select_related('user').prefetch_related('tagged_products')
 
+    # Apply search filter if provided
+    if search_query:
+        photos = photos.filter(user__username__icontains=search_query)
+
     context = {
         'photos': photos,
         'status_filter': status_filter,
+        'search_query': search_query,
     }
     return render(request, 'vault/moderate_photos.html', context)
 
@@ -263,6 +360,47 @@ def approve_photo(request, photo_id):
     photo = get_object_or_404(VaultPhoto, id=photo_id)
     photo.status = 'approved'
     photo.save()
+
+    # Send approval email to the user
+    try:
+        # Check if user has vault photo notifications enabled
+        from notifications.models import NotificationPreference
+        prefs = NotificationPreference.objects.get_or_create(user=photo.user)[0]
+        if prefs.email_notifications_enabled and prefs.vault_photo_notifications:
+            # Send approval email
+            subject = '🎉 Your HENDOSHI Vault Photo is Approved!'
+            context = {
+                'user': photo.user,
+                'photo': photo,
+                'site_url': settings.SITE_URL,
+            }
+            html_message = render_to_string('notifications/emails/photo_approved.html', context)
+            plain_message = f"""
+            Hi {photo.user.username},
+
+            Congratulations! 🎉 Your photo has been approved and is now live in The HENDOSHI Vault!
+
+            "{photo.caption or 'Untitled'}"
+
+            View your approved photo: {settings.SITE_URL}/vault/photo/{photo.id}/
+
+            Keep sharing your HENDOSHI style! 🖤
+
+            Best regards,
+            The HENDOSHI Team
+            """
+
+            send_mail(
+                subject=subject,
+                message=plain_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[photo.user.email],
+                html_message=html_message,
+                fail_silently=True
+            )
+    except Exception as e:
+        # Email sending failed, but photo is still approved
+        pass
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({'success': True, 'status': 'approved'})
@@ -305,3 +443,124 @@ def like_photo(request, photo_id):
             liked = True
         return JsonResponse({'likes': photo.likes.count(), 'liked': liked})
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def hall_of_fame(request):
+    """
+    Display the Hall of Fame - past featured photos
+    """
+    from django.db.models import Exists, OuterRef
+
+    # Get all photos that have been featured at some point (have a featured_date)
+    hall_photos = VaultPhoto.objects.filter(
+        status='approved',
+        featured_date__isnull=False
+    ).select_related('user').prefetch_related('tagged_products').order_by('-featured_date')
+
+    # Annotate photos with liked status for authenticated users
+    if request.user.is_authenticated:
+        hall_photos = hall_photos.annotate(
+            is_liked=Exists(
+                VaultPhoto.likes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            ),
+            user_upvoted=Exists(
+                VaultPhoto.upvotes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            ),
+            user_downvoted=Exists(
+                VaultPhoto.downvotes.through.objects.filter(
+                    vaultphoto_id=OuterRef('pk'),
+                    user_id=request.user.id
+                )
+            )
+        )
+
+    # Pagination - 20 photos per page
+    paginator = Paginator(hall_photos, 20)
+    page = request.GET.get('page')
+    try:
+        hall_photos_page = paginator.page(page)
+    except Exception:
+        hall_photos_page = paginator.page(1)
+
+    context = {
+        'hall_photos': hall_photos_page,
+        'total_featured': hall_photos.count(),
+    }
+    return render(request, 'vault/hall_of_fame.html', context)
+
+
+def hall_of_fame_overview(request):
+    """
+    Display the Hall of Fame overview page with description and qualification criteria
+    """
+    # Get total count of featured photos for the description
+    total_featured = VaultPhoto.objects.filter(
+        status='approved',
+        featured_date__isnull=False
+    ).count()
+
+    context = {
+        'total_featured': total_featured,
+    }
+    return render(request, 'vault/hall_of_fame_overview.html', context)
+
+
+@login_required
+def vote_photo(request, photo_id, vote_type):
+    """
+    Handle upvoting/downvoting of photos
+    vote_type should be 'up' or 'down'
+    """
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    photo = get_object_or_404(VaultPhoto, id=photo_id, status='approved')
+
+    # Prevent users from voting on their own photos
+    if photo.user == request.user:
+        return JsonResponse({'error': 'Cannot vote on your own photos'}, status=400)
+
+    # Check current vote status
+    has_upvote = photo.upvotes.filter(id=request.user.id).exists()
+    has_downvote = photo.downvotes.filter(id=request.user.id).exists()
+
+    # Determine the action based on current state and requested vote
+    if vote_type == 'up':
+        if has_upvote:
+            # Clicking upvote when already upvoted - remove the upvote (toggle off)
+            photo.upvotes.remove(request.user)
+            user_vote = None
+        else:
+            # Remove any existing downvote and add upvote
+            photo.downvotes.remove(request.user)
+            photo.upvotes.add(request.user)
+            user_vote = 'up'
+    elif vote_type == 'down':
+        if has_downvote:
+            # Clicking downvote when already downvoted - remove the downvote (toggle off)
+            photo.downvotes.remove(request.user)
+            user_vote = None
+        else:
+            # Remove any existing upvote and add downvote
+            photo.upvotes.remove(request.user)
+            photo.downvotes.add(request.user)
+            user_vote = 'down'
+    else:
+        return JsonResponse({'error': 'Invalid vote type'}, status=400)
+
+    # Update the vote score
+    photo.vote_score = photo.upvotes.count() - photo.downvotes.count()
+    photo.save()
+
+    return JsonResponse({
+        'upvotes': photo.upvotes.count(),
+        'downvotes': photo.downvotes.count(),
+        'vote_score': photo.vote_score,
+        'user_vote': user_vote
+    })

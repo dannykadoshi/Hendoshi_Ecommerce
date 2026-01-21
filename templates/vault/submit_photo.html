@@ -1,60 +1,117 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}Submit to The Vault{% endblock %}
+{% block extra_title %}Join The Vault - Become a HENDOSHI Legend{% endblock %}
 
 {% block content %}
 <div class="container my-5 vault-container">
+    <!-- Hero Section -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-12 text-center">
+            <div class="vault-submit-hero">
+                <div class="vault-submit-hero-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h1 class="display-4 fw-bold text-uppercase vault-submit-hero-title">
+                    BECOME A LEGEND
+                </h1>
+                <p class="lead vault-submit-hero-subtitle">
+                    Join the elite HENDOSHI community. Share your killer style and inspire the weirdos of tomorrow.
+                </p>
+                <div class="vault-submit-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ all_products|length }}</div>
+                        <div class="stat-label">Products to Tag</div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-fire stat-icon"></i>
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Potential Fame</div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-users stat-icon"></i>
+                        <div class="stat-number">Growing</div>
+                        <div class="stat-label">Community</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Form Card -->
     <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <div class="card vault-card">
-                <div class="card-header text-center position-relative vault-card-header">
-                    <a href="{% url 'vault:vault_gallery' %}" class="close-btn" title="Back to Vault">
-                        <i class="fas fa-times"></i>
-                    </a>
-                    <h2 class="mb-0 vault-submit-title">
-                        Submit to The Vault
-                    </h2>
-                    <p class="mb-0 mt-2 vault-submit-subtitle">
-                        Share your HENDOSHI style with the community
+        <div class="col-lg-10 col-xl-8">
+            <div class="vault-submit-card">
+                <!-- Header -->
+                <div class="vault-submit-header">
+                    <div class="vault-submit-header-icon">
+                        <i class="fas fa-camera-retro"></i>
+                    </div>
+                    <h2 class="vault-submit-title">Share Your HENDOSHI Moment</h2>
+                    <p class="vault-submit-description">
+                        Got that perfect shot of you rocking HENDOSHI gear? Upload it here and let the community see your style!
+                        Your photo could become featured and inspire countless weirdos worldwide.
                     </p>
                 </div>
-                <div class="card-body p-4">
-                    <form method="post" enctype="multipart/form-data" id="submit-form">
-                        {% csrf_token %}
 
-                        <!-- Image Upload -->
-                        <div class="mb-4">
-                            <label for="id_image" class="form-label vault-form-label">
-                                Your Photo *
-                            </label>
-                            <input type="file" name="image" id="id_image" class="form-control vault-form-input" accept="image/*" required>
-                            <div class="form-text vault-form-text">
-                                JPG or PNG only. Max 5MB. Show off your HENDOSHI gear!
-                            </div>
+                <!-- Upload Zone -->
+                <div class="vault-upload-zone" id="uploadZone">
+                    <div class="vault-upload-content">
+                        <div class="vault-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
                         </div>
+                        <h3 class="vault-upload-title">Drop Your Photo Here</h3>
+                        <p class="vault-upload-subtitle">Or click to browse your files</p>
+                        <div class="vault-upload-requirements">
+                            <span class="requirement-item"><i class="fas fa-check"></i> JPG/PNG only</span>
+                            <span class="requirement-item"><i class="fas fa-check"></i> Max 5MB</span>
+                            <span class="requirement-item"><i class="fas fa-check"></i> Show your HENDOSHI gear</span>
+                        </div>
+                        <input type="file" name="image" id="id_image" class="vault-file-input" accept="image/*" required>
+                    </div>
+                    <div class="vault-upload-preview" id="uploadPreview" style="display: none;">
+                        <img id="previewImage" src="" alt="Preview">
+                        <button type="button" class="vault-preview-remove" id="removePreview">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
 
-                        <!-- Caption -->
-                        <div class="mb-4">
-                            <label for="id_caption" class="form-label vault-form-label">
-                                Caption (Optional)
+                <form method="post" enctype="multipart/form-data" id="submit-form">
+                    {% csrf_token %}
+
+                    <!-- Caption Section -->
+                    <div class="vault-form-section">
+                        <div class="vault-section-header">
+                            <i class="fas fa-comment-dots section-icon"></i>
+                            <h3 class="section-title">Tell Your Story</h3>
+                        </div>
+                        <div class="vault-form-group">
+                            <label for="id_caption" class="vault-form-label">
+                                What's the vibe? What's the story behind this look?
                             </label>
-                            <textarea name="caption" id="id_caption" class="form-control vault-form-textarea" rows="3" maxlength="800"
-                                      placeholder="Tell us about your look..."></textarea>
-                            <div class="form-text vault-form-text">
+                            <textarea name="caption" id="id_caption" class="vault-form-textarea" maxlength="800"
+                                      placeholder="Example: 'Crushing leg day in my favorite HENDOSHI skull tee. This design hits different when you're pushing limits! 💀🏋️‍♂️'"></textarea>
+                            <div class="vault-char-counter">
                                 <span id="char-count">0</span>/800 characters
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Product Tagging -->
-                        <div class="mb-4">
-                            <label for="product_tags" class="form-label vault-form-label">
-                                Tag Products (Optional)
+                    <!-- Product Tagging Section -->
+                    <div class="vault-form-section">
+                        <div class="vault-section-header">
+                            <i class="fas fa-tags section-icon"></i>
+                            <h3 class="section-title">Tag Your Gear</h3>
+                        </div>
+                        <div class="vault-form-group">
+                            <label class="vault-form-label">
+                                Which HENDOSHI products are you wearing? Help others discover our gear!
                             </label>
                             <div class="position-relative">
                                 <div class="vault-multi-select" id="product_tags">
                                     <div class="vault-selected-tags" id="selected_tags"></div>
-                                    <input type="text" class="vault-tag-input" id="tag_input" placeholder="Type to search products..." autocomplete="off">
+                                    <input type="text" class="vault-tag-input" id="tag_input" placeholder="Search for products you're wearing..." autocomplete="off">
                                 </div>
                                 <input type="hidden" name="products" id="product_ids">
                                 <div id="product_dropdown" class="vault-multi-dropdown">
@@ -65,29 +122,67 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="form-text vault-form-text">
-                                Search and select multiple products you're wearing in your photo
+                            <div class="vault-form-help">
+                                <i class="fas fa-lightbulb"></i> Tagging products helps your photo get discovered and featured!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rules & Consent -->
+                    <div class="vault-form-section">
+                        <div class="vault-rules-card">
+                            <h4 class="rules-title">
+                                <i class="fas fa-scroll rules-icon"></i>
+                                Vault Commandments
+                            </h4>
+                            <div class="rules-list">
+                                <div class="rule-item">
+                                    <i class="fas fa-check-circle rule-check"></i>
+                                    <span>Show off your HENDOSHI gear proudly</span>
+                                </div>
+                                <div class="rule-item">
+                                    <i class="fas fa-check-circle rule-check"></i>
+                                    <span>Be respectful and keep it real</span>
+                                </div>
+                                <div class="rule-item">
+                                    <i class="fas fa-check-circle rule-check"></i>
+                                    <span>No nudity, hate, or illegal content</span>
+                                </div>
+                                <div class="rule-item">
+                                    <i class="fas fa-check-circle rule-check"></i>
+                                    <span>Original photos only (no stock images)</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Consent -->
-                        <div class="mb-4">
+                        <div class="vault-consent-section">
                             <div class="form-check">
-                                <input class="form-check-input vault-checkbox" type="checkbox" id="consent" required>
-                                <label class="form-check-label vault-check-label" for="consent">
-                                    I agree to have my photo displayed publicly in The Vault gallery
+                                <input class="form-check-input vault-consent-checkbox" type="checkbox" id="consent" required>
+                                <label class="form-check-label vault-consent-label" for="consent">
+                                    <strong>I solemnly swear</strong> that this photo is mine, shows HENDOSHI gear, and I'm cool with it being displayed publicly in The Vault gallery for the greater good of the weird community.
                                 </label>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Submit Button -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-pink btn-lg" id="submit-btn">
-                                <i class="fas fa-upload"></i> Submit for Approval
+                    <!-- Submit Section -->
+                    <div class="vault-submit-section">
+                        <div class="vault-submit-actions">
+                            <a href="{% url 'vault:vault_gallery' %}" class="btn vault-back-btn btn-lg">
+                                <i class="fas fa-arrow-left"></i> Back to Gallery
+                            </a>
+                            <button type="submit" class="btn vault-submit-btn btn-lg" id="submit-btn">
+                                <i class="fas fa-rocket"></i> Launch My Photo
+                                <div class="btn-shine"></div>
                             </button>
                         </div>
-                    </form>
-                </div>
+                        <div class="vault-submit-note">
+                            <i class="fas fa-clock"></i>
+                            Your photo will be reviewed by our moderators before appearing in The Vault.
+                            We'll notify you once it's approved!
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -95,8 +190,591 @@
 {% endblock %}
 
 {% block extra_css %}
+<style>
+.vault-submit-hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    border: 2px solid #FF1493;
+    position: relative;
+    overflow: hidden;
+}
+
+.vault-submit-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF1493' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.1;
+}
+
+.vault-submit-hero-icon {
+    font-size: 4rem;
+    color: #FF1493;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+
+.vault-submit-hero-title {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+    margin-bottom: 1rem;
+}
+
+.vault-submit-hero-subtitle {
+    color: #ccc;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.vault-submit-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    color: #fff;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #FF1493;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 0.5rem;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    color: #FF1493;
+    margin-bottom: 0.5rem;
+}
+
+.vault-submit-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: 20px;
+    border: 2px solid #FF1493;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.vault-submit-header {
+    background: linear-gradient(90deg, #FF1493 0%, #CCFF00 100%);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+}
+
+.vault-submit-header-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.vault-submit-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.vault-submit-description {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.vault-upload-zone {
+    padding: 3rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid #444;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.vault-upload-zone:hover {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+.vault-upload-content {
+    color: #ccc;
+}
+
+.vault-upload-icon {
+    font-size: 4rem;
+    color: #FF1493;
+    margin-bottom: 1rem;
+}
+
+.vault-upload-title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.vault-upload-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.vault-upload-requirements {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.requirement-item {
+    background: rgba(255, 20, 147, 0.1);
+    color: #FF1493;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 20, 147, 0.3);
+}
+
+.vault-file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.vault-upload-preview {
+    position: relative;
+}
+
+.vault-upload-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.vault-preview-remove {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #FF1493;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.vault-form-section {
+    padding: 2rem;
+    border-bottom: 1px solid #444;
+}
+
+.vault-form-section:last-child {
+    border-bottom: none;
+}
+
+.vault-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-icon {
+    font-size: 1.5rem;
+    color: #FF1493;
+}
+
+.section-title {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.vault-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.vault-form-label {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.vault-form-textarea {
+    background: #333;
+    border: 2px solid #555;
+    border-radius: 10px;
+    color: #fff;
+    padding: 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    height: 120px;
+    resize: vertical;
+}
+
+.vault-form-textarea:focus {
+    border-color: #FF1493;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+    outline: none;
+}
+
+.vault-multi-select {
+    background: #333;
+    border: 2px solid #555;
+    border-radius: 10px;
+    color: #fff;
+    padding: 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.vault-multi-select:focus-within {
+    border-color: #FF1493;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+}
+
+.vault-char-counter {
+    text-align: right;
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.vault-form-help {
+    color: #FF1493;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.vault-rules-card {
+    background: rgba(255, 20, 147, 0.05);
+    border: 1px solid rgba(255, 20, 147, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.rules-title {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rules-icon {
+    color: #FF1493;
+}
+
+.rules-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.5rem;
+}
+
+.rule-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.rule-check {
+    color: #FF1493;
+    font-size: 0.8rem;
+}
+
+.vault-consent-section {
+    margin-top: 2rem;
+}
+
+.vault-consent-checkbox {
+    background: #333;
+    border: 2px solid #555;
+}
+
+.vault-consent-checkbox:checked {
+    background-color: #FF1493;
+    border-color: #FF1493;
+}
+
+.vault-consent-label {
+    color: #fff;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.vault-submit-section {
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.vault-submit-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.vault-back-btn {
+    background: linear-gradient(135deg, #FF1493, #CCFF00);
+    color: #000;
+    border: 2px solid #FF1493;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
+    padding: 0.6rem 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.25s ease;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.vault-back-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6);
+    text-decoration: none;
+    color: #000;
+}
+
+.vault-submit-btn {
+    background: linear-gradient(135deg, #FF1493, #CCFF00);
+    color: #000;
+    border: 2px solid #FF1493;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
+    padding: 0.6rem 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.25s ease;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.vault-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6);
+}
+
+.vault-submit-note {
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+    padding: 1rem;
+    background: rgba(255, 20, 147, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 20, 147, 0.2);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+@media (max-width: 768px) {
+    .vault-submit-hero {
+        padding: 2rem 1rem;
+    }
+
+    .vault-submit-stats {
+        gap: 1rem;
+    }
+
+    .vault-upload-zone {
+        padding: 2rem 1rem;
+    }
+
+    .vault-form-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .vault-submit-actions {
+        flex-direction: column;
+    }
+
+    .vault-submit-actions .btn {
+        width: 100%;
+    }
+}
+</style>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/vault.js' %}"></script>
+<script>
+// Enhanced upload zone functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('id_image');
+    const uploadContent = document.querySelector('.vault-upload-content');
+    const uploadPreview = document.getElementById('uploadPreview');
+    const previewImage = document.getElementById('previewImage');
+    const removePreview = document.getElementById('removePreview');
+
+    // Drag and drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        uploadZone.classList.add('dragover');
+    }
+
+    function unhighlight(e) {
+        uploadZone.classList.remove('dragover');
+    }
+
+    uploadZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            fileInput.files = files;
+            previewFile(files[0]);
+        }
+    }
+
+    // Click to upload
+    uploadZone.addEventListener('click', function() {
+        if (!fileInput.files[0]) {
+            fileInput.click();
+        }
+    });
+
+    // File input change
+    fileInput.addEventListener('change', function() {
+        if (this.files[0]) {
+            previewFile(this.files[0]);
+        }
+    });
+
+    // Preview functionality
+    function previewFile(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            uploadContent.style.display = 'none';
+            uploadPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Remove preview
+    removePreview.addEventListener('click', function(e) {
+        e.stopPropagation();
+        fileInput.value = '';
+        uploadContent.style.display = 'block';
+        uploadPreview.style.display = 'none';
+    });
+
+    // Character counter
+    const captionTextarea = document.getElementById('id_caption');
+    const charCount = document.getElementById('char-count');
+
+    captionTextarea.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = count;
+        if (count > 720) {
+            charCount.style.color = '#dc3545';
+        } else {
+            charCount.style.color = '#888';
+        }
+    });
+
+    // Form validation
+    const form = document.getElementById('submit-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', function(e) {
+        const consentCheckbox = document.getElementById('consent');
+
+        if (!fileInput.files[0]) {
+            e.preventDefault();
+            alert('Please select an image to upload.');
+            return;
+        }
+
+        // Check file size (5MB)
+        if (fileInput.files[0].size > 5 * 1024 * 1024) {
+            e.preventDefault();
+            alert('File size must be less than 5MB.');
+            return;
+        }
+
+        // Check file type
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!allowedTypes.includes(fileInput.files[0].type)) {
+            e.preventDefault();
+            alert('Only JPG and PNG files are allowed.');
+            return;
+        }
+
+        if (!consentCheckbox.checked) {
+            e.preventDefault();
+            alert('Please agree to the terms before submitting.');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Launching Your Photo...';
+    });
+});
+</script>
 {% endblock %}

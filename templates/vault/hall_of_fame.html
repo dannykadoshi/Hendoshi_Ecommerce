@@ -1,0 +1,415 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Hall of Fame - Past Featured Photos{% endblock %}
+
+{% block content %}
+<div class="container my-5 vault-container">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4 fw-bold text-uppercase vault-gallery-title">
+                <i class="fas fa-trophy"></i> Hall of Fame
+            </h1>
+            <p class="lead vault-lead">
+                Celebrating the legendary photos that have been featured in The Vault.
+                <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.
+            </p>
+            <div class="mb-4">
+                <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-outline-pink me-3">
+                    <i class="fas fa-crown"></i> Hall of Fame Overview
+                </a>
+                <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink">
+                    <i class="fas fa-arrow-left"></i> Back to The Vault
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hall of Fame Photos Grid -->
+    <div class="row g-4">
+        {% for photo in hall_photos %}
+        <div class="col-lg-6 col-xl-4 mb-4">
+            <div class="hall-of-fame-card">
+                <!-- Trophy Header -->
+                <div class="hall-of-fame-header">
+                    <div class="trophy-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="featured-info">
+                        <div class="featured-date">
+                            <i class="fas fa-calendar-alt"></i> Featured {{ photo.featured_date|date:"M j, Y" }}
+                        </div>
+                        <div class="feature-score">
+                            <i class="fas fa-star"></i> Score: {{ photo.feature_score }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Container -->
+                <div class="hall-of-fame-photo-container">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="hall-of-fame-photo">
+                    <div class="hall-of-fame-photo-overlay">
+                        <a href="{% url 'vault:photo_detail' photo.id %}" class="hall-of-fame-view-btn">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Photo Info -->
+                <div class="hall-of-fame-info">
+                    <div class="hall-of-fame-user">
+                        <strong>{{ photo.user.username }}</strong>
+                    </div>
+
+                    <div class="hall-of-fame-caption">
+                        {% if photo.caption %}
+                        {{ photo.caption|truncatechars:120 }}
+                        {% endif %}
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="hall-of-fame-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-heart text-pink"></i>
+                            <span>{{ photo.likes.count }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-thumbs-up text-success"></i>
+                            <span>{{ photo.upvotes.count }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-thumbs-down text-danger"></i>
+                            <span>{{ photo.downvotes.count }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-chart-line text-primary"></i>
+                            <span>{{ photo.vote_score }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Like Button -->
+                    <div class="hall-of-fame-actions">
+                        {% if user.is_authenticated %}
+                        <div class="d-flex gap-2 justify-content-center">
+                            {% if user != photo.user %}
+                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} hall-of-fame-vote-btn" title="Upvote this photo">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} hall-of-fame-vote-btn" title="Downvote this photo">
+                                <i class="fas fa-thumbs-down"></i>
+                            </button>
+                            {% endif %}
+                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-outline-pink{% endif %} btn-sm hall-of-fame-like-btn">
+                                <i class="fas fa-heart"></i> {{ photo.likes.count }}
+                            </button>
+                        </div>
+                        {% else %}
+                        <div class="hall-of-fame-like-placeholder"></div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tagged Products -->
+                    <div class="hall-of-fame-products">
+                        {% if photo.tagged_products.all %}
+                        {% for product in photo.tagged_products.all %}
+                        <span class="badge bg-secondary product-badge">{{ product.name }}</span>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No featured photos yet. Check back soon!
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if hall_photos.has_other_pages %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <nav aria-label="Hall of Fame pagination">
+                <ul class="pagination justify-content-center">
+                    {% if hall_photos.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ hall_photos.previous_page_number }}">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in hall_photos.paginator.page_range %}
+                        {% if hall_photos.number == num %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% elif num > hall_photos.number|add:'-3' and num < hall_photos.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if hall_photos.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ hall_photos.next_page_number }}">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+/* Hall of Fame Card Styles */
+.hall-of-fame-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(45deg, #ff69b4, #ff1493) border-box;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hall-of-fame-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
+}
+
+/* Trophy Header */
+.hall-of-fame-header {
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.trophy-icon {
+    font-size: 2rem;
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: trophy-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes trophy-glow {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+.featured-info {
+    flex: 1;
+}
+
+.featured-date, .feature-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.featured-date:last-child {
+    margin-bottom: 0;
+}
+
+/* Photo Container */
+.hall-of-fame-photo-container {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+}
+
+.hall-of-fame-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.hall-of-fame-card:hover .hall-of-fame-photo {
+    transform: scale(1.05);
+}
+
+.hall-of-fame-photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 105, 180, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hall-of-fame-card:hover .hall-of-fame-photo-overlay {
+    opacity: 1;
+}
+
+.hall-of-fame-view-btn {
+    background: white;
+    color: #ff69b4;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.hall-of-fame-view-btn:hover {
+    background: #ff69b4;
+    color: white;
+    text-decoration: none;
+}
+
+/* Info Section */
+.hall-of-fame-info {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hall-of-fame-user {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.hall-of-fame-caption {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    flex: 1;
+    min-height: 60px;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Stats */
+.hall-of-fame-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.stat-item i {
+    font-size: 1.2rem;
+}
+
+.stat-item span {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Actions */
+.hall-of-fame-actions {
+    text-align: center;
+    margin-bottom: 15px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hall-of-fame-like-btn {
+    border-radius: 20px;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.hall-of-fame-vote-btn {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hall-of-fame-like-placeholder {
+    min-height: 31px; /* Same height as the button */
+}
+
+/* Products */
+.hall-of-fame-products {
+    min-height: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+.product-badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hall-of-fame-header {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .trophy-icon {
+        font-size: 1.5rem;
+    }
+
+    .featured-date, .feature-score {
+        font-size: 0.8rem;
+    }
+
+    .hall-of-fame-photo-container {
+        height: 200px;
+    }
+
+    .hall-of-fame-info {
+        padding: 15px;
+    }
+
+    .hall-of-fame-stats {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}
+</style>
+{% endblock %}

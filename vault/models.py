@@ -23,6 +23,17 @@ class VaultPhoto(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     likes = models.ManyToManyField(User, related_name='liked_vault_photos', blank=True)
 
+    # Featured photo system
+    is_featured = models.BooleanField(default=False, help_text="Is this photo currently featured?")
+    featured_date = models.DateTimeField(null=True, blank=True, help_text="When this photo was first featured")
+    featured_until = models.DateTimeField(null=True, blank=True, help_text="When the feature period ends")
+    feature_score = models.IntegerField(default=0, help_text="Score for determining feature worthiness (likes + engagement)")
+
+    # Voting system
+    upvotes = models.ManyToManyField(User, related_name='upvoted_vault_photos', blank=True, help_text="Users who upvoted this photo")
+    downvotes = models.ManyToManyField(User, related_name='downvoted_vault_photos', blank=True, help_text="Users who downvoted this photo")
+    vote_score = models.IntegerField(default=0, help_text="Net vote score (upvotes - downvotes)")
+
     class Meta:
         ordering = ['-created_at']
         verbose_name = 'Vault Photo'

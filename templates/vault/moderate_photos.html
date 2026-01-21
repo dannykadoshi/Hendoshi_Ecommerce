@@ -20,7 +20,7 @@
             <div class="filters-card mb-4">
                 <form method="get" id="status-filter-form">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <label class="form-label vault-form-label vault-moderate-label">Status</label>
                             <select name="status" class="form-select vault-filter-select" id="status-filter">
                                 <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
@@ -29,6 +29,27 @@
                                 <option value="archived" {% if status_filter == 'archived' %}selected{% endif %}>Archived</option>
                                 <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
                             </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label vault-form-label vault-moderate-label">Search by Username</label>
+                            <input type="text" name="search" value="{{ search_query|default:'' }}" class="form-control vault-search-input" id="search-input" placeholder="Enter username...">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-pink me-2" id="apply-filters-btn">
+                                <i class="fas fa-filter"></i> Apply Filters
+                            </button>
+                            {% if search_query %}
+                            <a href="{% url 'vault:moderate_photos' %}?status={{ status_filter }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> Clear Search
+                            </a>
+                            {% endif %}
+                            <div class="float-end">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle"></i> Search updates automatically as you type
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -92,7 +113,14 @@
                     <div class="moderation-card">
                         <div class="moderation-image-container">
                         <input type="checkbox" class="photo-checkbox vault-checkbox" value="{{ photo.id }}">
+                            {% if photo.image %}
                             <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'Submission' }}" class="moderation-image">
+                            {% else %}
+                            <div class="moderation-image-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>No image available</p>
+                            </div>
+                            {% endif %}
                             <div class="moderation-status status-{{ photo.status }}">
                                 {{ photo.get_status_display }}
                             </div>
@@ -410,6 +438,83 @@ function confirmVaultAction(action, photoId, title, message, iconClass, confirmT
     showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction);
     return false; // Prevent default form submission
 }
+
+// Auto-search functionality for username search
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const statusFilter = document.getElementById('status-filter');
+    const filterForm = document.getElementById('status-filter-form');
+    const applyBtn = document.getElementById('apply-filters-btn');
+    let searchTimeout;
+
+    // Function to submit form with delay
+    function submitSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            // Show loading state on button
+            if (applyBtn) {
+                applyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                applyBtn.disabled = true;
+            }
+            filterForm.submit();
+        }, 500); // 500ms delay to avoid too many requests while typing
+    }
+
+    // Auto-submit when user types in search field
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const hasValue = this.value.trim().length > 0;
+
+            // Show loading state on input
+            this.style.opacity = '0.7';
+
+            // Update button text based on search state
+            if (applyBtn) {
+                if (hasValue) {
+                    applyBtn.innerHTML = '<i class="fas fa-search"></i> Searching...';
+                } else {
+                    applyBtn.innerHTML = '<i class="fas fa-filter"></i> Apply Filters';
+                }
+            }
+
+            // Submit with delay
+            submitSearch();
+        });
+
+        // Submit immediately on Enter key
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                if (applyBtn) {
+                    applyBtn.innerHTML = '<i class="fas fa-search"></i> Searching...';
+                    applyBtn.disabled = true;
+                }
+                filterForm.submit();
+            }
+        });
+
+        // Reset opacity when input loses focus
+        searchInput.addEventListener('blur', function() {
+            this.style.opacity = '1';
+        });
+    }
+
+    // Also auto-submit when status filter changes
+    if (statusFilter) {
+        statusFilter.addEventListener('change', function() {
+            if (applyBtn) {
+                applyBtn.innerHTML = '<i class="fas fa-filter"></i> Applying...';
+                applyBtn.disabled = true;
+            }
+            filterForm.submit();
+        });
+    }
+
+    // Reset button state when page loads with existing search
+    if (searchInput && searchInput.value.trim() && applyBtn) {
+        applyBtn.innerHTML = '<i class="fas fa-search"></i> Search Active';
+    }
+});
 </script>
 
 {% endblock %}
