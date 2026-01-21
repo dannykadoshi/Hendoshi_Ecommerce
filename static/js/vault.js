@@ -167,6 +167,88 @@ function likePhotoUnified(photoId, source) {
     .catch(error => console.error('Error liking photo:', error));
 }
 
+// Voting Functionality
+function initializeVoting() {
+    window.votePhoto = function(photoId, voteType) {
+        const url = `/vault/photo/${photoId}/vote/${voteType}/`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Update detail view buttons (with specific IDs)
+            const detailUpvoteButton = document.getElementById(`upvote-button-${photoId}`);
+            if (detailUpvoteButton) {
+                // Update button text with new count
+                detailUpvoteButton.innerHTML = `<i class="fas fa-thumbs-up"></i> ${data.upvotes}`;
+
+                if (data.user_vote === 'up') {
+                    detailUpvoteButton.classList.add('btn-success');
+                    detailUpvoteButton.classList.remove('btn-outline-success');
+                } else {
+                    detailUpvoteButton.classList.add('btn-outline-success');
+                    detailUpvoteButton.classList.remove('btn-success');
+                }
+            }
+
+            const detailDownvoteButton = document.getElementById(`downvote-button-${photoId}`);
+            if (detailDownvoteButton) {
+                // Update button text with new count
+                detailDownvoteButton.innerHTML = `<i class="fas fa-thumbs-down"></i> ${data.downvotes}`;
+
+                if (data.user_vote === 'down') {
+                    detailDownvoteButton.classList.add('btn-danger');
+                    detailDownvoteButton.classList.remove('btn-outline-danger');
+                } else {
+                    detailDownvoteButton.classList.add('btn-outline-danger');
+                    detailDownvoteButton.classList.remove('btn-danger');
+                }
+            }
+
+            // Update gallery buttons (found by onclick attribute) - only update classes, not innerHTML since they don't show counts
+            const allButtons = document.querySelectorAll(`button[onclick*="${photoId}"]`);
+            allButtons.forEach(button => {
+                const onclickAttr = button.getAttribute('onclick');
+                if (onclickAttr.includes(`votePhoto(${photoId}, 'up')`)) {
+                    // This is an upvote button
+                    if (data.user_vote === 'up') {
+                        button.classList.add('btn-success');
+                        button.classList.remove('btn-outline-success');
+                    } else {
+                        button.classList.add('btn-outline-success');
+                        button.classList.remove('btn-success');
+                    }
+                } else if (onclickAttr.includes(`votePhoto(${photoId}, 'down')`)) {
+                    // This is a downvote button
+                    if (data.user_vote === 'down') {
+                        button.classList.add('btn-danger');
+                        button.classList.remove('btn-outline-danger');
+                    } else {
+                        button.classList.add('btn-outline-danger');
+                        button.classList.remove('btn-danger');
+                    }
+                }
+            });
+
+            // Update vote score display if it exists
+            const voteScoreElement = document.getElementById(`vote-score-${photoId}`);
+            if (voteScoreElement) {
+                voteScoreElement.textContent = `Score: ${data.vote_score}`;
+            }
+        })
+        .catch(error => console.error('Error voting on photo:', error));
+    };
+}
+
 // Share Photo Functionality
 function initializePhotoDetailShare() {
     window.sharePhoto = function() {
@@ -571,4 +653,130 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('select-all')) {
         initializeModerationBulkSelection();
     }
+
+    // Featured photos carousel
+    if (document.getElementById('featured-track')) {
+        initializeFeaturedCarousel();
+    }
+});
+
+// Featured Photos Carousel
+function initializeFeaturedCarousel() {
+    const track = document.getElementById('featured-track');
+    const prevBtn = document.getElementById('featured-prev');
+    const nextBtn = document.getElementById('featured-next');
+    const items = track.children;
+    const itemWidth = 280 + 16; // item width + gap
+    let currentIndex = 0;
+    const totalItems = items.length;
+    const visibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth) || 1;
+    const maxIndex = Math.max(0, totalItems - visibleItems);
+
+    function updateCarousel() {
+        const translateX = -currentIndex * itemWidth;
+        track.style.transform = `translateX(${translateX}px)`;
+
+        // Update button states
+        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+        nextBtn.disabled = currentIndex >= maxIndex;
+    }
+
+    function nextSlide() {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            updateCarousel();
+        }
+    }
+
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    }
+
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let isDragging = false;
+
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const currentX = e.touches[0].clientX;
+        const diff = startX - currentX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentIndex < maxIndex) {
+                nextSlide();
+            } else if (diff < 0 && currentIndex > 0) {
+                prevSlide();
+            }
+            isDragging = false;
+        }
+    });
+
+    track.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    // Auto-play functionality (optional)
+    let autoplayInterval = setInterval(() => {
+        if (currentIndex >= maxIndex) {
+            currentIndex = 0;
+        } else {
+            currentIndex++;
+        }
+        updateCarousel();
+    }, 5000); // Change slide every 5 seconds
+
+    // Pause autoplay on hover
+    track.parentElement.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+    });
+
+    track.parentElement.addEventListener('mouseleave', () => {
+        autoplayInterval = setInterval(() => {
+            if (currentIndex >= maxIndex) {
+                currentIndex = 0;
+            } else {
+                currentIndex++;
+            }
+            updateCarousel();
+        }, 5000);
+    });
+
+    // Initialize
+    updateCarousel();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const newVisibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth) || 1;
+        const newMaxIndex = Math.max(0, totalItems - newVisibleItems);
+
+        if (currentIndex > newMaxIndex) {
+            currentIndex = newMaxIndex;
+        }
+
+        updateCarousel();
+    });
+}
+
+// Initialize all vault functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeGalleryFilter();
+    initializeGalleryLikes();
+    initializePhotoDetailLikes();
+    initializeVoting();
+    initializePhotoDetailShare();
+    initializeCarousel();
 });

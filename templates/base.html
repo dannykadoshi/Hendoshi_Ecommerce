@@ -180,7 +180,29 @@
                             {% endif %}
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'vault:vault_gallery' %}">The Vault</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="vaultMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">The Vault</a>
+                        <ul class="dropdown-menu" aria-labelledby="vaultMenu">
+                            <li><a class="dropdown-item" href="{% url 'vault:vault_gallery' %}"><i class="fas fa-images"></i> Community Gallery</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#" id="hallOfFameMenu" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-trophy"></i> Hall of Fame
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="hallOfFameMenu">
+                                    <li><a class="dropdown-item" href="{% url 'vault:hall_of_fame_overview' %}"><i class="fas fa-info-circle"></i> What Makes a Legend</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'vault:hall_of_fame' %}"><i class="fas fa-star"></i> Legendary Photos</a></li>
+                                </ul>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'vault:submit_photo' %}"><i class="fas fa-plus"></i> Submit Photo</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                 </ul>
                 
