@@ -101,11 +101,11 @@
                                     <!-- Battle Vest Button (always same style) -->
                                     {% if user.is_authenticated %}
                                     <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
-                                        <i class="far fa-heart heart-gradient-icon"></i>
+                                        <i class="far fa-heart"></i>
                                     </button>
                                     {% else %}
                                     <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn product-vest-btn-positioned" title="Login to add to Battle Vest">
-                                        <i class="far fa-heart heart-gradient-icon"></i>
+                                        <i class="far fa-heart"></i>
                                     </a>
                                     {% endif %}
                                     <a href="{% url 'product_detail' product.slug %}">
@@ -299,43 +299,6 @@
                         }
                     }
                 });
-        // Add gradient style for heart icon (fill only the heart when selected)
-        const style = document.createElement('style');
-        style.textContent = `
-            .heart-gradient-icon {
-                font-size: 1.5rem;
-                color: transparent;
-                transition: color 0.2s;
-                background: none;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                position: relative;
-            }
-            .heart-gradient-icon:before {
-                content: "\f004";
-                font-family: 'Font Awesome 5 Free';
-                font-weight: 900;
-                color: transparent;
-                -webkit-text-stroke: 2px #ff2fa0;
-                text-stroke: 2px #ff2fa0;
-                background: none;
-                transition: color 0.2s, -webkit-text-stroke 0.2s;
-            }
-            .product-vest-btn.in-vest .heart-gradient-icon,
-            .product-vest-btn:focus.in-vest .heart-gradient-icon {
-                background: linear-gradient(135deg, #ff2fa0 0%, #ffe666 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                color: transparent;
-            }
-            .product-vest-btn.in-vest .heart-gradient-icon:before,
-            .product-vest-btn:focus.in-vest .heart-gradient-icon:before {
-                color: inherit;
-                -webkit-text-stroke: 0;
-                text-stroke: 0;
-            }
-        `;
-        document.head.appendChild(style);
     // Bulk select and enable/disable archive/delete buttons
     document.addEventListener('DOMContentLoaded', function() {
         const selectAll = document.getElementById('selectAllProducts');

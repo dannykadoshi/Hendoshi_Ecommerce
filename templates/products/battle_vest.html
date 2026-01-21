@@ -371,43 +371,7 @@ function updateCartCount(count) {
     }
 }
 
-function showToast(message, type = 'success') {
-    const toastContainer = document.querySelector('.toast-container-custom') || createToastContainer();
-
-    const toast = document.createElement('div');
-    toast.className = 'toast show';
-    toast.setAttribute('role', 'alert');
-    toast.setAttribute('aria-live', 'assertive');
-    toast.setAttribute('aria-atomic', 'true');
-
-    const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-    const headerText = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
-
-    toast.innerHTML = `
-        <div class="toast-header">
-            <strong class="me-auto"><i class="fas ${iconClass}"></i> ${headerText}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            ${message}
-        </div>
-    `;
-
-    toastContainer.appendChild(toast);
-
-    // Auto-remove after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
-
-function createToastContainer() {
-    const container = document.createElement('div');
-    container.className = 'toast-container-custom';
-    document.body.appendChild(container);
-    return container;
-}
+// showToast is defined globally in base.html
 
 // Fade out animation
 const style = document.createElement('style');

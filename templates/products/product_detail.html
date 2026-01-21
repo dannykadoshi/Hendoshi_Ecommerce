@@ -3,6 +3,34 @@
 
 {% block extra_title %}{{ product.name }}{% endblock %}
 
+{% block extra_head %}
+<!-- Product-specific Open Graph meta tags -->
+<meta property="og:type" content="product">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:title" content="{{ product.name }} - HENDOSHI">
+<meta property="og:description" content="Check out this {{ product.name }} from HENDOSHI - Wear Your Weird. Metal-inspired apparel with original designs.">
+{% if product.main_image %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="1200">
+{% endif %}
+
+<!-- Twitter Card meta tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+<meta name="twitter:title" content="{{ product.name }} - HENDOSHI">
+<meta name="twitter:description" content="Check out this {{ product.name }} from HENDOSHI - Wear Your Weird. Metal-inspired apparel with original designs.">
+{% if product.main_image %}
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}">
+{% endif %}
+
+<!-- Pinterest specific meta tags -->
+<meta name="pinterest-rich-pin" content="true">
+{% if product.main_image %}
+<link rel="image_src" href="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}">
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
 <div class="product-detail-page">
@@ -156,6 +184,33 @@
                         {% endif %}
                     </form>
                     
+                    <!-- Social Share Section -->
+                    <div class="social-share-section mt-4">
+                        <h6 class="share-title mb-3">Share this design</h6>
+                        <div class="social-share-buttons">
+                            <button class="share-btn facebook-btn" data-platform="facebook" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
+                                <i class="fab fa-facebook-f"></i>
+                                <span class="share-text">Facebook</span>
+                            </button>
+                            <button class="share-btn twitter-btn" data-platform="twitter" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
+                                <i class="fab fa-twitter"></i>
+                                <span class="share-text">Twitter</span>
+                            </button>
+                            <button class="share-btn pinterest-btn" data-platform="pinterest" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" {% if product.main_image %}data-product-image="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"{% endif %}>
+                                <i class="fab fa-pinterest-p"></i>
+                                <span class="share-text">Pinterest</span>
+                            </button>
+                            <button class="share-btn instagram-btn" data-platform="instagram" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
+                                <i class="fab fa-instagram"></i>
+                                <span class="share-text">Instagram</span>
+                            </button>
+                            <button class="share-btn copy-link-btn" data-platform="copy-link" data-product-url="{{ request.build_absolute_uri }}">
+                                <i class="fas fa-link"></i>
+                                <span class="share-text">Copy Link</span>
+                            </button>
+                        </div>
+                    </div>
+                    
                     <script>
                         function incrementQuantity() {
                             const input = document.getElementById('quantity');
@@ -197,39 +252,11 @@
                             return true;
                         });
 
-                        // Function to show validation toast
+                        // Use global showToast for validation messages
                         function showValidationToast(message) {
-                            const toastContainer = document.querySelector('.toast-container-custom') || createToastContainer();
-                            
-                            const toast = document.createElement('div');
-                            toast.className = 'toast show';
-                            toast.setAttribute('role', 'alert');
-                            toast.setAttribute('aria-live', 'assertive');
-                            toast.setAttribute('aria-atomic', 'true');
-                            
-                            toast.innerHTML = `
-                                <div class="toast-header">
-                                    <strong class="me-auto"><i class="fas fa-exclamation-circle"></i> Selection Required</strong>
-                                </div>
-                                <div class="toast-body">
-                                    ${message}
-                                </div>
-                            `;
-                            
-                            toastContainer.appendChild(toast);
-                            
-                            // Auto-hide after 4 seconds
-                            setTimeout(function() {
-                                toast.style.display = 'none';
-                            }, 4000);
-                        }
-
-                        // Function to create toast container if it doesn't exist
-                        function createToastContainer() {
-                            const container = document.createElement('div');
-                            container.className = 'toast-container-custom';
-                            document.body.appendChild(container);
-                            return container;
+                            if (typeof showToast === 'function') {
+                                showToast(message, 'warning');
+                            }
                         }
                     </script>
                     
@@ -396,43 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function showToast(message, type = 'success') {
-        const toastContainer = document.querySelector('.toast-container-custom') || createToastContainer();
-
-        const toast = document.createElement('div');
-        toast.className = 'toast show';
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'assertive');
-        toast.setAttribute('aria-atomic', 'true');
-
-        const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-        const headerText = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
-
-        toast.innerHTML = `
-            <div class="toast-header">
-                <strong class="me-auto"><i class="fas ${iconClass}"></i> ${headerText}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        `;
-
-        toastContainer.appendChild(toast);
-
-        // Auto-remove after 3 seconds
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
-
-    function createToastContainer() {
-        const container = document.createElement('div');
-        container.className = 'toast-container-custom';
-        document.body.appendChild(container);
-        return container;
-    }
+    // showToast is defined globally in base.html
 });
 {% endif %}
 </script>
@@ -474,7 +465,289 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Social Share Functionality
+    const shareButtons = document.querySelectorAll('.share-btn');
+
+    shareButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const platform = this.dataset.platform;
+            const productName = this.dataset.productName || '';
+            const productUrl = this.dataset.productUrl || '';
+            const productImage = this.dataset.productImage || '';
+
+            // Track share event (analytics)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'share', {
+                    method: platform,
+                    content_type: 'product',
+                    item_id: '{{ product.slug }}'
+                });
+            }
+
+            // Handle different platforms
+            switch(platform) {
+                case 'facebook':
+                    shareToFacebook(productUrl, productName);
+                    break;
+                case 'twitter':
+                    shareToTwitter(productUrl, productName);
+                    break;
+                case 'pinterest':
+                    shareToPinterest(productUrl, productName, productImage);
+                    break;
+                case 'instagram':
+                    shareToInstagram(productUrl, productName);
+                    break;
+                case 'copy-link':
+                    copyToClipboard(productUrl);
+                    break;
+            }
+        });
+    });
+
+    // Facebook share function
+    function shareToFacebook(url, title) {
+        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent('Check out this ' + title + ' from HENDOSHI - Wear Your Weird!')}`;
+        window.open(shareUrl, 'facebook-share', 'width=600,height=400');
+    }
+
+    // Twitter share function
+    function shareToTwitter(url, title) {
+        const text = `Check out this ${title} from HENDOSHI - Wear Your Weird! ${url}`;
+        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+        window.open(shareUrl, 'twitter-share', 'width=600,height=400');
+    }
+
+    // Pinterest share function
+    function shareToPinterest(url, title, imageUrl) {
+        if (!imageUrl) {
+            // Fallback to copy link if no image
+            copyToClipboard(url);
+            showToast('Link copied! Share this image on Pinterest manually.', 'info');
+            return;
+        }
+        const description = `Check out this ${title} from HENDOSHI - Wear Your Weird!`;
+        const shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&media=${encodeURIComponent(imageUrl)}&description=${encodeURIComponent(description)}`;
+        window.open(shareUrl, 'pinterest-share', 'width=600,height=400');
+    }
+
+    // Instagram share function (opens Instagram app/website)
+    function shareToInstagram(url, title) {
+        // Instagram doesn't have a direct share URL like Facebook/Twitter
+        // We'll copy the link and show instructions
+        copyToClipboard(url);
+        showToast('Link copied! Share this on Instagram by pasting the link in your story or bio.', 'info');
+
+        // Try to open Instagram app/website
+        const instagramUrl = 'https://www.instagram.com/';
+        window.open(instagramUrl, 'instagram-share');
+    }
+
+    // Copy to clipboard function
+    function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Link copied to clipboard!', 'success');
+            }).catch(() => {
+                fallbackCopyToClipboard(text);
+            });
+        } else {
+            fallbackCopyToClipboard(text);
+        }
+    }
+
+    // Fallback copy function for older browsers
+    function fallbackCopyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+            showToast('Link copied to clipboard!', 'success');
+        } catch (err) {
+            showToast('Failed to copy link. Please copy manually.', 'error');
+        }
+
+        document.body.removeChild(textArea);
+    }
+
+    // Mobile Web Share API support
+    if (navigator.share) {
+        // Add a native share button for mobile devices
+        const mobileShareBtn = document.createElement('button');
+        mobileShareBtn.className = 'share-btn mobile-share-btn';
+        mobileShareBtn.innerHTML = '<i class="fas fa-share-alt"></i><span class="share-text">Share</span>';
+        mobileShareBtn.style.borderColor = 'var(--electric-yellow)';
+        mobileShareBtn.style.color = 'var(--electric-yellow)';
+
+        mobileShareBtn.addEventListener('click', async () => {
+            try {
+                await navigator.share({
+                    title: '{{ product.name }} - HENDOSHI',
+                    text: 'Check out this {{ product.name }} from HENDOSHI - Wear Your Weird!',
+                    url: '{{ request.build_absolute_uri }}'
+                });
+
+                // Track share event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'share', {
+                        method: 'native',
+                        content_type: 'product',
+                        item_id: '{{ product.slug }}'
+                    });
+                }
+
+                showToast('Shared successfully!', 'success');
+            } catch (err) {
+                // User cancelled or error occurred
+                console.log('Share cancelled or failed');
+            }
+        });
+
+        // Insert the mobile share button at the beginning
+        const shareButtonsContainer = document.querySelector('.social-share-buttons');
+        if (shareButtonsContainer) {
+            shareButtonsContainer.insertBefore(mobileShareBtn, shareButtonsContainer.firstChild);
+        }
+    }
 });
 </script>
+
+<style>
+/* Social Share Section Styles */
+.social-share-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.share-title {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.social-share-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid;
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.share-btn:active {
+    transform: translateY(0);
+}
+
+.share-btn i {
+    font-size: 1.1rem;
+}
+
+.share-text {
+    font-weight: 600;
+}
+
+/* Platform-specific button styles */
+.facebook-btn {
+    border-color: #1877f2;
+    color: #1877f2;
+}
+
+.facebook-btn:hover {
+    background: #1877f2;
+    color: white;
+}
+
+.twitter-btn {
+    border-color: #1da1f2;
+    color: #1da1f2;
+}
+
+.twitter-btn:hover {
+    background: #1da1f2;
+    color: white;
+}
+
+.pinterest-btn {
+    border-color: #e60023;
+    color: #e60023;
+}
+
+.pinterest-btn:hover {
+    background: #e60023;
+    color: white;
+}
+
+.instagram-btn {
+    border-color: #e4405f;
+    color: #e4405f;
+}
+
+.instagram-btn:hover {
+    background: #e4405f;
+    color: white;
+}
+
+.copy-link-btn {
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+.copy-link-btn:hover {
+    background: var(--neon-pink);
+    color: white;
+}
+
+/* Mobile responsive */
+@media (max-width: 576px) {
+    .social-share-buttons {
+        gap: 0.5rem;
+    }
+
+    .share-btn {
+        padding: 0.6rem 0.8rem;
+        min-width: 100px;
+        font-size: 0.8rem;
+    }
+
+    .share-text {
+        display: none;
+    }
+
+    .share-btn {
+        min-width: auto;
+        padding: 0.6rem;
+    }
+}
+</style>
 
 {% endblock %}

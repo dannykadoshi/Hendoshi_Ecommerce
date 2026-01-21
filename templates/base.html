@@ -46,6 +46,18 @@
             } catch (e) {}
         })();
         </script>
+
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            'custom_map': {'custom_parameter': 'custom_value'}
+        });
+        </script>
+
         <!-- Favicon -->
         <link rel="icon"
               type="image/x-icon"
@@ -66,25 +78,30 @@
         {% block extra_css %}{% endblock %}
     </head>
     <body>
-        <!-- Toast Messages - At body level to ensure it's above all stacking contexts -->
+        <!-- Toast Messages - Server-rendered -->
         {% if messages %}
             <div class="toast-container-custom">
                 {% for message in messages %}
-                    <div class="toast show toast-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true" data-message="true">
-                        <div class="toast-header">
-                            {% if message.tags == 'success' %}
-                                <strong class="me-auto"><i class="fas fa-check-circle"></i> Success</strong>
-                            {% elif message.tags == 'error' or message.tags == 'danger' %}
-                                <strong class="me-auto"><i class="fas fa-exclamation-circle"></i> Error</strong>
-                            {% elif message.tags == 'warning' %}
-                                <strong class="me-auto"><i class="fas fa-exclamation-triangle"></i> Warning</strong>
-                            {% else %}
-                                <strong class="me-auto"><i class="fas fa-info-circle"></i> Info</strong>
-                            {% endif %}
-                            <button type="button" class="btn-close btn-close-white" onclick="this.closest('.toast').classList.add('fade'); setTimeout(() => this.closest('.toast').remove(), 300);"></button>
+                    <div class="toast toast-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true" data-message="true" style="position: relative;">
+                        <div class="toast-content">
+                            <div class="toast-header">
+                                {% if message.tags == 'success' %}
+                                    <strong><i class="fas fa-check-circle"></i> Success</strong>
+                                {% elif message.tags == 'error' or message.tags == 'danger' %}
+                                    <strong><i class="fas fa-times-circle"></i> Error</strong>
+                                {% elif message.tags == 'warning' %}
+                                    <strong><i class="fas fa-exclamation-triangle"></i> Warning</strong>
+                                {% else %}
+                                    <strong><i class="fas fa-info-circle"></i> Info</strong>
+                                {% endif %}
+                            </div>
+                            <div class="toast-body">{{ message }}</div>
                         </div>
-                        <div class="toast-body">
-                            {{ message }}
+                        <button class="toast-close" aria-label="Close" onclick="this.closest('.toast').classList.add('toast-hiding'); setTimeout(() => this.closest('.toast').remove(), 300);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="toast-progress">
+                            <div class="toast-progress-bar"></div>
                         </div>
                     </div>
                 {% endfor %}
@@ -93,25 +110,40 @@
                 document.addEventListener('DOMContentLoaded', function() {
                     const toasts = document.querySelectorAll('[data-message="true"]');
                     toasts.forEach(function(toast, index) {
-                        // Ensure toast is a direct child of body for proper fixed positioning
-                        if (toast.parentElement.className !== 'toast-container-custom') {
-                            document.body.appendChild(toast.parentElement);
+                        // Stagger appearance for multiple toasts
+                        toast.style.animationDelay = (index * 0.1) + 's';
+
+                        let timeoutId;
+                        let remainingTime = 2000;
+                        let startTime = Date.now();
+
+                        // Pause timer on hover
+                        toast.addEventListener('mouseenter', function() {
+                            clearTimeout(timeoutId);
+                            remainingTime -= (Date.now() - startTime);
+                            // Pause progress bar
+                            const progressBar = toast.querySelector('.toast-progress-bar');
+                            if (progressBar) progressBar.style.animationPlayState = 'paused';
+                        });
+
+                        // Resume timer on mouse leave
+                        toast.addEventListener('mouseleave', function() {
+                            startTime = Date.now();
+                            timeoutId = setTimeout(dismissToast, remainingTime);
+                            // Resume progress bar
+                            const progressBar = toast.querySelector('.toast-progress-bar');
+                            if (progressBar) progressBar.style.animationPlayState = 'running';
+                        });
+
+                        function dismissToast() {
+                            toast.classList.add('toast-hiding');
+                            setTimeout(function() {
+                                if (toast.parentNode) toast.remove();
+                            }, 300);
                         }
 
-                        // Stagger the appearance of multiple toasts
-                        setTimeout(function() {
-                            toast.style.opacity = '1';
-                        }, index * 100);
-
-                        // Auto-hide after 5 seconds with fade animation
-                        setTimeout(function() {
-                            toast.classList.add('fade');
-                            setTimeout(function() {
-                                if (toast.parentNode) {
-                                    toast.parentNode.removeChild(toast);
-                                }
-                            }, 300); // Wait for fade animation to complete
-                        }, 5000);
+                        // Start auto-dismiss timer
+                        timeoutId = setTimeout(dismissToast, 2000 + (index * 100));
                     });
                 });
             </script>
@@ -1019,32 +1051,73 @@
                 document.body.appendChild(toastContainer);
             }
 
+            // Define icon and title based on type
+            const config = {
+                success: { icon: 'fa-check-circle', title: 'Success' },
+                error: { icon: 'fa-times-circle', title: 'Error' },
+                danger: { icon: 'fa-times-circle', title: 'Error' },
+                warning: { icon: 'fa-exclamation-triangle', title: 'Warning' },
+                info: { icon: 'fa-info-circle', title: 'Info' }
+            };
+            const { icon, title } = config[type] || config.info;
+
+            // Create toast element
             const toast = document.createElement('div');
-            toast.className = 'toast show toast-' + type;
+            toast.className = `toast toast-${type}`;
             toast.setAttribute('role', 'alert');
             toast.setAttribute('aria-live', 'assertive');
             toast.setAttribute('aria-atomic', 'true');
-
-            const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-            const headerText = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
+            toast.style.position = 'relative';
 
             toast.innerHTML = `
-                <div class="toast-header">
-                    <strong class="me-auto"><i class="fas ${iconClass}"></i> ${headerText}</strong>
-                    <button type="button" class="btn-close btn-close-white" onclick="this.closest('.toast').remove()"></button>
+                <div class="toast-content">
+                    <div class="toast-header">
+                        <strong><i class="fas ${icon}"></i> ${title}</strong>
+                    </div>
+                    <div class="toast-body">${message}</div>
                 </div>
-                <div class="toast-body">
-                    ${message}
+                <button class="toast-close" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="toast-progress">
+                    <div class="toast-progress-bar"></div>
                 </div>
             `;
 
             toastContainer.appendChild(toast);
 
-            // Auto-remove after 4 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
+            // Store timeout ID for pause/resume functionality
+            let timeoutId;
+            let remainingTime = 2000;
+            let startTime = Date.now();
+
+            // Close button functionality
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dismissToast();
+            });
+
+            // Pause on hover
+            toast.addEventListener('mouseenter', () => {
+                clearTimeout(timeoutId);
+                remainingTime -= (Date.now() - startTime);
+            });
+
+            // Resume on mouse leave
+            toast.addEventListener('mouseleave', () => {
+                startTime = Date.now();
+                timeoutId = setTimeout(dismissToast, remainingTime);
+            });
+
+            // Dismiss function
+            function dismissToast() {
+                toast.classList.add('toast-hiding');
                 setTimeout(() => toast.remove(), 300);
-            }, 4000);
+            }
+
+            // Auto-remove after 2 seconds
+            timeoutId = setTimeout(dismissToast, 2000);
         }
         </script>
 

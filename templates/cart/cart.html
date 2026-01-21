@@ -356,30 +356,7 @@
             });
     }
 
-    function showToast(message, type = 'success') {
-        // Create toast notification
-        const toastHtml = `
-            <div class="toast show toast-${type}" role="alert" style="position: fixed; top: 120px; right: 20px; z-index: 9999;">
-                <div class="toast-header">
-                    <strong class="me-auto">${type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Warning'}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                </div>
-                <div class="toast-body">${message}</div>
-            </div>
-        `;
-        
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = toastHtml;
-        document.body.appendChild(tempDiv.firstElementChild);
-        
-        // Auto-hide after 3 seconds
-        setTimeout(() => {
-            const toast = tempDiv.firstElementChild;
-            if (toast) {
-                toast.remove();
-            }
-        }, 3000);
-    }
+    // showToast is defined globally in base.html
 
     function updateCartCountBadge(count) {
         const cartBadge = document.getElementById('cartCountBadge');

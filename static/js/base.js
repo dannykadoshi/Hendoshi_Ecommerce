@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Auto-dismiss messages after 5 seconds (exclude guide alerts)
+// Auto-dismiss messages after 4 seconds (exclude guide alerts)
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         let alerts = document.querySelectorAll('.alert:not(.guide-alert)');
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
         });
-    }, 5000);
+    }, 4000);
 });
 
 // Smooth scroll for anchor links
