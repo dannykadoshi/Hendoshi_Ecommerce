@@ -6,7 +6,7 @@
 {% block content %}
 
 <!-- Hidden form for CSRF token -->
-<form id="csrfForm" style="display:none;">{% csrf_token %}</form>
+<form id="csrfForm" class="d-none">{% csrf_token %}</form>
 
 <!-- Custom Modal for Remove Confirmation -->
 <div id="removeVestModal" class="modal fade" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
@@ -17,7 +17,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <p class="mb-0" style="font-size: 1.1rem;">Remove this item from your Battle Vest?</p>
+                <p class="mb-0 vest-modal-text">Remove this item from your Battle Vest?</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-outline-pink px-4" data-bs-dismiss="modal">Cancel</button>
@@ -420,4 +420,9 @@ style.textContent = `
 document.head.appendChild(style);
 </script>
 
+<style>
+.vest-modal-text {
+    font-size: 1.1rem;
+}
+</style>
 {% endblock %}

@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <input type="file" name="image" id="id_image" class="vault-file-input" accept="image/*">
-                        <div class="vault-upload-preview" id="uploadPreview" style="display: none;">
+                        <div class="vault-upload-preview d-none" id="uploadPreview">
                             <img id="previewImage" src="" alt="Preview">
                             <button type="button" class="vault-preview-remove" id="removePreview">
                                 <i class="fas fa-times"></i>
@@ -767,8 +767,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const reader = new FileReader();
         reader.onload = function(e) {
             previewImage.src = e.target.result;
-            uploadContent.style.display = 'none';
-            uploadPreview.style.display = 'block';
+            uploadContent.classList.add('d-none');
+            uploadPreview.classList.remove('d-none');
         };
         reader.readAsDataURL(file);
     }
@@ -777,8 +777,8 @@ document.addEventListener('DOMContentLoaded', function() {
     removePreview.addEventListener('click', function(e) {
         e.stopPropagation();
         fileInput.value = '';
-        uploadContent.style.display = 'block';
-        uploadPreview.style.display = 'none';
+        uploadContent.classList.remove('d-none');
+        uploadPreview.classList.add('d-none');
     });
 
     // Character counter

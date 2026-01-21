@@ -100,16 +100,16 @@
                                 <div class="product-card-inner">
                                     <!-- Battle Vest Button (always same style) -->
                                     {% if user.is_authenticated %}
-                                    <button type="button" class="product-vest-btn" data-product-slug="{{ product.slug }}" title="Add to Battle Vest" style="background:none;border:none;padding:0;position:absolute;top:16px;left:16px;z-index:10;">
+                                    <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
                                         <i class="far fa-heart heart-gradient-icon"></i>
                                     </button>
                                     {% else %}
-                                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn" title="Login to add to Battle Vest" style="background:none;border:none;padding:0;position:absolute;top:16px;left:16px;z-index:10;">
+                                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn product-vest-btn-positioned" title="Login to add to Battle Vest">
                                         <i class="far fa-heart heart-gradient-icon"></i>
                                     </a>
                                     {% endif %}
                                     <a href="{% url 'product_detail' product.slug %}">
-                                        <div class="product-image" style="position:relative;">
+                                        <div class="product-image product-image-relative">
                                             {% if product.main_image %}
                                                 <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main">
                                                 {% with second_image=product.images.first %}
@@ -562,4 +562,20 @@
         });
     });
     </script>
+
+    <style>
+    .product-vest-btn-positioned {
+        background: none;
+        border: none;
+        padding: 0;
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 10;
+    }
+
+    .product-image-relative {
+        position: relative;
+    }
+    </style>
 {% endblock %}

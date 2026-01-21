@@ -4,13 +4,13 @@
 {% block extra_title %}Notification Preferences{% endblock %}
 
 {% block content %}
-<div class="container" style="margin-top: 120px; margin-bottom: 60px;">
+<div class="container notification-prefs-container">
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="profile-card">
                 <div class="text-center mb-4">
-                    <i class="fas fa-bell fa-3x" style="color: var(--pink);"></i>
-                    <h1 class="mt-3" style="color: var(--pink);">Notification Preferences</h1>
+                    <i class="fas fa-bell fa-3x notification-icon-pink"></i>
+                    <h1 class="mt-3 notification-title-pink">Notification Preferences</h1>
                     <p class="text-muted">Control how you receive alerts for your Battle Vest items</p>
                 </div>
 
@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <hr style="border-color: var(--border-color);">
+                    <hr class="notification-divider">
 
                     <div class="notification-options mt-4" id="notificationOptions">
                         <p class="mb-3"><strong>Notify me when items in my Battle Vest:</strong></p>
@@ -43,7 +43,7 @@
                                    name="sale_notifications"
                                    {% if preferences.sale_notifications %}checked{% endif %}>
                             <label class="form-check-label" for="sale_notifications">
-                                <i class="fas fa-tag" style="color: var(--pink);"></i>
+                                <i class="fas fa-tag notification-icon-pink"></i>
                                 Go on sale (price drops)
                                 <small class="d-block text-muted">Get alerted when items drop in price</small>
                             </label>
@@ -56,7 +56,7 @@
                                    name="restock_notifications"
                                    {% if preferences.restock_notifications %}checked{% endif %}>
                             <label class="form-check-label" for="restock_notifications">
-                                <i class="fas fa-box" style="color: var(--pink);"></i>
+                                <i class="fas fa-box notification-icon-pink"></i>
                                 Are back in stock
                                 <small class="d-block text-muted">Get alerted when out-of-stock items return</small>
                             </label>
@@ -69,7 +69,7 @@
                                    name="vault_photo_notifications"
                                    {% if preferences.vault_photo_notifications %}checked{% endif %}>
                             <label class="form-check-label" for="vault_photo_notifications">
-                                <i class="fas fa-camera" style="color: var(--pink);"></i>
+                                <i class="fas fa-camera notification-icon-pink"></i>
                                 My vault photo submissions are reviewed
                                 <small class="d-block text-muted">Get notified when your photos are approved or rejected</small>
                             </label>
@@ -92,6 +92,23 @@
 </div>
 
 <style>
+    .notification-prefs-container {
+        margin-top: 120px;
+        margin-bottom: 60px;
+    }
+
+    .notification-icon-pink {
+        color: var(--pink);
+    }
+
+    .notification-title-pink {
+        color: var(--pink);
+    }
+
+    .notification-divider {
+        border-color: var(--border-color);
+    }
+
     .notification-section {
         padding: 16px;
         background: var(--card-bg);

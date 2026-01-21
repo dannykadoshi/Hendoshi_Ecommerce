@@ -4,13 +4,13 @@
 {% block extra_title %}Unsubscribed{% endblock %}
 
 {% block content %}
-<div class="container" style="margin-top: 120px; margin-bottom: 60px;">
+<div class="container unsub-confirm-container">
     <div class="row justify-content-center">
         <div class="col-lg-5">
             <div class="profile-card text-center">
                 {% if success %}
-                <i class="fas fa-check-circle fa-4x mb-3" style="color: #28a745;"></i>
-                <h1 style="color: #28a745;">Successfully Unsubscribed</h1>
+                <i class="fas fa-check-circle fa-4x mb-3 unsub-success-icon"></i>
+                <h1 class="unsub-success-title">Successfully Unsubscribed</h1>
 
                 <p class="mt-3">
                     {% if unsubscribe_type == 'all' %}
@@ -24,15 +24,15 @@
                     {% endif %}
                 </p>
 
-                <div class="alert alert-info mt-4" style="background: rgba(255, 20, 147, 0.1); border-color: #ff1493; color: #333;">
-                    <i class="fas fa-info-circle me-2" style="color: #ff1493;"></i>
+                <div class="alert alert-info mt-4 unsub-info-alert">
+                    <i class="fas fa-info-circle me-2 unsub-info-icon"></i>
                     <span>Changed your mind? You can update your preferences anytime in your
-                    <a href="{% url 'profile' %}" style="color: #ff1493; text-decoration: underline;">profile settings</a>.</span>
+                    <a href="{% url 'profile' %}" class="unsub-profile-link">profile settings</a>.</span>
                 </div>
 
                 {% else %}
-                <i class="fas fa-exclamation-circle fa-4x mb-3" style="color: #dc3545;"></i>
-                <h1 style="color: #dc3545;">Something Went Wrong</h1>
+                <i class="fas fa-exclamation-circle fa-4x mb-3 unsub-error-icon"></i>
+                <h1 class="unsub-error-title">Something Went Wrong</h1>
                 <p class="mt-3">We couldn't process your unsubscribe request. Please try again or contact support.</p>
                 {% endif %}
 
@@ -45,4 +45,42 @@
         </div>
     </div>
 </div>
+
+<style>
+.unsub-confirm-container {
+    margin-top: 120px;
+    margin-bottom: 60px;
+}
+
+.unsub-success-icon {
+    color: #28a745;
+}
+
+.unsub-success-title {
+    color: #28a745;
+}
+
+.unsub-error-icon {
+    color: #dc3545;
+}
+
+.unsub-error-title {
+    color: #dc3545;
+}
+
+.unsub-info-alert {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: #ff1493;
+    color: #333;
+}
+
+.unsub-info-icon {
+    color: #ff1493;
+}
+
+.unsub-profile-link {
+    color: #ff1493;
+    text-decoration: underline;
+}
+</style>
 {% endblock %}

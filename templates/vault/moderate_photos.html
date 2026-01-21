@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="vault-modal-message" id="modal-message">Are you sure you want to perform this action?</p>
 
                     <!-- Rejection Reason Textarea (only shown for reject actions) -->
-                    <div class="vault-rejection-reason" id="rejection-reason-container" style="display: none;">
+                    <div class="vault-rejection-reason d-none" id="rejection-reason-container">
                         <label for="rejection-reason" class="vault-rejection-label">
                             <i class="fas fa-comment-dots"></i> Rejection Reason (Optional)
                         </label>
@@ -370,7 +370,7 @@ function showVaultConfirmModal(title, message, iconClass, confirmText, confirmCl
     const rejectionTextarea = document.getElementById('rejection-reason');
 
     if (isRejectAction) {
-        rejectionContainer.style.display = 'block';
+        rejectionContainer.classList.remove('d-none');
         rejectionTextarea.value = ''; // Clear previous value
         updateRejectionCharCount();
 
@@ -379,7 +379,7 @@ function showVaultConfirmModal(title, message, iconClass, confirmText, confirmCl
             rejectionTextarea.focus();
         }, 500);
     } else {
-        rejectionContainer.style.display = 'none';
+        rejectionContainer.classList.add('d-none');
         rejectionTextarea.value = '';
     }
 
