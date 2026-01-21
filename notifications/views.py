@@ -28,6 +28,9 @@ def notification_preferences(request):
                 })
 
             messages.success(request, 'Notification preferences updated!')
+            next_url = request.POST.get('next')
+            if next_url:
+                return redirect(next_url)
             return redirect('notification_preferences')
         else:
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':

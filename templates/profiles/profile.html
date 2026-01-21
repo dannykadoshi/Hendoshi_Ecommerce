@@ -124,6 +124,7 @@
 
                     <form method="post" action="{% url 'notification_preferences' %}" id="notificationForm">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{% url 'profile' %}">
 
                         <div class="notification-toggle mb-3">
                             <div class="form-check form-switch">

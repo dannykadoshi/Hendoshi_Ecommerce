@@ -611,7 +611,7 @@
         <!-- Custom JS -->
         <script src="{% static 'js/base.js' %}"></script>
         <script>
-            // Admin Panel Dropdown - Click only (submenu opens to the left)
+            // Admin Panel Dropdown - Hover to open (submenu opens to the left)
             document.addEventListener('DOMContentLoaded', function() {
                 function closeAllAdminSubmenus() {
                     document.querySelectorAll('.admin-panel-submenu').forEach(menu => {
@@ -620,38 +620,30 @@
                     });
                 }
 
-                // Handle Admin Panel click to toggle submenu (open to left)
-                document.querySelectorAll('.admin-panel-toggle').forEach(toggle => {
-                    toggle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const wrapper = this.closest('.admin-panel-dropdown-wrapper');
-                        const submenu = wrapper.querySelector('.admin-panel-submenu');
-                        // Toggle .show class for submenu
-                        const isOpen = submenu.classList.contains('show');
-                        closeAllAdminSubmenus();
-                        if (!isOpen) {
-                            submenu.classList.add('show');
-                            wrapper.classList.add('show');
-                        }
-                    });
-                });
+                // Handle Admin Panel hover to show submenu (open to left)
+                document.querySelectorAll('.admin-panel-dropdown-wrapper').forEach(wrapper => {
+                    const submenu = wrapper.querySelector('.admin-panel-submenu');
+                    const toggle = wrapper.querySelector('.admin-panel-toggle');
 
-                // Prevent submenu from closing when clicking inside it
-                document.querySelectorAll('.admin-panel-submenu').forEach(submenu => {
-                    submenu.addEventListener('click', function(e) {
-                        if (e.target.tagName === 'A' || e.target.closest('a')) {
-                            return;
-                        }
-                        e.stopPropagation();
-                    });
-                });
-
-                // Close submenu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!e.target.closest('.admin-panel-dropdown-wrapper')) {
-                        closeAllAdminSubmenus();
+                    // Prevent default click behavior on toggle
+                    if (toggle) {
+                        toggle.addEventListener('click', function(e) {
+                            e.preventDefault();
+                        });
                     }
+
+                    // Show submenu on hover
+                    wrapper.addEventListener('mouseenter', function() {
+                        closeAllAdminSubmenus();
+                        submenu.classList.add('show');
+                        wrapper.classList.add('show');
+                    });
+
+                    // Hide submenu when leaving
+                    wrapper.addEventListener('mouseleave', function() {
+                        submenu.classList.remove('show');
+                        wrapper.classList.remove('show');
+                    });
                 });
 
                 // Close submenu when parent dropdown closes
