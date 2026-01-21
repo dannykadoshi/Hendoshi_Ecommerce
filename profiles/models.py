@@ -11,6 +11,9 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
+    # User display name
+    name = models.CharField(max_length=100, null=True, blank=True)
+    
     # Default delivery information
     default_phone_number = models.CharField(max_length=20, null=True, blank=True)
     default_street_address1 = models.CharField(max_length=80, null=True, blank=True)

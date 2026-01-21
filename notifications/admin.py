@@ -103,3 +103,23 @@ class SentNotificationLogAdmin(admin.ModelAdmin):
     readonly_fields = ['sent_at']
     date_hierarchy = 'sent_at'
     raw_id_fields = ['user']
+
+
+# Register NewsletterSubscriber
+from .models import NewsletterSubscriber
+
+
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+    list_display = ['email', 'is_confirmed', 'consent', 'created_at', 'confirmed_at']
+    list_filter = ['is_confirmed', 'consent', 'created_at']
+    search_fields = ['email']
+    readonly_fields = ['confirmation_token', 'created_at', 'confirmed_at']
+    actions = ['export_emails']
+
+    def export_emails(self, request, queryset):
+        """Export selected emails as a newline-separated text response."""
+        emails = "\n".join(queryset.values_list('email', flat=True))
+        from django.http import HttpResponse
+        return HttpResponse(emails, content_type='text/plain')
+    export_emails.short_description = 'Export selected emails'

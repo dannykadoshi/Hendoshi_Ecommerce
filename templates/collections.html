@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Collections{% endblock %}
+
+{% block content %}
+<div class="collections-page">
+    <div class="container-fluid">
+        <!-- Collections Hero -->
+        <section class="collections-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="collections-title">Explore Our Collections</h1>
+                        <p class="collections-subtitle">Discover unique designs across our themed collections</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections Grid -->
+        <section class="collections-grid-section py-5">
+            <div class="container">
+                {% if collections %}
+                <div class="battle-vest-grid">
+                    {% for collection in collections %}
+                    <div class="vest-item-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
+                        <div class="vest-item-image-wrapper">
+                            {% if collection.representative_product and collection.representative_product.main_image %}
+                                <img src="{{ collection.representative_product.main_image.url }}" alt="{{ collection.representative_product.name }}" class="vest-item-image">
+                            {% else %}
+                                <div class="placeholder-image">
+                                    <i class="fas fa-palette fa-3x"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="vest-item-info">
+                            <div class="vest-item-title">
+                                {{ collection.name }}
+                            </div>
+                            <p class="vest-item-price">{{ collection.product_count }} Design{{ collection.product_count|pluralize }}</p>
+                            <div class="collection-link">
+                                <span>Explore Collection</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center">
+                    <h3>No collections available at the moment.</h3>
+                    <p>Check back soon for new collections!</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+/* Collections Page Styles */
+.collections-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .collections-page {
+        padding-top: 125px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .collections-page {
+        padding-top: 115px;
+    }
+}
+
+@media (max-width: 767px) {
+    .collections-page {
+        padding-top: 115px;
+    }
+}
+
+.collections-hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 80px 0;
+    margin-top: -20px;
+}
+
+.collections-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.collections-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.collection-card-large {
+    background: #2d2d2d;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    border: 2px solid transparent;
+}
+
+.collection-card-large:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    border-color: #ff6b9d;
+}
+
+.collection-image-large {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    color: white;
+}
+
+.collection-info-large {
+    padding: 2rem;
+    text-align: center;
+}
+
+.collection-info-large h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.collection-info-large p {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.collection-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #ff6b9d;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.collection-card-large:hover .collection-link {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .collections-title {
+        font-size: 2rem;
+    }
+
+    .collections-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .collection-card-large {
+        margin: 0 1rem;
+    }
+}
+</style>
+
+{% endblock %}

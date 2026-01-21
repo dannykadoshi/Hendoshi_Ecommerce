@@ -235,6 +235,7 @@ def moderate_photos(request):
                         subject = '🎉 Your HENDOSHI Vault Photo is Approved!'
                         context = {
                             'user': photo.user,
+                            'profile': photo.user.userprofile,
                             'photo': photo,
                             'site_url': settings.SITE_URL,
                         }
@@ -283,6 +284,7 @@ def moderate_photos(request):
                             subject = f'Your HENDOSHI Vault photo has been reviewed'
                             context = {
                                 'user': photo.user,
+                                'profile': photo.user.userprofile,
                                 'photo': photo,
                                 'rejection_reason': rejection_reason,
                                 'site_url': settings.SITE_URL,
@@ -371,6 +373,7 @@ def approve_photo(request, photo_id):
             subject = '🎉 Your HENDOSHI Vault Photo is Approved!'
             context = {
                 'user': photo.user,
+                'profile': photo.user.userprofile,
                 'photo': photo,
                 'site_url': settings.SITE_URL,
             }

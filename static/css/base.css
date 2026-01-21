@@ -1446,10 +1446,15 @@ body {
     padding: 0;
     border-bottom: 1px solid rgba(255, 20, 147, 0.1);
     background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-item-group:hover {
+    background-color: rgba(255, 20, 147, 0.05);
 }
 
 .menu-item-group .menu-item-header {
-    flex: 1;
     padding: 1rem 1.5rem;
     margin: 0;
     border: none;
@@ -1461,11 +1466,23 @@ body {
     color: var(--off-white);
     transition: all 0.3s;
     cursor: pointer;
+    display: block;
+    text-align: left;
+    background: none;
+    text-decoration: none;
+}
+
+.menu-item-group:hover .menu-item-header {
+    color: var(--neon-pink);
 }
 
 .menu-item-group .menu-item-header:hover {
     color: var(--neon-pink);
     background-color: rgba(255, 20, 147, 0.05);
+}
+
+.menu-item-header {
+    text-decoration: none;
 }
 
 .menu-item-arrow {
@@ -8210,6 +8227,48 @@ input[type="number"] {
     border: 2px solid var(--neon-pink);
 }
 
+/* Profile submenu styles */
+.profile-submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 200px;
+    display: none;
+    z-index: 1051;
+}
+
+/* Prevent Profile submenu from opening on hover - click only */
+@media (min-width: 992px) {
+    /* Position the parent li to be relative for absolute positioning of submenu */
+    .dropdown-menu .profile-dropdown-wrapper {
+        position: relative;
+    }
+
+    /* Hide submenu by default - only show when .show class is added via JavaScript */
+    .dropdown-menu .profile-submenu {
+        display: none !important;
+        position: absolute;
+        right: 100%;
+        left: auto;
+        top: 0;
+        margin-left: 0;
+        margin-top: 0;
+        z-index: 1050;
+        min-width: 200px;
+    }
+
+    /* Show submenu when .show class is added */
+    .dropdown-menu .profile-submenu.show {
+        display: block !important;
+    }
+}
+
+/* Light mode Profile submenu */
+:root.light-mode .dropdown-menu .profile-submenu {
+    background-color: white;
+    border: 2px solid var(--neon-pink);
+}
+
 /* ================================
    BATTLE VEST (WISHLIST) STYLES
    ================================ */
@@ -10714,5 +10773,139 @@ datalist option {
 
     .dropdown-submenu:hover .dropdown-menu {
         display: block;
+    }
+}
+
+/* Collections Carousel */
+.collections-carousel-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.collections-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.collections-track {
+    display: flex;
+    gap: 1.5rem;
+    transition: transform 0.3s ease;
+    padding: 0 60px; /* Space for navigation buttons */
+}
+
+.collection-carousel-item {
+    flex: 0 0 280px;
+    min-width: 280px;
+}
+
+.collections-carousel .collection-card {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.collections-carousel .collection-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.collections-carousel .collection-image {
+    margin-bottom: 1rem;
+    color: var(--neon-pink);
+}
+
+.collections-carousel .collection-info h3 {
+    color: var(--neon-pink);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.collections-carousel .collection-info p {
+    color: var(--off-white);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.collections-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 20, 147, 0.9);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+    z-index: 10;
+}
+
+.collections-carousel-btn:hover {
+    background: #ff1493;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    animation: pulse-pink 1.5s infinite;
+}
+
+@keyframes pulse-pink {
+    0% {
+        box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    }
+    50% {
+        box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6), 0 0 30px rgba(255, 20, 147, 0.3);
+    }
+    100% {
+        box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    }
+}
+
+.collections-carousel-prev {
+    left: 10px;
+}
+
+.collections-carousel-next {
+    right: 10px;
+}
+
+/* Responsive adjustments for collections carousel */
+@media (max-width: 768px) {
+    .collection-carousel-item {
+        flex: 0 0 220px;
+        min-width: 220px;
+    }
+
+    .collections-track {
+        padding: 0 50px;
+    }
+
+    .collections-carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .collection-card {
+        height: 180px;
+        padding: 15px;
+    }
+
+    .collection-image .fa-4x {
+        font-size: 2.5em;
     }
 }

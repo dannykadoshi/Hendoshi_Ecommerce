@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block extra_title %}Subscription Confirmed{% endblock %}
+{% block content %}
+{# djlint:off H025 #}
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <div class="checkout-header checkout-header-spaced">
+            <h1 class="page-title">SUBSCRIPTION CONFIRMED</h1>
+        </div>
+        
+        <div class="checkout-content checkout-content-spaced">
+            <div class="checkout-main">
+                <div class="profile-card text-center">
+                    {% if success %}
+                        <i class="fas fa-check-circle fa-4x text-success mb-4"></i>
+                        <h2 class="mb-3">Welcome to HENDOSHI!</h2>
+                        <p class="mb-4">Thanks for subscribing to our newsletter. You will receive exclusive offers and updates.</p>
+                        <a href="{% url 'home' %}" class="btn btn-pink">Start Shopping</a>
+                    {% else %}
+                        <i class="fas fa-exclamation-triangle fa-4x text-warning mb-4"></i>
+                        <h2 class="mb-3">Invalid Confirmation Link</h2>
+                        <p class="mb-4">This confirmation link is invalid or has expired. Please try subscribing again.</p>
+                        <a href="{% url 'home' %}" class="btn btn-outline-pink">Return Home</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{# djlint:on #}
+{% endblock %}

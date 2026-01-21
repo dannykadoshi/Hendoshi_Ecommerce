@@ -119,7 +119,7 @@
 
         <div class="email-body">
             <div class="email-content">
-                <p>Hi <strong>{{ user.username }}</strong>,</p>
+                <p>Hi <strong>{{ profile.name|default:user.username }}</strong>,</p>
 
                 <p>Congratulations! 🎉 Your photo has been approved and is now live in <strong>The HENDOSHI Vault</strong>!</p>
 

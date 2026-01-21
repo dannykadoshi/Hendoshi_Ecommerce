@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block extra_title %}Privacy Policy{% endblock %}
+{% block content %}
+{# djlint:off H025 #}
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <div class="checkout-header checkout-header-spaced">
+            <h1 class="page-title">PRIVACY POLICY</h1>
+        </div>
+        
+        <div class="checkout-content checkout-content-spaced">
+            <div class="checkout-main">
+                <div class="profile-card">
+                    <p>Last updated: {{ last_updated|default:"January 2026" }}</p>
+
+                    <h2>Introduction</h2>
+                    <p>HENDOSHI operates hendoshi.com. We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our Site or make a purchase. It applies to customers and visitors in the USA, EU, and UK.</p>
+
+                    <h2>Data We Collect</h2>
+                    <ul>
+                      <li><strong>Account information:</strong> name, email, billing and shipping addresses, phone number.</li>
+                      <li><strong>Order and payment data:</strong> order history, items purchased, payment transaction identifiers (we do not store full card numbers).</li>
+                      <li><strong>Marketing preferences:</strong> newsletter subscriptions and notification preferences.</li>
+                      <li><strong>Technical data:</strong> IP address, device/browser information, cookies and usage data for analytics.</li>
+                    </ul>
+
+                    <h2>How We Use Your Data</h2>
+                    <p>We use your data to:</p>
+                    <ul>
+                      <li>Process orders and payments;</li>
+                      <li>Provide customer support;</li>
+                      <li>Send transactional emails (order confirmations, shipping updates);</li>
+                      <li>Send marketing communications only where you have given consent;</li>
+                      <li>Improve the Site and for analytics and fraud prevention.</li>
+                    </ul>
+
+                    <h2>Lawful Basis for Processing (EU/UK)</h2>
+                    <p>Where GDPR applies, we rely on the following lawful bases:</p>
+                    <ul>
+                      <li><strong>Performance of a contract:</strong> to process orders and fulfill our obligations.</li>
+                      <li><strong>Consent:</strong> for marketing communications and newsletters — you can withdraw consent at any time.</li>
+                      <li><strong>Legitimate interests:</strong> for fraud prevention, analytics, and improving our services (we balance this against your rights).</li>
+                    </ul>
+
+                    <h2>California Consumer Privacy Act (CCPA) - USA</h2>
+                    <p>If you are a California resident, you have additional rights under the CCPA:</p>
+                    <ul>
+                      <li><strong>Right to know:</strong> Request information about the categories and specific pieces of personal information we have collected about you.</li>
+                      <li><strong>Right to delete:</strong> Request deletion of your personal information, subject to certain exceptions.</li>
+                      <li><strong>Right to opt-out:</strong> Opt-out of the sale of your personal information (we do not sell personal information).</li>
+                      <li><strong>Right to non-discrimination:</strong> You will not be discriminated against for exercising your CCPA rights.</li>
+                    </ul>
+                    <p>To exercise your CCPA rights, please contact us at <a href="mailto:support@hendoshi.com">support@hendoshi.com</a>.</p>
+
+                    <h2>Marketing &amp; Newsletters</h2>
+                    <p>We only send marketing emails to users who have explicitly opted in. We use a double opt-in process: after you sign up, we send a confirmation email with a link you must click to confirm. You can unsubscribe at any time using the link in any marketing email or via your account settings.</p>
+
+                    <h2>Cookies and Tracking Technologies</h2>
+                    <p>We use cookies and similar technologies to enhance your experience, analyze site usage, and provide personalized content. You can control cookies through your browser settings. For more details, see our Cookie Policy (link to be added).</p>
+
+                    <h2>Third-Party Services</h2>
+                    <p>We may share data with service providers to process payments, send emails, host the site, analyze usage, and ship orders. Examples include AWS (for email and hosting), Stripe (payments), and analytics providers. These providers process data on our behalf and are contractually bound to protect it.</p>
+
+                    <h2>International Transfers</h2>
+                    <p>Data may be processed outside your country of residence, including the United States. When transfers occur from the EU/UK to the US, we rely on appropriate safeguards such as Standard Contractual Clauses or other lawful transfer mechanisms.</p>
+
+                    <h2>Your Rights</h2>
+                    <p>Depending on your location, you may have rights to:</p>
+                    <ul>
+                      <li>Access your personal data;</li>
+                      <li>Correct or update inaccurate information;</li>
+                      <li>Request deletion of your data (subject to legal retention requirements);</li>
+                      <li>Restrict or object to processing;</li>
+                      <li>Receive a copy of your data in a portable format.</li>
+                    </ul>
+                    <p>To exercise your rights, please contact us at <a href="mailto:support@hendoshi.com">support@hendoshi.com</a>.</p>
+
+                    <h2>Data Retention</h2>
+                    <p>We retain personal data as long as necessary to provide services, comply with legal obligations, resolve disputes, and enforce agreements. For marketing data, we retain until you unsubscribe or request deletion.</p>
+
+                    <h2>Security</h2>
+                    <p>We implement reasonable technical and organizational measures to protect personal data. However, no system is completely secure. If a breach occurs, we will notify affected users and regulators as required by law.</p>
+
+                    <h2>Children</h2>
+                    <p>We do not knowingly collect personal data from children under 16. If you believe we have, please contact us to delete the information.</p>
+
+                    <h2>Changes to This Policy</h2>
+                    <p>We may update this policy. We will post the updated policy on this page with a revised effective date.</p>
+
+                    <h2>Contact</h2>
+                    <p>If you have questions about this policy, contact: <a href="mailto:support@hendoshi.com">support@hendoshi.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{# djlint:on #}
+{% endblock %}

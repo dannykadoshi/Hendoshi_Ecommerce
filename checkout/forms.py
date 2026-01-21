@@ -7,6 +7,14 @@ import re
 # Restore EditAccountForm for profile editing (must be below all imports and other class definitions)
 class EditAccountForm(forms.Form):
     """Form for users to edit their account information"""
+    name = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your display name (optional)',
+        })
+    )
     username = forms.CharField(
         max_length=150,
         widget=forms.TextInput(attrs={

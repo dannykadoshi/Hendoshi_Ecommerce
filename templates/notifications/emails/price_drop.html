@@ -184,7 +184,7 @@
         <div class="email-body">
             <div class="email-content">
                 <div class="battle-vest-note">
-                    <h3><i class="fas fa-bell"></i> Hey {{ user.first_name|default:user.username }}!</h3>
+                    <h3><i class="fas fa-bell"></i> Hey {{ profile.name|default:user.first_name|default:user.username }}!</h3>
                     <p>Great news! An item from your Battle Vest just went on sale. Don't miss out on this amazing deal!</p>
                 </div>
 

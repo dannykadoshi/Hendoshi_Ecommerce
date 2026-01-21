@@ -18,12 +18,39 @@ from allauth.account.models import EmailAddress
 @login_required
 def profile(request):
     """
-    Display user's profile with order history and address book
+    Display user's profile with address book and notification settings
     """
     profile = get_object_or_404(UserProfile, user=request.user)
     
     # Get user's addresses
     addresses = request.user.addresses.all()
+    
+    # Get notification preferences
+    from notifications.models import NotificationPreference
+    notification_prefs, _ = NotificationPreference.objects.get_or_create(user=request.user)
+
+    # Newsletter subscription presence
+    from notifications.models import NewsletterSubscriber
+    newsletter_emails = list(NewsletterSubscriber.objects.values_list('email', flat=True))
+
+    template = 'profiles/profile.html'
+    context = {
+        'profile': profile,
+        'addresses': addresses,
+        'on_profile_page': True,
+        'notification_prefs': notification_prefs,
+        'newsletter_emails': newsletter_emails,
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def order_history(request):
+    """
+    Display user's order history
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
     
     # Get user's orders
     orders = profile.user.orders.all() if hasattr(profile.user, 'orders') else []
@@ -60,18 +87,11 @@ def profile(request):
     except EmptyPage:
         orders_page = paginator.page(paginator.num_pages)
     
-    # Get notification preferences
-    from notifications.models import NotificationPreference
-    notification_prefs, _ = NotificationPreference.objects.get_or_create(user=request.user)
-
-    template = 'profiles/profile.html'
+    template = 'profiles/order_history.html'
     context = {
-        'addresses': addresses,
         'orders': orders_page,
         'start_date': start_date,
         'end_date': end_date,
-        'on_profile_page': True,
-        'notification_prefs': notification_prefs,
     }
 
     return render(request, template, context)
@@ -152,12 +172,17 @@ def set_default_address(request, address_id):
 
 @login_required
 def edit_account(request):
-    """Allow user to edit their account information (username and email)"""
+    """Allow user to edit their account information (name, username and email)"""
     if request.method == 'POST':
         form = EditAccountForm(request.POST, user=request.user)
         if form.is_valid():
             old_email = request.user.email
             new_email = form.cleaned_data['email']
+            
+            # Update user profile name
+            profile = get_object_or_404(UserProfile, user=request.user)
+            profile.name = form.cleaned_data.get('name') or None
+            profile.save()
             
             # Update username
             request.user.username = form.cleaned_data['username']
@@ -189,8 +214,11 @@ def edit_account(request):
             
             return redirect('profile')
     else:
+        # Get user's profile for initial name value
+        profile = get_object_or_404(UserProfile, user=request.user)
         form = EditAccountForm(
             initial={
+                'name': profile.name,
                 'username': request.user.username,
                 'email': request.user.email,
             },

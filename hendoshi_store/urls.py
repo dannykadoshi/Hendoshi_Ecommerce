@@ -24,6 +24,10 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),  # Checkout URLs
     path('notifications/', include('notifications.urls')),  # Notification URLs
     path('vault/', include('vault.urls')),  # Vault URLs
+    path('collections/', views.collections, name='collections'),
+    path('product-types/', views.product_types, name='product_types'),
+    path('new-drops/', views.new_drops, name='new_drops'),
+    path('privacy/', views.privacy, name='privacy'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -9,8 +9,11 @@
         <div class="col-md-10 mx-auto">
             <div class="auth-card">
                 <h1 class="page-title mb-4">Product Types</h1>
+                <div class="alert alert-info mb-3 guide-alert" role="alert">
+                    <strong>Product Type Guide:</strong> <strong>Static types</strong> are built into the system. <strong>Custom types</strong> are created by admins and can be modified.
+                </div>
                 <div class="mb-3 text-end">
-                    <a href="{% url 'admin_create_product_type' %}" class="btn btn-pink">Create Type</a>
+                    <a href="{% url 'admin_create_product_type' %}" class="btn btn-pink">Create Custom Type</a>
                 </div>
                 {% if types %}
                 <div class="table-responsive">
@@ -19,6 +22,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Slug</th>
+                                <th>Type</th>
+                                <th>Products</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -28,8 +33,22 @@
                                 <td><strong>{{ t.name }}</strong></td>
                                 <td>{{ t.slug }}</td>
                                 <td>
-                                    <a href="{% url 'admin_edit_product_type' t.pk %}" class="btn btn-outline-pink btn-sm me-2">Edit</a>
-                                    <a href="{% url 'admin_delete_product_type' t.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                                    {% if t.is_static %}
+                                        <span class="badge bg-secondary">Static</span>
+                                    {% else %}
+                                        <span class="badge bg-primary">Custom</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">{{ t.product_count }}</span>
+                                </td>
+                                <td>
+                                    {% if t.is_static %}
+                                        <span>Built-in type</span>
+                                    {% else %}
+                                        <a href="{% url 'admin_edit_product_type' t.pk %}" class="btn btn-outline-pink btn-sm me-2">Edit</a>
+                                        <a href="{% url 'admin_delete_product_type' t.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}

@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Auto-dismiss messages after 5 seconds
+// Auto-dismiss messages after 5 seconds (exclude guide alerts)
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
-        let alerts = document.querySelectorAll('.alert');
+        let alerts = document.querySelectorAll('.alert:not(.guide-alert)');
         alerts.forEach(function(alert) {
             let bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
@@ -156,10 +156,42 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // If validation passes, submit the form (implement actual submission here)
-        console.log('Newsletter signup:', email);
-        emailInput.value = '';
-        showSuccess();
+        // Consent checkbox (GDPR)
+        const consentCheckbox = document.getElementById('newsletter-consent');
+        const consent = consentCheckbox ? consentCheckbox.checked : false;
+        if (!consent) {
+            showError('Please agree to the Privacy Policy to subscribe.');
+            return;
+        }
+
+        // If validation passes, submit via AJAX to backend
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]') ? document.querySelector('[name=csrfmiddlewaretoken]').value : '';
+
+        fetch('/notifications/newsletter/subscribe/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `email=${encodeURIComponent(email)}&consent=${consent ? '1' : '0'}`
+        })
+        .then(response => response.json().then(data => ({status: response.status, body: data})))
+        .then(({status, body}) => {
+            if (status === 200) {
+                // Server tells user to check email for confirmation
+                showSuccessMessage(body.message || 'Confirmation email sent. Please check your inbox.');
+                emailInput.value = '';
+                if (consentCheckbox) consentCheckbox.checked = false;
+            } else if (status === 409) {
+                showError(body.message || 'Email already subscribed.');
+            } else {
+                showError(body.message || 'Subscription failed. Please try again later.');
+            }
+        })
+        .catch(() => {
+            showError('Network error. Please try again later.');
+        });
     });
     
     function showError(message) {
@@ -175,20 +207,156 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showSuccess() {
-        errorDiv.textContent = '✓ Thanks for subscribing!';
+        showSuccessMessage('Thanks for subscribing!');
+    }
+
+    function showSuccessMessage(message) {
+        errorDiv.textContent = '✓ ' + (message || 'Thanks for subscribing!');
         errorDiv.style.borderLeftColor = '#00ff00';
         errorDiv.style.color = '#00ff00';
         errorDiv.classList.add('show');
-        
+
         setTimeout(function() {
             errorDiv.classList.remove('show');
             errorDiv.style.borderLeftColor = '';
             errorDiv.style.color = '';
-        }, 3000);
+        }, 4500);
     }
     
     function isValidEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
     }
+});
+
+// Collections Carousel
+document.addEventListener('DOMContentLoaded', function() {
+    const collectionsTrack = document.getElementById('collections-track');
+    const collectionsPrevBtn = document.getElementById('collections-prev');
+    const collectionsNextBtn = document.getElementById('collections-next');
+
+    // Only initialize if elements exist (homepage)
+    if (!collectionsTrack || !collectionsPrevBtn || !collectionsNextBtn) {
+        return;
+    }
+
+    const collectionsItems = collectionsTrack.children;
+    const itemWidth = 280 + 24; // item width + gap
+    let currentIndex = 0;
+    const totalItems = collectionsItems.length;
+    // Force max 3 visible items for better UX, always scrollable
+    const visibleItems = Math.min(3, totalItems);
+    const maxIndex = Math.max(0, totalItems - visibleItems);
+
+    function updateCollectionsCarousel() {
+        const translateX = -currentIndex * itemWidth;
+        collectionsTrack.style.transform = `translateX(${translateX}px)`;
+
+        // Update button states - always enabled for looping
+        collectionsPrevBtn.style.opacity = '1';
+        collectionsPrevBtn.disabled = false;
+        collectionsNextBtn.style.opacity = '1';
+        collectionsNextBtn.disabled = false;
+    }
+
+    function nextCollectionsSlide() {
+        currentIndex++;
+        if (currentIndex > maxIndex) {
+            currentIndex = 0; // Loop back to start
+        }
+        updateCollectionsCarousel();
+    }
+
+    function prevCollectionsSlide() {
+        currentIndex--;
+        if (currentIndex < 0) {
+            currentIndex = maxIndex; // Loop to end
+        }
+        updateCollectionsCarousel();
+    }
+
+    // Event listeners
+    collectionsNextBtn.addEventListener('click', nextCollectionsSlide);
+    collectionsPrevBtn.addEventListener('click', prevCollectionsSlide);
+
+    // Hover to auto-advance functionality
+    let nextHoverInterval;
+    let prevHoverInterval;
+
+    collectionsNextBtn.addEventListener('mouseenter', () => {
+        // Clear any existing intervals first
+        clearInterval(nextHoverInterval);
+        clearInterval(prevHoverInterval);
+        // Start auto-advancing when hovering over next button
+        nextHoverInterval = setInterval(nextCollectionsSlide, 800); // Advance every 800ms
+    });
+
+    collectionsNextBtn.addEventListener('mouseleave', () => {
+        // Stop auto-advancing when mouse leaves
+        clearInterval(nextHoverInterval);
+    });
+
+    collectionsPrevBtn.addEventListener('mouseenter', () => {
+        // Clear any existing intervals first
+        clearInterval(nextHoverInterval);
+        clearInterval(prevHoverInterval);
+        // Start auto-advancing when hovering over prev button
+        prevHoverInterval = setInterval(prevCollectionsSlide, 800); // Advance every 800ms
+    });
+
+    collectionsPrevBtn.addEventListener('mouseleave', () => {
+        // Stop auto-advancing when mouse leaves
+        clearInterval(prevHoverInterval);
+    });
+
+    // Clear intervals when page unloads
+    window.addEventListener('beforeunload', () => {
+        clearInterval(nextHoverInterval);
+        clearInterval(prevHoverInterval);
+    });
+
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let isDragging = false;
+
+    collectionsTrack.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+
+    collectionsTrack.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const currentX = e.touches[0].clientX;
+        const diff = startX - currentX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                nextCollectionsSlide();
+            } else {
+                prevCollectionsSlide();
+            }
+            isDragging = false;
+        }
+    });
+
+    collectionsTrack.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    // Initialize carousel
+    updateCollectionsCarousel();
+
+    // Update on window resize
+    window.addEventListener('resize', () => {
+        // Recalculate on resize, but keep max 3 visible
+        const newVisibleItems = Math.min(3, totalItems);
+        const newMaxIndex = Math.max(0, totalItems - newVisibleItems);
+
+        // Adjust current index if it's now out of bounds
+        if (currentIndex > newMaxIndex) {
+            currentIndex = newMaxIndex;
+        }
+
+        updateCollectionsCarousel();
+    });
 });

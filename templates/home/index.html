@@ -48,52 +48,49 @@
 <section class="collections-preview py-5">
     <div class="container">
         <h2 class="section-title text-center mb-5">Explore Collections</h2>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' 'skulls-death' %}'">
-                    <div class="collection-image">
-                        <i class="fas fa-skull fa-4x"></i>
+
+        {% if collections %}
+        <div class="collections-carousel-container">
+            <div class="collections-carousel">
+                <div class="collections-track" id="collections-track">
+                    {% for collection in collections %}
+                    <div class="collection-carousel-item">
+                        <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
+                            <div class="collection-image">
+                                {% if collection.slug == 'skulls-death' %}
+                                    <i class="fas fa-skull fa-4x"></i>
+                                {% elif collection.slug == 'weird-animals' %}
+                                    <i class="fas fa-dog fa-4x"></i>
+                                {% elif collection.slug == 'gym-therapy' %}
+                                    <i class="fas fa-dumbbell fa-4x"></i>
+                                {% elif collection.slug == 'dark-humor' %}
+                                    <i class="fas fa-theater-masks fa-4x"></i>
+                                {% elif collection.slug == 'recreate-collection' %}
+                                    <i class="fas fa-recycle fa-4x"></i>
+                                {% elif collection.slug == 'vikings' %}
+                                    <i class="fas fa-helmet-battle fa-4x"></i>
+                                {% else %}
+                                    <i class="fas fa-palette fa-4x"></i>
+                                {% endif %}
+                            </div>
+                            <div class="collection-info">
+                                <h3>{{ collection.name }}</h3>
+                                <p>{{ collection.product_count }} Design{{ collection.product_count|pluralize }}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="collection-info">
-                        <h3>Skulls & Death</h3>
-                        <p>24 Designs</p>
-                    </div>
+                    {% endfor %}
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' 'weird-animals' %}'">
-                    <div class="collection-image">
-                        <i class="fas fa-dog fa-4x"></i>
-                    </div>
-                    <div class="collection-info">
-                        <h3>Weird Animals</h3>
-                        <p>18 Designs</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' 'gym-therapy' %}'">
-                    <div class="collection-image">
-                        <i class="fas fa-dumbbell fa-4x"></i>
-                    </div>
-                    <div class="collection-info">
-                        <h3>Gym Therapy</h3>
-                        <p>15 Designs</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' 'dark-humor' %}'">
-                    <div class="collection-image">
-                        <i class="fas fa-theater-masks fa-4x"></i>
-                    </div>
-                    <div class="collection-info">
-                        <h3>Dark Humor</h3>
-                        <p>21 Designs</p>
-                    </div>
-                </div>
+
+                <button class="collections-carousel-btn collections-carousel-prev" id="collections-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="collections-carousel-btn collections-carousel-next" id="collections-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
+        {% endif %}
     </div>
 </section>
 

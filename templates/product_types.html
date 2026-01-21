@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Product Types{% endblock %}
+
+{% block content %}
+<div class="product-types-page">
+    <div class="container-fluid">
+        <!-- Product Types Hero -->
+        <section class="product-types-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="product-types-title">Shop by Product Type</h1>
+                        <p class="product-types-subtitle">Find exactly what you're looking for</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Types Grid -->
+        <section class="product-types-grid-section py-5">
+            <div class="container">
+                {% if product_types %}
+                <div class="battle-vest-grid">
+                    {% for product_type in product_types %}
+                    <div class="vest-item-card" onclick="window.location.href='{% url 'products' %}?type={{ product_type.slug }}'">
+                        <div class="vest-item-image-wrapper">
+                            {% if product_type.representative_product and product_type.representative_product.main_image %}
+                                <img src="{{ product_type.representative_product.main_image.url }}" alt="{{ product_type.representative_product.name }}" class="vest-item-image">
+                            {% else %}
+                                <div class="placeholder-image">
+                                    <i class="fas fa-shopping-bag fa-3x"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="vest-item-info">
+                            <div class="vest-item-title">
+                                {{ product_type.name }}
+                            </div>
+                            <p class="vest-item-price">{{ product_type.product_count }} Product{{ product_type.product_count|pluralize }}</p>
+                            <div class="product-type-link">
+                                <span>Shop {{ product_type.name }}</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center">
+                    <h3>No product types available at the moment.</h3>
+                    <p>Check back soon for new product categories!</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+/* Product Types Page Styles */
+.product-types-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .product-types-page {
+        padding-top: 125px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .product-types-page {
+        padding-top: 115px;
+    }
+}
+
+@media (max-width: 767px) {
+    .product-types-page {
+        padding-top: 115px;
+    }
+}
+
+.product-types-hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 80px 0;
+    margin-top: -20px;
+}
+
+.product-types-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.product-types-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.product-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.product-type-card-large {
+    background: #2d2d2d;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    border: 2px solid transparent;
+}
+
+.product-type-card-large:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    border-color: #ff6b9d;
+}
+
+.product-type-image-large {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    color: white;
+}
+
+.product-type-info-large {
+    padding: 2rem;
+    text-align: center;
+}
+
+.product-type-info-large h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.product-type-info-large p {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.product-type-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #ff6b9d;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.product-type-card-large:hover .product-type-link {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .product-types-title {
+        font-size: 2rem;
+    }
+
+    .product-types-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .product-type-card-large {
+        margin: 0 1rem;
+    }
+}
+</style>
+
+{% endblock %}

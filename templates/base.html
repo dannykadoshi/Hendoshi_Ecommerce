@@ -180,6 +180,9 @@
                             {% endif %}
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'new_drops' %}">New Drops</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                            href="#"
@@ -255,7 +258,10 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>                                        </ul>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:notifications_newslettersubscriber_changelist' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-list"></i> Subscriber List (Frontend)</a></li>
+                                        </ul>
                                     </li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
@@ -286,7 +292,16 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 {% if user.is_authenticated %}
-                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    <li class="profile-dropdown-wrapper">
+                                        <a class="dropdown-item menu-dropdown-item profile-toggle" href="#">
+                                            <span><i class="fas fa-user-circle"></i> Profile</span>
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                        <ul class="dropdown-menu profile-submenu">
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-edit"></i> Account Settings</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'order_history' %}"><i class="fas fa-history"></i> Order History</a></li>
+                                        </ul>
+                                    </li>
                                     {% if user.is_staff %}
                                     <li class="admin-panel-dropdown-wrapper">
                                         <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#">
@@ -300,7 +315,9 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>                                        </ul>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
+                                        </ul>
                                     </li>
                                     {% endif %}
                                     <li><hr class="dropdown-divider"></li>
@@ -395,9 +412,10 @@
                 <button class="submenu-back" data-back="main">&lt; Back</button>
                 <div class="submenu-content">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}" class="submenu-item">
+                        <button class="submenu-item submenu-trigger" data-submenu="profile">
                             <i class="fas fa-user-circle"></i> <span>Profile</span>
-                        </a>
+                            <span class="submenu-arrow">→</span>
+                        </button>
                         {% if user.is_staff %}
                         <button class="submenu-item submenu-trigger" data-submenu="admin-panel">
                             <i class="fas fa-cog"></i> <span>Admin Panel</span>
@@ -425,6 +443,9 @@
                     <a href="{% url 'admin:index' %}" class="submenu-item">
                         <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
                     </a>
+                    <a href="{% url 'admin_list_subscribers' %}" class="submenu-item">
+                        <i class="fas fa-envelope"></i> <span>Newsletter Subscribers</span>
+                    </a>
                     <a href="{% url 'admin_list_collections' %}" class="submenu-item">
                         <i class="fas fa-th-large"></i> <span>Collections</span>
                     </a>
@@ -446,6 +467,19 @@
                 </div>
             </div>
             
+            <!-- Profile Submenu -->
+            <div class="menu-submenu hidden" id="submenuProfile">
+                <button class="submenu-back" data-back="account">&lt; Profile</button>
+                <div class="submenu-content">
+                    <a href="{% url 'profile' %}" class="submenu-item">
+                        <i class="fas fa-user-edit"></i> <span>Account Settings</span>
+                    </a>
+                    <a href="{% url 'order_history' %}" class="submenu-item">
+                        <i class="fas fa-history"></i> <span>Order History</span>
+                    </a>
+                </div>
+            </div>
+            
             <!-- Main Menu Items -->
             <div class="menu-main" id="menuMain">
                 <ul class="menu-items">
@@ -457,9 +491,13 @@
                         <button class="menu-item-header menu-item-trigger" data-submenu="product-type">Product Type</button>
                         <button class="menu-item-arrow" data-submenu="product-type">→</button>
                     </li>
+                    <li class="menu-item-group" onclick="window.location.href='{% url 'new_drops' %}'">
+                        <span class="menu-item-header">New Drops</span>
+                        <button class="menu-item-arrow" disabled>→</button>
+                    </li>
                     <li class="menu-item-group">
-                        <button class="menu-item-header menu-item-trigger" data-submenu="weird-wall">Weird Wall</button>
-                        <button class="menu-item-arrow" data-submenu="weird-wall">→</button>
+                        <button class="menu-item-header menu-item-trigger" data-submenu="vault">The Vault</button>
+                        <button class="menu-item-arrow" data-submenu="vault">→</button>
                     </li>
                     <li class="menu-item-group">
                         <button class="menu-item-header menu-item-trigger" data-submenu="about">About</button>
@@ -509,11 +547,27 @@
                 </div>
             </div>
             
-            <!-- Weird Wall Submenu -->
-            <div class="menu-submenu hidden" id="submenuWeirdWall">
-                <button class="submenu-back" data-back="main">&lt; Weird Wall</button>
+            <!-- The Vault Submenu -->
+            <div class="menu-submenu hidden" id="submenuVault">
+                <button class="submenu-back" data-back="main">&lt; The Vault</button>
                 <div class="submenu-content">
-                    <a href="#" class="submenu-item">Coming Soon</a>
+                    <a href="{% url 'vault:vault_gallery' %}" class="submenu-item"><i class="fas fa-images"></i> Community Gallery</a>
+                    <button class="submenu-item submenu-trigger" data-submenu="hall-of-fame">
+                        <i class="fas fa-trophy"></i> Hall of Fame
+                        <span class="submenu-arrow">→</span>
+                    </button>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'vault:submit_photo' %}" class="submenu-item"><i class="fas fa-plus"></i> Submit Photo</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Hall of Fame Submenu -->
+            <div class="menu-submenu hidden" id="submenuHallOfFame">
+                <button class="submenu-back" data-back="vault">&lt; Hall of Fame</button>
+                <div class="submenu-content">
+                    <a href="{% url 'vault:hall_of_fame_overview' %}" class="submenu-item"><i class="fas fa-info-circle"></i> What Makes a Legend</a>
+                    <a href="{% url 'vault:hall_of_fame' %}" class="submenu-item"><i class="fas fa-star"></i> Legendary Photos</a>
                 </div>
             </div>
             
@@ -548,19 +602,13 @@
                         <h5>Shop</h5>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#">New Drops</a>
+                                <a href="{% url 'new_drops' %}">New Drops</a>
                             </li>
                             <li>
-                                <a href="#">Collections</a>
+                                <a href="{% url 'collections' %}">Collections</a>
                             </li>
                             <li>
-                                <a href="#">T-Shirts</a>
-                            </li>
-                            <li>
-                                <a href="#">Hoodies</a>
-                            </li>
-                            <li>
-                                <a href="#">Stickers</a>
+                                <a href="{% url 'product_types' %}">Products</a>
                             </li>
                         </ul>
                     </div>
@@ -588,15 +636,22 @@
                         <h5>Join the Cult</h5>
                         <p>Get exclusive drops and weird content.</p>
                         <form class="newsletter-form" id="newsletterForm" novalidate>
+                            <label for="newsletter-email" class="visually-hidden">Email</label>
                             <input type="email" id="newsletter-email" name="email" class="form-control mb-2" placeholder="Your email..." autocomplete="email" required>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="1" id="newsletter-consent" name="consent">
+                                <label class="form-check-label small" for="newsletter-consent">I agree to receive marketing emails and accept the <a href="/privacy/">Privacy Policy</a>.</label>
+                            </div>
+                            
                             <div class="newsletter-error"></div>
                             <button type="submit" class="btn btn-pink w-100">Subscribe</button>
                         </form>
+                        
                         <div class="social-icons mt-3">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                            <a href="https://www.instagram.com/hendoshiart/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/hendoshiart" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/hendoshiart" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                            <a href="https://ie.pinterest.com/hendoshiart/" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest"></i></a>
                         </div>
                     </div>
                 </div>
@@ -611,7 +666,7 @@
         <!-- Custom JS -->
         <script src="{% static 'js/base.js' %}"></script>
         <script>
-            // Admin Panel Dropdown - Hover to open (submenu opens to the left)
+            // Admin Panel Dropdown - Click only (submenu opens to the left)
             document.addEventListener('DOMContentLoaded', function() {
                 function closeAllAdminSubmenus() {
                     document.querySelectorAll('.admin-panel-submenu').forEach(menu => {
@@ -620,36 +675,95 @@
                     });
                 }
 
-                // Handle Admin Panel hover to show submenu (open to left)
-                document.querySelectorAll('.admin-panel-dropdown-wrapper').forEach(wrapper => {
-                    const submenu = wrapper.querySelector('.admin-panel-submenu');
-                    const toggle = wrapper.querySelector('.admin-panel-toggle');
-
-                    // Prevent default click behavior on toggle
-                    if (toggle) {
-                        toggle.addEventListener('click', function(e) {
-                            e.preventDefault();
-                        });
-                    }
-
-                    // Show submenu on hover
-                    wrapper.addEventListener('mouseenter', function() {
+                // Handle Admin Panel click to toggle submenu (open to left)
+                document.querySelectorAll('.admin-panel-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const wrapper = this.closest('.admin-panel-dropdown-wrapper');
+                        const submenu = wrapper.querySelector('.admin-panel-submenu');
+                        // Toggle .show class for submenu
+                        const isOpen = submenu.classList.contains('show');
                         closeAllAdminSubmenus();
-                        submenu.classList.add('show');
-                        wrapper.classList.add('show');
+                        if (!isOpen) {
+                            submenu.classList.add('show');
+                            wrapper.classList.add('show');
+                        }
                     });
+                });
 
-                    // Hide submenu when leaving
-                    wrapper.addEventListener('mouseleave', function() {
-                        submenu.classList.remove('show');
-                        wrapper.classList.remove('show');
+                // Prevent submenu from closing when clicking inside it
+                document.querySelectorAll('.admin-panel-submenu').forEach(submenu => {
+                    submenu.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'A' || e.target.closest('a')) {
+                            return;
+                        }
+                        e.stopPropagation();
                     });
+                });
+
+                // Close submenu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.admin-panel-dropdown-wrapper')) {
+                        closeAllAdminSubmenus();
+                    }
                 });
 
                 // Close submenu when parent dropdown closes
                 document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
                     parentDropdown.addEventListener('hidden.bs.dropdown', function() {
                         closeAllAdminSubmenus();
+                    });
+                });
+            });
+
+            // Profile Dropdown - Click only (submenu opens to the left)
+            document.addEventListener('DOMContentLoaded', function() {
+                function closeAllProfileSubmenus() {
+                    document.querySelectorAll('.profile-submenu').forEach(menu => {
+                        menu.classList.remove('show');
+                        if (menu.parentElement) menu.parentElement.classList.remove('show');
+                    });
+                }
+
+                // Handle Profile click to toggle submenu (open to left)
+                document.querySelectorAll('.profile-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const wrapper = this.closest('.profile-dropdown-wrapper');
+                        const submenu = wrapper.querySelector('.profile-submenu');
+                        // Toggle .show class for submenu
+                        const isOpen = submenu.classList.contains('show');
+                        closeAllProfileSubmenus();
+                        if (!isOpen) {
+                            submenu.classList.add('show');
+                            wrapper.classList.add('show');
+                        }
+                    });
+                });
+
+                // Prevent submenu from closing when clicking inside it
+                document.querySelectorAll('.profile-submenu').forEach(submenu => {
+                    submenu.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'A' || e.target.closest('a')) {
+                            return;
+                        }
+                        e.stopPropagation();
+                    });
+                });
+
+                // Close submenu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.profile-dropdown-wrapper')) {
+                        closeAllProfileSubmenus();
+                    }
+                });
+
+                // Close submenu when parent dropdown closes
+                document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
+                    parentDropdown.addEventListener('hidden.bs.dropdown', function() {
+                        closeAllProfileSubmenus();
                     });
                 });
             });
@@ -751,6 +865,15 @@
                             setTimeout(() => {
                                 currentSubmenu.classList.add('hidden');
                                 accountSubmenu.style.transform = 'translateX(0)';
+                            }, 300);
+                        } else if (backTo === 'vault') {
+                            // Going back to vault submenu
+                            const vaultSubmenu = document.getElementById('submenuVault');
+
+                            currentSubmenu.style.transform = 'translateX(100%)';
+                            setTimeout(() => {
+                                currentSubmenu.classList.add('hidden');
+                                vaultSubmenu.style.transform = 'translateX(0)';
                             }, 300);
                         }
                     });

@@ -158,7 +158,7 @@
                 <div class="featured-badge">⭐ FEATURED THIS WEEK ⭐</div>
 
                 <div class="feature-details">
-                    <h3><i class="fas fa-trophy"></i> Congratulations {{ user.first_name|default:user.username }}!</h3>
+                    <h3><i class="fas fa-trophy"></i> Congratulations {{ profile.name|default:user.first_name|default:user.username }}!</h3>
                     <p>Your photo has been selected as one of this week's featured photos in The HENDOSHI Vault! This means your style is getting the spotlight it deserves.</p>
                     <p><strong>Featured until:</strong> {{ featured_until|date:"F j, Y" }}</p>
                 </div>

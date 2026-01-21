@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block extra_title %}Unsubscribe from Newsletter{% endblock %}
+{% block content %}
+{# djlint:off H025 #}
+<div class="container checkout-container mt-5 mb-5">
+    <div class="checkout-wrapper">
+        <div class="checkout-header checkout-header-spaced">
+            <h1 class="page-title">NEWSLETTER UNSUBSCRIBE</h1>
+        </div>
+        
+        <div class="checkout-content checkout-content-spaced">
+            <div class="checkout-main">
+                <div class="profile-card text-center">
+                    {% if success is None %}
+                        <i class="fas fa-envelope-open fa-4x text-muted mb-4"></i>
+                        <h2 class="mb-3">Unsubscribe from {{ subscriber.email }}</h2>
+                        <p class="mb-4">Are you sure you want to unsubscribe from our newsletter? You will no longer receive marketing emails from us.</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-danger me-2">Unsubscribe</button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </form>
+                    {% elif success %}
+                        <i class="fas fa-check-circle fa-4x text-success mb-4"></i>
+                        <h2 class="mb-3">You've been unsubscribed</h2>
+                        <p class="mb-4">You will no longer receive marketing emails from HENDOSHI.</p>
+                        <a href="{% url 'home' %}" class="btn btn-pink">Return Home</a>
+                    {% else %}
+                        <i class="fas fa-exclamation-circle fa-4x text-danger mb-4"></i>
+                        <h2 class="mb-3">Invalid unsubscribe link</h2>
+                        <p class="mb-4">We couldn't find your subscription. Please contact support if you continue having issues.</p>
+                        <a href="{% url 'home' %}" class="btn btn-outline-pink">Return Home</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{# djlint:on #}
+{% endblock %}

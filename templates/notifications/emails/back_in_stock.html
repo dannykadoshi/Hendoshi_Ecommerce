@@ -187,7 +187,7 @@
         <div class="email-body">
             <div class="email-content">
                 <div class="battle-vest-note">
-                    <h3><i class="fas fa-box-open"></i> Hey {{ user.first_name|default:user.username }}!</h3>
+                    <h3><i class="fas fa-box-open"></i> Hey {{ profile.name|default:user.first_name|default:user.username }}!</h3>
                     <p>The wait is over! That item you've been waiting for is back in stock and ready for you.</p>
                 </div>
 

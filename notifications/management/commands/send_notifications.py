@@ -144,6 +144,7 @@ class Command(BaseCommand):
 
             context = {
                 'user': user,
+                'profile': user.userprofile,
                 'product': product,
                 'notification': notification,
                 'unsubscribe_token': prefs.unsubscribe_token,

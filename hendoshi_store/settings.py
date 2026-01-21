@@ -129,6 +129,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',  # Add this
                 'cart.context_processors.cart_contents',  # Cart context
                 'products.context_processors.site_collections_and_types',
+                
             ],
         },
     },
@@ -194,6 +195,8 @@ STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
 STRIPE_CURRENCY = config('STRIPE_CURRENCY', default='usd')
 SITE_URL = config('SITE_URL', default='http://localhost:8000')
+
+# (reCAPTCHA removed) Use environment variables or add back if needed later
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

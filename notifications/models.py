@@ -62,6 +62,32 @@ class NotificationPreference(models.Model):
         return f"{self.user.username}'s notification preferences"
 
 
+class NewsletterSubscriber(models.Model):
+    """
+    Simple newsletter subscriber for double opt-in flow.
+    """
+    email = models.EmailField(unique=True)
+    is_confirmed = models.BooleanField(default=False)
+    consent = models.BooleanField(default=False, help_text='GDPR consent given by user')
+    confirmation_token = models.CharField(max_length=64, unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Newsletter Subscriber'
+        verbose_name_plural = 'Newsletter Subscribers'
+
+    def save(self, *args, **kwargs):
+        import secrets
+        if not self.confirmation_token:
+            self.confirmation_token = secrets.token_urlsafe(32)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Newsletter: {self.email} - {'confirmed' if self.is_confirmed else 'unconfirmed'}"
+
+
 class PriceHistory(models.Model):
     """
     Tracks product price changes for calculating price drop percentages.

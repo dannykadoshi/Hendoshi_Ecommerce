@@ -1,11 +1,45 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
+from django.core import mail
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from io import StringIO
 
-from products.models import Product, Collection, BattleVest, BattleVestItem
-from .models import PendingNotification
+from .models import NewsletterSubscriber, PendingNotification
 from .signals import queue_sale_notifications
+from products.models import Product, Collection, BattleVest, BattleVestItem
+
+
+class NewsletterTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.subscribe_url = reverse('newsletter_subscribe')
+
+    def test_subscribe_invalid_email(self):
+        resp = self.client.post(self.subscribe_url, {'email': 'invalid'})
+        self.assertEqual(resp.status_code, 400)
+
+    def test_subscribe_and_confirm(self):
+        resp = self.client.post(self.subscribe_url, {'email': 'test@example.com', 'consent': '1'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(NewsletterSubscriber.objects.filter(email='test@example.com').exists())
+        # email sent
+        self.assertEqual(len(mail.outbox), 1)
+        sub = NewsletterSubscriber.objects.get(email='test@example.com')
+        # confirm via token
+        confirm_url = reverse('newsletter_confirm', args=[sub.confirmation_token])
+        resp2 = self.client.get(confirm_url)
+        self.assertContains(resp2, 'Subscription Confirmed')
+
+    def test_unsubscribe_link(self):
+        sub = NewsletterSubscriber.objects.create(email='u@example.com', consent=True)
+        url = reverse('newsletter_unsubscribe', args=[sub.confirmation_token])
+        # GET shows confirm page
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        # POST unsubscribes
+        resp2 = self.client.post(url)
+        self.assertContains(resp2, "You've been unsubscribed")
 
 
 class NotificationFlowTests(TestCase):

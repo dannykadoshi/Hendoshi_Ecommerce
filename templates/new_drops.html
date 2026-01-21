@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}New Drops{% endblock %}
+
+{% block content %}
+<div class="collections-page">
+    <div class="container-fluid">
+        <!-- New Drops Hero -->
+        <section class="collections-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="collections-title">New Drops</h1>
+                        <p class="collections-subtitle">Check out our latest metal masterpieces</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Drops Grid -->
+        <section class="collections-grid-section py-5">
+            <div class="container">
+                {% if new_drops %}
+                <div class="battle-vest-grid">
+                    {% for product in new_drops %}
+                    <div class="vest-item-card" onclick="window.location.href='{% url 'product_detail' product.slug %}'">
+                        <div class="vest-item-image-wrapper">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="vest-item-image">
+                            {% else %}
+                                <div class="placeholder-image">
+                                    <i class="fas fa-tshirt fa-3x"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="vest-item-info">
+                            <div class="vest-item-title">
+                                {{ product.name }}
+                            </div>
+                            {% if product.collection %}
+                            <p class="vest-item-collection">{{ product.collection.name }}</p>
+                            {% endif %}
+                            <div class="price-section">
+                                {% if product.sale_price %}
+                                    <span class="original-price">€{{ product.base_price }}</span>
+                                    <span class="sale-price">€{{ product.sale_price }}</span>
+                                {% else %}
+                                    <span class="regular-price">€{{ product.base_price }}</span>
+                                {% endif %}
+                            </div>
+                            <p class="new-drop-date">
+                                <i class="far fa-calendar"></i> New {{ product.created_at|timesince }} ago
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center">
+                    <h3>No new drops available at the moment.</h3>
+                    <p>Check back soon for fresh metal designs!</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+/* New Drops Page Styles */
+.collections-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0;
+}
+
+.collections-hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 4rem 0;
+    margin-top: -20px;
+}
+
+.collections-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.collections-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.collections-grid-section {
+    background: var(--dark-bg);
+}
+
+.price-section {
+    margin: 0.5rem 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.sale-price {
+    color: var(--neon-pink);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.regular-price {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.new-drop-date {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.vest-item-collection {
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .collections-title {
+        font-size: 2.5rem;
+    }
+
+    .collections-hero {
+        padding: 3rem 0;
+    }
+
+    .battle-vest-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .collections-title {
+        font-size: 2rem;
+    }
+
+    .battle-vest-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+{% endblock %}
