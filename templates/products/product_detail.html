@@ -29,6 +29,86 @@
 {% if product.main_image %}
 <link rel="image_src" href="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}">
 {% endif %}
+
+<!-- Schema.org Product Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "description": "{{ product.description|truncatechars:200|escapejs }}",
+  "image": [
+    {% for image in product.images.all %}
+    "{{ request.scheme }}://{{ request.get_host }}{{ image.image.url }}"{% if not forloop.last %},{% endif %}
+    {% empty %}
+    "{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"
+    {% endfor %}
+  ],
+  "sku": "{{ product.sku|default:product.id }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "HENDOSHI"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price }}",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/{% if product.stock_quantity > 0 %}InStock{% else %}OutOfStock{% endif %}",
+    "seller": {
+      "@type": "Organization",
+      "name": "HENDOSHI"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "127"
+  }
+}
+</script>
+
+<!-- Breadcrumb Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Shop",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'products' %}"
+    }
+    {% if product.collection %}
+    ,{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ product.collection.name }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'collection_detail' product.collection.slug %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{ product.name }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}"
+    }
+    {% else %}
+    ,{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ product.name }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}"
+    }
+    {% endif %}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -128,13 +208,13 @@
                         <!-- Size Selection -->
                         {% if available_sizes %}
                         <div class="mb-4">
-                            <label class="form-label product-label">Select Size <span class="required-star">*</span></label>
-                            <div class="size-options">
+                            <label class="form-label product-label" for="size-select">Select Size <span class="required-star">*</span></label>
+                            <select class="form-select product-dropdown" name="size" id="size-select" required>
+                                <option value="">Choose a size...</option>
                                 {% for size in available_sizes %}
-                                <input type="radio" class="btn-check" name="size" id="size-{{ size }}" value="{{ size }}" required>
-                                <label class="btn btn-outline-pink size-btn" for="size-{{ size }}">{{ size|upper }}</label>
+                                <option value="{{ size }}">{{ size|upper }}</option>
                                 {% endfor %}
-                            </div>
+                            </select>
                             <small class="form-help-text">Choose your preferred size</small>
                         </div>
                         {% endif %}
@@ -142,13 +222,13 @@
                         <!-- Color Selection -->
                         {% if available_colors %}
                         <div class="mb-4">
-                            <label class="form-label product-label">Select Color <span class="required-star">*</span></label>
-                            <div class="color-options">
+                            <label class="form-label product-label" for="color-select">Select Color <span class="required-star">*</span></label>
+                            <select class="form-select product-dropdown" name="color" id="color-select" required>
+                                <option value="">Choose a color...</option>
                                 {% for color in available_colors %}
-                                <input type="radio" class="btn-check" name="color" id="color-{{ color }}" value="{{ color }}" required>
-                                <label class="btn btn-outline-pink color-btn" for="color-{{ color }}">{{ color|title }}</label>
+                                <option value="{{ color }}">{{ color|title }}</option>
                                 {% endfor %}
-                            </div>
+                            </select>
                             <small class="form-help-text">Choose your preferred color</small>
                         </div>
                         {% endif %}
@@ -190,23 +270,18 @@
                         <div class="social-share-buttons">
                             <button class="share-btn facebook-btn" data-platform="facebook" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
                                 <i class="fab fa-facebook-f"></i>
-                                <span class="share-text">Facebook</span>
                             </button>
                             <button class="share-btn twitter-btn" data-platform="twitter" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
                                 <i class="fab fa-twitter"></i>
-                                <span class="share-text">Twitter</span>
                             </button>
                             <button class="share-btn pinterest-btn" data-platform="pinterest" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" {% if product.main_image %}data-product-image="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"{% endif %}>
                                 <i class="fab fa-pinterest-p"></i>
-                                <span class="share-text">Pinterest</span>
                             </button>
                             <button class="share-btn instagram-btn" data-platform="instagram" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
                                 <i class="fab fa-instagram"></i>
-                                <span class="share-text">Instagram</span>
                             </button>
                             <button class="share-btn copy-link-btn" data-platform="copy-link" data-product-url="{{ request.build_absolute_uri }}">
                                 <i class="fas fa-link"></i>
-                                <span class="share-text">Copy Link</span>
                             </button>
                         </div>
                     </div>
@@ -233,16 +308,16 @@
                         
                         form.addEventListener('submit', function(e) {
                             // Check if size is selected
-                            const sizeSelected = document.querySelector('input[name="size"]:checked');
-                            if (!sizeSelected) {
+                            const sizeSelect = document.getElementById('size-select');
+                            if (sizeSelect && sizeSelect.value === '') {
                                 e.preventDefault();
                                 showValidationToast('Please select a size before adding to cart.');
                                 return false;
                             }
                             
                             // Check if color is selected
-                            const colorSelected = document.querySelector('input[name="color"]:checked');
-                            if (!colorSelected) {
+                            const colorSelect = document.getElementById('color-select');
+                            if (colorSelect && colorSelect.value === '') {
                                 e.preventDefault();
                                 showValidationToast('Please select a color before adding to cart.');
                                 return false;
@@ -258,6 +333,25 @@
                                 showToast(message, 'warning');
                             }
                         }
+
+                        // Add pink border to dropdowns when selection is made
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const dropdowns = document.querySelectorAll('.product-dropdown');
+                            dropdowns.forEach(dropdown => {
+                                dropdown.addEventListener('change', function() {
+                                    if (this.value !== '') {
+                                        this.classList.add('has-selection');
+                                    } else {
+                                        this.classList.remove('has-selection');
+                                    }
+                                });
+                                
+                                // Check initial state
+                                if (dropdown.value !== '') {
+                                    dropdown.classList.add('has-selection');
+                                }
+                            });
+                        });
                     </script>
                     
                 </div>

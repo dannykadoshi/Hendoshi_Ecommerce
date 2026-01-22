@@ -1,10 +1,93 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_title %}Admin Orders List{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    color: var(--off-white);
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+
+    .vault-hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Glassmorphism auth-card styles */
+.auth-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container admin-orders-list mt-5 mb-5 admin-orders-container">
-    <h1 class="page-title mb-4">Orders</h1>
-    <form method="get" class="row g-3 mb-4 align-items-end">
+<div class="vault-page">
+    <!-- Orders Management Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="vault-hero-title">Orders Management</h1>
+                    <p class="vault-hero-subtitle">View and manage all customer orders. Filter, search, and export order data efficiently.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div class="container vault-container">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="auth-card">
+
+                <!-- Filters and Search -->
+                <form method="get" class="mb-4 p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div class="row g-3 align-items-end">
         <div class="col-md-2">
             <label>Status</label>
             <select name="status" class="form-select">
@@ -40,8 +123,11 @@
             <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn">Filter</button>
             <button type="submit" name="export" value="1" class="btn btn-outline-pink btn-form-action w-100 admin-filter-btn">Export</button>
         </div>
-    </form>
-    <div class="table-responsive">
+                </div>
+                </form>
+
+                <!-- Orders Table -->
+                <div class="table-responsive">
         <table class="table order-table">
             <thead>
                 <tr>
@@ -110,21 +196,9 @@
             </ul>
         </nav>
     {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-.admin-orders-container {
-    margin-top: 120px !important;
-}
-
-.admin-filter-btn {
-    min-width: 120px;
-}
-
-.clickable-row {
-    cursor: pointer;
-}
-</style>
 {% endblock %}

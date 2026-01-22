@@ -91,7 +91,7 @@
         <!-- Battle Vest Grid -->
         <div class="battle-vest-grid">
             {% for item in vest_items %}
-            <div class="vest-item-card" data-slug="{{ item.product.slug }}">
+            <div class="vest-item-card glassmorphic-card" data-slug="{{ item.product.slug }}">
                 <div class="vest-item-image-wrapper">
                     <a href="{% url 'product_detail' item.product.slug %}">
                         {% if item.product.main_image %}
@@ -130,8 +130,8 @@
                     </p>
 
                     <!-- Add to Cart Button -->
-                    <button class="btn btn-pink w-100 vest-add-cart-btn" onclick="openAddToCartVestModal({{ item.product.id }}, '{{ item.product.name|escapejs }}')">
-                        <i class="fas fa-shopping-cart"></i> ADD TO CART
+                    <button class="btn btn-quick-add w-100 vest-add-cart-btn" onclick="openAddToCartVestModal({{ item.product.id }}, '{{ item.product.name|escapejs }}')">
+                        <i class="fas fa-shopping-cart"></i> ADD TO BAG
                     </button>
                 </div>
             </div>
@@ -388,8 +388,85 @@ document.head.appendChild(style);
 </script>
 
 <style>
+/* Battle Vest Page Hero Styles */
+.battle-vest-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.battle-vest-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.battle-vest-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.battle-vest-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.vest-hero-stat {
+    color: #ccc;
+    font-size: 1rem;
+}
+
+.vest-hero-stat i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.battle-vest-container {
+    padding-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .battle-vest-hero-title {
+        font-size: 2.5rem;
+    }
+    .battle-vest-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .battle-vest-hero-title {
+        font-size: 2rem;
+    }
+}
+
 .vest-modal-text {
     font-size: 1.1rem;
+}
+
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 </style>
 {% endblock %}

@@ -33,6 +33,48 @@
         {% block canonical %}
         <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
         {% endblock %}
+
+        <!-- Schema.org Organization and Website Structured Data -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "HENDOSHI",
+          "url": "https://hendoshi.com",
+          "logo": "https://hendoshi.com{% static 'images/hendoshi-logo.png' %}",
+          "description": "Metal-inspired apparel with original skull, animal, and gym designs. Wear Your Weird.",
+          "sameAs": [
+            "https://www.instagram.com/hendoshi",
+            "https://www.tiktok.com/@hendoshi"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-555-HENDOSHI",
+            "contactType": "customer service",
+            "email": "support@hendoshi.com"
+          }
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "HENDOSHI",
+          "url": "https://hendoshi.com",
+          "description": "Wear Your Weird - Metal-inspired apparel with original designs",
+          "publisher": {
+            "@type": "Organization",
+            "name": "HENDOSHI"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://hendoshi.com/products/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+
         <script>
         // Set theme before page renders for no flicker
         (function() {
@@ -67,6 +109,15 @@
               sizes="32x32"
               href="{% static 'images/pug-skull.png' %}">
         <link rel="apple-touch-icon" href="{% static 'images/pug-skull.png' %}">
+        
+        <!-- Resource Hints for Performance -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net">
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="dns-prefetch" href="//www.googletagmanager.com">
+        <link rel="dns-prefetch" href="//www.google-analytics.com">
+        
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
               rel="stylesheet">
@@ -284,13 +335,10 @@
                                             <i class="fas fa-angle-right"></i>
                                         </a>
                                         <ul class="dropdown-menu admin-panel-submenu">
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_collections' %}"><i class="fas fa-th-large"></i> Collections</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_product_types' %}"><i class="fas fa-tags"></i> Product Types</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Django Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_products' %}"><i class="fas fa-boxes"></i> Products Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Orders Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:notifications_newslettersubscriber_changelist' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-list"></i> Subscriber List (Frontend)</a></li>
                                         </ul>
@@ -324,15 +372,10 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 {% if user.is_authenticated %}
-                                    <li class="profile-dropdown-wrapper">
-                                        <a class="dropdown-item menu-dropdown-item profile-toggle" href="#">
-                                            <span><i class="fas fa-user-circle"></i> Profile</span>
-                                            <i class="fas fa-angle-right"></i>
+                                    <li>
+                                        <a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}">
+                                            <i class="fas fa-user-circle"></i> Profile
                                         </a>
-                                        <ul class="dropdown-menu profile-submenu">
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-edit"></i> Account Settings</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'order_history' %}"><i class="fas fa-history"></i> Order History</a></li>
-                                        </ul>
                                     </li>
                                     {% if user.is_staff %}
                                     <li class="admin-panel-dropdown-wrapper">
@@ -341,13 +384,10 @@
                                             <i class="fas fa-angle-right"></i>
                                         </a>
                                         <ul class="dropdown-menu admin-panel-submenu">
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_collections' %}"><i class="fas fa-th-large"></i> Collections</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_product_types' %}"><i class="fas fa-tags"></i> Product Types</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'create_product' %}"><i class="fas fa-plus-circle"></i> Create Product</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'archived_products' %}"><i class="fas fa-archive"></i> Archived Products</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Admin Orders</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Moderate Vault</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Django Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_products' %}"><i class="fas fa-boxes"></i> Products Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Orders Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                         </ul>
                                     </li>
@@ -473,41 +513,19 @@
                 <button class="submenu-back" data-back="account">&lt; Admin Panel</button>
                 <div class="submenu-content">
                     <a href="{% url 'admin:index' %}" class="submenu-item">
-                        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                        <i class="fas fa-tachometer-alt"></i> <span>Django Dashboard</span>
                     </a>
                     <a href="{% url 'admin_list_subscribers' %}" class="submenu-item">
                         <i class="fas fa-envelope"></i> <span>Newsletter Subscribers</span>
                     </a>
-                    <a href="{% url 'admin_list_collections' %}" class="submenu-item">
-                        <i class="fas fa-th-large"></i> <span>Collections</span>
-                    </a>
-                    <a href="{% url 'admin_list_product_types' %}" class="submenu-item">
-                        <i class="fas fa-tags"></i> <span>Product Types</span>
-                    </a>
-                    <a href="{% url 'create_product' %}" class="submenu-item">
-                        <i class="fas fa-plus-circle"></i> <span>Create Product</span>
-                    </a>
-                    <a href="{% url 'archived_products' %}" class="submenu-item">
-                        <i class="fas fa-archive"></i> <span>Archived Products</span>
+                    <a href="{% url 'admin_list_products' %}" class="submenu-item">
+                        <i class="fas fa-boxes"></i> <span>Products Management</span>
                     </a>
                     <a href="{% url 'admin_orders_list' %}" class="submenu-item">
-                        <i class="fas fa-clipboard-list"></i> <span>Admin Orders</span>
+                        <i class="fas fa-clipboard-list"></i> <span>Orders Management</span>
                     </a>
                     <a href="{% url 'vault:moderate_photos' %}" class="submenu-item">
-                        <i class="fas fa-gavel"></i> <span>Moderate Vault</span>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Profile Submenu -->
-            <div class="menu-submenu hidden" id="submenuProfile">
-                <button class="submenu-back" data-back="account">&lt; Profile</button>
-                <div class="submenu-content">
-                    <a href="{% url 'profile' %}" class="submenu-item">
-                        <i class="fas fa-user-edit"></i> <span>Account Settings</span>
-                    </a>
-                    <a href="{% url 'order_history' %}" class="submenu-item">
-                        <i class="fas fa-history"></i> <span>Order History</span>
+                        <i class="fas fa-gavel"></i> <span>Vault Moderation</span>
                     </a>
                 </div>
             </div>

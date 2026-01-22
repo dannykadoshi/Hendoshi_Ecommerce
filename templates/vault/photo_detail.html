@@ -12,17 +12,17 @@
                 <div class="col-12 text-center">
                     <h1 class="vault-hero-title">Photo Details</h1>
                     <p class="vault-hero-subtitle">{{ photo.caption|default:"Vault Photo" }}</p>
-                    <div class="d-flex justify-content-center gap-3 mt-4">
+                    <div class="d-flex justify-content-center gap-2 gap-md-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
                             <i class="fas fa-arrow-left"></i> Back to Gallery
                         </a>
                         {% if prev_photo %}
-                        <a href="{% url 'vault:photo_detail' prev_photo.id %}" class="btn btn-outline-pink" title="Previous Photo">
+                        <a href="{% url 'vault:photo_detail' prev_photo.id %}" class="btn btn-pink" title="Previous Photo">
                             <i class="fas fa-chevron-left"></i> Previous
                         </a>
                         {% endif %}
                         {% if next_photo %}
-                        <a href="{% url 'vault:photo_detail' next_photo.id %}" class="btn btn-outline-pink" title="Next Photo">
+                        <a href="{% url 'vault:photo_detail' next_photo.id %}" class="btn btn-pink" title="Next Photo">
                             Next <i class="fas fa-chevron-right"></i>
                         </a>
                         {% endif %}
@@ -37,7 +37,7 @@
             <div class="col-lg-10">
 
             <!-- Photo Display -->
-            <div class="vault-detail-card mb-4">
+            <div class="vault-detail-card glassmorphic-card mb-4">
                 <div class="vault-detail-image-container position-relative d-inline-block">
                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image">
                     {% if user.is_authenticated and user != photo.user %}
@@ -87,7 +87,7 @@
                 <div class="row g-3">
                     {% for product in photo.tagged_products.all %}
                     <div class="col-lg-4 col-md-6">
-                        <div class="product-card">
+                        <div class="product-card glassmorphic-card">
                             <div class="product-image">
                                 {% if product.main_image %}
                                 <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
@@ -108,7 +108,7 @@
                                     ${{ product.base_price }}
                                     {% endif %}
                                 </p>
-                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-pink w-100">
+                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-quick-add w-100">
                                     View Product
                                 </a>
                             </div>
@@ -173,6 +173,22 @@
     .vault-hero-title {
         font-size: 2rem;
     }
+}
+
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 </style>
 

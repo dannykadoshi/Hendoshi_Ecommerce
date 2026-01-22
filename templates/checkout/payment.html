@@ -4,10 +4,31 @@
 {% block title %}Payment - Hendoshi Store{% endblock %}
 
 {% block content %}
-<div class="container checkout-container mt-5 mb-5">
-    <div class="checkout-wrapper">
-        <!-- Progress Indicator -->
-        <div class="progress-container with-top-padding">
+<div class="checkout-page">
+    <!-- Payment Hero -->
+    <section class="checkout-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="checkout-hero-title">Payment</h1>
+                    <p class="checkout-hero-subtitle">Secure payment processing</p>
+                    <div class="d-flex justify-content-center gap-4 mt-4">
+                        <span class="checkout-hero-stat">
+                            <i class="fas fa-file-invoice"></i> Order #{{ order.order_number }}
+                        </span>
+                        <span class="checkout-hero-stat">
+                            <i class="fas fa-lock"></i> SSL Encrypted
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container checkout-container">
+        <div class="checkout-wrapper">
+            <!-- Progress Indicator -->
+            <div class="progress-container">
             <div class="progress-bar-wrapper horizontal">
                 {% for step in steps %}
                     <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
@@ -30,35 +51,6 @@
         <!-- Main Content -->
         <div class="checkout-content">
             <div class="checkout-main">
-                <!-- Order Summary Cards -->
-                <section class="order-summary-section mb-5">
-                    <div class="order-summary-cards">
-                        <div class="summary-card order-card">
-                            <div class="card-icon">
-                                <i class="fas fa-file-invoice"></i>
-                            </div>
-                            <div class="card-label">Order Number</div>
-                            <div class="card-value">{{ order.order_number }}</div>
-                        </div>
-                        
-                        <div class="summary-card amount-card">
-                            <div class="card-icon">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                            <div class="card-label">Total Amount</div>
-                            <div class="card-value">${{ order.total_amount }}</div>
-                        </div>
-                        
-                        <div class="summary-card items-card">
-                            <div class="card-icon">
-                                <i class="fas fa-box"></i>
-                            </div>
-                            <div class="card-label">Items</div>
-                            <div class="card-value">{{ order.items.all|length }} item(s)</div>
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Payment Section -->
                 <section class="payment-section">
                     <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
@@ -139,7 +131,7 @@
                                 <i class="fas fa-arrow-left back-icon"></i>Back to Shipping
                             </a>
                             <button type="submit" class="btn btn-pink btn-lg" id="submitPayment">
-                                <span class="default-text"><i class="fas fa-lock"></i> Pay ${{ order.total_amount }}</span>
+                                <span class="default-text"><i class="fas fa-lock"></i> Pay €{{ order.total_amount }}</span>
                                 <span class="loading-text d-none">
                                     <span class="spinner-border spinner-border-sm" role="status"></span>
                                     Processing...
@@ -156,7 +148,7 @@
             </div>
 
             <!-- Sidebar -->
-            <aside class="checkout-sidebar">
+            <aside class="checkout-sidebar payment-sidebar">
                 <!-- Order Items -->
                 <div class="order-items-summary">
                     <h5><i class="fas fa-list"></i> Order Items</h5>
@@ -170,7 +162,7 @@
                                     </small>
                                     <small class="d-block text-muted">Qty: {{ item.quantity }}</small>
                                 </div>
-                                <div class="item-price">${{ item.price }}</div>
+                                <div class="item-price">€{{ item.price }}</div>
                             </div>
                         {% endfor %}
                     </div>
@@ -182,23 +174,23 @@
                         <tbody>
                             <tr>
                                 <td>Subtotal</td>
-                                <td>${{ order.subtotal }}</td>
+                                <td>€{{ order.subtotal }}</td>
                             </tr>
                             {% if order.shipping_cost %}
                                 <tr>
                                     <td>Shipping</td>
-                                    <td>${{ order.shipping_cost }}</td>
+                                    <td>€{{ order.shipping_cost }}</td>
                                 </tr>
                             {% endif %}
                             {% if order.tax_amount %}
                                 <tr>
                                     <td>Tax</td>
-                                    <td>${{ order.tax_amount }}</td>
+                                    <td>€{{ order.tax_amount }}</td>
                                 </tr>
                             {% endif %}
                             <tr class="total-row">
                                 <td><strong>Total</strong></td>
-                                <td><strong>${{ order.total_amount }}</strong></td>
+                                <td><strong>€{{ order.total_amount }}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -216,8 +208,114 @@
         </div>
     </div>
 </div>
+</div>
 
 <style>
+/* Checkout Page Hero Styles */
+.checkout-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.checkout-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.checkout-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.checkout-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.checkout-hero-stat {
+    color: #ccc;
+    font-size: 1rem;
+}
+
+.checkout-hero-stat i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.checkout-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* Glassmorphic Payment Section */
+.payment-section {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.payment-section h2 {
+    color: var(--neon-pink);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.payment-section h2 i {
+    margin-right: 0.5rem;
+}
+
+/* Glassmorphic Sidebar */
+.checkout-sidebar.payment-sidebar {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+/* Sticky Sidebar on Desktop */
+@media (min-width: 992px) {
+    .checkout-sidebar.payment-sidebar {
+        position: sticky;
+        top: 140px;
+        align-self: flex-start;
+    }
+
+    .checkout-content {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-hero-title {
+        font-size: 2.5rem;
+    }
+    .checkout-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .checkout-hero-title {
+        font-size: 2rem;
+    }
+}
+
 /* Horizontal Progress Bar */
 .progress-bar-wrapper.horizontal {
     display: flex;
@@ -325,107 +423,6 @@
     }
 }
 
-/* Order Summary Cards */
-.order-summary-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.summary-card {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    padding: 1rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 2px solid;
-}
-
-.summary-card.order-card {
-    border-color: var(--neon-pink);
-}
-
-.summary-card.amount-card {
-    border-color: var(--electric-yellow);
-}
-
-.summary-card.items-card {
-    border-color: var(--neon-pink);
-}
-
-.summary-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
-}
-
-.summary-card .card-icon {
-    font-size: 1.8rem;
-    margin-bottom: 0.75rem;
-}
-
-.summary-card.order-card .card-icon {
-    color: var(--neon-pink);
-}
-
-.summary-card.amount-card .card-icon {
-    color: var(--electric-yellow);
-}
-
-.summary-card.items-card .card-icon {
-    color: var(--neon-pink);
-}
-
-.summary-card .card-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--off-white);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.summary-card .card-value {
-    font-size: 1.1rem;
-    font-weight: 900;
-    color: white;
-}
-
-.summary-card.amount-card .card-value {
-    font-size: 1.4rem;
-    color: var(--electric-yellow);
-}
-
-@media (max-width: 768px) {
-    .order-summary-cards {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-    }
-    
-    .summary-card {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .summary-card .card-icon {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .summary-card .card-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.5px;
-    }
-    
-    .summary-card .card-value {
-        font-size: 0.9rem;
-    }
-    
-    .summary-card.amount-card .card-value {
-        font-size: 1.1rem;
-    }
-}
-
 .payment-section fieldset {
     border: 1px solid var(--neon-pink);
     border-radius: 8px;
@@ -492,7 +489,7 @@
 
 .form-actions a.btn-pink {
     background-color: var(--neon-pink) !important;
-    color: #FFFFFF !important;
+    color: var(--black) !important;
     border: none !important;
     text-decoration: none !important;
     display: inline-flex !important;
@@ -509,9 +506,8 @@
 
 
 .order-items-summary {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 2px solid rgba(255, 20, 147, 0.2);
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .order-items-summary h5 {
@@ -643,23 +639,6 @@
 :root.light-mode .test-card-hint {
     background-color: rgba(204, 255, 0, 0.08);
     border-color: var(--electric-yellow);
-}
-
-:root.light-mode .summary-card {
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-:root.light-mode .summary-card .card-label {
-    color: #666666;
-}
-
-:root.light-mode .summary-card .card-value {
-    color: #222222;
-}
-
-:root.light-mode .summary-card.amount-card .card-value {
-    color: #88cc00;
 }
 
 :root.light-mode .item-summary {

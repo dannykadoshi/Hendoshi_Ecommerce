@@ -12,12 +12,12 @@
                 <div class="col-12 text-center">
                     <h1 class="vault-hero-title">Hall of Fame</h1>
                     <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
-                    <div class="d-flex justify-content-center gap-3 mt-4">
+                    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-outline-pink">
                             <i class="fas fa-crown"></i> Hall of Fame Overview
                         </a>
                         <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink">
-                            <i class="fas fa-arrow-left"></i> Back to The Vault
+                            <i class="fas fa-arrow-left"></i> Back to Vault
                         </a>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
     <div class="row g-4">
         {% for photo in hall_photos %}
         <div class="col-lg-6 col-xl-4 mb-4">
-            <div class="hall-of-fame-card">
+            <div class="hall-of-fame-card glassmorphic-card">
                 <!-- Trophy Header -->
                 <div class="hall-of-fame-header">
                     <div class="trophy-icon">
@@ -285,14 +285,18 @@
 .hall-of-fame-photo-container {
     position: relative;
     overflow: hidden;
-    height: 250px;
+    aspect-ratio: 4/3;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
 }
 
 .hall-of-fame-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: transform 0.3s ease;
+    border-radius: 8px;
 }
 
 .hall-of-fame-card:hover .hall-of-fame-photo {
@@ -311,6 +315,7 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    border-radius: 8px;
 }
 
 .hall-of-fame-card:hover .hall-of-fame-photo-overlay {
@@ -453,7 +458,7 @@
     }
 
     .hall-of-fame-photo-container {
-        height: 200px;
+        aspect-ratio: 4/3;
     }
 
     .hall-of-fame-info {
@@ -464,6 +469,22 @@
         flex-wrap: wrap;
         gap: 15px;
     }
+}
+
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 </style>
 {% endblock %}

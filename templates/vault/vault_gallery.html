@@ -12,7 +12,7 @@
                 <div class="col-12 text-center">
                     <h1 class="vault-hero-title">The Vault</h1>
                     <p class="vault-hero-subtitle">Where weirdos become legends. See how others rock their HENDOSHI gear.</p>
-                    <div class="d-flex justify-content-center gap-3 mt-4">
+                    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-outline-pink">
                             <i class="fas fa-trophy"></i> Hall of Fame
                         </a>
@@ -31,9 +31,7 @@
 
     <!-- Featured Photos Carousel -->
     {% if featured_photos %}
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="vault-featured-section">
+    <div class="vault-featured-section glassmorphic-card mb-5">
                 <div class="vault-featured-header">
                     <h2 class="vault-featured-title">
                         <i class="fas fa-star"></i> This Week's Featured Photos
@@ -48,7 +46,7 @@
                     <div class="vault-featured-track" id="featured-track">
                         {% for photo in featured_photos %}
                         <div class="vault-featured-item">
-                            <div class="vault-featured-card">
+                            <div class="vault-featured-card glassmorphic-card">
                                 <div class="vault-featured-image-container">
                                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-featured-image">
                                     <div class="vault-featured-overlay">
@@ -61,10 +59,10 @@
                                             </a>
                                             {% if user.is_authenticated %}
                                             {% if user != photo.user %}
-                                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} vault-featured-vote-btn" title="Upvote">
+                                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm btn-outline-pink vault-featured-vote-btn" title="Upvote">
                                                 <i class="fas fa-thumbs-up"></i>
                                             </button>
-                                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} vault-featured-vote-btn" title="Downvote">
+                                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm btn-pink vault-featured-vote-btn" title="Downvote">
                                                 <i class="fas fa-thumbs-down"></i>
                                             </button>
                                             {% endif %}
@@ -103,8 +101,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
     {% endif %}
 
     <!-- Filters -->
@@ -136,7 +132,7 @@
     <div class="row g-4" id="photo-grid">
         {% for photo in photos %}
         <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="vault-card">
+            <div class="vault-card glassmorphic-card">
                 <div class="vault-image-container">
                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-image">
                     <div class="vault-overlay">
@@ -299,6 +295,101 @@
     align-items: center;
     justify-content: center;
     margin: 0 1px;
+}
+
+/* Enhanced Featured Section Styling */
+.vault-featured-section.glassmorphic-card {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.vault-featured-section.glassmorphic-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.vault-featured-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.vault-featured-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 10px rgba(255, 20, 147, 0.3);
+}
+
+.vault-featured-subtitle {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.vault-featured-note {
+    color: var(--gray);
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Premium Featured Badge */
+.vault-featured-badge {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)) !important;
+    color: #000 !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 25px !important;
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    box-shadow: 0 4px 20px rgba(255, 20, 147, 0.6) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    animation: featuredGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes featuredGlow {
+    from {
+        box-shadow: 0 4px 20px rgba(255, 20, 147, 0.6);
+    }
+    to {
+        box-shadow: 0 4px 30px rgba(255, 20, 147, 0.8), 0 0 40px rgba(255, 105, 180, 0.4);
+    }
+}
+
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+/* Hover effects only for photo cards */
+.vault-featured-card.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 </style>
 {% endblock %}

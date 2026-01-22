@@ -4,12 +4,33 @@
 {% block extra_title %}Order Confirmation{% endblock %}
 
 {% block content %}
-{# djlint:off H025 #}
-<div class="container checkout-container mt-5 mb-5">
-    <div class="checkout-wrapper">
-        {# djlint:on #}
-        <!-- Progress Indicator -->
-        <div class="progress-container with-top-padding">
+<div class="checkout-page">
+    <!-- Order Confirmation Hero -->
+    <section class="checkout-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="checkout-hero-title">Order Confirmed!</h1>
+                    <p class="checkout-hero-subtitle">Thank you for purchase</p>
+                    <div class="d-flex justify-content-center gap-4 mt-4">
+                        <span class="checkout-hero-stat">
+                            <i class="fas fa-check-circle"></i> Payment Successful
+                        </span>
+                        <span class="checkout-hero-stat">
+                            <i class="fas fa-file-invoice"></i> Order #{{ order.order_number }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# djlint:off H025 #}
+    <div class="container checkout-container">
+        <div class="checkout-wrapper">
+            {# djlint:on #}
+            <!-- Progress Indicator -->
+            <div class="progress-container">
             <div class="progress-bar-wrapper horizontal">
                 {% for step in steps %}
                     <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
@@ -32,20 +53,11 @@
         <!-- Main Content -->
         <div class="checkout-content">
 
-    <!-- Success Message -->
-    <div class="order-success-header">
-        <div class="success-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <h1 class="page-title">Order Confirmed!</h1>
-        <p class="text-muted">Thank you for your purchase. Your order is being prepared.</p>
-    </div>
-
     <!-- Main Content -->
     <div class="row">
         <div class="col-lg-7">
             <!-- Order Number -->
-            <div class="panel">
+            <div class="panel glassmorphic-panel">
                 <div class="panel-header">
                     <h3 class="panel-title mb-0">Order Number</h3>
                 </div>
@@ -59,7 +71,7 @@
             </div>
 
             <!-- Order Items -->
-            <div class="panel">
+            <div class="panel glassmorphic-panel">
                 <div class="panel-header d-flex justify-content-between align-items-center">
                     <h3 class="panel-title mb-0">Order Items</h3>
                     <span class="badge bg-dark">{{ order_items|length }} item{{ order_items|pluralize }}</span>
@@ -67,7 +79,7 @@
 
                 <div class="order-items-list">
                     {% for item in order_items %}
-                        <div class="order-item">
+                        <div class="order-item glassmorphic-item">
                             <div class="item-image">
                                 {% if item.product.main_image %}
                                     <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
@@ -93,7 +105,7 @@
             </div>
 
             <!-- Shipping Address -->
-            <div class="panel">
+            <div class="panel glassmorphic-panel">
                 <div class="panel-header">
                     <h3 class="panel-title mb-0">Shipping Address</h3>
                 </div>
@@ -110,7 +122,7 @@
         <!-- Summary Sidebar -->
         <div class="col-lg-5">
             <!-- Order Summary -->
-            <div class="panel order-summary">
+            <div class="panel order-summary glassmorphic-panel">
                 <div class="panel-header">
                     <h3 class="panel-title mb-0">Order Summary</h3>
                 </div>
@@ -147,7 +159,7 @@
             </div>
 
             <!-- Next Steps -->
-            <div class="panel">
+            <div class="panel glassmorphic-panel">
                 <div class="panel-header">
                     <h3 class="panel-title mb-0">What's Next?</h3>
                 </div>
@@ -188,5 +200,113 @@
         </div>
     </div>
 </div>
+</div>
 
+<style>
+/* Checkout Page Hero Styles */
+.checkout-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.checkout-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.checkout-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.checkout-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.checkout-hero-stat {
+    color: #ccc;
+    font-size: 1rem;
+}
+
+.checkout-hero-stat i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.checkout-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .checkout-hero-title {
+        font-size: 2.5rem;
+    }
+    .checkout-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .checkout-hero-title {
+        font-size: 2rem;
+    }
+}
+
+/* Glassmorphism Panel Styles */
+.glassmorphic-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.glassmorphic-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.glassmorphic-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 105, 180, 0.2);
+}
+
+/* Button Styles to Match Payment Page */
+.confirmation-buttons .btn-pink {
+    background-color: var(--neon-pink) !important;
+    color: var(--black) !important;
+    border: none !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+}
+
+.confirmation-buttons .btn-pink:hover {
+    background-color: var(--electric-yellow) !important;
+    color: var(--black) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
+</style>
 {% endblock %}

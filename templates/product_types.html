@@ -4,30 +4,27 @@
 {% block extra_title %}Product Types{% endblock %}
 
 {% block content %}
-<div class="product-types-page">
-    <div class="container-fluid">
-        <!-- Product Types Hero -->
-        <section class="product-types-hero">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <h1 class="product-types-title">Shop by Product Type</h1>
-                        <p class="product-types-subtitle">Find exactly what you're looking for</p>
-                    </div>
+<div class="vault-page">
+    <!-- Product Types Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="vault-hero-title">Shop by Product Type</h1>
+                    <p class="vault-hero-subtitle">Find exactly what you're looking for</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Product Types Grid -->
-        <section class="product-types-grid-section py-5">
-            <div class="container">
+    <div class="container-fluid vault-container">
                 {% if product_types %}
                 <div class="battle-vest-grid">
                     {% for product_type in product_types %}
-                    <div class="vest-item-card" onclick="window.location.href='{% url 'products' %}?type={{ product_type.slug }}'">
+                    <div class="vest-item-card glassmorphic-card" onclick="window.location.href='{% url 'products' %}?type={{ product_type.slug }}'">
                         <div class="vest-item-image-wrapper">
                             {% if product_type.representative_product and product_type.representative_product.main_image %}
-                                <img src="{{ product_type.representative_product.main_image.url }}" alt="{{ product_type.representative_product.name }}" class="vest-item-image">
+                                <img src="{{ product_type.representative_product.main_image.url }}" alt="{{ product_type.representative_product.name }}" class="vest-item-image" loading="lazy">
                             {% else %}
                                 <div class="placeholder-image">
                                     <i class="fas fa-shopping-bag fa-3x"></i>
@@ -59,28 +56,76 @@
 </div>
 
 <style>
-/* Product Types Page Styles */
-.product-types-page {
+/* Vault Page Hero Styles */
+.vault-page {
     min-height: 100vh;
     padding-top: 120px;
-    margin-top: 0;
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-    .product-types-page {
-        padding-top: 125px;
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    color: var(--off-white);
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+/* Mobile optimization for hero */
+@media (max-width: 768px) {
+    .vault-hero-title {
+        font-size: 2.5rem;
+    }
+    .vault-hero {
+        padding: 3rem 0;
     }
 }
 
-@media (min-width: 992px) and (max-width: 1200px) {
-    .product-types-page {
-        padding-top: 115px;
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
     }
 }
 
-@media (max-width: 767px) {
-    .product-types-page {
-        padding-top: 115px;
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
+}
     }
 }
 

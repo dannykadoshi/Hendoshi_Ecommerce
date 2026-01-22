@@ -12,6 +12,14 @@
                 <div class="col-12 text-center">
                     <h1 class="vault-hero-title">Hall of Fame</h1>
                     <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                        <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-pink">
+                            <i class="fas fa-images"></i> Browse Gallery
+                        </a>
+                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
+                            <i class="fas fa-arrow-left"></i> Back to Vault
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,7 +32,7 @@
             <div class="hall-of-fame-description">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
-                        <div class="hall-of-fame-intro-card">
+                        <div class="hall-of-fame-intro-card glassmorphic-card">
                             <h3 class="hall-of-fame-subtitle">
                                 <i class="fas fa-crown"></i> The Pinnacle of HENDOSHI Excellence
                             </h3>
@@ -88,14 +96,6 @@
                 </div>
             </div>
 
-            <div class="mt-4">
-                <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-pink btn-lg me-3">
-                    <i class="fas fa-images"></i> View Hall of Fame Gallery
-                </a>
-                <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink btn-lg">
-                    <i class="fas fa-arrow-left"></i> Back to The Vault
-                </a>
-            </div>
             </div>
         </div>
     </div>
@@ -151,6 +151,22 @@
     .vault-hero-title {
         font-size: 2rem;
     }
+}
+
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 </style>
 {% endblock %}

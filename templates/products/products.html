@@ -1,75 +1,116 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_title %}Shop All Products{% endblock %}
+
+{% block extra_head %}
+<!-- Collection/Product Listing Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "HENDOSHI Products",
+  "description": "Shop all HENDOSHI products - Metal-inspired apparel with original skull, animal, and gym designs",
+  "url": "{{ request.build_absolute_uri }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": "{{ products|length }}",
+    "itemListElement": [
+      {% for product in products %}
+      {
+        "@type": "Product",
+        "position": {{ forloop.counter }},
+        "name": "{{ product.name }}",
+        "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'product_detail' product.slug %}",
+        "image": "{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}",
+        "offers": {
+          "@type": "Offer",
+          "price": "{{ product.price }}",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/{% if product.stock_quantity > 0 %}InStock{% else %}OutOfStock{% endif %}"
+        }
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
     <div class="products-page">
-        <div class="container-fluid">
-            <!-- Products Header with Filters -->
-            <div class="products-header-section">
-                <div class="products-header">
-                    <h1>
-                        {% if current_collection %}
-                            {% for collection in collections %}
-                                {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
-                            {% endfor %}
-                        {% elif search_term %}
-                            Search Results for "{{ search_term }}"
-                        {% else %}
-                            All Products
-                        {% endif %}
-                    </h1>
-                    <p class="product-count">{{ products.count }} product{{ products.count|pluralize }} found</p>
+        <!-- Products Hero -->
+        <section class="vault-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="vault-hero-title">
+                            {% if current_collection %}
+                                {% for collection in collections %}
+                                    {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
+                                {% endfor %}
+                            {% elif search_term %}
+                                Search Results for "{{ search_term }}"
+                            {% else %}
+                                All Products
+                            {% endif %}
+                        </h1>
+                        <p class="vault-hero-subtitle">{{ products.count }} product{{ products.count|pluralize }} found</p>
+                    </div>
                 </div>
-                
-                <!-- Filters & Sort Button -->
-                <div class="filters-sort-wrapper">
-                    <button class="btn filters-sort-btn" id="filtersSortBtn">
-                        <i class="fas fa-sliders-h"></i> Filters & Sort
+            </div>
+        </section>
+
+        <!-- Filters & Sort Section (Original Position) -->
+        <div class="container-fluid">
+            <div class="filters-sort-wrapper filters-right mb-4 mt-3">
+                <button class="btn filters-sort-btn" id="filtersSortBtn">
+                    <i class="fas fa-sliders-h"></i> Filters & Sort
+                </button>
+
+                <!-- Mobile Overlay -->
+                <div class="filters-overlay" id="filtersOverlay"></div>
+
+                <!-- Filters Dropdown Menu -->
+                <div class="filters-dropdown" id="filtersDropdown">
+                    <button class="filters-close-btn" id="filtersCloseBtn">
+                        <i class="fas fa-times"></i>
                     </button>
-                    
-                    <!-- Mobile Overlay -->
-                    <div class="filters-overlay" id="filtersOverlay"></div>
-                    
-                    <!-- Filters Dropdown Menu -->
-                    <div class="filters-dropdown" id="filtersDropdown">
-                        <button class="filters-close-btn" id="filtersCloseBtn">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        <div class="filters-dropdown-content">
-                            <div class="filter-column">
-                                <h3>Collections</h3>
-                                <ul class="list-unstyled">
-                                    <li><a href="{% url 'products' %}" class="{% if not current_collection %}active{% endif %}">All Products</a></li>
-                                    {% for collection in collections %}
-                                        <li><a href="{% url 'collection_detail' collection.slug %}" class="{% if current_collection == collection.slug %}active{% endif %}">{{ collection.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="filter-column">
-                                <h3>Product Type</h3>
-                                <ul class="list-unstyled">
-                                    <li><a href="{% url 'products' %}" class="{% if not current_type %}active{% endif %}">All Types</a></li>
-                                    <li><a href="{% url 'products' %}?type=tshirt" class="{% if current_type == 'tshirt' %}active{% endif %}">T-Shirts</a></li>
-                                    <li><a href="{% url 'products' %}?type=hoodie" class="{% if current_type == 'hoodie' %}active{% endif %}">Hoodies</a></li>
-                                    <li><a href="{% url 'products' %}?type=sticker" class="{% if current_type == 'sticker' %}active{% endif %}">Stickers</a></li>
-                                    <li><a href="{% url 'products' %}?type=accessory" class="{% if current_type == 'accessory' %}active{% endif %}">Accessories</a></li>
-                                </ul>
-                            </div>
-                            <div class="filter-column">
-                                <h3>Sort By</h3>
-                                <ul class="list-unstyled">
-                                    <li><a href="{% url 'products' %}">Default</a></li>
-                                    <li><a href="{% url 'products' %}?sort=price&direction=asc">Price (Low-High)</a></li>
-                                    <li><a href="{% url 'products' %}?sort=price&direction=desc">Price (High-Low)</a></li>
-                                    <li><a href="{% url 'products' %}?sort=name&direction=asc">Name (A-Z)</a></li>
-                                    <li><a href="{% url 'products' %}?sort=name&direction=desc">Name (Z-A)</a></li>
-                                </ul>
-                            </div>
+                    <div class="filters-dropdown-content">
+                        <div class="filter-column">
+                            <h3>Collections</h3>
+                            <ul class="list-unstyled">
+                                <li><a href="{% url 'products' %}" class="{% if not current_collection %}active{% endif %}">All Products</a></li>
+                                {% for collection in collections %}
+                                    <li><a href="{% url 'collection_detail' collection.slug %}" class="{% if current_collection == collection.slug %}active{% endif %}">{{ collection.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="filter-column">
+                            <h3>Product Type</h3>
+                            <ul class="list-unstyled">
+                                <li><a href="{% url 'products' %}" class="{% if not current_type %}active{% endif %}">All Types</a></li>
+                                <li><a href="{% url 'products' %}?type=tshirt" class="{% if current_type == 'tshirt' %}active{% endif %}">T-Shirts</a></li>
+                                <li><a href="{% url 'products' %}?type=hoodie" class="{% if current_type == 'hoodie' %}active{% endif %}">Hoodies</a></li>
+                                <li><a href="{% url 'products' %}?type=sticker" class="{% if current_type == 'sticker' %}active{% endif %}">Stickers</a></li>
+                                <li><a href="{% url 'products' %}?type=accessory" class="{% if current_type == 'accessory' %}active{% endif %}">Accessories</a></li>
+                            </ul>
+                        </div>
+                        <div class="filter-column">
+                            <h3>Sort By</h3>
+                            <ul class="list-unstyled">
+                                <li><a href="{% url 'products' %}">Default</a></li>
+                                <li><a href="{% url 'products' %}?sort=price&direction=asc">Price (Low-High)</a></li>
+                                <li><a href="{% url 'products' %}?sort=price&direction=desc">Price (High-Low)</a></li>
+                                <li><a href="{% url 'products' %}?sort=name&direction=asc">Name (A-Z)</a></li>
+                                <li><a href="{% url 'products' %}?sort=name&direction=desc">Name (Z-A)</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            
+        </div>
+
+        <div class="container-fluid vault-container">
             <!-- Products Grid -->
             <div class="products-grid-wrapper">
                 {% if products %}
@@ -77,7 +118,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="action" id="bulkAction" value="archive">
                     {% if request.user.is_staff or request.user.is_superuser %}
-                    <div class="bulk-archive-bar d-flex align-items-center mb-3">
+                    <div class="bulk-archive-bar d-flex align-items-center mb-3 glassmorphic-panel">
                         <input type="checkbox" id="selectAllProducts" class="form-check-input">
                         <label for="selectAllProducts" class="form-label mb-0 ms-2">Select All</label>
                         <button type="submit" class="btn btn-pink btn-sm ms-3" id="bulkArchiveBtn" disabled>Archive Selected</button>
@@ -88,7 +129,7 @@
                     <div class="products-grid">
                         {% for product in products %}
                         <div class="product-card-wrapper">
-                            <div class="product-card">
+                            <div class="product-card glassmorphic-card">
                                 {% if request.user.is_staff or request.user.is_superuser %}
                                 <div class="product-checkbox-wrapper bottom-right">
                                     <input type="checkbox" name="product_ids" value="{{ product.id }}" class="form-check-input product-select-checkbox">
@@ -111,10 +152,10 @@
                                     <a href="{% url 'product_detail' product.slug %}">
                                         <div class="product-image product-image-relative">
                                             {% if product.main_image %}
-                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main">
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
                                                 {% with second_image=product.images.first %}
                                                     {% if second_image %}
-                                                        <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover">
+                                                        <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy">
                                                     {% endif %}
                                                 {% endwith %}
                                             {% else %}
@@ -144,7 +185,7 @@
                 <!-- Unified Quick Add Modal (MUST be outside the bulk archive form) -->
                 <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered quick-add-modal">
-                        <div class="modal-content">
+                        <div class="modal-content glassmorphic-panel">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -527,6 +568,109 @@
     </script>
 
     <style>
+    /* Vault Page Hero Styles */
+    .products-page {
+        min-height: 100vh;
+        padding-top: 120px;
+    }
+
+    .vault-hero {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 4rem 0;
+        margin-top: -20px;
+        margin-bottom: 0;
+    }
+
+    .vault-hero-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .vault-hero-subtitle {
+        color: var(--off-white);
+        font-size: 1.2rem;
+        font-weight: 300;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .vault-container {
+        padding-top: 2rem;
+    }
+
+    /* Mobile optimization for hero */
+    @media (max-width: 768px) {
+        .vault-hero-title {
+            font-size: 2.5rem;
+        }
+        .vault-hero {
+            padding: 3rem 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .vault-hero-title {
+            font-size: 2rem;
+        }
+    }
+
+    /* Filters Section Styling */
+    .filters-section {
+        padding: 1rem 0;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .filters-section .filters-sort-wrapper {
+        margin-left: auto;
+        margin-right: 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* Right-aligned filters with spacing */
+    .filters-right {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        margin-top: 1rem !important;
+    }
+
+    /* Glassmorphism Effects for Products Page */
+    .glassmorphic-card {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 15px !important;
+    }
+
+    .glassmorphic-card:hover {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 105, 180, 0.3) !important;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
+    }
+
+    .glassmorphic-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 1rem;
+    }
+
     .product-vest-btn-positioned {
         background: none;
         border: none;

@@ -12,6 +12,11 @@
                 <div class="col-12 text-center">
                     <h1 class="profile-hero-title">Order History</h1>
                     <p class="profile-hero-subtitle">View and track all your past orders</p>
+                    <div class="mt-4">
+                        <a href="{% url 'profile' %}" class="btn btn-outline-pink btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,11 +67,11 @@
                                 <tbody>
                                     {% for order in orders %}
                                     <tr>
-                                        <td><a href="{% url 'order_detail' order.order_number %}?from=order_history" class="order-link">{{ order.order_number }}</a></td>
+                                        <td><a href="{% url 'order_detail' order.order_number %}" class="order-link">{{ order.order_number }}</a></td>
                                         <td>{{ order.created_at|date:"M d, Y" }}</td>
                                         <td>{{ order.items.count }}</td>
                                         <td>${{ order.total_amount }}</td>
-                                        <td><span class="badge bg-pink">{{ order.status }}</span></td>
+                                        <td>{{ order.status }}</td>
                                         <td>
                                             <a href="{% url 'download_invoice' order.order_number %}" class="btn btn-outline-pink btn-sm" title="Download Invoice">
                                                 <i class="fas fa-download"></i>
@@ -98,9 +103,9 @@
                                     {% for num in orders.paginator.page_range %}
                                         {% if orders.number == num %}
                                             <li class="page-item active">
-                                                <span class="page-link">{{ num }}</span>
+                                                <a class="page-link" href="?page={{ num }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ num }}</a>
                                             </li>
-                                        {% elif num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+                                        {% else %}
                                             <li class="page-item">
                                                 <a class="page-link" href="?page={{ num }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ num }}</a>
                                             </li>
@@ -122,13 +127,13 @@
                                 </ul>
                             </nav>
                         {% endif %}
+                        
                     {% else %}
-                        <div class="empty-state">
-                            <i class="fas fa-shopping-bag fa-4x empty-state-icon"></i>
-                            <p class="empty-state-text">You haven't placed any orders yet.</p>
-                            <a href="{% url 'products' %}" class="btn btn-pink mt-3">
-                                <i class="fas fa-shopping-cart"></i> START SHOPPING
-                            </a>
+                        <div class="text-center py-5">
+                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">No orders found</h4>
+                            <p class="text-muted">You haven't placed any orders yet.</p>
+                            <a href="{% url 'products' %}" class="btn btn-pink mt-3">Start Shopping</a>
                         </div>
                     {% endif %}
                 </div>
@@ -136,55 +141,4 @@
         </div>
     </div>
 </div>
-</div>
-{# djlint:on #}
-
-<style>
-/* Profile Page Hero Styles */
-.profile-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.profile-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 2rem;
-}
-
-.profile-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.profile-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
-}
-
-@media (max-width: 768px) {
-    .profile-hero-title {
-        font-size: 2.5rem;
-    }
-    .profile-hero {
-        padding: 3rem 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .profile-hero-title {
-        font-size: 2rem;
-    }
-}
-</style>
 {% endblock %}
