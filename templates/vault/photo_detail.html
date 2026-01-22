@@ -4,31 +4,37 @@
 {% block extra_title %}{{ photo.caption|default:"Vault Photo" }} - The Vault{% endblock %}
 
 {% block content %}
-<div class="container my-5 vault-container">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <!-- Top Navigation -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
-                    <i class="fas fa-arrow-left"></i> Back to Gallery
-                </a>
-                <div>
-                    {% if prev_photo or next_photo %}
-                    <div class="d-flex gap-2">
+<div class="vault-page">
+    <!-- Photo Detail Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="vault-hero-title">Photo Details</h1>
+                    <p class="vault-hero-subtitle">{{ photo.caption|default:"Vault Photo" }}</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
+                            <i class="fas fa-arrow-left"></i> Back to Gallery
+                        </a>
                         {% if prev_photo %}
-                        <a href="{% url 'vault:photo_detail' prev_photo.id %}" class="btn btn-sm btn-outline-pink rounded-circle" title="Previous Photo">
-                            <i class="fas fa-chevron-left"></i>
+                        <a href="{% url 'vault:photo_detail' prev_photo.id %}" class="btn btn-outline-pink" title="Previous Photo">
+                            <i class="fas fa-chevron-left"></i> Previous
                         </a>
                         {% endif %}
                         {% if next_photo %}
-                        <a href="{% url 'vault:photo_detail' next_photo.id %}" class="btn btn-sm btn-outline-pink rounded-circle" title="Next Photo">
-                            <i class="fas fa-chevron-right"></i>
+                        <a href="{% url 'vault:photo_detail' next_photo.id %}" class="btn btn-outline-pink" title="Next Photo">
+                            Next <i class="fas fa-chevron-right"></i>
                         </a>
                         {% endif %}
                     </div>
-                    {% endif %}
                 </div>
             </div>
+        </div>
+    </section>
+
+    <div class="container vault-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
 
             <!-- Photo Display -->
             <div class="vault-detail-card mb-4">
@@ -112,9 +118,63 @@
                 </div>
             </div>
             {% endif %}
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .vault-hero-title {
+        font-size: 2.5rem;
+    }
+    .vault-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+}
+</style>
 
 <!-- Share Modal -->
 <div class="modal fade" id="shareModal" tabindex="-1">

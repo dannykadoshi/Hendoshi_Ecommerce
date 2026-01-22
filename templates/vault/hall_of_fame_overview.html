@@ -4,17 +4,22 @@
 {% block extra_title %}Hall of Fame Overview - HENDOSHI{% endblock %}
 
 {% block content %}
-<div class="container my-5 vault-container">
-    <div class="row">
-        <div class="col-12 text-center mb-5">
-            <h1 class="display-4 fw-bold text-uppercase vault-gallery-title">
-                <i class="fas fa-trophy"></i> Hall of Fame
-            </h1>
-            <p class="lead vault-lead">
-                Celebrating the legendary photos that have been featured in The Vault.
-                <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.
-            </p>
+<div class="vault-page">
+    <!-- Hall of Fame Overview Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="vault-hero-title">Hall of Fame</h1>
+                    <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <div class="container vault-container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
             <!-- Hall of Fame Description -->
             <div class="hall-of-fame-description">
                 <div class="row justify-content-center">
@@ -91,7 +96,61 @@
                     <i class="fas fa-arrow-left"></i> Back to The Vault
                 </a>
             </div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .vault-hero-title {
+        font-size: 2.5rem;
+    }
+    .vault-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+}
+</style>
 {% endblock %}

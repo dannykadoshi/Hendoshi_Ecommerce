@@ -4,12 +4,22 @@
 {% block extra_title %}Order History{% endblock %}
 
 {% block content %}
-{# djlint:off H025 #}
-<div class="container checkout-container mt-5 mb-5">
-    <div class="checkout-wrapper">
-        <div class="checkout-header checkout-header-spaced">
-            <h1 class="page-title">ORDER HISTORY</h1>
+<div class="profile-page">
+    <!-- Order History Hero -->
+    <section class="profile-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="profile-hero-title">Order History</h1>
+                    <p class="profile-hero-subtitle">View and track all your past orders</p>
+                </div>
+            </div>
         </div>
+    </section>
+
+    {# djlint:off H025 #}
+    <div class="container checkout-container mb-5">
+        <div class="checkout-wrapper">
         
         <div class="checkout-content checkout-content-spaced">
             <div class="checkout-main">
@@ -126,5 +136,55 @@
         </div>
     </div>
 </div>
+</div>
 {# djlint:on #}
+
+<style>
+/* Profile Page Hero Styles */
+.profile-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.profile-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 2rem;
+}
+
+.profile-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.profile-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .profile-hero-title {
+        font-size: 2.5rem;
+    }
+    .profile-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-hero-title {
+        font-size: 2rem;
+    }
+}
+</style>
 {% endblock %}

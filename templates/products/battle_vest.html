@@ -28,6 +28,27 @@
 </div>
 
 <div class="battle-vest-page">
+    <!-- Battle Vest Hero -->
+    <section class="battle-vest-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="battle-vest-hero-title">My Battle Vest</h1>
+                    <p class="battle-vest-hero-subtitle">Your curated collection of metal masterpieces</p>
+                    {% if item_count > 0 %}
+                    <div class="d-flex justify-content-center gap-4 mt-4">
+                        <span class="vest-hero-stat">
+                            <i class="fas fa-tshirt"></i> {{ item_count }} Item{{ item_count|pluralize }}
+                        </span>
+                        <span class="vest-hero-stat">
+                            <i class="fas fa-coins"></i> Total Value: €{{ total_value }}
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Add to Cart Modal -->
     <div id="addToCartVestModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartVestModalLabel" aria-hidden="true">
@@ -64,25 +85,7 @@
             </div>
         </div>
     </div>
-    <div class="container">
-
-        <!-- Battle Vest Header -->
-        <div class="battle-vest-header text-center mb-5">
-            <h1 class="vest-title">
-                <i class="fas fa-shield-alt"></i> MY BATTLE VEST
-            </h1>
-            <p class="vest-subtitle">Your curated collection of metal masterpieces</p>
-            {% if item_count > 0 %}
-            <div class="vest-stats">
-                <span class="vest-stat-item">
-                    <i class="fas fa-tshirt"></i> {{ item_count }} Item{{ item_count|pluralize }}
-                </span>
-                <span class="vest-stat-item">
-                    <i class="fas fa-coins"></i> Total Value: €{{ total_value }}
-                </span>
-            </div>
-            {% endif %}
-        </div>
+    <div class="container battle-vest-container">
 
         {% if vest_items %}
         <!-- Battle Vest Grid -->

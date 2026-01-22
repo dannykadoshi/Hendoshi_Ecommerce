@@ -4,39 +4,25 @@
 {% block extra_title %}Join The Vault - Become a HENDOSHI Legend{% endblock %}
 
 {% block content %}
-<div class="container my-5 vault-container">
-    <!-- Hero Section -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-12 text-center">
-            <div class="vault-submit-hero">
-                <div class="vault-submit-hero-icon">
-                    <i class="fas fa-crown"></i>
-                </div>
-                <h1 class="display-4 fw-bold text-uppercase vault-submit-hero-title">
-                    BECOME A LEGEND
-                </h1>
-                <p class="lead vault-submit-hero-subtitle">
-                    Join the elite HENDOSHI community. Share your killer style and inspire the weirdos of tomorrow.
-                </p>
-                <div class="vault-submit-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">{{ all_products|length }}</div>
-                        <div class="stat-label">Products to Tag</div>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-fire stat-icon"></i>
-                        <div class="stat-number">∞</div>
-                        <div class="stat-label">Potential Fame</div>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-users stat-icon"></i>
-                        <div class="stat-number">Growing</div>
-                        <div class="stat-label">Community</div>
+<div class="vault-page">
+    <!-- Submit Photo Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="vault-hero-title">Submit Photo</h1>
+                    <p class="vault-hero-subtitle">Join the elite HENDOSHI community. Share your killer style and inspire the weirdos of tomorrow.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
+                            <i class="fas fa-arrow-left"></i> Back to Gallery
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <div class="container vault-container">
 
     <!-- Main Form Card -->
     <div class="row justify-content-center">
@@ -186,11 +172,64 @@
             </div>
         </div>
     </div>
+
+    </div>
 </div>
 {% endblock %}
 
 {% block extra_css %}
 <style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .vault-hero-title {
+        font-size: 2.5rem;
+    }
+    .vault-hero {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+}
+
 .vault-submit-hero {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     border-radius: 20px;
