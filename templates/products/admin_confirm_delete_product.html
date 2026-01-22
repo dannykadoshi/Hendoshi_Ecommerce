@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Delete Product - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5 product-form-container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="auth-card">
+                <h1 class="page-title mb-4">Delete Product</h1>
+
+                <div class="alert alert-danger">
+                    <h4>⚠️ Warning: This action cannot be undone!</h4>
+                    <p>You are about to permanently delete the following product:</p>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Collection:</strong> {{ product.collection.name|default:"—" }}</p>
+                                <p><strong>Type:</strong> {{ product.get_product_type_display }}</p>
+                                <p><strong>Price:</strong> ${{ product.base_price }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Status:</strong>
+                                    {% if product.is_active %}Active{% else %}Inactive{% endif %}
+                                    {% if product.is_archived %} (Archived){% endif %}
+                                </p>
+                                <p><strong>Variants:</strong> {{ product.variants.count }}</p>
+                                <p><strong>Created:</strong> {{ product.created_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                        </div>
+                        {% if product.main_image %}
+                        <div class="mt-3">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 150px;">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_list_products' %}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Yes, Delete Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

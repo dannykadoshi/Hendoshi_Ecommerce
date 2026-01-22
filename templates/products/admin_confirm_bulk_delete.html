@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Bulk Delete Products - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5 product-form-container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="auth-card">
+                <h1 class="page-title mb-4">Confirm Bulk Delete</h1>
+
+                <div class="alert alert-danger">
+                    <h4>⚠️ Warning: This action cannot be undone!</h4>
+                    <p>You are about to permanently delete <strong>{{ count }}</strong> product(s):</p>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Collection</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <td><strong>{{ product.name }}</strong></td>
+                                <td>{{ product.collection.name|default:"—" }}</td>
+                                <td>{{ product.get_product_type_display }}</td>
+                                <td>${{ product.base_price }}</td>
+                                <td>
+                                    {% if product.is_active %}Active{% else %}Inactive{% endif %}
+                                    {% if product.is_archived %} (Archived){% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_list_products' %}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Yes, Delete {{ count }} Product(s)</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

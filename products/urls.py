@@ -4,6 +4,8 @@ from .archived_views import archived_products, restore_product
 from .admin_views import (
     list_collections, create_collection, edit_collection, delete_collection,
     list_product_types, create_product_type, edit_product_type, delete_product_type,
+    list_products, create_admin_product, edit_admin_product, delete_admin_product,
+    bulk_archive_admin_products, bulk_delete_admin_products, optimize_admin_product_images,
 )
 
 urlpatterns = [
@@ -22,6 +24,14 @@ urlpatterns = [
     path('admin/types/create/', create_product_type, name='admin_create_product_type'),
     path('admin/types/<int:pk>/edit/', edit_product_type, name='admin_edit_product_type'),
     path('admin/types/<int:pk>/delete/', delete_product_type, name='admin_delete_product_type'),
+    # Product management admin
+    path('admin/products/', list_products, name='admin_list_products'),
+    path('admin/products/create/', create_admin_product, name='admin_create_product'),
+    path('admin/products/<int:pk>/edit/', edit_admin_product, name='admin_edit_product'),
+    path('admin/products/<int:pk>/delete/', delete_admin_product, name='admin_delete_product'),
+    path('admin/products/<int:pk>/optimize/', optimize_admin_product_images, name='admin_optimize_product_images'),
+    path('admin/products/bulk-archive/', bulk_archive_admin_products, name='admin_bulk_archive_products'),
+    path('admin/products/bulk-delete/', bulk_delete_admin_products, name='admin_bulk_delete_products'),
     path('bulk-archive/', views.bulk_archive_products, name='bulk_archive_products'),
     path('api/generate-seo-meta/', views.generate_seo_meta_description, name='generate_seo_meta'),
     path('api/generate-design-story/', views.generate_design_story, name='generate_design_story'),

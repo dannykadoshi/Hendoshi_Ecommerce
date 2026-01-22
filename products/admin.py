@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Collection, Product, ProductVariant, DesignStory, ProductImage, BattleVest, BattleVestItem
 from .models import ProductType
+from .image_utils import optimize_product_images
 
 
 @admin.register(Collection)
@@ -88,7 +89,44 @@ class ProductAdmin(admin.ModelAdmin):
         }),
     )
     
+    actions = ['optimize_selected_images']
+    
     inlines = [ProductVariantInline, ProductImageInline, DesignStoryInline]
+
+    def optimize_selected_images(self, request, queryset):
+        """
+        Admin action to optimize images for selected products
+        """
+        total_products = queryset.count()
+        total_optimized = 0
+        total_errors = 0
+        error_messages = []
+
+        for product in queryset:
+            result = optimize_product_images(product)
+            if result['success']:
+                total_optimized += result['optimized_count']
+            else:
+                total_errors += len(result['errors'])
+                error_messages.extend(result['errors'])
+
+        # Create success message
+        if total_errors == 0:
+            self.message_user(
+                request,
+                f"Successfully optimized {total_optimized} images across {total_products} products."
+            )
+        else:
+            self.message_user(
+                request,
+                f"Optimized {total_optimized} images, but {total_errors} errors occurred. Check logs for details."
+            )
+
+            # Log errors for admin reference
+            for error in error_messages[:5]:  # Limit to first 5 errors
+                self.message_user(request, f"Error: {error}", level='ERROR')
+
+    optimize_selected_images.short_description = "Optimize images for selected products"
 
 
 @admin.register(ProductVariant)

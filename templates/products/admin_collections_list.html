@@ -3,15 +3,146 @@
 
 {% block extra_title %}Admin Collections{% endblock %}
 
+{% block extra_css %}
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    color: var(--off-white);
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+/* Mobile optimization for hero buttons */
+@media (max-width: 768px) {
+    .vault-hero .d-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem !important;
+    }
+    
+    .vault-hero .btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+    
+    .vault-hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .vault-hero .btn {
+        max-width: 250px;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Close button styles */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--off-white);
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .close-btn {
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5 mb-5 product-form-container">
+<div class="vault-page">
+    <!-- Collections Management Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="vault-hero-title">Collections</h1>
+                    <p class="vault-hero-subtitle">Organize your products into collections for better categorization and customer experience.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_create_collection' %}" class="btn btn-pink">Create Collection</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Close Button -->
+        <a href="{% url 'admin_list_products' %}" class="close-btn" title="Back to Products Management">×</a>
+    </section>
+
+<div class="container vault-container">
     <div class="row">
         <div class="col-md-10 mx-auto">
             <div class="auth-card">
-                <h1 class="page-title mb-4">Collections</h1>
-                <div class="mb-3 text-end">
-                    <a href="{% url 'admin_create_collection' %}" class="btn btn-pink">Create Collection</a>
-                </div>
                 {% if collections %}
                 <div class="table-responsive">
                     <table class="table archived-products-table">

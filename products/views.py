@@ -51,6 +51,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem
+from .image_utils import optimize_product_images
 from .forms import (
     ProductForm,
     ProductVariantForm,
@@ -307,7 +308,21 @@ def create_product(request):
                 design.product = product
                 design.save()
             
-            messages.success(request, f'Product "{product.name}" created successfully!')
+            # Optimize product images after successful creation
+            try:
+                optimization_result = optimize_product_images(product)
+                if optimization_result['success']:
+                    if optimization_result['optimized_count'] > 0:
+                        messages.info(request, f'Product created and {optimization_result["optimized_count"]} image(s) optimized successfully!')
+                    else:
+                        messages.success(request, f'Product "{product.name}" created successfully!')
+                else:
+                    messages.warning(request, f'Product created but {len(optimization_result["errors"])} image optimization error(s) occurred. Check logs for details.')
+                    messages.success(request, f'Product "{product.name}" created successfully!')
+            except Exception as e:
+                messages.warning(request, f'Product created but image optimization failed: {str(e)}')
+                messages.success(request, f'Product "{product.name}" created successfully!')
+            
             return redirect('product_detail', slug=product.slug)
         else:
             for field, errors in product_form.errors.items():

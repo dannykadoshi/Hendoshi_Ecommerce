@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import CollectionForm, ProductTypeForm
-from .models import Collection, ProductType, Product
+from django.db.models import Q
+from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm
+from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory
+from .image_utils import optimize_product_images
+
+
+def is_staff_or_admin(user):
+    return user.is_staff or user.is_superuser
 
 
 def is_staff_or_admin(user):
@@ -126,3 +132,344 @@ def delete_product_type(request, pk):
         messages.success(request, 'Product type deleted')
         return redirect('admin_list_product_types')
     return render(request, 'products/admin_confirm_delete_product_type.html', {'product_type': pt})
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def list_products(request):
+    """Frontend admin view for listing products with filtering and search"""
+    products = Product.objects.select_related('collection').prefetch_related('variants').all()
+
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(slug__icontains=search_query)
+        )
+
+    # Filters
+    collection_filter = request.GET.get('collection', '')
+    if collection_filter:
+        products = products.filter(collection_id=collection_filter)
+
+    product_type_filter = request.GET.get('product_type', '')
+    if product_type_filter:
+        products = products.filter(product_type=product_type_filter)
+
+    status_filter = request.GET.get('status', '')
+    if status_filter == 'active':
+        products = products.filter(is_active=True, is_archived=False)
+    elif status_filter == 'inactive':
+        products = products.filter(is_active=False)
+    elif status_filter == 'archived':
+        products = products.filter(is_archived=True)
+    elif status_filter == 'featured':
+        products = products.filter(featured=True)
+
+    # Ordering
+    order_by = request.GET.get('order_by', '-created_at')
+    if order_by in ['name', '-name', 'created_at', '-created_at', 'base_price', '-base_price']:
+        products = products.order_by(order_by)
+
+    # Pagination (simple implementation)
+    page = int(request.GET.get('page', 1))
+    per_page = 25
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_products = products.count()
+    products_page = products[start:end]
+
+    # Add stock count to each product for template
+    for product in products_page:
+        product.stock_count = product.variants.filter(stock__gt=0).count()
+
+    # Context data
+    collections = Collection.objects.all().order_by('name')
+    product_types = Product.PRODUCT_TYPES
+
+    # Calculate page range for pagination (show max 10 pages)
+    total_pages = (total_products + per_page - 1) // per_page
+    start_page = max(1, page - 5)
+    end_page = min(total_pages, start_page + 9)
+    page_range = range(start_page, end_page + 1)
+
+    context = {
+        'products': products_page,
+        'search_query': search_query,
+        'collection_filter': collection_filter,
+        'product_type_filter': product_type_filter,
+        'status_filter': status_filter,
+        'order_by': order_by,
+        'collections': collections,
+        'product_types': product_types,
+        'current_page': page,
+        'total_pages': total_pages,
+        'total_products': total_products,
+        'has_next': end < total_products,
+        'has_prev': page > 1,
+        'next_page': page + 1,
+        'prev_page': page - 1,
+        'page_range': page_range,
+    }
+
+    return render(request, 'products/admin_products_list.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def create_admin_product(request):
+    """Frontend admin view for creating products"""
+    if request.method == 'POST':
+        product_form = ProductForm(request.POST, request.FILES)
+        variant_formset = ProductVariantFormSet(request.POST, instance=None)
+        image_formset = ProductImageFormSet(request.POST, request.FILES, instance=None)
+        design_form = DesignStoryForm(request.POST)
+
+        if product_form.is_valid():
+            product = product_form.save()
+
+            # Handle variants
+            variant_formset = ProductVariantFormSet(request.POST, instance=product)
+            if variant_formset.is_valid():
+                variant_formset.save()
+            else:
+                product.delete()
+                for form in variant_formset:
+                    if form.errors:
+                        for error in form.errors.values():
+                            messages.error(request, f'Variant error: {error}')
+                return render(request, 'products/admin_create_product.html', {
+                    'product_form': product_form,
+                    'variant_formset': variant_formset,
+                    'image_formset': image_formset,
+                    'design_form': design_form
+                })
+
+            # Handle images
+            image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+            if image_formset.is_valid():
+                image_formset.save()
+
+            # Handle design story
+            if design_form.is_valid() and design_form.cleaned_data.get('title'):
+                design = design_form.save(commit=False)
+                design.product = product
+                design.save()
+
+            # Optimize product images after successful creation
+            try:
+                optimization_result = optimize_product_images(product)
+                if optimization_result['success']:
+                    if optimization_result['optimized_count'] > 0:
+                        messages.info(request, f'Product created and {optimization_result["optimized_count"]} image(s) optimized successfully!')
+                    else:
+                        messages.success(request, f'Product "{product.name}" created successfully!')
+                else:
+                    messages.warning(request, f'Product created but {len(optimization_result["errors"])} image optimization error(s) occurred. Check logs for details.')
+                    messages.success(request, f'Product "{product.name}" created successfully!')
+            except Exception as e:
+                messages.warning(request, f'Product created but image optimization failed: {str(e)}')
+                messages.success(request, f'Product "{product.name}" created successfully!')
+
+            return redirect('admin_list_products')
+        else:
+            for field, errors in product_form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+    else:
+        product_form = ProductForm()
+        variant_formset = ProductVariantFormSet(instance=None)
+        image_formset = ProductImageFormSet(instance=None)
+        design_form = DesignStoryForm()
+
+    context = {
+        'product_form': product_form,
+        'variant_formset': variant_formset,
+        'image_formset': image_formset,
+        'design_form': design_form,
+        'page_title': 'Create Product',
+        'is_create': True,
+    }
+
+    return render(request, 'products/admin_create_product.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def edit_admin_product(request, pk):
+    """Frontend admin view for editing products"""
+    product = get_object_or_404(Product, pk=pk)
+
+    if request.method == 'POST':
+        product_form = ProductForm(request.POST, request.FILES, instance=product)
+        variant_formset = ProductVariantFormSet(request.POST, instance=product)
+        image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+
+        # Handle design story
+        try:
+            design_story_instance = product.design_story
+        except DesignStory.DoesNotExist:
+            design_story_instance = None
+
+        design_form = DesignStoryForm(request.POST, instance=design_story_instance)
+
+        if product_form.is_valid():
+            product = product_form.save()
+
+            if variant_formset.is_valid():
+                variant_formset.save()
+            else:
+                for form in variant_formset:
+                    if form.errors:
+                        for error in form.errors.values():
+                            messages.error(request, f'Variant error: {error}')
+                return render(request, 'products/admin_edit_product.html', {
+                    'product_form': product_form,
+                    'variant_formset': variant_formset,
+                    'image_formset': image_formset,
+                    'design_form': design_form,
+                    'product': product
+                })
+
+            if image_formset.is_valid():
+                image_formset.save()
+
+            # Handle design story
+            if design_form.is_valid():
+                if design_form.cleaned_data.get('title'):
+                    design = design_form.save(commit=False)
+                    design.product = product
+                    design.save()
+                elif design_story_instance:
+                    # Delete existing design story if title is empty
+                    design_story_instance.delete()
+
+            messages.success(request, f'Product "{product.name}" updated successfully!')
+            return redirect('admin_list_products')
+        else:
+            for field, errors in product_form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+    else:
+        product_form = ProductForm(instance=product)
+        variant_formset = ProductVariantFormSet(instance=product)
+        image_formset = ProductImageFormSet(instance=product)
+
+        # Handle design story
+        try:
+            design_story_instance = product.design_story
+        except DesignStory.DoesNotExist:
+            design_story_instance = None
+
+        design_form = DesignStoryForm(instance=design_story_instance)
+
+    context = {
+        'product_form': product_form,
+        'variant_formset': variant_formset,
+        'image_formset': image_formset,
+        'design_form': design_form,
+        'product': product,
+        'page_title': 'Edit Product',
+        'is_edit': True,
+    }
+
+    return render(request, 'products/admin_edit_product.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def delete_admin_product(request, pk):
+    """Frontend admin view for deleting products"""
+    product = get_object_or_404(Product, pk=pk)
+
+    if request.method == 'POST':
+        product_name = product.name
+        product.delete()
+        messages.success(request, f'Product "{product_name}" deleted successfully!')
+        return redirect('admin_list_products')
+
+    context = {
+        'product': product,
+        'page_title': 'Delete Product',
+    }
+
+    return render(request, 'products/admin_confirm_delete_product.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def bulk_archive_admin_products(request):
+    """Frontend admin view for bulk archiving products"""
+    if request.method == 'POST':
+        product_ids = request.POST.getlist('product_ids')
+        action = request.POST.get('action', 'archive')
+
+        if not product_ids:
+            messages.warning(request, 'No products selected.')
+            return redirect('admin_list_products')
+
+        if action == 'delete':
+            return bulk_delete_admin_products(request, product_ids)
+
+        products = Product.objects.filter(id__in=product_ids, is_archived=False)
+        count = 0
+        for product in products:
+            product.is_archived = True
+            product.save()
+            count += 1
+
+        if count:
+            messages.success(request, f'{count} product(s) archived successfully!')
+        else:
+            messages.info(request, 'No products were archived.')
+
+    return redirect('admin_list_products')
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def bulk_delete_admin_products(request, product_ids=None):
+    """Frontend admin view for bulk deleting products"""
+    if product_ids is None:
+        product_ids = request.POST.getlist('product_ids')
+
+    if not product_ids:
+        messages.warning(request, 'No products selected for deletion.')
+        return redirect('admin_list_products')
+
+    products = Product.objects.filter(id__in=product_ids)
+    count = products.count()
+
+    if request.method == 'POST':
+        products.delete()
+        messages.success(request, f'{count} product(s) deleted successfully!')
+        return redirect('admin_list_products')
+
+    context = {
+        'products': products,
+        'count': count,
+        'page_title': 'Confirm Bulk Delete',
+    }
+
+    return render(request, 'products/admin_confirm_bulk_delete.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def optimize_admin_product_images(request, pk):
+    """Frontend admin view for optimizing a single product's images"""
+    product = get_object_or_404(Product, pk=pk)
+
+    result = optimize_product_images(product)
+
+    if result['success']:
+        if result['optimized_count'] > 0:
+            messages.success(request, f'Successfully optimized {result["optimized_count"]} image(s) for "{product.name}"!')
+        else:
+            messages.info(request, f'No images needed optimization for "{product.name}".')
+    else:
+        messages.error(request, f'Failed to optimize images for "{product.name}": {", ".join(result["errors"])}')
+
+    return redirect('admin_list_products')
