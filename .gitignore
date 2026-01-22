@@ -232,3 +232,13 @@ DEV_INSTRUCTIONS.md
 
 # User help and support guide
 HELP_GUIDE.md
+
+# SEO and Analytics Documentation
+SCHEMA_VALIDATION.md
+GOOGLE_ANALYTICS_SETUP.md
+
+# Performance Documentation
+PERFORMANCE_OPTIMIZATIONS.md
+
+# Image Optimization Documentation
+IMAGE_OPTIMIZATION_GUIDE.md
