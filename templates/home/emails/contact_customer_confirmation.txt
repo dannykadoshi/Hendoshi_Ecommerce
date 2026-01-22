@@ -1,0 +1,21 @@
+Hey {{ name }},
+
+Thanks for reaching out! We've received your message and will get back to you within 24-48 hours.
+
+Here's a summary of your inquiry:
+----------------------------------
+Subject: {{ subject }}
+{% if order_number %}Order Number: {{ order_number }}{% endif %}
+
+Your Message:
+{{ message }}
+----------------------------------
+
+If you need to add anything to your inquiry, just reply to this email.
+
+Stay weird,
+The HENDOSHI Team
+
+---
+HENDOSHI - Wear Your Weird
+https://hendoshi.com

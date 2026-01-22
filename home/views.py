@@ -1,5 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+
 from products.models import Collection
+from .forms import ContactForm
+
 
 def index(request):
     """
@@ -27,3 +34,93 @@ def index(request):
     }
 
     return render(request, 'home/index.html', context)
+
+
+def contact(request):
+    """
+    View to handle contact form submissions.
+    Sends notification email to admin and confirmation email to customer.
+    """
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Get form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject_key = form.cleaned_data['subject']
+            order_number = form.cleaned_data['order_number']
+            message_body = form.cleaned_data['message']
+
+            # Map subject key to readable text
+            subject_map = {
+                'order_issue': 'Order Issue',
+                'product_question': 'Product Question',
+                'general_inquiry': 'General Inquiry',
+            }
+            subject_text = subject_map.get(subject_key, 'General Inquiry')
+
+            # Prepare context for email templates
+            email_context = {
+                'name': name,
+                'email': email,
+                'subject': subject_text,
+                'order_number': order_number,
+                'message': message_body,
+            }
+
+            # Send notification email to admin
+            try:
+                admin_subject = f'[HENDOSHI Contact] {subject_text} from {name}'
+                admin_message = render_to_string(
+                    'home/emails/contact_admin_notification.txt',
+                    email_context
+                )
+                admin_html = render_to_string(
+                    'home/emails/contact_admin_notification.html',
+                    email_context
+                )
+
+                admin_email = EmailMultiAlternatives(
+                    subject=admin_subject,
+                    body=admin_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[settings.DEFAULT_FROM_EMAIL],
+                    reply_to=[email],
+                )
+                admin_email.attach_alternative(admin_html, 'text/html')
+                admin_email.send(fail_silently=False)
+            except Exception:
+                pass  # Log error in production
+
+            # Send auto-reply confirmation email to customer
+            try:
+                customer_subject = 'We received your message - HENDOSHI'
+                customer_message = render_to_string(
+                    'home/emails/contact_customer_confirmation.txt',
+                    email_context
+                )
+                customer_html = render_to_string(
+                    'home/emails/contact_customer_confirmation.html',
+                    email_context
+                )
+
+                customer_email = EmailMultiAlternatives(
+                    subject=customer_subject,
+                    body=customer_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[email],
+                )
+                customer_email.attach_alternative(customer_html, 'text/html')
+                customer_email.send(fail_silently=False)
+            except Exception:
+                pass  # Log error in production
+
+            messages.success(
+                request,
+                'Your message has been sent! We\'ll get back to you soon.'
+            )
+            return redirect('contact')
+    else:
+        form = ContactForm()
+
+    return render(request, 'home/contact.html', {'form': form})

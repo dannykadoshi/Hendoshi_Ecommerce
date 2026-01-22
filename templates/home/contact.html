@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- Contact Hero -->
+        <section class="contact-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="contact-title">Contact Us</h1>
+                        <p class="contact-subtitle">Got questions? We're here to help.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <div class="contact-card">
+                            <!-- Close Button -->
+                            <button type="button" class="contact-close-btn" onclick="history.back()" title="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <form method="post" class="contact-form" id="contactForm" novalidate>
+                                {% csrf_token %}
+
+                                <!-- Name Field -->
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">
+                                        <i class="fas fa-user"></i> Name <span class="required">*</span>
+                                    </label>
+                                    {{ form.name }}
+                                    {% if form.name.errors %}
+                                        <div class="text-danger mt-2">
+                                            {% for error in form.name.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Email Field -->
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">
+                                        <i class="fas fa-envelope"></i> Email <span class="required">*</span>
+                                    </label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger mt-2">
+                                            {% for error in form.email.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Subject Dropdown -->
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.subject.id_for_label }}" class="form-label">
+                                        <i class="fas fa-tag"></i> Subject <span class="required">*</span>
+                                    </label>
+                                    {{ form.subject }}
+                                    {% if form.subject.errors %}
+                                        <div class="text-danger mt-2">
+                                            {% for error in form.subject.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Order Number Field (Optional) -->
+                                <div class="form-group mb-4" id="orderNumberField">
+                                    <label for="{{ form.order_number.id_for_label }}" class="form-label">
+                                        <i class="fas fa-receipt"></i> Order Number <span class="optional">(Optional)</span>
+                                    </label>
+                                    {{ form.order_number }}
+                                    {% if form.order_number.errors %}
+                                        <div class="text-danger mt-2">
+                                            {% for error in form.order_number.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text form-hint d-block mt-2">
+                                        Include your order number if your inquiry is about a specific order.
+                                    </small>
+                                </div>
+
+                                <!-- Message Field -->
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.message.id_for_label }}" class="form-label">
+                                        <i class="fas fa-comment-alt"></i> Message <span class="required">*</span>
+                                    </label>
+                                    {{ form.message }}
+                                    <div class="d-flex justify-content-between mt-2">
+                                        {% if form.message.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.message.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <span></span>
+                                        {% endif %}
+                                        <small class="char-counter text-muted">
+                                            <span id="charCount">0</span>/1000
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-pink w-100">
+                                    <i class="fas fa-paper-plane"></i> Send Message
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Additional Contact Info -->
+                        <div class="contact-info-card mt-4">
+                            <h5><i class="fas fa-info-circle"></i> Other Ways to Reach Us</h5>
+                            <p>We typically respond within 24-48 hours. For urgent matters, please include "URGENT" in your subject.</p>
+                            <div class="social-links mt-3">
+                                <a href="https://instagram.com/hendoshi" target="_blank" rel="noopener" class="social-link">
+                                    <i class="fab fa-instagram"></i> @hendoshi
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+/* Contact Page Styles */
+.contact-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0;
+}
+
+.contact-hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 4rem 0;
+    margin-top: -20px;
+}
+
+.contact-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.contact-form-section {
+    background: var(--dark-bg);
+}
+
+.contact-card {
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+}
+
+.contact-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.contact-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: scale(1.1);
+}
+
+.form-hint {
+    color: #aaa;
+}
+
+.contact-form .form-label {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form .form-label i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.contact-form .required {
+    color: var(--neon-pink);
+}
+
+.contact-form .optional {
+    color: #888;
+    font-weight: normal;
+    font-size: 0.85rem;
+}
+
+.contact-form .form-control,
+.contact-form .form-select {
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form .form-control:focus,
+.contact-form .form-select:focus {
+    background: rgba(20, 20, 20, 0.95);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 2px rgba(255, 0, 102, 0.2);
+    color: #fff;
+    outline: none;
+}
+
+.contact-form .form-control::placeholder {
+    color: #666;
+}
+
+.contact-form .form-select option {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.contact-form textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.char-counter {
+    font-size: 0.8rem;
+}
+
+.char-counter.warning {
+    color: var(--electric-yellow) !important;
+}
+
+.char-counter.danger {
+    color: var(--neon-pink) !important;
+}
+
+.contact-info-card {
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.contact-info-card h5 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.contact-info-card h5 i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.contact-info-card p {
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-link:hover {
+    color: var(--electric-yellow);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contact-title {
+        font-size: 2.5rem;
+    }
+
+    .contact-hero {
+        padding: 3rem 0;
+    }
+
+    .contact-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-title {
+        font-size: 2rem;
+    }
+
+    .contact-card {
+        padding: 1.25rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const messageField = document.getElementById('{{ form.message.id_for_label }}');
+    const charCount = document.getElementById('charCount');
+    const maxChars = 1000;
+
+    if (messageField && charCount) {
+        // Update character count on input
+        messageField.addEventListener('input', function() {
+            const count = this.value.length;
+            charCount.textContent = count;
+
+            // Update styling based on count
+            const counter = charCount.parentElement;
+            counter.classList.remove('warning', 'danger');
+
+            if (count >= maxChars) {
+                counter.classList.add('danger');
+            } else if (count >= maxChars * 0.8) {
+                counter.classList.add('warning');
+            }
+        });
+
+        // Initialize count on page load
+        charCount.textContent = messageField.value.length;
+    }
+
+    // Form validation
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            const name = document.getElementById('{{ form.name.id_for_label }}');
+            const email = document.getElementById('{{ form.email.id_for_label }}');
+            const subject = document.getElementById('{{ form.subject.id_for_label }}');
+            const message = document.getElementById('{{ form.message.id_for_label }}');
+
+            let isValid = true;
+
+            // Validate name
+            if (!name.value.trim()) {
+                showValidationError('Please enter your name.');
+                isValid = false;
+            }
+            // Validate email
+            else if (!email.value.trim() || !isValidEmail(email.value)) {
+                showValidationError('Please enter a valid email address.');
+                isValid = false;
+            }
+            // Validate subject
+            else if (!subject.value) {
+                showValidationError('Please select a subject.');
+                isValid = false;
+            }
+            // Validate message
+            else if (!message.value.trim()) {
+                showValidationError('Please enter your message.');
+                isValid = false;
+            }
+            // Validate message length
+            else if (message.value.length > maxChars) {
+                showValidationError('Message must be 1000 characters or less.');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    }
+
+    function isValidEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    function showValidationError(message) {
+        if (typeof showToast === 'function') {
+            showToast(message, 'warning');
+        }
+    }
+});
+</script>
+
+{% endblock %}

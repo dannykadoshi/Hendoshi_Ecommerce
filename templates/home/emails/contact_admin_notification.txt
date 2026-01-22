@@ -1,0 +1,14 @@
+NEW CONTACT FORM SUBMISSION
+============================
+
+From: {{ name }}
+Email: {{ email }}
+Subject: {{ subject }}
+{% if order_number %}Order Number: {{ order_number }}{% endif %}
+
+MESSAGE:
+--------
+{{ message }}
+
+---
+Reply directly to this email to respond to the customer.
