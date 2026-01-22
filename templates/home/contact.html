@@ -110,7 +110,7 @@
                                         {% else %}
                                             <span></span>
                                         {% endif %}
-                                        <small class="char-counter text-muted">
+                                        <small class="char-counter">
                                             <span id="charCount">0</span>/1000
                                         </small>
                                     </div>
@@ -149,28 +149,46 @@
 }
 
 .contact-hero {
-    background: rgba(255, 255, 255, 0.03);
+    position: relative;
+    padding: 4rem 0;
+    background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    overflow: hidden;
+}
+
+.contact-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .contact-title {
     font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
 }
 
 .contact-subtitle {
     font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
+    color: var(--off-white);
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
 }
 
 .contact-form-section {
@@ -178,11 +196,31 @@
 }
 
 .contact-card {
-    background: rgba(30, 30, 30, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 20, 147, 0.1);
     border-radius: 12px;
     padding: 2rem;
     position: relative;
+    overflow: hidden;
+}
+
+.contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(255, 20, 147, 0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.contact-form > * {
+    position: relative;
+    z-index: 2;
 }
 
 .contact-close-btn {
@@ -265,6 +303,7 @@
 
 .char-counter {
     font-size: 0.8rem;
+    color: #b0b0b0;
 }
 
 .char-counter.warning {
@@ -317,12 +356,16 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .contact-hero {
+        padding: 3rem 0;
+    }
+
     .contact-title {
         font-size: 2.5rem;
     }
 
-    .contact-hero {
-        padding: 3rem 0;
+    .contact-subtitle {
+        font-size: 1.1rem;
     }
 
     .contact-card {
@@ -331,8 +374,16 @@
 }
 
 @media (max-width: 576px) {
+    .contact-hero {
+        padding: 2.5rem 0;
+    }
+
     .contact-title {
         font-size: 2rem;
+    }
+
+    .contact-subtitle {
+        font-size: 1rem;
     }
 
     .contact-card {

@@ -484,10 +484,9 @@
                 <button class="submenu-back" data-back="main">&lt; Back</button>
                 <div class="submenu-content">
                     {% if user.is_authenticated %}
-                        <button class="submenu-item submenu-trigger" data-submenu="profile">
+                        <a href="{% url 'profile' %}" class="submenu-item">
                             <i class="fas fa-user-circle"></i> <span>Profile</span>
-                            <span class="submenu-arrow">→</span>
-                        </button>
+                        </a>
                         {% if user.is_staff %}
                         <button class="submenu-item submenu-trigger" data-submenu="admin-panel">
                             <i class="fas fa-cog"></i> <span>Admin Panel</span>
@@ -763,57 +762,6 @@
                 document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
                     parentDropdown.addEventListener('hidden.bs.dropdown', function() {
                         closeAllAdminSubmenus();
-                    });
-                });
-            });
-
-            // Profile Dropdown - Click only (submenu opens to the left)
-            document.addEventListener('DOMContentLoaded', function() {
-                function closeAllProfileSubmenus() {
-                    document.querySelectorAll('.profile-submenu').forEach(menu => {
-                        menu.classList.remove('show');
-                        if (menu.parentElement) menu.parentElement.classList.remove('show');
-                    });
-                }
-
-                // Handle Profile click to toggle submenu (open to left)
-                document.querySelectorAll('.profile-toggle').forEach(toggle => {
-                    toggle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const wrapper = this.closest('.profile-dropdown-wrapper');
-                        const submenu = wrapper.querySelector('.profile-submenu');
-                        // Toggle .show class for submenu
-                        const isOpen = submenu.classList.contains('show');
-                        closeAllProfileSubmenus();
-                        if (!isOpen) {
-                            submenu.classList.add('show');
-                            wrapper.classList.add('show');
-                        }
-                    });
-                });
-
-                // Prevent submenu from closing when clicking inside it
-                document.querySelectorAll('.profile-submenu').forEach(submenu => {
-                    submenu.addEventListener('click', function(e) {
-                        if (e.target.tagName === 'A' || e.target.closest('a')) {
-                            return;
-                        }
-                        e.stopPropagation();
-                    });
-                });
-
-                // Close submenu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!e.target.closest('.profile-dropdown-wrapper')) {
-                        closeAllProfileSubmenus();
-                    }
-                });
-
-                // Close submenu when parent dropdown closes
-                document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
-                    parentDropdown.addEventListener('hidden.bs.dropdown', function() {
-                        closeAllProfileSubmenus();
                     });
                 });
             });

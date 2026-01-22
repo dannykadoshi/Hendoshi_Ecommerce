@@ -12,7 +12,15 @@
                 
                 <form method="post" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    
+
+                    {% if form.errors %}
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            showToast('Invalid username/email or password. Please try again.', 'error');
+                        });
+                    </script>
+                    {% endif %}
+
                     <div class="mb-3">
                         <label for="id_login" class="form-label">Username or Email</label>
                         <input type="text" name="login" class="form-control auth-form-input" id="id_login" required>

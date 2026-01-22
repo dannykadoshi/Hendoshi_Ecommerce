@@ -4,87 +4,142 @@
 {% block extra_title %}Notification Preferences{% endblock %}
 
 {% block content %}
-<div class="container notification-prefs-container">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="profile-card">
-                <div class="text-center mb-4">
-                    <i class="fas fa-bell fa-3x notification-icon-pink"></i>
-                    <h1 class="mt-3 notification-title-pink">Notification Preferences</h1>
-                    <p class="text-muted">Control how you receive alerts for your Battle Vest items</p>
+<div class="profile-page">
+    <!-- Notification Preferences Hero -->
+    <section class="profile-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="profile-hero-title">Notification Preferences</h1>
+                    <p class="profile-hero-subtitle">Control how you receive alerts and updates</p>
+                    <div class="mt-4 d-flex justify-content-center">
+                        <a href="{% url 'profile' %}" class="btn btn-outline-pink btn-lg w-100 w-sm-auto">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                        </a>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <form method="post" id="notificationForm">
-                    {% csrf_token %}
+    {# djlint:off H025 #}
+    <div class="container checkout-container mb-5">
+        <div class="checkout-wrapper">
 
-                    <div class="notification-section mb-4">
-                        <div class="form-check form-switch mb-3">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="email_notifications_enabled"
-                                   name="email_notifications_enabled"
-                                   {% if preferences.email_notifications_enabled %}checked{% endif %}>
-                            <label class="form-check-label" for="email_notifications_enabled">
-                                <strong>Enable Email Notifications</strong>
-                                <small class="d-block text-muted">Master toggle for all notification emails</small>
-                            </label>
-                        </div>
+        <div class="checkout-content checkout-content-spaced">
+            <div class="checkout-main">
+                <div class="profile-card">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-bell fa-3x text-pink"></i>
+                        <h2 class="mt-3 text-pink">Email Notification Settings</h2>
+                        <p class="text-muted">Manage your notification preferences</p>
                     </div>
 
-                    <hr class="notification-divider">
+                    <form method="post" id="notificationForm">
+                        {% csrf_token %}
 
-                    <div class="notification-options mt-4" id="notificationOptions">
-                        <p class="mb-3"><strong>Notify me when items in my Battle Vest:</strong></p>
-
-                        <div class="form-check mb-3">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="sale_notifications"
-                                   name="sale_notifications"
-                                   {% if preferences.sale_notifications %}checked{% endif %}>
-                            <label class="form-check-label" for="sale_notifications">
-                                <i class="fas fa-tag notification-icon-pink"></i>
-                                Go on sale (price drops)
-                                <small class="d-block text-muted">Get alerted when items drop in price</small>
-                            </label>
+                        <div class="notification-section mb-4">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="email_notifications_enabled"
+                                       name="email_notifications_enabled"
+                                       {% if preferences.email_notifications_enabled %}checked{% endif %}>
+                                <label class="form-check-label" for="email_notifications_enabled">
+                                    <strong>Enable Email Notifications</strong>
+                                    <small class="d-block text-muted">Master toggle for all notification emails</small>
+                                </label>
+                            </div>
                         </div>
 
-                        <div class="form-check mb-4">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="restock_notifications"
-                                   name="restock_notifications"
-                                   {% if preferences.restock_notifications %}checked{% endif %}>
-                            <label class="form-check-label" for="restock_notifications">
-                                <i class="fas fa-box notification-icon-pink"></i>
-                                Are back in stock
-                                <small class="d-block text-muted">Get alerted when out-of-stock items return</small>
-                            </label>
+                        <hr class="profile-divider">
+
+                        <div class="notification-options mt-4" id="notificationOptions">
+                            <div class="mb-4">
+                                <h5 class="text-pink mb-3"><i class="fas fa-shield-alt"></i> Battle Vest Notifications</h5>
+                                <p class="text-muted mb-3">Notify me when items in my Battle Vest:</p>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="sale_notifications"
+                                           name="sale_notifications"
+                                           {% if preferences.sale_notifications %}checked{% endif %}>
+                                    <label class="form-check-label" for="sale_notifications">
+                                        <i class="fas fa-tag text-pink"></i>
+                                        Go on sale (price drops)
+                                        <small class="d-block text-muted">Get alerted when items drop in price</small>
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="restock_notifications"
+                                           name="restock_notifications"
+                                           {% if preferences.restock_notifications %}checked{% endif %}>
+                                    <label class="form-check-label" for="restock_notifications">
+                                        <i class="fas fa-box text-pink"></i>
+                                        Are back in stock
+                                        <small class="d-block text-muted">Get alerted when out-of-stock items return</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="profile-divider">
+
+                            <div class="mb-4">
+                                <h5 class="text-pink mb-3"><i class="fas fa-camera"></i> Vault Notifications</h5>
+                                <p class="text-muted mb-3">Notify me about my Vault submissions:</p>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="vault_photo_notifications"
+                                           name="vault_photo_notifications"
+                                           {% if preferences.vault_photo_notifications %}checked{% endif %}>
+                                    <label class="form-check-label" for="vault_photo_notifications">
+                                        <i class="fas fa-camera text-pink"></i>
+                                        My vault photo submissions are reviewed
+                                        <small class="d-block text-muted">Get notified when your photos are approved or rejected</small>
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="vault_featured_notifications"
+                                           name="vault_featured_notifications"
+                                           {% if preferences.vault_featured_notifications %}checked{% endif %}>
+                                    <label class="form-check-label" for="vault_featured_notifications">
+                                        <i class="fas fa-star text-pink"></i>
+                                        My vault photos are featured
+                                        <small class="d-block text-muted">Get notified when your photos are featured on the site</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="profile-divider">
+
+                            <div class="mb-4">
+                                <h5 class="text-pink mb-3"><i class="fas fa-envelope"></i> Newsletter</h5>
+                                <p class="text-muted mb-3">Marketing communications:</p>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="newsletter_subscribe" name="newsletter_subscribe" {% if user.email and user.email|lower in newsletter_emails %}checked{% endif %}>
+                                    <label class="form-check-label" for="newsletter_subscribe">
+                                        <i class="fas fa-envelope text-pink"></i>
+                                        Subscribe to newsletter (marketing emails)
+                                        <small class="d-block text-muted">Receive updates about new products and promotions</small>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-check mb-4">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="vault_photo_notifications"
-                                   name="vault_photo_notifications"
-                                   {% if preferences.vault_photo_notifications %}checked{% endif %}>
-                            <label class="form-check-label" for="vault_photo_notifications">
-                                <i class="fas fa-camera notification-icon-pink"></i>
-                                My vault photo submissions are reviewed
-                                <small class="d-block text-muted">Get notified when your photos are approved or rejected</small>
-                            </label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-pink w-100">
-                        <i class="fas fa-save"></i> Save Preferences
-                    </button>
-                </form>
-
-                <div class="text-center mt-4">
-                    <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Profile
-                    </a>
+                        <button type="submit" class="btn btn-pink w-100">
+                            <i class="fas fa-save"></i> Save Preferences
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -92,37 +147,22 @@
 </div>
 
 <style>
-    .notification-prefs-container {
-        margin-top: 120px;
-        margin-bottom: 60px;
-    }
-
-    .notification-icon-pink {
-        color: var(--pink);
-    }
-
-    .notification-title-pink {
-        color: var(--pink);
-    }
-
-    .notification-divider {
-        border-color: var(--border-color);
-    }
-
     .notification-section {
         padding: 16px;
-        background: var(--card-bg);
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 20, 147, 0.1);
+        border-radius: 12px;
     }
 
     .form-check-input:checked {
-        background-color: var(--pink);
-        border-color: var(--pink);
+        background-color: var(--neon-pink);
+        border-color: var(--neon-pink);
     }
 
     .form-check-input:focus {
-        border-color: var(--pink);
+        border-color: var(--neon-pink);
         box-shadow: 0 0 0 0.25rem rgba(255, 45, 161, 0.25);
     }
 
@@ -138,6 +178,10 @@
     #notificationOptions.disabled {
         opacity: 0.5;
         pointer-events: none;
+    }
+
+    .text-pink {
+        color: var(--neon-pink) !important;
     }
 </style>
 

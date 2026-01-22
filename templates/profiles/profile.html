@@ -12,9 +12,12 @@
                 <div class="col-12 text-center">
                     <h1 class="profile-hero-title">My Profile</h1>
                     <p class="profile-hero-subtitle">Manage your account, addresses, and preferences</p>
-                    <div class="mt-4">
-                        <a href="{% url 'order_history' %}" class="btn btn-pink btn-lg">
+                    <div class="mt-4 d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
+                        <a href="{% url 'order_history' %}" class="btn btn-pink btn-lg w-100 w-sm-auto">
                             <i class="fas fa-history me-2"></i>View Order History
+                        </a>
+                        <a href="{% url 'notification_preferences' %}" class="btn btn-pink btn-lg w-100 w-sm-auto">
+                            <i class="fas fa-bell me-2"></i>Notification Settings
                         </a>
                     </div>
                 </div>
@@ -132,116 +135,6 @@
                             </a>
                         </div>
                     {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <!-- Notification Settings -->
-        <div class="checkout-content checkout-content-spaced">
-            <div class="checkout-main">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="profile-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h2 class="mb-0"><i class="fas fa-bell"></i> Notification Settings</h2>
-                            </div>
-
-                            <form method="post" action="{% url 'notification_preferences' %}" id="notificationForm">
-                                {% csrf_token %}
-                                <input type="hidden" name="next" value="{% url 'profile' %}">
-
-                                <div class="notification-toggle mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input"
-                                               type="checkbox"
-                                               id="email_notifications_enabled"
-                                               name="email_notifications_enabled"
-                                               {% if notification_prefs.email_notifications_enabled %}checked{% endif %}>
-                                        <label class="form-check-label" for="email_notifications_enabled">
-                                            <strong>Email Notifications</strong>
-                                            <small class="d-block text-muted">Master toggle for all email alerts</small>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <hr class="profile-divider">
-
-                                <div class="notification-options mt-3" id="notificationOptions">
-                                    <div class="mb-4">
-                                        <h5 class="text-pink mb-3"><i class="fas fa-shield-alt"></i> Battle Vest Notifications</h5>
-                                        <p class="text-muted mb-3">Notify me when items in my Battle Vest:</p>
-
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   id="sale_notifications"
-                                                   name="sale_notifications"
-                                                   {% if notification_prefs.sale_notifications %}checked{% endif %}>
-                                            <label class="form-check-label" for="sale_notifications">
-                                                <i class="fas fa-tag text-pink"></i> Go on sale (price drops)
-                                            </label>
-                                        </div>
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   id="restock_notifications"
-                                                   name="restock_notifications"
-                                                   {% if notification_prefs.restock_notifications %}checked{% endif %}>
-                                            <label class="form-check-label" for="restock_notifications">
-                                                <i class="fas fa-box text-pink"></i> Are back in stock
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <hr class="profile-divider">
-
-                                    <div class="mb-4">
-                                        <h5 class="text-pink mb-3"><i class="fas fa-camera"></i> Vault Notifications</h5>
-                                        <p class="text-muted mb-3">Notify me about my Vault submissions:</p>
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   id="vault_photo_notifications"
-                                                   name="vault_photo_notifications"
-                                                   {% if notification_prefs.vault_photo_notifications %}checked{% endif %}>
-                                            <label class="form-check-label" for="vault_photo_notifications">
-                                                <i class="fas fa-camera text-pink"></i> My vault photo submissions are reviewed
-                                            </label>
-                                        </div>
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   id="vault_featured_notifications"
-                                                   name="vault_featured_notifications"
-                                                   {% if notification_prefs.vault_featured_notifications %}checked{% endif %}>
-                                            <label class="form-check-label" for="vault_featured_notifications">
-                                                <i class="fas fa-star text-pink"></i> My vault photos are featured
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <hr class="profile-divider">
-
-                                    <div class="mb-4">
-                                        <h5 class="text-pink mb-3"><i class="fas fa-envelope"></i> Newsletter</h5>
-                                        <p class="text-muted mb-3">Marketing communications:</p>
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="checkbox" id="newsletter_subscribe" name="newsletter_subscribe" {% if user.email and user.email|lower in newsletter_emails %}checked{% endif %}>
-                                            <label class="form-check-label" for="newsletter_subscribe">Subscribe to newsletter (marketing emails)</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="btn btn-pink w-100">
-                                    <i class="fas fa-save"></i> Save Preferences
-                                </button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
