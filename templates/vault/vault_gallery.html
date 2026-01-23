@@ -13,11 +13,11 @@
                     <h1 class="vault-hero-title">The Vault</h1>
                     <p class="vault-hero-subtitle">Where weirdos become legends. See how others rock their HENDOSHI gear.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-                        <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-outline-pink">
+                        <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-outline-pink vault-hero-btn-mobile">
                             <i class="fas fa-trophy"></i> Hall of Fame
                         </a>
                         {% if user.is_authenticated %}
-                        <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink">
+                        <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink vault-hero-btn-mobile">
                             <i class="fas fa-plus"></i> Submit Photo
                         </a>
                         {% endif %}
@@ -266,6 +266,14 @@
     }
     .vault-hero {
         padding: 3rem 0;
+    }
+
+    /* Mobile styling for vault hero buttons */
+    .vault-hero-btn-mobile {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 

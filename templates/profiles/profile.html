@@ -13,10 +13,10 @@
                     <h1 class="profile-hero-title">My Profile</h1>
                     <p class="profile-hero-subtitle">Manage your account, addresses, and preferences</p>
                     <div class="mt-4 d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
-                        <a href="{% url 'order_history' %}" class="btn btn-pink btn-lg w-100 w-sm-auto">
+                        <a href="{% url 'order_history' %}" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">
                             <i class="fas fa-history me-2"></i>View Order History
                         </a>
-                        <a href="{% url 'notification_preferences' %}" class="btn btn-pink btn-lg w-100 w-sm-auto">
+                        <a href="{% url 'notification_preferences' %}" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">
                             <i class="fas fa-bell me-2"></i>Notification Settings
                         </a>
                     </div>
@@ -248,6 +248,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     .profile-hero {
         padding: 3rem 0;
+    }
+
+    /* Mobile styling for profile hero buttons */
+    .profile-btn-mobile {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 

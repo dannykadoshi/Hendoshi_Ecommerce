@@ -37,17 +37,22 @@
 <!-- Philosophy Strip -->
 <div class="philosophy-strip">
     <div class="philosophy-content">
-        <span class="philosophy-text">NO FILLER. JUST KILLER.</span>
-        <span class="philosophy-text">WEAR YOUR WEIRD.</span>
-        <span class="philosophy-text">NO FILLER. JUST KILLER.</span>
-        <span class="philosophy-text">WEAR YOUR WEIRD.</span>
+        <span class="philosophy-text">NO FILLER. JUST KILLER</span>
+        <span class="philosophy-text">WEAR YOUR WEIRD</span>
+        <span class="philosophy-text">JOIN THE TRIBE</span>
+        <span class="philosophy-text">NO FILLER. JUST KILLER</span>
+        <span class="philosophy-text">WEAR YOUR WEIRD</span>
+        <span class="philosophy-text">JOIN THE TRIBE</span>
     </div>
 </div>
 
 <!-- Collections Preview -->
 <section class="collections-preview py-5">
     <div class="container">
-        <h2 class="section-title text-center mb-5">Explore Collections</h2>
+        <div class="collections-hero">
+            <h2 class="section-title text-center mb-5">Explore Collections</h2>
+            <p class="section-subtitle text-center mb-4">Discover our curated themes and find your perfect weird</p>
+        </div>
 
         {% if collections %}
         <div class="collections-carousel-container">
@@ -95,27 +100,40 @@
 </section>
 
 <!-- Features Section -->
-<section class="features py-5 bg-charcoal">
+<section class="features-section py-5">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3 text-center">
-                <i class="fas fa-palette fa-3x text-pink mb-3"></i>
+        <div class="features-hero">
+            <h2 class="section-title text-center mb-5">Why Choose Hendoshi?</h2>
+            <p class="section-subtitle text-center mb-4">Premium quality meets unique style</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-palette fa-3x"></i>
+                </div>
                 <h4>Original Art</h4>
                 <p>Every design hand-crafted. No generic templates.</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center">
-                <i class="fas fa-bolt fa-3x text-pink mb-3"></i>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt fa-3x"></i>
+                </div>
                 <h4>Print on Demand</h4>
                 <p>Made fresh for you. Premium quality.</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center">
-                <i class="fas fa-globe fa-3x text-pink mb-3"></i>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe fa-3x"></i>
+                </div>
                 <h4>Global Shipping</h4>
                 <p>USA & Europe delivery. Fast and tracked.</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center">
-                <i class="fas fa-users fa-3x text-pink mb-3"></i>
-                <h4>Weird Wall</h4>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-images fa-3x"></i>
+                </div>
+                <h4>The Vault</h4>
                 <p>Join the tribe. Share your Hendoshi style.</p>
             </div>
         </div>

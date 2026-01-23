@@ -13,10 +13,10 @@
                     <h1 class="vault-hero-title">Hall of Fame</h1>
                     <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-                        <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-outline-pink">
+                        <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-outline-pink hall-of-fame-btn-mobile">
                             <i class="fas fa-crown"></i> Hall of Fame Overview
                         </a>
-                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink">
+                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink hall-of-fame-btn-mobile">
                             <i class="fas fa-arrow-left"></i> Back to Vault
                         </a>
                     </div>
@@ -215,6 +215,14 @@
     }
     .vault-hero {
         padding: 3rem 0;
+    }
+
+    /* Mobile styling for hall of fame hero buttons */
+    .hall-of-fame-btn-mobile {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 

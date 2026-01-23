@@ -3,6 +3,65 @@
 
 {% block extra_title %}Hall of Fame Overview - HENDOSHI{% endblock %}
 
+{% block extra_css %}
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .vault-hero-title {
+        font-size: 2.5rem;
+    }
+    .vault-hero {
+        padding: 3rem 0;
+    }
+
+    /* Mobile styling for hall of fame overview hero buttons */
+    .hall-of-fame-overview-btn-mobile {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="vault-page">
     <!-- Hall of Fame Overview Hero -->
@@ -13,10 +72,10 @@
                     <h1 class="vault-hero-title">Hall of Fame</h1>
                     <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-                        <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-pink">
+                        <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-pink hall-of-fame-overview-btn-mobile">
                             <i class="fas fa-images"></i> Browse Gallery
                         </a>
-                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink">
+                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink hall-of-fame-overview-btn-mobile">
                             <i class="fas fa-arrow-left"></i> Back to Vault
                         </a>
                     </div>

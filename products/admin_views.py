@@ -59,7 +59,8 @@ def delete_collection(request, pk):
         collection.delete()
         messages.success(request, 'Collection deleted')
         return redirect('admin_list_collections')
-    return render(request, 'products/admin_confirm_delete_collection.html', {'collection': collection})
+    # Redirect to list page since we now use modals for confirmation
+    return redirect('admin_list_collections')
 
 
 @login_required
@@ -131,7 +132,8 @@ def delete_product_type(request, pk):
         pt.delete()
         messages.success(request, 'Product type deleted')
         return redirect('admin_list_product_types')
-    return render(request, 'products/admin_confirm_delete_product_type.html', {'product_type': pt})
+    # Redirect to list page since we now use modals for confirmation
+    return redirect('admin_list_product_types')
 
 
 @login_required

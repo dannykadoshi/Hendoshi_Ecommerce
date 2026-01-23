@@ -3,122 +3,6 @@
 
 {% block extra_title %}Admin Collections{% endblock %}
 
-{% block extra_css %}
-<style>
-/* Vault Page Hero Styles */
-.vault-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.vault-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-    position: relative;
-}
-
-.vault-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.vault-hero-subtitle {
-    color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-.vault-container {
-    padding-top: 2rem;
-}
-
-/* Mobile optimization for hero buttons */
-@media (max-width: 768px) {
-    .vault-hero .d-flex {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem !important;
-    }
-    
-    .vault-hero .btn {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .vault-hero-title {
-        font-size: 2rem;
-    }
-    
-    .vault-hero-subtitle {
-        font-size: 1rem;
-    }
-    
-    .vault-hero .btn {
-        max-width: 250px;
-        padding: 0.625rem 1.25rem;
-        font-size: 0.85rem;
-    }
-}
-
-/* Close button styles */
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--off-white);
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
-    color: white;
-    transform: scale(1.1);
-}
-
-@media (max-width: 768px) {
-    .close-btn {
-        top: 15px;
-        right: 15px;
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-    }
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="vault-page">
     <!-- Collections Management Hero -->
@@ -129,19 +13,21 @@
                     <h1 class="vault-hero-title">Collections</h1>
                     <p class="vault-hero-subtitle">Organize your products into collections for better categorization and customer experience.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_list_products' %}" class="btn btn-pink"><i class="fas fa-arrow-left me-2"></i>Back</a>
                         <a href="{% url 'admin_create_collection' %}" class="btn btn-pink">Create Collection</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Close Button -->
-        <a href="{% url 'admin_list_products' %}" class="close-btn" title="Back to Products Management">×</a>
     </section>
 
 <div class="container vault-container">
     <div class="row">
-        <div class="col-md-10 mx-auto">
+        <div class="col-lg-11 mx-auto">
+            <div class="alert alert-info mb-4 guide-alert" role="alert">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Collections Guide:</strong> Collections help organize your products into themed groups. <strong class="text-custom">Custom collections</strong> can be created and modified by administrators.
+            </div>
             <div class="auth-card">
                 {% if collections %}
                 <div class="table-responsive">
@@ -156,11 +42,22 @@
                         <tbody>
                             {% for c in collections %}
                             <tr>
-                                <td><strong>{{ c.name }}</strong></td>
-                                <td>{{ c.slug }}</td>
                                 <td>
-                                    <a href="{% url 'admin_edit_collection' c.pk %}" class="btn btn-outline-pink btn-sm me-2">Edit</a>
-                                    <a href="{% url 'admin_delete_collection' c.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="fas fa-layer-group text-primary" title="Collection"></i>
+                                        <strong>{{ c.name }}</strong>
+                                    </div>
+                                </td>
+                                <td><code class="slug-text">{{ c.slug }}</code></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{% url 'admin_edit_collection' c.pk %}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteCollection('{{ c.pk }}', '{{ c.name|escapejs }}', '{% url 'admin_delete_collection' c.pk %}')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -168,10 +65,67 @@
                     </table>
                 </div>
                 {% else %}
-                    <div class="alert alert-info">No collections found</div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        No collections found. <a href="{% url 'admin_create_collection' %}">Create your first collection</a>.
+                    </div>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
+
+<!-- Delete Collection Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="deleteCollectionModal" tabindex="-1" aria-labelledby="deleteCollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="deleteCollectionModalLabel">
+                    <i class="fas fa-trash vault-modal-icon"></i>
+                    Delete Collection
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message">
+                        Are you sure you want to delete "<strong id="collection-name"></strong>"?
+                        <br><br>
+                        <small class="text-muted">This action cannot be undone. All products in this collection will remain but will no longer be associated with this collection.</small>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <form id="delete-collection-form" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger vault-modal-btn-confirm" id="delete-submit-btn">
+                        <i class="fas fa-trash"></i> Delete Collection
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDeleteCollection(collectionId, collectionName, deleteUrl) {
+    // Update modal content
+    document.getElementById('collection-name').textContent = collectionName;
+
+    // Set the form action URL
+    const form = document.getElementById('delete-collection-form');
+    form.action = deleteUrl;
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('deleteCollectionModal'));
+    modal.show();
+}
+</script>
+
 {% endblock %}

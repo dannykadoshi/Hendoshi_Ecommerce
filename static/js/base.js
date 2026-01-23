@@ -275,45 +275,46 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCollectionsCarousel();
     }
 
-    // Event listeners
-    collectionsNextBtn.addEventListener('click', nextCollectionsSlide);
-    collectionsPrevBtn.addEventListener('click', prevCollectionsSlide);
-
-    // Hover to auto-advance functionality
-    let nextHoverInterval;
-    let prevHoverInterval;
-
-    collectionsNextBtn.addEventListener('mouseenter', () => {
-        // Clear any existing intervals first
-        clearInterval(nextHoverInterval);
-        clearInterval(prevHoverInterval);
-        // Start auto-advancing when hovering over next button
-        nextHoverInterval = setInterval(nextCollectionsSlide, 800); // Advance every 800ms
+    // Event listeners for click
+    collectionsNextBtn.addEventListener('click', () => {
+        nextCollectionsSlide();
+        resetAutoPlay(); // Reset timer on manual interaction
+    });
+    collectionsPrevBtn.addEventListener('click', () => {
+        prevCollectionsSlide();
+        resetAutoPlay(); // Reset timer on manual interaction
     });
 
-    collectionsNextBtn.addEventListener('mouseleave', () => {
-        // Stop auto-advancing when mouse leaves
-        clearInterval(nextHoverInterval);
-    });
+    // Auto-play functionality
+    let autoPlayInterval;
+    const autoPlayDelay = 4000; // Auto-advance every 4 seconds
 
-    collectionsPrevBtn.addEventListener('mouseenter', () => {
-        // Clear any existing intervals first
-        clearInterval(nextHoverInterval);
-        clearInterval(prevHoverInterval);
-        // Start auto-advancing when hovering over prev button
-        prevHoverInterval = setInterval(prevCollectionsSlide, 800); // Advance every 800ms
-    });
+    function startAutoPlay() {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = setInterval(nextCollectionsSlide, autoPlayDelay);
+    }
 
-    collectionsPrevBtn.addEventListener('mouseleave', () => {
-        // Stop auto-advancing when mouse leaves
-        clearInterval(prevHoverInterval);
-    });
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
 
-    // Clear intervals when page unloads
-    window.addEventListener('beforeunload', () => {
-        clearInterval(nextHoverInterval);
-        clearInterval(prevHoverInterval);
-    });
+    function resetAutoPlay() {
+        stopAutoPlay();
+        startAutoPlay();
+    }
+
+    // Pause auto-play on hover over carousel container
+    const carouselContainer = collectionsTrack.closest('.collections-carousel');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+        carouselContainer.addEventListener('mouseleave', startAutoPlay);
+    }
+
+    // Clear interval when page unloads
+    window.addEventListener('beforeunload', stopAutoPlay);
+
+    // Start auto-play
+    startAutoPlay();
 
     // Touch/swipe support for mobile
     let startX = 0;
@@ -322,6 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     collectionsTrack.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
         isDragging = true;
+        stopAutoPlay(); // Pause auto-play during touch
     });
 
     collectionsTrack.addEventListener('touchmove', (e) => {
@@ -341,6 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     collectionsTrack.addEventListener('touchend', () => {
         isDragging = false;
+        resetAutoPlay(); // Resume auto-play after touch
     });
 
     // Initialize carousel

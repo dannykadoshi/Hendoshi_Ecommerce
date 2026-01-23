@@ -188,7 +188,11 @@ def product_detail(request, slug):
     """
     View to show individual product details
     """
-    product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
+    # Allow admin users to view archived products
+    if request.user.is_staff or request.user.is_superuser:
+        product = get_object_or_404(Product, slug=slug, is_active=True)
+    else:
+        product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
     
     # Get available sizes and colors (remove duplicates)
     available_sizes = list(set(product.get_available_sizes()))

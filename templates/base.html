@@ -665,13 +665,13 @@
                         <h5>Support</h5>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#">Shipping Info</a>
+                                <a href="{% url 'shipping' %}">Shipping Info</a>
                             </li>
                             <li>
-                                <a href="#">Size Guide</a>
+                                <a href="{% url 'size_guide' %}">Size Guide</a>
                             </li>
                             <li>
-                                <a href="#">Returns</a>
+                                <a href="{% url 'returns' %}">Returns</a>
                             </li>
                             <li>
                                 <a href="{% url 'contact' %}">Contact</a>
@@ -1145,6 +1145,82 @@
             {% else %}
             updateVestCountBadges(0);
             {% endif %}
+        });
+
+        // Collections Carousel Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const collectionsTrack = document.getElementById('collections-track');
+            const collectionsPrevBtn = document.getElementById('collections-prev');
+            const collectionsNextBtn = document.getElementById('collections-next');
+
+            if (collectionsTrack && collectionsPrevBtn && collectionsNextBtn) {
+                let currentIndex = 0;
+                let autoRotateInterval;
+                const items = collectionsTrack.children;
+                const itemWidth = 280 + 24; // card width + gap
+                const visibleItems = Math.floor(collectionsTrack.parentElement.offsetWidth / itemWidth) || 1;
+                const maxIndex = Math.max(0, items.length - visibleItems);
+
+                function updateCarousel() {
+                    const translateX = -currentIndex * itemWidth;
+                    collectionsTrack.style.transform = `translateX(${translateX}px)`;
+
+                    // Update button states
+                    collectionsPrevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+                    collectionsNextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+                }
+
+                function startAutoRotate() {
+                    autoRotateInterval = setInterval(function() {
+                        if (currentIndex < maxIndex) {
+                            currentIndex++;
+                            updateCarousel();
+                        } else {
+                            stopAutoRotate(); // Stop when reaching the end
+                        }
+                    }, 4000); // Auto-rotate every 4 seconds
+                }
+
+                function stopAutoRotate() {
+                    if (autoRotateInterval) {
+                        clearInterval(autoRotateInterval);
+                    }
+                }
+
+                collectionsPrevBtn.addEventListener('click', function() {
+                    stopAutoRotate(); // Stop auto-rotation when user interacts
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateCarousel();
+                    }
+                    startAutoRotate(); // Restart auto-rotation after user interaction
+                });
+
+                collectionsNextBtn.addEventListener('click', function() {
+                    stopAutoRotate(); // Stop auto-rotation when user interacts
+                    if (currentIndex < maxIndex) {
+                        currentIndex++;
+                        updateCarousel();
+                    }
+                    startAutoRotate(); // Restart auto-rotation after user interaction
+                });
+
+                // Initialize
+                updateCarousel();
+                startAutoRotate(); // Start auto-rotation
+
+                // Update on window resize
+                window.addEventListener('resize', function() {
+                    const newVisibleItems = Math.floor(collectionsTrack.parentElement.offsetWidth / itemWidth) || 1;
+                    const newMaxIndex = Math.max(0, items.length - newVisibleItems);
+
+                    if (currentIndex > newMaxIndex) {
+                        currentIndex = newMaxIndex;
+                    }
+
+                    updateCarousel();
+                });
+            }
         });
         </script>
         {% endif %}

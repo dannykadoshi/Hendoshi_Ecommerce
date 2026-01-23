@@ -128,16 +128,17 @@
                 <div class="col-12 text-center">
                     <h1 class="vault-hero-title">Archived Products</h1>
                     <p class="vault-hero-subtitle">View and manage products that have been archived. Restore products or permanently delete them as needed.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_list_products' %}" class="btn btn-pink"><i class="fas fa-arrow-left me-2"></i>Back</a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Close Button -->
-        <a href="{% url 'admin_list_products' %}" class="close-btn" title="Back to Products Management">×</a>
     </section>
 
 <div class="container vault-container">
     {% if archived_products %}
+        <div class="auth-card">
         <div class="table-responsive">
         <table class="table archived-products-table">
             <thead>
@@ -167,8 +168,11 @@
             </tbody>
         </table>
         </div>
+        </div>
     {% else %}
+        <div class="auth-card">
         <div class="alert alert-info">No archived products found.</div>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

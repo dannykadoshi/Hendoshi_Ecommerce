@@ -171,7 +171,16 @@
                 <div class="product-details">
 
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h1 class="product-title mb-0">{{ product.name }}</h1>
+                        <div class="d-flex align-items-center gap-2">
+                            <h1 class="product-title mb-0">{{ product.name }}</h1>
+                            {% if product.is_archived %}
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-archive me-1"></i>Archived
+                            </span>
+                            {% endif %}
+                            {% endif %}
+                        </div>
                         {% if request.user.is_staff or request.user.is_superuser %}
                         <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
                             <i class="fas fa-pencil-alt"></i>
@@ -202,6 +211,7 @@
                     {% endif %}
                     
                     <!-- Add to Cart Form -->
+                    {% if not product.is_archived %}
                     <form method="post" action="{% url 'add_to_cart' product.id %}" id="addToCartForm" novalidate>
                         {% csrf_token %}
                         
@@ -263,6 +273,14 @@
                         </button>
                         {% endif %}
                     </form>
+                    {% else %}
+                    <!-- Archived Product Notice -->
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-archive me-2"></i>
+                        <strong>This product has been archived</strong><br>
+                        <small>This product is no longer available for purchase but can be viewed for reference.</small>
+                    </div>
+                    {% endif %}
                     
                     <!-- Social Share Section -->
                     <div class="social-share-section mt-4">
