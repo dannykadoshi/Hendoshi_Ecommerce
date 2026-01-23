@@ -34,6 +34,9 @@
         <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
         {% endblock %}
 
+        <!-- Preload hero image for instant loading -->
+        <link rel="preload" as="image" href="{% static 'images/hero-1-gothic-1920.webp' %}">
+
         <!-- Schema.org Organization and Website Structured Data -->
         <script type="application/ld+json">
         {
@@ -294,20 +297,26 @@
                 
                 <!-- Right Side Icons -->
                 <div class="navbar-right">
-                    <!-- Search (Desktop only) -->
-                    <form class="search-form desktop-search" action="{% url 'search' %}" method="get">
-                        <div class="search-wrapper">
-                            <input class="form-control search-input" 
-                                   type="search" 
-                                   name="q" 
-                                   placeholder="Search..." 
-                                   value="{{ request.GET.q }}"
-                                   aria-label="Search">
-                            <button class="btn search-btn" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <!-- Search Icon + Floating Search Box (Desktop) -->
+                    <div class="desktop-search-container">
+                        <button class="nav-icon search-toggle" id="desktopSearchToggle" title="Search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <div class="floating-search-box" id="floatingSearchBox">
+                            <form class="floating-search-form" action="{% url 'search' %}" method="get">
+                                <input class="floating-search-input"
+                                       type="search"
+                                       name="q"
+                                       placeholder="Search designs..."
+                                       value="{{ request.GET.q }}"
+                                       aria-label="Search"
+                                       id="floatingSearchInput">
+                                <button class="floating-search-btn" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
 
                     <!-- Mobile Icons (Always visible) -->
                     <div class="mobile-icons">
@@ -982,7 +991,7 @@
                     desktopThemeToggle.addEventListener('click', function(e) {
                         e.preventDefault();
                         const html = document.documentElement;
-                        
+
                         if (html.classList.contains('light-mode')) {
                             html.classList.remove('light-mode');
                             localStorage.setItem('theme', 'dark');
@@ -993,7 +1002,7 @@
                             this.innerHTML = '<i class="fas fa-moon"></i>';
                         }
                     });
-                    
+
                     // Update icon on load
                     const html = document.documentElement;
                     if (html.classList.contains('light-mode')) {
@@ -1001,6 +1010,41 @@
                     } else {
                         desktopThemeToggle.innerHTML = '<i class="fas fa-sun"></i>';
                     }
+                }
+
+                // Desktop floating search toggle
+                const desktopSearchToggle = document.getElementById('desktopSearchToggle');
+                const floatingSearchBox = document.getElementById('floatingSearchBox');
+                const floatingSearchInput = document.getElementById('floatingSearchInput');
+
+                if (desktopSearchToggle && floatingSearchBox) {
+                    desktopSearchToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        floatingSearchBox.classList.toggle('active');
+                        desktopSearchToggle.classList.toggle('active');
+
+                        // Focus on input when opened
+                        if (floatingSearchBox.classList.contains('active') && floatingSearchInput) {
+                            setTimeout(() => floatingSearchInput.focus(), 100);
+                        }
+                    });
+
+                    // Close search box when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!e.target.closest('.desktop-search-container')) {
+                            floatingSearchBox.classList.remove('active');
+                            desktopSearchToggle.classList.remove('active');
+                        }
+                    });
+
+                    // Close on Escape key
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape' && floatingSearchBox.classList.contains('active')) {
+                            floatingSearchBox.classList.remove('active');
+                            desktopSearchToggle.classList.remove('active');
+                        }
+                    });
                 }
             });
         </script>

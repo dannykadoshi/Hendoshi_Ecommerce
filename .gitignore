@@ -64,6 +64,15 @@ db.sqlite3
 db.sqlite3-journal
 media
 
+# Large image files in static/images (prevent accidental commits of uncompressed images)
+static/images/*.png
+static/images/*.jpg
+static/images/*.jpeg
+static/images/*.gif
+static/images/*.bmp
+# Keep optimized WebP files
+!static/images/*.webp
+
 # Flask stuff:
 instance/
 .webassets-cache

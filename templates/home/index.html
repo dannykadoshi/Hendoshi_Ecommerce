@@ -9,12 +9,187 @@
 <section class="hero">
     <!-- Full-width Background Carousel -->
     <div class="hero-carousel">
-        <div class="carousel-slide active" style="background-image: url('{% static 'images/feed-my-demons-tee.webp' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'images/hendoshi-gothic-tee.webp' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'images/dead-tired-couple-tee.webp' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'images/dead-warpig-tee.webp' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'images/friends-festival-tee.webp' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'images/no-regrets-tee.webp' %}');"></div>
+        <div class="carousel-slide active">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-1-gothic-1080.webp' %} 1080w,
+                        {% static 'images/hero-1-gothic-1920.webp' %} 1920w,
+                        {% static 'images/hero-1-gothic-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-1-gothic-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-2-friends-1080.webp' %} 1080w,
+                        {% static 'images/hero-2-friends-1920.webp' %} 1920w,
+                        {% static 'images/hero-2-friends-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-2-friends-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-3-friends-1080.webp' %} 1080w,
+                        {% static 'images/hero-3-friends-1920.webp' %} 1920w,
+                        {% static 'images/hero-3-friends-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-3-friends-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-4-friends-1080.webp' %} 1080w,
+                        {% static 'images/hero-4-friends-1920.webp' %} 1920w,
+                        {% static 'images/hero-4-friends-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-4-friends-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-5-friends-1080.webp' %} 1080w,
+                        {% static 'images/hero-5-friends-1920.webp' %} 1920w,
+                        {% static 'images/hero-5-friends-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-5-friends-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-6-festival-1080.webp' %} 1080w,
+                        {% static 'images/hero-6-festival-1920.webp' %} 1920w,
+                        {% static 'images/hero-6-festival-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-6-festival-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-7-concert-1080.webp' %} 1080w,
+                        {% static 'images/hero-7-concert-1920.webp' %} 1920w,
+                        {% static 'images/hero-7-concert-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-7-concert-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-8-blond-girl-1080.webp' %} 1080w,
+                        {% static 'images/hero-8-blond-girl-1920.webp' %} 1920w,
+                        {% static 'images/hero-8-blond-girl-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-8-blond-girl-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-9-couple-1080.webp' %} 1080w,
+                        {% static 'images/hero-9-couple-1920.webp' %} 1920w,
+                        {% static 'images/hero-9-couple-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-9-couple-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-10-gym-1080.webp' %} 1080w,
+                        {% static 'images/hero-10-gym-1920.webp' %} 1920w,
+                        {% static 'images/hero-10-gym-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-10-gym-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-11-couple-concert-1080.webp' %} 1080w,
+                        {% static 'images/hero-11-couple-concert-1920.webp' %} 1920w,
+                        {% static 'images/hero-11-couple-concert-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-11-couple-concert-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
+        <div class="carousel-slide">
+            <picture>
+                <source
+                    type="image/webp"
+                    srcset="
+                        {% static 'images/hero-12-cute-blond-girl-1080.webp' %} 1080w,
+                        {% static 'images/hero-12-cute-blond-girl-1920.webp' %} 1920w,
+                        {% static 'images/hero-12-cute-blond-girl-2560.webp' %} 2560w">
+                <img
+                    src="{% static 'images/hero-12-cute-blond-girl-1920.webp' %}"
+                    alt="HENDOSHI festival wear"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
+        </div>
     </div>
 
     <!-- Dark gradient overlays for text legibility -->
@@ -29,19 +204,36 @@
         </picture>
     </div>
 
-    <!-- Floating Pug Skull Mascot -->
-    <div class="hero-mascot">
-        <picture>
-            <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
-            <img src="{% static 'images/pug-skull.png' %}" alt="Pug Skull" class="hero-pug-skull">
-        </picture>
-    </div>
-
-    <!-- Bottom Controls: CTA Button + Navigation Dots -->
+    <!-- Bottom Controls: Vinyl Record Button + Navigation Dots -->
     <div class="hero-bottom-controls">
-        <a href="{% url 'products' %}" class="hero-cta-btn">
-            <span>BROWSE DESIGNS</span>
-            <i class="fas fa-arrow-right"></i>
+        <!-- Pug Skull Vinyl Record CTA Button -->
+        <a href="{% url 'products' %}" class="vinyl-record-btn">
+            <!-- Spinning Vinyl with Text -->
+            <div class="vinyl-spinner">
+                <svg class="vinyl-svg" viewBox="0 0 200 200">
+                    <!-- Vinyl grooves -->
+                    <circle cx="100" cy="100" r="98" class="vinyl-edge"/>
+                    <circle cx="100" cy="100" r="90" class="vinyl-groove"/>
+                    <circle cx="100" cy="100" r="82" class="vinyl-groove"/>
+                    <circle cx="100" cy="100" r="74" class="vinyl-groove"/>
+                    <!-- Spinning text path -->
+                    <defs>
+                        <path id="textCircle" d="M 100,100 m -70,0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0"/>
+                    </defs>
+                    <text class="vinyl-text">
+                        <textPath href="#textCircle" startOffset="0%">
+                            BROWSE DESIGNS ★ BROWSE DESIGNS ★ BROWSE DESIGNS ★
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
+            <!-- Record Label Center with Pug Skull -->
+            <div class="vinyl-label">
+                <picture>
+                    <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
+                    <img src="{% static 'images/pug-skull.png' %}" alt="Browse Designs" class="pug-skull-img">
+                </picture>
+            </div>
         </a>
         <div class="hero-carousel-dots">
             <span class="hero-carousel-dot active" data-slide="0"></span>
@@ -50,6 +242,12 @@
             <span class="hero-carousel-dot" data-slide="3"></span>
             <span class="hero-carousel-dot" data-slide="4"></span>
             <span class="hero-carousel-dot" data-slide="5"></span>
+            <span class="hero-carousel-dot" data-slide="6"></span>
+            <span class="hero-carousel-dot" data-slide="7"></span>
+            <span class="hero-carousel-dot" data-slide="8"></span>
+            <span class="hero-carousel-dot" data-slide="9"></span>
+            <span class="hero-carousel-dot" data-slide="10"></span>
+            <span class="hero-carousel-dot" data-slide="11"></span>
         </div>
     </div>
 </section>

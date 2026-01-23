@@ -1553,8 +1553,156 @@ body {
     align-items: center;
 }
 
-.desktop-search {
-    display: block;
+/* Desktop Search Container with Floating Box */
+.desktop-search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 991px) {
+    .desktop-search-container {
+        display: none !important;
+    }
+}
+
+.desktop-search-container .search-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--off-white);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.desktop-search-container .search-toggle:hover {
+    color: var(--neon-pink);
+}
+
+.desktop-search-container .search-toggle.active {
+    color: var(--neon-pink);
+}
+
+/* Light mode search icon */
+:root.light-mode .desktop-search-container .search-toggle {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .desktop-search-container .search-toggle:hover {
+    color: var(--electric-yellow);
+}
+
+.floating-search-box {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 320px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 105, 180, 0.25);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 20, 147, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.floating-search-box::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    width: 16px;
+    height: 16px;
+    background: rgba(20, 20, 20, 0.95);
+    border-left: 1px solid rgba(255, 105, 180, 0.25);
+    border-top: 1px solid rgba(255, 105, 180, 0.25);
+    transform: rotate(45deg);
+}
+
+.floating-search-box.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.floating-search-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.floating-search-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--off-white);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.floating-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.floating-search-input:focus {
+    border-color: rgba(255, 20, 147, 0.5);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.15);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.floating-search-btn {
+    background: var(--neon-pink);
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-search-btn:hover {
+    background: var(--electric-yellow);
+    color: var(--black);
+    transform: scale(1.05);
+}
+
+/* Light mode floating search */
+:root.light-mode .floating-search-box {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(255, 20, 147, 0.2);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 20, 147, 0.1);
+}
+
+:root.light-mode .floating-search-box::before {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .floating-search-input {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+:root.light-mode .floating-search-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+:root.light-mode .floating-search-input:focus {
+    border-color: rgba(255, 20, 147, 0.4);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .theme-toggle {
@@ -1691,15 +1839,11 @@ body {
     .desktop-icons {
         display: none !important;
     }
-    
-    .desktop-search {
-        display: none !important;
-    }
-    
+
     .mobile-icons {
         display: flex !important;
     }
-    
+
     .navbar-right {
         gap: 0.5rem;
     }
@@ -2844,7 +2988,7 @@ main {
    ============================================ */
 .hero {
     margin-top: 76px;
-    min-height: 90vh;
+    min-height: 86vh;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -2869,14 +3013,18 @@ main {
     left: -5%;
     width: 110%;
     height: 110%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     background-color: #0a0a0a;
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
     will-change: transform, opacity;
     animation: kenBurns 10s ease-in-out infinite alternate;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .carousel-slide.active {
@@ -2991,32 +3139,188 @@ main {
     }
 }
 
-/* Floating Pug Skull Mascot - Centered below logo */
-.hero-mascot {
-    position: absolute;
-    top: 24%;
-    left: 50%;
-    transform: translateX(-50%);
+/* ============================================
+   PUG SKULL CTA BUTTON - Vinyl Record Design
+   ============================================ */
+.vinyl-record-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
     z-index: 10;
-}
-
-.hero-pug-skull {
-    max-width: 90px;
-    width: 100%;
-    height: auto;
-    filter:
-        drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
-        drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))
-        drop-shadow(0 0 20px rgba(204, 255, 0, 0.7));
-    animation: heroMascotEntrance 0.8s ease-out forwards, pugFloat 4s ease-in-out infinite, pugGlow 3s ease-in-out infinite;
-    animation-delay: 0.6s, 1.5s, 1.5s;
+    width: 140px;
+    height: 140px;
+    animation: vinylEntrance 0.8s ease-out forwards;
+    animation-delay: 0.5s;
     opacity: 0;
 }
 
-@keyframes heroMascotEntrance {
+/* Spinning Vinyl Disc */
+.vinyl-spinner {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    animation: vinylSpin 18s linear infinite;
+}
+
+.vinyl-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5));
+}
+
+/* Vinyl Edge - the outer black rim */
+.vinyl-edge {
+    fill: #1a1a1a;
+    stroke: #333;
+    stroke-width: 1;
+}
+
+/* Vinyl Grooves - subtle circular lines */
+.vinyl-groove {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 0.5;
+}
+
+/* Spinning Text around the vinyl */
+.vinyl-text {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    fill: var(--neon-pink);
+    filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.6));
+}
+
+/* Record Label Center */
+.vinyl-label {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 30% 30%,
+        #2a2a2a 0%,
+        #1a1a1a 60%,
+        #111 100%);
+    border: 3px solid var(--neon-pink);
+    box-shadow:
+        inset 0 2px 10px rgba(255, 255, 255, 0.05),
+        inset 0 -3px 10px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.3);
+    transition: all 0.3s ease;
+    /* Center hole effect */
+    overflow: hidden;
+}
+
+/* Shiny reflection on label */
+.vinyl-label::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 50%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Center spindle hole */
+.vinyl-label::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000;
+    border: 1px solid #333;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Pug Skull on Record Label */
+.vinyl-record-btn .pug-skull-img {
+    max-width: 42px;
+    width: 100%;
+    height: auto;
+    /* Thin white outline + green glow */
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
+            drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))
+            drop-shadow(0 0 8px rgba(204, 255, 0, 0.5));
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+/* Glow effect behind vinyl */
+.vinyl-record-btn::before {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 20, 147, 0.15) 0%, transparent 70%);
+    animation: vinylGlow 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.vinyl-record-btn:hover .vinyl-spinner {
+    animation: vinylSpin 2s linear infinite;
+}
+
+.vinyl-record-btn:hover .vinyl-svg {
+    filter: drop-shadow(0 4px 20px rgba(255, 20, 147, 0.4));
+}
+
+.vinyl-record-btn:hover .vinyl-text {
+    fill: var(--electric-yellow);
+    filter: drop-shadow(0 0 5px rgba(204, 255, 0, 0.8));
+}
+
+.vinyl-record-btn:hover .vinyl-label {
+    border-color: var(--electric-yellow);
+    box-shadow:
+        inset 0 2px 10px rgba(255, 255, 255, 0.08),
+        inset 0 -3px 10px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 20, 147, 0.5),
+        0 0 50px rgba(204, 255, 0, 0.2);
+    transform: scale(1.08);
+}
+
+.vinyl-record-btn:hover .pug-skull-img {
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 3px rgba(255, 255, 255, 0.7))
+            drop-shadow(0 0 15px rgba(204, 255, 0, 1))
+            drop-shadow(0 0 25px rgba(255, 20, 147, 0.5));
+    transform: scale(1.1);
+}
+
+.vinyl-record-btn:hover::before {
+    animation: vinylGlowIntense 1.5s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(255, 20, 147, 0.25) 0%, transparent 70%);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes vinylEntrance {
     0% {
         opacity: 0;
-        transform: scale(0.5) rotate(-20deg);
+        transform: scale(0.5) rotate(-90deg);
     }
     100% {
         opacity: 1;
@@ -3024,48 +3328,57 @@ main {
     }
 }
 
-@keyframes pugFloat {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
+@keyframes vinylSpin {
+    0% {
+        transform: rotate(0deg);
     }
-    25% {
-        transform: translateY(-12px) rotate(3deg);
-    }
-    50% {
-        transform: translateY(-18px) rotate(0deg);
-    }
-    75% {
-        transform: translateY(-12px) rotate(-3deg);
+    100% {
+        transform: rotate(360deg);
     }
 }
 
-@keyframes pugGlow {
+@keyframes vinylGlow {
     0%, 100% {
-        filter:
-            drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
-            drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))
-            drop-shadow(0 0 20px rgba(204, 255, 0, 0.7));
+        transform: scale(1);
+        opacity: 0.6;
     }
     50% {
-        filter:
-            drop-shadow(0 0 1px rgba(255, 255, 255, 1))
-            drop-shadow(0 0 3px rgba(255, 255, 255, 0.8))
-            drop-shadow(0 0 35px rgba(204, 255, 0, 1))
-            drop-shadow(0 0 50px rgba(204, 255, 0, 0.5));
+        transform: scale(1.05);
+        opacity: 0.85;
+    }
+}
+
+@keyframes vinylGlowIntense {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes pugFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
     }
 }
 
 /* Bottom Controls Container */
 .hero-bottom-controls {
     position: absolute;
-    bottom: 30px;
+    bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 15;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 /* Sleek CTA Button */
@@ -3201,7 +3514,7 @@ main {
 @media (max-width: 768px) {
     .hero {
         margin-top: 56px;
-        min-height: 85vh;
+        min-height: 81vh;
     }
 
     /* Logo - smaller and positioned higher */
@@ -3213,15 +3526,34 @@ main {
         max-width: 220px;
     }
 
-    /* Pug skull - centered below logo on mobile */
-    .hero-mascot {
-        top: 28%;
-        left: 50%;
-        transform: translateX(-50%);
+    /* Vinyl Record button - smaller on tablet */
+    .vinyl-record-btn {
+        width: 120px;
+        height: 120px;
     }
 
-    .hero-pug-skull {
-        max-width: 55px;
+    .vinyl-spinner {
+        width: 120px;
+        height: 120px;
+    }
+
+    .vinyl-label {
+        width: 55px;
+        height: 55px;
+    }
+
+    .vinyl-record-btn .pug-skull-img {
+        max-width: 36px;
+    }
+
+    .vinyl-text {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+    }
+
+    .vinyl-record-btn::before {
+        width: 130px;
+        height: 130px;
     }
 
     /* Overlays - stronger for mobile readability */
@@ -3283,31 +3615,46 @@ main {
 /* Extra small devices (480px and below) */
 @media (max-width: 480px) {
     .hero {
-        min-height: 80vh;
+        min-height: 60vh;
     }
 
     .hero-logo {
         max-width: 160px;
     }
 
-    .hero-mascot {
-        top: 26%;
+    /* Vinyl Record button - even smaller on mobile */
+    .vinyl-record-btn {
+        width: 100px;
+        height: 100px;
     }
 
-    .hero-pug-skull {
-        max-width: 45px;
+    .vinyl-spinner {
+        width: 100px;
+        height: 100px;
     }
 
-    .hero-cta-btn {
-        padding: 10px 20px;
-        font-size: 0.8rem;
-        gap: 8px;
-        white-space: nowrap;
+    .vinyl-label {
+        width: 45px;
+        height: 45px;
+    }
+
+    .vinyl-record-btn .pug-skull-img {
+        max-width: 28px;
+    }
+
+    .vinyl-text {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+
+    .vinyl-record-btn::before {
+        width: 110px;
+        height: 110px;
     }
 
     .hero-bottom-controls {
-        bottom: 20px;
-        gap: 12px;
+        bottom: 18px;
+        gap: 8px;
     }
 
     .hero-carousel-dot {
@@ -3523,6 +3870,7 @@ a.btn-pink {
     -webkit-backdrop-filter: blur(20px);
     position: relative;
     overflow: hidden;
+    padding-bottom: 0;
 }
 
 .features-section::before {
@@ -3775,7 +4123,7 @@ a.btn-pink {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 4rem 0 2rem;
-    margin-top: 5rem;
+    margin-top: 0;
     position: relative;
 }
 
