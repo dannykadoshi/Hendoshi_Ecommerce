@@ -63,6 +63,131 @@
     padding: 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
+
+/* Mobile responsive styles for orders management - same as products management */
+@media (max-width: 768px) {
+    /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
+    .admin-products-container .auth-card {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Reduce column gutters inside the admin area */
+    .admin-products-container .row.g-3 {
+        --bs-gutter-x: 0.5rem;
+        --bs-gutter-y: 0.5rem;
+    }
+
+    /* Make each column use minimal side padding so content is wider */
+    .admin-products-container [class*="col-"] {
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
+
+    /* Let content span the full width available within their column */
+    .admin-products-container .card {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+
+    .admin-products-container .card-body {
+        padding: 0.75rem !important;
+    }
+
+    /* Filter section responsive */
+    .admin-products-container .col-md-3 > .d-flex.flex-column {
+        gap: 0.5rem !important;
+    }
+
+    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
+    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+        width: 100% !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Mobile specific filter button styling */
+    @media (max-width: 576px) {
+        .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile {
+            padding: 0.625rem 1rem !important;
+            font-size: 0.9rem !important;
+        }
+
+        .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+            padding: 0.625rem 1rem !important;
+            font-size: 0.9rem !important;
+        }
+    }
+
+    /* Auth card and row responsive */
+    .admin-products-container .auth-card,
+    .admin-products-container .auth-card .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Action buttons responsive */
+    .admin-products-container .mt-3.d-flex {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .admin-products-container .mt-3.d-flex > div:first-child {
+        width: 100% !important;
+    }
+
+    .admin-products-container .mt-3.d-flex > div:first-child .btn {
+        width: 100% !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .admin-products-container .mt-3.d-flex > div:first-child .btn + .btn {
+        margin-left: 0 !important;
+    }
+}
+
+/* Mobile card styles for orders */
+.clickable-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--off-white);
+}
+
+.clickable-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--neon-pink);
+}
+
+.clickable-card .card-body {
+    color: var(--off-white);
+}
+
+.order-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+}
+
+.order-link:hover {
+    color: var(--electric-yellow);
+}
+
+/* Custom text color classes */
+.text-off-white {
+    color: var(--off-white) !important;
+}
+
+.card-label {
+    color: var(--off-white) !important;
+    opacity: 0.8;
+}
+
+.text-green {
+    color: #00FF88 !important;
+}
 </style>
 {% endblock %}
 
@@ -81,7 +206,7 @@
         </div>
     </section>
 
-<div class="container vault-container">
+<div class="container-fluid vault-container admin-products-container">
     <div class="row">
         <div class="col-md-12 mx-auto">
             <div class="auth-card">
@@ -89,7 +214,7 @@
                 <!-- Filters and Search -->
                 <form method="get" class="mb-4 p-3 rounded" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
                     <div class="row g-3 align-items-end">
-        <div class="col-md-2">
+        <div class="col-12 col-md-2">
             <label>Status</label>
             <select name="status" class="form-select">
                 <option value="">All</option>
@@ -98,19 +223,19 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-12 col-md-2">
             <label>Date From</label>
             <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
         </div>
-        <div class="col-md-2">
+        <div class="col-12 col-md-2">
             <label>Date To</label>
             <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-3">
             <label>Search</label>
             <input type="text" name="search" class="form-control" placeholder="Order # or Email" value="{{ search }}">
         </div>
-        <div class="col-md-2">
+        <div class="col-12 col-md-2">
             <label>Sort By</label>
             <select name="sort" class="form-select">
                 <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>Newest</option>
@@ -120,15 +245,17 @@
                 <option value="status" {% if sort == 'status' %}selected{% endif %}>Status</option>
             </select>
         </div>
-        <div class="col-md-2 d-flex gap-2 align-items-end">
+        <div class="col-12 col-md-2 d-flex gap-2 align-items-end">
             <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn">Filter</button>
             <button type="submit" name="export" value="1" class="btn btn-outline-pink btn-form-action w-100 admin-filter-btn">Export</button>
         </div>
                 </div>
                 </form>
 
-                <!-- Orders Table -->
-                <div class="table-responsive">
+                <!-- Orders Table/Card View -->
+                {% if page_obj %}
+                <!-- Desktop Table View -->
+                <div class="table-responsive d-none d-md-block">
         <table class="table order-table">
             <thead>
                 <tr>
@@ -158,6 +285,53 @@
             </tbody>
         </table>
     </div>
+
+                <!-- Mobile Card View -->
+                <div class="d-md-none">
+                    <div class="row g-3">
+                        {% for order in page_obj %}
+                        <div class="col-12">
+                            <div class="card h-100 clickable-card" onclick="window.location='{% url 'order_detail' order.order_number %}?from=admin'">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h6 class="card-title mb-1">
+                                                <a href="{% url 'order_detail' order.order_number %}?from=admin" class="order-link text-decoration-none">{{ order.order_number }}</a>
+                                            </h6>
+                                            <small class="card-label">{{ order.created_at|date:"M d, Y H:i" }}</small>
+                                        </div>
+                                        <span class="badge bg-pink">{{ order.get_status_display }}</span>
+                                    </div>
+
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <small class="card-label">Items</small>
+                                            <div class="text-green">{{ order.items.count }}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="card-label">Total</small>
+                                            <div class="text-green fw-bold">€{{ order.total_amount }}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="card-label">Customer</small>
+                                            <div class="text-off-white">{% if order.user %}{{ order.user.get_full_name }}{% else %}Guest{% endif %}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="card-label">Email</small>
+                                            <div class="text-green text-truncate">{{ order.email }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <p class="text-muted">No orders found.</p>
+                </div>
+                {% endif %}
 
     <!-- Pagination styled like profile order history -->
     {% if page_obj.has_other_pages %}

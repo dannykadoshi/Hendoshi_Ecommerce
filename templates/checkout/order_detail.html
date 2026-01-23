@@ -3,25 +3,119 @@
 
 {% block title %}Order {{ order.order_number }} - Hendoshi Store{% endblock %}
 
+{% block extra_css %}
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.vault-hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.vault-hero-subtitle {
+    color: var(--off-white);
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+@media (max-width: 576px) {
+    .vault-hero-title {
+        font-size: 2rem;
+    }
+
+    .vault-hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile optimization for hero buttons */
+@media (max-width: 768px) {
+    .vault-hero .d-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem !important;
+    }
+    
+    .vault-hero .btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Apply same mobile styling to filter button */
+    .filter-btn-mobile {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Apply same mobile styling to clear button */
+    .clear-btn-mobile {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Glassmorphism auth-card styles */
+.auth-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container order-detail-page mt-5 mb-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="profile-card">
-            <!-- Header -->
-            <div class="order-detail-header mb-4">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div>
-                        <h1 class="page-title mb-2">Order Details</h1>
-                        <p class="order-detail-subtitle">Order #{{ order.order_number }}</p>
-                    </div>
-                    <div class="header-actions">
+<div class="vault-page">
+    <!-- Order Details Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Order Details</h1>
+                    <p class="vault-hero-subtitle">View complete order information, customer details, and order status for Order #{{ order.order_number }}.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
                         {% if order_source == 'admin' %}
-                            <a href="{% url 'admin_orders_list' %}" class="btn btn-pink me-2">
+                            <a href="{% url 'admin_orders_list' %}" class="btn btn-pink">
                                 <i class="fas fa-arrow-left"></i> Back to Orders
                             </a>
                         {% else %}
-                            <a href="{% url 'profile' %}" class="btn btn-pink me-2">
+                            <a href="{% url 'profile' %}" class="btn btn-pink">
                                 <i class="fas fa-arrow-left"></i> Back to Orders
                             </a>
                         {% endif %}
@@ -31,7 +125,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
+<div class="container-fluid vault-container">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="auth-card">
             <!-- Order Status Bar -->
             <div class="order-status-bar mb-4">
                 <div class="status-card">
@@ -103,7 +203,7 @@
                             {{ status_form.note }}
                         </div>
                     </div>
-                    <button type="submit" name="update_status" class="btn btn-pink mt-3 status-update-btn">Update Status</button>
+                    <button type="submit" name="update_status" class="btn btn-pink status-update-btn">Update Status</button>
                 </form>
             </div>
             <!-- Admin: Status Log -->
@@ -177,7 +277,7 @@
                         <div class="reorder-section mt-4">
                             <form method="post" action="{% url 'reorder' order.order_number %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-pink btn-lg w-100">
+                                <button type="submit" class="btn btn-pink reorder-btn">
                                     <i class="fas fa-redo"></i> Reorder All Items
                                 </button>
                             </form>
@@ -251,8 +351,8 @@
         </div>
     </div>
 </div>
-
-<!-- Print-specific styles -->
+</div>
+{% endblock %}
 <style>
 .status-update-field-full {
     flex: 1 1 100%;
@@ -397,14 +497,4 @@
     .status-update-form .btn-pink { width: 100%; }
     .status-log-item { padding: 1rem 0.7rem; }
 }
-/* Print-specific styles */
-@media print {
-    .navbar, .footer, .header-actions, .reorder-section, .support-card {
-        display: none !important;
-    }
-    .order-detail-page { margin-top: 0 !important; }
-    .order-item-card { page-break-inside: avoid; }
-    body { background: white !important; color: black !important; }
-}
 </style>
-{% endblock %}
