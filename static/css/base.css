@@ -57,6 +57,234 @@
     cursor: not-allowed;
 }
 
+/* Sale hero - reusable across pages */
+.sale-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    overflow: hidden;
+    /* Lift the hero below sticky navbar */
+    margin-top: 120px;
+    padding-top: calc(8rem + 10px);
+}
+
+.sale-hero::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.06) 0%, rgba(255, 140, 0, 0.03) 30%, transparent 60%);
+     pointer-events: none;
+     z-index: 1;
+}
+
+.sale-title {
+     font-size: 3rem;
+     font-weight: 900;
+     text-transform: none;
+     letter-spacing: 2px;
+     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     margin-bottom: 1rem;
+     position: relative;
+     z-index: 2;
+}
+
+.sale-subtitle {
+     font-size: 1.2rem;
+     color: var(--off-white);
+     opacity: 0.95;
+     position: relative;
+     z-index: 2;
+}
+
+.sale-badge {
+     display: inline-block;
+     margin-top: 1rem;
+     padding: 0.5rem 0.9rem;
+     background: linear-gradient(90deg, rgba(255,20,147,0.95), rgba(255,140,0,0.95));
+     color: #fff;
+     border-radius: 999px;
+     font-weight: 800;
+     letter-spacing: 1px;
+     box-shadow: 0 8px 30px rgba(255,20,147,0.12);
+     position: relative;
+     z-index: 2;
+}
+
+/* Contact/Close button used on shipping, contact, returns, about pages */
+.contact-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.contact-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: scale(1.1);
+}
+
+/* About page specific accents */
+.about-vibrant .accent-title {
+    font-size: 2rem;
+    color: var(--neon-pink);
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-align: center !important;
+}
+.about-vibrant .lead {
+    color: var(--off-white);
+    opacity: 0.95;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+.about-vibrant .two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.muted-hr {
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.04);
+    margin: 2rem 0;
+}
+.about-quote {
+    font-style: italic;
+    color: var(--electric-yellow);
+    font-weight: 700;
+    margin: 2rem 0;
+    padding: 1rem;
+    border-left: 4px solid var(--neon-pink);
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+}
+
+.about-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 0 1rem;
+}
+
+.about-buttons .btn {
+    min-width: 160px;
+    text-align: center;
+}
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.about-card {
+    padding: 1rem;
+    border-radius: 12px;
+}
+.about-vibrant h3 {
+    color: var(--neon-pink);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+.about-card h4 {
+    margin-bottom: 0.75rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.tight { margin-top: 1rem; }
+.small.muted { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+@media (max-width: 768px) {
+    .about-vibrant .two-columns { grid-template-columns: 1fr; }
+    .vault-hero { padding: 3rem 0; }
+}
+
+/* Layout fixes for symmetric About page */
+.contact-card {
+    margin: 0 auto;
+    max-width: 1100px;
+    padding: 2rem;
+}
+
+.profile-card {
+    padding: 2rem;
+}
+
+.about-vibrant .two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    align-items: start;
+}
+.about-vibrant .two-columns > div {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+    justify-items: center;
+    margin-bottom: 2rem;
+}
+.about-card {
+    padding: 1rem;
+    border-radius: 12px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-vibrant h3 i, .about-card h4 i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .contact-card { padding: 1.5rem 0.25rem; }
+    .profile-card { padding: 1.5rem 0.25rem; }
+    .about-vibrant .two-columns { grid-template-columns: 1fr; }
+    .about-buttons { 
+        justify-content: center; 
+        padding: 0;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .about-buttons .btn {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
 /* Delete Confirmation Modal */
 .delete-confirm-modal {
     background-color: var(--charcoal);
@@ -2612,39 +2840,188 @@ main {
     z-index: 1;
 }
 
+/* Ken Burns effect on carousel slides - improved: use cover + transform */
 .carousel-slide {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
+    background-size: cover; /* ensure the image always fills the container */
     background-position: center;
     background-repeat: no-repeat;
+    background-color: #0b0b0b; /* dark fallback while images animate */
     opacity: 0;
-    transition: opacity 2s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
+    transform: scale(1);
+    transform-origin: center center;
+    will-change: transform, opacity;
+    animation: kenBurns 8s ease-in-out infinite alternate;
 }
 
 .carousel-slide.active {
     opacity: 1;
 }
 
-/* Hero Content - Left side (30% width) with background */
+/* Ken Burns zoom and pan effect using transforms (avoids background-size gaps) */
+@keyframes kenBurns {
+    0% {
+        transform: scale(1.05) translateY(-3%);
+    }
+    100% {
+        transform: scale(1.12) translateY(3%);
+    }
+}
+
+/* Alternate Ken Burns directions for variety */
+.carousel-slide:nth-child(2n) {
+    animation: kenBurns2 8s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns2 {
+    0% {
+        transform: scale(1.07) translateX(-3%);
+    }
+    100% {
+        transform: scale(1.13) translateX(3%);
+    }
+}
+
+.carousel-slide:nth-child(3n) {
+    animation: kenBurns3 8s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns3 {
+    0% {
+        background-size: 110%;
+        background-position: right top;
+    }
+    100% {
+        background-size: 125%;
+        background-position: left bottom;
+    }
+}
+
+/* Carousel navigation dots */
+.hero-carousel-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    display: flex;
+    gap: 12px;
+}
+
+.hero-carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+}
+
+.hero-carousel-dot.active {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 15px var(--neon-pink), 0 0 30px rgba(255, 20, 147, 0.5);
+    transform: scale(1.1);
+}
+
+/* Hero Content - Glassmorphic panel with animated border */
 .hero-content {
     position: relative;
     z-index: 10;
-    flex: 0 0 30%;
-    width: 30%;
-    background: 
-        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 20, 147, 0.15) 10px, rgba(255, 20, 147, 0.15) 11px),
-        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0, 255, 0, 0.1) 10px, rgba(0, 255, 0, 0.1) 11px),
-        linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(26, 26, 26, 0.7) 100%);
+    flex: 0 0 32%;
+    width: 32%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    align-self: center;
+    padding: 3rem 2rem;
+    align-self: stretch;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        inset 0 0 60px rgba(255, 20, 147, 0.1),
+        20px 0 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Animated gradient border on right edge */
+.hero-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--neon-pink) 20%,
+        var(--electric-yellow) 50%,
+        var(--neon-pink) 80%,
+        transparent 100%
+    );
+    animation: borderFlow 3s linear infinite;
+}
+
+@keyframes borderFlow {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 200%;
+    }
+}
+
+/* Glowing accent at top of content panel */
+.hero-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-pink), var(--electric-yellow), var(--neon-pink), transparent);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Staggered entrance animations for hero elements */
+@keyframes heroFadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroFadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .hero-title {
@@ -2661,14 +3038,15 @@ main {
 }
 
 .hero-logo {
-    max-width: 400px;
+    max-width: 380px;
     width: 100%;
     height: auto;
-    filter: drop-shadow(5px 5px 0 var(--neon-pink));
-    animation: glitch-logo 3s infinite;
-    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
+    animation: heroFadeInScale 0.8s ease-out forwards, glitch-logo 4s ease-in-out infinite;
+    animation-delay: 0.2s, 1s;
+    margin-bottom: 1.5rem;
+    opacity: 0;
 }
-
 
 @keyframes glitch {
     0%, 100% { text-shadow: 5px 5px 0 var(--neon-pink); }
@@ -2678,30 +3056,68 @@ main {
 }
 
 @keyframes glitch-logo {
-    0%, 100% { filter: drop-shadow(5px 5px 0 var(--neon-pink)); }
-    25% { filter: drop-shadow(-5px 5px 0 var(--electric-yellow)); }
-    50% { filter: drop-shadow(5px -5px 0 var(--neon-pink)); }
-    75% { filter: drop-shadow(-5px -5px 0 var(--electric-yellow)); }
+    0%, 90%, 100% {
+        filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
+    }
+    92% {
+        filter: drop-shadow(-3px 0 20px rgba(255, 255, 0, 0.8)) drop-shadow(3px 0 0 rgba(255, 20, 147, 0.8));
+    }
+    94% {
+        filter: drop-shadow(3px 0 20px rgba(255, 20, 147, 0.8)) drop-shadow(-3px 0 0 rgba(255, 255, 0, 0.8));
+    }
+    96% {
+        filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.9));
+    }
 }
 
-/* Static slogan image */
+/* Static slogan image with entrance animation */
 .hero-slogan-static {
-    max-width: 350px;
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto 1rem;
-}
-
-/* Pug skull image with bounce animation and green shadow */
-.hero-pug-skull {
-    max-width: 120px;
+    max-width: 320px;
     width: 100%;
     height: auto;
     display: block;
     margin: 0 auto 1.5rem;
-    filter: drop-shadow(3px 3px 0 #00ff00);
-    animation: bounce 2s ease-in-out infinite;
+    animation: heroFadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+/* Pug skull image with enhanced animations */
+.hero-pug-skull {
+    max-width: 100px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 2rem;
+    filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.6));
+    animation: heroFadeInScale 0.6s ease-out forwards, pugFloat 3s ease-in-out infinite, pugGlow 2s ease-in-out infinite;
+    animation-delay: 0.8s, 1.4s, 1.4s;
+    opacity: 0;
+}
+
+@keyframes pugFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(-2deg);
+    }
+}
+
+@keyframes pugGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 25px rgba(0, 255, 0, 0.9)) drop-shadow(0 0 40px rgba(0, 255, 0, 0.4));
+    }
 }
 
 @keyframes bounce {
@@ -2728,6 +3144,183 @@ main {
     margin-bottom: 3rem;
     font-weight: 300;
     color: #FFFFFF !important;
+}
+
+/* Hero CTA Button with glow and pulse */
+.hero-content .btn-pink {
+    animation: heroFadeInUp 0.8s ease-out forwards;
+    animation-delay: 1.1s;
+    opacity: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+    transition: all 0.3s ease;
+}
+
+.hero-content .btn-pink::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: buttonShine 3s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+@keyframes buttonShine {
+    0% { left: -100%; }
+    50%, 100% { left: 100%; }
+}
+
+.hero-content .btn-pink:hover {
+    box-shadow: 0 0 30px rgba(255, 20, 147, 0.6), 0 0 60px rgba(255, 20, 147, 0.3);
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* Subtle pulsing glow on CTA */
+@keyframes ctaPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(255, 20, 147, 0.6), 0 0 50px rgba(255, 20, 147, 0.2);
+    }
+}
+
+.hero-content .btn-pink.loaded {
+    animation: ctaPulse 2s ease-in-out infinite;
+}
+
+/* Mobile: stack hero content above the carousel to avoid overlap */
+@media (max-width: 768px) {
+    .hero {
+        margin-top: 56px;
+        display: block; /* stack children vertically */
+        min-height: auto;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 20;
+        width: 100%;
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 100%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-right: none;
+        box-shadow: none;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* place carousel after content in flow (not absolutely behind) */
+    .hero-carousel {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: 45vh; /* slightly taller on mobile */
+        z-index: 10;
+        margin-top: 0;
+        border-radius: 0;
+    }
+
+    /* carousel slides still cover carousel container but will not overlap content */
+    .carousel-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        will-change: transform, opacity;
+        /* much gentler transform on mobile */
+        animation: kenBurnsMobile 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes kenBurnsMobile {
+        0% { transform: scale(1.02) translateY(0); }
+        100% { transform: scale(1.06) translateY(0); }
+    }
+
+    /* hide decorative borders/shimmers to save CPU */
+    .hero-content::after, .hero-content::before { display: none; }
+
+    /* Show dots on mobile but simplified */
+    .hero-carousel-dots {
+        display: flex;
+        bottom: 15px;
+        gap: 10px;
+    }
+
+    .hero-carousel-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    /* simplify logos and buttons with better sizing */
+    .hero-logo {
+        max-width: 240px;
+        margin-bottom: 1rem;
+        opacity: 1;
+        animation: heroFadeInScale 0.6s ease-out forwards;
+        animation-delay: 0.1s;
+    }
+    .hero-slogan-static {
+        max-width: 240px;
+        margin-bottom: 1rem;
+        opacity: 1;
+        animation: heroFadeInUp 0.6s ease-out forwards;
+        animation-delay: 0.3s;
+    }
+    .hero-pug-skull {
+        max-width: 65px;
+        margin-bottom: 1.25rem;
+        opacity: 1;
+        animation: heroFadeInScale 0.5s ease-out forwards, pugFloat 3s ease-in-out infinite;
+        animation-delay: 0.5s, 1s;
+    }
+    .hero-content .btn-pink {
+        animation: heroFadeInUp 0.6s ease-out forwards;
+        animation-delay: 0.7s;
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+    }
+    .hero-title { font-size: 2rem; }
+    .hero-slogan { font-size: 1.4rem; }
+    .hero-subtitle { font-size: 1rem; margin-bottom: 1rem; }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    .hero-content {
+        padding: 1.5rem 1rem;
+    }
+    .hero-logo {
+        max-width: 200px;
+    }
+    .hero-slogan-static {
+        max-width: 200px;
+    }
+    .hero-pug-skull {
+        max-width: 55px;
+    }
+    .hero-carousel {
+        height: 40vh;
+    }
+    .hero-content .btn-pink {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
 }
 
 /* Buttons */
@@ -3795,6 +4388,21 @@ a.btn-pink {
     background: rgba(255, 20, 147, 0.1);
     border-color: var(--neon-pink);
     color: var(--neon-pink);
+}
+
+/* Neutral ghost Clear button used across the site */
+.btn-clear-ghost {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.btn-clear-ghost:hover,
+.btn-clear-ghost:focus {
+    background: rgba(255, 45, 122, 0.06);
+    color: #ff2d7a;
+    border-color: rgba(255, 45, 122, 0.18);
+    text-decoration: none;
 }
 
 /* Mobile Filter Overlay */
@@ -5030,6 +5638,12 @@ a.btn-pink {
 .auth-link:hover {
     color: var(--neon-pink);
     opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 1rem;
+    }
 }
 
 .form-check-input {

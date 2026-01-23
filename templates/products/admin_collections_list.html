@@ -3,6 +3,31 @@
 
 {% block extra_title %}Admin Collections{% endblock %}
 
+{% block extra_css %}
+<style>
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+    
+    .slug-text {
+        word-break: break-all;
+        font-size: 0.8rem;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="vault-page">
     <!-- Collections Management Hero -->

@@ -248,6 +248,142 @@
     }
 }
 </style>
+<!-- Make product cards fill more of the auth-card on mobile -->
+<style>
+/* Clear button uses global .btn-clear-ghost in base.css */
+
+@media (max-width: 768px) {
+    /* Reduce outer auth-card horizontal padding so cards can reach closer to the border */
+    .admin-products-container .auth-card {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Reduce column gutters inside the admin area */
+    .admin-products-container .row.g-3 {
+        --bs-gutter-x: 0.5rem;
+        --bs-gutter-y: 0.5rem;
+    }
+
+    /* Make each column use minimal side padding so cards are wider */
+    .admin-products-container [class*="col-"] {
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
+
+    /* Let cards span the full width available within their column */
+    .admin-products-container .card {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Slightly reduce internal card padding to fit more content */
+    .admin-products-container .card-body {
+        padding: 0.5rem !important;
+    }
+
+    /* Filter + Clear buttons: place them side-by-side on mobile and center within their column */
+    .admin-products-container .col-md-3 > .d-flex.flex-column {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
+    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* Give filter more flex space and clear a smaller share so they fit side-by-side */
+    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile {
+        flex: 3 1 60% !important;
+        padding: 0.6rem 0.9rem !important;
+        font-weight: 800 !important;
+    }
+
+    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+        flex: 1 1 35% !important;
+        padding: 0.45rem 0.7rem !important;
+    }
+
+    /* Ensure they align with card edges and do not overflow */
+    .admin-products-container .auth-card,
+    .admin-products-container .auth-card .row {
+        overflow: hidden;
+    }
+
+    /* Make bulk action buttons align with inner card edges and size evenly */
+    .admin-products-container .mt-3.d-flex {
+        flex-direction: column !important;
+        gap: 0.75rem;
+        align-items: stretch;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .admin-products-container .mt-3.d-flex > div:first-child {
+        display: flex;
+        gap: 0.75rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .admin-products-container .mt-3.d-flex > div:first-child .btn {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 0.75rem 1rem;
+    }
+
+    .admin-products-container .mt-3.d-flex > div:first-child .btn + .btn {
+        margin-left: 0 !important;
+    }
+}
+
+/* Desktop: place Filter and Clear side-by-side inside their column and prevent overflow */
+@media (min-width: 768px) {
+    /* target the specific button wrapper column */
+    .admin-products-container .col-md-3 > .d-flex.flex-column {
+        flex-direction: row !important;
+        gap: 0.75rem !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }
+
+    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
+    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 0 !important;
+    }
+
+    /* give them relative flex sizes so both fit inside the column */
+    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile {
+        flex: 2 1 60% !important;
+        padding: 0.6rem 0.9rem !important;
+        font-weight: 800 !important;
+    }
+
+    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+        flex: 1 1 35% !important;
+        padding: 0.5rem 0.8rem !important;
+    }
+
+    /* ensure buttons don't cause the auth-card to overflow */
+    .admin-products-container .auth-card,
+    .admin-products-container .auth-card .row {
+        overflow: hidden;
+    }
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -313,7 +449,7 @@
                         <div class="col-md-3">
                             <div class="d-flex flex-column align-items-center gap-2">
                                 <button type="submit" class="btn btn-pink filter-btn-mobile">Filter</button>
-                                <a href="{% url 'admin_list_products' %}" class="btn btn-outline-secondary clear-btn-mobile">Clear</a>
+                                <a href="{% url 'admin_list_products' %}" class="btn btn-clear-ghost clear-btn-mobile">Clear</a>
                             </div>
                         </div>
                     </div>

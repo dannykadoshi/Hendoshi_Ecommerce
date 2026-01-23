@@ -116,6 +116,40 @@
         font-size: 18px;
     }
 }
+
+/* Mobile Card Styles */
+@media (max-width: 768px) {
+    .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    .card-title {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .card .text-muted {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .card small {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn {
+        padding: 0.375rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
 </style>
 {% endblock %}
 
@@ -139,7 +173,8 @@
 <div class="container vault-container">
     {% if archived_products %}
         <div class="auth-card">
-        <div class="table-responsive">
+        <!-- Desktop Table View -->
+        <div class="table-responsive d-none d-md-block">
         <table class="table archived-products-table">
             <thead>
                 <tr>
@@ -160,13 +195,71 @@
                     <td>
                         <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-success btn-sm">Restore</button>
+                            <button type="submit" class="btn btn-pink btn-sm">Restore</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="d-md-none">
+            <div class="row g-3">
+                {% for product in archived_products %}
+                <div class="col-12">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <!-- Product Header -->
+                                    <div class="mb-2">
+                                        <h6 class="card-title mb-1">
+                                            <i class="fas fa-archive text-warning me-2" title="Archived product"></i>
+                                            {{ product.name }}
+                                        </h6>
+                                        <div>
+                                            <small class="text-muted">Collection: {{ product.collection.name }}</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Product Details -->
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <small class="text-muted">Type</small>
+                                            <div>
+                                                <span class="type-badge type-badge-custom">
+                                                    <i class="fas fa-tag"></i> {{ product.product_type }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted">Archived</small>
+                                            <div>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar-times"></i> {{ product.updated_at|date:'M j, Y' }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Action Button on Right Side -->
+                                <div class="ms-2">
+                                    <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-pink btn-sm" title="Restore Product">
+                                            <i class="fas fa-undo"></i> Restore
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
         </div>
     {% else %}

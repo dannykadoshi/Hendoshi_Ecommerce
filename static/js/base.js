@@ -111,21 +111,102 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Hero background carousel
+// Hero background carousel with navigation dots
 document.addEventListener('DOMContentLoaded', function() {
     const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.hero-carousel-dot');
+    const ctaButton = document.querySelector('.hero-content .btn-pink');
+
     if (slides.length === 0) return;
-    
     let currentSlide = 0;
-    
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
+
+    // Find any pre-marked active slide
+    slides.forEach((s, i) => {
+        if (s.classList.contains('active')) currentSlide = i;
+        s.setAttribute('aria-hidden', s.classList.contains('active') ? 'false' : 'true');
+    });
+
+    // Update navigation dots
+    function updateDots(index) {
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
     }
-    
-    // Change slide every 6 seconds
-    setInterval(nextSlide, 6000);
+
+    function showSlide(index) {
+        if (index === currentSlide) return;
+        slides[currentSlide].classList.remove('active');
+        slides[currentSlide].setAttribute('aria-hidden', 'true');
+        currentSlide = index % slides.length;
+        if (currentSlide < 0) currentSlide = slides.length - 1;
+        slides[currentSlide].classList.add('active');
+        slides[currentSlide].setAttribute('aria-hidden', 'false');
+        updateDots(currentSlide);
+    }
+
+    function nextSlide() {
+        showSlide((currentSlide + 1) % slides.length);
+    }
+
+    // Auto-play with pause on hover/touch
+    const HERO_INTERVAL = 5000;
+    let heroTimer = null;
+
+    function startHeroAutoplay() {
+        stopHeroAutoplay();
+        heroTimer = setInterval(nextSlide, HERO_INTERVAL);
+    }
+
+    function stopHeroAutoplay() {
+        if (heroTimer) {
+            clearInterval(heroTimer);
+            heroTimer = null;
+        }
+    }
+
+    function resetHeroAutoplay() {
+        stopHeroAutoplay();
+        startHeroAutoplay();
+    }
+
+    // Navigation dot click handlers
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            showSlide(index);
+            resetHeroAutoplay();
+        });
+    });
+
+    // Pause on hover for desktop and on touch for mobile
+    const heroEl = document.querySelector('.hero') || document.querySelector('.hero-carousel');
+    if (heroEl) {
+        heroEl.addEventListener('mouseenter', stopHeroAutoplay);
+        heroEl.addEventListener('mouseleave', startHeroAutoplay);
+        heroEl.addEventListener('touchstart', stopHeroAutoplay, {passive: true});
+        heroEl.addEventListener('touchend', resetHeroAutoplay, {passive: true});
+    }
+
+    // Make sure we stop autoplay when page is hidden (tab inactive)
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) stopHeroAutoplay(); else startHeroAutoplay();
+    });
+
+    // Add loaded class to CTA button after animations complete
+    if (ctaButton) {
+        setTimeout(function() {
+            ctaButton.classList.add('loaded');
+        }, 2000);
+    }
+
+    // Initialize dots state
+    updateDots(currentSlide);
+
+    // Start autoplay
+    startHeroAutoplay();
 });
 
 // Newsletter Form Validation
