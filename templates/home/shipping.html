@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Shipping Information{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- Shipping Hero -->
+        <section class="contact-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="contact-title">Shipping Information</h1>
+                        <p class="contact-subtitle">Fast, reliable delivery worldwide.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shipping Info Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-xl-8">
+                        <div class="contact-card">
+                            <!-- Close Button -->
+                            <button type="button" class="contact-close-btn" onclick="history.back()" title="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                            <div class="shipping-content">
+                                <div class="shipping-intro mb-5">
+                                    <h2 class="shipping-heading">Delivery Times & Costs</h2>
+                                    <p class="shipping-description">
+                                        We partner with Printify for high-quality printing and fast, reliable shipping worldwide.
+                                        Orders are processed within 1-2 business days and shipped directly from our fulfillment partners.
+                                    </p>
+                                </div>
+
+                                <!-- Shipping Regions -->
+                                <div class="shipping-regions">
+                                    <!-- United States -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-flag-usa region-icon"></i>
+                                            <h3 class="region-title">United States</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="shipping-option">
+                                                <div class="option-name">Standard Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">5-7 business days</span>
+                                                    <span class="option-cost">$4.99</span>
+                                                </div>
+                                            </div>
+                                            <div class="shipping-option">
+                                                <div class="option-name">Express Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">2-3 business days</span>
+                                                    <span class="option-cost">$9.99</span>
+                                                </div>
+                                            </div>
+                                            <div class="shipping-option">
+                                                <div class="option-name">Free Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">5-7 business days</span>
+                                                    <span class="option-cost">On orders over $50</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- European Union -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-flag region-icon"></i>
+                                            <h3 class="region-title">European Union</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="shipping-option">
+                                                <div class="option-name">Standard Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">7-12 business days</span>
+                                                    <span class="option-cost">€8.99</span>
+                                                </div>
+                                            </div>
+                                            <div class="shipping-option">
+                                                <div class="option-name">Express Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">3-5 business days</span>
+                                                    <span class="option-cost">€14.99</span>
+                                                </div>
+                                            </div>
+                                            <div class="shipping-option">
+                                                <div class="option-name">Free Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">7-12 business days</span>
+                                                    <span class="option-cost">On orders over €75</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- United Kingdom -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-flag-usa region-icon"></i>
+                                            <h3 class="region-title">United Kingdom</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="shipping-option">
+                                                <div class="option-name">Standard Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">4-8 business days</span>
+                                                    <span class="option-cost">£6.99</span>
+                                                </div>
+                                            </div>
+                                            <div class="shipping-option">
+                                                <div class="option-name">Express Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">2-4 business days</span>
+                                                    <span class="option-cost">£11.99</span>
+                                                </div>
+                                            </div>
+                                            <div class="shipping-option">
+                                                <div class="option-name">Free Shipping</div>
+                                                <div class="option-details">
+                                                    <span class="option-time">4-8 business days</span>
+                                                    <span class="option-cost">On orders over £50</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Information -->
+                                <div class="shipping-additional mt-5">
+                                    <h3 class="additional-heading">Important Information</h3>
+                                    <ul class="additional-list">
+                                        <li><strong>Processing Time:</strong> Orders are processed within 1-2 business days</li>
+                                        <li><strong>Tracking:</strong> All orders include tracking information sent via email</li>
+                                        <li><strong>Customs & Duties:</strong> International orders may be subject to customs fees and import duties</li>
+                                        <li><strong>Delivery Updates:</strong> You'll receive email updates at each stage of delivery</li>
+                                        <li><strong>Address Changes:</strong> Contact us immediately if you need to change your shipping address</li>
+                                        <li><strong>Missing Packages:</strong> Report missing packages within 30 days of shipping</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Contact CTA -->
+                                <div class="shipping-contact mt-5 text-center">
+                                    <p class="contact-text">Have questions about your order or shipping?</p>
+                                    <a href="{% url 'contact' %}" class="btn btn-pink">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.contact-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    overflow: hidden;
+    margin-top: 76px;
+}
+
+.contact-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.contact-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: none;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-subtitle {
+    font-size: 1.2rem;
+    color: var(--off-white);
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-form-section {
+    background: var(--dark-bg);
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.contact-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: scale(1.1);
+}
+</style>
+
+{% endblock %}

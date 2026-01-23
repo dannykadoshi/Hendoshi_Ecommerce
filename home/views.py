@@ -124,3 +124,24 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'home/contact.html', {'form': form})
+
+
+def shipping(request):
+    """
+    View to display shipping information
+    """
+    return render(request, 'home/shipping.html')
+
+
+def returns(request):
+    """
+    View to display returns information
+    """
+    return render(request, 'home/returns.html')
+
+
+def size_guide(request):
+    """
+    View to display size guide information
+    """
+    return render(request, 'home/size_guide.html')

@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Size Guide{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- Size Guide Hero -->
+        <section class="contact-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="contact-title">Size Guide</h1>
+                        <p class="contact-subtitle">Find your perfect fit with our detailed sizing charts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Size Guide Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="contact-card">
+                            <!-- Close Button -->
+                            <button type="button" class="contact-close-btn" onclick="history.back()" title="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                            <div class="shipping-content">
+                                <div class="shipping-intro mb-5">
+                                    <p class="shipping-description">
+                                        Our t-shirts are printed on premium quality blanks from Gildan and Bella Canvas.
+                                        All measurements are in inches and refer to product dimensions. Please note that
+                                        sizing can vary slightly between different print providers.
+                                    </p>
+                                </div>
+
+                                <!-- Gildan Heavy Cotton Tee -->
+                                <div class="shipping-regions">
+                                    <div class="shipping-region mb-5">
+                                        <div class="region-header">
+                                            <i class="fas fa-tshirt region-icon"></i>
+                                            <h3 class="region-title">Gildan Unisex Heavy Cotton Tee</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <p class="mb-3">Classic fit, 100% cotton t-shirt. Measurements are product dimensions.</p>
+                                            <div class="table-responsive">
+                                                <table class="size-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Size</th>
+                                                            <th>Width (in)</th>
+                                                            <th>Width (cm)</th>
+                                                            <th>Length (in)</th>
+                                                            <th>Length (cm)</th>
+                                                            <th>Sleeve (in)</th>
+                                                            <th>Sleeve (cm)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>S</td>
+                                                            <td>18.00</td>
+                                                            <td>45.7</td>
+                                                            <td>28.00</td>
+                                                            <td>71.1</td>
+                                                            <td>15.10</td>
+                                                            <td>38.4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>M</td>
+                                                            <td>20.00</td>
+                                                            <td>50.8</td>
+                                                            <td>29.00</td>
+                                                            <td>73.7</td>
+                                                            <td>16.50</td>
+                                                            <td>41.9</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>L</td>
+                                                            <td>22.00</td>
+                                                            <td>55.9</td>
+                                                            <td>30.00</td>
+                                                            <td>76.2</td>
+                                                            <td>18.00</td>
+                                                            <td>45.7</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>XL</td>
+                                                            <td>24.00</td>
+                                                            <td>61.0</td>
+                                                            <td>31.00</td>
+                                                            <td>78.7</td>
+                                                            <td>19.50</td>
+                                                            <td>49.5</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2XL</td>
+                                                            <td>26.00</td>
+                                                            <td>66.0</td>
+                                                            <td>32.00</td>
+                                                            <td>81.3</td>
+                                                            <td>21.00</td>
+                                                            <td>53.3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3XL</td>
+                                                            <td>28.00</td>
+                                                            <td>71.1</td>
+                                                            <td>33.00</td>
+                                                            <td>83.8</td>
+                                                            <td>22.40</td>
+                                                            <td>56.9</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4XL</td>
+                                                            <td>30.00</td>
+                                                            <td>76.2</td>
+                                                            <td>34.00</td>
+                                                            <td>86.4</td>
+                                                            <td>23.70</td>
+                                                            <td>60.2</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5XL</td>
+                                                            <td>32.00</td>
+                                                            <td>81.3</td>
+                                                            <td>35.00</td>
+                                                            <td>88.9</td>
+                                                            <td>25.00</td>
+                                                            <td>63.5</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <p class="size-note">Size tolerance: ±1.50 inches</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bella Canvas Jersey Tee -->
+                                    <div class="shipping-region mb-5">
+                                        <div class="region-header">
+                                            <i class="fas fa-tshirt region-icon"></i>
+                                            <h3 class="region-title">Bella Canvas Unisex Jersey Short Sleeve Tee</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <p class="mb-3">Retail fit, 100% combed and ring-spun cotton t-shirt. Measurements are product dimensions.</p>
+                                            <div class="table-responsive">
+                                                <table class="size-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Size</th>
+                                                            <th>Width (in)</th>
+                                                            <th>Width (cm)</th>
+                                                            <th>Length (in)</th>
+                                                            <th>Length (cm)</th>
+                                                            <th>Sleeve (in)</th>
+                                                            <th>Sleeve (cm)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>XS</td>
+                                                            <td>16.50</td>
+                                                            <td>41.9</td>
+                                                            <td>27.00</td>
+                                                            <td>68.6</td>
+                                                            <td>8.60</td>
+                                                            <td>21.8</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>S</td>
+                                                            <td>18.00</td>
+                                                            <td>45.7</td>
+                                                            <td>28.00</td>
+                                                            <td>71.1</td>
+                                                            <td>8.90</td>
+                                                            <td>22.6</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>M</td>
+                                                            <td>20.00</td>
+                                                            <td>50.8</td>
+                                                            <td>29.00</td>
+                                                            <td>73.7</td>
+                                                            <td>9.20</td>
+                                                            <td>23.4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>L</td>
+                                                            <td>22.00</td>
+                                                            <td>55.9</td>
+                                                            <td>30.00</td>
+                                                            <td>76.2</td>
+                                                            <td>9.50</td>
+                                                            <td>24.1</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>XL</td>
+                                                            <td>24.00</td>
+                                                            <td>61.0</td>
+                                                            <td>31.00</td>
+                                                            <td>78.7</td>
+                                                            <td>9.70</td>
+                                                            <td>24.6</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2XL</td>
+                                                            <td>26.00</td>
+                                                            <td>66.0</td>
+                                                            <td>32.00</td>
+                                                            <td>81.3</td>
+                                                            <td>10.00</td>
+                                                            <td>25.4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3XL</td>
+                                                            <td>28.00</td>
+                                                            <td>71.1</td>
+                                                            <td>33.00</td>
+                                                            <td>83.8</td>
+                                                            <td>10.40</td>
+                                                            <td>26.4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4XL</td>
+                                                            <td>30.00</td>
+                                                            <td>76.2</td>
+                                                            <td>34.00</td>
+                                                            <td>86.4</td>
+                                                            <td>10.80</td>
+                                                            <td>27.4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5XL</td>
+                                                            <td>32.00</td>
+                                                            <td>81.3</td>
+                                                            <td>35.00</td>
+                                                            <td>88.9</td>
+                                                            <td>11.20</td>
+                                                            <td>28.4</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <p class="size-note">Size tolerance: ±1.50 inches</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sizing Tips -->
+                                <div class="shipping-additional mt-5">
+                                    <h3 class="additional-heading">Sizing Tips</h3>
+                                    <ul class="additional-list">
+                                        <li><strong>Width:</strong> Measured across the chest, 1 inch below the armhole</li>
+                                        <li><strong>Length:</strong> Measured from the highest point of the shoulder to the bottom hem</li>
+                                        <li><strong>Sleeve Length:</strong> Measured from the center back neckline to the end of the sleeve</li>
+                                        <li><strong>Fit:</strong> Our t-shirts run true to size. If you're between sizes, we recommend sizing up</li>
+                                        <li><strong>Variations:</strong> Slight variations may occur due to printing and manufacturing processes</li>
+                                        <li><strong>Model Sizing:</strong> Our product photos show models wearing size M for reference</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Contact CTA -->
+                                <div class="shipping-contact mt-5 text-center">
+                                    <p class="contact-text">Need help finding your size?</p>
+                                    <a href="{% url 'contact' %}" class="btn btn-pink">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.contact-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    overflow: hidden;
+    margin-top: 76px;
+}
+
+.contact-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.contact-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: none;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-subtitle {
+    font-size: 1.2rem;
+    color: var(--off-white);
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-form-section {
+    background: var(--dark-bg);
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.contact-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: scale(1.1);
+}
+
+.size-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.size-table th,
+.size-table td {
+    padding: 10px 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.size-table th {
+    background: rgba(255, 20, 147, 0.1);
+    color: #ff1493;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.size-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.size-table tr:hover {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+.size-note {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .size-table th,
+    .size-table td {
+        padding: 6px 8px;
+        font-size: 0.85rem;
+    }
+}
+</style>
+{% endblock %}
