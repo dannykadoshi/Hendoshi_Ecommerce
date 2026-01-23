@@ -3092,12 +3092,19 @@ main {
 
 /* Logo Container - Top Center */
 .hero-logo-container {
-    position: absolute;
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     z-index: 10;
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.hero-logo-container:hover {
+    transform: translateY(-5px) scale(1.03);
+}
+
+.hero-logo-container:active {
+    transform: translateY(-2px) scale(1.01);
 }
 
 .hero-logo {
@@ -3371,14 +3378,14 @@ main {
 /* Bottom Controls Container */
 .hero-bottom-controls {
     position: absolute;
-    bottom: 25px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 15;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 0px;
 }
 
 /* Sleek CTA Button */
@@ -3517,10 +3524,10 @@ main {
         min-height: 81vh;
     }
 
-    /* Logo - smaller and positioned higher */
-    .hero-logo-container {
+    /* Logo - now positioned in bottom controls */
+    /* .hero-logo-container {
         top: 5%;
-    }
+    } */
 
     .hero-logo {
         max-width: 220px;
@@ -3569,8 +3576,8 @@ main {
 
     /* Bottom controls - adjust spacing */
     .hero-bottom-controls {
-        bottom: 25px;
-        gap: 15px;
+        bottom: 15px;
+        gap: 0px;
     }
 
     /* CTA Button - single line text on mobile */
@@ -3619,7 +3626,8 @@ main {
     }
 
     .hero-logo {
-        max-width: 160px;
+        max-width: 155px !important;
+        width: auto !important;
     }
 
     /* Vinyl Record button - even smaller on mobile */
@@ -3653,8 +3661,8 @@ main {
     }
 
     .hero-bottom-controls {
-        bottom: 18px;
-        gap: 8px;
+        bottom: 15px;
+        gap: 0px;
     }
 
     .hero-carousel-dot {
@@ -13636,6 +13644,20 @@ datalist option {
     background-clip: text;
 }
 
+.pug-skull-branding {
+    width: 80px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.3));
+    transition: transform 0.3s ease, filter 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.pug-skull-branding:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.5));
+}
+
 .vault-hero-subtitle {
     color: var(--off-white);
     font-size: 1.2rem;
@@ -13652,6 +13674,7 @@ datalist option {
 
 .vault-container {
     padding-top: 2rem;
+    padding-bottom: 4rem;
 }
 
 /* Mobile optimization for hero buttons */
@@ -13683,5 +13706,9 @@ datalist option {
         max-width: 250px;
         padding: 0.625rem 1.25rem;
         font-size: 0.85rem;
+    }
+    
+    .pug-skull-branding {
+        width: 60px;
     }
 }

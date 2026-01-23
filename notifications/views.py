@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 
-from .models import NotificationPreference
+from .models import NotificationPreference, NewsletterSubscriber
 from .forms import NotificationPreferenceForm
 from django.views.decorators.http import require_POST
 from django.utils import timezone
@@ -69,6 +69,7 @@ def notification_preferences(request):
     context = {
         'form': form,
         'preferences': prefs,
+        'newsletter_emails': [email.lower() for email in NewsletterSubscriber.objects.values_list('email', flat=True)],
     }
     return render(request, 'notifications/preferences.html', context)
 

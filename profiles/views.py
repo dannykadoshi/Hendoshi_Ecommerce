@@ -31,7 +31,7 @@ def profile(request):
 
     # Newsletter subscription presence
     from notifications.models import NewsletterSubscriber
-    newsletter_emails = list(NewsletterSubscriber.objects.values_list('email', flat=True))
+    newsletter_emails = [email.lower() for email in NewsletterSubscriber.objects.values_list('email', flat=True)]
 
     template = 'profiles/profile.html'
     context = {

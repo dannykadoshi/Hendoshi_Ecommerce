@@ -196,44 +196,14 @@
     <div class="hero-overlay-top"></div>
     <div class="hero-overlay-bottom"></div>
 
-    <!-- Logo at top center -->
-    <div class="hero-logo-container">
-        <picture>
-            <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
-            <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
-        </picture>
-    </div>
-
-    <!-- Bottom Controls: Vinyl Record Button + Navigation Dots -->
+    <!-- Bottom Controls: Logo + Navigation Dots -->
     <div class="hero-bottom-controls">
-        <!-- Pug Skull Vinyl Record CTA Button -->
-        <a href="{% url 'products' %}" class="vinyl-record-btn">
-            <!-- Spinning Vinyl with Text -->
-            <div class="vinyl-spinner">
-                <svg class="vinyl-svg" viewBox="0 0 200 200">
-                    <!-- Vinyl grooves -->
-                    <circle cx="100" cy="100" r="98" class="vinyl-edge"/>
-                    <circle cx="100" cy="100" r="90" class="vinyl-groove"/>
-                    <circle cx="100" cy="100" r="82" class="vinyl-groove"/>
-                    <circle cx="100" cy="100" r="74" class="vinyl-groove"/>
-                    <!-- Spinning text path -->
-                    <defs>
-                        <path id="textCircle" d="M 100,100 m -70,0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0"/>
-                    </defs>
-                    <text class="vinyl-text">
-                        <textPath href="#textCircle" startOffset="0%">
-                            BROWSE DESIGNS ★ BROWSE DESIGNS ★ BROWSE DESIGNS ★
-                        </textPath>
-                    </text>
-                </svg>
-            </div>
-            <!-- Record Label Center with Pug Skull -->
-            <div class="vinyl-label">
-                <picture>
-                    <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
-                    <img src="{% static 'images/pug-skull.png' %}" alt="Browse Designs" class="pug-skull-img">
-                </picture>
-            </div>
+        <!-- Hendoshi Logo -->
+        <a href="{% url 'products' %}" class="hero-logo-container">
+            <picture>
+                <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
+                <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
+            </picture>
         </a>
         <div class="hero-carousel-dots">
             <span class="hero-carousel-dot active" data-slide="0"></span>
