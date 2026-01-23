@@ -15,6 +15,13 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 
+def about(request):
+    """
+    About page describing the brand and community
+    """
+    return render(request, 'about.html')
+
+
 def collections(request):
     """
     Display all collections in a creative card layout

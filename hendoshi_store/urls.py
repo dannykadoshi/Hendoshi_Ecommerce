@@ -28,6 +28,7 @@ urlpatterns = [
     path('product-types/', views.product_types, name='product_types'),
     path('new-drops/', views.new_drops, name='new_drops'),
     path('privacy/', views.privacy, name='privacy'),
+    path('about/', views.about, name='about'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
