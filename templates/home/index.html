@@ -5,25 +5,9 @@
 
 {% block content %}
 
-<!-- Hero Section -->
+<!-- Hero Section - Full Width Immersive -->
 <section class="hero">
-    <!-- Content - Left side -->
-    <div class="hero-content text-center">
-        <picture>
-            <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
-            <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
-        </picture>
-        <picture>
-            <source srcset="{% static 'images/wear-your-weird.webp' %}" type="image/webp">
-            <img src="{% static 'images/wear-your-weird.png' %}" alt="Wear Your Weird" class="hero-slogan-static">
-        </picture>
-        <picture>
-            <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
-            <img src="{% static 'images/pug-skull.png' %}" alt="Pug Skull" class="hero-pug-skull">
-        </picture>
-        <a href="{% url 'products' %}" class="btn btn-pink btn-lg">BROWSE DESIGNS</a>
-    </div>
-    <!-- Background carousel - Right side -->
+    <!-- Full-width Background Carousel -->
     <div class="hero-carousel">
         <div class="carousel-slide active" style="background-image: url('{% static 'images/feed-my-demons-tee.webp' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'images/hendoshi-gothic-tee.webp' %}');"></div>
@@ -31,7 +15,34 @@
         <div class="carousel-slide" style="background-image: url('{% static 'images/dead-warpig-tee.webp' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'images/friends-festival-tee.webp' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'images/no-regrets-tee.webp' %}');"></div>
-        <!-- Navigation Dots -->
+    </div>
+
+    <!-- Dark gradient overlays for text legibility -->
+    <div class="hero-overlay-top"></div>
+    <div class="hero-overlay-bottom"></div>
+
+    <!-- Logo at top center -->
+    <div class="hero-logo-container">
+        <picture>
+            <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
+            <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
+        </picture>
+    </div>
+
+    <!-- Floating Pug Skull Mascot -->
+    <div class="hero-mascot">
+        <picture>
+            <source srcset="{% static 'images/pug-skull.webp' %}" type="image/webp">
+            <img src="{% static 'images/pug-skull.png' %}" alt="Pug Skull" class="hero-pug-skull">
+        </picture>
+    </div>
+
+    <!-- Bottom Controls: CTA Button + Navigation Dots -->
+    <div class="hero-bottom-controls">
+        <a href="{% url 'products' %}" class="hero-cta-btn">
+            <span>BROWSE DESIGNS</span>
+            <i class="fas fa-arrow-right"></i>
+        </a>
         <div class="hero-carousel-dots">
             <span class="hero-carousel-dot active" data-slide="0"></span>
             <span class="hero-carousel-dot" data-slide="1"></span>

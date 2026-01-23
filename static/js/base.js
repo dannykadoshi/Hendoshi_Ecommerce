@@ -115,7 +115,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 document.addEventListener('DOMContentLoaded', function() {
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.hero-carousel-dot');
-    const ctaButton = document.querySelector('.hero-content .btn-pink');
+    const ctaButton = document.querySelector('.hero-cta-btn');
 
     if (slides.length === 0) return;
     let currentSlide = 0;

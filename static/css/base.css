@@ -1355,9 +1355,26 @@ body {
     transition: all 0.3s ease;
 }
 
+/* Style the skull icon in the logo to match the text */
+.logo-text .fa-skull {
+    background: linear-gradient(135deg, #fff 0%, var(--neon-pink) 50%, var(--electric-yellow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+    font-size: inherit;
+    vertical-align: baseline;
+    margin: 0 1px;
+    transform: translateY(1px);
+}
+
 .logo-text:hover {
     filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
     transform: scale(1.02);
+}
+
+.logo-text:hover .fa-skull {
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
 }
 
 /* Add subtle animation to logo */
@@ -1368,6 +1385,11 @@ body {
 }
 
 .navbar-brand:hover .logo-text {
+    background-size: 200% 200%;
+    animation: logo-shimmer 2s ease infinite;
+}
+
+.navbar-brand:hover .logo-text .fa-skull {
     background-size: 200% 200%;
     animation: logo-shimmer 2s ease infinite;
 }
@@ -2817,20 +2839,20 @@ main {
     padding-top: 0;
 }
 
-/* Hero Section - Split Layout (Option 1) */
+/* ============================================
+   HERO SECTION - Full Width Immersive Layout
+   ============================================ */
 .hero {
     margin-top: 76px;
     min-height: 90vh;
-    display: flex;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero-background {
-    display: none;
-}
-
-/* Background carousel - Full width positioned behind */
+/* Full-width Background Carousel */
 .hero-carousel {
     position: absolute;
     top: 0;
@@ -2840,260 +2862,166 @@ main {
     z-index: 1;
 }
 
-/* Ken Burns effect on carousel slides - improved: use cover + transform */
+/* Carousel slides with Ken Burns effect - fixed to prevent black gaps */
 .carousel-slide {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover; /* ensure the image always fills the container */
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #0b0b0b; /* dark fallback while images animate */
+    background-color: #0a0a0a;
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
-    transform: scale(1);
-    transform-origin: center center;
     will-change: transform, opacity;
-    animation: kenBurns 8s ease-in-out infinite alternate;
+    animation: kenBurns 10s ease-in-out infinite alternate;
 }
 
 .carousel-slide.active {
     opacity: 1;
 }
 
-/* Ken Burns zoom and pan effect using transforms (avoids background-size gaps) */
+/* Ken Burns zoom effect - subtle and smooth */
 @keyframes kenBurns {
     0% {
-        transform: scale(1.05) translateY(-3%);
+        transform: scale(1) translate(0, 0);
     }
     100% {
-        transform: scale(1.12) translateY(3%);
+        transform: scale(1.08) translate(-1%, 1%);
     }
 }
 
-/* Alternate Ken Burns directions for variety */
 .carousel-slide:nth-child(2n) {
-    animation: kenBurns2 8s ease-in-out infinite alternate;
+    animation: kenBurns2 10s ease-in-out infinite alternate;
 }
 
 @keyframes kenBurns2 {
     0% {
-        transform: scale(1.07) translateX(-3%);
+        transform: scale(1.02) translate(1%, 0);
     }
     100% {
-        transform: scale(1.13) translateX(3%);
+        transform: scale(1.1) translate(-1%, 1%);
     }
 }
 
 .carousel-slide:nth-child(3n) {
-    animation: kenBurns3 8s ease-in-out infinite alternate;
+    animation: kenBurns3 10s ease-in-out infinite alternate;
 }
 
 @keyframes kenBurns3 {
     0% {
-        background-size: 110%;
-        background-position: right top;
+        transform: scale(1.03) translate(0, 1%);
     }
     100% {
-        background-size: 125%;
-        background-position: left bottom;
+        transform: scale(1.09) translate(1%, -1%);
     }
 }
 
-/* Carousel navigation dots */
-.hero-carousel-dots {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 15;
-    display: flex;
-    gap: 12px;
-}
-
-.hero-carousel-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.hero-carousel-dot:hover {
-    background: rgba(255, 255, 255, 0.5);
-    transform: scale(1.2);
-}
-
-.hero-carousel-dot.active {
-    background: var(--neon-pink);
-    border-color: var(--neon-pink);
-    box-shadow: 0 0 15px var(--neon-pink), 0 0 30px rgba(255, 20, 147, 0.5);
-    transform: scale(1.1);
-}
-
-/* Hero Content - Glassmorphic panel with animated border */
-.hero-content {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 32%;
-    width: 32%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 2rem;
-    align-self: stretch;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow:
-        inset 0 0 60px rgba(255, 20, 147, 0.1),
-        20px 0 60px rgba(0, 0, 0, 0.5);
-}
-
-/* Animated gradient border on right edge */
-.hero-content::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(
-        180deg,
-        transparent 0%,
-        var(--neon-pink) 20%,
-        var(--electric-yellow) 50%,
-        var(--neon-pink) 80%,
-        transparent 100%
-    );
-    animation: borderFlow 3s linear infinite;
-}
-
-@keyframes borderFlow {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 0 200%;
-    }
-}
-
-/* Glowing accent at top of content panel */
-.hero-content::before {
-    content: '';
+/* Dark gradient overlays for text legibility */
+.hero-overlay-top {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--neon-pink), var(--electric-yellow), var(--neon-pink), transparent);
-    animation: shimmer 2s ease-in-out infinite;
+    height: 40%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
 }
 
-@keyframes shimmer {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
+.hero-overlay-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
 }
 
-/* Staggered entrance animations for hero elements */
-@keyframes heroFadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes heroFadeInScale {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.hero-title {
-    font-size: 6rem;
-    font-weight: 900;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: none;
-    margin-bottom: 1rem;
+/* Logo Container - Top Center */
+.hero-logo-container {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
 }
 
 .hero-logo {
-    max-width: 380px;
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
-    animation: heroFadeInScale 0.8s ease-out forwards, glitch-logo 4s ease-in-out infinite;
-    animation-delay: 0.2s, 1s;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-}
-
-@keyframes glitch {
-    0%, 100% { text-shadow: 5px 5px 0 var(--neon-pink); }
-    25% { text-shadow: -5px 5px 0 var(--electric-yellow); }
-    50% { text-shadow: 5px -5px 0 var(--neon-pink); }
-    75% { text-shadow: -5px -5px 0 var(--electric-yellow); }
-}
-
-@keyframes glitch-logo {
-    0%, 90%, 100% {
-        filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
-    }
-    92% {
-        filter: drop-shadow(-3px 0 20px rgba(255, 255, 0, 0.8)) drop-shadow(3px 0 0 rgba(255, 20, 147, 0.8));
-    }
-    94% {
-        filter: drop-shadow(3px 0 20px rgba(255, 20, 147, 0.8)) drop-shadow(-3px 0 0 rgba(255, 255, 0, 0.8));
-    }
-    96% {
-        filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.9));
-    }
-}
-
-/* Static slogan image with entrance animation */
-.hero-slogan-static {
     max-width: 320px;
-    width: 100%;
+    width: 90vw;
     height: auto;
-    display: block;
-    margin: 0 auto 1.5rem;
-    animation: heroFadeInUp 0.8s ease-out forwards;
-    animation-delay: 0.5s;
+    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.7));
+    animation: heroLogoEntrance 1s ease-out forwards, glitchLogo 4s ease-in-out infinite;
+    animation-delay: 0.2s, 1.5s;
     opacity: 0;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
-/* Pug skull image with enhanced animations */
+@keyframes heroLogoEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes glitchLogo {
+    0%, 85%, 100% {
+        filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.7));
+    }
+    87% {
+        filter: drop-shadow(-4px 0 25px rgba(255, 255, 0, 0.9)) drop-shadow(4px 0 0 rgba(255, 20, 147, 1));
+    }
+    89% {
+        filter: drop-shadow(4px 0 25px rgba(255, 20, 147, 0.9)) drop-shadow(-4px 0 0 rgba(255, 255, 0, 1));
+    }
+    91% {
+        filter: drop-shadow(-3px 0 20px rgba(255, 255, 0, 0.8)) drop-shadow(3px 0 0 rgba(255, 20, 147, 0.9));
+    }
+    93% {
+        filter: drop-shadow(0 0 35px rgba(255, 20, 147, 1));
+    }
+}
+
+/* Floating Pug Skull Mascot - Centered below logo */
+.hero-mascot {
+    position: absolute;
+    top: 24%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
 .hero-pug-skull {
-    max-width: 100px;
+    max-width: 90px;
     width: 100%;
     height: auto;
-    display: block;
-    margin: 0 auto 2rem;
-    filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.6));
-    animation: heroFadeInScale 0.6s ease-out forwards, pugFloat 3s ease-in-out infinite, pugGlow 2s ease-in-out infinite;
-    animation-delay: 0.8s, 1.4s, 1.4s;
+    filter:
+        drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
+        drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))
+        drop-shadow(0 0 20px rgba(204, 255, 0, 0.7));
+    animation: heroMascotEntrance 0.8s ease-out forwards, pugFloat 4s ease-in-out infinite, pugGlow 3s ease-in-out infinite;
+    animation-delay: 0.6s, 1.5s, 1.5s;
     opacity: 0;
+}
+
+@keyframes heroMascotEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-20deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
 }
 
 @keyframes pugFloat {
@@ -3101,225 +3029,290 @@ main {
         transform: translateY(0) rotate(0deg);
     }
     25% {
-        transform: translateY(-10px) rotate(2deg);
+        transform: translateY(-12px) rotate(3deg);
     }
     50% {
-        transform: translateY(-15px) rotate(0deg);
+        transform: translateY(-18px) rotate(0deg);
     }
     75% {
-        transform: translateY(-10px) rotate(-2deg);
+        transform: translateY(-12px) rotate(-3deg);
     }
 }
 
 @keyframes pugGlow {
     0%, 100% {
-        filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.6));
+        filter:
+            drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
+            drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))
+            drop-shadow(0 0 20px rgba(204, 255, 0, 0.7));
     }
     50% {
-        filter: drop-shadow(0 0 25px rgba(0, 255, 0, 0.9)) drop-shadow(0 0 40px rgba(0, 255, 0, 0.4));
+        filter:
+            drop-shadow(0 0 1px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 3px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 35px rgba(204, 255, 0, 1))
+            drop-shadow(0 0 50px rgba(204, 255, 0, 0.5));
     }
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+/* Bottom Controls Container */
+.hero-bottom-controls {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-@keyframes flash-green {
-    0%, 100% { filter: drop-shadow(0 0 0 transparent); }
-    50% { filter: drop-shadow(0 0 15px #00ff00); }
-}
-
-.hero-slogan {
-    font-size: 3rem;
-    color: var(--neon-pink);
-    font-weight: 700;
+/* Sleek CTA Button */
+.hero-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 32px;
+    background: rgba(255, 20, 147, 0.9);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 1rem;
-}
-
-.hero-subtitle {
-    font-size: 1.3rem;
-    margin-bottom: 3rem;
-    font-weight: 300;
-    color: #FFFFFF !important;
-}
-
-/* Hero CTA Button with glow and pulse */
-.hero-content .btn-pink {
-    animation: heroFadeInUp 0.8s ease-out forwards;
-    animation-delay: 1.1s;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-radius: 50px;
+    border: 2px solid var(--neon-pink);
+    box-shadow:
+        0 0 20px rgba(255, 20, 147, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    animation: ctaEntrance 0.8s ease-out forwards, ctaPulse 2.5s ease-in-out infinite;
+    animation-delay: 0.8s, 2s;
     opacity: 0;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
-    transition: all 0.3s ease;
 }
 
-.hero-content .btn-pink::before {
+@keyframes ctaEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ctaPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 20px rgba(255, 20, 147, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 0 35px rgba(255, 20, 147, 0.7),
+            0 0 60px rgba(255, 20, 147, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+}
+
+.hero-cta-btn::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-    );
-    animation: buttonShine 3s ease-in-out infinite;
-    animation-delay: 2s;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: btnShine 3s ease-in-out infinite;
+    animation-delay: 2.5s;
 }
 
-@keyframes buttonShine {
+@keyframes btnShine {
     0% { left: -100%; }
     50%, 100% { left: 100%; }
 }
 
-.hero-content .btn-pink:hover {
-    box-shadow: 0 0 30px rgba(255, 20, 147, 0.6), 0 0 60px rgba(255, 20, 147, 0.3);
-    transform: translateY(-5px) scale(1.02);
+.hero-cta-btn:hover {
+    background: var(--electric-yellow);
+    color: #000;
+    border-color: var(--electric-yellow);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow:
+        0 0 40px rgba(255, 255, 0, 0.6),
+        0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Subtle pulsing glow on CTA */
-@keyframes ctaPulse {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
-    }
-    50% {
-        box-shadow: 0 0 35px rgba(255, 20, 147, 0.6), 0 0 50px rgba(255, 20, 147, 0.2);
-    }
+.hero-cta-btn i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
 }
 
-.hero-content .btn-pink.loaded {
-    animation: ctaPulse 2s ease-in-out infinite;
+.hero-cta-btn:hover i {
+    transform: translateX(5px);
 }
 
-/* Mobile: stack hero content above the carousel to avoid overlap */
+/* Navigation Dots - Sleek horizontal line */
+.hero-carousel-dots {
+    display: flex;
+    gap: 10px;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(1.2);
+}
+
+.hero-carousel-dot.active {
+    background: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+    transform: scale(1.1);
+}
+
+/* Legacy classes - hide unused elements */
+.hero-content,
+.hero-slogan-static,
+.hero-background {
+    display: none;
+}
+
+/* ============================================
+   HERO SECTION - Mobile Responsive
+   ============================================ */
 @media (max-width: 768px) {
     .hero {
         margin-top: 56px;
-        display: block; /* stack children vertically */
-        min-height: auto;
-        overflow: hidden;
+        min-height: 85vh;
     }
 
-    .hero-content {
-        position: relative;
-        z-index: 20;
-        width: 100%;
-        max-width: 100%;
-        padding: 2rem 1.5rem;
-        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 100%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-right: none;
-        box-shadow: none;
-        align-items: center;
-        text-align: center;
+    /* Logo - smaller and positioned higher */
+    .hero-logo-container {
+        top: 5%;
     }
 
-    /* place carousel after content in flow (not absolutely behind) */
-    .hero-carousel {
-        position: relative;
-        top: auto;
-        left: auto;
-        width: 100%;
-        height: 45vh; /* slightly taller on mobile */
-        z-index: 10;
-        margin-top: 0;
-        border-radius: 0;
+    .hero-logo {
+        max-width: 220px;
     }
 
-    /* carousel slides still cover carousel container but will not overlap content */
+    /* Pug skull - centered below logo on mobile */
+    .hero-mascot {
+        top: 28%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .hero-pug-skull {
+        max-width: 55px;
+    }
+
+    /* Overlays - stronger for mobile readability */
+    .hero-overlay-top {
+        height: 35%;
+        background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    }
+
+    .hero-overlay-bottom {
+        height: 45%;
+        background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+    }
+
+    /* Bottom controls - adjust spacing */
+    .hero-bottom-controls {
+        bottom: 25px;
+        gap: 15px;
+    }
+
+    /* CTA Button - single line text on mobile */
+    .hero-cta-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        letter-spacing: 1.5px;
+        white-space: nowrap;
+    }
+
+    /* Dots container - more compact */
+    .hero-carousel-dots {
+        padding: 6px 12px;
+        gap: 8px;
+    }
+
+    .hero-carousel-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    /* Carousel - gentler animations for performance */
     .carousel-slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        will-change: transform, opacity;
-        /* much gentler transform on mobile */
+        top: -3%;
+        left: -3%;
+        width: 106%;
+        height: 106%;
         animation: kenBurnsMobile 12s ease-in-out infinite alternate;
     }
 
     @keyframes kenBurnsMobile {
-        0% { transform: scale(1.02) translateY(0); }
-        100% { transform: scale(1.06) translateY(0); }
+        0% { transform: scale(1) translate(0, 0); }
+        100% { transform: scale(1.04) translate(-0.5%, 0.5%); }
     }
 
-    /* hide decorative borders/shimmers to save CPU */
-    .hero-content::after, .hero-content::before { display: none; }
+    .carousel-slide:nth-child(2n),
+    .carousel-slide:nth-child(3n) {
+        animation: kenBurnsMobile 12s ease-in-out infinite alternate;
+    }
+}
 
-    /* Show dots on mobile but simplified */
-    .hero-carousel-dots {
-        display: flex;
-        bottom: 15px;
-        gap: 10px;
+/* Extra small devices (480px and below) */
+@media (max-width: 480px) {
+    .hero {
+        min-height: 80vh;
+    }
+
+    .hero-logo {
+        max-width: 160px;
+    }
+
+    .hero-mascot {
+        top: 26%;
+    }
+
+    .hero-pug-skull {
+        max-width: 45px;
+    }
+
+    .hero-cta-btn {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .hero-bottom-controls {
+        bottom: 20px;
+        gap: 12px;
     }
 
     .hero-carousel-dot {
-        width: 10px;
-        height: 10px;
-    }
-
-    /* simplify logos and buttons with better sizing */
-    .hero-logo {
-        max-width: 240px;
-        margin-bottom: 1rem;
-        opacity: 1;
-        animation: heroFadeInScale 0.6s ease-out forwards;
-        animation-delay: 0.1s;
-    }
-    .hero-slogan-static {
-        max-width: 240px;
-        margin-bottom: 1rem;
-        opacity: 1;
-        animation: heroFadeInUp 0.6s ease-out forwards;
-        animation-delay: 0.3s;
-    }
-    .hero-pug-skull {
-        max-width: 65px;
-        margin-bottom: 1.25rem;
-        opacity: 1;
-        animation: heroFadeInScale 0.5s ease-out forwards, pugFloat 3s ease-in-out infinite;
-        animation-delay: 0.5s, 1s;
-    }
-    .hero-content .btn-pink {
-        animation: heroFadeInUp 0.6s ease-out forwards;
-        animation-delay: 0.7s;
-        padding: 0.875rem 2rem;
-        font-size: 1rem;
-    }
-    .hero-title { font-size: 2rem; }
-    .hero-slogan { font-size: 1.4rem; }
-    .hero-subtitle { font-size: 1rem; margin-bottom: 1rem; }
-}
-
-/* Extra small mobile devices */
-@media (max-width: 480px) {
-    .hero-content {
-        padding: 1.5rem 1rem;
-    }
-    .hero-logo {
-        max-width: 200px;
-    }
-    .hero-slogan-static {
-        max-width: 200px;
-    }
-    .hero-pug-skull {
-        max-width: 55px;
-    }
-    .hero-carousel {
-        height: 40vh;
-    }
-    .hero-content .btn-pink {
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
+        width: 8px;
+        height: 8px;
     }
 }
 
