@@ -6,13 +6,13 @@
 {% block content %}
 <div class="profile-page">
     <!-- Notification Preferences Hero -->
-    <section class="profile-hero">
+    <section class="vault-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="profile-hero-title">Notification Preferences</h1>
-                    <p class="profile-hero-subtitle">Control how you receive alerts and updates</p>
+                    <h1 class="vault-hero-title">Notification Preferences</h1>
+                    <p class="vault-hero-subtitle">Control how you receive alerts and updates</p>
                     <div class="mt-4 d-flex justify-content-center">
                         <a href="{% url 'profile' %}" class="btn btn-pink w-sm-auto notifications-btn-mobile">
                             <i class="fas fa-arrow-left me-2"></i>Back to Profile
@@ -146,100 +146,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .notification-section {
-        padding: 16px;
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 20, 147, 0.1);
-        border-radius: 12px;
-    }
-
-    .form-check-input:checked {
-        background-color: var(--neon-pink);
-        border-color: var(--neon-pink);
-    }
-
-    .form-check-input:focus {
-        border-color: var(--neon-pink);
-        box-shadow: 0 0 0 0.25rem rgba(255, 45, 161, 0.25);
-    }
-
-    .form-switch .form-check-input {
-        width: 3em;
-        height: 1.5em;
-    }
-
-    #notificationOptions {
-        transition: opacity 0.3s ease;
-    }
-
-    #notificationOptions.disabled {
-        opacity: 0.5;
-        pointer-events: none;
-    }
-
-    .text-pink {
-        color: var(--neon-pink) !important;
-    }
-
-    /* Profile Page Hero Styles */
-    .profile-page {
-        min-height: 100vh;
-        padding-top: 120px;
-    }
-
-    .profile-hero {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 4rem 0;
-        margin-top: -20px;
-        margin-bottom: 2rem;
-    }
-
-    .profile-hero-title {
-        font-size: 3rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .profile-hero-subtitle {
-        font-size: 1.2rem;
-        color: #ccc;
-        margin-bottom: 0;
-    }
-
-    @media (max-width: 768px) {
-        .profile-hero-title {
-            font-size: 2.5rem;
-        }
-        .profile-hero {
-            padding: 3rem 0;
-        }
-
-        /* Mobile styling for notification preferences buttons */
-        .notification-btn-mobile {
-            width: 100%;
-            max-width: 280px;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.9rem;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .profile-hero-title {
-            font-size: 2rem;
-        }
-    }
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

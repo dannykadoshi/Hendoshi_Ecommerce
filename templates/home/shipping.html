@@ -7,13 +7,13 @@
 <div class="contact-page">
     <div class="container-fluid">
         <!-- Shipping Hero -->
-        <section class="contact-hero">
+        <section class="vault-hero">
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
                         <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                        <h1 class="contact-title">Shipping Information</h1>
-                        <p class="contact-subtitle">Fast, reliable delivery worldwide.</p>
+                        <h1 class="vault-hero-title">Shipping Information</h1>
+                        <p class="vault-hero-subtitle">Fast, reliable delivery worldwide.</p>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
         <section class="contact-form-section py-5">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-10 col-xl-8">
+                    <div class="col-12">
                         <div class="contact-card">
                             <!-- Close Button -->
                             <button type="button" class="contact-close-btn" onclick="history.back()" title="Close">
@@ -161,86 +161,5 @@
         </section>
     </div>
 </div>
-
-<style>
-.contact-hero {
-    position: relative;
-    padding: 8rem 0 4rem;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
-    overflow: hidden;
-    margin-top: 76px;
-}
-
-.contact-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 1;
-}
-
-.contact-title {
-    font-size: 3rem;
-    font-weight: 900;
-    text-transform: none;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 2;
-}
-
-.contact-subtitle {
-    font-size: 1.2rem;
-    color: var(--off-white);
-    opacity: 0.9;
-    position: relative;
-    z-index: 2;
-}
-
-.contact-form-section {
-    background: var(--dark-bg);
-}
-
-.contact-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.contact-close-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: transparent;
-    border: none;
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    line-height: 1;
-    transition: color 0.3s, transform 0.2s;
-    z-index: 10;
-}
-
-.contact-close-btn:hover {
-    color: var(--electric-yellow);
-    transform: scale(1.1);
-}
-</style>
 
 {% endblock %}

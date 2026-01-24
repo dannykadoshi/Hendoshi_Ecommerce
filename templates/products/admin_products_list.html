@@ -3,389 +3,6 @@
 
 {% block extra_title %}Admin Products{% endblock %}
 
-{% block extra_css %}
-<style>
-/* Vault Page Hero Styles */
-.vault-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.vault-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
-.vault-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.vault-hero-subtitle {
-    color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-.vault-container {
-    padding-top: 2rem;
-}
-
-/* Mobile optimization for hero buttons */
-@media (max-width: 768px) {
-    .vault-hero .d-flex {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem !important;
-    }
-    
-    .vault-hero .btn {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-
-    /* Apply same mobile styling to filter button */
-    .filter-btn-mobile {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-
-    /* Apply same mobile styling to clear button */
-    .clear-btn-mobile {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .vault-hero-title {
-        font-size: 2rem;
-    }
-    
-    .vault-hero-subtitle {
-        font-size: 1rem;
-    }
-    
-    .vault-hero .btn {
-        max-width: 250px;
-        padding: 0.625rem 1.25rem;
-        font-size: 0.85rem;
-    }
-}
-
-/* Glassmorphism auth-card styles */
-.auth-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-/* Mobile Card Styles */
-@media (max-width: 768px) {
-    .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        color: var(--off-white);
-        margin-bottom: 0.75rem;
-    }
-
-    .card-body {
-        padding: 0.75rem;
-    }
-
-    .card-title {
-        font-size: 1rem;
-        line-height: 1.3;
-        color: var(--off-white);
-        margin-bottom: 0.5rem;
-    }
-
-    .card-title strong {
-        color: var(--off-white);
-    }
-
-    .text-muted {
-        color: #ff6b6b !important;
-    }
-
-    .badge {
-        color: var(--off-white);
-    }
-
-    .btn-group-vertical .btn {
-        margin-bottom: 0.125rem;
-        border-radius: 6px;
-    }
-
-    .btn-group-vertical .btn:last-child {
-        margin-bottom: 0;
-    }
-
-    /* Match desktop button colors */
-    .btn-outline-info {
-        color: #0dcaf0;
-        border-color: #0dcaf0;
-        background: transparent;
-    }
-
-    .btn-outline-info:hover {
-        color: #000;
-        background-color: #0dcaf0;
-        border-color: #0dcaf0;
-    }
-
-    .btn-outline-primary {
-        color: #0d6efd;
-        border-color: #0d6efd;
-        background: transparent;
-    }
-
-    .btn-outline-primary:hover {
-        color: #fff;
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-    }
-
-    .btn-outline-success {
-        color: #198754;
-        border-color: #198754;
-        background: transparent;
-    }
-
-    .btn-outline-success:hover {
-        color: #fff;
-        background-color: #198754;
-        border-color: #198754;
-    }
-
-    .btn-outline-danger {
-        color: #dc3545;
-        border-color: #dc3545;
-        background: transparent;
-    }
-
-    .btn-outline-danger:hover {
-        color: #fff;
-        background-color: #dc3545;
-        border-color: #dc3545;
-    }
-}
-
-/* Product Thumbnail Styles */
-.product-thumbnail {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.product-thumbnail-mobile {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.no-image-placeholder {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-@media (max-width: 576px) {
-    .card-body {
-        padding: 0.75rem;
-    }
-
-    .card-title {
-        font-size: 0.9rem;
-    }
-
-    .btn-group-vertical .btn {
-        padding: 0.375rem 0.5rem;
-        font-size: 0.75rem;
-    }
-
-    .product-thumbnail-mobile {
-        width: 35px;
-        height: 35px;
-    }
-}
-</style>
-<!-- Make product cards fill more of the auth-card on mobile -->
-<style>
-/* Clear button uses global .btn-clear-ghost in base.css */
-
-@media (max-width: 768px) {
-    /* Reduce outer auth-card horizontal padding so cards can reach closer to the border */
-    .admin-products-container .auth-card {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
-
-    /* Reduce column gutters inside the admin area */
-    .admin-products-container .row.g-3 {
-        --bs-gutter-x: 0.5rem;
-        --bs-gutter-y: 0.5rem;
-    }
-
-    /* Make each column use minimal side padding so cards are wider */
-    .admin-products-container [class*="col-"] {
-        padding-left: 0.25rem !important;
-        padding-right: 0.25rem !important;
-    }
-
-    /* Let cards span the full width available within their column */
-    .admin-products-container .card {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 100% !important;
-    }
-
-    /* Slightly reduce internal card padding to fit more content */
-    .admin-products-container .card-body {
-        padding: 0.5rem !important;
-    }
-
-    /* Filter + Clear buttons: place them side-by-side on mobile and center within their column */
-    .admin-products-container .col-md-3 > .d-flex.flex-column {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 0.5rem !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-
-    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
-    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-sizing: border-box !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-    }
-
-    /* Give filter more flex space and clear a smaller share so they fit side-by-side */
-    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile {
-        flex: 3 1 60% !important;
-        padding: 0.6rem 0.9rem !important;
-        font-weight: 800 !important;
-    }
-
-    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
-        flex: 1 1 35% !important;
-        padding: 0.45rem 0.7rem !important;
-    }
-
-    /* Ensure they align with card edges and do not overflow */
-    .admin-products-container .auth-card,
-    .admin-products-container .auth-card .row {
-        overflow: hidden;
-    }
-
-    /* Make bulk action buttons align with inner card edges and size evenly */
-    .admin-products-container .mt-3.d-flex {
-        flex-direction: column !important;
-        gap: 0.75rem;
-        align-items: stretch;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .admin-products-container .mt-3.d-flex > div:first-child {
-        display: flex;
-        gap: 0.75rem;
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .admin-products-container .mt-3.d-flex > div:first-child .btn {
-        flex: 1 1 0;
-        min-width: 0;
-        padding: 0.75rem 1rem;
-    }
-
-    .admin-products-container .mt-3.d-flex > div:first-child .btn + .btn {
-        margin-left: 0 !important;
-    }
-}
-
-/* Desktop: place Filter and Clear side-by-side inside their column and prevent overflow */
-@media (min-width: 768px) {
-    /* target the specific button wrapper column */
-    .admin-products-container .col-md-3 > .d-flex.flex-column {
-        flex-direction: row !important;
-        gap: 0.75rem !important;
-        justify-content: flex-end !important;
-        align-items: center !important;
-    }
-
-    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
-    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        min-width: 0 !important;
-    }
-
-    /* give them relative flex sizes so both fit inside the column */
-    .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile {
-        flex: 2 1 60% !important;
-        padding: 0.6rem 0.9rem !important;
-        font-weight: 800 !important;
-    }
-
-    .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
-        flex: 1 1 35% !important;
-        padding: 0.5rem 0.8rem !important;
-    }
-
-    /* ensure buttons don't cause the auth-card to overflow */
-    .admin-products-container .auth-card,
-    .admin-products-container .auth-card .row {
-        overflow: hidden;
-    }
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="vault-page">
     <!-- Products Management Hero -->
@@ -457,7 +74,7 @@
                 </form>
 
                 <!-- Bulk Actions Form -->
-                <form id="bulk-action-form" method="POST" action="">
+                <form id="bulk-action-form" method="POST" action="{% url 'admin_bulk_archive_products' %}">
                     {% csrf_token %}
                     <input type="hidden" name="action" id="bulk-action" value="">
 
@@ -698,10 +315,13 @@
 </div>
 
 <script>
-document.getElementById('select-all').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.product-checkbox');
-    checkboxes.forEach(cb => cb.checked = this.checked);
-});
+const selectAllEl = document.getElementById('select-all');
+if (selectAllEl) {
+    selectAllEl.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.product-checkbox');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+}
 
 function submitBulkAction(action) {
     const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
@@ -730,6 +350,13 @@ function showBulkDeleteModal(checkedBoxes) {
     // Update count
     countElement.textContent = checkedBoxes.length;
     
+    // Clear any previous hidden inputs in the bulk-delete form
+    const bulkDeleteForm = document.getElementById('bulk-delete-form');
+    if (bulkDeleteForm) {
+        const previousInputs = bulkDeleteForm.querySelectorAll('input[name="product_ids"]');
+        previousInputs.forEach(i => i.remove());
+    }
+
     // Add each selected product to the list
     checkedBoxes.forEach(checkbox => {
         const row = checkbox.closest('tr') || checkbox.closest('.card');
@@ -774,11 +401,13 @@ function showBulkDeleteModal(checkedBoxes) {
         productList.appendChild(productItem);
         
         // Also add to hidden form
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'product_ids';
-        hiddenInput.value = checkbox.value;
-        document.getElementById('bulk-delete-form').appendChild(hiddenInput);
+        if (bulkDeleteForm) {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'product_ids';
+            hiddenInput.value = checkbox.value;
+            bulkDeleteForm.appendChild(hiddenInput);
+        }
     });
     
     // Show modal

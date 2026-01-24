@@ -4,20 +4,34 @@
 {% block extra_title %}Sign Out{% endblock %}
 
 {% block content %}
-<div class="container auth-page">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="auth-card text-center">
-                <i class="fas fa-sign-out-alt fa-4x auth-icon"></i>
-                <h1 class="auth-title">SIGN OUT</h1>
-                
-                <p class="mb-4 auth-message">Are you sure you want to sign out?</p>
-                
-                <form method="post" action="{% url 'account_logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-pink btn-lg w-100 mb-3">YES, SIGN OUT</button>
-                    <a href="{% url 'home' %}" class="btn btn-outline-pink w-100">CANCEL</a>
-                </form>
+<div class="auth-page">
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Sign Out</h1>
+                    <p class="vault-hero-subtitle">Come back anytime — we'll be here</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="vault-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="auth-card text-center">
+                        <i class="fas fa-sign-out-alt fa-4x auth-icon"></i>
+                        <p class="mb-4 auth-message">Are you sure you want to sign out?</p>
+
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-pink btn-lg w-100 mb-3">YES, SIGN OUT</button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-pink w-100">CANCEL</a>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

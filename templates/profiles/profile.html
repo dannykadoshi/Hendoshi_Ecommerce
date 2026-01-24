@@ -6,13 +6,13 @@
 {% block content %}
 <div class="profile-page">
     <!-- Profile Hero -->
-    <section class="profile-hero">
+    <section class="vault-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="profile-hero-title">My Profile</h1>
-                    <p class="profile-hero-subtitle">Manage your account, addresses, and preferences</p>
+                    <h1 class="vault-hero-title">My Profile</h1>
+                    <p class="vault-hero-subtitle">Manage your account, addresses, and preferences</p>
                     <div class="mt-4 d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
                         <a href="{% url 'order_history' %}" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">
                             <i class="fas fa-history me-2"></i>View Order History
@@ -209,61 +209,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-
-<style>
-/* Profile Page Hero Styles */
-.profile-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.profile-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 2rem;
-}
-
-.profile-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.profile-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
-}
-
-@media (max-width: 768px) {
-    .profile-hero-title {
-        font-size: 2.5rem;
-    }
-    .profile-hero {
-        padding: 3rem 0;
-    }
-
-    /* Mobile styling for profile hero buttons */
-    .profile-btn-mobile {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .profile-hero-title {
-        font-size: 2rem;
-    }
-}
-</style>
 {% endblock %}

@@ -4,10 +4,24 @@
 {% block extra_title %}Sign Up{% endblock %}
 
 {% block content %}
-<div class="container auth-page">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="auth-card">
+<div class="auth-page">
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Join HENDOSHI</h1>
+                    <p class="vault-hero-subtitle">Create your account and start your journey</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="vault-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="auth-card">
                 <h1 class="auth-title">SIGN UP</h1>
                 
                 {% if form.non_field_errors %}
@@ -140,6 +154,8 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
         </div>
     </div>
 </div>

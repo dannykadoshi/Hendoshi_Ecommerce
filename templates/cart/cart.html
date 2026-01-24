@@ -7,13 +7,13 @@
 
 <div class="cart-page">
     <!-- Cart Hero -->
-    <section class="cart-hero">
+    <section class="vault-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="cart-hero-title">Shopping Cart</h1>
-                    <p class="cart-hero-subtitle">Review your items before checkout</p>
+                    <h1 class="vault-hero-title">Shopping Cart</h1>
+                    <p class="vault-hero-subtitle">Review your items before checkout</p>
                     {% if cart_items %}
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="cart-hero-stat">
@@ -29,7 +29,8 @@
         </div>
     </section>
 
-    <div class="container cart-container">
+    <div class="container-fluid vault-container mt-5 mb-5">
+        <div class="container cart-container">
 
         {% if cart_items %}
             <!-- Cart Items Section -->
@@ -173,164 +174,8 @@
             </div>
         {% endif %}
 
+        </div>
     </div>
-</div>
-
-<style>
-/* Cart Page Hero Styles - Override base.css */
-.cart-page {
-    min-height: 100vh !important;
-    padding-top: 120px !important;
-    margin-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.cart-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
-.cart-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.cart-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
-}
-
-.cart-hero-stat {
-    color: #ccc;
-    font-size: 1rem;
-}
-
-.cart-hero-stat i {
-    color: var(--neon-pink);
-    margin-right: 0.5rem;
-}
-
-.cart-container {
-    padding-top: 2rem;
-}
-
-/* Ensure row supports sticky positioning */
-.cart-container .row {
-    align-items: flex-start;
-}
-
-/* Cart Summary Glassmorphic Enhancement */
-.cart-summary {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 2rem;
-}
-
-/* Sticky Order Summary on Desktop */
-@media (min-width: 992px) {
-    .cart-summary-wrapper {
-        position: sticky;
-        top: 140px;
-        align-self: flex-start;
-    }
-}
-
-.summary-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    color: var(--neon-pink);
-}
-
-/* Cart Items Section Enhancement */
-.cart-items-section {
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.cart-item {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-}
-
-.cart-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 105, 180, 0.2);
-}
-
-/* Empty Cart Enhancement */
-.empty-cart {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.empty-cart-icon {
-    color: var(--neon-pink);
-    opacity: 0.5;
-    margin-bottom: 2rem;
-}
-
-.empty-cart-title {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.empty-cart-text {
-    color: #aaa;
-    margin-bottom: 2rem;
-}
-
-/* Confirmation Modal Enhancement */
-.confirmation-modal-overlay {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-}
-
-.confirmation-modal {
-    background: rgba(30, 30, 30, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-}
-
-@media (max-width: 768px) {
-    .cart-hero-title {
-        font-size: 2.5rem;
-    }
-    .cart-hero {
-        padding: 3rem 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .cart-hero-title {
-        font-size: 2rem;
-    }
-}
-</style>
 
 <!-- Confirmation Modal -->
 <div id="confirmationModal" class="confirmation-modal-overlay d-none">

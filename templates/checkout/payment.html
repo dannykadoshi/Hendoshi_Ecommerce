@@ -6,13 +6,13 @@
 {% block content %}
 <div class="checkout-page">
     <!-- Payment Hero -->
-    <section class="checkout-hero">
+    <section class="vault-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="checkout-hero-title">Payment</h1>
-                    <p class="checkout-hero-subtitle">Secure payment processing</p>
+                    <h1 class="vault-hero-title">Payment</h1>
+                    <p class="vault-hero-subtitle">Secure payment processing</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="checkout-hero-stat">
                             <i class="fas fa-file-invoice"></i> Order #{{ order.order_number }}
@@ -26,8 +26,9 @@
         </div>
     </section>
 
-    <div class="container checkout-container">
-        <div class="checkout-wrapper">
+    <div class="container-fluid vault-container mt-5 mb-5">
+        <div class="container checkout-container">
+            <div class="checkout-wrapper">
             <!-- Progress Indicator -->
             <div class="progress-container">
             <div class="progress-bar-wrapper horizontal">
@@ -65,7 +66,6 @@
                     {% endif %}
 
                     <form method="post"
-                          action="{% url 'payment' order.order_number %}"
                           class="payment-form"
                           id="paymentForm"
                           novalidate
@@ -216,32 +216,7 @@
 .checkout-page {
     min-height: 100vh;
     padding-top: 120px;
-}
-
-.checkout-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
-.checkout-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.checkout-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
+    margin-top: 0 !important;
 }
 
 .checkout-hero-stat {
@@ -255,7 +230,7 @@
 }
 
 .checkout-container {
-    padding-top: 2rem;
+    padding-top: 3rem;
     padding-bottom: 3rem;
 }
 
@@ -299,21 +274,6 @@
 
     .checkout-content {
         align-items: flex-start;
-    }
-}
-
-@media (max-width: 768px) {
-    .checkout-hero-title {
-        font-size: 2.5rem;
-    }
-    .checkout-hero {
-        padding: 3rem 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .checkout-hero-title {
-        font-size: 2rem;
     }
 }
 
@@ -678,7 +638,6 @@
     background-color: rgba(255, 20, 147, 0.08);
     color: #d91479;
 }
-</style>
 {% endblock %}
 
 {% block extra_js %}

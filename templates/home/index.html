@@ -235,17 +235,20 @@
 </div>
 
 <!-- Collections Preview -->
-<section class="collections-preview py-5">
-    <div class="container">
-        <div class="collections-hero">
-            <h2 class="section-title text-center mb-5">Explore Collections</h2>
-            <p class="section-subtitle text-center mb-4">Discover our curated themes and find your perfect weird</p>
+<section class="collections-preview">
+    <div class="container-fluid vault-container no-glass">
+        <div class="container">
+            <div class="collections-hero">
+                <h2 class="section-title text-center mb-5">Explore Collections</h2>
+                <p class="section-subtitle text-center mb-4">Discover our curated themes and find your perfect weird</p>
+            </div>
         </div>
 
         {% if collections %}
-        <div class="collections-carousel-container">
-            <div class="collections-carousel">
-                <div class="collections-track" id="collections-track">
+        <div class="container">
+            <div class="collections-carousel-container">
+                <div class="collections-carousel">
+                    <div class="collections-track" id="collections-track">
                     {% for collection in collections %}
                     <div class="collection-carousel-item">
                         <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
@@ -282,6 +285,7 @@
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
+        </div>
         </div>
         {% endif %}
     </div>

@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block extra_title %}Unsubscribe from Newsletter{% endblock %}
 {% block content %}
 {# djlint:off H025 #}
-<div class="container checkout-container mt-5 mb-5">
-    <div class="checkout-wrapper">
-        <div class="checkout-header checkout-header-spaced">
-            <h1 class="page-title">NEWSLETTER UNSUBSCRIBE</h1>
+<div class="vault-page newsletter-unsubscribe">
+    <!-- Newsletter Unsubscribe Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Newsletter Unsubscribe</h1>
+                    <p class="vault-hero-subtitle">Manage your subscription to HENDOSHI emails</p>
+                </div>
+            </div>
         </div>
-        
+    </section>
+
+            <div class="container-fluid vault-container mt-5 mb-5">
+        <div class="container">
+            <div class="checkout-wrapper">
         <div class="checkout-content checkout-content-spaced">
             <div class="checkout-main">
                 <div class="profile-card text-center">
                     {% if success is None %}
                         <i class="fas fa-envelope-open fa-4x text-muted mb-4"></i>
-                        <h2 class="mb-3">Unsubscribe from {{ subscriber.email }}</h2>
+                        <h2 class="mb-3 text-center">Unsubscribe from {{ subscriber.email }}</h2>
                         <p class="mb-4">Are you sure you want to unsubscribe from our newsletter? You will no longer receive marketing emails from us.</p>
                         <form method="post">
                             {% csrf_token %}
@@ -35,6 +47,8 @@
             </div>
         </div>
     </div>
-</div>
+    </div> <!-- .container -->
+</div> <!-- .container-fluid -->
+</div> <!-- .vault-page -->
 {# djlint:on #}
 {% endblock %}

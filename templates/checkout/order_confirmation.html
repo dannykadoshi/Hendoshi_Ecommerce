@@ -6,13 +6,13 @@
 {% block content %}
 <div class="checkout-page">
     <!-- Order Confirmation Hero -->
-    <section class="checkout-hero">
+    <section class="vault-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="checkout-hero-title">Order Confirmed!</h1>
-                    <p class="checkout-hero-subtitle">Thank you for purchase</p>
+                    <h1 class="vault-hero-title">Order Confirmed!</h1>
+                    <p class="vault-hero-subtitle">Thank you for purchase</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="checkout-hero-stat">
                             <i class="fas fa-check-circle"></i> Payment Successful
@@ -27,8 +27,9 @@
     </section>
 
     {# djlint:off H025 #}
-    <div class="container checkout-container">
-        <div class="checkout-wrapper">
+    <div class="container-fluid vault-container mt-5 mb-5">
+        <div class="container checkout-container">
+            <div class="checkout-wrapper">
             {# djlint:on #}
             <!-- Progress Indicator -->
             <div class="progress-container">
@@ -200,114 +201,7 @@
             </div>
         </div>
     </div>
-</div>
-</div>
-
-<style>
-/* Checkout Page Hero Styles */
-.checkout-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.checkout-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
-.checkout-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.checkout-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
-}
-
-.checkout-hero-stat {
-    color: #ccc;
-    font-size: 1rem;
-}
-
-.checkout-hero-stat i {
-    color: var(--neon-pink);
-    margin-right: 0.5rem;
-}
-
-.checkout-container {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-}
-
-@media (max-width: 768px) {
-    .checkout-hero-title {
-        font-size: 2.5rem;
-    }
-    .checkout-hero {
-        padding: 3rem 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .checkout-hero-title {
-        font-size: 2rem;
-    }
-}
-
-/* Glassmorphism Panel Styles */
-.glassmorphic-panel {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-}
-
-.glassmorphic-item {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-}
-
-.glassmorphic-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 105, 180, 0.2);
-}
-
-/* Button Styles to Match Payment Page */
-.confirmation-buttons .btn-pink {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
-    border: none !important;
-    text-decoration: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.3s ease !important;
-}
-
-.confirmation-buttons .btn-pink:hover {
-    background-color: var(--electric-yellow) !important;
-    color: var(--black) !important;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
-}
-</style>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -11,40 +11,6 @@
     padding-top: 120px;
 }
 
-.vault-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-    position: relative;
-}
-
-.vault-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.vault-hero-subtitle {
-    color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-.vault-container {
-    padding-top: 2rem;
-}
-
 /* Mobile optimization for hero buttons */
 @media (max-width: 768px) {
     .vault-hero .d-flex {
@@ -62,14 +28,6 @@
 }
 
 @media (max-width: 576px) {
-    .vault-hero-title {
-        font-size: 2rem;
-    }
-    
-    .vault-hero-subtitle {
-        font-size: 1rem;
-    }
-    
     .vault-hero .btn {
         max-width: 250px;
         padding: 0.625rem 1.25rem;
@@ -146,9 +104,9 @@
         </div>
     </section>
 
-<div class="container vault-container">
+<div class="container-fluid vault-container">
     <div class="row">
-        <div class="col-md-10 mx-auto">
+        <div class="col-12">
             <div class="auth-card">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}

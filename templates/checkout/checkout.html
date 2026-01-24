@@ -6,13 +6,13 @@
 {% block content %}
 <div class="checkout-page">
     <!-- Checkout Hero -->
-    <section class="checkout-hero">
+    <section class="vault-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="checkout-hero-title">Checkout</h1>
-                    <p class="checkout-hero-subtitle">Complete your order securely</p>
+                    <h1 class="vault-hero-title">Checkout</h1>
+                    <p class="vault-hero-subtitle">Complete your order securely</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="checkout-hero-stat">
                             <i class="fas fa-shopping-bag"></i> {{ cart.get_total_items }} Item{{ cart.get_total_items|pluralize }}
@@ -27,8 +27,9 @@
     </section>
 
     {# djlint:off H025 #}
-    <div class="container checkout-container">
-        <div class="checkout-wrapper">
+    <div class="container-fluid vault-container mt-5 mb-5">
+        <div class="container checkout-container">
+            <div class="checkout-wrapper">
             {# djlint:on #}
             <!-- Progress Indicator -->
             <div class="progress-container">
@@ -456,105 +457,8 @@
     });
 </script>
 
-</div>
-
-<style>
-/* Checkout Page Hero Styles */
-.checkout-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.checkout-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
-.checkout-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.checkout-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
-}
-
-.checkout-hero-stat {
-    color: #ccc;
-    font-size: 1rem;
-}
-
-.checkout-hero-stat i {
-    color: var(--neon-pink);
-    margin-right: 0.5rem;
-}
-
-.checkout-container {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-}
-
-/* Enhanced Panel Styles */
-.checkout-page .panel {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-}
-
-.checkout-page .order-summary {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-}
-
-/* Saved Address Cards Enhancement */
-.saved-address-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.saved-address-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 105, 180, 0.3);
-}
-
-.saved-address-card.selected {
-    border-color: var(--neon-pink);
-    background: rgba(255, 105, 180, 0.1);
-}
-
-@media (max-width: 768px) {
-    .checkout-hero-title {
-        font-size: 2.5rem;
-    }
-    .checkout-hero {
-        padding: 3rem 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .checkout-hero-title {
-        font-size: 2rem;
-    }
-}
-</style>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

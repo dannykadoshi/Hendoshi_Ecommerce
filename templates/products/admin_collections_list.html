@@ -4,28 +4,6 @@
 {% block extra_title %}Admin Collections{% endblock %}
 
 {% block extra_css %}
-<style>
-@media (max-width: 768px) {
-    .table-responsive {
-        font-size: 0.9rem;
-    }
-    
-    .btn-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-    
-    .btn-group .btn {
-        width: 100%;
-    }
-    
-    .slug-text {
-        word-break: break-all;
-        font-size: 0.8rem;
-    }
-}
-</style>
 {% endblock %}
 
 {% block content %}
@@ -47,9 +25,9 @@
         </div>
     </section>
 
-<div class="container vault-container">
+<div class="container-fluid vault-container">
     <div class="row">
-        <div class="col-lg-11 mx-auto">
+        <div class="col-12">
             <div class="alert alert-info mb-4 guide-alert" role="alert">
                 <i class="fas fa-info-circle me-2"></i>
                 <strong>Collections Guide:</strong> Collections help organize your products into themed groups. <strong class="text-custom">Custom collections</strong> can be created and modified by administrators.

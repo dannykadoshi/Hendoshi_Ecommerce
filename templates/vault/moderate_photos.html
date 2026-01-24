@@ -4,100 +4,6 @@
 {% block extra_title %}Moderate Vault Photos{% endblock %}
 
 {% block extra_css %}
-<style>
-/* Vault Page Hero Styles */
-.vault-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.vault-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-    position: relative;
-}
-
-.vault-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.vault-hero-subtitle {
-    color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-.vault-container {
-    padding-top: 2rem;
-}
-
-/* Glassmorphism auth-card styles */
-.auth-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 768px) {
-    .vault-hero-title {
-        font-size: 2.5rem;
-    }
-    .vault-hero {
-        padding: 3rem 0;
-    }
-
-    /* Mobile styling for moderation buttons */
-    .moderation-btn-mobile {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .vault-hero-title {
-        font-size: 2rem;
-    }
-
-    .vault-hero-subtitle {
-        font-size: 1rem;
-    }
-}
-
-/* Vault moderation status styles */
-.moderation-status {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 4px 8px;
-    border-radius: 4px;
-}
-
-/* Better visible gray for search help text */
-.search-help-text {
-    color: #8a8f94 !important;
-    font-weight: 500;
-}
-</style>
 {% endblock %}
 
 {% block content %}
@@ -120,9 +26,9 @@
         </div>
     </section>
 
-    <div class="container vault-container">
+    <div class="container-fluid vault-container">
         <div class="row">
-            <div class="col-md-12 mx-auto">
+            <div class="col-12">
                 <div class="auth-card">
 
             <!-- Filters -->
@@ -339,87 +245,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<style>
-/* Vault Page Hero Styles */
-.vault-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
-
-.vault-hero {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
-.vault-container {
-    padding-top: 2rem;
-}
-
-.vault-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.vault-hero-subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 0;
-}
-
-@media (max-width: 768px) {
-    .vault-hero-title {
-        font-size: 2.5rem;
-    }
-    .vault-hero {
-        padding: 3rem 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .vault-hero-title {
-        font-size: 2rem;
-    }
-}
-/* Vault moderation status styles */
-.moderation-status {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: white;
-}
-
-.status-pending {
-    background-color: #ffc107;
-    color: #212529;
-}
-
-.status-approved {
-    background-color: #28a745;
-}
-
-.status-rejected {
-    background-color: #dc3545;
-}
-
-.status-archived {
-    background-color: #6c757d;
-}
-</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-submit status filter when changed
