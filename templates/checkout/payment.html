@@ -2,217 +2,14 @@
 {% load static %}
 
 {% block title %}Payment - Hendoshi Store{% endblock %}
-
-{% block content %}
-<div class="checkout-page">
-    <!-- Payment Hero -->
-    <section class="vault-hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Payment</h1>
-                    <p class="vault-hero-subtitle">Secure payment processing</p>
-                    <div class="d-flex justify-content-center gap-4 mt-4">
-                        <span class="checkout-hero-stat">
-                            <i class="fas fa-file-invoice"></i> Order #{{ order.order_number }}
-                        </span>
-                        <span class="checkout-hero-stat">
-                            <i class="fas fa-lock"></i> SSL Encrypted
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="container-fluid vault-container mt-5 mb-5">
-        <div class="container checkout-container">
-            <div class="checkout-wrapper">
-            <!-- Progress Indicator -->
-            <div class="progress-container">
-            <div class="progress-bar-wrapper horizontal">
-                {% for step in steps %}
-                    <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
-                        <div class="step-circle">
-                            {% if step.status == 'done' %}
-                                <i class="fas fa-check"></i>
-                            {% else %}
-                                {{ forloop.counter }}
-                            {% endif %}
-                        </div>
-                        <div class="step-label">{{ step.label }}</div>
-                    </div>
-                    {% if not forloop.last %}
-                        <div class="progress-line {% if step.status == 'done' %}completed{% endif %}"></div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="checkout-content">
-            <div class="checkout-main">
-                <!-- Payment Section -->
-                <section class="payment-section">
-                    <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
-
-                    {% if payment_error %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fas fa-exclamation-circle"></i> <strong>Payment Failed</strong>
-                            <p class="mb-0 mt-2">{{ payment_error }}</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    {% endif %}
-
-                    <form method="post"
-                          class="payment-form"
-                          id="paymentForm"
-                          novalidate
-                          data-client-secret="{{ client_secret }}"
-                          data-public-key="{{ stripe_public_key }}"
-                          data-order-number="{{ order.order_number }}"
-                          data-email="{{ order.email }}"
-                          data-full-name="{{ order.full_name }}"
-                          data-success-url="{% url 'order_confirmation' order.order_number %}"
-                          data-failure-url="{% url 'payment_result' order.order_number %}">
-                        {% csrf_token %}
-
-                        <fieldset class="form-section">
-                            <legend>Card Information</legend>
-
-                            <div class="mb-3">
-                                <label class="form-label" for="card-element">
-                                    Card Details <span class="text-danger">*</span>
-                                </label>
-                                <div id="card-element" class="stripe-card-element" aria-label="Card input"></div>
-                                <div id="card-errors" class="card-errors" role="alert" aria-live="polite"></div>
-                                <small class="form-text test-card-hint">
-                                    <i class="fas fa-lightbulb"></i> Test with <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0025 0000 3155</strong> (3D Secure).
-                                </small>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="cardholderName" class="form-label">Cardholder Name</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                        <input type="text"
-                                               id="cardholderName"
-                                               name="cardholder_name"
-                                               class="form-control"
-                                               value="{{ order.full_name }}"
-                                               autocomplete="cc-name"
-                                               placeholder="Name on card">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="billingPostalCode" class="form-label">Postal Code</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
-                                        <input type="text"
-                                               id="billingPostalCode"
-                                               name="billing_postal_code"
-                                               class="form-control"
-                                               value="{{ order.postal_code }}"
-                                               autocomplete="postal-code"
-                                               placeholder="Postal / ZIP code">
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <div class="security-notice mt-4">
-                            <i class="fas fa-lock"></i>
-                            <span>Your payment information is encrypted. Card data is handled securely by Stripe.</span>
-                        </div>
-
-                        <div class="form-actions mt-4">
-                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg">
-                                <i class="fas fa-arrow-left back-icon"></i>Back to Shipping
-                            </a>
-                            <button type="submit" class="btn btn-pink btn-lg" id="submitPayment">
-                                <span class="default-text"><i class="fas fa-lock"></i> Pay €{{ order.total_amount }}</span>
-                                <span class="loading-text d-none">
-                                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                                    Processing...
-                                </span>
-                            </button>
-                        </div>
-                    </form>
-
-                    <div id="paymentLoading" class="payment-loading-overlay d-none" aria-hidden="true">
-                        <div class="spinner-border text-light" role="status"></div>
-                        <p class="mt-3 mb-0">Confirming payment…</p>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Sidebar -->
-            <aside class="checkout-sidebar payment-sidebar">
-                <!-- Order Items -->
-                <div class="order-items-summary">
-                    <h5><i class="fas fa-list"></i> Order Items</h5>
-                    <div class="items-list">
-                        {% for item in order.items.all %}
-                            <div class="item-summary">
-                                <div class="item-details">
-                                    <strong>{{ item.product.name }}</strong>
-                                    <small class="d-block">
-                                        Size: {{ item.size }}, Color: {{ item.color }}
-                                    </small>
-                                    <small class="d-block text-muted">Qty: {{ item.quantity }}</small>
-                                </div>
-                                <div class="item-price">€{{ item.price }}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <!-- Order Summary -->
-                <div class="order-totals">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Subtotal</td>
-                                <td>€{{ order.subtotal }}</td>
-                            </tr>
-                            {% if order.shipping_cost %}
-                                <tr>
-                                    <td>Shipping</td>
-                                    <td>€{{ order.shipping_cost }}</td>
-                                </tr>
-                            {% endif %}
-                            {% if order.tax_amount %}
-                                <tr>
-                                    <td>Tax</td>
-                                    <td>€{{ order.tax_amount }}</td>
-                                </tr>
-                            {% endif %}
-                            <tr class="total-row">
-                                <td><strong>Total</strong></td>
-                                <td><strong>€{{ order.total_amount }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Help Section -->
-                <div class="help-section">
-                    <h6>Need Help?</h6>
-                    <p>
-                        If you experience any issues with payment, please contact us at
-                        <a href="mailto:support@hendoshi.com">support@hendoshi.com</a>
-                    </p>
-                </div>
-            </aside>
-        </div>
-    </div>
-</div>
-</div>
-
+{% block extra_css %}
 <style>
-/* Checkout Page Hero Styles */
+    /* Fully hide the discount banner and remove any outlines left by diagnostics (page-scoped) */
+    #discountBanner { display: none !important; visibility: hidden !important; }
+    .navbar, .navbar *, #discountBanner, #discountBanner * { outline: none !important; box-shadow: none !important; border: none !important; }
+    .navbar { margin-top: 0 !important; }
+
+/* Checkout Page Styles moved into head via extra_css */
 .checkout-page {
     min-height: 100vh;
     padding-top: 120px;
@@ -465,7 +262,6 @@
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
 }
 
-
 .order-items-summary {
     margin-top: 0;
     padding-top: 0;
@@ -638,9 +434,239 @@
     background-color: rgba(255, 20, 147, 0.08);
     color: #d91479;
 }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            var nb = document.querySelector('.navbar');
+            if (nb && !nb.classList.contains('banner-dismissed')) nb.classList.add('banner-dismissed');
+            // remove any inline outline/box-shadow/border styles leftover from debugging
+            try {
+                document.querySelectorAll('[style]').forEach(function(el){
+                    try {
+                        if (el.style.outline) el.style.outline = '';
+                        if (el.style.boxShadow) el.style.boxShadow = '';
+                        if (el.style.border) el.style.border = '';
+                    } catch(e){}
+                });
+            } catch(e){}
+        });
+    </script>
+    <!-- Payment Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Payment</h1>
+                    <p class="vault-hero-subtitle">Secure payment processing</p>
+                    <div class="d-flex justify-content-center gap-4 mt-4">
+                        <span class="checkout-hero-stat">
+                            <i class="fas fa-file-invoice"></i> Order #{{ order.order_number }}
+                        </span>
+                        <span class="checkout-hero-stat">
+                            <i class="fas fa-lock"></i> SSL Encrypted
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid vault-container mt-5 mb-5">
+        <div class="container checkout-container">
+            <div class="checkout-wrapper">
+            <!-- Progress Indicator -->
+            <div class="progress-container">
+            <div class="progress-bar-wrapper horizontal">
+                {% for step in steps %}
+                    <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
+                        <div class="step-circle">
+                            {% if step.status == 'done' %}
+                                <i class="fas fa-check"></i>
+                            {% else %}
+                                {{ forloop.counter }}
+                            {% endif %}
+                        </div>
+                        <div class="step-label">{{ step.label }}</div>
+                    </div>
+                    {% if not forloop.last %}
+                        <div class="progress-line {% if step.status == 'done' %}completed{% endif %}"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="checkout-content">
+            <div class="checkout-main">
+                <!-- Payment Section -->
+                <section class="payment-section">
+                    <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
+
+                    {% if payment_error %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> <strong>Payment Failed</strong>
+                            <p class="mb-0 mt-2">{{ payment_error }}</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+
+                    <form method="post"
+                          class="payment-form"
+                          id="paymentForm"
+                          novalidate
+                          data-client-secret="{{ client_secret }}"
+                          data-public-key="{{ stripe_public_key }}"
+                          data-order-number="{{ order.order_number }}"
+                          data-email="{{ order.email }}"
+                          data-full-name="{{ order.full_name }}"
+                          data-success-url="{% url 'order_confirmation' order.order_number %}"
+                          data-failure-url="{% url 'payment_result' order.order_number %}">
+                        {% csrf_token %}
+
+                        <fieldset class="form-section">
+                            <legend>Card Information</legend>
+
+                            <div class="mb-3">
+                                <label class="form-label" id="card-element-label">
+                                    Card Details <span class="text-danger">*</span>
+                                </label>
+                                <div id="card-element" class="stripe-card-element" aria-label="Card input" aria-labelledby="card-element-label" tabindex="0"></div>
+                                <div id="card-errors" class="card-errors" role="alert" aria-live="polite"></div>
+                                <small class="form-text test-card-hint">
+                                    <i class="fas fa-lightbulb"></i> Test with <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0025 0000 3155</strong> (3D Secure).
+                                </small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="cardholderName" class="form-label">Cardholder Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        <input type="text"
+                                               id="cardholderName"
+                                               name="cardholder_name"
+                                               class="form-control"
+                                               value="{{ order.full_name }}"
+                                               autocomplete="cc-name"
+                                               placeholder="Name on card">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="billingPostalCode" class="form-label">Postal Code</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                                        <input type="text"
+                                               id="billingPostalCode"
+                                               name="billing_postal_code"
+                                               class="form-control"
+                                               value="{{ order.postal_code }}"
+                                               autocomplete="postal-code"
+                                               placeholder="Postal / ZIP code">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="security-notice mt-4">
+                            <i class="fas fa-lock"></i>
+                            <span>Your payment information is encrypted. Card data is handled securely by Stripe.</span>
+                        </div>
+
+                        <div class="form-actions mt-4">
+                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg">
+                                <i class="fas fa-arrow-left back-icon"></i>Back to Shipping
+                            </a>
+                            <button type="submit" class="btn btn-pink btn-lg" id="submitPayment">
+                                <span class="default-text"><i class="fas fa-lock"></i> Pay €{{ order.total_amount }}</span>
+                                <span class="loading-text d-none">
+                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    Processing...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="paymentLoading" class="payment-loading-overlay d-none" aria-hidden="true">
+                        <div class="spinner-border text-light" role="status"></div>
+                        <p class="mt-3 mb-0">Confirming payment…</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="checkout-sidebar payment-sidebar">
+                <!-- Order Items -->
+                <div class="order-items-summary">
+                    <h5><i class="fas fa-list"></i> Order Items</h5>
+                    <div class="items-list">
+                        {% for item in order.items.all %}
+                            <div class="item-summary">
+                                <div class="item-details">
+                                    <strong>{{ item.product.name }}</strong>
+                                    <small class="d-block">
+                                        Size: {{ item.size }}, Color: {{ item.color }}
+                                    </small>
+                                    <small class="d-block text-muted">Qty: {{ item.quantity }}</small>
+                                </div>
+                                <div class="item-price">€{{ item.price }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-totals">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Subtotal</td>
+                                <td>€{{ order.subtotal }}</td>
+                            </tr>
+                            {% if order.shipping_cost %}
+                                <tr>
+                                    <td>Shipping</td>
+                                    <td>€{{ order.shipping_cost }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if order.tax_amount %}
+                                <tr>
+                                    <td>Tax</td>
+                                    <td>€{{ order.tax_amount }}</td>
+                                </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td><strong>Total</strong></td>
+                                <td><strong>€{{ order.total_amount }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Help Section -->
+                <div class="help-section">
+                    <h6>Need Help?</h6>
+                    <p>
+                        If you experience any issues with payment, please contact us at
+                        <a href="mailto:support@hendoshi.com">support@hendoshi.com</a>
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://js.stripe.com/v3/"></script>
 <script src="{% static 'js/stripe-payment.js' %}"></script>
+<script>
+// Discount banner handled globally in `base.html` (uses BroadcastChannel/localStorage + observers for consistent cross-tab dismissal).
+</script>
 {% endblock %}

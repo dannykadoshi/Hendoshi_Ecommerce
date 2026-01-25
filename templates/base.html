@@ -130,13 +130,14 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% block extra_css %}{% endblock %}
+        {% block extra_js %}{% endblock %}
     </head>
     <body>
         <!-- Toast Messages - Server-rendered -->
         {% if messages %}
             <div class="toast-container-custom">
                 {% for message in messages %}
-                    <div class="toast toast-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true" data-message="true" style="position: relative;">
+                    <div class="toast toast-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true" data-message="true">
                         <div class="toast-content">
                             <div class="toast-header">
                                 {% if message.tags == 'success' %}
@@ -700,7 +701,7 @@
                             <input type="email" id="newsletter-email" name="email" class="form-control mb-2" placeholder="Your email..." autocomplete="email" required>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" value="1" id="newsletter-consent" name="consent">
-                                <label class="form-check-label small" for="newsletter-consent">I agree to receive marketing emails and accept the <a href="/privacy/">Privacy Policy</a>.</label>
+                                <label class="form-check-label small" for="newsletter-consent">I agree to receive marketing emails and accept the <a href="{% url 'privacy' %}">Privacy Policy</a>.</label>
                             </div>
                             
                             <div class="newsletter-error"></div>
@@ -1050,7 +1051,6 @@
                 }
             });
         </script>
-        {% block extra_js %}{% endblock %}
 
         <!-- Global Toast Notification Function -->
         <script>
@@ -1278,22 +1278,179 @@
             const discountBanner = document.getElementById('discountBanner');
             const discountClose = document.getElementById('discountClose');
             const navbar = document.querySelector('.navbar');
-            
-            // Dismiss banner functionality
-            discountClose.addEventListener('click', function() {
+
+            console.log('Discount banner script loaded');
+
+            // URL override for testing
+            const urlParams = new URLSearchParams(window.location.search || '');
+            const forceShow = urlParams.get('show_discount_banner') === '1' || urlParams.get('show_discount_banner') === 'true';
+
+            function isDismissed() {
+                if (forceShow) {
+                    console.log('Discount banner force-show enabled via URL param');
+                    return false;
+                }
+                // Remove any legacy localStorage-based dismissal so banner returns after browser restart
+                try {
+                    if (localStorage.getItem && localStorage.getItem('discountBannerDismissed') === 'true') {
+                        try { localStorage.removeItem('discountBannerDismissed'); console.log('Cleared legacy localStorage dismissal'); } catch (e) {}
+                    }
+                } catch (e) { /* ignore */ }
+
+                try {
+                    return sessionStorage.getItem('discountBannerDismissed') === 'true';
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function persistDismissal() {
+                // Use sessionStorage only so dismissal lasts only for this browser session/tab
+                try { sessionStorage.setItem('discountBannerDismissed', 'true'); console.log('persistDismissal: set sessionStorage'); } catch (e) { console.warn('persistDismissal sessionStorage failed', e); }
+
+                // Broadcast to other tabs/windows in this session using BroadcastChannel for immediate delivery
+                try {
+                    if (!window._discountBroadcastChannel) {
+                        window._discountBroadcastChannel = new BroadcastChannel('discountBannerChannel');
+                        window._discountBroadcastChannel.onmessage = function(evt) {
+                            if (evt && evt.data && evt.data.type === 'dismiss') {
+                                console.log('BroadcastChannel received dismiss — hiding banner');
+                                if (discountBanner && discountBanner.style.display !== 'none') {
+                                    discountBanner.classList.add('slide-up');
+                                    setTimeout(function() {
+                                        discountBanner.style.display = 'none';
+                                        if (navbar) navbar.classList.add('banner-dismissed');
+                                    }, 300);
+                                }
+                            }
+                        };
+                    }
+                    window._discountBroadcastChannel.postMessage({ type: 'dismiss' });
+                    console.log('persistDismissal: BroadcastChannel message sent');
+                } catch (e) {
+                    console.warn('persistDismissal: BroadcastChannel failed', e);
+                }
+            }
+
+            function hideBanner() {
+                console.log('hideBanner() called');
+                if (!discountBanner) return;
                 discountBanner.classList.add('slide-up');
-                
-                // Adjust navbar position after animation
+                persistDismissal();
                 setTimeout(function() {
                     discountBanner.style.display = 'none';
-                    navbar.classList.add('banner-dismissed');
+                    if (navbar) navbar.classList.add('banner-dismissed');
+                    console.log('hideBanner() finished hiding banner');
                 }, 500);
+            }
+
+            // If already dismissed, ensure it's hidden early
+            if (isDismissed()) {
+                if (discountBanner) {
+                    discountBanner.style.display = 'none';
+                    if (navbar) navbar.classList.add('banner-dismissed');
+                }
+                return; // nothing more to do
+            }
+
+            // Ensure interactive
+            if (discountBanner) discountBanner.style.pointerEvents = 'auto';
+            if (discountClose) {
+                try { discountClose.style.zIndex = '100000'; discountClose.style.pointerEvents = 'auto'; } catch (e) {}
+            }
+
+            // Click handler (event delegation)
+            document.addEventListener('click', function(e) {
+                const clicked = e.target;
+                if (!clicked) return;
+                if (clicked.id === 'discountClose' || (clicked.closest && clicked.closest('#discountBanner #discountClose'))) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Discount close clicked — hiding banner');
+                    hideBanner();
+                }
+            }, { passive: false });
+
+            // Keyboard accessibility - Escape key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && discountBanner && discountBanner.style.display !== 'none') {
+                    console.log('Escape pressed — hiding discount banner');
+                    hideBanner();
+                }
             });
-            
-            // Respect prefers-reduced-motion
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {
-                discountBanner.classList.add('reduced-motion');
+
+            // React to localStorage changes in other tabs/windows — hide banner when dismissed elsewhere
+            window.addEventListener('storage', function(e) {
+                if (!e || !e.key) return;
+                if (e.key === 'discountBannerDismissed' && e.newValue === 'true') {
+                    console.log('storage event detected discountBannerDismissed=true — hiding banner');
+                    if (discountBanner && discountBanner.style.display !== 'none') hideBanner();
+                }
+            });
+
+            // BroadcastChannel init and listener for immediate cross-tab communication
+            try {
+                if (!window._discountBroadcastChannel) {
+                    window._discountBroadcastChannel = new BroadcastChannel('discountBannerChannel');
+                    window._discountBroadcastChannel.onmessage = function(evt) {
+                        if (evt && evt.data && evt.data.type === 'dismiss') {
+                            console.log('BroadcastChannel received dismiss — hiding banner');
+                            if (discountBanner && discountBanner.style.display !== 'none') hideBanner();
+                        }
+                    };
+                    console.log('BroadcastChannel initialized');
+                }
+            } catch (e) {
+                console.warn('BroadcastChannel not available', e);
+            }
+
+            // When tab gains focus or becomes visible, re-check dismissal state
+            function checkDismissOnFocus() {
+                if (isDismissed()) {
+                    console.log('Tab focused/visibilitychange and banner dismissed elsewhere — hiding if visible');
+                    if (discountBanner && discountBanner.style.display !== 'none') {
+                        discountBanner.style.display = 'none';
+                        if (navbar) navbar.classList.add('banner-dismissed');
+                    }
+                }
+            }
+
+            window.addEventListener('focus', checkDismissOnFocus);
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') checkDismissOnFocus();
+            });
+
+            // Polling fallback in case storage events don't fire or other tabs use sessionStorage only
+            let _lastDismissState = isDismissed();
+            setInterval(function() {
+                try {
+                    const dismissed = isDismissed();
+                    if (dismissed && !_lastDismissState) {
+                        console.log('Polling detected dismissal state change — hiding banner');
+                        if (discountBanner && discountBanner.style.display !== 'none') hideBanner();
+                    }
+                    _lastDismissState = dismissed;
+                } catch (e) {
+                    // Ignore polling errors
+                }
+            }, 800);
+
+            // Observe attribute changes on the banner (e.g., display/style/class) and hide when re-shown
+            if (discountBanner) {
+                const attrObserver = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(m) {
+                        if (m.type === 'attributes') {
+                            const el = m.target;
+                            const isVisible = el && el.style && el.style.display !== 'none' && window.getComputedStyle(el).display !== 'none';
+                            if (isDismissed() && isVisible) {
+                                console.log('Attribute observer detected banner re-shown while dismissed — hiding it');
+                                try { el.style.display = 'none'; } catch (err) {}
+                                if (navbar) navbar.classList.add('banner-dismissed');
+                            }
+                        }
+                    });
+                });
+                attrObserver.observe(discountBanner, { attributes: true, attributeFilter: ['style', 'class'] });
             }
         });
         </script>

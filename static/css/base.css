@@ -84,16 +84,17 @@
 }
 
 .sale-title {
-     font-size: 3rem;
-     font-weight: 900;
-     text-transform: none;
-     letter-spacing: 2px;
-     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-     margin-bottom: 1rem;
-     position: relative;
-     z-index: 2;
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: none;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
 }
 
 .sale-subtitle {
@@ -138,6 +139,9 @@
     color: var(--electric-yellow);
     transform: scale(1.1);
 }
+
+/* Toast positioning moved from inline styles in templates */
+.toast[data-message="true"] { position: relative; }
 
 /* About page specific accents */
 .about-vibrant .accent-title {
@@ -1298,13 +1302,14 @@ body {
 
 /* Navigation */
 .discount-banner {
-    background: linear-gradient(-45deg, var(--charcoal), rgba(255, 105, 180, 0.3), rgba(255, 215, 0, 0.2), var(--charcoal), rgba(255, 105, 180, 0.3));
+    /* Fully opaque gradient to prevent page content showing through while scrolling */
+    background: linear-gradient(-45deg, var(--charcoal) 0%, #FF1493 25%, #FFD700 50%, var(--charcoal) 100%);
     background-size: 400% 400%;
     color: var(--off-white);
     text-align: center;
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
-    border-bottom: 1px solid rgba(255, 105, 180, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1313,12 +1318,17 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 101;
+    z-index: 99999; /* keep above other overlays */
     left: 0;
     right: 0;
     animation: gradientShift 6s ease-in-out infinite, bannerGlow 3s ease-in-out infinite;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+    cursor: default;
+    pointer-events: auto;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    opacity: 1;
 }
 
 .discount-banner:hover {
@@ -1339,6 +1349,7 @@ body {
 .discount-banner .discount-code-text {
     background: linear-gradient(45deg, rgba(255, 20, 147, 0.7), rgba(255, 215, 0, 0.6), rgba(255, 165, 0, 0.6), rgba(255, 20, 147, 0.7));
     background-size: 300% 300%;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1375,10 +1386,14 @@ body {
 
 /* Light mode styles */
 :root.light-mode .discount-banner {
-    background: linear-gradient(-45deg, #FFE4E1, #FF1493, #FFD700, #FFA500, #FFE4E1, #FF1493);
+    /* Opaque light-mode gradient */
+    background: linear-gradient(-45deg, #FFE4E1 0%, #FF1493 30%, #FFD700 60%, #FFE4E1 100%);
     background-size: 400% 400%;
-    border-bottom-color: #E71F7F;
+    border-bottom-color: rgba(0,0,0,0.12);
     color: white;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
 }
 
 :root.light-mode .discount-banner i {
@@ -2688,6 +2703,7 @@ body.menu-open {
     letter-spacing: 2px;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2868,6 +2884,7 @@ body.menu-open {
 
 .quantity-input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .qty-btn {
@@ -2954,8 +2971,7 @@ input::-webkit-validation-bubble-arrow,
 input:invalid {
     box-shadow: none !important;
 }
-    transform: scale(1.05);
-}
+
 
 /* Add to Cart Button */
 .add-to-cart-btn {
@@ -3313,10 +3329,7 @@ input:invalid {
     opacity: 1;
 }
 
-/* Cart Badge - No Animation */
-.badge.bg-pink {
-    /* Removed pulse animation for cleaner look */
-}
+/* Cart Badge - No Animation (styles removed) */
 
 /* Main Content */
 main {
@@ -4145,6 +4158,7 @@ a.btn-pink {
     position: relative;
     display: inline-block;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -4244,6 +4258,7 @@ a.btn-pink {
 
 .features-hero .section-title {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -4386,6 +4401,7 @@ a.btn-pink {
 
 .collections-hero .section-title {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -4822,6 +4838,7 @@ a.btn-pink {
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -6483,6 +6500,7 @@ a.btn-pink {
     font-weight: 900;
     letter-spacing: 2px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
@@ -6495,6 +6513,7 @@ a.btn-pink {
     color: var(--off-white);
     opacity: 0.9;
     position: relative;
+    background-clip: text;
     z-index: 2;
 }
 
@@ -7857,6 +7876,7 @@ a.btn-pink {
     width: 50px;
     font-weight: 700;
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .qty-input-sm::-webkit-outer-spin-button,
@@ -8180,7 +8200,7 @@ a.btn-pink {
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
 }
-}
+
 
 /* Light Mode - Cards & Containers */
 :root.light-mode .product-card {
@@ -8422,7 +8442,23 @@ a.btn-pink {
     border-radius: 10px;
     padding: 0.9rem 1rem;
     background: rgba(0, 0, 0, 0.35);
+    position: relative; /* ensure it can sit above overlays */
+    z-index: 10000; /* high z-index to avoid other overlays covering it */
+    min-height: 48px; /* ensure visible click area */
+    cursor: text;
 }
+
+/* Visible inline mount error shown when Stripe fails to initialize/mount */
+.card-mount-error {
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(255, 20, 147, 0.06);
+    color: #ff2da1;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
 
 .card-errors {
     color: #ff6b6b;
@@ -10692,9 +10728,7 @@ a.btn-pink {
 }
 
 /* Light Mode - Back to Top Button */
-:root.light-mode .back-to-top-btn {
-    /* Using gradient text, no solid color needed */
-}
+/* no-op: gradient text handled elsewhere - keep selector intentionally empty to preserve specificity */
 
 :root.light-mode .back-to-top-btn:hover {
     filter: drop-shadow(0 0 15px rgba(231, 31, 127, 0.8));
@@ -11195,6 +11229,7 @@ a.btn-pink {
 
 .stock-quantity-input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .stock-quantity-input:focus {
@@ -14690,7 +14725,7 @@ datalist option {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 2rem 0 0.5rem;
+    padding: 0.5rem 0 0.5rem;
     margin-top: -20px;
     margin-bottom: 4rem;
     position: relative;
