@@ -1298,12 +1298,13 @@ body {
 
 /* Navigation */
 .discount-banner {
-    background-color: var(--charcoal);
+    background: linear-gradient(-45deg, var(--charcoal), rgba(255, 105, 180, 0.3), rgba(255, 215, 0, 0.2), var(--charcoal), rgba(255, 105, 180, 0.3));
+    background-size: 400% 400%;
     color: var(--off-white);
     text-align: center;
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
-    border-bottom: 1px solid var(--neon-pink);
+    border-bottom: 1px solid rgba(255, 105, 180, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1315,19 +1316,152 @@ body {
     z-index: 101;
     left: 0;
     right: 0;
+    animation: gradientShift 6s ease-in-out infinite, bannerGlow 3s ease-in-out infinite;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.discount-banner:hover {
+    transform: translateY(-0.5px);
+    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.12), 0 0 12px rgba(255, 215, 0, 0.08), 0 0 15px rgba(255, 105, 180, 0.06);
 }
 
 .discount-banner i {
     color: var(--neon-pink);
+    animation: iconSparkle 3s ease-in-out infinite, iconBounce 0.6s ease-in-out;
+    transition: transform 0.2s ease;
 }
 
+.discount-banner:hover i {
+    transform: scale(1.02);
+}
+
+.discount-banner .discount-code-text {
+    background: linear-gradient(45deg, rgba(255, 20, 147, 0.7), rgba(255, 215, 0, 0.6), rgba(255, 165, 0, 0.6), rgba(255, 20, 147, 0.7));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+    animation: textGlow 1.5s ease-in-out infinite, gradientShift 2s ease-in-out infinite;
+    text-shadow: 0 0 2px rgba(255, 215, 0, 0.1);
+}
+
+.discount-close {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--off-white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.discount-close:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.discount-close i {
+    color: inherit;
+}
+
+/* Light mode styles */
 :root.light-mode .discount-banner {
-    background-color: #F5F5F5;
+    background: linear-gradient(-45deg, #FFE4E1, #FF1493, #FFD700, #FFA500, #FFE4E1, #FF1493);
+    background-size: 400% 400%;
     border-bottom-color: #E71F7F;
+    color: white;
 }
 
 :root.light-mode .discount-banner i {
     color: #E71F7F;
+}
+
+:root.light-mode .discount-banner .discount-code-text {
+    background: linear-gradient(45deg, #FF1493, #FFD700, #FFA500, #FF1493);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+:root.light-mode .discount-close {
+    color: white;
+}
+
+:root.light-mode .discount-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Reduced motion support */
+.discount-banner.reduced-motion {
+    animation: none;
+}
+
+.discount-banner.reduced-motion i {
+    animation: none;
+}
+
+.discount-banner.reduced-motion .discount-code-text {
+    animation: none;
+}
+
+/* Dismiss animation */
+.discount-banner.slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Keyframe animations */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bannerGlow {
+    0%, 100% {
+        box-shadow: 0 1px 3px rgba(255, 20, 147, 0.1), 0 0 5px rgba(255, 215, 0, 0.05), 0 0 8px rgba(255, 105, 180, 0.03);
+    }
+    50% {
+        box-shadow: 0 1px 5px rgba(255, 20, 147, 0.15), 0 0 8px rgba(255, 215, 0, 0.08), 0 0 12px rgba(255, 105, 180, 0.05);
+    }
+}
+
+@keyframes iconSparkle {
+    0%, 100% { color: rgba(255, 20, 147, 0.8); transform: scale(1); filter: drop-shadow(0 0 1px rgba(255, 20, 147, 0.3)); }
+    33% { color: rgba(255, 215, 0, 0.7); transform: scale(1.01); filter: drop-shadow(0 0 1px rgba(255, 215, 0, 0.2)); }
+    66% { color: rgba(255, 165, 0, 0.7); transform: scale(1.005); filter: drop-shadow(0 0 1px rgba(255, 165, 0, 0.2)); }
+}
+
+@keyframes iconBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-1px); }
+    60% { transform: translateY(-0.5px); }
+}
+
+@keyframes textGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.05); }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
 }
 
 .navbar {
@@ -1343,6 +1477,11 @@ body {
     z-index: 100;
     box-shadow: 0 4px 30px rgba(255, 20, 147, 0.15);
     transition: all 0.3s ease;
+}
+
+/* Adjust navbar when banner is dismissed */
+.navbar.banner-dismissed {
+    margin-top: 0;
 }
 
 .navbar::after {

@@ -204,9 +204,12 @@
         {% endif %}
         
         <!-- Discount Banner -->
-        <div class="discount-banner">
-            <i class="fas fa-gift"></i>
-            <span>10% OFF your first order with code: <strong>WELCOME</strong></span>
+        <div class="discount-banner" id="discountBanner">
+            <button class="discount-close" id="discountClose" aria-label="Dismiss discount banner">
+                <i class="fas fa-times"></i>
+            </button>
+            <i class="fas fa-gift" id="discountIcon"></i>
+            <span>10% OFF your first order with code: <strong class="discount-code-text">WELCOME</strong></span>
         </div>
         
         <!-- Navigation -->
@@ -1265,6 +1268,32 @@
 
                     updateCarousel();
                 });
+            }
+        });
+        </script>
+        
+        <!-- Discount Banner JavaScript -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const discountBanner = document.getElementById('discountBanner');
+            const discountClose = document.getElementById('discountClose');
+            const navbar = document.querySelector('.navbar');
+            
+            // Dismiss banner functionality
+            discountClose.addEventListener('click', function() {
+                discountBanner.classList.add('slide-up');
+                
+                // Adjust navbar position after animation
+                setTimeout(function() {
+                    discountBanner.style.display = 'none';
+                    navbar.classList.add('banner-dismissed');
+                }, 500);
+            });
+            
+            // Respect prefers-reduced-motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                discountBanner.classList.add('reduced-motion');
             }
         });
         </script>
