@@ -1,0 +1,809 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_title %}Sale - Up to 50% Off{% endblock %}
+
+{% block extra_head %}
+<!-- Sale Products Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SaleEvent",
+  "name": "HENDOSHI Sale",
+  "description": "Shop sale products at HENDOSHI - Metal-inspired apparel with original skull, animal, and gym designs",
+  "url": "{{ request.build_absolute_uri }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": "{{ products|length }}",
+    "itemListElement": [
+      {% for product in products %}
+      {
+        "@type": "Product",
+        "position": {{ forloop.counter }},
+        "name": "{{ product.name }}",
+        "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'product_detail' product.slug %}",
+        "image": "{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}",
+        "offers": {
+          "@type": "Offer",
+          "price": "{{ product.sale_price }}",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/{% if product.stock_quantity > 0 %}InStock{% else %}OutOfStock{% endif %}"
+        }
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="products-page">
+        <!-- Products Hero -->
+        <section class="vault-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                        <h1 class="vault-hero-title">
+                            {% if current_collection %}
+                                {% for collection in collections %}
+                                    {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
+                                {% endfor %}
+                            {% elif current_type %}
+                                {{ current_type|title }}
+                            {% elif search_term %}
+                                Search Results for "{{ search_term }}"
+                            {% else %}
+                                🔥 SALE - Up to 50% Off
+                            {% endif %}
+                        </h1>
+                        <p class="vault-hero-subtitle">{{ products.count }} product{{ products.count|pluralize }} found</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters & Sort Section (Original Position) -->
+        <div class="container-fluid">
+            <div class="filters-sort-wrapper filters-right mb-4 mt-3">
+                <button class="btn filters-sort-btn" id="filtersSortBtn">
+                    <i class="fas fa-sliders-h"></i> Filters & Sort
+                </button>
+
+                <!-- Mobile Overlay -->
+                <div class="filters-overlay" id="filtersOverlay"></div>
+
+                <!-- Filters Dropdown Menu -->
+                <div class="filters-dropdown" id="filtersDropdown">
+                    <div class="filters-header">
+                        <h4 class="filters-title">Filters & Sort</h4>
+                        <button class="filters-close-btn" id="filtersCloseBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="filters-tabs">
+                        <button class="filter-tab active" data-tab="collections">
+                            <i class="fas fa-layer-group"></i> Collections
+                        </button>
+                        <button class="filter-tab" data-tab="type">
+                            <i class="fas fa-tag"></i> Type
+                        </button>
+                        <button class="filter-tab" data-tab="sort">
+                            <i class="fas fa-sort"></i> Sort
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="filters-tab-content">
+                        <!-- Collections Tab -->
+                        <div class="filter-tab-pane active" id="collections-tab">
+                            <div class="filter-options">
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="collections" value="" {% if not current_collection %}checked{% endif %}>
+                                    <i class="fas fa-th-large"></i>
+                                    <span>All Products</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                {% for collection in collections %}
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="collections" value="{{ collection.slug }}" {% if current_collection == collection.slug %}checked{% endif %}>
+                                    <i class="fas fa-circle"></i>
+                                    <span>{{ collection.name }}</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Type Tab -->
+                        <div class="filter-tab-pane" id="type-tab">
+                            <div class="filter-options">
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="types" value="" {% if not current_type %}checked{% endif %}>
+                                    <i class="fas fa-th-large"></i>
+                                    <span>All Types</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="types" value="tshirt" {% if current_type == 'tshirt' %}checked{% endif %}>
+                                    <i class="fas fa-tshirt"></i>
+                                    <span>T-Shirts</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="types" value="hoodie" {% if current_type == 'hoodie' %}checked{% endif %}>
+                                    <i class="fas fa-sweatshirt"></i>
+                                    <span>Hoodies</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="types" value="sticker" {% if current_type == 'sticker' %}checked{% endif %}>
+                                    <i class="fas fa-sticky-note"></i>
+                                    <span>Stickers</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="types" value="accessory" {% if current_type == 'accessory' %}checked{% endif %}>
+                                    <i class="fas fa-gem"></i>
+                                    <span>Accessories</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Sort Tab -->
+                        <div class="filter-tab-pane" id="sort-tab">
+                            <div class="filter-options">
+                                <label class="filter-option checkbox-option radio-option">
+                                    <input type="radio" name="sort" value="" {% if not sort_by %}checked{% endif %}>
+                                    <i class="fas fa-sort"></i>
+                                    <span>Default</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option radio-option">
+                                    <input type="radio" name="sort" value="price_asc" {% if sort_by == 'price' and direction == 'asc' %}checked{% endif %}>
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Price (Low-High)</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option radio-option">
+                                    <input type="radio" name="sort" value="price_desc" {% if sort_by == 'price' and direction == 'desc' %}checked{% endif %}>
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Price (High-Low)</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option radio-option">
+                                    <input type="radio" name="sort" value="name_asc" {% if sort_by == 'name' and direction == 'asc' %}checked{% endif %}>
+                                    <i class="fas fa-sort-alpha-down"></i>
+                                    <span>Name (A-Z)</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option radio-option">
+                                    <input type="radio" name="sort" value="name_desc" {% if sort_by == 'name' and direction == 'desc' %}checked{% endif %}>
+                                    <i class="fas fa-sort-alpha-up"></i>
+                                    <span>Name (Z-A)</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Apply Filters Button -->
+                    <div class="filters-actions">
+                        <div class="filter-note">
+                            <small>Note: Multiple selections in the same category will apply the first choice</small>
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="button" class="btn btn-pink apply-filters-btn">
+                                <i class="fas fa-filter"></i> Apply Filters
+                            </button>
+                            <button type="button" class="btn btn-outline-pink clear-filters-btn btn-clear-ghost">
+                                <i class="fas fa-times"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid vault-container">
+            <!-- Products Grid -->
+            <div class="products-grid-wrapper">
+                {% if products %}
+                <form method="post" action="{% url 'bulk_archive_products' %}" id="bulkArchiveForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="bulkAction" value="archive">
+                    {% if request.user.is_staff or request.user.is_superuser %}
+                    <div class="bulk-archive-bar d-flex align-items-center mb-3 glassmorphic-panel">
+                        <input type="checkbox" id="selectAllProducts" class="form-check-input">
+                        <label for="selectAllProducts" class="form-label mb-0 ms-2">Select All</label>
+                        <button type="submit" class="btn btn-pink btn-sm ms-3" id="bulkArchiveBtn" disabled>Archive Selected</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm ms-2" id="bulkDeleteBtn" disabled>Delete Selected</button>
+                    </div>
+                    {% endif %}
+
+                    <div class="products-grid">
+                        {% for product in products %}
+                        <div class="product-card-wrapper">
+                            <div class="product-card glassmorphic-card">
+                                {% if request.user.is_staff or request.user.is_superuser %}
+                                <div class="product-checkbox-wrapper bottom-right">
+                                    <input type="checkbox" name="product_ids" value="{{ product.id }}" class="form-check-input product-select-checkbox">
+                                </div>
+                                <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                {% endif %}
+                                <div class="product-card-inner">
+                                    <!-- Battle Vest Button (always same style) -->
+                                    {% if user.is_authenticated %}
+                                    <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    {% else %}
+                                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn product-vest-btn-positioned" title="Login to add to Battle Vest">
+                                        <i class="far fa-heart"></i>
+                                    </a>
+                                    {% endif %}
+                                    <a href="{% url 'product_detail' product.slug %}">
+                                        <div class="product-image product-image-relative">
+                                            {% if product.main_image %}
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
+                                                {% with second_image=product.images.first %}
+                                                    {% if second_image %}
+                                                        <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy">
+                                                    {% endif %}
+                                                {% endwith %}
+                                            {% else %}
+                                                <div class="placeholder-image">
+                                                    <i class="fas fa-image fa-3x"></i>
+                                                    <p>No Image</p>
+                                                </div>
+                                            {% endif %}
+                                            {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                                            {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
+                                        </div>
+                                        <div class="product-info">
+                                            <h3>{{ product.name }}</h3>
+                                            <p class="product-type">{{ product.get_product_type_display }}</p>
+                                            {% if product.is_on_sale %}
+                                                <div class="product-price">
+                                                    <span class="original-price">€{{ product.base_price }}</span>
+                                                    <span class="sale-price">€{{ product.current_price }}</span>
+                                                </div>
+                                            {% else %}
+                                                <p class="product-price">€{{ product.base_price }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    <!-- Quick Add overlay -->
+                                    <div class="quick-add">
+                                        <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}">ADD TO BAG</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </form>
+                <!-- Unified Quick Add Modal (MUST be outside the bulk archive form) -->
+                <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered quick-add-modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="quickAddFormUnified">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" id="quickAddProductId">
+                                    <div class="mb-3">
+                                        <label class="form-label">Size</label>
+                                        <select name="size" id="quickAddSizeSelect" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Color</label>
+                                        <select name="color" id="quickAddColorSelect" class="form-select" required></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Quantity</label>
+                                        <input type="number" name="quantity" id="quickAddQuantitySelect" class="form-control" min="1" max="99" value="1" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <div class="no-products text-center py-5">
+                        <i class="fas fa-search fa-4x mb-3 text-pink"></i>
+                        <h2>No Products Found</h2>
+                        <p>Try adjusting your filters or search terms.</p>
+                        <a href="{% url 'products' %}" class="btn btn-pink mt-3">View All Products</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content delete-confirm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="delete-icon-wrapper">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <p class="delete-message">
+                        Are you sure you want to permanently delete <strong id="deleteCount">0</strong> product(s)?
+                    </p>
+                    <p class="delete-warning">
+                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash-alt"></i> Delete Permanently
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+                // Unified Quick Add Modal logic for product grid
+                document.addEventListener('DOMContentLoaded', function() {
+                    const quickAddBtns = document.querySelectorAll('.product-grid-add-bag-btn');
+                    const quickAddModal = document.getElementById('quickAddModalUnified');
+                    const quickAddForm = document.getElementById('quickAddFormUnified');
+                    const quickAddProductId = document.getElementById('quickAddProductId');
+                    const quickAddSizeSelect = document.getElementById('quickAddSizeSelect');
+                    const quickAddColorSelect = document.getElementById('quickAddColorSelect');
+                    const quickAddQuantitySelect = document.getElementById('quickAddQuantitySelect');
+                    const quickAddModalTitle = document.getElementById('quickAddModalTitle');
+                    quickAddBtns.forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const productId = btn.getAttribute('data-product-id');
+                            const productSlug = btn.getAttribute('data-product-slug');
+                            const productName = btn.getAttribute('data-product-name');
+                            quickAddProductId.value = productId;
+                            quickAddModalTitle.textContent = `Add ${productName}`;
+                            // Fetch options
+                            fetch(`/products/${productId}/variant-options/`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    quickAddSizeSelect.innerHTML = '';
+                                    quickAddColorSelect.innerHTML = '';
+                                    
+                                    // Deduplicate sizes and colors
+                                    const uniqueSizes = [...new Set(data.sizes)];
+                                    const uniqueColors = [...new Set(data.colors)];
+                                    
+                                    uniqueSizes.forEach(s => {
+                                        quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                                    });
+                                    uniqueColors.forEach(c => {
+                                        quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                                    });
+                                    const modal = new bootstrap.Modal(quickAddModal);
+                                    modal.show();
+                                })
+                                .catch(() => {
+                                    window.location.href = `/products/${productSlug}/`;
+                                });
+                        });
+                    });
+                    if (quickAddForm) {
+                        quickAddForm.onsubmit = function(e) {
+                            e.preventDefault();
+                            const productId = quickAddProductId.value;
+                            const size = quickAddSizeSelect.value;
+                            const color = quickAddColorSelect.value;
+                            const quantity = quickAddQuantitySelect.value;
+                            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                            fetch(`/cart/add/${productId}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': csrfToken,
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: `size=${size}&color=${color}&quantity=${quantity}`
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    if (typeof showToast === 'function') {
+                                        showToast(`${quickAddModalTitle.textContent} added to cart!`, 'success');
+                                    }
+                                    bootstrap.Modal.getInstance(quickAddModal).hide();
+                                    // Update cart count badge
+                                    const cartBadge = document.getElementById('cartCountBadge');
+                                    if (cartBadge && data.cart_count !== undefined) {
+                                        cartBadge.textContent = data.cart_count;
+                                        cartBadge.style.display = data.cart_count > 0 ? 'flex' : 'none';
+                                    }
+                                } else {
+                                    if (typeof showToast === 'function') {
+                                        showToast(data.message || 'Could not add to cart', 'error');
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+    // Bulk select and enable/disable archive/delete buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAll = document.getElementById('selectAllProducts');
+        const checkboxes = document.querySelectorAll('.product-select-checkbox');
+        const archiveBtn = document.getElementById('bulkArchiveBtn');
+        const deleteBtn = document.getElementById('bulkDeleteBtn');
+        const actionInput = document.getElementById('bulkAction');
+
+        function updateButtons() {
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            if (archiveBtn) archiveBtn.disabled = !anyChecked;
+            if (deleteBtn) deleteBtn.disabled = !anyChecked;
+        }
+
+        if (selectAll) {
+            selectAll.addEventListener('change', function() {
+                checkboxes.forEach(cb => { cb.checked = selectAll.checked; });
+                updateButtons();
+            });
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                updateButtons();
+                if (!cb.checked && selectAll.checked) selectAll.checked = false;
+                if (Array.from(checkboxes).every(c => c.checked)) selectAll.checked = true;
+            });
+        });
+
+        // Set action based on which button is clicked
+        if (archiveBtn) {
+            archiveBtn.addEventListener('click', function() {
+                actionInput.value = 'archive';
+            });
+        }
+
+        // Delete button opens modal
+        const deleteModal = document.getElementById('deleteConfirmModal');
+        const deleteCountEl = document.getElementById('deleteCount');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const form = document.getElementById('bulkArchiveForm');
+
+        if (deleteBtn && deleteModal) {
+            const bsModal = new bootstrap.Modal(deleteModal);
+
+            deleteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+                deleteCountEl.textContent = checkedCount;
+                bsModal.show();
+            });
+
+            confirmDeleteBtn.addEventListener('click', function() {
+                actionInput.value = 'delete';
+                bsModal.hide();
+                form.submit();
+            });
+        }
+
+        updateButtons();
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const filtersBtn = document.getElementById('filtersSortBtn');
+        const filtersDropdown = document.getElementById('filtersDropdown');
+        const filtersOverlay = document.getElementById('filtersOverlay');
+        const filtersCloseBtn = document.getElementById('filtersCloseBtn');
+        
+        if (filtersBtn && filtersDropdown) {
+            // For desktop: show on hover
+            filtersBtn.addEventListener('mouseenter', function() {
+                if (window.innerWidth >= 992) {
+                    filtersDropdown.classList.add('show');
+                }
+            });
+            
+            filtersBtn.addEventListener('mouseleave', function(e) {
+                if (window.innerWidth >= 992) {
+                    setTimeout(() => {
+                        if (!filtersDropdown.matches(':hover')) {
+                            filtersDropdown.classList.remove('show');
+                        }
+                    }, 100);
+                }
+            });
+            
+            filtersDropdown.addEventListener('mouseleave', function() {
+                if (window.innerWidth >= 992) {
+                    filtersDropdown.classList.remove('show');
+                }
+            });
+            
+            // For mobile: toggle on click
+            filtersBtn.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    filtersDropdown.classList.toggle('show');
+                    filtersOverlay.classList.toggle('show');
+                    document.body.style.overflow = filtersDropdown.classList.contains('show') ? 'hidden' : '';
+                }
+            });
+            
+            // Close button click
+            if (filtersCloseBtn) {
+                filtersCloseBtn.addEventListener('click', function() {
+                    filtersDropdown.classList.remove('show');
+                    filtersOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Overlay click to close
+            if (filtersOverlay) {
+                filtersOverlay.addEventListener('click', function() {
+                    filtersDropdown.classList.remove('show');
+                    filtersOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            }
+        }
+
+        // Tab switching functionality for mobile filters
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const filterTabPanes = document.querySelectorAll('.filter-tab-pane');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+
+                // Remove active class from all tabs
+                filterTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                // Hide all tab panes
+                filterTabPanes.forEach(pane => pane.classList.remove('active'));
+                // Show target tab pane
+                document.getElementById(targetTab + '-tab').classList.add('active');
+            });
+        });
+
+        // Multi-select filter functionality
+        const applyFiltersBtn = document.querySelector('.apply-filters-btn');
+        const clearFiltersBtn = document.querySelector('.clear-filters-btn');
+        const collectionCheckboxes = document.querySelectorAll('input[name="collections"]');
+        const typeCheckboxes = document.querySelectorAll('input[name="types"]');
+        const sortRadios = document.querySelectorAll('input[name="sort"]');
+
+        // Handle "All Products" checkbox logic
+        collectionCheckboxes.forEach(checkbox => {
+            if (checkbox.value === '') { // "All Products" checkbox
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Uncheck all other collection checkboxes
+                        collectionCheckboxes.forEach(cb => {
+                            if (cb !== this) cb.checked = false;
+                        });
+                    }
+                });
+            } else {
+                // Regular collection checkbox
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Uncheck "All Products"
+                        document.querySelector('input[name="collections"][value=""]').checked = false;
+                    }
+                });
+            }
+        });
+
+        // Handle "All Types" checkbox logic
+        typeCheckboxes.forEach(checkbox => {
+            if (checkbox.value === '') { // "All Types" checkbox
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Uncheck all other type checkboxes
+                        typeCheckboxes.forEach(cb => {
+                            if (cb !== this) cb.checked = false;
+                        });
+                    }
+                });
+            } else {
+                // Regular type checkbox
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Uncheck "All Types"
+                        document.querySelector('input[name="types"][value=""]').checked = false;
+                    }
+                });
+            }
+        });
+
+        // Apply filters function
+        function applyFilters() {
+            const params = new URLSearchParams();
+
+            // Get selected collections (only first one for now due to backend limitations)
+            const selectedCollections = Array.from(collectionCheckboxes)
+                .filter(cb => cb.checked && cb.value !== '')
+                .map(cb => cb.value);
+
+            // Get selected types (only first one for now due to backend limitations)
+            const selectedTypes = Array.from(typeCheckboxes)
+                .filter(cb => cb.checked && cb.value !== '')
+                .map(cb => cb.value);
+
+            // Get selected sort
+            const selectedSort = Array.from(sortRadios).find(radio => radio.checked);
+
+            // Build URL parameters
+            if (selectedCollections.length > 0) {
+                // Note: Currently only applying first collection due to backend limitations
+                // To support multiple collections, backend would need modification
+                params.set('collection', selectedCollections[0]);
+            }
+
+            if (selectedTypes.length > 0) {
+                // Note: Currently only applying first type due to backend limitations
+                // To support multiple types, backend would need modification
+                params.set('type', selectedTypes[0]);
+            }
+
+            if (selectedSort && selectedSort.value) {
+                const [sortField, sortDirection] = selectedSort.value.split('_');
+                params.set('sort', sortField);
+                params.set('direction', sortDirection);
+            }
+
+            // Navigate to filtered URL
+            const baseUrl = '{% url "products" %}';
+            const finalUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+            window.location.href = finalUrl;
+        }
+
+        // Clear all filters function
+        function clearFilters() {
+            // Uncheck all checkboxes and radios
+            document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+
+            // Check the "All Products" and "All Types" by default
+            document.querySelector('input[name="collections"][value=""]').checked = true;
+            document.querySelector('input[name="types"][value=""]').checked = true;
+            document.querySelector('input[name="sort"][value=""]').checked = true;
+        }
+
+        // Event listeners
+        if (applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', applyFilters);
+        }
+
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', clearFilters);
+        }
+
+        // Product image flip on mobile tap
+        if (window.innerWidth < 992) {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const productImage = card.querySelector('.product-image');
+                if (productImage && card.querySelector('.product-img-hover')) {
+                    productImage.addEventListener('click', function(e) {
+                        // Only toggle if not clicking on a link or button
+                        if (!e.target.closest('a') && !e.target.closest('button')) {
+                            e.preventDefault();
+                            card.classList.toggle('image-flipped');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Battle Vest buttons functionality
+        const vestButtons = document.querySelectorAll('.product-vest-btn[data-product-slug]');
+
+        // Check which products are already in vest
+        vestButtons.forEach(btn => {
+            const slug = btn.dataset.productSlug;
+            fetch(`/products/${slug}/check-in-vest/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.in_vest) {
+                        btn.classList.add('in-vest');
+                        btn.querySelector('i').classList.remove('far');
+                        btn.querySelector('i').classList.add('fas');
+                    }
+                })
+                .catch(error => console.error('Error checking vest:', error));
+        });
+
+        // Handle vest button clicks
+        vestButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const slug = this.dataset.productSlug;
+                const icon = this.querySelector('i');
+                const isInVest = this.classList.contains('in-vest');
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                const url = isInVest
+                    ? `/products/${slug}/remove-from-vest/`
+                    : `/products/${slug}/add-to-vest/`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (isInVest) {
+                            this.classList.remove('in-vest');
+                            icon.classList.remove('fas');
+                            icon.classList.add('far');
+                        } else {
+                            this.classList.add('in-vest');
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                        }
+
+                        // Update vest count in navigation
+                        const mobileBadge = document.getElementById('battleVestCount');
+                        const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+                        if (mobileBadge) {
+                            mobileBadge.textContent = data.item_count;
+                            mobileBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
+                        }
+                        if (desktopBadge) {
+                            desktopBadge.textContent = data.item_count;
+                            desktopBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
+                        }
+
+                        // Show toast notification
+                        if (typeof showToast === 'function') {
+                            showToast(data.message, isInVest ? 'info' : 'success');
+                        }
+                    } else {
+                        // Backend returned a non-success response (e.g., already in vest)
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Action not completed', 'info');
+                        }
+                        // If server indicates item is in vest, ensure UI reflects that
+                        if (data.in_vest) {
+                            this.classList.add('in-vest');
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+    </script>
+{% endblock %}

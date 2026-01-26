@@ -145,3 +145,10 @@ def size_guide(request):
     View to display size guide information
     """
     return render(request, 'home/size_guide.html')
+
+
+def faq(request):
+    """
+    View to display frequently asked questions
+    """
+    return render(request, 'home/faq.html')

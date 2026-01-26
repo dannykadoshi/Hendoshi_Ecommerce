@@ -4,6 +4,7 @@
 {% block extra_title %}Admin Collections{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -54,7 +55,7 @@
                                 </td>
                                 <td><code class="slug-text">{{ c.slug }}</code></td>
                                 <td>
-                                    <div class="btn-group" role="group">
+                                    <div class="btn-group admin-action-animated" role="group">
                                         <a href="{% url 'admin_edit_collection' c.pk %}" class="btn btn-outline-primary btn-sm">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>

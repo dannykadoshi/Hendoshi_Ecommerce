@@ -57,7 +57,7 @@
             <!-- Product Images -->
             <div class="col-md-6">
                 <div class="product-images">
-                    <div class="main-image mb-3" id="mainImageContainer">
+                    <div class="main-image mb-3 glassmorphic-card" id="mainImageContainer">
                         {% if product.main_image %}
                             <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}">
                             {% with second_image=product.images.first %}
@@ -627,7 +627,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add a native share button for mobile devices
         const mobileShareBtn = document.createElement('button');
         mobileShareBtn.className = 'share-btn mobile-share-btn';
-        mobileShareBtn.innerHTML = '<i class="fas fa-share-alt"></i><span class="share-text">Share</span>';
+        mobileShareBtn.innerHTML = '<i class="fas fa-share-alt"></i>';
         mobileShareBtn.style.borderColor = 'var(--electric-yellow)';
         mobileShareBtn.style.color = 'var(--electric-yellow)';
 
@@ -689,23 +689,23 @@ document.addEventListener('DOMContentLoaded', function() {
 .share-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border: 2px solid;
-    border-radius: 8px;
-    background: transparent;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
     color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 120px;
-    justify-content: center;
+    padding: 0;
+    min-width: auto;
 }
 
 .share-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.3);
 }
 
 .share-btn:active {
@@ -714,10 +714,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .share-btn i {
     font-size: 1.1rem;
-}
-
-.share-text {
-    font-weight: 600;
 }
 
 /* Platform-specific button styles */
@@ -778,22 +774,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .share-btn {
-        padding: 0.6rem 0.8rem;
-        min-width: 100px;
-        font-size: 0.8rem;
-    }
-
-    .share-text {
-        display: none;
-    }
-
-    .share-btn {
-        min-width: auto;
-        padding: 0.6rem;
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
     }
 }
-</div> <!-- .container -->
-</div> <!-- .products-page -->
 </style>
 
 {% endblock %}

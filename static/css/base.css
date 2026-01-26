@@ -1251,6 +1251,7 @@ body {
     color: var(--off-white);
     overflow-x: hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
 }
 
 /* Theme Toggle Button */
@@ -1704,6 +1705,50 @@ body {
 
 .nav-item .nav-link:hover i {
     transform: scale(1.15);
+}
+
+/* Gradient text for special links like Sale */
+.gradient-text {
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    position: relative;
+}
+
+.gradient-text:hover {
+    background: linear-gradient(135deg, var(--electric-yellow) 0%, var(--neon-pink) 50%, #ff4757 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
+}
+
+/* Mobile gradient text */
+span.gradient-text-mobile {
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    font-weight: 700 !important;
+}
+
+/* Footer gradient text */
+.gradient-text-footer {
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+}
+
+.gradient-text-footer:hover {
+    background: linear-gradient(135deg, var(--electric-yellow) 0%, var(--neon-pink) 50%, #ff4757 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* Logo Text Styling */
@@ -2223,7 +2268,7 @@ body {
     width: 100%;
     max-width: 320px;
     height: 100vh;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
+    background: var(--charcoal);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     z-index: 1000;
@@ -2233,7 +2278,7 @@ body {
     border-right: 1px solid rgba(255, 105, 180, 0.2);
     box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
     padding-top: 5rem;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .mobile-menu.active {
@@ -2242,7 +2287,7 @@ body {
 }
 
 :root.light-mode .mobile-menu {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 250, 0.98) 100%);
+    background: var(--charcoal);
     border-right-color: rgba(231, 31, 127, 0.2);
 }
 
@@ -2327,8 +2372,8 @@ body {
     position: relative;
     width: 100%;
     min-height: 260px;
-    height: 260px;
-    overflow: hidden;
+    /* height: 260px; */
+    /* overflow: hidden; */
     flex-shrink: 0;
 }
 
@@ -2339,10 +2384,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--black);
+    background-color: var(--charcoal);
     transition: transform 0.3s ease;
     transform: translateX(0);
-    overflow-y: auto;
+    /* overflow-y: auto; */
     padding-bottom: 2rem;
 }
 
@@ -4781,7 +4826,6 @@ a.btn-pink {
 
 /* Products Page Styles */
 .products-page {
-    min-height: 100vh;
     padding-top: 120px;
     margin-top: 0;
 }
@@ -5284,6 +5328,13 @@ a.btn-pink {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
+}
+
+/* 5 columns for very large screens */
+@media (min-width: 1600px) {
+    .products-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
 
 /* 3 columns for large tablets */
@@ -6978,7 +7029,7 @@ a.btn-pink {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    border-radius: 15px;
     padding: 2rem;
 }
 
@@ -6999,14 +7050,14 @@ a.btn-pink {
 
 .cart-items-section {
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
+    border-radius: 15px;
     padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .cart-item {
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
+    border-radius: 15px;
     padding: 1.5rem;
     margin-bottom: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -7015,14 +7066,16 @@ a.btn-pink {
 
 .cart-item:hover {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 105, 180, 0.2);
+    border-color: rgba(255, 105, 180, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 
 .empty-cart {
     text-align: center;
     padding: 4rem 2rem;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
+    border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -7857,7 +7910,7 @@ a.btn-pink {
 .cart-item-image {
     width: 100px;
     height: 100px;
-    border-radius: 4px;
+    border-radius: 12px;
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.05);
 }
@@ -7965,8 +8018,9 @@ a.btn-pink {
     background: transparent;
     border: none;
     color: var(--neon-pink);
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
@@ -7977,15 +8031,17 @@ a.btn-pink {
 .qty-btn-sm:hover {
     background-color: rgba(255, 20, 147, 0.2);
     color: var(--electric-yellow);
+    transform: scale(1.1);
 }
 
 .qty-input-sm {
-    border: none;
-    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--off-white);
     text-align: center;
     width: 50px;
     font-weight: 700;
+    border-radius: 8px;
     -moz-appearance: textfield;
     appearance: textfield;
 }
@@ -8602,6 +8658,128 @@ a.btn-pink {
 :root.light-mode .summary-totals strong {
     color: #111111;
 }
+
+/* Enhanced Payment Page Styles - improved glassmorphism and layout */
+.order-summary-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,105,180,0.07);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 8px 30px rgba(16,16,16,0.45);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.order-summary-card:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(16,16,16,0.6); }
+
+.order-summary-card .summary-header {
+    display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:0.75rem;
+}
+.order-summary-card .summary-header h3 { margin:0; font-size:1.05rem; font-weight:800; color:var(--neon-pink); }
+.order-summary-card .summary-sub { color:var(--off-white); opacity:0.9; font-size:0.95rem; }
+
+.order-item { display:flex; gap:0.75rem; align-items:center; padding:0.6rem 0; border-bottom:1px dashed rgba(255,255,255,0.02); }
+.order-item:last-child { border-bottom:none; }
+.order-item img { width:56px; height:56px; object-fit:cover; border-radius:8px; flex-shrink:0; }
+.order-item .meta { flex:1; min-width:0; }
+.order-item .meta .title { color:var(--neon-pink); font-weight:700; font-size:0.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.order-item .meta .meta-sub { color:rgba(255,255,255,0.7); font-size:0.85rem; }
+.order-item .price { font-weight:800; color:var(--electric-yellow); min-width:85px; text-align:right; }
+
+.summary-totals { margin-top:1rem; display:block; }
+.summary-totals .row { display:flex; justify-content:space-between; gap:1rem; padding:0.45rem 0; align-items:center; }
+.summary-totals .row .label { color:var(--off-white); opacity:0.9; font-weight:600; }
+.summary-totals .row .value { color:var(--electric-yellow); font-weight:800; }
+
+.summary-totals .savings { color: rgba(204,255,0,0.95); font-weight:800; }
+.summary-totals .subtotal { color: rgba(255,255,255,0.92); }
+
+.summary-total-amount { display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; padding:0.9rem 1rem; border-radius:10px; background: linear-gradient(90deg, rgba(255,20,147,0.03), rgba(204,255,0,0.02)); border:1px solid rgba(255,20,147,0.06); }
+.summary-total-amount .label { font-weight:900; color:var(--neon-pink); letter-spacing:0.5px; }
+.summary-total-amount .amount { font-size:1.45rem; font-weight:900; color:var(--electric-yellow); }
+
+.payment-form-card { background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55)); border-radius:12px; padding:1.25rem; border:1px solid rgba(255,255,255,0.03); }
+.payment-form-card .form-row { margin-bottom:1rem; }
+
+.stripe-card-element { border-radius:10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
+
+.btn-pay { background: linear-gradient(90deg, var(--neon-pink), var(--electric-yellow)); color:var(--black); font-weight:900; padding:0.9rem 1.25rem; border-radius:10px; border:none; box-shadow:0 10px 30px rgba(255,20,147,0.18); transition: transform .18s ease, box-shadow .18s ease; }
+.btn-pay:hover { transform: translateY(-3px); box-shadow:0 20px 50px rgba(255,20,147,0.22); }
+
+/* Responsive adjustments for compact screens */
+@media (max-width: 991px) {
+    .order-summary-card { padding:1rem; }
+    .order-item img { width:48px; height:48px; }
+    .summary-total-amount .amount { font-size:1.15rem; }
+}
+
+/* Accessibility: focus states */
+.order-summary-card:focus-within, .payment-form-card:focus-within { outline: 3px solid rgba(255,105,180,0.12); }
+
+/* Two-column layout for checkout on desktop */
+.checkout-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (min-width: 992px) {
+    .checkout-main {
+        grid-template-columns: 380px 1fr;
+        align-items: start;
+    }
+
+    .order-summary-card {
+        margin: 0; /* remove stacked spacing when side-by-side */
+        position: sticky;
+        top: 140px;
+        align-self: start;
+        height: auto;
+    }
+
+    .payment-section {
+        align-self: start;
+    }
+}
+
+/* Edit discount button spacing */
+.edit-discount-btn {
+    display: inline-block;
+    margin-left: 0.6rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    vertical-align: middle;
+}
+
+/* Helper: align amount with inline edit button */
+.amount-with-edit { display:flex; align-items:center; justify-content:flex-end; gap:0.5rem; }
+
+/* Glassmorphic Card for Card Information (override pink border) */
+.payment-section .form-section {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 8px 30px rgba(16,16,16,0.45);
+    margin-bottom: 0.5rem; /* reduce spacing below the card so security notice sits closer */
+}
+
+.payment-section .form-section legend {
+    color: var(--neon-pink);
+    font-weight:700;
+    padding: 0 0.5rem;
+}
+
+/* Light-mode tweak: keep it subtle, avoid vibrant pink border */
+:root.light-mode .payment-section .form-section {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.06);
+}
+
+
 
 :root.light-mode .cart-summary .checkout-btn {
     background: linear-gradient(135deg, #FF2DA1, #FF007A);
@@ -14879,13 +15057,20 @@ datalist option {
 }
 
 .vault-page {
-    min-height: 100vh;
     padding-top: 120px;
+    overflow: visible;
+    position: static;
+}
+
+.vault-page::after {
+    content: "";
+    display: block;
+    clear: both;
 }
 
 .vault-container {
     padding-top: 3rem;
-    padding-bottom: 4rem;
+    padding-bottom: 6rem;
 }
 
 /* Auth pages: bring the form container closer to the hero */
@@ -16822,13 +17007,22 @@ section.vault-hero {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 1rem;
-    background-color: rgba(204, 255, 0, 0.1);
-    border: 1px solid var(--electric-yellow);
+    padding: 0.5rem 0.8rem;
+    background: linear-gradient(180deg, rgba(255,20,147,0.02), rgba(255,20,147,0.01));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,20,147,0.04);
     border-radius: 8px;
-    color: var(--neon-pink);
-    font-size: 0.95rem;
+    color: var(--off-white);
+    font-size: 0.92rem;
+    opacity: 0.95;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
 }
+
+.security-notice i { color: var(--electric-yellow); font-size: 0.95rem; }
+
+.security-notice span { color: rgba(255,255,255,0.9); font-weight:600; }
 
 .test-card-hint {
     display: block;
@@ -16925,5 +17119,83 @@ section.vault-hero {
     border-color: var(--neon-pink) !important;
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
 }
+
+/* ---------------- Modern Cart Page Overrides ---------------- */
+/* Apply checkout/shipping glass panel styles and modern layout */
+.cart-container, .cart-items-section, .cart-summary, .empty-cart {
+    background: rgba(255,255,255,0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-radius: 12px !important;
+}
+
+.cart-items-section { padding: 1.5rem !important; }
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 140px 110px 60px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem !important;
+    border-radius: 10px !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.cart-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+.cart-item-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.cart-item-details { padding-right: 0.5rem; }
+.cart-item-name { font-size: 1rem; margin-bottom: 0.25rem; color:var(--off-white); }
+.cart-item-specs { color: #bdbdbd; font-size: 0.85rem; margin-bottom: 0.25rem; }
+
+.cart-item-price, .cart-item-subtotal { text-align: right; font-weight:700; color:var(--off-white); }
+
+.qty-btn-sm { width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; }
+.qty-btn-sm:hover { transform: scale(1.05); }
+.qty-input-sm { width:64px; border-radius:8px; padding:6px 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03); text-align:center; }
+
+.cart-item-actions, .cart-item-quantity { display:flex; align-items:center; justify-content:center; }
+
+.cart-summary { padding: 1.75rem !important; }
+.summary-row { display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0; }
+.summary-title { color: var(--off-white); font-weight:800; }
+
+.checkout-cta .checkout-btn { background: linear-gradient(90deg, rgba(255,105,180,0.95), rgba(255,235,59,0.95)); border:none; color:var(--black); box-shadow:0 8px 30px rgba(0,0,0,0.12); }
+.checkout-cta .checkout-btn.disabled { opacity:0.6; pointer-events:none; }
+
+.btn-remove { width:40px; height:40px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); }
+.btn-remove:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+
+/* Mobile stacking */
+@media (max-width: 991px) {
+    .cart-item { grid-template-columns: 80px 1fr; grid-auto-rows: auto; grid-template-areas: "img details" "img quantity" "img subtotal" "img actions"; gap:0.5rem; }
+    .cart-item-image { grid-area: img; }
+    .cart-item-details { grid-area: details; }
+    .cart-item-quantity { grid-area: quantity; margin-top:0.5rem; }
+    .cart-item-subtotal { grid-area: subtotal; text-align:left; margin-top:0.5rem; }
+    .cart-item-actions { grid-area: actions; margin-top:0.5rem; }
+    .checkout-cta .checkout-btn { width:100%; }
+}
+
+/* Reduce pink intensity in summary totals */
+.total-row { border-top: 1px solid rgba(255,255,255,0.06) !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; }
+
+/* End Modern Cart Overrides */
 
 

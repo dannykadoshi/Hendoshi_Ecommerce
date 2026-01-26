@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}FAQ{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- FAQ Hero -->
+        <section class="vault-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                        <h1 class="vault-hero-title">Frequently Asked Questions</h1>
+                        <p class="vault-hero-subtitle">Got questions? We've got answers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Content Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="contact-card">
+                            <!-- Close Button -->
+                            <button type="button" class="contact-close-btn" onclick="history.back()" title="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                            <div class="shipping-content">
+                                <div class="shipping-intro mb-5">
+                                    <h2 class="shipping-heading">Common Questions</h2>
+                                    <p class="shipping-description">
+                                        Everything you need to know about HENDOSHI, our products, and our weird world.
+                                    </p>
+                                </div>
+
+                                <!-- FAQ Categories -->
+                                <div class="shipping-regions">
+                                    <!-- Ordering & Shipping -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-shopping-cart region-icon"></i>
+                                            <h3 class="region-title">Ordering & Shipping</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="faq-item">
+                                                <div class="faq-question">How long does shipping take?</div>
+                                                <div class="faq-answer">US orders typically arrive within 3-5 business days. International orders take 7-14 business days depending on your location.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Do you ship internationally?</div>
+                                                <div class="faq-answer">Yes! We ship worldwide. International shipping costs vary by location and are calculated at checkout.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Can I track my order?</div>
+                                                <div class="faq-answer">Absolutely. You'll receive a tracking number via email once your order ships. You can also check your order status in your account.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">What if my order arrives damaged?</div>
+                                                <div class="faq-answer">Contact us immediately with photos of the damage. We'll send a replacement or process a full refund.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Products & Sizing -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-tshirt region-icon"></i>
+                                            <h3 class="region-title">Products & Sizing</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="faq-item">
+                                                <div class="faq-question">What sizes do you offer?</div>
+                                                <div class="faq-answer">We offer sizes from XS to 4XL. Check our size guide for detailed measurements. All items are printed on demand for quality.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Are your shirts true to size?</div>
+                                                <div class="faq-answer">Our shirts run true to size. If you're between sizes, we recommend sizing up for a more relaxed fit.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">What material are your products made from?</div>
+                                                <div class="faq-answer">Our apparel is made from high-quality, comfortable fabrics. Tees are 100% cotton, hoodies are cotton/poly blends for durability.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Do you offer custom designs?</div>
+                                                <div class="faq-answer">We don't offer custom designs at this time, but we release new original designs regularly. Follow us for updates!</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Returns & Exchanges -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-undo-alt region-icon"></i>
+                                            <h3 class="region-title">Returns & Exchanges</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="faq-item">
+                                                <div class="faq-question">What's your return policy?</div>
+                                                <div class="faq-answer">We offer 14-day returns on unworn, unwashed items in original packaging. Free return shipping for US customers.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Can I exchange my order?</div>
+                                                <div class="faq-answer">Yes! Exchanges are processed the same as returns. We'll send your new items once we receive your return.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">What items can't be returned?</div>
+                                                <div class="faq-answer">Custom orders, worn/washed items, and items damaged due to misuse cannot be returned. See our full returns policy for details.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- About HENDOSHI -->
+                                    <div class="shipping-region mb-4">
+                                        <div class="region-header">
+                                            <i class="fas fa-question-circle region-icon"></i>
+                                            <h3 class="region-title">About HENDOSHI</h3>
+                                        </div>
+                                        <div class="region-content">
+                                            <div class="faq-item">
+                                                <div class="faq-question">What does "Wear Your Weird" mean?</div>
+                                                <div class="faq-answer">It means embracing who you are, no matter how different or unconventional. Our designs celebrate the misfits, outsiders, and creative souls.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Where do your designs come from?</div>
+                                                <div class="faq-answer">All designs are original HENDOSHI creations, inspired by metal culture, gothic art, gym motivation, dark humor, and surreal nightmares.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">Why "No Filler. Just Killer."?</div>
+                                                <div class="faq-answer">We don't add unnecessary elements to our designs or our brand. Everything we create is intentional, high-quality, and hits hard.</div>
+                                            </div>
+                                            <div class="faq-item">
+                                                <div class="faq-question">How often do you release new designs?</div>
+                                                <div class="faq-answer">We release new drops regularly, usually 1-2 times per month. Follow our social media for the latest updates and exclusive previews.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contact CTA -->
+                                <div class="shipping-contact mt-5 text-center">
+                                    <p class="contact-text">Still have questions?</p>
+                                    <a href="{% url 'contact' %}" class="btn btn-pink">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+.contact-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0;
+}
+
+.contact-form-section {
+    background: var(--dark-bg);
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.contact-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: scale(1.1);
+}
+
+.shipping-content {
+    padding: 2rem;
+}
+
+.shipping-intro {
+    text-align: center;
+}
+
+.shipping-heading {
+    color: var(--off-white);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.shipping-description {
+    color: var(--gray);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.shipping-regions {
+    margin-top: 3rem;
+}
+
+.shipping-region {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.shipping-region:hover {
+    border-color: rgba(255, 20, 147, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.region-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.region-icon {
+    font-size: 2rem;
+    color: var(--neon-pink);
+    margin-right: 1rem;
+}
+
+.region-title {
+    color: var(--off-white);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.faq-item {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.faq-question {
+    color: var(--neon-pink);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.faq-answer {
+    color: var(--gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.shipping-contact {
+    background: rgba(255, 20, 147, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.contact-text {
+    color: var(--off-white);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.shipping-contact .btn-pink {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Mobile responsiveness for FAQ page */
+@media (max-width: 768px) {
+    .shipping-content {
+        padding: 1.5rem;
+    }
+
+    .shipping-heading {
+        font-size: 1.6rem;
+    }
+
+    .region-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .region-icon {
+        margin-right: 0;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+    }
+
+    .faq-answer {
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+{% endblock %}

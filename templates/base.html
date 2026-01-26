@@ -276,6 +276,9 @@
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link gradient-text" href="{% url 'sale' %}">🔥 Sale</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'new_drops' %}">New Drops</a>
                     </li>
                     <li class="nav-item dropdown">
@@ -359,6 +362,7 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
                                         </ul>
                                     </li>
                                     {% endif %}
@@ -408,6 +412,7 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
                                         </ul>
                                     </li>
                                     {% endif %}
@@ -559,6 +564,10 @@
                         <button class="menu-item-header menu-item-trigger" data-submenu="product-type">Product Type</button>
                         <button class="menu-item-arrow" data-submenu="product-type">→</button>
                     </li>
+                    <li class="menu-item-group" onclick="window.location.href='{% url 'sale' %}'">
+                        <span class="menu-item-header gradient-text-mobile">🔥 Sale</span>
+                        <button class="menu-item-arrow" disabled>→</button>
+                    </li>
                     <li class="menu-item-group" onclick="window.location.href='{% url 'new_drops' %}'">
                         <span class="menu-item-header">New Drops</span>
                         <button class="menu-item-arrow" disabled>→</button>
@@ -670,6 +679,9 @@
                         <h5>Shop</h5>
                         <ul class="list-unstyled">
                             <li>
+                                <a href="{% url 'sale' %}" class="gradient-text-footer">🔥 Sale</a>
+                            </li>
+                            <li>
                                 <a href="{% url 'new_drops' %}">New Drops</a>
                             </li>
                             <li>
@@ -696,7 +708,7 @@
                                 <a href="{% url 'contact' %}">Contact</a>
                             </li>
                             <li>
-                                <a href="#">FAQ</a>
+                                <a href="{% url 'faq' %}">FAQ</a>
                             </li>
                         </ul>
                     </div>

@@ -4,6 +4,7 @@
 {% block title %}Archived Products - HENDOSHI{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
 <style>
 /* Close button styles */
 .close-btn {
@@ -122,7 +123,7 @@
                     <td>{{ product.product_type }}</td>
                     <td>{{ product.updated_at|date:'Y-m-d H:i' }}</td>
                     <td>
-                        <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form">
+                        <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form admin-action-animated">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-pink btn-sm">Restore</button>
                         </form>
@@ -176,7 +177,7 @@
 
                                 <!-- Action Button on Right Side -->
                                 <div class="ms-2">
-                                    <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form">
+                                    <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form admin-action-animated">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-pink btn-sm" title="Restore Product">
                                             <i class="fas fa-undo"></i> Restore
