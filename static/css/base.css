@@ -5397,7 +5397,7 @@ a.btn-pink {
 .quick-add {
     position: absolute;
     bottom: 15px;
-    left: 50%;
+    left: 60%;
     transform: translateX(-50%);
     width: auto;
     background: transparent;
@@ -5611,6 +5611,22 @@ a.btn-pink {
     border-radius: 3px;
 }
 
+.badge-sale {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: var(--black);
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 10;
+    pointer-events: none;
+    border-radius: 3px;
+}
+
 /* Product Card Battle Vest Button */
 .product-vest-btn {
     position: absolute;
@@ -5712,6 +5728,19 @@ a.btn-pink {
     margin-bottom: 0;
 }
 
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.sale-price {
+    color: var(--neon-pink);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
 /* Mobile: add padding to product-info to prevent quick-add overlap */
 @media (max-width: 991px) {
     .product-info {
@@ -5721,49 +5750,74 @@ a.btn-pink {
 
 /* Quick Add Modal */
 .quick-add-modal .modal-content {
-    background-color: var(--charcoal);
+    background: rgba(20, 20, 20, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 105, 180, 0.2) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1) !important;
     color: var(--off-white);
-    border: 2px solid var(--neon-pink);
-    border-radius: 12px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
 .quick-add-modal .modal-header {
-    border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+    border-bottom: 1px solid rgba(255, 105, 180, 0.2) !important;
     padding: 1rem 1.25rem;
+    background: transparent;
 }
 
 .quick-add-modal .modal-title {
-    color: var(--neon-pink);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    color: var(--neon-pink) !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: 0.3px !important;
+    font-size: 1.1rem !important;
 }
 
 .quick-add-modal .modal-body {
-    padding: 1.25rem 1.25rem 1.75rem;
+    padding: 1rem 1.25rem 1.5rem;
 }
 
 .quick-add-modal .form-label {
-    color: var(--off-white);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0.3px !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem;
 }
 
 .quick-add-modal .form-select {
-    background-color: var(--black);
-    border: 2px solid var(--gray);
-    color: var(--off-white);
-    padding: 0.9rem 1rem;
-    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 105, 180, 0.2) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    padding: 0.7rem 1rem !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
 }
 
 .quick-add-modal .form-select:focus {
-    border-color: var(--neon-pink);
-    box-shadow: 0 0 0 0.15rem rgba(255, 20, 147, 0.25);
-    background-color: var(--black);
-    color: var(--off-white);
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.15rem rgba(255, 20, 147, 0.25) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.quick-add-modal .form-control {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 105, 180, 0.2) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    padding: 0.7rem 1rem !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.quick-add-modal .form-control:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.15rem rgba(255, 20, 147, 0.25) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .quick-add-modal .btn-close {
@@ -5786,30 +5840,43 @@ a.btn-pink {
 
 /* Light mode override for quick add modal */
 :root.light-mode .quick-add-modal .modal-content {
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-    border-color: #E71F7F;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: rgba(0, 0, 0, 0.85) !important;
+    border-color: rgba(255, 105, 180, 0.2) !important;
 }
 
 :root.light-mode .quick-add-modal .modal-title {
-    color: #E71F7F;
+    color: var(--neon-pink) !important;
 }
 
 :root.light-mode .quick-add-modal .form-label {
-    color: #1A1A1A;
+    color: rgba(0, 0, 0, 0.85) !important;
 }
 
 :root.light-mode .quick-add-modal .form-select {
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-    border-color: #ccc;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: rgba(0, 0, 0, 0.85) !important;
+    border-color: rgba(255, 105, 180, 0.2) !important;
 }
 
 :root.light-mode .quick-add-modal .form-select:focus {
-    border-color: #E71F7F;
-    box-shadow: 0 0 0 0.15rem rgba(231, 31, 127, 0.25);
-    background-color: #FFFFFF;
-    color: #1A1A1A;
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.15rem rgba(255, 20, 147, 0.25) !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: rgba(0, 0, 0, 0.85) !important;
+}
+
+:root.light-mode .quick-add-modal .form-control {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: rgba(0, 0, 0, 0.85) !important;
+    border-color: rgba(255, 105, 180, 0.2) !important;
+}
+
+:root.light-mode .quick-add-modal .form-control:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.15rem rgba(255, 20, 147, 0.25) !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: rgba(0, 0, 0, 0.85) !important;
 }
 
 :root.light-mode .quick-add-modal .btn-close {
@@ -5823,34 +5890,41 @@ a.btn-pink {
 
 /* Enhance quick add button styling to match brand and avoid gray fallback */
 .quick-add-modal .btn-pink {
-    background: linear-gradient(135deg, var(--neon-pink), #ff2ca3);
-    border: 2px solid var(--neon-pink);
-    color: #FFFFFF;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.35);
-    padding: 0.9rem 1rem;
+    background: rgba(255, 20, 147, 0.15) !important;
+    color: var(--neon-pink) !important;
+    border: 1px solid rgba(255, 105, 180, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 0.7rem 1rem !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0.3px !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    box-shadow: none !important;
 }
 
 .quick-add-modal .btn-pink:hover {
-    background: linear-gradient(135deg, #ff2ca3, var(--neon-pink));
-    transform: translateY(-2px);
+    background: rgba(255, 20, 147, 0.25) !important;
+    color: var(--neon-pink) !important;
+    transform: none !important;
 }
 
 :root.light-mode .quick-add-modal .btn-pink {
-    background: linear-gradient(135deg, #E71F7F, #ff4fb3);
-    border-color: #E71F7F;
-    color: #FFFFFF;
-    box-shadow: 0 8px 20px rgba(231, 31, 127, 0.3);
+    background: rgba(255, 20, 147, 0.15) !important;
+    border-color: rgba(255, 105, 180, 0.2) !important;
+    color: var(--neon-pink) !important;
+    box-shadow: none !important;
 }
 
 .quick-add-modal .modal-footer {
-    border-top: 1px solid rgba(255, 20, 147, 0.2);
+    border-top: 1px solid rgba(255, 105, 180, 0.2) !important;
     padding: 1rem 1.25rem;
+    background: transparent;
 }
 
 :root.light-mode .quick-add-modal .modal-footer {
-    border-top: 1px solid rgba(231, 31, 127, 0.2);
+    border-top: 1px solid rgba(255, 105, 180, 0.2) !important;
 }
 
 /* Light mode: make nav icons pink */
@@ -6770,6 +6844,14 @@ a.btn-pink {
 
 .text-red {
     color: #ff6b6b !important;
+}
+
+.text-electric-yellow {
+    color: var(--electric-yellow) !important;
+}
+
+.text-gray-888 {
+    color: #888 !important;
 }
 
 /* Mobile responsive styles for subscribers management */

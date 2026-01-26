@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 import re
+from .models import DiscountCode
 
 # ...existing code...
 
@@ -238,6 +239,16 @@ class ShippingForm(forms.Form):
         })
     )
     
+    discount_code = forms.CharField(
+        max_length=50,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Discount code (optional)',
+            'aria-label': 'Discount code'
+        })
+    )
+    
     save_to_profile = forms.BooleanField(
         required=False,
         initial=False,
@@ -285,6 +296,23 @@ class ShippingForm(forms.Form):
             raise ValidationError('Please select a country.')
         
         return country
+    
+    def clean_discount_code(self):
+        """Validate discount code"""
+        from .models import DiscountCode
+        code = self.cleaned_data.get('discount_code', '').strip().upper()
+        
+        if not code:
+            return None
+        
+        try:
+            discount_code = DiscountCode.objects.get(code=code)
+            is_valid, error_message = discount_code.is_valid()
+            if not is_valid:
+                raise ValidationError(error_message)
+            return discount_code
+        except DiscountCode.DoesNotExist:
+            raise ValidationError('Invalid discount code.')
     
     def clean(self):
         """Cross-field validation"""
@@ -376,3 +404,70 @@ class OrderStatusUpdateForm(forms.Form):
             'rows': 2
         })
     )
+
+
+class DiscountCodeForm(forms.ModelForm):
+    """Form for creating and editing discount codes"""
+    
+    class Meta:
+        model = DiscountCode
+        fields = [
+            'code', 'discount_type', 'discount_value', 'minimum_order_value',
+            'max_uses', 'is_active', 'expires_at'
+        ]
+        widgets = {
+            'code': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., WELCOME10',
+                'style': 'text-transform: uppercase;'
+            }),
+            'discount_type': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'discount_value': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'min': '0'
+            }),
+            'minimum_order_value': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'min': '0'
+            }),
+            'max_uses': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '0'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'expires_at': forms.DateTimeInput(attrs={
+                'class': 'form-control',
+                'type': 'datetime-local'
+            }),
+        }
+    
+    def clean_code(self):
+        code = self.cleaned_data.get('code', '').upper()
+        if not code:
+            raise forms.ValidationError("Discount code is required.")
+        
+        # Check for uniqueness (excluding current instance if editing)
+        qs = DiscountCode.objects.filter(code=code)
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        
+        if qs.exists():
+            raise forms.ValidationError("A discount code with this name already exists.")
+        
+        return code
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        discount_type = cleaned_data.get('discount_type')
+        discount_value = cleaned_data.get('discount_value')
+        
+        if discount_type == 'percentage' and discount_value and discount_value > 100:
+            raise forms.ValidationError("Percentage discount cannot exceed 100%.")
+        
+        return cleaned_data

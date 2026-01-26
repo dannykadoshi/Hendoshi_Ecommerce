@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_title %}Admin Discount Codes{% endblock %}
+
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Discount Codes Management Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Discount Codes Management</h1>
+                    <p class="vault-hero-subtitle">Create, manage, and monitor discount codes for your store. Track usage and effectiveness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div class="container-fluid vault-container admin-products-container">
+    <div class="row">
+        <div class="col-12 mx-auto">
+            <div class="auth-card">
+
+                <!-- Filters and Search -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Discount Codes</h3>
+                    <a href="{% url 'admin_discount_codes_create' %}" class="btn btn-pink">
+                        <i class="fas fa-plus"></i> Create New Code
+                    </a>
+                </div>
+                <form method="get" class="mb-4 p-3 rounded admin-filter-form">
+                    <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-3">
+            <label>Status</label>
+            <select name="is_active" class="form-select">
+                <option value="">All</option>
+                <option value="active" {% if is_active == 'active' %}selected{% endif %}>Active</option>
+                <option value="inactive" {% if is_active == 'inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-6">
+            <label>Search</label>
+            <input type="text" name="search" class="form-control" placeholder="Discount code" value="{{ search }}">
+        </div>
+        <div class="col-12 col-md-2">
+            <label>Sort By</label>
+            <select name="sort" class="form-select">
+                <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>Newest</option>
+                <option value="created_at" {% if sort == 'created_at' %}selected{% endif %}>Oldest</option>
+                <option value="-used_count" {% if sort == '-used_count' %}selected{% endif %}>Most Used</option>
+                <option value="used_count" {% if sort == 'used_count' %}selected{% endif %}>Least Used</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-1 d-flex align-items-end">
+            <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn">Filter</button>
+        </div>
+                </div>
+                </form>
+
+                <!-- Discount Codes Table/Card View -->
+                {% if page_obj %}
+                <!-- Desktop Table View -->
+                <div class="table-responsive d-none d-md-block">
+        <table class="table archived-products-table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Min Order</th>
+                    <th>Uses</th>
+                    <th>Status</th>
+                    <th>Expires</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for code in page_obj %}
+                <tr>
+                    <td><strong>{{ code.code }}</strong></td>
+                    <td>{{ code.get_discount_type_display }}</td>
+                    <td>
+                        {% if code.discount_type == 'percentage' %}
+                            {{ code.discount_value }}%
+                        {% else %}
+                            €{{ code.discount_value }}
+                        {% endif %}
+                    </td>
+                    <td>€{{ code.minimum_order_value }}</td>
+                    <td>{{ code.used_count }}{% if code.max_uses > 0 %} / {{ code.max_uses }}{% endif %}</td>
+                    <td>
+                        {% if code.is_active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if code.expires_at %}
+                            {{ code.expires_at|date:"M d, Y" }}
+                        {% else %}
+                            Never
+                        {% endif %}
+                    </td>
+                    <td>{{ code.created_at|date:"M d, Y" }}</td>
+                    <td>
+                        <div class="d-flex gap-1 min-width-120">
+                            {% if code.is_active %}
+                                <form method="post" action="{% url 'admin_discount_codes_toggle' code.id %}" class="display-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-warning btn-width-32 btn-height-32" title="Pause Code">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="{% url 'admin_discount_codes_toggle' code.id %}" class="display-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Activate Code">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+                            <a href="{% url 'admin_discount_codes_edit' code.id %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit Code">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="{% url 'admin_discount_codes_delete' code.id %}" class="display-inline">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDiscountCodeDelete({{ code.id }}, '{{ code.code }}')" title="Delete Code">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="9" class="text-center">No discount codes found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="d-md-none">
+        <div class="row g-3">
+            {% for code in page_obj %}
+            <div class="col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="card-title mb-1">
+                                    <strong>{{ code.code }}</strong>
+                                </h6>
+                                <small class="text-muted">
+                                    {{ code.get_discount_type_display }} • 
+                                    {% if code.discount_type == 'percentage' %}
+                                        {{ code.discount_value }}%
+                                    {% else %}
+                                        €{{ code.discount_value }}
+                                    {% endif %}
+                                </small>
+                            </div>
+                            <div class="text-end">
+                                {% if code.is_active %}
+                                    <span class="badge bg-success">Active</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <small class="text-muted">Min Order</small>
+                                <div>€{{ code.minimum_order_value }}</div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Uses</small>
+                                <div>{{ code.used_count }}{% if code.max_uses > 0 %} / {{ code.max_uses }}{% endif %}</div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Expires</small>
+                                <div>
+                                    {% if code.expires_at %}
+                                        {{ code.expires_at|date:"M d, Y" }}
+                                    {% else %}
+                                        Never
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Created</small>
+                                <div>{{ code.created_at|date:"M d, Y" }}</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="d-flex gap-2 justify-content-center">
+                                {% if code.is_active %}
+                                    <form method="post" action="{% url 'admin_discount_codes_toggle' code.id %}" class="display-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-warning btn-width-80 btn-height-32" title="Pause Code">
+                                            <i class="fas fa-pause"></i> Pause
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="post" action="{% url 'admin_discount_codes_toggle' code.id %}" class="display-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-success btn-width-80 btn-height-32" title="Activate Code">
+                                            <i class="fas fa-play"></i> Activate
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                <a href="{% url 'admin_discount_codes_edit' code.id %}" class="btn btn-sm btn-primary btn-width-80 btn-height-32" title="Edit Code">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form method="post" action="{% url 'admin_discount_codes_delete' code.id %}" class="display-inline" 
+                                      onsubmit="return confirm('Are you sure you want to delete this discount code?')">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-sm btn-danger btn-width-80 btn-height-32" onclick="confirmDiscountCodeDelete({{ code.id }}, '{{ code.code }}')" title="Delete Code">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Discount codes pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Previous</a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+        <h4>No discount codes found</h4>
+        <p class="text-muted">Create your first discount code to get started.</p>
+    </div>
+    {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="vaultConfirmModal" tabindex="-1" aria-labelledby="vaultConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="vaultConfirmModalLabel">
+                    <i class="fas fa-question-circle vault-modal-icon"></i>
+                    <span id="modal-title-text">Confirm Action</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon" id="modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message" id="modal-message">Are you sure you want to perform this action?</p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn vault-modal-btn-confirm" id="modal-confirm-btn">
+                    <i class="fas fa-check"></i> <span id="modal-confirm-text">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Vault Confirmation Modal Functionality
+let currentFormToSubmit = null;
+
+function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form) {
+    // Update modal content
+    document.getElementById('modal-title-text').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
+    document.getElementById('modal-confirm-text').textContent = confirmText;
+
+    // Update confirm button styling
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    confirmBtn.className = `btn ${confirmClass} vault-modal-btn-confirm`;
+    
+    // Store form reference
+    currentFormToSubmit = form;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
+    modal.show();
+}
+
+// Handle modal confirm button click
+document.getElementById('modal-confirm-btn').addEventListener('click', function() {
+    if (currentFormToSubmit) {
+        currentFormToSubmit.submit();
+    }
+});
+
+// Discount code confirmation functions
+function confirmDiscountCodeDelete(codeId, codeName) {
+    const form = document.querySelector(`form[action*="delete"][action*="/${codeId}/"]`);
+    showVaultConfirmModal(
+        'Delete Discount Code',
+        `Are you sure you want to permanently delete the discount code "${codeName}"? This action cannot be undone!`,
+        'fa-trash',
+        'Delete Forever',
+        'btn-danger',
+        form
+    );
+    return false;
+}
+</script>
+
+{% endblock %}

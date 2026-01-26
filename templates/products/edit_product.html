@@ -147,6 +147,42 @@
                             </div>
                         </div>
 
+                        <!-- Sale Price -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ product_form.sale_price.id_for_label }}" class="form-label">Sale Price (Optional)</label>
+                                {{ product_form.sale_price }}
+                                {% if product_form.sale_price.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.sale_price.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                <small class="helper-text">Leave blank if not on sale</small>
+                            </div>
+                        </div>
+
+                        <!-- Sale Dates -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ product_form.sale_start.id_for_label }}" class="form-label">Sale Start Date/Time (Optional)</label>
+                                {{ product_form.sale_start }}
+                                {% if product_form.sale_start.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.sale_start.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ product_form.sale_end.id_for_label }}" class="form-label">Sale End Date/Time (Optional)</label>
+                                {{ product_form.sale_end }}
+                                {% if product_form.sale_end.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.sale_end.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <!-- Main Image -->
                         <div class="mb-4">
                             <label for="{{ product_form.main_image.id_for_label }}" class="form-label">Main Product Image *</label>

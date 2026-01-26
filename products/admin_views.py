@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.db.models import Q
+from django.db.models import Q, Sum
 from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm
 from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory
 from .image_utils import optimize_product_images
@@ -185,7 +185,7 @@ def list_products(request):
 
     # Add stock count to each product for template
     for product in products_page:
-        product.stock_count = product.variants.filter(stock__gt=0).count()
+        product.total_stock = product.variants.aggregate(total=Sum('stock'))['total'] or 0
 
     # Context data
     collections = Collection.objects.all().order_by('name')
@@ -377,7 +377,7 @@ def edit_admin_product(request, pk):
         'is_edit': True,
     }
 
-    return render(request, 'products/admin_edit_product.html', context)
+    return render(request, 'products/edit_product.html', context)
 
 
 @login_required

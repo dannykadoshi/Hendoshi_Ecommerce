@@ -639,6 +639,12 @@
                                     <td>€{{ order.tax_amount }}</td>
                                 </tr>
                             {% endif %}
+                            {% if order.discount_amount %}
+                                <tr>
+                                    <td>Discount ({{ order.discount_code.code }})</td>
+                                    <td class="text-success">-€{{ order.discount_amount }}</td>
+                                </tr>
+                            {% endif %}
                             <tr class="total-row">
                                 <td><strong>Total</strong></td>
                                 <td><strong>€{{ order.total_amount }}</strong></td>

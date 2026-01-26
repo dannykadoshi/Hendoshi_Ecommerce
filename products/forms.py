@@ -16,6 +16,9 @@ class ProductForm(forms.ModelForm):
             'collection',
             'product_type',
             'base_price',
+            'sale_price',
+            'sale_start',
+            'sale_end',
             'main_image',
             'meta_description',
             'is_active',
@@ -46,6 +49,21 @@ class ProductForm(forms.ModelForm):
                 'placeholder': 'Price (£)',
                 'step': '0.01',
                 'required': 'required'
+            }),
+            'sale_price': forms.NumberInput(attrs={
+                'class': 'form-control auth-form-input',
+                'placeholder': 'Sale Price (£) - Optional',
+                'step': '0.01'
+            }),
+            'sale_start': forms.DateTimeInput(attrs={
+                'class': 'form-control auth-form-input',
+                'type': 'datetime-local',
+                'placeholder': 'Sale Start Date/Time - Optional'
+            }),
+            'sale_end': forms.DateTimeInput(attrs={
+                'class': 'form-control auth-form-input',
+                'type': 'datetime-local',
+                'placeholder': 'Sale End Date/Time - Optional'
             }),
             'main_image': forms.FileInput(attrs={
                 'class': 'form-control auth-form-input',

@@ -91,11 +91,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Quantity</label>
-                                                            <select name="quantity" class="form-select" required>
-                                                                {% for q in "123456789"|make_list %}
-                                                                    <option value="{{ q }}">{{ q }}</option>
-                                                                {% endfor %}
-                                                            </select>
+                                                            <input type="number" name="quantity" class="form-control" min="1" max="99" value="1" required>
                                                         </div>
                                                         <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
                                                     </form>

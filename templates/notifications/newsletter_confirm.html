@@ -38,8 +38,8 @@
             <div class="auth-card">
                 {% if success %}
                     <div class="text-center mb-4">
-                        <i class="fas fa-check-circle fa-3x mb-3" style="color: var(--electric-yellow);"></i>
-                        <h3 class="mb-4" style="color: var(--off-white);">You're All Set!</h3>
+                        <i class="fas fa-check-circle fa-3x mb-3 text-electric-yellow"></i>
+                        <h3 class="mb-4 text-off-white">You're All Set!</h3>
                     </div>
 
                     <div class="row">
@@ -58,7 +58,7 @@
                         <div class="col-md-6 mb-4">
                             <div class="newsletter-management">
                                 <h5><i class="fas fa-cog text-secondary me-2"></i>Manage Your Subscription</h5>
-                                <p class="text-muted small mb-3" style="color: #888 !important;">You can update your email preferences or manage your subscription settings.</p>
+                                <p class="text-muted small mb-3 text-gray-888">You can update your email preferences or manage your subscription settings.</p>
                                 <div class="d-flex flex-column gap-2">
                                     <a href="{% url 'notification_preferences' %}" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-sliders-h me-1"></i>Update Preferences
@@ -72,19 +72,19 @@
                     </div>
 
                     <div class="newsletter-footer">
-                        <p class="text-muted mb-0" style="color: #888 !important;">
+                        <p class="text-muted mb-0 text-gray-888">
                             <small><i class="fas fa-clock me-1"></i>Expect your first newsletter within 24 hours</small>
                         </p>
                     </div>
                 {% else %}
                     <div class="text-center">
                         <i class="fas fa-exclamation-triangle fa-3x text-warning mb-4"></i>
-                        <h3 class="mb-3" style="color: var(--off-white);">Confirmation Issue</h3>
-                        <p class="mb-4" style="color: var(--off-white);">This confirmation link appears to be invalid or expired. Don't worry - you can still subscribe to our newsletter to stay updated on new drops and exclusive offers.</p>
+                        <h3 class="mb-3 text-off-white">Confirmation Issue</h3>
+                        <p class="mb-4 text-off-white">This confirmation link appears to be invalid or expired. Don't worry - you can still subscribe to our newsletter to stay updated on new drops and exclusive offers.</p>
 
                         <div class="newsletter-benefits">
                             <h5 class="mb-3"><i class="fas fa-envelope text-primary me-2"></i>Try Again</h5>
-                            <p class="text-muted small mb-3" style="color: #888 !important;">Subscribe again to receive our newsletter with exclusive offers and updates.</p>
+                            <p class="text-muted small mb-3 text-gray-888">Subscribe again to receive our newsletter with exclusive offers and updates.</p>
                             <a href="#newsletter-signup" class="btn btn-primary">
                                 <i class="fas fa-envelope me-1"></i>Subscribe Now
                             </a>

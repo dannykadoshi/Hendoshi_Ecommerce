@@ -129,7 +129,7 @@
                 {% endif %}
 
                 <!-- Address Form (hidden by default for logged-in users with saved addresses) -->
-                <div id="addressFormContainer" {% if request.user.is_authenticated and saved_addresses %}style="display: none;"{% endif %}>
+                <div id="addressFormContainer" {% if request.user.is_authenticated and saved_addresses %}class="display-none"{% endif %}>
                 <form class="checkout-form" method="post" novalidate id="checkoutForm">
                     {% csrf_token %}
 
@@ -245,6 +245,28 @@
                         </div>
                     {% endif %}
                 </form>
+                </div>
+
+                <!-- Discount Code (always visible, outside the address form container) -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="{{ form.discount_code.id_for_label }}">Discount Code</label>
+                        <div class="input-group">
+                            {{ form.discount_code }}
+                            <input type="hidden" name="applied_discount_code" id="applied_discount_code" value="">
+                            <input type="hidden" name="applied_discount_amount" id="applied_discount_amount" value="">
+                            <button type="button" class="btn btn-success" id="applyDiscountBtn">
+                                <i class="fas fa-check"></i> Apply
+                            </button>
+                        </div>
+                        {% if form.discount_code.errors %}
+                            <div class="form-error-text">
+                                <i class="fas fa-exclamation-circle"></i> {{ form.discount_code.errors.0 }}
+                            </div>
+                        {% endif %}
+                        <div id="discountMessage" class="mt-2 display-none"></div>
+                        <small class="form-text text-muted">Enter a discount code if you have one (optional)</small>
+                    </div>
                 </div>
 
                 <!-- Submit Button (always visible) -->
@@ -453,6 +475,96 @@
                     errorElement.style.display = 'none';
                 }
             });
+        }
+    });
+
+    // Discount Code Application
+    document.getElementById('applyDiscountBtn').addEventListener('click', function() {
+        const discountCodeInput = document.getElementById('{{ form.discount_code.id_for_label }}');
+        const discountCode = discountCodeInput.value.trim().toUpperCase();
+        const discountMessage = document.getElementById('discountMessage');
+        const applyBtn = this;
+        
+        if (!discountCode) {
+            showDiscountMessage('Please enter a discount code.', 'danger');
+            return;
+        }
+        
+        // Show loading state
+        applyBtn.disabled = true;
+        applyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Applying...';
+        
+        // Send AJAX request
+        fetch('{% url "validate_discount_code" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: 'discount_code=' + encodeURIComponent(discountCode)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                showDiscountMessage(`Discount applied! You save €${data.discount_amount.toFixed(2)}.`, 'success');
+                // Store the applied discount in hidden form fields for form submission
+                document.getElementById('applied_discount_code').value = discountCode;
+                document.getElementById('applied_discount_amount').value = data.discount_amount;
+                
+                // Update order summary if visible
+                updateOrderSummary(data.discount_amount, data.new_total);
+            } else {
+                showDiscountMessage(data.message, 'danger');
+                // Clear hidden fields on error
+                document.getElementById('applied_discount_code').value = '';
+                document.getElementById('applied_discount_amount').value = '';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showDiscountMessage('An error occurred. Please try again.', 'danger');
+        })
+        .finally(() => {
+            // Reset button state
+            applyBtn.disabled = false;
+            applyBtn.innerHTML = '<i class="fas fa-check"></i> Apply';
+        });
+    });
+    
+    function showDiscountMessage(message, type) {
+        const discountMessage = document.getElementById('discountMessage');
+        discountMessage.innerHTML = `<div class="alert alert-${type} py-2">${message}</div>`;
+        discountMessage.style.display = 'block';
+        
+        // Auto-hide success messages after 5 seconds
+        if (type === 'success') {
+            setTimeout(() => {
+                discountMessage.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    function updateOrderSummary(discountAmount, newTotal) {
+        // Update order summary on checkout page
+        const subtotalElement1 = document.querySelector('.summary-totals strong');
+        const subtotalElement2 = document.querySelector('.h4');
+        
+        if (subtotalElement1 && subtotalElement2) {
+            // Update both subtotal displays
+            const originalSubtotal = {{ subtotal|default:0 }};
+            subtotalElement1.innerHTML = `€${newTotal.toFixed(2)} <small class="text-success">(was €${originalSubtotal.toFixed(2)})</small>`;
+            subtotalElement2.innerHTML = `€${newTotal.toFixed(2)} <small class="text-success">(was €${originalSubtotal.toFixed(2)})</small>`;
+        }
+    }
+    
+    // Load previously applied discount on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if hidden fields have values (from form validation errors)
+        const appliedCode = document.getElementById('applied_discount_code').value;
+        const appliedAmount = document.getElementById('applied_discount_amount').value;
+        
+        if (appliedCode && appliedAmount) {
+            updateOrderSummary(parseFloat(appliedAmount), {{ subtotal|default:0 }} - parseFloat(appliedAmount));
         }
     });
 </script>

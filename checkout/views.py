@@ -15,14 +15,11 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import ShippingForm, ActivateAccountForm
-from .models import Order, OrderItem
+from .models import Order, OrderItem, DiscountCode
 from cart.models import Cart, CartItem
 from cart.views import get_or_create_cart
 from products.models import Product
 from profiles.models import Address
-
-from cart.views import get_or_create_cart
-from .forms import ShippingForm
 from .models import Order, OrderItem
 from profiles.models import Address
 
@@ -233,6 +230,38 @@ def checkout(request):
                 # Generate activation token for guest users
                 activation_token = secrets.token_urlsafe(48)
             
+            # Calculate discount if code provided
+            discount_code = form.cleaned_data.get('discount_code')
+            discount_amount = 0
+            subtotal = cart.get_subtotal()
+            
+            # Check if discount was applied via AJAX (from hidden form fields)
+            applied_discount_code = request.POST.get('applied_discount_code')
+            applied_discount_amount = request.POST.get('applied_discount_amount')
+            
+            if discount_code:
+                # Use the discount from the form (user entered it manually)
+                discount_amount = discount_code.calculate_discount(subtotal)
+                total_amount = subtotal - discount_amount
+            elif applied_discount_code and applied_discount_amount:
+                # Use the discount applied via AJAX
+                try:
+                    discount_code_obj = DiscountCode.objects.get(code=applied_discount_code)
+                    # Verify the discount is still valid
+                    is_valid, _ = discount_code_obj.is_valid()
+                    if is_valid and subtotal >= discount_code_obj.minimum_order_value:
+                        discount_code = discount_code_obj
+                        discount_amount = float(applied_discount_amount)
+                        total_amount = subtotal - discount_amount
+                    else:
+                        # Clear invalid applied discount
+                        total_amount = subtotal
+                except DiscountCode.DoesNotExist:
+                    # Clear invalid applied discount
+                    total_amount = subtotal
+            else:
+                total_amount = subtotal
+            
             # Create order with payment_pending status
             order = Order.objects.create(
                 user=user_for_order,
@@ -246,8 +275,10 @@ def checkout(request):
                 state_or_county=form.cleaned_data['state_or_county'],
                 country=form.cleaned_data['country'],
                 postal_code=form.cleaned_data['postal_code'],
-                subtotal=cart.get_subtotal(),
-                total_amount=cart.get_subtotal(),
+                subtotal=subtotal,
+                discount_code=discount_code,
+                discount_amount=discount_amount,
+                total_amount=total_amount,
                 payment_status='pending',  # Order created but awaiting payment
             )
             
@@ -339,6 +370,53 @@ def send_order_confirmation_email(order):
     except Exception as e:
         # Log error but don't fail the order
         print(f"Error sending confirmation email for order {order.order_number}: {str(e)}")
+
+
+@require_http_methods(['POST'])
+def validate_discount_code(request):
+    """AJAX endpoint to validate discount code and return discount amount."""
+    code = request.POST.get('discount_code', '').strip().upper()
+    cart = get_or_create_cart(request)
+    subtotal = cart.get_subtotal()
+    
+    if not code:
+        return JsonResponse({
+            'valid': False,
+            'message': 'Please enter a discount code.'
+        })
+    
+    try:
+        discount_code = DiscountCode.objects.get(code=code)
+        is_valid, error_message = discount_code.is_valid()
+        
+        if not is_valid:
+            return JsonResponse({
+                'valid': False,
+                'message': error_message
+            })
+        
+        # Check minimum order value
+        if subtotal < discount_code.minimum_order_value:
+            return JsonResponse({
+                'valid': False,
+                'message': f'Minimum order value of €{discount_code.minimum_order_value} required.'
+            })
+        
+        discount_amount = discount_code.calculate_discount(subtotal)
+        
+        return JsonResponse({
+            'valid': True,
+            'message': f'Discount applied! You save €{discount_amount:.2f}.',
+            'discount_amount': float(discount_amount),
+            'new_total': float(subtotal - discount_amount),
+            'code': code
+        })
+        
+    except DiscountCode.DoesNotExist:
+        return JsonResponse({
+            'valid': False,
+            'message': 'Invalid discount code.'
+        })
 
 
 def payment(request, order_number):

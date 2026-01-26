@@ -119,7 +119,15 @@
                         <span class="type-badge">{{ product.get_product_type_display }}</span>
                     </div>
                     
-                    <p class="product-price">€{{ product.base_price }}</p>
+                    {% if product.is_on_sale %}
+                        <div class="product-price">
+                            <span class="original-price">€{{ product.base_price }}</span>
+                            <span class="sale-price">€{{ product.current_price }}</span>
+                            <span class="sale-badge">Sale</span>
+                        </div>
+                    {% else %}
+                        <p class="product-price">€{{ product.base_price }}</p>
+                    {% endif %}
                     
                     <div class="product-description mb-4">
                         <p>{{ product.description }}</p>

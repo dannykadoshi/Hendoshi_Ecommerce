@@ -64,3 +64,42 @@ input, textarea, select {
     #header, .branding { background: #fff !important; border-bottom-color: #E71F7F; }
     #header h1, .branding a { color: #E71F7F !important; }
 }
+
+/* Admin filter form styling */
+.admin-filter-form {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Utility classes for inline forms and hidden elements */
+.display-none {
+    display: none;
+}
+
+.display-inline {
+    display: inline;
+}
+
+.min-width-200 {
+    min-width: 200px;
+}
+
+.max-width-150 {
+    max-width: 150px;
+}
+
+.min-width-120 {
+    min-width: 120px;
+}
+
+.btn-width-32 {
+    width: 32px;
+}
+
+.btn-width-80 {
+    width: 80px;
+}
+
+.btn-height-32 {
+    height: 32px;
+}

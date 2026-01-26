@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from products.models import Product
 from profiles.models import Address
 import uuid
@@ -63,6 +64,8 @@ class Order(models.Model):
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     shipping_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    discount_code = models.ForeignKey('DiscountCode', on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     
     # Payment information
@@ -118,3 +121,58 @@ class OrderItem(models.Model):
     def get_total_price(self):
         """Calculate total price for this item"""
         return self.price * self.quantity
+
+
+class DiscountCode(models.Model):
+    """
+    Discount codes for orders
+    """
+    DISCOUNT_TYPE_CHOICES = [
+        ('percentage', 'Percentage'),
+        ('fixed', 'Fixed Amount'),
+    ]
+    
+    code = models.CharField(max_length=50, unique=True, help_text="Discount code (case-insensitive)")
+    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPE_CHOICES, default='percentage')
+    discount_value = models.DecimalField(max_digits=10, decimal_places=2, help_text="Percentage (0-100) or fixed amount")
+    minimum_order_value = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Minimum order subtotal required")
+    max_uses = models.PositiveIntegerField(default=0, help_text="Maximum uses (0 = unlimited)")
+    used_count = models.PositiveIntegerField(default=0, help_text="Number of times used")
+    is_active = models.BooleanField(default=True)
+    expires_at = models.DateTimeField(null=True, blank=True, help_text="Expiration date (optional)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.code} ({self.discount_value}{'%' if self.discount_type == 'percentage' else '€'})"
+    
+    def is_valid(self, subtotal=0):
+        """Check if discount code is valid for use"""
+        if not self.is_active:
+            return False, "Discount code is inactive"
+        
+        if self.expires_at and self.expires_at < timezone.now():
+            return False, "Discount code has expired"
+        
+        if self.max_uses > 0 and self.used_count >= self.max_uses:
+            return False, "Discount code has reached maximum uses"
+        
+        if subtotal < self.minimum_order_value:
+            return False, f"Minimum order value of €{self.minimum_order_value} required"
+        
+        return True, ""
+    
+    def calculate_discount(self, subtotal):
+        """Calculate discount amount"""
+        if self.discount_type == 'percentage':
+            return subtotal * (self.discount_value / 100)
+        else:
+            return min(self.discount_value, subtotal)
+    
+    def use_code(self):
+        """Increment usage count"""
+        self.used_count += 1
+        self.save(update_fields=['used_count'])

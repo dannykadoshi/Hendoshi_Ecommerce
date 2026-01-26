@@ -72,13 +72,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Quantity</label>
-                            <select name="quantity" id="vestQuantitySelect" class="form-select" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                            <input type="number" name="quantity" id="vestQuantitySelect" class="form-control" min="1" max="99" value="1" required>
                         </div>
                         <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
                     </form>
@@ -181,12 +175,17 @@ function openAddToCartVestModal(productId, productName) {
         .then(data => {
             const sizeSelect = document.getElementById('vestSizeSelect');
             const colorSelect = document.getElementById('vestColorSelect');
+            
+            // Deduplicate sizes and colors
+            const uniqueSizes = [...new Set(data.sizes)];
+            const uniqueColors = [...new Set(data.colors)];
+            
             sizeSelect.innerHTML = '';
             colorSelect.innerHTML = '';
-            data.sizes.forEach(s => {
+            uniqueSizes.forEach(s => {
                 sizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
             });
-            data.colors.forEach(c => {
+            uniqueColors.forEach(c => {
                 colorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
             });
             // Show modal
