@@ -7,6 +7,104 @@
     /* Minimal page-scoped overrides kept short — main styling now lives in static/css/base.css */
     #discountBanner { display: none !important; visibility: hidden !important; }
     .navbar { margin-top: 0 !important; }
+    
+    /* Override Bootstrap list-group-item active state for shipping modal */
+    #shippingModal .list-group {
+        background: transparent;
+        border: none;
+    }
+    
+    #shippingModal .list-group-item {
+        background-color: rgba(255, 20, 147, 0.05);
+        border: 1px solid rgba(255, 20, 147, 0.2);
+        color: var(--off-white);
+        transition: all 0.2s ease;
+        margin-bottom: 0.5rem;
+        border-radius: 8px;
+    }
+    
+    #shippingModal .list-group-item:hover {
+        background-color: rgba(255, 20, 147, 0.1);
+        border-color: rgba(255, 20, 147, 0.25);
+    }
+    
+    #shippingModal .list-group-item.active {
+        background-color: rgba(255, 20, 147, 0.15) !important;
+        border-color: rgba(255, 20, 147, 0.3) !important;
+        color: var(--off-white) !important;
+    }
+    
+    #shippingModal .list-group-item.active:hover {
+        background-color: rgba(255, 20, 147, 0.2) !important;
+    }
+    
+    #shippingModal .form-check-input:checked {
+        background-color: var(--neon-pink);
+        border-color: var(--neon-pink);
+    }
+    
+    /* Make free shipping text more visible */
+    #shippingModal .shipping-free-text {
+        color: #cccccc !important;
+        font-weight: 500;
+    }
+    
+    /* Improve order totals table spacing and alignment */
+    .order-totals table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+    }
+    
+    .order-totals table td {
+        padding: 0.25rem 0;
+    }
+    
+    .order-totals table td:first-child {
+        padding-right: 2rem;
+        font-weight: 500;
+    }
+    
+    .order-totals table td:last-child {
+        text-align: right;
+        font-weight: 600;
+        min-width: 80px;
+    }
+    
+    .order-totals table tr.total-row td {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    .order-totals table tr.total-row td:last-child {
+        font-size: 1.1rem;
+        color: var(--electric-yellow);
+    }
+    
+    /* Style discount amount cell with inline edit icon */
+    .discount-label-cell {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .edit-discount-icon {
+        color: var(--neon-pink);
+        font-size: 0.9rem;
+        opacity: 0.7;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        padding: 0.2rem;
+        border-radius: 3px;
+    }
+    
+    .edit-discount-icon:hover {
+        opacity: 1;
+        background-color: rgba(255, 20, 147, 0.1);
+        color: var(--neon-pink);
+    }
 </style>
 {% endblock %}
 
@@ -113,9 +211,15 @@
                                             <td class="text-muted">Subtotal</td>
                                             <td id="summary-subtotal">€{{ order.subtotal|floatformat:2 }}</td>
                                         </tr>
-                                <tr id="shipping-row" style="{% if not order.shipping_cost %}display:none;{% endif %}">
+                                <tr id="shipping-row">
                                     <td class="text-muted">Shipping</td>
-                                    <td id="summary-shipping-amount">€{{ order.shipping_cost|floatformat:2 }}</td>
+                                    <td id="summary-shipping-amount">
+                                        {% if order.shipping_cost %}
+                                            €{{ order.shipping_cost|floatformat:2 }}
+                                        {% else %}
+                                            <span class="text-success fw-bold">FREE</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 {% if order.tax_amount %}
                                 <tr>
@@ -125,15 +229,13 @@
                                 {% endif %}
                                 {% if order.discount_amount %}
                                 <tr id="discount-row">
-                                    <td class="text-muted">Discount{% if order.discount_code %} (<span id="summary-discount-code">{{ order.discount_code.code }}</span>){% endif %}</td>
-                                    <td>
-                                        <div class="amount-with-edit">
-                                            <span id="summary-discount-value" class="text-success">-€{{ order.discount_amount|floatformat:2 }}</span>
-                                            <a href="{% url 'view_cart' %}" class="btn btn-pink btn-sm edit-discount-btn" aria-label="Edit discount">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
+                                    <td class="text-muted discount-label-cell">
+                                        Discount{% if order.discount_code %} (<span id="summary-discount-code">{{ order.discount_code.code }}</span>){% endif %}
+                                        <a href="{% url 'view_cart' %}" class="edit-discount-icon" aria-label="Edit discount" title="Edit discount">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                     </td>
+                                    <td id="summary-discount-value" class="text-success">-€{{ order.discount_amount|floatformat:2 }}</td>
                                 </tr>
                                 {% endif %}
                                 <tr class="total-row">
@@ -145,7 +247,7 @@
                     </div>
 
                     <div class="mt-3 d-flex gap-2">
-                        <a href="{% url 'checkout' %}" class="btn btn-outline-pink btn-sm flex-grow-1">Edit Shipping</a>
+                        <button type="button" class="btn btn-outline-pink btn-sm flex-grow-1" data-bs-toggle="modal" data-bs-target="#shippingModal">Select Shipping Rate</button>
                         <a href="mailto:support@hendoshi.com" class="btn btn-outline-pink btn-sm">Help</a>
                     </div>
                 </div>
@@ -273,16 +375,16 @@
                 document.getElementById('summary-subtotal').textContent = formatMoney(data.cart_subtotal);
             }
 
-            // Shipping handling
+            // Shipping handling - always show shipping row
             const shippingRow = document.getElementById('shipping-row');
-            if (typeof data.shipping_cost !== 'undefined' && Number(data.shipping_cost) > 0){
-                if (shippingRow){
-                    const el = document.getElementById('summary-shipping-amount');
-                    if (el) el.textContent = formatMoney(data.shipping_cost);
-                    shippingRow.style.display = '';
+            const shippingAmountEl = document.getElementById('summary-shipping-amount');
+            if (shippingRow && shippingAmountEl) {
+                if (typeof data.shipping_cost !== 'undefined' && Number(data.shipping_cost) > 0) {
+                    shippingAmountEl.innerHTML = formatMoney(data.shipping_cost);
+                } else {
+                    shippingAmountEl.innerHTML = '<span class="text-success fw-bold">FREE</span>';
                 }
-            } else {
-                if (shippingRow) shippingRow.style.display = 'none';
+                shippingRow.style.display = '';
             }
 
             // Discount handling
@@ -342,6 +444,125 @@
 
     // Poll every 30s while page is visible
     setInterval(function(){ if (document.visibilityState === 'visible') fetchTotals(); }, 30000);
+
+    // Handle shipping rate selection modal
+    document.addEventListener('DOMContentLoaded', function() {
+        const shippingModal = document.getElementById('shippingModal');
+        const confirmBtn = document.getElementById('confirmShippingBtn');
+        const radios = document.querySelectorAll('.shipping-rate-radio-modal');
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]')?.value;
+
+        // Handle confirm button
+        confirmBtn?.addEventListener('click', async function() {
+            const selectedRadio = document.querySelector('.shipping-rate-radio-modal:checked');
+            if (!selectedRadio) {
+                alert('Please select a shipping rate.');
+                return;
+            }
+
+            const selectedId = selectedRadio.value;
+            
+            try {
+                const resp = await fetch('{% url "update_order_shipping" order.order_number %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `selected_shipping_id=${encodeURIComponent(selectedId)}`
+                });
+
+                if (!resp.ok) {
+                    const error = await resp.json();
+                    alert('Error: ' + (error.error || 'Failed to update shipping'));
+                    return;
+                }
+
+                const data = await resp.json();
+                
+                // Update the UI
+                updateTotals({
+                    cart_subtotal: {{ order.subtotal|floatformat:2 }},
+                    shipping_cost: data.shipping_cost,
+                    discount_amount: {{ order.discount_amount|floatformat:2 }},
+                    cart_total: data.total_amount,
+                    cart_total_items: {{ order.items.count }}
+                });
+
+                // Update Stripe PaymentIntent
+                if (window.stripe && data.client_secret) {
+                    // You might need to update the PaymentIntent client secret if amount changed
+                    // For now, just close the modal
+                }
+
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(shippingModal);
+                modal.hide();
+
+            } catch (e) {
+                console.error('Failed to update shipping', e);
+                alert('Failed to update shipping. Please try again.');
+            }
+        });
+
+        // Handle radio button changes (optional visual feedback)
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Remove active class from all labels
+                document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
+                // Add active class to selected label
+                this.closest('.list-group-item').classList.add('active');
+            });
+        });
+    });
 })();
 </script>
+
+<!-- Shipping Rate Selection Modal -->
+<div class="modal fade vault-confirm-modal" id="shippingModal" tabindex="-1" aria-labelledby="shippingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="shippingModalLabel">
+                    <i class="fas fa-shipping-fast vault-modal-icon"></i>
+                    Select Shipping Rate
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                {% if shipping_rates %}
+                <div class="shipping-rates-section">
+                    <div class="list-group">
+                        {% for rate in shipping_rates %}
+                        <label class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <input type="radio" name="selected_shipping_id_modal" value="{{ rate.id }}" id="modal_shipping_{{ rate.id }}" {% if rate.id == selected_shipping_id %}checked{% endif %} class="form-check-input me-2 shipping-rate-radio-modal">
+                                <strong>{{ rate.name }}</strong>
+                                {% if rate.free_over %}
+                                    <small class="shipping-free-text"> • Free over €{{ rate.free_over }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="text-end">
+                                {% if rate.free_over and order.subtotal >= rate.free_over %}
+                                    <span class="text-success">Free</span>
+                                {% else %}
+                                    <span>€{{ rate.price }}</span>
+                                {% endif %}
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted">No shipping rates available.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn vault-modal-btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-pink" id="confirmShippingBtn">Update Shipping</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

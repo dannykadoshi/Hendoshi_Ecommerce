@@ -614,6 +614,61 @@ def remove_discount_code(request):
     return JsonResponse({'success': False, 'message': 'No discount to remove.'})
 
 
+@require_http_methods(['POST'])
+def update_order_shipping(request, order_number):
+    """AJAX endpoint to update shipping rate for an existing order."""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Security: verify user owns this order
+    if order.user and order.user != request.user and request.user.is_authenticated:
+        return JsonResponse({'success': False, 'error': 'Permission denied.'}, status=403)
+    
+    selected = request.POST.get('selected_shipping_id')
+    if not selected:
+        return JsonResponse({'success': False, 'error': 'No selection provided.'}, status=400)
+    
+    try:
+        sid = int(selected)
+    except Exception:
+        return JsonResponse({'success': False, 'error': 'Invalid id.'}, status=400)
+
+    try:
+        rate = ShippingRate.objects.get(id=sid, is_active=True)
+    except ShippingRate.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Rate not found.'}, status=404)
+
+    # Calculate shipping cost (considering free_over threshold)
+    subtotal = order.subtotal
+    if rate.free_over and subtotal >= rate.free_over:
+        shipping_cost = Decimal('0')
+    else:
+        shipping_cost = rate.price
+
+    # Update order
+    order.shipping_cost = shipping_cost
+    order.total_amount = order.subtotal + shipping_cost + order.tax_amount - order.discount_amount
+    order.save(update_fields=['shipping_cost', 'total_amount'])
+
+    # Update session for consistency
+    request.session['selected_shipping_id'] = rate.id
+    request.session.modified = True
+
+    # Update PaymentIntent with new amount
+    try:
+        intent = _create_or_update_payment_intent(order)
+        client_secret = intent.client_secret
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': f'Failed to update payment: {str(e)}'}, status=500)
+
+    return JsonResponse({
+        'success': True,
+        'selected_shipping_id': rate.id,
+        'shipping_cost': float(shipping_cost),
+        'total_amount': float(order.total_amount),
+        'client_secret': client_secret,
+    })
+
+
 def payment(request, order_number):
     """Display payment page and coordinate Stripe payment confirmation."""
     order = get_object_or_404(Order, order_number=order_number)
@@ -674,6 +729,10 @@ def payment(request, order_number):
     intent = _create_or_update_payment_intent(order)
     payment_error = order.payment_error if order.payment_status == 'failed' else None
 
+    # Get shipping rates for modal
+    shipping_rates = list(ShippingRate.objects.filter(is_active=True).order_by('price'))
+    selected_shipping_id = request.session.get('selected_shipping_id')
+
     context = {
         'order': order,
         'payment_error': payment_error,
@@ -685,6 +744,8 @@ def payment(request, order_number):
             {'label': 'Payment', 'status': 'current'},
             {'label': 'Confirmation', 'status': 'upcoming'},
         ],
+        'shipping_rates': shipping_rates,
+        'selected_shipping_id': selected_shipping_id,
     }
 
     return render(request, 'checkout/payment.html', context)
