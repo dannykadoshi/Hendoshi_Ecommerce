@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_title %}Admin Shipping Rates{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Shipping Rates Management</h1>
+                    <p class="vault-hero-subtitle">Create and manage shipping prices and free-shipping thresholds.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid vault-container admin-products-container">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <div class="auth-card">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="mb-0">Shipping Rates</h3>
+                        <a href="{% url 'admin_shipping_create' %}" class="btn btn-pink"><i class="fas fa-plus"></i> Create Rate</a>
+                    </div>
+
+                    <form method="get" class="mb-4 p-3 rounded admin-filter-form">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-12 col-md-3">
+                                <label>Search</label>
+                                <input type="text" name="search" class="form-control" placeholder="Name" value="{{ search }}">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label>Sort By</label>
+                                <select name="sort" class="form-select">
+                                    <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>Newest</option>
+                                    <option value="created_at" {% if sort == 'created_at' %}selected{% endif %}>Oldest</option>
+                                    <option value="price" {% if sort == 'price' %}selected{% endif %}>Price (asc)</option>
+                                    <option value="-price" {% if sort == '-price' %}selected{% endif %}>Price (desc)</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <button type="submit" class="btn btn-pink btn-form-action w-100">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if page_obj %}
+                    <!-- Desktop Table View -->
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table archived-products-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Free over</th>
+                                    <th>Active</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rate in page_obj %}
+                                <tr>
+                                    <td><strong>{{ rate.name }}</strong></td>
+                                    <td>€{{ rate.price }}</td>
+                                    <td>{% if rate.free_over %}€{{ rate.free_over }}{% else %}-{% endif %}</td>
+                                    <td>{% if rate.is_active %}<span class="badge bg-success">Active</span>{% else %}<span class="badge bg-secondary">Inactive</span>{% endif %}</td>
+                                    <td>{{ rate.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        <div class="d-flex gap-1 min-width-180 shipping-admin-actions">
+                                            <a href="{% url 'admin_shipping_edit' rate.id %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <!-- Toggle active/paused -->
+                                            <form method="post" action="{% url 'admin_shipping_toggle_active' rate.id %}" class="d-inline-block">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm {% if rate.is_active %}btn-warning{% else %}btn-success{% endif %} btn-width-32 btn-height-32" title="{% if rate.is_active %}Pause{% else %}Activate{% endif %}">
+                                                    {% if rate.is_active %}
+                                                        <i class="fas fa-pause"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-play"></i>
+                                                    {% endif %}
+                                                </button>
+                                            </form>
+
+                                            <!-- Set standard -->
+                                            {% if rate.is_standard %}
+                                                <span class="badge bg-pink align-self-center">Standard</span>
+                                            {% else %}
+                                                <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-pink btn-width-32 btn-height-32" title="Set as standard">
+                                                        <i class="fas fa-star"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+
+                                            <form method="post" action="{% url 'admin_shipping_delete' rate.id %}" class="display-inline">
+                                                {% csrf_token %}
+                                                <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmShippingRateDelete({{ rate.id }}, '{{ rate.name }}')" title="Delete Rate">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile Card View -->
+                    <div class="d-md-none">
+                        <div class="row g-3">
+                            {% for rate in page_obj %}
+                            <div class="col-12">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <h6 class="card-title mb-1"><strong>{{ rate.name }}</strong></h6>
+                                                <small class="text-muted">€{{ rate.price }} {% if rate.free_over %}• Free over €{{ rate.free_over }}{% endif %}</small>
+                                            </div>
+                                            <div class="text-end">
+                                                {% if rate.is_active %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">Inactive</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3">
+                                            <div class="d-flex gap-2 justify-content-center">
+                                                <a href="{% url 'admin_shipping_edit' rate.id %}" class="btn btn-sm btn-primary btn-width-80 btn-height-32"><i class="fas fa-edit"></i> Edit</a>
+                                                <form method="post" action="{% url 'admin_shipping_toggle_active' rate.id %}" class="d-inline-block">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm {% if rate.is_active %}btn-warning{% else %}btn-success{% endif %} btn-width-80 btn-height-32">{% if rate.is_active %}<i class="fas fa-pause"></i> Pause{% else %}<i class="fas fa-play"></i> Activate{% endif %}</button>
+                                                </form>
+                                                {% if rate.is_standard %}
+                                                    <span class="badge bg-pink align-self-center">Standard</span>
+                                                {% else %}
+                                                    <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm btn-outline-pink btn-width-80 btn-height-32"><i class="fas fa-star"></i> Set Standard</button>
+                                                    </form>
+                                                {% endif %}
+                                                <form method="post" action="{% url 'admin_shipping_delete' rate.id %}" class="display-inline" onsubmit="return false;">
+                                                    {% csrf_token %}
+                                                    <button type="button" class="btn btn-sm btn-danger btn-width-80 btn-height-32" onclick="confirmShippingRateDelete({{ rate.id }}, '{{ rate.name }}')"><i class="fas fa-trash"></i> Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if page_obj.has_other_pages %}
+                    <nav aria-label="Shipping rates pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Previous</a></li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-shipping-fast fa-3x text-muted mb-3"></i>
+                        <h4>No shipping rates found</h4>
+                        <p class="text-muted">Create a shipping rate to get started.</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation modal already provided globally in base.html; add helper JS -->
+<script>
+function confirmShippingRateDelete(rateId, rateName) {
+    const form = document.querySelector(`form[action*="/shipping/${rateId}/delete/"]`);
+    if (!form) return;
+    showVaultConfirmModal(
+        'Delete Shipping Rate',
+        `Are you sure you want to permanently delete the shipping rate "${rateName}"? This action cannot be undone!`,
+        'fa-trash',
+        'Delete Forever',
+        'btn-danger',
+        form
+    );
+    return false;
+}
+</script>
+
+{% endblock %}

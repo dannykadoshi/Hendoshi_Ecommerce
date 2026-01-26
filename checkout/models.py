@@ -184,3 +184,34 @@ class DiscountCode(models.Model):
         """Increment usage count"""
         self.used_count += 1
         self.save(update_fields=['used_count'])
+
+
+class ShippingRate(models.Model):
+    """Simple shipping rate configuration for the store.
+
+    - `name`: human-friendly label (e.g. "Standard", "Express")
+    - `price`: fixed shipping price applied when selected
+    - `free_over`: optional order subtotal threshold above which this rate becomes free
+    - `is_active`: whether this shipping option is available
+    """
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    free_over = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+                                    help_text='If set, shipping is free when order subtotal >= this value')
+    is_active = models.BooleanField(default=True)
+    is_standard = models.BooleanField(default=False, help_text='Mark this as the standard/default shipping rate')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.name} — €{self.price} {'(free over €'+str(self.free_over)+')' if self.free_over else ''}"
+
+    def save(self, *args, **kwargs):
+        """If this rate is marked as standard, ensure no other rate is standard."""
+        super().save(*args, **kwargs)
+        if self.is_standard:
+            # unset is_standard on other rates
+            ShippingRate.objects.exclude(pk=self.pk).filter(is_standard=True).update(is_standard=False)
