@@ -31,7 +31,7 @@
                             <tr>
                                 <td><strong>{{ product.name }}</strong></td>
                                 <td>{{ product.collection.name|default:"—" }}</td>
-                                <td>{{ product.get_product_type_display }}</td>
+                                <td>{{ product.product_type_display }}</td>
                                 <td>${{ product.base_price }}</td>
                                 <td>
                                     {% if product.is_active %}Active{% else %}Inactive{% endif %}

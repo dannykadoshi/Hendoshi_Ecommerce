@@ -123,16 +123,11 @@ class ProductForm(forms.ModelForm):
         except Exception:
             pass
 
-        # Build product_type choices from DB ProductType entries, fallback to static PRODUCT_TYPES
+        # Use DB-backed ProductType choices when available
         try:
-            db_types = list(ProductType.objects.all().values_list('slug', 'name'))
-            # Merge DB types first, then add any static types that aren't present
-            static = getattr(Product, 'PRODUCT_TYPES', [])
-            static_filtered = [s for s in static if s[0] not in {d[0] for d in db_types}]
-            combined = [(slug, name) for slug, name in db_types] + static_filtered
-            self.fields['product_type'].choices = combined
+            self.fields['product_type'].queryset = ProductType.objects.all().order_by('name')
         except Exception:
-            # If ProductType table isn't available (migration state), leave default choices
+            # If ProductType table isn't available (migration state), leave the field empty
             pass
 
 

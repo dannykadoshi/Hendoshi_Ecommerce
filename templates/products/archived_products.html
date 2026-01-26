@@ -120,7 +120,7 @@
                 <tr>
                     <td>{{ product.name }}</td>
                     <td>{{ product.collection.name }}</td>
-                    <td>{{ product.product_type }}</td>
+                    <td>{{ product.product_type_display }}</td>
                     <td>{{ product.updated_at|date:'Y-m-d H:i' }}</td>
                     <td>
                         <form method="post" action="{% url 'restore_product' product.slug %}" class="inline-form admin-action-animated">
@@ -160,7 +160,7 @@
                                             <small class="text-muted">Type</small>
                                             <div>
                                                 <span class="type-badge type-badge-custom">
-                                                    <i class="fas fa-tag"></i> {{ product.product_type }}
+                                                    <i class="fas fa-tag"></i> {{ product.product_type_display }}
                                                 </span>
                                             </div>
                                         </div>

@@ -129,7 +129,7 @@
                                         {% if product.featured %}<span class="badge bg-warning ms-1">Featured</span>{% endif %}
                                     </td>
                                     <td>{{ product.collection.name|default:"—" }}</td>
-                                    <td>{{ product.get_product_type_display }}</td>
+                                    <td>{{ product.product_type_display }}</td>
                                     <td>
                                         {% if product.is_on_sale %}
                                             <span class="text-decoration-line-through text-secondary">${{ product.base_price }}</span>
@@ -208,7 +208,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <small class="text-muted">Type</small>
-                                                        <div>{{ product.get_product_type_display }}</div>
+                                                        <div>{{ product.product_type_display }}</div>
                                                     </div>
                                                     <div class="col-6">
                                                         <small class="text-muted">Price</small>

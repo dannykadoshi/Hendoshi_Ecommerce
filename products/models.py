@@ -75,11 +75,21 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         related_name='products'
     )
-    product_type = models.CharField(
-        max_length=20,
-        choices=PRODUCT_TYPES,
-        default='tshirt'
+    # DB-backed FK to ProductType (final field name after migration)
+    product_type = models.ForeignKey(
+        'ProductType',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='products'
     )
+
+    # Backwards-compatible property to show a display value
+    @property
+    def product_type_display(self):
+        if self.product_type:
+            return self.product_type.name
+        return ''
     
     # Pricing
     base_price = models.DecimalField(max_digits=6, decimal_places=2)

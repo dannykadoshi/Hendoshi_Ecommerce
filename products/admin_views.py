@@ -66,33 +66,18 @@ def delete_collection(request, pk):
 @login_required
 @user_passes_test(is_staff_or_admin)
 def list_product_types(request):
-    # Get all product types (both DB and static)
-    all_types = []
-    
-    # DB-backed product types (editable)
+    # List DB-backed product types (after migrating static types into DB)
     db_types = ProductType.objects.all().order_by('name')
+    types = []
     for pt in db_types:
-        all_types.append({
+        types.append({
             'name': pt.name,
             'slug': pt.slug,
             'pk': pt.pk,
-            'is_static': False,  # Can be edited/deleted
-            'product_count': Product.objects.filter(product_type=pt.slug, is_active=True, is_archived=False).count()
+            'is_static': False,
+            'product_count': Product.objects.filter(product_type=pt, is_active=True, is_archived=False).count()
         })
-    
-    # Static product types (read-only)
-    existing_slugs = {pt['slug'] for pt in all_types}
-    for slug, name in Product.PRODUCT_TYPES:
-        if slug not in existing_slugs:
-            all_types.append({
-                'name': name,
-                'slug': slug,
-                'pk': None,
-                'is_static': True,  # Cannot be edited/deleted
-                'product_count': Product.objects.filter(product_type=slug, is_active=True, is_archived=False).count()
-            })
-    
-    return render(request, 'products/admin_product_types_list.html', {'types': all_types})
+    return render(request, 'products/admin_product_types_list.html', {'types': types})
 
 
 @login_required
@@ -158,7 +143,8 @@ def list_products(request):
 
     product_type_filter = request.GET.get('product_type', '')
     if product_type_filter:
-        products = products.filter(product_type=product_type_filter)
+        # Filter by ProductType slug (DB-backed)
+        products = products.filter(product_type__slug=product_type_filter)
 
     status_filter = request.GET.get('status', '')
     if status_filter == 'active':
@@ -189,7 +175,7 @@ def list_products(request):
 
     # Context data
     collections = Collection.objects.all().order_by('name')
-    product_types = Product.PRODUCT_TYPES
+    product_types = list(ProductType.objects.all().values_list('slug', 'name'))
 
     # Calculate page range for pagination (show max 10 pages)
     total_pages = (total_products + per_page - 1) // per_page

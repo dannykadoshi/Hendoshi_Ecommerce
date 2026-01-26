@@ -57,7 +57,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = [
         'name',
         'collection',
-        'product_type',
+        'product_type_display',
         'base_price',
         'sale_price',
         'is_on_sale',

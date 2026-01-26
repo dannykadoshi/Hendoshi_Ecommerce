@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                            <h1 class="vault-hero-title">{{ product.get_product_type_display }}</h1>
+                            <h1 class="vault-hero-title">{{ product.product_type_display }}</h1>
                             <p class="vault-hero-subtitle">{{ product.collection.name|default:'HENDOSHI' }}</p>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                         {% if product.collection %}
                         <span class="collection-badge">{{ product.collection.name }}</span>
                         {% endif %}
-                        <span class="type-badge">{{ product.get_product_type_display }}</span>
+                        <span class="type-badge">{{ product.product_type_display }}</span>
                     </div>
                     
                     {% if product.is_on_sale %}

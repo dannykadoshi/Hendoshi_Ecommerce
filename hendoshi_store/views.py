@@ -67,11 +67,11 @@ def product_types(request):
     # DB-backed product types
     db_types = ProductType.objects.all()
     for pt in db_types:
-        product_count = Product.objects.filter(product_type=pt.slug, is_active=True, is_archived=False).count()
+        product_count = Product.objects.filter(product_type_fk=pt, is_active=True, is_archived=False).count()
         if product_count > 0:
             # Get a representative product (first active one with an image)
             representative_product = Product.objects.filter(
-                product_type=pt.slug, 
+                product_type_fk=pt, 
                 is_active=True, 
                 is_archived=False,
                 main_image__isnull=False
@@ -83,27 +83,6 @@ def product_types(request):
                 'product_count': product_count,
                 'representative_product': representative_product
             })
-
-    # Static product types (fallback)
-    existing_slugs = {pt['slug'] for pt in product_types_data}
-    for slug, name in Product.PRODUCT_TYPES:
-        if slug not in existing_slugs:
-            product_count = Product.objects.filter(product_type=slug, is_active=True, is_archived=False).count()
-            if product_count > 0:
-                # Get a representative product (first active one with an image)
-                representative_product = Product.objects.filter(
-                    product_type=slug, 
-                    is_active=True, 
-                    is_archived=False,
-                    main_image__isnull=False
-                ).first()
-                
-                product_types_data.append({
-                    'name': name,
-                    'slug': slug,
-                    'product_count': product_count,
-                    'representative_product': representative_product
-                })
 
     # Sort by product count (highest first), then by name
     product_types_data.sort(key=lambda x: (-x['product_count'], x['name']))
