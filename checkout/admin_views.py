@@ -9,6 +9,8 @@ import csv
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import DiscountCodeForm
+from .forms import ShippingRateForm
+from .models import ShippingRate
 
 @staff_member_required
 def admin_orders_list(request):
@@ -164,3 +166,94 @@ def admin_discount_codes_delete(request, code_id):
         messages.success(request, f'Discount code {code_name} has been deleted!')
     
     return redirect('admin_discount_codes_list')
+
+
+@staff_member_required
+def admin_shipping_list(request):
+    search = request.GET.get('search', '')
+    sort = request.GET.get('sort', '-created_at')
+
+    shipping_qs = ShippingRate.objects.all()
+    if search:
+        shipping_qs = shipping_qs.filter(name__icontains=search)
+    if sort:
+        shipping_qs = shipping_qs.order_by(sort)
+
+    paginator = Paginator(shipping_qs, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'checkout/admin_shipping_list.html', {
+        'page_obj': page_obj,
+        'search': search,
+        'sort': sort,
+    })
+
+
+@staff_member_required
+def admin_shipping_create(request):
+    if request.method == 'POST':
+        form = ShippingRateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Shipping rate created successfully!')
+            return redirect('admin_shipping_list')
+    else:
+        form = ShippingRateForm()
+
+    return render(request, 'checkout/admin_shipping_form.html', {
+        'form': form,
+        'title': 'Create Shipping Rate',
+        'submit_text': 'Create'
+    })
+
+
+@staff_member_required
+def admin_shipping_edit(request, ship_id):
+    rate = get_object_or_404(ShippingRate, id=ship_id)
+    if request.method == 'POST':
+        form = ShippingRateForm(request.POST, instance=rate)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Shipping rate updated successfully!')
+            return redirect('admin_shipping_list')
+    else:
+        form = ShippingRateForm(instance=rate)
+
+    return render(request, 'checkout/admin_shipping_form.html', {
+        'form': form,
+        'title': 'Edit Shipping Rate',
+        'submit_text': 'Update'
+    })
+
+
+@staff_member_required
+def admin_shipping_toggle_active(request, ship_id):
+    if request.method == 'POST':
+        rate = get_object_or_404(ShippingRate, id=ship_id)
+        rate.is_active = not rate.is_active
+        rate.save()
+        status = 'activated' if rate.is_active else 'paused'
+        messages.success(request, f'Shipping rate "{rate.name}" has been {status}.')
+    return redirect('admin_shipping_list')
+
+
+@staff_member_required
+def admin_shipping_set_standard(request, ship_id):
+    if request.method == 'POST':
+        rate = get_object_or_404(ShippingRate, id=ship_id)
+        # mark this as standard; model.save will unset others
+        rate.is_standard = True
+        rate.save()
+        messages.success(request, f'Shipping rate "{rate.name}" set as standard.')
+    return redirect('admin_shipping_list')
+
+
+@staff_member_required
+def admin_shipping_delete(request, ship_id):
+    if request.method == 'POST':
+        rate = get_object_or_404(ShippingRate, id=ship_id)
+        name = rate.name
+        rate.delete()
+        messages.success(request, f'Shipping rate "{name}" deleted.')
+    return redirect('admin_shipping_list')

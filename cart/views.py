@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from products.models import Product
 from .models import Cart, CartItem
+from decimal import Decimal
+from checkout.models import DiscountCode
 
 
 def get_or_create_cart(request):
@@ -75,10 +77,33 @@ def add_to_cart(request, product_id):
 
         # Return JSON for AJAX requests
         if is_ajax:
+            # Recalculate discount from DiscountCode based on current subtotal
+            applied = request.session.get('applied_discount')
+            cart_subtotal = cart.get_subtotal()
+            discount_amount = Decimal('0')
+            discount_code = None
+            if applied and isinstance(applied, dict):
+                code = applied.get('code')
+                discount_code = code
+                try:
+                    discount_obj = DiscountCode.objects.get(code=code)
+                    is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                    if is_valid:
+                        discount_amount = discount_obj.calculate_discount(cart_subtotal)
+                    else:
+                        discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+                except DiscountCode.DoesNotExist:
+                    discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+
+            cart_total = max(Decimal('0.0'), cart_subtotal - discount_amount)
             return JsonResponse({
                 'success': True,
                 'message': message,
-                'cart_count': cart.get_total_items()
+                'cart_count': cart.get_total_items(),
+                'cart_subtotal': float(cart_subtotal),
+                'cart_total': float(cart_total),
+                'discount_amount': float(discount_amount),
+                'discount_code': discount_code,
             })
 
         messages.success(request, message)
@@ -97,11 +122,35 @@ def view_cart(request):
     Display shopping cart
     """
     cart = get_or_create_cart(request)
-    
+    # Check for an applied discount stored in session
+    applied = request.session.get('applied_discount')
+    subtotal = cart.get_subtotal()
+    discount_amount = Decimal('0')
+    discount_code = None
+    # If a discount code is applied in session, attempt to recalculate it
+    if applied and isinstance(applied, dict):
+        code = applied.get('code')
+        discount_code = code
+        try:
+            discount_obj = DiscountCode.objects.get(code=code)
+            is_valid, _ = discount_obj.is_valid(subtotal, request.user if request.user.is_authenticated else None)
+            if is_valid:
+                discount_amount = discount_obj.calculate_discount(subtotal)
+            else:
+                # fallback to stored amount if invalid
+                discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+        except DiscountCode.DoesNotExist:
+            discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+
+    total = subtotal - discount_amount
+
     context = {
         'cart': cart,
         'cart_items': cart.items.all(),
-        'subtotal': cart.get_subtotal(),
+        'subtotal': subtotal,
+        'discount_amount': discount_amount,
+        'discount_code': discount_code,
+        'total': total,
     }
     
     return render(request, 'cart/cart.html', context)
@@ -142,10 +191,32 @@ def update_cart_item(request, item_id):
             
             # AJAX response
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                # Recalculate discount from DiscountCode (if applied) based on new subtotal
+                applied = request.session.get('applied_discount')
+                cart_subtotal = cart.get_subtotal()
+                discount_amount = Decimal('0')
+                discount_code = None
+                if applied and isinstance(applied, dict):
+                    code = applied.get('code')
+                    discount_code = code
+                    try:
+                        discount_obj = DiscountCode.objects.get(code=code)
+                        is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                        if is_valid:
+                            discount_amount = discount_obj.calculate_discount(cart_subtotal)
+                        else:
+                            discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+                    except DiscountCode.DoesNotExist:
+                        discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+
+                cart_total = max(Decimal('0.0'), cart_subtotal - discount_amount)
                 return JsonResponse({
                     'success': True,
                     'item_total': float(cart_item.get_total_price()),
-                    'cart_subtotal': float(cart.get_subtotal()),
+                    'cart_subtotal': float(cart_subtotal),
+                    'cart_total': float(cart_total),
+                    'discount_amount': float(discount_amount),
+                    'discount_code': discount_code,
                     'cart_total_items': cart.get_total_items()
                 })
             
@@ -153,12 +224,33 @@ def update_cart_item(request, item_id):
         else:
             cart_item.delete()
             
-            # AJAX response
+            # AJAX response for deletion
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                applied = request.session.get('applied_discount')
+                cart_subtotal = cart.get_subtotal()
+                discount_amount = Decimal('0')
+                discount_code = None
+                if applied and isinstance(applied, dict):
+                    code = applied.get('code')
+                    discount_code = code
+                    try:
+                        discount_obj = DiscountCode.objects.get(code=code)
+                        is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                        if is_valid:
+                            discount_amount = discount_obj.calculate_discount(cart_subtotal)
+                        else:
+                            discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+                    except DiscountCode.DoesNotExist:
+                        discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+
+                cart_total = max(Decimal('0.0'), cart_subtotal - discount_amount)
                 return JsonResponse({
                     'success': True,
                     'removed': True,
-                    'cart_subtotal': float(cart.get_subtotal()),
+                    'cart_subtotal': float(cart_subtotal),
+                    'cart_total': float(cart_total),
+                    'discount_amount': float(discount_amount),
+                    'discount_code': discount_code,
                     'cart_total_items': cart.get_total_items()
                 })
             
@@ -178,10 +270,32 @@ def remove_from_cart(request, item_id):
     
     # AJAX response
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Recalculate discount from DiscountCode so frontend sees updated saved amount
+        applied = request.session.get('applied_discount')
+        cart_subtotal = cart.get_subtotal()
+        discount_amount = Decimal('0')
+        discount_code = None
+        if applied and isinstance(applied, dict):
+            code = applied.get('code')
+            discount_code = code
+            try:
+                discount_obj = DiscountCode.objects.get(code=code)
+                is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                if is_valid:
+                    discount_amount = discount_obj.calculate_discount(cart_subtotal)
+                else:
+                    discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+            except DiscountCode.DoesNotExist:
+                discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+
+        cart_total = max(Decimal('0.0'), cart_subtotal - discount_amount)
         return JsonResponse({
             'success': True,
             'message': f'Removed {product_name} from your cart.',
-            'cart_subtotal': float(cart.get_subtotal()),
+            'cart_subtotal': float(cart_subtotal),
+            'cart_total': float(cart_total),
+            'discount_amount': float(discount_amount),
+            'discount_code': discount_code,
             'cart_total_items': cart.get_total_items()
         })
     
@@ -195,3 +309,93 @@ def get_cart_count(request):
     """
     cart = get_or_create_cart(request)
     return JsonResponse({'count': cart.get_total_items()})
+
+
+def get_cart_totals(request):
+    """
+    Return cart subtotal, cart_total (after applied discount), discount_amount and code
+    """
+    cart = get_or_create_cart(request)
+    applied = request.session.get('applied_discount')
+    cart_subtotal = cart.get_subtotal()
+    discount_amount = Decimal('0')
+    discount_code = None
+    if applied and isinstance(applied, dict):
+        code = applied.get('code')
+        discount_code = code
+        try:
+            discount_obj = DiscountCode.objects.get(code=code)
+            is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+            if is_valid:
+                discount_amount = discount_obj.calculate_discount(cart_subtotal)
+            else:
+                discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+        except DiscountCode.DoesNotExist:
+            discount_amount = Decimal(str(applied.get('amount', 0) or 0))
+
+    # Determine shipping cost source:
+    # If there's a pending order in session use its shipping_cost so the
+    # payment page (which may have already created an Order) shows the
+    # same shipping value. Otherwise fall back to zero.
+    shipping_cost = Decimal('0')
+    pending_order_number = request.session.get('pending_order_number')
+    if pending_order_number:
+        try:
+            from checkout.models import Order
+            order = Order.objects.get(order_number=pending_order_number)
+            if order.shipping_cost:
+                shipping_cost = Decimal(order.shipping_cost)
+        except Exception:
+            shipping_cost = Decimal('0')
+    else:
+        # No pending order: attempt to determine shipping from session or active ShippingRate
+        try:
+            from checkout.models import ShippingRate
+            # Prefer explicit selection stored in session
+            selected_id = request.session.get('selected_shipping_id')
+            if selected_id:
+                try:
+                    rate = ShippingRate.objects.get(id=selected_id, is_active=True)
+                    # If rate has free_over and subtotal meets it, shipping is free
+                    if rate.free_over and cart_subtotal >= rate.free_over:
+                        shipping_cost = Decimal('0')
+                    else:
+                        shipping_cost = Decimal(rate.price)
+                except Exception:
+                    shipping_cost = Decimal('0')
+            else:
+                # Use cheapest active rate as default
+                active = ShippingRate.objects.filter(is_active=True).order_by('price').first()
+                if active:
+                    if active.free_over and cart_subtotal >= active.free_over:
+                        shipping_cost = Decimal('0')
+                    else:
+                        shipping_cost = Decimal(active.price)
+                else:
+                    # Fallback to settings if no ShippingRate configured
+                    from django.conf import settings as _settings
+                    default_ship = Decimal(str(getattr(_settings, 'DEFAULT_SHIPPING_COST', '5.00')))
+                    free_thresh = getattr(_settings, 'FREE_SHIPPING_THRESHOLD', None)
+                    if free_thresh is not None:
+                        try:
+                            free_thresh = Decimal(str(free_thresh))
+                        except Exception:
+                            free_thresh = None
+                    if free_thresh and cart_subtotal >= free_thresh:
+                        shipping_cost = Decimal('0')
+                    else:
+                        shipping_cost = default_ship
+        except Exception:
+            shipping_cost = Decimal('0')
+
+    # Final cart total includes shipping
+    cart_total = max(Decimal('0.0'), cart_subtotal - discount_amount + shipping_cost)
+
+    return JsonResponse({
+        'cart_subtotal': float(cart_subtotal),
+        'shipping_cost': float(shipping_cost),
+        'cart_total': float(cart_total),
+        'discount_amount': float(discount_amount),
+        'discount_code': discount_code,
+        'cart_total_items': cart.get_total_items(),
+    })

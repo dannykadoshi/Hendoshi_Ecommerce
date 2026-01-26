@@ -47,6 +47,7 @@ urlpatterns = [
     path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),
 
     # Product browsing
+    path('sale/', views.sale_products, name='sale'),
     path('', views.all_products, name='products'),
     path('search/', views.search, name='search'),
     path('<int:product_id>/variant-options/', views.get_variant_options, name='get_variant_options'),

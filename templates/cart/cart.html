@@ -20,7 +20,7 @@
                             <i class="fas fa-shopping-bag"></i> {{ cart.get_total_items }} Item{{ cart.get_total_items|pluralize }}
                         </span>
                         <span class="cart-hero-stat">
-                            <i class="fas fa-coins"></i> Subtotal: €{{ subtotal }}
+                            <i class="fas fa-coins"></i> Subtotal: €<span id="hero-subtotal">{{ subtotal|floatformat:2 }}</span>
                         </span>
                     </div>
                     {% endif %}
@@ -68,7 +68,7 @@
 
                                 <div class="cart-item-price">
                                     <span class="price-label">Price:</span>
-                                    <span class="price-value">€{{ item.product.base_price }}</span>
+                                    <span class="price-value">€{{ item.product.base_price|floatformat:2 }}</span>
                                 </div>
                             </div>
 
@@ -92,7 +92,7 @@
                             <!-- Subtotal -->
                             <div class="cart-item-subtotal">
                                 <span class="subtotal-label">Subtotal:</span>
-                                <span class="subtotal-value" data-item-id="{{ item.id }}">€{{ item.get_total_price }}</span>
+                                <span class="subtotal-value" data-item-id="{{ item.id }}">€{{ item.get_total_price|floatformat:2 }}</span>
                             </div>
 
                             <!-- Remove Button -->
@@ -120,7 +120,7 @@
 
                         <div class="summary-row">
                             <span class="summary-label">Subtotal:</span>
-                            <span class="summary-value" id="cart-subtotal">€{{ subtotal }}</span>
+                            <span class="summary-value" id="cart-subtotal">€{{ subtotal|floatformat:2 }}</span>
                         </div>
 
                         <div class="summary-row">
@@ -135,9 +135,29 @@
 
                         <div class="summary-divider"></div>
 
+                        <!-- Promo Code / Discount -->
+                        <div class="summary-row promo-row">
+                            <div style="width:100%;">
+                                {% if discount_code %}
+                                    <div class="applied-coupon mb-2">
+                                        <strong>Code:</strong> {{ discount_code }}
+                                        <span class="small text-success ms-2">You saved €<span id="savedAmount">{{ discount_amount|floatformat:2 }}</span></span>
+                                        <button type="button" id="removeCouponBtn" class="btn btn-outline-pink btn-sm ms-2">Remove</button>
+                                    </div>
+                                {% else %}
+                                    <form id="couponForm" class="d-flex" onsubmit="return applyCoupon(event)">
+                                        {% csrf_token %}
+                                        <input type="text" id="couponCode" name="discount_code" class="form-control me-2" placeholder="Promo code">
+                                        <button type="submit" class="btn btn-pink">Apply</button>
+                                    </form>
+                                    <div id="couponMessage" class="small text-muted mt-2"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <div class="summary-row total">
                             <span class="summary-label">Total:</span>
-                            <span class="summary-value" id="cart-total">€{{ subtotal }}</span>
+                            <span class="summary-value" id="cart-total">€{{ total|floatformat:2 }}</span>
                         </div>
 
                         <!-- Checkout Button -->
@@ -257,10 +277,33 @@
                     subtotalElement.textContent = '€' + data.item_total.toFixed(2);
                 }
                 
-                // Update cart totals
-                document.getElementById('cart-subtotal').textContent = '€' + data.cart_subtotal.toFixed(2);
-                document.getElementById('cart-total').textContent = '€' + data.cart_subtotal.toFixed(2);
-                
+                // Update cart totals (use cart_total if backend returned adjusted total)
+                if (data.cart_subtotal !== undefined) {
+                    document.getElementById('cart-subtotal').textContent = '€' + data.cart_subtotal.toFixed(2);
+                }
+                const totalToShow = (data.cart_total !== undefined) ? data.cart_total : data.cart_subtotal;
+                if (totalToShow !== undefined) {
+                    document.getElementById('cart-total').textContent = '€' + totalToShow.toFixed(2);
+                }
+
+                // Also update hero subtotal at top of page
+                if (data.cart_subtotal !== undefined) {
+                    const hero = document.getElementById('hero-subtotal');
+                    if (hero) hero.textContent = data.cart_subtotal.toFixed(2);
+                }
+
+                // Update saved amount (discount) if available or compute from subtotal/total
+                let discountAmount = undefined;
+                if (data.discount_amount !== undefined) {
+                    discountAmount = parseFloat(data.discount_amount);
+                } else if (data.cart_subtotal !== undefined && data.cart_total !== undefined) {
+                    discountAmount = parseFloat((data.cart_subtotal - data.cart_total).toFixed(2));
+                }
+                if (discountAmount !== undefined) {
+                    const savedEl = document.getElementById('savedAmount');
+                    if (savedEl) savedEl.textContent = discountAmount.toFixed(2);
+                }
+
                 // Update cart count in navbar
                 updateCartCountBadge(data.cart_total_items);
 
@@ -341,9 +384,28 @@
                         }, 300);
                     }
                     
-                    // Update cart totals
-                    document.getElementById('cart-subtotal').textContent = '€' + data.cart_subtotal.toFixed(2);
-                    document.getElementById('cart-total').textContent = '€' + data.cart_subtotal.toFixed(2);
+                    // Update cart totals (use adjusted cart_total if provided)
+                    if (data.cart_subtotal !== undefined) {
+                        document.getElementById('cart-subtotal').textContent = '€' + data.cart_subtotal.toFixed(2);
+                        const hero = document.getElementById('hero-subtotal');
+                        if (hero) hero.textContent = data.cart_subtotal.toFixed(2);
+                    }
+                    const newTotal = (data.cart_total !== undefined) ? data.cart_total : data.cart_subtotal;
+                    if (newTotal !== undefined) {
+                        document.getElementById('cart-total').textContent = '€' + newTotal.toFixed(2);
+                    }
+
+                    // Update saved amount when item removed
+                    let removedDiscount = undefined;
+                    if (data.discount_amount !== undefined) {
+                        removedDiscount = parseFloat(data.discount_amount);
+                    } else if (data.cart_subtotal !== undefined && data.cart_total !== undefined) {
+                        removedDiscount = parseFloat((data.cart_subtotal - data.cart_total).toFixed(2));
+                    }
+                    if (removedDiscount !== undefined) {
+                        const savedEl = document.getElementById('savedAmount');
+                        if (savedEl) savedEl.textContent = removedDiscount.toFixed(2);
+                    }
                     
                     // Update cart count in navbar
                     updateCartCountBadge(data.cart_total_items);
@@ -404,6 +466,75 @@
             const button = this.parentElement.querySelector('.qty-btn-sm');
             updateCartAjax(button);
         });
+    });
+
+    // Coupon handling
+    async function applyCoupon(event) {
+        event.preventDefault();
+        const codeInput = document.getElementById('couponCode');
+        const code = codeInput ? codeInput.value.trim() : '';
+        const messageEl = document.getElementById('couponMessage');
+        if (!code) {
+            if (messageEl) messageEl.textContent = 'Enter a promo code.';
+            return false;
+        }
+
+        const formData = new URLSearchParams();
+        formData.append('discount_code', code);
+
+        const resp = await fetch('{% url "apply_discount_code" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+        }).then(r => r.json()).catch(() => ({ success: false, error: 'Network error' }));
+
+        if (resp.success) {
+            // Update totals
+            if (resp.new_total !== undefined) {
+                document.getElementById('cart-total').textContent = '€' + resp.new_total.toFixed(2);
+                document.getElementById('cart-subtotal').textContent = '€' + (resp.new_total + (resp.discount_amount || 0)).toFixed(2);
+            }
+            // Update hero subtotal and saved amount
+            const hero = document.getElementById('hero-subtotal');
+            if (hero && resp.new_total !== undefined) {
+                hero.textContent = (resp.new_total + (resp.discount_amount || 0)).toFixed(2);
+            }
+            const savedEl = document.getElementById('savedAmount');
+            if (savedEl && resp.discount_amount !== undefined) {
+                savedEl.textContent = parseFloat(resp.discount_amount).toFixed(2);
+            }
+            if (typeof showToast === 'function') showToast(resp.message || 'Applied.', 'success');
+            // Reload to show applied coupon UI (simple and reliable)
+            setTimeout(() => location.reload(), 600);
+        } else {
+            if (typeof showToast === 'function') showToast(resp.error || 'Invalid code.', 'error');
+        }
+
+        return false;
+    }
+
+    document.addEventListener('click', function(e){
+        if (e.target && e.target.id === 'removeCouponBtn') {
+            fetch('{% url "remove_discount_code" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(r => r.json()).then(data => {
+                if (data && data.success) {
+                    if (typeof showToast === 'function') showToast(data.message || 'Discount removed', 'success');
+                } else {
+                    if (typeof showToast === 'function') showToast(data.message || 'No discount to remove', 'warning');
+                }
+                setTimeout(() => location.reload(), 300);
+            }).catch(()=> location.reload());
+        }
     });
 </script>
 

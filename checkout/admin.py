@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Order, OrderItem
+from .models import ShippingRate
 
 
 class OrderItemInline(admin.TabularInline):
@@ -54,3 +55,11 @@ class OrderItemAdmin(admin.ModelAdmin):
     
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(ShippingRate)
+class ShippingRateAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'free_over', 'is_active', 'created_at')
+    list_filter = ('is_active',)
+    search_fields = ('name',)
+    readonly_fields = ('created_at', 'updated_at')

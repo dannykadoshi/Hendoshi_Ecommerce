@@ -15,12 +15,11 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import ShippingForm, ActivateAccountForm
-from .models import Order, OrderItem, DiscountCode
+from .models import Order, OrderItem, DiscountCode, ShippingRate
 from cart.models import Cart, CartItem
 from cart.views import get_or_create_cart
 from products.models import Product
 from profiles.models import Address
-from .models import Order, OrderItem
 from profiles.models import Address
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -184,6 +183,15 @@ def checkout(request):
     if request.method == 'POST':
         form = ShippingForm(request.POST)
         if form.is_valid():
+            # Persist selected shipping choice from the form (if present)
+            selected_id_post = request.POST.get('selected_shipping_id')
+            if selected_id_post:
+                try:
+                    selected_id_int = int(selected_id_post)
+                    request.session['selected_shipping_id'] = selected_id_int
+                except Exception:
+                    # ignore invalid values
+                    pass
             # Save form data to session for persistence
             request.session['checkout_form_data'] = form.cleaned_data
             
@@ -234,37 +242,97 @@ def checkout(request):
                 # Generate activation token for guest users
                 activation_token = secrets.token_urlsafe(48)
             
-            # Calculate discount if code provided
+            # Calculate discount if code provided or present in session
             discount_code = form.cleaned_data.get('discount_code')
-            discount_amount = 0
+            discount_amount = Decimal('0')
             subtotal = cart.get_subtotal()
-            
-            # Check if discount was applied via AJAX (from hidden form fields)
+
+            # Determine shipping cost: prefer a shipping value stored in session
+            # (e.g. selected by user earlier). Otherwise apply simple fallback
+            # rule using settings.DEFAULT_SHIPPING_COST and optional
+            # settings.FREE_SHIPPING_THRESHOLD.
+            shipping_cost = Decimal('0')
+            try:
+                # Prefer an explicit shipping selection stored in session (id preferred)
+                selected_id = request.session.get('selected_shipping_id')
+                if selected_id:
+                    try:
+                        rate = ShippingRate.objects.get(id=selected_id, is_active=True)
+                        shipping_cost = Decimal(rate.price)
+                    except Exception:
+                        shipping_cost = Decimal('0')
+                else:
+                    # Fallback: use a configured shipping rate (the cheapest active rate)
+                    active = ShippingRate.objects.filter(is_active=True).order_by('price').first()
+                    if active:
+                        # If the active rate has a free_over threshold and subtotal meets it, shipping is free
+                        if active.free_over and subtotal >= active.free_over:
+                            shipping_cost = Decimal('0')
+                        else:
+                            shipping_cost = Decimal(active.price)
+                    else:
+                        # Final fallback: settings default
+                        from django.conf import settings as _settings
+                        default_ship = Decimal(str(getattr(_settings, 'DEFAULT_SHIPPING_COST', '5.00')))
+                        free_thresh = getattr(_settings, 'FREE_SHIPPING_THRESHOLD', None)
+                        if free_thresh is not None:
+                            try:
+                                free_thresh = Decimal(str(free_thresh))
+                            except Exception:
+                                free_thresh = None
+                        if free_thresh and subtotal >= free_thresh:
+                            shipping_cost = Decimal('0')
+                        else:
+                            shipping_cost = default_ship
+            except Exception:
+                shipping_cost = Decimal('0')
+
+            # Prefer explicit form discount (user typed on checkout), else check POST hidden fields, else session
             applied_discount_code = request.POST.get('applied_discount_code')
             applied_discount_amount = request.POST.get('applied_discount_amount')
-            
+            session_applied = request.session.get('applied_discount')
+
             if discount_code:
                 # Use the discount from the form (user entered it manually)
                 discount_amount = discount_code.calculate_discount(subtotal)
-                total_amount = subtotal - discount_amount
+                total_amount = subtotal - discount_amount + shipping_cost
             elif applied_discount_code and applied_discount_amount:
-                # Use the discount applied via AJAX
+                # Use the discount applied via AJAX on checkout page
                 try:
                     discount_code_obj = DiscountCode.objects.get(code=applied_discount_code)
                     # Verify the discount is still valid
                     is_valid, _ = discount_code_obj.is_valid(subtotal, request.user if request.user.is_authenticated else None)
                     if is_valid and subtotal >= discount_code_obj.minimum_order_value:
                         discount_code = discount_code_obj
-                        discount_amount = float(applied_discount_amount)
-                        total_amount = subtotal - discount_amount
+                        # convert applied amount to Decimal to avoid mixing Decimal and float
+                        try:
+                            discount_amount = Decimal(str(applied_discount_amount))
+                        except Exception:
+                            discount_amount = Decimal(0)
+                        total_amount = subtotal - discount_amount + shipping_cost
                     else:
-                        # Clear invalid applied discount
                         total_amount = subtotal
                 except DiscountCode.DoesNotExist:
-                    # Clear invalid applied discount
                     total_amount = subtotal
+            elif session_applied and isinstance(session_applied, dict):
+                # Use the discount applied earlier in the cart (persisted in session)
+                try:
+                    discount_code_obj = DiscountCode.objects.get(code=session_applied.get('code'))
+                    is_valid, _ = discount_code_obj.is_valid(subtotal, request.user if request.user.is_authenticated else None)
+                    if is_valid:
+                        discount_code = discount_code_obj
+                        # session may store the amount as string/float; coerce to Decimal safely
+                        try:
+                            discount_amount = Decimal(str(session_applied.get('amount', 0) or 0))
+                        except Exception:
+                            discount_amount = Decimal(0)
+                        total_amount = subtotal - discount_amount + shipping_cost
+                    else:
+                        total_amount = subtotal
+                except DiscountCode.DoesNotExist:
+                    total_amount = subtotal + shipping_cost
             else:
-                total_amount = subtotal
+                total_amount = subtotal + shipping_cost
             
             # Create order with payment_pending status
             order = Order.objects.create(
@@ -280,6 +348,7 @@ def checkout(request):
                 country=form.cleaned_data['country'],
                 postal_code=form.cleaned_data['postal_code'],
                 subtotal=subtotal,
+                shipping_cost=shipping_cost,
                 discount_code=discount_code,
                 discount_amount=discount_amount,
                 total_amount=total_amount,
@@ -308,10 +377,60 @@ def checkout(request):
     else:
         form = ShippingForm(initial=initial_data)
 
+    # Prepare shipping rates for display and default selection
+    try:
+        shipping_rates = list(ShippingRate.objects.filter(is_active=True).order_by('price'))
+    except Exception:
+        shipping_rates = []
+
+    # Determine currently selected shipping id: prefer session, else prefer a rate named 'standard', else cheapest
+    selected_shipping_id = None
+    sess_sel = request.session.get('selected_shipping_id')
+    if sess_sel:
+        try:
+            selected_shipping_id = int(sess_sel)
+        except Exception:
+            selected_shipping_id = None
+
+    if not selected_shipping_id and shipping_rates:
+        # try to find a rate named 'standard' (case-insensitive)
+        # Prefer an explicitly flagged standard rate, else fallback to name 'standard'
+        standard = next((r for r in shipping_rates if getattr(r, 'is_standard', False)), None)
+        if not standard:
+            standard = next((r for r in shipping_rates if r.name and r.name.strip().lower() == 'standard'), None)
+        if standard:
+            selected_shipping_id = standard.id
+            standard_id = standard.id
+        else:
+            # fallback to cheapest
+            selected_shipping_id = shipping_rates[0].id
+            standard_id = None
+    else:
+        standard_id = None
+
+    # Compute current discount amount and total_with_discount for display (recalculate from code)
+    subtotal_val = cart.get_subtotal()
+    applied_session = request.session.get('applied_discount')
+    discount_amount_display = Decimal('0')
+    if applied_session and isinstance(applied_session, dict):
+        try:
+            code = applied_session.get('code')
+            discount_obj = DiscountCode.objects.get(code=code)
+            is_valid, _ = discount_obj.is_valid(subtotal_val, request.user if request.user.is_authenticated else None)
+            if is_valid:
+                discount_amount_display = discount_obj.calculate_discount(subtotal_val)
+            else:
+                discount_amount_display = Decimal(str(applied_session.get('amount', 0) or 0))
+        except DiscountCode.DoesNotExist:
+            discount_amount_display = Decimal(str(applied_session.get('amount', 0) or 0))
+
     context = {
         'cart': cart,
         'cart_items': cart.items.all(),
-        'subtotal': cart.get_subtotal(),
+        'subtotal': subtotal_val,
+        'applied_discount': request.session.get('applied_discount'),
+        'discount_amount': discount_amount_display,
+        'total_with_discount': subtotal_val - discount_amount_display,
         'form': form,
         'steps': [
             {'label': 'Cart', 'status': 'done'},
@@ -320,6 +439,9 @@ def checkout(request):
             {'label': 'Confirmation', 'status': 'upcoming'},
         ],
         'saved_addresses': request.user.addresses.all() if request.user.is_authenticated else [],
+        'shipping_rates': shipping_rates,
+        'selected_shipping_id': selected_shipping_id,
+        'standard_id': standard_id,
     }
 
     return render(request, 'checkout/checkout.html', context)
@@ -421,6 +543,75 @@ def validate_discount_code(request):
             'valid': False,
             'message': 'Invalid discount code.'
         })
+
+
+@require_http_methods(['POST'])
+def apply_discount_code(request):
+    """Validate and apply a discount code to the user's session/cart.
+    Returns JSON with the updated totals or an error message.
+    """
+    code = request.POST.get('discount_code', '').strip().upper()
+    cart = get_or_create_cart(request)
+    subtotal = cart.get_subtotal()
+
+    if not code:
+        return JsonResponse({'success': False, 'error': 'Please enter a discount code.'})
+
+    try:
+        discount_code = DiscountCode.objects.get(code=code)
+        is_valid, error_message = discount_code.is_valid(subtotal, request.user if request.user.is_authenticated else None)
+        if not is_valid:
+            return JsonResponse({'success': False, 'error': error_message})
+
+        discount_amount = discount_code.calculate_discount(subtotal)
+
+        # Persist applied discount in session so checkout can use it
+        # Store amount as string to avoid float/Decimal mixing later
+        request.session['applied_discount'] = {
+            'code': discount_code.code,
+            'amount': str(discount_amount)
+        }
+
+        return JsonResponse({
+            'success': True,
+            'message': f'Discount applied! You save €{discount_amount:.2f}.',
+            'discount_amount': float(discount_amount),
+            'new_total': float(subtotal - discount_amount),
+            'code': discount_code.code,
+        })
+    except DiscountCode.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Invalid discount code.'})
+
+
+@require_http_methods(['POST'])
+def select_shipping_rate(request):
+    """AJAX endpoint to persist selected shipping rate in session."""
+    selected = request.POST.get('selected_shipping_id')
+    if not selected:
+        return JsonResponse({'success': False, 'error': 'No selection provided.'}, status=400)
+    try:
+        sid = int(selected)
+    except Exception:
+        return JsonResponse({'success': False, 'error': 'Invalid id.'}, status=400)
+
+    try:
+        rate = ShippingRate.objects.get(id=sid, is_active=True)
+    except ShippingRate.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Rate not found.'}, status=404)
+
+    request.session['selected_shipping_id'] = rate.id
+    request.session.modified = True
+    return JsonResponse({'success': True, 'selected_shipping_id': rate.id})
+
+
+@require_http_methods(['POST'])
+def remove_discount_code(request):
+    """Remove any applied discount from the user's session."""
+    if 'applied_discount' in request.session:
+        request.session.pop('applied_discount')
+        request.session.modified = True
+        return JsonResponse({'success': True, 'message': 'Discount removed.'})
+    return JsonResponse({'success': False, 'message': 'No discount to remove.'})
 
 
 def payment(request, order_number):

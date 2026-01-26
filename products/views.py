@@ -48,6 +48,7 @@ def bulk_delete_products(request, product_ids=None):
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem
@@ -182,6 +183,76 @@ def all_products(request):
     }
     
     return render(request, 'products/products.html', context)
+
+
+def sale_products(request):
+    """
+    View to show products on sale with filtering and sorting
+    """
+    # Filter for products that have a sale_price and are within sale dates (if set)
+    now = timezone.now()
+    products = Product.objects.filter(
+        is_active=True,
+        is_archived=False,
+        sale_price__isnull=False
+    ).filter(
+        Q(sale_start__isnull=True) | Q(sale_start__lte=now)
+    ).filter(
+        Q(sale_end__isnull=True) | Q(sale_end__gte=now)
+    )
+
+    collections = Collection.objects.all()
+    query = None
+    selected_collection = None
+    selected_type = None
+    sort = None
+    direction = None
+
+    # Search functionality
+    if 'q' in request.GET:
+        query = request.GET['q']
+        if query:
+            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            products = products.filter(queries)
+
+    # Filter by collection
+    if 'collection' in request.GET:
+        selected_collection = request.GET['collection']
+        products = products.filter(collection__slug=selected_collection)
+
+    # Filter by product type
+    if 'type' in request.GET:
+        selected_type = request.GET['type']
+        products = products.filter(product_type=selected_type)
+
+    # Sorting
+    if 'sort' in request.GET:
+        sortkey = request.GET['sort']
+        sort = sortkey
+
+        if sortkey == 'name':
+            sortkey = 'name'
+        if sortkey == 'price':
+            sortkey = 'sale_price'  # Sort by sale price instead of base price
+
+        if 'direction' in request.GET:
+            direction = request.GET['direction']
+            if direction == 'desc':
+                sortkey = f'-{sortkey}'
+
+        products = products.order_by(sortkey)
+
+    context = {
+        'products': products,
+        'collections': collections,
+        'search_term': query,
+        'current_collection': selected_collection,
+        'current_type': selected_type,
+        'current_sorting': f'{sort}_{direction}',
+        'is_sale_page': True,  # Flag to indicate this is the sale page
+    }
+
+    return render(request, 'products/sale.html', context)
 
 
 def product_detail(request, slug):

@@ -19,40 +19,41 @@
     </section>
 
     <div class="container-fluid vault-container">
-                {% if collections %}
-                <div class="battle-vest-grid">
-                    {% for collection in collections %}
-                    <div class="vest-item-card glassmorphic-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
-                        <div class="vest-item-image-wrapper">
+        {% if collections %}
+        <div class="products-grid">
+            {% for collection in collections %}
+            <div class="product-card-wrapper">
+                <div class="product-card glassmorphic-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'" style="cursor: pointer;">
+                    <div class="product-card-inner">
+                        <div class="product-image product-image-relative">
                             {% if collection.representative_product and collection.representative_product.main_image %}
-                                <img src="{{ collection.representative_product.main_image.url }}" alt="{{ collection.representative_product.name }}" class="vest-item-image" loading="lazy">
+                                <img src="{{ collection.representative_product.main_image.url }}" alt="{{ collection.representative_product.name }}" class="product-img-main" loading="lazy">
                             {% else %}
                                 <div class="placeholder-image">
                                     <i class="fas fa-palette fa-3x"></i>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="vest-item-info">
-                            <div class="vest-item-title">
-                                {{ collection.name }}
-                            </div>
-                            <p class="vest-item-price">{{ collection.product_count }} Design{{ collection.product_count|pluralize }}</p>
+                        <div class="product-info">
+                            <h3>{{ collection.name }}</h3>
+                            <p class="product-type">Collection</p>
+                            <p class="product-price">{{ collection.product_count }} Design{{ collection.product_count|pluralize }}</p>
                             <div class="collection-link">
                                 <span>Explore Collection</span>
                                 <i class="fas fa-arrow-right"></i>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-                {% else %}
-                <div class="text-center">
-                    <h3>No collections available at the moment.</h3>
-                    <p>Check back soon for new collections!</p>
-                </div>
-                {% endif %}
             </div>
-        </section>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center">
+            <h3>No collections available at the moment.</h3>
+            <p>Check back soon for new collections!</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 
@@ -72,8 +73,6 @@
     border-color: rgba(255, 105, 180, 0.3) !important;
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
-}
-    }
 }
 
 .collections-hero {
@@ -101,54 +100,83 @@
     margin-bottom: 0;
 }
 
-.collections-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+/* Collection card styles to match products page */
+.product-card-wrapper {
+    width: 100%;
 }
 
-.collection-card-large {
-    background: #2d2d2d;
+.product-card {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 15px;
     overflow: hidden;
-    cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    border: 2px solid transparent;
+    position: relative;
 }
 
-.collection-card-large:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-    border-color: #ff6b9d;
+.product-card:hover {
+    border-color: var(--neon-pink);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
 }
 
-.collection-image-large {
-    height: 200px;
+.product-card-inner {
+    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
-    color: white;
+    flex-direction: column;
 }
 
-.collection-info-large {
-    padding: 2rem;
-    text-align: center;
+.product-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: rgba(0, 0, 0, 0.5);
 }
 
-.collection-info-large h3 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
+.product-img-main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img-main {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--off-white);
     margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
 }
 
-.collection-info-large p {
-    color: #ccc;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+.product-card:hover .product-info h3 {
+    color: var(--neon-pink);
+}
+
+.product-type {
+    font-size: 0.85rem;
+    color: var(--electric-yellow);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
 }
 
 .collection-link {
@@ -156,27 +184,34 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    color: #ff6b9d;
+    color: var(--neon-pink);
     font-weight: 500;
     transition: color 0.3s ease;
+    margin-top: auto;
 }
 
-.collection-card-large:hover .collection-link {
-    color: #fff;
+.product-card:hover .collection-link {
+    color: var(--electric-yellow);
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.placeholder-image i {
+    margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {
     .collections-title {
         font-size: 2rem;
     }
-
-    .collections-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .collection-card-large {
-        margin: 0 1rem;
-    }
 }
+</style>
 {% endblock %}

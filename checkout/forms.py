@@ -480,3 +480,18 @@ class DiscountCodeForm(forms.ModelForm):
             raise forms.ValidationError("Percentage discount cannot exceed 100%.")
         
         return cleaned_data
+
+
+class ShippingRateForm(forms.ModelForm):
+    """Form for creating/editing ShippingRate objects via the frontend admin views."""
+    class Meta:
+        from .models import ShippingRate
+        model = ShippingRate
+        fields = ['name', 'price', 'free_over', 'is_active', 'is_standard']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Standard'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'free_over': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_standard': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }

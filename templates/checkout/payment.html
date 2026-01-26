@@ -4,436 +4,9 @@
 {% block title %}Payment - Hendoshi Store{% endblock %}
 {% block extra_css %}
 <style>
-    /* Fully hide the discount banner and remove any outlines left by diagnostics (page-scoped) */
+    /* Minimal page-scoped overrides kept short — main styling now lives in static/css/base.css */
     #discountBanner { display: none !important; visibility: hidden !important; }
-    .navbar, .navbar *, #discountBanner, #discountBanner * { outline: none !important; box-shadow: none !important; border: none !important; }
     .navbar { margin-top: 0 !important; }
-
-/* Checkout Page Styles moved into head via extra_css */
-.checkout-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0 !important;
-}
-
-.checkout-hero-stat {
-    color: #ccc;
-    font-size: 1rem;
-}
-
-.checkout-hero-stat i {
-    color: var(--neon-pink);
-    margin-right: 0.5rem;
-}
-
-.checkout-container {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-}
-
-/* Glassmorphic Payment Section */
-.payment-section {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 2rem;
-}
-
-.payment-section h2 {
-    color: var(--neon-pink);
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-}
-
-.payment-section h2 i {
-    margin-right: 0.5rem;
-}
-
-/* Glassmorphic Sidebar */
-.checkout-sidebar.payment-sidebar {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 1.5rem;
-}
-
-/* Sticky Sidebar on Desktop */
-@media (min-width: 992px) {
-    .checkout-sidebar.payment-sidebar {
-        position: sticky;
-        top: 140px;
-        align-self: flex-start;
-    }
-
-    .checkout-content {
-        align-items: flex-start;
-    }
-}
-
-/* Horizontal Progress Bar */
-.progress-bar-wrapper.horizontal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.progress-bar-wrapper.horizontal .progress-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    flex-shrink: 0;
-}
-
-.progress-bar-wrapper.horizontal .step-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 3px solid rgba(255, 20, 147, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--off-white);
-    transition: all 0.3s ease;
-    z-index: 2;
-    position: relative;
-}
-
-.progress-bar-wrapper.horizontal .progress-step.completed .step-circle {
-    background-color: var(--neon-pink);
-    border-color: var(--neon-pink);
-    color: white;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
-}
-
-.progress-bar-wrapper.horizontal .progress-step.active .step-circle {
-    background-color: var(--electric-yellow);
-    border-color: var(--electric-yellow);
-    color: var(--black);
-    box-shadow: 0 0 20px rgba(204, 255, 0, 0.6);
-    transform: scale(1.1);
-}
-
-.progress-bar-wrapper.horizontal .step-label {
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--off-white);
-    text-align: center;
-    white-space: nowrap;
-}
-
-.progress-bar-wrapper.horizontal .progress-step.completed .step-label {
-    color: var(--neon-pink);
-}
-
-.progress-bar-wrapper.horizontal .progress-step.active .step-label {
-    color: var(--electric-yellow);
-    font-weight: 700;
-}
-
-.progress-bar-wrapper.horizontal .progress-line {
-    height: 3px;
-    background-color: rgba(255, 20, 147, 0.2);
-    flex: 1;
-    min-width: 60px;
-    margin: 0 -10px;
-    margin-bottom: 35px;
-    transition: all 0.3s ease;
-    z-index: 1;
-}
-
-.progress-bar-wrapper.horizontal .progress-line.completed {
-    background-color: var(--neon-pink);
-    box-shadow: 0 0 10px rgba(255, 20, 147, 0.4);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .progress-bar-wrapper.horizontal {
-        max-width: 100%;
-        padding: 0 1rem;
-    }
-    
-    .progress-bar-wrapper.horizontal .step-circle {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-    
-    .progress-bar-wrapper.horizontal .step-label {
-        font-size: 0.75rem;
-    }
-    
-    .progress-bar-wrapper.horizontal .progress-line {
-        min-width: 30px;
-        margin-bottom: 30px;
-    }
-}
-
-.payment-section fieldset {
-    border: 1px solid var(--neon-pink);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    background-color: rgba(255, 20, 147, 0.02);
-}
-
-.payment-section legend {
-    color: var(--neon-pink);
-    font-weight: 700;
-    padding: 0;
-    margin-bottom: 1.5rem;
-}
-
-.security-notice {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 1rem;
-    background-color: rgba(204, 255, 0, 0.1);
-    border: 1px solid var(--electric-yellow);
-    border-radius: 8px;
-    color: var(--neon-pink);
-    font-size: 0.95rem;
-}
-
-.security-notice i {
-    color: var(--electric-yellow);
-}
-
-.test-card-hint {
-    display: block;
-    margin-top: 0.75rem;
-    padding: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    color: #999999;
-    font-weight: 500;
-    font-size: 0.85rem;
-}
-
-.test-card-hint i {
-    margin-right: 0.5rem;
-    color: #666666;
-}
-
-.test-card-hint strong {
-    color: #bbbbbb;
-    font-weight: 600;
-}
-
-.form-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-}
-
-.form-actions a,
-.form-actions button {
-    flex: 1;
-}
-
-.form-actions a.btn-pink {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
-    border: none !important;
-    text-decoration: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.form-actions a.btn-pink:hover {
-    background-color: var(--electric-yellow) !important;
-    color: var(--black) !important;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
-}
-
-.order-items-summary {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-.order-items-summary h5 {
-    margin-bottom: 1.5rem;
-    color: var(--neon-pink);
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-
-.items-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.item-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 20, 147, 0.15);
-    border-radius: 8px;
-}
-
-.item-details {
-    flex: 1;
-}
-
-.item-details strong {
-    display: block;
-    color: var(--neon-pink);
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.item-details small {
-    display: block;
-    margin-bottom: 0.25rem;
-}
-
-.item-details small.text-muted {
-    color: var(--neon-pink) !important;
-    font-weight: 700;
-}
-
-.item-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--electric-yellow);
-    text-align: right;
-    min-width: 80px;
-}
-
-.order-totals {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 2px solid rgba(255, 20, 147, 0.2);
-}
-
-.order-totals table {
-    width: 100%;
-}
-
-.order-totals td {
-    padding: 0.75rem 0;
-    font-size: 1rem;
-}
-
-.order-totals td:last-child {
-    text-align: right;
-    color: var(--electric-yellow);
-    font-weight: 600;
-}
-
-.total-row {
-    border-top: 2px solid var(--neon-pink);
-    border-bottom: 2px solid var(--neon-pink);
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-}
-
-.total-row td {
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: var(--neon-pink);
-}
-
-.total-row td:last-child {
-    color: var(--electric-yellow);
-}
-
-.help-section {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: rgba(255, 20, 147, 0.05);
-    border: 1px solid var(--neon-pink);
-    border-radius: 8px;
-}
-
-.help-section h6 {
-    color: var(--neon-pink);
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-}
-
-.help-section p {
-    margin: 0;
-    font-size: 0.95rem;
-}
-
-.help-section a {
-    color: var(--electric-yellow);
-    text-decoration: none;
-    font-weight: 700;
-    transition: color 0.3s ease;
-}
-
-.help-section a:hover {
-    color: var(--neon-pink);
-    text-decoration: underline;
-}
-
-:root.light-mode .payment-section fieldset {
-    background-color: #fff5f8;
-    border-color: rgba(255, 20, 147, 0.3);
-}
-
-:root.light-mode .test-card-hint {
-    background-color: rgba(204, 255, 0, 0.08);
-    border-color: var(--electric-yellow);
-}
-
-:root.light-mode .item-summary {
-    background-color: #f9f9f9;
-    border-color: rgba(255, 20, 147, 0.2);
-}
-
-:root.light-mode .help-section {
-    background-color: #fff5f8;
-    border-color: rgba(255, 20, 147, 0.3);
-}
-
-/* Custom Validation Errors */
-.field-error {
-    display: inline-block;
-    color: var(--neon-pink);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background-color: rgba(255, 20, 147, 0.1);
-    border-left: 3px solid var(--neon-pink);
-    border-radius: 4px;
-    font-weight: 600;
-}
-
-.field-error i {
-    margin-right: 0.5rem;
-}
-
-.is-invalid {
-    border-color: var(--neon-pink) !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
-}
-
-:root.light-mode .field-error {
-    background-color: rgba(255, 20, 147, 0.08);
-    color: #d91479;
-}
 </style>
 {% endblock %}
 
@@ -462,7 +35,7 @@
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     <h1 class="vault-hero-title">Payment</h1>
-                    <p class="vault-hero-subtitle">Secure payment processing</p>
+                    <p class="vault-hero-subtitle">Review your order and pay securely</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="checkout-hero-stat">
                             <i class="fas fa-file-invoice"></i> Order #{{ order.order_number }}
@@ -503,9 +76,85 @@
         <!-- Main Content -->
         <div class="checkout-content">
             <div class="checkout-main">
+                <!-- Order Summary (moved above payment) -->
+                <div class="order-summary-card mb-4">
+                    <div class="summary-header">
+                        <div>
+                            <strong>Order</strong>
+                            <div class="small text-muted">#{{ order.order_number }}</div>
+                        </div>
+                        <div class="text-end">
+                            <span id="summary-item-count" class="badge bg-dark">{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
+                        </div>
+                    </div>
+
+                    <details open>
+                        <summary class="d-flex justify-content-between align-items-center">
+                            <div class="small text-muted">Items</div>
+                            <div class="toggle-icon">▶</div>
+                        </summary>
+                        <div class="items-list mt-2">
+                            {% for item in order.items.all %}
+                                <div class="item-summary">
+                                    <div class="item-details">
+                                        <strong>{{ item.product.name }}</strong>
+                                        <small class="d-block text-muted">Size: {{ item.size }}, {{ item.color }} • Qty {{ item.quantity }}</small>
+                                    </div>
+                                    <div class="item-price">€{{ item.price|floatformat:2 }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+
+                    <div class="order-totals mt-3">
+                        <table>
+                            <tbody>
+                                <tr>
+                                            <td class="text-muted">Subtotal</td>
+                                            <td id="summary-subtotal">€{{ order.subtotal|floatformat:2 }}</td>
+                                        </tr>
+                                <tr id="shipping-row" style="{% if not order.shipping_cost %}display:none;{% endif %}">
+                                    <td class="text-muted">Shipping</td>
+                                    <td id="summary-shipping-amount">€{{ order.shipping_cost|floatformat:2 }}</td>
+                                </tr>
+                                {% if order.tax_amount %}
+                                <tr>
+                                    <td class="text-muted">Tax</td>
+                                    <td>€{{ order.tax_amount|floatformat:2 }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if order.discount_amount %}
+                                <tr id="discount-row">
+                                    <td class="text-muted">Discount{% if order.discount_code %} (<span id="summary-discount-code">{{ order.discount_code.code }}</span>){% endif %}</td>
+                                    <td>
+                                        <div class="amount-with-edit">
+                                            <span id="summary-discount-value" class="text-success">-€{{ order.discount_amount|floatformat:2 }}</span>
+                                            <a href="{% url 'view_cart' %}" class="btn btn-pink btn-sm edit-discount-btn" aria-label="Edit discount">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr class="total-row">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong id="summary-total-amount" class="total-amount">€{{ order.total_amount|floatformat:2 }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-3 d-flex gap-2">
+                        <a href="{% url 'checkout' %}" class="btn btn-outline-pink btn-sm flex-grow-1">Edit Shipping</a>
+                        <a href="mailto:support@hendoshi.com" class="btn btn-outline-pink btn-sm">Help</a>
+                    </div>
+                </div>
+
                 <!-- Payment Section -->
                 <section class="payment-section">
                     <h2><i class="fas fa-shield-alt"></i> Secure Payment</h2>
+                    <!-- Order notice: full summary available in the sidebar -->
+                    <div class="mb-3 small text-muted">Order <strong>#{{ order.order_number }}</strong> — review your card details and press Pay to complete the order.</div>
 
                     {% if payment_error %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -598,74 +247,9 @@
                 </section>
             </div>
 
-            <!-- Sidebar -->
-            <aside class="checkout-sidebar payment-sidebar">
-                <!-- Order Items -->
-                <div class="order-items-summary">
-                    <h5><i class="fas fa-list"></i> Order Items</h5>
-                    <div class="items-list">
-                        {% for item in order.items.all %}
-                            <div class="item-summary">
-                                <div class="item-details">
-                                    <strong>{{ item.product.name }}</strong>
-                                    <small class="d-block">
-                                        Size: {{ item.size }}, Color: {{ item.color }}
-                                    </small>
-                                    <small class="d-block text-muted">Qty: {{ item.quantity }}</small>
-                                </div>
-                                <div class="item-price">€{{ item.price }}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <!-- Order Summary -->
-                <div class="order-totals">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Subtotal</td>
-                                <td>€{{ order.subtotal }}</td>
-                            </tr>
-                            {% if order.shipping_cost %}
-                                <tr>
-                                    <td>Shipping</td>
-                                    <td>€{{ order.shipping_cost }}</td>
-                                </tr>
-                            {% endif %}
-                            {% if order.tax_amount %}
-                                <tr>
-                                    <td>Tax</td>
-                                    <td>€{{ order.tax_amount }}</td>
-                                </tr>
-                            {% endif %}
-                            {% if order.discount_amount %}
-                                <tr>
-                                    <td>Discount ({{ order.discount_code.code }})</td>
-                                    <td class="text-success">-€{{ order.discount_amount }}</td>
-                                </tr>
-                            {% endif %}
-                            <tr class="total-row">
-                                <td><strong>Total</strong></td>
-                                <td><strong>€{{ order.total_amount }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Help Section -->
-                <div class="help-section">
-                    <h6>Need Help?</h6>
-                    <p>
-                        If you experience any issues with payment, please contact us at
-                        <a href="mailto:support@hendoshi.com">support@hendoshi.com</a>
-                    </p>
-                </div>
-            </aside>
+            <!-- Sidebar removed (order summary displayed above payment for clarity) -->
         </div>
     </div>
-</div>
-</div>
 </div>
 
 {% endblock %}
@@ -673,6 +257,91 @@
 {% block extra_js %}
 <script src="{% static 'js/stripe-payment.js' %}"></script>
 <script>
-// Discount banner handled globally in `base.html` (uses BroadcastChannel/localStorage + observers for consistent cross-tab dismissal).
+// Discount banner handled globally in base templates; payment-specific JS is in `js/stripe-payment.js`.
+</script>
+<script>
+(function(){
+    const totalsUrl = "{% url 'cart_totals' %}";
+
+    function formatMoney(amount){
+        return '€' + Number(amount).toFixed(2);
+    }
+
+    function updateTotals(data){
+        try{
+            if (document.getElementById('summary-subtotal')){
+                document.getElementById('summary-subtotal').textContent = formatMoney(data.cart_subtotal);
+            }
+
+            // Shipping handling
+            const shippingRow = document.getElementById('shipping-row');
+            if (typeof data.shipping_cost !== 'undefined' && Number(data.shipping_cost) > 0){
+                if (shippingRow){
+                    const el = document.getElementById('summary-shipping-amount');
+                    if (el) el.textContent = formatMoney(data.shipping_cost);
+                    shippingRow.style.display = '';
+                }
+            } else {
+                if (shippingRow) shippingRow.style.display = 'none';
+            }
+
+            // Discount handling
+            const discountRow = document.getElementById('discount-row');
+            if (data.discount_amount && Number(data.discount_amount) > 0){
+                if (discountRow){
+                    document.getElementById('summary-discount-value').textContent = '-' + formatMoney(data.discount_amount).replace('€','');
+                    if (data.discount_code && document.getElementById('summary-discount-code')){
+                        document.getElementById('summary-discount-code').textContent = data.discount_code;
+                    }
+                    discountRow.style.display = '';
+                }
+            } else {
+                if (discountRow){ discountRow.style.display = 'none'; }
+            }
+
+            // Total
+            if (document.getElementById('summary-total-amount')){
+                document.getElementById('summary-total-amount').textContent = formatMoney(data.cart_total);
+            }
+
+            // Update pay button amount if present
+            const submitBtn = document.getElementById('submitPayment');
+            if (submitBtn){
+                const defaultText = submitBtn.querySelector('.default-text');
+                if (defaultText){
+                    // Preserve other markup, replace amount after last space
+                    defaultText.textContent = 'Pay ' + formatMoney(data.cart_total);
+                }
+            }
+
+            // Update item count badge in summary header if present
+            const badge = document.getElementById('summary-item-count');
+            if (badge && typeof data.cart_total_items !== 'undefined'){
+                badge.textContent = data.cart_total_items;
+            }
+        }catch(e){ console.warn('updateTotals failed', e); }
+    }
+
+    async function fetchTotals(){
+        try{
+            const resp = await fetch(totalsUrl, { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            if (!resp.ok) return;
+            const data = await resp.json();
+            updateTotals(data);
+        }catch(e){ console.warn('Could not fetch cart totals', e); }
+    }
+
+    // Fetch on load
+    document.addEventListener('DOMContentLoaded', fetchTotals);
+
+    // Fetch when the page becomes visible (user switched back to this tab)
+    document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') fetchTotals(); });
+
+    // Also fetch on window focus
+    window.addEventListener('focus', fetchTotals);
+
+    // Poll every 30s while page is visible
+    setInterval(function(){ if (document.visibilityState === 'visible') fetchTotals(); }, 30000);
+})();
 </script>
 {% endblock %}

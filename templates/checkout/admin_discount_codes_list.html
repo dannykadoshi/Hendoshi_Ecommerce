@@ -2,7 +2,9 @@
 {% load static %}
 {% block extra_title %}Admin Discount Codes{% endblock %}
 
-{% block extra_css %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="vault-page">
@@ -110,7 +112,7 @@
                     </td>
                     <td>{{ code.created_at|date:"M d, Y" }}</td>
                     <td>
-                        <div class="d-flex gap-1 min-width-120">
+                        <div class="d-flex gap-1 min-width-120 shipping-admin-actions">
                             {% if code.is_active %}
                                 <form method="post" action="{% url 'admin_discount_codes_toggle' code.id %}" class="display-inline">
                                     {% csrf_token %}

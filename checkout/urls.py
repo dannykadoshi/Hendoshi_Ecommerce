@@ -5,6 +5,9 @@ from . import views
 urlpatterns = [
     path('', views.checkout, name='checkout'),
     path('validate-discount/', views.validate_discount_code, name='validate_discount_code'),
+    path('apply-discount/', views.apply_discount_code, name='apply_discount_code'),
+    path('remove-discount/', views.remove_discount_code, name='remove_discount_code'),
+    path('select-shipping/', views.select_shipping_rate, name='select_shipping_rate'),
     path('admin/', include('checkout.admin_urls')),
     path('payment/<str:order_number>/', views.payment, name='payment'),
     path('payment-result/<str:order_number>/', views.payment_result, name='payment_result'),

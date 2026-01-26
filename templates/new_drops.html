@@ -20,37 +20,64 @@
 
     <div class="container-fluid vault-container">
                 {% if new_drops %}
-                <div class="battle-vest-grid">
+                <div class="products-grid">
                     {% for product in new_drops %}
-                    <div class="vest-item-card glassmorphic-card" onclick="window.location.href='{% url 'product_detail' product.slug %}'">
-                        <div class="vest-item-image-wrapper">
-                            {% if product.main_image %}
-                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="vest-item-image" loading="lazy">
-                            {% else %}
-                                <div class="placeholder-image">
-                                    <i class="fas fa-tshirt fa-3x"></i>
-                                </div>
-                            {% endif %}
-                            {% if product.sale_price %}<span class="badge-sale">Sale</span>{% endif %}
-                        </div>
-                        <div class="vest-item-info">
-                            <div class="vest-item-title">
-                                {{ product.name }}
+                    <div class="product-card-wrapper">
+                        <div class="product-card glassmorphic-card">
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                            <div class="product-checkbox-wrapper bottom-right">
+                                <input type="checkbox" name="product_ids" value="{{ product.id }}" class="form-check-input product-select-checkbox">
                             </div>
-                            {% if product.collection %}
-                            <p class="vest-item-collection">{{ product.collection.name }}</p>
+                            <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
                             {% endif %}
-                            <div class="price-section">
-                                {% if product.sale_price %}
-                                    <span class="original-price">€{{ product.base_price }}</span>
-                                    <span class="sale-price">€{{ product.sale_price }}</span>
+                            <div class="product-card-inner">
+                                <!-- Battle Vest Button (always same style) -->
+                                {% if user.is_authenticated %}
+                                <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
+                                    <i class="far fa-heart"></i>
+                                </button>
                                 {% else %}
-                                    <span class="regular-price">€{{ product.base_price }}</span>
+                                <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn product-vest-btn-positioned" title="Login to add to Battle Vest">
+                                    <i class="far fa-heart"></i>
+                                </a>
                                 {% endif %}
+                                <a href="{% url 'product_detail' product.slug %}">
+                                    <div class="product-image product-image-relative">
+                                        {% if product.main_image %}
+                                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
+                                            {% with second_image=product.images.first %}
+                                                {% if second_image %}
+                                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy">
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% else %}
+                                            <div class="placeholder-image">
+                                                <i class="fas fa-image fa-3x"></i>
+                                                <p>No Image</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                                        {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>{{ product.name }}</h3>
+                                        <p class="product-type">{{ product.get_product_type_display }}</p>
+                                        {% if product.is_on_sale %}
+                                            <div class="product-price">
+                                                <span class="original-price">€{{ product.base_price }}</span>
+                                                <span class="sale-price">€{{ product.current_price }}</span>
+                                            </div>
+                                        {% else %}
+                                            <p class="product-price">€{{ product.base_price }}</p>
+                                        {% endif %}
+                                        <p class="new-drop-date">
+                                            <i class="far fa-calendar"></i> New {{ product.created_at|timesince }} ago
+                                        </p>
+                                    </div>
+                                </a>
                             </div>
-                            <p class="new-drop-date">
-                                <i class="far fa-calendar"></i> New {{ product.created_at|timesince }} ago
-                            </p>
                         </div>
                     </div>
                     {% endfor %}
