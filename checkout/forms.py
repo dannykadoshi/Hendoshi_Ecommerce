@@ -413,7 +413,7 @@ class DiscountCodeForm(forms.ModelForm):
         model = DiscountCode
         fields = [
             'code', 'discount_type', 'discount_value', 'minimum_order_value',
-            'max_uses', 'is_active', 'expires_at'
+            'max_uses', 'max_uses_per_user', 'is_active', 'banner_message', 'expires_at'
         ]
         widgets = {
             'code': forms.TextInput(attrs={
@@ -438,8 +438,17 @@ class DiscountCodeForm(forms.ModelForm):
                 'class': 'form-control',
                 'min': '0'
             }),
+            'max_uses_per_user': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '0'
+            }),
             'is_active': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
+            }),
+            'banner_message': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 10% OFF your first order with code: WELCOME',
+                'maxlength': '200'
             }),
             'expires_at': forms.DateTimeInput(attrs={
                 'class': 'form-control',

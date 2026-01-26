@@ -111,6 +111,20 @@
                             <div class="form-text">Leave at 0 for unlimited uses</div>
                         </div>
 
+                        <!-- Max Uses Per User -->
+                        <div class="col-12 col-md-6">
+                            <label for="{{ form.max_uses_per_user.id_for_label }}" class="form-label">
+                                Maximum Uses Per User
+                            </label>
+                            {{ form.max_uses_per_user }}
+                            {% if form.max_uses_per_user.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.max_uses_per_user.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Leave at 0 for unlimited uses per user</div>
+                        </div>
+
                         <!-- Expires At -->
                         <div class="col-12 col-md-6">
                             <label for="{{ form.expires_at.id_for_label }}" class="form-label">
@@ -139,6 +153,20 @@
                                 </div>
                             {% endif %}
                             <div class="form-text">Inactive codes cannot be used during checkout</div>
+                        </div>
+
+                        <!-- Banner Message -->
+                        <div class="col-12">
+                            <label for="{{ form.banner_message.id_for_label }}" class="form-label">
+                                Banner Message
+                            </label>
+                            {{ form.banner_message }}
+                            {% if form.banner_message.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.banner_message.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Custom message to display in the discount banner. Leave blank to use default message.</div>
                         </div>
                     </div>
 

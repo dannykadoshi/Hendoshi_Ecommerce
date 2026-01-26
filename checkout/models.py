@@ -137,8 +137,10 @@ class DiscountCode(models.Model):
     discount_value = models.DecimalField(max_digits=10, decimal_places=2, help_text="Percentage (0-100) or fixed amount")
     minimum_order_value = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Minimum order subtotal required")
     max_uses = models.PositiveIntegerField(default=0, help_text="Maximum uses (0 = unlimited)")
+    max_uses_per_user = models.PositiveIntegerField(default=0, help_text="Maximum uses per user (0 = unlimited)")
     used_count = models.PositiveIntegerField(default=0, help_text="Number of times used")
     is_active = models.BooleanField(default=True)
+    banner_message = models.CharField(max_length=200, blank=True, help_text="Custom banner message (leave blank for default)")
     expires_at = models.DateTimeField(null=True, blank=True, help_text="Expiration date (optional)")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -149,7 +151,7 @@ class DiscountCode(models.Model):
     def __str__(self):
         return f"{self.code} ({self.discount_value}{'%' if self.discount_type == 'percentage' else '€'})"
     
-    def is_valid(self, subtotal=0):
+    def is_valid(self, subtotal=0, user=None):
         """Check if discount code is valid for use"""
         if not self.is_active:
             return False, "Discount code is inactive"
@@ -159,6 +161,12 @@ class DiscountCode(models.Model):
         
         if self.max_uses > 0 and self.used_count >= self.max_uses:
             return False, "Discount code has reached maximum uses"
+        
+        # Check per-user limit if user is provided
+        if user and self.max_uses_per_user > 0:
+            user_uses = self.orders.filter(user=user).count()
+            if user_uses >= self.max_uses_per_user:
+                return False, f"You have already used this discount code the maximum allowed times ({self.max_uses_per_user})"
         
         if subtotal < self.minimum_order_value:
             return False, f"Minimum order value of €{self.minimum_order_value} required"

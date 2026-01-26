@@ -205,12 +205,17 @@
         {% endif %}
         
         <!-- Discount Banner -->
-        <div class="discount-banner" id="discountBanner">
+        <div class="discount-banner" id="discountBanner" {% if not discount_banner.show_discount_banner %}style="display: none;"{% endif %}>
             <button class="discount-close" id="discountClose" aria-label="Dismiss discount banner">
                 <i class="fas fa-times"></i>
             </button>
             <i class="fas fa-gift" id="discountIcon"></i>
-            <span>10% OFF your first order with code: <strong class="discount-code-text">WELCOME</strong></span>
+            <span id="discountMessage">{{ discount_banner.banner_message|safe }}</span>
+            {% if discount_banner.multiple_offers %}
+                <button class="discount-cycle" id="discountCycle" aria-label="Cycle through offers" title="View other offers">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            {% endif %}
         </div>
         
         <!-- Navigation -->
@@ -1453,6 +1458,42 @@
                     });
                 });
                 attrObserver.observe(discountBanner, { attributes: true, attributeFilter: ['style', 'class'] });
+            }
+
+            // Discount cycling functionality for multiple offers
+            const discountCycle = document.getElementById('discountCycle');
+            const discountMessage = document.getElementById('discountMessage');
+
+            if (discountCycle && discountMessage && {{ discount_banner.all_offers|length }} > 1) {
+                let currentOfferIndex = 0;
+                const allOffers = {{ discount_banner.all_offers|safe }};
+
+                // Find current offer index
+                const currentCode = '{{ discount_banner.discount_code }}';
+                for (let i = 0; i < allOffers.length; i++) {
+                    if (allOffers[i].code === currentCode) {
+                        currentOfferIndex = i;
+                        break;
+                    }
+                }
+
+                discountCycle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Cycle to next offer
+                    currentOfferIndex = (currentOfferIndex + 1) % allOffers.length;
+                    const nextOffer = allOffers[currentOfferIndex];
+
+                    // Update message with fade effect
+                    discountMessage.style.opacity = '0';
+                    setTimeout(() => {
+                        discountMessage.innerHTML = nextOffer.message;
+                        discountMessage.style.opacity = '1';
+                    }, 150);
+
+                    console.log('Cycled to offer:', nextOffer.code);
+                });
             }
         });
         </script>

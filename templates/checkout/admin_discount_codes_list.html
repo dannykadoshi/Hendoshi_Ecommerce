@@ -72,6 +72,7 @@
                     <th>Value</th>
                     <th>Min Order</th>
                     <th>Uses</th>
+                    <th>Per User</th>
                     <th>Status</th>
                     <th>Expires</th>
                     <th>Created</th>
@@ -92,6 +93,7 @@
                     </td>
                     <td>€{{ code.minimum_order_value }}</td>
                     <td>{{ code.used_count }}{% if code.max_uses > 0 %} / {{ code.max_uses }}{% endif %}</td>
+                    <td>{% if code.max_uses_per_user > 0 %}{{ code.max_uses_per_user }}{% else %}∞{% endif %}</td>
                     <td>
                         {% if code.is_active %}
                             <span class="badge bg-success">Active</span>
@@ -181,6 +183,10 @@
                             <div class="col-6">
                                 <small class="text-muted">Uses</small>
                                 <div>{{ code.used_count }}{% if code.max_uses > 0 %} / {{ code.max_uses }}{% endif %}</div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Per User</small>
+                                <div>{% if code.max_uses_per_user > 0 %}{{ code.max_uses_per_user }}{% else %}∞{% endif %}</div>
                             </div>
                             <div class="col-6">
                                 <small class="text-muted">Expires</small>

@@ -83,6 +83,10 @@ def _finalize_order_payment(order, payment_intent, request=None):
 
     if not already_completed:
         send_order_confirmation_email(order)
+        
+        # Track discount code usage
+        if order.discount_code:
+            order.discount_code.use_code()
 
     if request:
         cart = get_or_create_cart(request)
@@ -248,7 +252,7 @@ def checkout(request):
                 try:
                     discount_code_obj = DiscountCode.objects.get(code=applied_discount_code)
                     # Verify the discount is still valid
-                    is_valid, _ = discount_code_obj.is_valid()
+                    is_valid, _ = discount_code_obj.is_valid(subtotal, request.user if request.user.is_authenticated else None)
                     if is_valid and subtotal >= discount_code_obj.minimum_order_value:
                         discount_code = discount_code_obj
                         discount_amount = float(applied_discount_amount)
@@ -387,7 +391,7 @@ def validate_discount_code(request):
     
     try:
         discount_code = DiscountCode.objects.get(code=code)
-        is_valid, error_message = discount_code.is_valid()
+        is_valid, error_message = discount_code.is_valid(subtotal, request.user if request.user.is_authenticated else None)
         
         if not is_valid:
             return JsonResponse({
