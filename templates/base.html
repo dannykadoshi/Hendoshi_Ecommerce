@@ -358,12 +358,19 @@
                                         <ul class="dropdown-menu admin-panel-submenu">
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Django Dashboard</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_products' %}"><i class="fas fa-boxes"></i> Products Management</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Orders Management</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu" role="button" data-bs-toggle="dropdown">
+                                                    <i class="fas fa-gavel"></i> Content Moderation
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="contentModerationMenu">
+                                                    <li><a class="dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                     {% endif %}
@@ -409,12 +416,19 @@
                                         <ul class="dropdown-menu admin-panel-submenu">
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Django Dashboard</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_products' %}"><i class="fas fa-boxes"></i> Products Management</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Orders Management</a></li>
-                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu2" role="button" data-bs-toggle="dropdown">
+                                                    <i class="fas fa-gavel"></i> Content Moderation
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="contentModerationMenu2">
+                                                    <li><a class="dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                     {% endif %}
@@ -546,18 +560,29 @@
                     <a href="{% url 'admin_list_products' %}" class="submenu-item">
                         <i class="fas fa-boxes"></i> <span>Products Management</span>
                     </a>
-                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item">
-                        <i class="fas fa-star-half-alt"></i> <span>Review Moderation</span>
-                    </a>
                     <a href="{% url 'admin_orders_list' %}" class="submenu-item">
                         <i class="fas fa-clipboard-list"></i> <span>Orders Management</span>
+                    </a>
+                    <button class="submenu-item submenu-trigger" data-submenu="moderation">
+                        <i class="fas fa-gavel"></i> <span>Content Moderation</span>
+                        <span class="submenu-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Moderation Submenu (mobile) -->
+            <div class="menu-submenu hidden" id="submenuModeration">
+                <button class="submenu-back" data-back="admin-panel">&lt; Content Moderation</button>
+                <div class="submenu-content">
+                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item">
+                        <i class="fas fa-star-half-alt"></i> <span>Review Moderation</span>
                     </a>
                     <a href="{% url 'vault:moderate_photos' %}" class="submenu-item">
                         <i class="fas fa-gavel"></i> <span>Vault Moderation</span>
                     </a>
                 </div>
             </div>
-            
+
             <!-- Main Menu Items -->
             <div class="menu-main" id="menuMain">
                 <ul class="menu-items">
