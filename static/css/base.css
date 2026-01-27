@@ -11927,10 +11927,18 @@ input[type="number"] {
     border-left: 0.3em solid;
 }
 
+/* Keep icon + label left-aligned for nested toggles, push the chevron to the far right */
 .dropdown-menu .dropdown-item.dropdown-toggle {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start; /* make icon and label stick to left */
+    gap: 0.75rem; /* consistent spacing between icon and text */
+}
+
+/* Ensure the pseudo chevron sits at the far right */
+.dropdown-menu .dropdown-item.dropdown-toggle::after,
+.dropdown-submenu .dropdown-toggle::after {
+    margin-left: auto;
 }
 
 /* Mobile Menu Submenu Arrow */
