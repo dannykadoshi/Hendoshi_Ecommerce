@@ -1301,131 +1301,365 @@ body {
     color: var(--electric-yellow) !important;
 }
 
-/* Navigation */
+/* ============================================
+   DISCOUNT BANNER - Enhanced with 7 Improvements
+   ============================================ */
+
+/* Main Banner Container */
 .discount-banner {
-    /* Fully opaque gradient to prevent page content showing through while scrolling */
     background: linear-gradient(-45deg, var(--charcoal) 0%, #FF1493 25%, #FFD700 50%, var(--charcoal) 100%);
     background-size: 400% 400%;
     color: var(--off-white);
     text-align: center;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
     font-size: 0.9rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin: 0;
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 99999; /* keep above other overlays */
+    z-index: 99999;
     left: 0;
     right: 0;
-    animation: gradientShift 12s ease-in-out infinite, bannerGlow 15s ease-in-out infinite;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+               gradientShift 12s ease-in-out infinite 0.6s,
+               bannerGlow 15s ease-in-out infinite 0.6s;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s ease,
+                opacity 0.3s ease;
     cursor: default;
     pointer-events: auto;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
     opacity: 1;
+    overflow: hidden;
 }
 
+/* High-value discount special styling */
+.discount-banner.high-value {
+    background: linear-gradient(-45deg, #1a0a14 0%, #FF1493 20%, #FFD700 40%, #FF6B35 60%, #FF1493 80%, #1a0a14 100%);
+    background-size: 600% 600%;
+    animation: bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+               gradientShiftFast 8s ease-in-out infinite 0.6s,
+               bannerGlowIntense 3s ease-in-out infinite 0.6s;
+    box-shadow: 0 6px 40px rgba(255, 20, 147, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+/* Hidden state for scroll behavior */
+.discount-banner.banner-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Confetti Canvas */
+.confetti-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Banner Content Wrapper */
+.discount-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    z-index: 2;
+    position: relative;
+}
+
+/* Banner Hover Effect */
 .discount-banner:hover {
-    transform: translateY(-0.5px);
-    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.12), 0 0 12px rgba(255, 215, 0, 0.08), 0 0 15px rgba(255, 105, 180, 0.06);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 35px rgba(255, 20, 147, 0.25),
+                0 0 20px rgba(255, 215, 0, 0.15),
+                0 0 30px rgba(255, 105, 180, 0.1);
 }
 
-.discount-banner i {
+/* Gift Icon */
+.discount-banner #discountIcon {
     color: var(--neon-pink);
-    animation: iconSparkle 15s ease-in-out infinite, iconBounce 4s ease-in-out;
-    transition: transform 0.2s ease;
+    animation: iconSparkle 15s ease-in-out infinite, iconBounce 2s ease-in-out infinite;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 1rem;
 }
 
-.discount-banner:hover i {
-    transform: scale(1.02);
+.discount-banner:hover #discountIcon {
+    transform: scale(1.15) rotate(10deg);
 }
 
+/* Discount Code Text - Clickable */
 .discount-banner .discount-code-text {
-    background: linear-gradient(45deg, rgba(255, 20, 147, 0.7), rgba(255, 215, 0, 0.6), rgba(255, 165, 0, 0.6), rgba(255, 20, 147, 0.7));
+    background: linear-gradient(45deg, #FF1493, #FFD700, #FFA500, #FF1493);
     background-size: 300% 300%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: bold;
+    font-weight: 800;
+    letter-spacing: 0.5px;
     animation: textGlow 8s ease-in-out infinite, gradientShift 12s ease-in-out infinite;
-    text-shadow: 0 0 2px rgba(255, 20, 147, 0.1);
+    cursor: pointer;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    display: inline-block;
 }
 
+.discount-banner .discount-code-text::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.discount-banner .discount-code-text:hover {
+    transform: scale(1.05);
+}
+
+.discount-banner .discount-code-text:hover::before {
+    opacity: 1;
+}
+
+.discount-banner .discount-code-text:active {
+    transform: scale(0.95);
+}
+
+/* Copy Tooltip */
+.copy-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: rgba(25, 135, 84, 0.95);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.copy-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: rgba(25, 135, 84, 0.95);
+}
+
+.copy-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(8px);
+}
+
+/* Countdown Timer */
+.discount-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #FFD700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    animation: countdownPulse 2s ease-in-out infinite;
+}
+
+.discount-countdown i {
+    font-size: 0.75rem;
+    animation: none !important;
+    color: #FFD700 !important;
+}
+
+.discount-countdown.urgent {
+    background: rgba(220, 53, 69, 0.3);
+    border-color: rgba(220, 53, 69, 0.5);
+    color: #ff6b6b;
+    animation: countdownUrgent 0.5s ease-in-out infinite;
+}
+
+.discount-countdown.urgent i {
+    color: #ff6b6b !important;
+}
+
+/* CTA Button */
+.discount-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--off-white);
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+}
+
+.discount-cta:hover {
+    background: rgba(255, 20, 147, 0.3);
+    border-color: var(--neon-pink);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+}
+
+.discount-cta i {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    animation: none !important;
+    color: inherit !important;
+}
+
+.discount-cta:hover i {
+    transform: translateX(3px);
+}
+
+/* Progress Dots */
+.discount-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.5rem;
+    z-index: 2;
+}
+
+.progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.progress-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+}
+
+.progress-dot.active {
+    background: var(--neon-pink);
+    box-shadow: 0 0 8px rgba(255, 20, 147, 0.5);
+    transform: scale(1.3);
+}
+
+/* Cycle Button */
 .discount-cycle {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 20, 147, 0.3);
     color: var(--off-white);
-    padding: 0.25rem 0.5rem;
+    padding: 0;
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-size: 0.7rem;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 0.5rem;
+    margin-left: 0.3rem;
 }
 
 .discount-cycle:hover {
-    background: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 20, 147, 0.3);
     border-color: var(--neon-pink);
-    transform: scale(1.05);
+    transform: scale(1.1) rotate(90deg);
 }
 
+.discount-cycle i {
+    animation: none !important;
+    color: inherit !important;
+}
+
+/* Message Transition */
 #discountMessage {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+#discountMessage.fade-out {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+/* Close Button */
 .discount-close {
     position: absolute;
-    right: 1rem;
+    right: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
+    background: rgba(0, 0, 0, 0.2);
     border: none;
     color: var(--off-white);
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    padding: 0.25rem;
+    padding: 0.35rem;
     border-radius: 50%;
-    transition: all 0.2s ease;
-    opacity: 0.7;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0.6;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
 }
 
 .discount-close:hover {
     opacity: 1;
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-50%) scale(1.1);
+    background-color: rgba(220, 53, 69, 0.3);
+    transform: translateY(-50%) scale(1.1) rotate(90deg);
 }
 
 .discount-close i {
-    color: inherit;
+    color: inherit !important;
+    animation: none !important;
 }
 
 /* Light mode styles */
 :root.light-mode .discount-banner {
-    /* Opaque light-mode gradient */
     background: linear-gradient(-45deg, #FFE4E1 0%, #FF1493 30%, #FFD700 60%, #FFE4E1 100%);
     background-size: 400% 400%;
     border-bottom-color: rgba(0,0,0,0.12);
     color: white;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
-    animation: gradientShift 12s ease-in-out infinite, bannerGlow 15s ease-in-out infinite;
 }
 
-:root.light-mode .discount-banner i {
+:root.light-mode .discount-banner.high-value {
+    background: linear-gradient(-45deg, #fff0f5 0%, #FF1493 20%, #FFD700 40%, #FF6B35 60%, #FF1493 80%, #fff0f5 100%);
+}
+
+:root.light-mode .discount-banner #discountIcon {
     color: #E71F7F;
 }
 
@@ -1435,8 +1669,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: textGlow 8s ease-in-out infinite, gradientShift 12s ease-in-out infinite;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 :root.light-mode .discount-close {
@@ -1444,60 +1676,134 @@ body {
 }
 
 :root.light-mode .discount-close:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(220, 53, 69, 0.4);
+}
+
+:root.light-mode .discount-cta {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* Reduced motion support */
-.discount-banner.reduced-motion {
+@media (prefers-reduced-motion: reduce) {
+    .discount-banner,
+    .discount-banner.high-value {
+        animation: none;
+    }
+
+    .discount-banner #discountIcon,
+    .discount-banner .discount-code-text {
+        animation: none;
+    }
+
+    .discount-countdown {
+        animation: none;
+    }
+}
+
+.discount-banner.reduced-motion,
+.discount-banner.reduced-motion.high-value {
     animation: none;
 }
 
-.discount-banner.reduced-motion i {
-    animation: none;
-}
-
-.discount-banner.reduced-motion .discount-code-text {
+.discount-banner.reduced-motion #discountIcon,
+.discount-banner.reduced-motion .discount-code-text,
+.discount-banner.reduced-motion .discount-countdown {
     animation: none;
 }
 
 /* Dismiss animation */
 .discount-banner.slide-up {
-    animation: slideUp 0.5s ease-out forwards;
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 1, 1) forwards !important;
 }
 
-/* Keyframe animations */
+/* ============================================
+   DISCOUNT BANNER KEYFRAME ANIMATIONS
+   ============================================ */
+
+/* Entry animation - slide in from top */
+@keyframes bannerSlideIn {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(5%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Gradient shift */
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
+/* Faster gradient for high-value */
+@keyframes gradientShiftFast {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Banner glow */
 @keyframes bannerGlow {
     0%, 100% {
-        box-shadow: 0 1px 3px rgba(255, 20, 147, 0.05), 0 0 8px rgba(255, 105, 180, 0.01);
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
     }
     50% {
-        box-shadow: 0 1px 4px rgba(255, 20, 147, 0.08), 0 0 10px rgba(255, 105, 180, 0.02);
+        box-shadow: 0 6px 35px rgba(255, 20, 147, 0.15), 0 0 15px rgba(255, 105, 180, 0.05);
     }
 }
 
+/* Intense glow for high-value */
+@keyframes bannerGlowIntense {
+    0%, 100% {
+        box-shadow: 0 6px 40px rgba(255, 20, 147, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 8px 50px rgba(255, 20, 147, 0.6), 0 0 30px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 105, 180, 0.2);
+    }
+}
+
+/* Icon sparkle */
 @keyframes iconSparkle {
-    0%, 100% { color: rgba(255, 20, 147, 0.8); transform: scale(1); filter: drop-shadow(0 0 1px rgba(255, 20, 147, 0.3)); }
-    33% { color: rgba(255, 165, 0, 0.6); transform: scale(1.005); filter: drop-shadow(0 0 1px rgba(255, 165, 0, 0.15)); }
-    66% { color: rgba(255, 165, 0, 0.6); transform: scale(1.002); filter: drop-shadow(0 0 1px rgba(255, 165, 0, 0.15)); }
+    0%, 100% { color: #FF1493; transform: scale(1); filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.5)); }
+    25% { color: #FFD700; transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)); }
+    50% { color: #FFA500; transform: scale(1); filter: drop-shadow(0 0 3px rgba(255, 165, 0, 0.5)); }
+    75% { color: #FFD700; transform: scale(1.05); filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5)); }
 }
 
+/* Icon bounce */
 @keyframes iconBounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-0.3px); }
-    60% { transform: translateY(-0.15px); }
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-2px) scale(1.05); }
 }
 
+/* Text glow */
 @keyframes textGlow {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.02); }
+    0%, 100% { filter: brightness(1) drop-shadow(0 0 2px rgba(255, 20, 147, 0.3)); }
+    50% { filter: brightness(1.1) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)); }
 }
 
+/* Countdown pulse */
+@keyframes countdownPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* Countdown urgent */
+@keyframes countdownUrgent {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Slide up dismiss */
 @keyframes slideUp {
     0% {
         transform: translateY(0);
@@ -1506,6 +1812,127 @@ body {
     100% {
         transform: translateY(-100%);
         opacity: 0;
+    }
+}
+
+/* Confetti fall */
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Mobile Responsive - Discount Banner */
+@media (max-width: 768px) {
+    /* Layout shifted to the left to free up central space */
+    .discount-banner {
+        padding: 0.6rem 2.6rem 0.6rem 0.6rem; /* keep right padding for close/dots */
+        font-size: 0.88rem;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 0.6rem;
+        min-height: auto;
+        justify-content: flex-start;
+    }
+
+    .discount-banner-content {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Hide countdown on mobile to save space */
+    .discount-countdown {
+        display: none;
+    }
+
+    /* Hide CTA on mobile to reduce clutter */
+    .discount-cta {
+        display: none;
+    }
+
+    /* Progress dots inline on mobile */
+    .discount-progress {
+        margin-left: 0.3rem;
+        margin-top: 0;
+        position: absolute;
+        right: 2.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .progress-dot {
+        width: 5px;
+        height: 5px;
+        display: inline-block;
+    }
+
+    .discount-cycle {
+        width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+    }
+
+    .discount-close {
+        right: 0.4rem;
+        width: 22px;
+        height: 22px;
+        font-size: 0.75rem;
+    }
+
+    /* Message left-aligned and allowed to wrap into two lines */
+    #discountMessage {
+        display: block;
+        white-space: normal;
+        text-align: left;
+        font-size: 0.85rem;
+        width: auto;
+        overflow: hidden;
+    }
+
+    /* Smaller gift icon */
+    .discount-banner #discountIcon {
+        font-size: 0.85rem;
+    }
+
+    /* Hide confetti on mobile for performance */
+    .confetti-canvas {
+        display: none;
+    }
+
+    /* Copy tooltip positioning on mobile */
+    .copy-tooltip {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+    .discount-banner {
+        font-size: 0.7rem;
+        padding: 0.35rem 2rem 0.35rem 0.4rem;
+    }
+
+    /* Hide CTA on very small screens */
+    .discount-cta {
+        display: none;
+    }
+
+    .discount-progress {
+        right: 1.8rem;
+    }
+
+    #discountMessage {
+        font-size: 0.7rem;
     }
 }
 
@@ -1527,6 +1954,23 @@ body {
 /* Adjust navbar when banner is dismissed */
 .navbar.banner-dismissed {
     margin-top: 0;
+}
+
+/* Mobile navbar adjustment for banner */
+@media (max-width: 768px) {
+    .navbar {
+        margin-top: 2rem; /* Smaller banner on mobile */
+    }
+
+    .navbar.banner-dismissed {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .navbar {
+        margin-top: 1.8rem; /* Even smaller on very small screens */
+    }
 }
 
 .navbar::after {
@@ -15033,7 +15477,7 @@ datalist option {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 0.5rem 0 0.5rem;
+    padding: 1rem 0 0.5rem;
     margin-top: -20px;
     margin-bottom: 4rem;
     position: relative;

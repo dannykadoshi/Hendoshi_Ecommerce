@@ -666,11 +666,32 @@ function initializeFeaturedCarousel() {
     const prevBtn = document.getElementById('featured-prev');
     const nextBtn = document.getElementById('featured-next');
     const items = track.children;
-    const itemWidth = 280 + 16; // item width + gap
     let currentIndex = 0;
     const totalItems = items.length;
-    const visibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth) || 1;
-    const maxIndex = Math.max(0, totalItems - visibleItems);
+    let itemWidth = 0;
+    let visibleItems = 1;
+    let maxIndex = 0;
+
+    function calculateDimensions() {
+        if (!items.length) return;
+
+        // Measure the real item width and gap
+        const firstItem = items[0];
+        const itemRect = firstItem.getBoundingClientRect();
+        const computed = getComputedStyle(track);
+        const gap = parseFloat(computed.gap) || 16; // fallback
+        const paddingLeft = parseFloat(computed.paddingLeft) || 0;
+        const paddingRight = parseFloat(computed.paddingRight) || 0;
+
+        itemWidth = Math.round(itemRect.width + gap);
+
+        const availableWidth = track.parentElement.offsetWidth - paddingLeft - paddingRight;
+        visibleItems = Math.max(1, Math.floor(availableWidth / itemWidth) || 1);
+        maxIndex = Math.max(0, totalItems - visibleItems);
+
+        // Clamp currentIndex to new max
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+    }
 
     function updateCarousel() {
         const translateX = -currentIndex * itemWidth;
@@ -729,22 +750,16 @@ function initializeFeaturedCarousel() {
         isDragging = false;
     });
 
-    // Auto-play functionality (optional)
-    let autoplayInterval = setInterval(() => {
-        if (currentIndex >= maxIndex) {
-            currentIndex = 0;
-        } else {
-            currentIndex++;
-        }
+    // Recalculate on window resize to handle responsive item sizes
+    window.addEventListener('resize', () => {
+        calculateDimensions();
         updateCarousel();
-    }, 5000); // Change slide every 5 seconds
-
-    // Pause autoplay on hover
-    track.parentElement.addEventListener('mouseenter', () => {
-        clearInterval(autoplayInterval);
     });
 
-    track.parentElement.addEventListener('mouseleave', () => {
+    // Auto-play functionality (optional)
+    let autoplayInterval = null;
+    function startAutoplay() {
+        if (autoplayInterval) clearInterval(autoplayInterval);
         autoplayInterval = setInterval(() => {
             if (currentIndex >= maxIndex) {
                 currentIndex = 0;
@@ -752,11 +767,22 @@ function initializeFeaturedCarousel() {
                 currentIndex++;
             }
             updateCarousel();
-        }, 5000);
+        }, 5000); // Change slide every 5 seconds
+    }
+
+    // Pause autoplay on hover
+    track.parentElement.addEventListener('mouseenter', () => {
+        if (autoplayInterval) clearInterval(autoplayInterval);
     });
 
-    // Initialize
+    track.parentElement.addEventListener('mouseleave', () => {
+        startAutoplay();
+    });
+
+    // Initialize dimensions and carousel
+    calculateDimensions();
     updateCarousel();
+    startAutoplay();
 
     // Handle window resize
     window.addEventListener('resize', () => {

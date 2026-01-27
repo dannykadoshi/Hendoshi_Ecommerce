@@ -1,0 +1,7 @@
+# Cron job to run the weekly "feature photos" job
+# Runs every Monday at 00:00 (server local time). Adjust timing as needed.
+# Add this line to your crontab (crontab -e) and replace /path/to with your deployment paths:
+# 0 0 * * 1 cd /path/to/Hendoshi_Ecommerce && /path/to/venv/bin/python manage.py feature_weekly_photos --num-photos 5 --weeks 1 >> /var/log/hendoshi/feature_weekly_photos.log 2>&1
+
+# Example (if your project is at /home/ubuntu/Hendoshi_Ecommerce and venv at /home/ubuntu/venv):
+# 0 0 * * 1 cd /home/ubuntu/Hendoshi_Ecommerce && /home/ubuntu/venv/bin/python manage.py feature_weekly_photos --num-photos 5 --weeks 1 >> /var/log/hendoshi/feature_weekly_photos.log 2>&1
