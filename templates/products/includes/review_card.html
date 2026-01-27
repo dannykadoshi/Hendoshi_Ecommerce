@@ -25,6 +25,29 @@
 
     <p class="review-text">{{ review.review_text }}</p>
 
+    {% if review.images.exists %}
+    <div class="review-images mb-3">
+        {% for image in review.images.all %}
+        <a href="{{ image.image.url }}" target="_blank" class="review-image-thumb">
+            <img src="{{ image.image.url }}" alt="Review image {{ forloop.counter }}">
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if review.admin_reply %}
+    <div class="admin-reply mt-3">
+        <div class="admin-reply-header">
+            <i class="fas fa-store"></i>
+            <strong>HENDOSHI Response</strong>
+            {% if review.admin_reply_at %}
+            <small class="text-muted ms-2">{{ review.admin_reply_at|date:"F d, Y" }}</small>
+            {% endif %}
+        </div>
+        <p class="admin-reply-text">{{ review.admin_reply }}</p>
+    </div>
+    {% endif %}
+
     <div class="review-footer">
         <small class="text-muted">{{ review.created_at|date:"F d, Y" }}</small>
         <button type="button" class="btn btn-sm btn-outline-secondary helpful-btn" data-review-id="{{ review.id }}">

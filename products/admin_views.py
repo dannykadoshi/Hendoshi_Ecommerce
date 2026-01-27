@@ -468,7 +468,7 @@ def optimize_admin_product_images(request, pk):
 @user_passes_test(is_staff_or_admin)
 def list_reviews(request):
     """Frontend admin view for moderating product reviews"""
-    reviews = ProductReview.objects.select_related('product', 'user').all()
+    reviews = ProductReview.objects.select_related('product', 'user', 'admin_reply_by').prefetch_related('images').all()
 
     # Search functionality
     search_query = request.GET.get('search', '')
@@ -531,12 +531,15 @@ def list_reviews(request):
 @user_passes_test(is_staff_or_admin)
 def view_review_detail(request, review_id):
     """Admin view to display full review details"""
-    review = get_object_or_404(ProductReview.objects.select_related('product', 'user', 'order_item'), id=review_id)
-    
+    review = get_object_or_404(
+        ProductReview.objects.select_related('product', 'user', 'order_item', 'admin_reply_by').prefetch_related('images'),
+        id=review_id
+    )
+
     context = {
         'review': review,
     }
-    
+
     return render(request, 'products/admin_review_detail.html', context)
 
 
@@ -551,4 +554,51 @@ def update_review_status(request, review_id):
             review.status = new_status
             review.save()
             return JsonResponse({'success': True, 'status': new_status})
+    return JsonResponse({'success': False}, status=400)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def admin_reply_review(request, review_id):
+    """Admin reply to a review via AJAX"""
+    from django.utils import timezone
+
+    if request.method == 'POST':
+        review = get_object_or_404(ProductReview, id=review_id)
+        reply_text = request.POST.get('reply', '').strip()
+
+        if reply_text:
+            review.admin_reply = reply_text
+            review.admin_reply_by = request.user
+            review.admin_reply_at = timezone.now()
+            review.save()
+            return JsonResponse({
+                'success': True,
+                'reply': reply_text,
+                'replied_by': request.user.username,
+                'replied_at': review.admin_reply_at.strftime('%b %d, %Y')
+            })
+        else:
+            # Clear the reply
+            review.admin_reply = ''
+            review.admin_reply_by = None
+            review.admin_reply_at = None
+            review.save()
+            return JsonResponse({'success': True, 'cleared': True})
+
+    return JsonResponse({'success': False}, status=400)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def delete_review_image(request, image_id):
+    """Delete a review image via AJAX"""
+    from .models import ReviewImage
+
+    if request.method == 'POST':
+        image = get_object_or_404(ReviewImage, id=image_id)
+        review_id = image.review.id
+        image.delete()
+        return JsonResponse({'success': True, 'review_id': review_id})
+
     return JsonResponse({'success': False}, status=400)

@@ -51,7 +51,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful
+from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful, ReviewImage
 from .image_utils import optimize_product_images
 from .forms import (
     ProductForm,
@@ -1065,7 +1065,7 @@ def can_review_product(user, product):
 @require_POST
 def submit_review(request, slug):
     """
-    Submit a new product review
+    Submit a new product review with optional images (max 3)
     """
     product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
 
@@ -1091,6 +1091,22 @@ def submit_review(request, slug):
         review.order_item = order_item
         review.status = 'pending'
         review.save()
+
+        # Handle image uploads (max 3)
+        images = request.FILES.getlist('images')
+        for i, image in enumerate(images[:3]):
+            # Validate file type
+            allowed_types = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+            if image.content_type not in allowed_types:
+                continue
+            # Validate file size (max 5MB)
+            if image.size > 5 * 1024 * 1024:
+                continue
+            ReviewImage.objects.create(
+                review=review,
+                image=image,
+                order=i
+            )
 
         return JsonResponse({
             'success': True,

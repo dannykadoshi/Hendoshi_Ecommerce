@@ -111,6 +111,27 @@
         letter-spacing: 0.5px !important;
     }
 }
+
+/* Pink badge for admin reply indicator */
+.badge.bg-pink {
+    background-color: var(--neon-pink) !important;
+    color: white !important;
+}
+
+/* Info badge for images indicator */
+.badge.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000 !important;
+}
+
+/* Improved visibility for muted text */
+.text-muted {
+    color: #b0b0b0 !important;
+}
+
+.card .text-muted {
+    color: #aaa !important;
+}
 </style>
 {% endblock %}
 
@@ -217,6 +238,8 @@
                                 <td>
                                     <strong>{{ review.product.name }}</strong>
                                     {% if review.is_verified_purchase %}<span class="badge bg-success ms-1">Verified</span>{% endif %}
+                                    {% if review.images.exists %}<span class="badge bg-info ms-1" title="{{ review.images.count }} image(s)"><i class="fas fa-image"></i></span>{% endif %}
+                                    {% if review.admin_reply %}<span class="badge bg-pink ms-1" title="Has reply"><i class="fas fa-reply"></i></span>{% endif %}
                                 </td>
                                 <td>{{ review.user.username }}</td>
                                 <td>
@@ -273,6 +296,8 @@
                                                 <input type="checkbox" name="review_ids" value="{{ review.id }}" class="review-checkbox me-2">
                                                 {{ review.product.name }}
                                                 {% if review.is_verified_purchase %}<span class="badge bg-success ms-1">Verified</span>{% endif %}
+                                                {% if review.images.exists %}<span class="badge bg-info ms-1" title="{{ review.images.count }} image(s)"><i class="fas fa-image"></i></span>{% endif %}
+                                                {% if review.admin_reply %}<span class="badge bg-pink ms-1" title="Has reply"><i class="fas fa-reply"></i></span>{% endif %}
                                             </h6>
                                             <small class="text-muted">by {{ review.user.username }}</small>
                                         </div>

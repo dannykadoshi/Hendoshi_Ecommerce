@@ -6,7 +6,7 @@ from .admin_views import (
     list_product_types, create_product_type, edit_product_type, delete_product_type,
     list_products, create_admin_product, edit_admin_product, delete_admin_product,
     bulk_archive_admin_products, bulk_delete_admin_products, optimize_admin_product_images,
-    list_reviews, update_review_status, view_review_detail,
+    list_reviews, update_review_status, view_review_detail, admin_reply_review, delete_review_image,
 )
 
 urlpatterns = [
@@ -35,7 +35,9 @@ urlpatterns = [
     path('admin/products/bulk-delete/', bulk_delete_admin_products, name='admin_bulk_delete_products'),
     path('admin/reviews/', list_reviews, name='admin_list_reviews'),
     path('admin/reviews/<int:review_id>/status/', update_review_status, name='admin_update_review_status'),
+    path('admin/reviews/<int:review_id>/reply/', admin_reply_review, name='admin_reply_review'),
     path('admin/reviews/<int:review_id>/', view_review_detail, name='admin_view_review_detail'),
+    path('admin/review-image/<int:image_id>/delete/', delete_review_image, name='admin_delete_review_image'),
     path('bulk-archive/', views.bulk_archive_products, name='bulk_archive_products'),
     path('api/generate-seo-meta/', views.generate_seo_meta_description, name='generate_seo_meta'),
     path('api/generate-design-story/', views.generate_design_story, name='generate_design_story'),

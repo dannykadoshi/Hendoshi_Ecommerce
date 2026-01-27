@@ -448,6 +448,25 @@ class ProductReview(models.Model):
         help_text="Internal note for moderation decisions"
     )
 
+    # Admin reply
+    admin_reply = models.TextField(
+        blank=True,
+        help_text="Public reply from store admin"
+    )
+    admin_reply_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='review_replies',
+        help_text="Staff member who replied"
+    )
+    admin_reply_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the admin reply was posted"
+    )
+
     # Helpful votes
     helpful_count = models.PositiveIntegerField(default=0)
 
@@ -497,3 +516,26 @@ class ReviewHelpful(models.Model):
 
     def __str__(self):
         return f"{self.user.username} found review #{self.review.id} helpful"
+
+
+class ReviewImage(models.Model):
+    """
+    Images attached to product reviews (max 3 per review)
+    """
+    review = models.ForeignKey(
+        ProductReview,
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField(upload_to='reviews/')
+    alt_text = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Review Image'
+        verbose_name_plural = 'Review Images'
+
+    def __str__(self):
+        return f"Image for review #{self.review.id}"

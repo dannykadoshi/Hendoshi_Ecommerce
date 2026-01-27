@@ -354,7 +354,7 @@
             <!-- Review Form (hidden by default) -->
             <div id="reviewForm" class="review-form glassmorphic-card p-4 mb-4" style="display: none;">
                 <h4 class="mb-3">Share Your Thoughts</h4>
-                <form id="submitReviewForm">
+                <form id="submitReviewForm" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Your Rating <span class="required-star">*</span></label>
@@ -379,6 +379,12 @@
                         <label class="form-label" for="reviewText">Your Review <span class="required-star">*</span></label>
                         <textarea class="form-control auth-form-input" name="review_text" id="reviewText" rows="5" maxlength="2000" required placeholder="What did you think of this product?"></textarea>
                         <small class="form-help-text">Minimum 20 characters</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="reviewImages">Add Photos (optional)</label>
+                        <input type="file" class="form-control auth-form-input" name="images" id="reviewImages" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                        <small class="form-help-text">Up to 3 images, max 5MB each (JPG, PNG, WebP, GIF)</small>
+                        <div id="imagePreview" class="review-image-preview mt-2"></div>
                     </div>
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-pink">Submit Review</button>
@@ -998,6 +1004,12 @@ document.addEventListener('DOMContentLoaded', function() {
     align-items: center;
 }
 
+.review-footer .text-muted,
+.review-card .text-muted,
+.admin-reply .text-muted {
+    color: #aaa !important;
+}
+
 .helpful-btn {
     font-size: 0.85rem;
     padding: 0.25rem 0.75rem;
@@ -1011,6 +1023,101 @@ document.addEventListener('DOMContentLoaded', function() {
 .review-form {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Review Images */
+.review-images {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.review-image-thumb {
+    display: block;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.review-image-thumb:hover {
+    border-color: var(--neon-pink);
+    transform: scale(1.05);
+}
+
+.review-image-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Image Upload Preview */
+.review-image-preview {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.preview-image {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-preview {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* Admin Reply */
+.admin-reply {
+    background: rgba(255, 45, 161, 0.1);
+    border-left: 3px solid var(--neon-pink);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.admin-reply-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+}
+
+.admin-reply-header i {
+    font-size: 0.85rem;
+}
+
+.admin-reply-text {
+    color: #ddd;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .no-reviews-message {
@@ -1067,6 +1174,41 @@ document.addEventListener('DOMContentLoaded', function() {
             reviewForm.style.display = 'none';
             writeReviewBtn.style.display = 'inline-block';
             submitReviewForm.reset();
+            // Clear image preview
+            const imagePreview = document.getElementById('imagePreview');
+            if (imagePreview) imagePreview.innerHTML = '';
+        });
+    }
+
+    // Image preview functionality
+    const reviewImagesInput = document.getElementById('reviewImages');
+    if (reviewImagesInput) {
+        reviewImagesInput.addEventListener('change', function() {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.innerHTML = '';
+
+            const files = Array.from(this.files).slice(0, 3); // Max 3 images
+
+            if (this.files.length > 3) {
+                showToast('Only first 3 images will be uploaded', 'info');
+            }
+
+            files.forEach((file, index) => {
+                // Validate file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast(`Image ${index + 1} exceeds 5MB limit`, 'warning');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('div');
+                    img.className = 'preview-image';
+                    img.innerHTML = `<img src="${e.target.result}" alt="Preview ${index + 1}"><span class="remove-preview" data-index="${index}">&times;</span>`;
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
         });
     }
 
@@ -1105,6 +1247,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     reviewForm.style.display = 'none';
                     writeReviewBtn.style.display = 'none';
                     submitReviewForm.reset();
+                    // Clear image preview
+                    const imagePreview = document.getElementById('imagePreview');
+                    if (imagePreview) imagePreview.innerHTML = '';
                 } else {
                     const errorMsg = data.errors ? Object.values(data.errors).join(', ') : data.message;
                     showToast(errorMsg, 'error');
