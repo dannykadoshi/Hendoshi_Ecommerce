@@ -6,6 +6,7 @@ from .admin_views import (
     list_product_types, create_product_type, edit_product_type, delete_product_type,
     list_products, create_admin_product, edit_admin_product, delete_admin_product,
     bulk_archive_admin_products, bulk_delete_admin_products, optimize_admin_product_images,
+    list_reviews, update_review_status, view_review_detail,
 )
 
 urlpatterns = [
@@ -32,6 +33,9 @@ urlpatterns = [
     path('admin/products/<int:pk>/optimize/', optimize_admin_product_images, name='admin_optimize_product_images'),
     path('admin/products/bulk-archive/', bulk_archive_admin_products, name='admin_bulk_archive_products'),
     path('admin/products/bulk-delete/', bulk_delete_admin_products, name='admin_bulk_delete_products'),
+    path('admin/reviews/', list_reviews, name='admin_list_reviews'),
+    path('admin/reviews/<int:review_id>/status/', update_review_status, name='admin_update_review_status'),
+    path('admin/reviews/<int:review_id>/', view_review_detail, name='admin_view_review_detail'),
     path('bulk-archive/', views.bulk_archive_products, name='bulk_archive_products'),
     path('api/generate-seo-meta/', views.generate_seo_meta_description, name='generate_seo_meta'),
     path('api/generate-design-story/', views.generate_design_story, name='generate_design_story'),
@@ -42,6 +46,12 @@ urlpatterns = [
     path('<slug:slug>/add-to-vest/', views.add_to_battle_vest, name='add_to_battle_vest'),
     path('<slug:slug>/remove-from-vest/', views.remove_from_battle_vest, name='remove_from_battle_vest'),
     path('<slug:slug>/check-in-vest/', views.check_in_battle_vest, name='check_in_battle_vest'),
+
+    # Product Reviews
+    path('<slug:slug>/reviews/', views.get_product_reviews, name='product_reviews'),
+    path('<slug:slug>/review/submit/', views.submit_review, name='submit_review'),
+    path('<slug:slug>/review/check/', views.check_review_eligibility, name='check_review_eligibility'),
+    path('review/<int:review_id>/helpful/', views.mark_review_helpful, name='mark_review_helpful'),
 
     # Canonical collection pages
     path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),

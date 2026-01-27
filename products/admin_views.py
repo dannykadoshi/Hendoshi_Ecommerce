@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q, Sum
+from django.http import JsonResponse
 from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm
-from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory
+from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory, ProductReview
 from .image_utils import optimize_product_images
 
 
@@ -461,3 +462,93 @@ def optimize_admin_product_images(request, pk):
         messages.error(request, f'Failed to optimize images for "{product.name}": {", ".join(result["errors"])}')
 
     return redirect('admin_list_products')
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def list_reviews(request):
+    """Frontend admin view for moderating product reviews"""
+    reviews = ProductReview.objects.select_related('product', 'user').all()
+
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        reviews = reviews.filter(
+            Q(product__name__icontains=search_query) |
+            Q(user__username__icontains=search_query) |
+            Q(user__email__icontains=search_query) |
+            Q(review_text__icontains=search_query)
+        )
+
+    # Filters
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        reviews = reviews.filter(status=status_filter)
+
+    rating_filter = request.GET.get('rating', '')
+    if rating_filter:
+        reviews = reviews.filter(rating=rating_filter)
+
+    # Ordering
+    order_by = request.GET.get('order_by', '-created_at')
+    if order_by in ['created_at', '-created_at', 'rating', '-rating', 'helpful_count', '-helpful_count']:
+        reviews = reviews.order_by(order_by)
+
+    # Pagination (simple implementation)
+    page = int(request.GET.get('page', 1))
+    per_page = 25
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_reviews = reviews.count()
+    reviews_page = reviews[start:end]
+
+    # Calculate page range for pagination (show max 10 pages)
+    total_pages = (total_reviews + per_page - 1) // per_page
+    start_page = max(1, page - 5)
+    end_page = min(total_pages, start_page + 9)
+    page_range = range(start_page, end_page + 1)
+
+    context = {
+        'reviews': reviews_page,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'rating_filter': rating_filter,
+        'order_by': order_by,
+        'current_page': page,
+        'total_pages': total_pages,
+        'total_reviews': total_reviews,
+        'has_next': end < total_reviews,
+        'has_prev': page > 1,
+        'next_page': page + 1,
+        'prev_page': page - 1,
+        'page_range': page_range,
+    }
+
+    return render(request, 'products/admin_reviews_list.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def view_review_detail(request, review_id):
+    """Admin view to display full review details"""
+    review = get_object_or_404(ProductReview.objects.select_related('product', 'user', 'order_item'), id=review_id)
+    
+    context = {
+        'review': review,
+    }
+    
+    return render(request, 'products/admin_review_detail.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def update_review_status(request, review_id):
+    """Update review status via AJAX"""
+    if request.method == 'POST':
+        review = get_object_or_404(ProductReview, id=review_id)
+        new_status = request.POST.get('status')
+        if new_status in ['pending', 'approved', 'rejected']:
+            review.status = new_status
+            review.save()
+            return JsonResponse({'success': True, 'status': new_status})
+    return JsonResponse({'success': False}, status=400)

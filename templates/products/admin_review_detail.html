@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Review Details - {{ review.product.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
+<style>
+.review-detail-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.review-header {
+    border-bottom: 1px solid rgba(255, 20, 147, 0.3);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.review-rating {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.review-rating .stars {
+    color: #ffc107;
+    margin-right: 0.5rem;
+}
+
+.review-meta {
+    color: var(--off-white);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.review-content {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.review-title {
+    color: var(--neon-pink);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.review-text {
+    color: var(--off-white);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.review-actions {
+    background: rgba(255, 20, 147, 0.1);
+    border: 1px solid rgba(255, 20, 147, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+}
+
+.status-badge.pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.5);
+}
+
+.status-badge.approved {
+    background: rgba(25, 135, 84, 0.2);
+    color: #198754;
+    border: 1px solid rgba(25, 135, 84, 0.5);
+}
+
+.status-badge.rejected {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.5);
+}
+
+.verified-badge {
+    background: rgba(25, 135, 84, 0.9);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.back-btn {
+    background: rgba(255, 20, 147, 0.1);
+    border: 1px solid var(--neon-pink);
+    color: var(--neon-pink);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-btn:hover {
+    background: var(--neon-pink);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+}
+
+.moderation-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.moderation-note {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 6px;
+    padding: 0.75rem;
+    color: var(--off-white);
+    font-style: italic;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Review Details Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Review Details</h1>
+                    <p class="vault-hero-subtitle">Detailed view of customer review for moderation and management.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid vault-container">
+        <div class="row">
+            <div class="col-12 col-lg-10 mx-auto">
+                <div class="review-detail-card">
+                    <!-- Back Button -->
+                    <div class="mb-4">
+                        <a href="{% url 'admin_list_reviews' %}" class="back-btn">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Reviews
+                        </a>
+                    </div>
+
+                    <!-- Review Header -->
+                    <div class="review-header">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h2 class="mb-2">{{ review.product.name }}</h2>
+                                <div class="review-rating">
+                                    <span class="stars">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                    <strong>{{ review.rating }}/5</strong>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="status-badge {{ review.status }}">
+                                    {{ review.get_status_display }}
+                                </div>
+                                {% if review.is_verified_purchase %}
+                                    <div class="verified-badge mt-2">
+                                        <i class="fas fa-check-circle me-1"></i>Verified Purchase
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="review-meta">
+                            <strong>By:</strong> {{ review.user.username }} ({{ review.user.email }})<br>
+                            <strong>Submitted:</strong> {{ review.created_at|date:"F j, Y \a\t g:i A" }}<br>
+                            <strong>Helpful Votes:</strong> {{ review.helpful_count }}
+                        </div>
+                    </div>
+
+                    <!-- Review Content -->
+                    <div class="review-content">
+                        {% if review.title %}
+                            <div class="review-title">{{ review.title }}</div>
+                        {% endif %}
+                        <div class="review-text">{{ review.review_text|linebreaks }}</div>
+                    </div>
+
+                    <!-- Purchase Information -->
+                    {% if review.order_item %}
+                    <div class="moderation-section">
+                        <h5 class="text-warning mb-3">
+                            <i class="fas fa-shopping-cart me-2"></i>Purchase Information
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Order:</strong> #{{ review.order_item.order.id }}<br>
+                                <strong>Product:</strong> {{ review.order_item.product.name }}<br>
+                                <strong>Variant:</strong> {{ review.order_item.variant.name|default:"Default" }}<br>
+                                <strong>Quantity:</strong> {{ review.order_item.quantity }}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Price:</strong> €{{ review.order_item.price }}<br>
+                                <strong>Order Date:</strong> {{ review.order_item.order.created_at|date:"F j, Y" }}<br>
+                                <strong>Order Status:</strong> {{ review.order_item.order.get_status_display }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Moderation Information -->
+                    <div class="moderation-section">
+                        <h5 class="text-info mb-3">
+                            <i class="fas fa-gavel me-2"></i>Moderation Details
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Current Status:</strong> {{ review.get_status_display }}<br>
+                                <strong>Last Updated:</strong> {{ review.updated_at|date:"F j, Y \a\t g:i A" }}
+                            </div>
+                            <div class="col-md-6">
+                                {% if review.moderation_note %}
+                                    <strong>Moderation Note:</strong><br>
+                                    <div class="moderation-note">{{ review.moderation_note }}</div>
+                                {% else %}
+                                    <em class="text-muted">No moderation notes</em>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="review-actions">
+                        <h5 class="mb-3">
+                            <i class="fas fa-cogs me-2"></i>Quick Actions
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                            {% if review.status != 'approved' %}
+                                <button class="btn btn-success btn-sm" onclick="updateStatus({{ review.id }}, 'approved')">
+                                    <i class="fas fa-check me-1"></i>Approve Review
+                                </button>
+                            {% endif %}
+                            {% if review.status != 'rejected' %}
+                                <button class="btn btn-danger btn-sm" onclick="updateStatus({{ review.id }}, 'rejected')">
+                                    <i class="fas fa-times me-1"></i>Reject Review
+                                </button>
+                            {% endif %}
+                            {% if review.status != 'pending' %}
+                                <button class="btn btn-warning btn-sm" onclick="updateStatus({{ review.id }}, 'pending')">
+                                    <i class="fas fa-clock me-1"></i>Mark as Pending
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateStatus(reviewId, status) {
+    if (!confirm(`Are you sure you want to ${status} this review?`)) {
+        return;
+    }
+
+    fetch(`/products/admin/reviews/${reviewId}/status/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the status badge
+            const badge = document.querySelector('.status-badge');
+            badge.className = `status-badge ${status}`;
+            badge.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            
+            // Show success message
+            showToast(`Review ${status} successfully!`, 'success');
+            
+            // Redirect back to list after a short delay
+            setTimeout(() => {
+                window.location.href = '{% url "admin_list_reviews" %}';
+            }, 1500);
+        } else {
+            showToast('Failed to update review status', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Failed to update review status', 'error');
+    });
+}
+
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
+    toast.style.cssText = `
+        top: 20px; 
+        right: 20px; 
+        z-index: 9999; 
+        min-width: 300px;
+        background-color: ${type === 'success' ? 'rgba(25, 135, 84, 0.95)' : 'rgba(220, 53, 69, 0.95)'};
+        color: white;
+        border: 1px solid ${type === 'success' ? '#198754' : '#dc3545'};
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+    `;
+    toast.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'} me-2"></i>
+            <span>${message}</span>
+            <button type="button" class="btn-close btn-close-white ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+}
+</script>
+
+{% endblock %}

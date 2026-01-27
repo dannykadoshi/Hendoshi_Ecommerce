@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Collection, Product, ProductVariant, DesignStory, ProductImage, BattleVest, BattleVestItem
-from .models import ProductType
+from .models import ProductType, ProductReview, ReviewHelpful
 from .image_utils import optimize_product_images
 
 
@@ -202,3 +202,56 @@ class ProductTypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
+
+
+@admin.register(ProductReview)
+class ProductReviewAdmin(admin.ModelAdmin):
+    """
+    Admin for moderating product reviews
+    """
+    list_display = [
+        'product',
+        'user',
+        'rating',
+        'status',
+        'is_verified_purchase',
+        'helpful_count',
+        'created_at'
+    ]
+    list_filter = ['status', 'rating', 'created_at']
+    search_fields = ['product__name', 'user__username', 'user__email', 'review_text']
+    readonly_fields = ['created_at', 'updated_at', 'helpful_count', 'order_item']
+    raw_id_fields = ['product', 'user']
+    list_editable = ['status']
+    date_hierarchy = 'created_at'
+
+    fieldsets = (
+        ('Review Details', {
+            'fields': ('product', 'user', 'order_item', 'rating', 'title', 'review_text')
+        }),
+        ('Moderation', {
+            'fields': ('status', 'moderation_note')
+        }),
+        ('Metrics', {
+            'fields': ('helpful_count', 'created_at', 'updated_at')
+        }),
+    )
+
+    actions = ['approve_reviews', 'reject_reviews']
+
+    def approve_reviews(self, request, queryset):
+        count = queryset.update(status='approved')
+        self.message_user(request, f'{count} review(s) approved.')
+    approve_reviews.short_description = "Approve selected reviews"
+
+    def reject_reviews(self, request, queryset):
+        count = queryset.update(status='rejected')
+        self.message_user(request, f'{count} review(s) rejected.')
+    reject_reviews.short_description = "Reject selected reviews"
+
+
+@admin.register(ReviewHelpful)
+class ReviewHelpfulAdmin(admin.ModelAdmin):
+    list_display = ['review', 'user', 'created_at']
+    search_fields = ['review__product__name', 'user__username']
+    raw_id_fields = ['review', 'user']

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory, modelformset_factory
 from .models import Product, ProductVariant, ProductImage, DesignStory, Collection
-from .models import ProductType
+from .models import ProductType, ProductReview
 
 
 class ProductForm(forms.ModelForm):
@@ -281,3 +281,40 @@ class ProductTypeForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control auth-form-input', 'required': True}),
             'slug': forms.TextInput(attrs={'class': 'form-control auth-form-input'}),
         }
+
+
+class ProductReviewForm(forms.ModelForm):
+    """
+    Form for submitting product reviews
+    """
+    class Meta:
+        model = ProductReview
+        fields = ['rating', 'title', 'review_text']
+        widgets = {
+            'rating': forms.RadioSelect(attrs={
+                'class': 'star-rating-input',
+            }),
+            'title': forms.TextInput(attrs={
+                'class': 'form-control auth-form-input',
+                'placeholder': 'Give your review a title (optional)',
+                'maxlength': '200',
+            }),
+            'review_text': forms.Textarea(attrs={
+                'class': 'form-control auth-form-input',
+                'placeholder': 'Share your experience with this product...',
+                'rows': 5,
+                'maxlength': '2000',
+                'required': 'required',
+            }),
+        }
+        labels = {
+            'rating': 'Your Rating',
+            'title': 'Review Title',
+            'review_text': 'Your Review',
+        }
+
+    def clean_review_text(self):
+        text = self.cleaned_data.get('review_text')
+        if not text or len(text.strip()) < 20:
+            raise forms.ValidationError('Review must be at least 20 characters.')
+        return text.strip()

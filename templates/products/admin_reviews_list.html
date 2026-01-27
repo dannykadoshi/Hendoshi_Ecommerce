@@ -1,0 +1,462 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}Review Moderation{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
+<style>
+/* Enhanced approve button styling */
+.status-select {
+    border: 2px solid rgba(255, 20, 147, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    color: var(--off-white) !important;
+    transition: all 0.3s ease !important;
+    min-width: 120px !important;
+}
+
+.status-select:focus {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.status-select:hover {
+    border-color: var(--neon-pink) !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Status-specific colors */
+.status-select option[value="approved"] {
+    background-color: rgba(25, 135, 84, 0.9) !important;
+    color: white !important;
+}
+
+.status-select option[value="rejected"] {
+    background-color: rgba(220, 53, 69, 0.9) !important;
+    color: white !important;
+}
+
+.status-select option[value="pending"] {
+    background-color: rgba(255, 193, 7, 0.9) !important;
+    color: black !important;
+}
+
+/* Bulk action buttons styling */
+.btn-outline-success {
+    border-color: #198754 !important;
+    color: #198754 !important;
+    background-color: rgba(25, 135, 84, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-success:hover {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3) !important;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+}
+
+/* View button styling */
+.btn-outline-info {
+    border-color: var(--neon-pink) !important;
+    color: var(--neon-pink) !important;
+    background-color: rgba(255, 20, 147, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-info:hover {
+    background-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3) !important;
+}
+
+/* Mobile status select styling */
+@media (max-width: 768px) {
+    .status-select {
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Better mobile button spacing */
+    .btn-group .btn {
+        margin-right: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    /* Enhanced verified badge */
+    .badge.bg-success {
+        background-color: #198754 !important;
+        color: white !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Reviews Moderation Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Review Moderation</h1>
+                    <p class="vault-hero-subtitle">Moderate and manage customer product reviews. Approve, reject, or monitor feedback on your HENDOSHI products.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid vault-container admin-products-container">
+    <div class="row">
+        <div class="col-12 mx-auto">
+            <div class="auth-card">
+
+                <!-- Filters and Search -->
+                <form method="GET" class="mb-4 p-3 rounded admin-filter-form">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" name="search" value="{{ search_query }}" class="form-control" placeholder="Search reviews, products, or users...">
+                        </div>
+                        <div class="col-md-2">
+                            <select name="status" class="form-select">
+                                <option value="">All Status</option>
+                                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
+                                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="rating" class="form-select">
+                                <option value="">All Ratings</option>
+                                <option value="5" {% if rating_filter == '5' %}selected{% endif %}>5 Stars</option>
+                                <option value="4" {% if rating_filter == '4' %}selected{% endif %}>4 Stars</option>
+                                <option value="3" {% if rating_filter == '3' %}selected{% endif %}>3 Stars</option>
+                                <option value="2" {% if rating_filter == '2' %}selected{% endif %}>2 Stars</option>
+                                <option value="1" {% if rating_filter == '1' %}selected{% endif %}>1 Star</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="order_by" class="form-select">
+                                <option value="-created_at" {% if order_by == '-created_at' %}selected{% endif %}>Newest First</option>
+                                <option value="created_at" {% if order_by == 'created_at' %}selected{% endif %}>Oldest First</option>
+                                <option value="-rating" {% if order_by == '-rating' %}selected{% endif %}>Highest Rating</option>
+                                <option value="rating" {% if order_by == 'rating' %}selected{% endif %}>Lowest Rating</option>
+                                <option value="-helpful_count" {% if order_by == '-helpful_count' %}selected{% endif %}>Most Helpful</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-pink w-100">Filter</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Bulk Actions -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <span class="text-muted">{{ total_reviews }} review{{ total_reviews|pluralize }}</span>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-success btn-sm me-2" onclick="bulkUpdateStatus('approved')">
+                            <i class="fas fa-check me-1"></i>Approve Selected
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="bulkUpdateStatus('rejected')">
+                            <i class="fas fa-times me-1"></i>Reject Selected
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Desktop Table View -->
+                <div class="table-responsive d-none d-md-block">
+                    <table class="archived-products-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="select-all" onchange="toggleAllCheckboxes()"></th>
+                                <th>Product</th>
+                                <th>User</th>
+                                <th>Rating</th>
+                                <th>Review</th>
+                                <th>Status</th>
+                                <th>Helpful</th>
+                                <th>
+                                    <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if rating_filter %}rating={{ rating_filter }}&{% endif %}order_by={% if order_by == 'created_at' %}-created_at{% else %}created_at{% endif %}"
+                                       class="text-decoration-none text-white">
+                                        Created {% if order_by == 'created_at' %}↑{% elif order_by == '-created_at' %}↓{% endif %}
+                                    </a>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for review in reviews %}
+                            <tr>
+                                <td><input type="checkbox" name="review_ids" value="{{ review.id }}" class="review-checkbox"></td>
+                                <td>
+                                    <strong>{{ review.product.name }}</strong>
+                                    {% if review.is_verified_purchase %}<span class="badge bg-success ms-1">Verified</span>{% endif %}
+                                </td>
+                                <td>{{ review.user.username }}</td>
+                                <td>
+                                    <div class="rating-stars">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-muted"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <span class="ms-1">{{ review.rating }}/5</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="review-text-preview">
+                                        {% if review.title %}<strong>{{ review.title }}</strong><br>{% endif %}
+                                        {{ review.review_text|truncatechars:100 }}
+                                        {% if review.review_text|length > 100 %}...{% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="form-select form-select-sm status-select" data-review-id="{{ review.id }}">
+                                        <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>Approved</option>
+                                        <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                    </select>
+                                </td>
+                                <td>{{ review.helpful_count }}</td>
+                                <td>{{ review.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="viewReviewDetail({{ review.id }})" title="View Full Review">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card View -->
+                <div class="d-md-none">
+                    <div class="row g-3">
+                        {% for review in reviews %}
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="flex-grow-1">
+                                            <h6 class="card-title mb-1">
+                                                <input type="checkbox" name="review_ids" value="{{ review.id }}" class="review-checkbox me-2">
+                                                {{ review.product.name }}
+                                                {% if review.is_verified_purchase %}<span class="badge bg-success ms-1">Verified</span>{% endif %}
+                                            </h6>
+                                            <small class="text-muted">by {{ review.user.username }}</small>
+                                        </div>
+                                        <select class="form-select form-select-sm status-select" data-review-id="{{ review.id }}" style="width: auto;">
+                                            <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>Pending</option>
+                                            <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>Approved</option>
+                                            <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="rating-stars mb-2">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-muted"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <span class="ms-1">{{ review.rating }}/5</span>
+                                    </div>
+
+                                    <div class="review-text mb-2">
+                                        {% if review.title %}<strong>{{ review.title }}</strong><br>{% endif %}
+                                        {{ review.review_text|truncatechars:150 }}
+                                        {% if review.review_text|length > 150 %}...{% endif %}
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            {{ review.created_at|date:"M d, Y" }} • {{ review.helpful_count }} helpful
+                                        </small>
+                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="viewReviewDetail({{ review.id }})">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                {% if total_pages > 1 %}
+                <nav aria-label="Review pagination" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ prev_page }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if rating_filter %}&rating={{ rating_filter }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        {% for page_num in page_range %}
+                        <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if rating_filter %}&rating={{ rating_filter }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">{{ page_num }}</a>
+                        </li>
+                        {% endfor %}
+
+                        {% if has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ next_page }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if rating_filter %}&rating={{ rating_filter }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- Full Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Review Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="reviewModalBody">
+                <!-- Review content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleAllCheckboxes() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.review-checkbox');
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+}
+
+function bulkUpdateStatus(status) {
+    const selectedReviews = document.querySelectorAll('.review-checkbox:checked');
+    if (selectedReviews.length === 0) {
+        alert('Please select reviews to update.');
+        return;
+    }
+
+    if (!confirm(`Update ${selectedReviews.length} review(s) to ${status}?`)) {
+        return;
+    }
+
+    selectedReviews.forEach(cb => {
+        updateReviewStatus(cb.value, status);
+    });
+}
+
+function updateReviewStatus(reviewId, status) {
+    fetch(`/products/admin/reviews/${reviewId}/status/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the select element
+            const select = document.querySelector(`[data-review-id="${reviewId}"]`);
+            if (select) {
+                select.value = status;
+            }
+            // Show success message
+            showToast(`Review ${status}`, 'success');
+        } else {
+            showToast('Failed to update review status', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Failed to update review status', 'error');
+    });
+}
+
+function viewReviewDetail(reviewId) {
+    // Redirect to the admin review detail page
+    window.open(`/products/admin/reviews/${reviewId}/`, '_blank');
+}
+
+function showToast(message, type) {
+    // Enhanced toast implementation with better styling
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
+    toast.style.cssText = `
+        top: 20px; 
+        right: 20px; 
+        z-index: 9999; 
+        min-width: 300px;
+        background-color: ${type === 'success' ? 'rgba(25, 135, 84, 0.95)' : 'rgba(220, 53, 69, 0.95)'};
+        color: white;
+        border: 1px solid ${type === 'success' ? '#198754' : '#dc3545'};
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+    `;
+    toast.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'} me-2"></i>
+            <span>${message}</span>
+            <button type="button" class="btn-close btn-close-white ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+}
+
+// Attach event listeners to status selects
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const reviewId = this.dataset.reviewId;
+            const status = this.value;
+            updateReviewStatus(reviewId, status);
+        });
+    });
+});
+</script>
+{% endblock %}

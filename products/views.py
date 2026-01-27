@@ -51,7 +51,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem
+from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful
 from .image_utils import optimize_product_images
 from .forms import (
     ProductForm,
@@ -59,7 +59,8 @@ from .forms import (
     ProductImageForm,
     DesignStoryForm,
     ProductVariantFormSet,
-    ProductImageFormSet
+    ProductImageFormSet,
+    ProductReviewForm
 )
 
 
@@ -154,7 +155,12 @@ def all_products(request):
     # Filter by product type
     if 'type' in request.GET:
         selected_type = request.GET['type']
-        products = products.filter(product_type=selected_type)
+        try:
+            product_type = ProductType.objects.get(slug=selected_type)
+            products = products.filter(product_type=product_type)
+        except ProductType.DoesNotExist:
+            # If type doesn't exist, return no products
+            products = products.none()
     
     # Sorting
     if 'sort' in request.GET:
@@ -1004,20 +1010,195 @@ def check_in_battle_vest(request, slug):
     try:
         product = get_object_or_404(Product, slug=slug)
         vest = BattleVest.objects.filter(user=request.user).first()
-        
+
         in_vest = False
         if vest:
             in_vest = BattleVestItem.objects.filter(
                 battle_vest=vest,
                 product=product
             ).exists()
-        
+
         return JsonResponse({
             'in_vest': in_vest,
             'item_count': vest.get_item_count() if vest else 0
         })
-    
+
     except Exception as e:
         return JsonResponse({
             'error': str(e)
         }, status=500)
+
+
+# ================================
+# PRODUCT REVIEWS VIEWS
+# ================================
+
+def can_review_product(user, product):
+    """
+    Check if user has purchased the product and hasn't already reviewed it.
+    Returns (can_review: bool, order_item: OrderItem or None, reason: str)
+    """
+    from checkout.models import OrderItem
+
+    if not user.is_authenticated:
+        return False, None, "login_required"
+
+    # Check if already reviewed
+    existing = ProductReview.objects.filter(user=user, product=product).exists()
+    if existing:
+        return False, None, "already_reviewed"
+
+    # Check for completed purchase
+    order_item = OrderItem.objects.filter(
+        product=product,
+        order__user=user,
+        order__status__in=['delivered', 'shipped', 'confirmed', 'processing']
+    ).first()
+
+    if not order_item:
+        return False, None, "not_purchased"
+
+    return True, order_item, "eligible"
+
+
+@login_required
+@require_POST
+def submit_review(request, slug):
+    """
+    Submit a new product review
+    """
+    product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
+
+    can_review, order_item, reason = can_review_product(request.user, product)
+
+    if not can_review:
+        if reason == "already_reviewed":
+            return JsonResponse({
+                'success': False,
+                'message': "You've already reviewed this product."
+            }, status=400)
+        elif reason == "not_purchased":
+            return JsonResponse({
+                'success': False,
+                'message': "Only verified purchasers can review products."
+            }, status=403)
+
+    form = ProductReviewForm(request.POST)
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.product = product
+        review.user = request.user
+        review.order_item = order_item
+        review.status = 'pending'
+        review.save()
+
+        return JsonResponse({
+            'success': True,
+            'message': 'Thanks for your review! It will appear after moderation.'
+        })
+    else:
+        errors = {field: errors[0] for field, errors in form.errors.items()}
+        return JsonResponse({
+            'success': False,
+            'errors': errors
+        }, status=400)
+
+
+def get_product_reviews(request, slug):
+    """
+    AJAX endpoint to get paginated reviews for a product
+    """
+    from django.core.paginator import Paginator
+
+    product = get_object_or_404(Product, slug=slug, is_active=True)
+    page = int(request.GET.get('page', 1))
+    per_page = 5
+
+    reviews = product.reviews.filter(status='approved').select_related('user')
+
+    paginator = Paginator(reviews, per_page)
+    page_obj = paginator.get_page(page)
+
+    reviews_data = [{
+        'id': r.id,
+        'username': r.user.username,
+        'rating': r.rating,
+        'title': r.title,
+        'text': r.review_text,
+        'verified': r.is_verified_purchase,
+        'helpful_count': r.helpful_count,
+        'created_at': r.created_at.strftime('%B %d, %Y'),
+    } for r in page_obj]
+
+    return JsonResponse({
+        'reviews': reviews_data,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+        'total_pages': paginator.num_pages,
+        'current_page': page,
+    })
+
+
+@login_required
+@require_POST
+def mark_review_helpful(request, review_id):
+    """
+    Mark a review as helpful
+    """
+    from django.db.models import F
+
+    review = get_object_or_404(ProductReview, id=review_id, status='approved')
+
+    # Prevent voting on own review
+    if review.user == request.user:
+        return JsonResponse({
+            'success': False,
+            'message': "You can't vote on your own review."
+        }, status=400)
+
+    # Check if already voted
+    existing = ReviewHelpful.objects.filter(review=review, user=request.user).exists()
+    if existing:
+        return JsonResponse({
+            'success': False,
+            'message': "You've already marked this review as helpful."
+        }, status=400)
+
+    # Create vote and increment count
+    ReviewHelpful.objects.create(review=review, user=request.user)
+    review.helpful_count = F('helpful_count') + 1
+    review.save(update_fields=['helpful_count'])
+    review.refresh_from_db()
+
+    return JsonResponse({
+        'success': True,
+        'helpful_count': review.helpful_count
+    })
+
+
+def check_review_eligibility(request, slug):
+    """
+    AJAX endpoint to check if current user can review a product
+    """
+    product = get_object_or_404(Product, slug=slug)
+
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'can_review': False,
+            'reason': 'login_required',
+            'message': 'Please log in to write a review.'
+        })
+
+    can_review, order_item, reason = can_review_product(request.user, product)
+
+    messages = {
+        'eligible': 'You can write a review for this product.',
+        'already_reviewed': "You've already reviewed this product.",
+        'not_purchased': 'Only verified purchasers can review this product.',
+    }
+
+    return JsonResponse({
+        'can_review': can_review,
+        'reason': reason,
+        'message': messages.get(reason, '')
+    })

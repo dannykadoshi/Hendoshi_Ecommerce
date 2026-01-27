@@ -191,6 +191,27 @@ class Product(models.Model):
     def has_any_stock(self):
         """Check if any variant has stock"""
         return self.variants.filter(stock__gt=0).exists()
+
+    def get_average_rating(self):
+        """Calculate average rating from approved reviews"""
+        from django.db.models import Avg
+        result = self.reviews.filter(status='approved').aggregate(avg=Avg('rating'))
+        return round(result['avg'], 1) if result['avg'] else None
+
+    def get_review_count(self):
+        """Count of approved reviews"""
+        return self.reviews.filter(status='approved').count()
+
+    def get_rating_distribution(self):
+        """Get count of each star rating for display"""
+        from django.db.models import Count
+        distribution = self.reviews.filter(status='approved').values('rating').annotate(
+            count=Count('rating')
+        ).order_by('rating')
+        result = {i: 0 for i in range(1, 6)}
+        for item in distribution:
+            result[item['rating']] = item['count']
+        return result
     
     
 class ProductVariant(models.Model):
@@ -368,4 +389,111 @@ class BattleVestItem(models.Model):
         unique_together = ['battle_vest', 'product']  # Prevent duplicates
 
     def __str__(self):
-        return f"{self.product.name} in {self.battle_vest.user.username}'s vest"     
+        return f"{self.product.name} in {self.battle_vest.user.username}'s vest"
+
+
+class ProductReview(models.Model):
+    """
+    Customer reviews for products - only verified purchasers can review.
+    """
+    STATUS_CHOICES = [
+        ('pending', 'Pending Review'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
+    RATING_CHOICES = [
+        (1, '1 - Meh'),
+        (2, '2 - Okay'),
+        (3, '3 - Solid'),
+        (4, '4 - Killer'),
+        (5, '5 - Legendary'),
+    ]
+
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='product_reviews'
+    )
+    order_item = models.ForeignKey(
+        'checkout.OrderItem',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='review',
+        help_text="The purchase that verified this review"
+    )
+
+    # Review content
+    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
+    title = models.CharField(max_length=200, blank=True)
+    review_text = models.TextField(
+        max_length=2000,
+        help_text="Your thoughts on this product"
+    )
+
+    # Moderation
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+    moderation_note = models.TextField(
+        blank=True,
+        help_text="Internal note for moderation decisions"
+    )
+
+    # Helpful votes
+    helpful_count = models.PositiveIntegerField(default=0)
+
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Product Review'
+        verbose_name_plural = 'Product Reviews'
+        unique_together = ['product', 'user']
+        indexes = [
+            models.Index(fields=['product', 'status', '-created_at']),
+            models.Index(fields=['user', 'status']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username}'s review of {self.product.name} ({self.rating}/5)"
+
+    @property
+    def is_verified_purchase(self):
+        """Check if this review is from a verified purchaser"""
+        return self.order_item is not None
+
+
+class ReviewHelpful(models.Model):
+    """
+    Track users who found a review helpful (prevents duplicate votes)
+    """
+    review = models.ForeignKey(
+        ProductReview,
+        on_delete=models.CASCADE,
+        related_name='helpful_votes'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='helpful_votes'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['review', 'user']
+        verbose_name = 'Helpful Vote'
+        verbose_name_plural = 'Helpful Votes'
+
+    def __str__(self):
+        return f"{self.user.username} found review #{self.review.id} helpful"

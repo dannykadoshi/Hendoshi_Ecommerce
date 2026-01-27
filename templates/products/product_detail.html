@@ -308,7 +308,106 @@
             </div>
             
         </div>
-        
+
+        <!-- Product Reviews Section -->
+        <div class="reviews-section mt-5">
+            <div class="reviews-header d-flex justify-content-between align-items-center mb-4">
+                <h2 class="reviews-title mb-0">
+                    <i class="fas fa-star text-pink"></i> Customer Reviews
+                </h2>
+                <div class="average-rating">
+                    {% if product.get_average_rating %}
+                        <span class="rating-number">{{ product.get_average_rating }}</span>
+                        <span class="rating-stars">
+                            {% with avg_rating=product.get_average_rating %}
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= avg_rating %}
+                                    <i class="fas fa-star"></i>
+                                {% elif forloop.counter|add:"-1" < avg_rating %}
+                                    <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+                        </span>
+                        <span class="review-count">({{ product.get_review_count }} reviews)</span>
+                    {% else %}
+                        <span class="no-reviews">No reviews yet</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Write Review Button -->
+            <div id="reviewFormContainer" class="mb-4">
+                {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-outline-pink" id="writeReviewBtn" data-product-slug="{{ product.slug }}">
+                        <i class="fas fa-pen"></i> Write a Review
+                    </button>
+                {% else %}
+                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-outline-pink">
+                        <i class="fas fa-sign-in-alt"></i> Login to Write a Review
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- Review Form (hidden by default) -->
+            <div id="reviewForm" class="review-form glassmorphic-card p-4 mb-4" style="display: none;">
+                <h4 class="mb-3">Share Your Thoughts</h4>
+                <form id="submitReviewForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Your Rating <span class="required-star">*</span></label>
+                        <div class="star-rating" id="starRating">
+                            <input type="radio" name="rating" value="5" id="star5" required>
+                            <label for="star5" title="5 - Legendary"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" value="4" id="star4">
+                            <label for="star4" title="4 - Killer"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" value="3" id="star3">
+                            <label for="star3" title="3 - Solid"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" value="2" id="star2">
+                            <label for="star2" title="2 - Okay"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" value="1" id="star1">
+                            <label for="star1" title="1 - Meh"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="reviewTitle">Review Title (optional)</label>
+                        <input type="text" class="form-control auth-form-input" name="title" id="reviewTitle" maxlength="200" placeholder="Summarize your experience">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="reviewText">Your Review <span class="required-star">*</span></label>
+                        <textarea class="form-control auth-form-input" name="review_text" id="reviewText" rows="5" maxlength="2000" required placeholder="What did you think of this product?"></textarea>
+                        <small class="form-help-text">Minimum 20 characters</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-pink">Submit Review</button>
+                        <button type="button" class="btn btn-outline-secondary" id="cancelReviewBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Reviews List -->
+            <div id="reviewsList" class="reviews-list">
+                {% for review in product.reviews.all %}
+                    {% if review.status == 'approved' %}
+                        {% include 'products/includes/review_card.html' with review=review %}
+                    {% endif %}
+                {% empty %}
+                    <p class="text-muted no-reviews-message">Be the first to review this product!</p>
+                {% endfor %}
+            </div>
+
+            <!-- Load More Button -->
+            {% if product.get_review_count > 5 %}
+                <div class="text-center mt-3">
+                    <button type="button" class="btn btn-outline-pink" id="loadMoreReviews" data-page="1" data-product-slug="{{ product.slug }}">
+                        Load More Reviews
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
         <!-- Related Products -->
         {% if related_products %}
         <div class="related-products mt-5">
@@ -779,6 +878,335 @@ document.addEventListener('DOMContentLoaded', function() {
         font-size: 1rem;
     }
 }
+
+/* Reviews Section Styles */
+.reviews-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+}
+
+.reviews-title {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.text-pink {
+    color: var(--neon-pink);
+}
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--neon-pink);
+}
+
+.rating-stars i {
+    color: var(--neon-pink);
+}
+
+.review-count {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.no-reviews {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Star Rating Input */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #444;
+    padding: 0 0.1rem;
+    transition: color 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: var(--neon-pink);
+}
+
+/* Review Card */
+.review-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.reviewer-name {
+    color: #fff;
+    font-weight: 600;
+}
+
+.verified-badge {
+    font-size: 0.8rem;
+    color: #28a745;
+}
+
+.review-rating i {
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+}
+
+.review-rating i.text-muted {
+    color: #444 !important;
+}
+
+.review-title {
+    color: var(--neon-pink);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.review-text {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+}
+
+.review-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.helpful-btn {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+}
+
+.helpful-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.review-form {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-reviews-message {
+    text-align: center;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .reviews-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .average-rating {
+        flex-wrap: wrap;
+    }
+}
 </style>
+
+<script>
+// Reviews functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const writeReviewBtn = document.getElementById('writeReviewBtn');
+    const reviewForm = document.getElementById('reviewForm');
+    const cancelReviewBtn = document.getElementById('cancelReviewBtn');
+    const submitReviewForm = document.getElementById('submitReviewForm');
+    const loadMoreBtn = document.getElementById('loadMoreReviews');
+
+    // Check eligibility when clicking write review
+    if (writeReviewBtn) {
+        writeReviewBtn.addEventListener('click', function() {
+            const slug = this.dataset.productSlug;
+
+            fetch(`/products/${slug}/review/check/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.can_review) {
+                        reviewForm.style.display = 'block';
+                        writeReviewBtn.style.display = 'none';
+                    } else {
+                        showToast(data.message, 'warning');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking eligibility:', error);
+                    showToast('Failed to check review eligibility', 'error');
+                });
+        });
+    }
+
+    // Cancel review
+    if (cancelReviewBtn) {
+        cancelReviewBtn.addEventListener('click', function() {
+            reviewForm.style.display = 'none';
+            writeReviewBtn.style.display = 'inline-block';
+            submitReviewForm.reset();
+        });
+    }
+
+    // Submit review
+    if (submitReviewForm) {
+        submitReviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const slug = writeReviewBtn.dataset.productSlug;
+
+            // Validate rating
+            if (!formData.get('rating')) {
+                showToast('Please select a rating', 'warning');
+                return;
+            }
+
+            // Validate review text
+            const reviewText = formData.get('review_text');
+            if (!reviewText || reviewText.trim().length < 20) {
+                showToast('Review must be at least 20 characters', 'warning');
+                return;
+            }
+
+            fetch(`/products/${slug}/review/submit/`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    reviewForm.style.display = 'none';
+                    writeReviewBtn.style.display = 'none';
+                    submitReviewForm.reset();
+                } else {
+                    const errorMsg = data.errors ? Object.values(data.errors).join(', ') : data.message;
+                    showToast(errorMsg, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+                showToast('Failed to submit review', 'error');
+            });
+        });
+    }
+
+    // Mark review helpful
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.helpful-btn')) {
+            const btn = e.target.closest('.helpful-btn');
+            const reviewId = btn.dataset.reviewId;
+            const countSpan = btn.querySelector('.helpful-count');
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch(`/products/review/${reviewId}/helpful/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    countSpan.textContent = data.helpful_count;
+                    btn.disabled = true;
+                    showToast('Thanks for your feedback!', 'success');
+                } else {
+                    showToast(data.message, 'info');
+                }
+            })
+            .catch(error => {
+                console.error('Error marking helpful:', error);
+                showToast('Failed to mark as helpful', 'error');
+            });
+        }
+    });
+
+    // Load more reviews
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            const page = parseInt(this.dataset.page) + 1;
+            const slug = this.dataset.productSlug;
+
+            fetch(`/products/${slug}/reviews/?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    const reviewsList = document.getElementById('reviewsList');
+
+                    data.reviews.forEach(review => {
+                        const reviewHtml = createReviewCard(review);
+                        reviewsList.insertAdjacentHTML('beforeend', reviewHtml);
+                    });
+
+                    this.dataset.page = page;
+
+                    if (!data.has_next) {
+                        this.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading reviews:', error);
+                    showToast('Failed to load more reviews', 'error');
+                });
+        });
+    }
+
+    // Helper function to create review card HTML
+    function createReviewCard(review) {
+        const stars = Array(5).fill().map((_, i) => {
+            return i < review.rating
+                ? '<i class="fas fa-star"></i>'
+                : '<i class="far fa-star text-muted"></i>';
+        }).join('');
+
+        return `
+            <div class="review-card" data-review-id="${review.id}">
+                <div class="review-header">
+                    <div>
+                        <span class="reviewer-name">${review.username}</span>
+                        ${review.verified ? '<span class="verified-badge ms-2"><i class="fas fa-check-circle"></i> Verified Purchase</span>' : ''}
+                    </div>
+                    <div class="review-rating">${stars}</div>
+                </div>
+                ${review.title ? `<h5 class="review-title">${review.title}</h5>` : ''}
+                <p class="review-text">${review.text}</p>
+                <div class="review-footer">
+                    <small class="text-muted">${review.created_at}</small>
+                    <button type="button" class="btn btn-sm btn-outline-secondary helpful-btn" data-review-id="${review.id}">
+                        <i class="far fa-thumbs-up"></i> Helpful (<span class="helpful-count">${review.helpful_count}</span>)
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+});
+</script>
 
 {% endblock %}
