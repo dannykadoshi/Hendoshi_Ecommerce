@@ -11,6 +11,7 @@ class NotificationPreferenceForm(forms.ModelForm):
             'email_notifications_enabled',
             'sale_notifications',
             'restock_notifications',
+            'cart_abandonment_notifications',
             'vault_photo_notifications',
             'vault_featured_notifications',
         ]
@@ -27,6 +28,10 @@ class NotificationPreferenceForm(forms.ModelForm):
                 'class': 'form-check-input',
                 'id': 'restock_notifications',
             }),
+            'cart_abandonment_notifications': forms.CheckboxInput(attrs={
+                'class': 'form-check-input',
+                'id': 'cart_abandonment_notifications',
+            }),
             'vault_photo_notifications': forms.CheckboxInput(attrs={
                 'class': 'form-check-input',
                 'id': 'vault_photo_notifications',
@@ -40,6 +45,7 @@ class NotificationPreferenceForm(forms.ModelForm):
             'email_notifications_enabled': 'Enable all email notifications',
             'sale_notifications': 'Notify me when wishlist items go on sale',
             'restock_notifications': 'Notify me when out-of-stock items are back',
+            'cart_abandonment_notifications': 'Remind me when I leave items in my cart',
             'vault_photo_notifications': 'Notify me when my vault photo submissions are reviewed',
             'vault_featured_notifications': 'Notify me when my vault photos are featured',
         }

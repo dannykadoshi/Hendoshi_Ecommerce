@@ -1,0 +1,24 @@
+Hey {{ profile_name|default:user.first_name|default:user.username }}!
+
+*** FINAL REMINDER ***
+
+Your cart is about to expire! This is our last reminder - after this, your items may no longer be available.
+
+We really don't want you to miss out on these awesome pieces. Here's what's still in your cart:
+
+YOUR CART ({{ item_count }} items):
+{% for item in cart_items %}
+- {{ item.product.name }} ({{ item.size|upper }} / {{ item.color|title }}) x {{ item.quantity }} - {{ item.get_total_price }}
+{% endfor %}
+
+SUBTOTAL: {{ cart_total }}
+
+Complete your order now: {{ checkout_url }}
+
+This is our final reminder. Don't miss out on these unique HENDOSHI pieces!
+
+---
+HENDOSHI - Wear Your Weird
+
+Stop cart reminders: {{ unsubscribe_url }}
+Manage preferences: {{ preferences_url }}

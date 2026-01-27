@@ -31,6 +31,10 @@ class NotificationPreference(models.Model):
         default=True,
         help_text="Receive emails when your vault photos are featured"
     )
+    cart_abandonment_notifications = models.BooleanField(
+        default=True,
+        help_text="Receive reminders when you leave items in your cart"
+    )
 
     # Global unsubscribe
     email_notifications_enabled = models.BooleanField(
@@ -277,3 +281,63 @@ class SentNotificationLog(models.Model):
 
     def __str__(self):
         return f"{self.notification_type} sent to {self.email} for {self.product_name}"
+
+
+class AbandonedCartNotification(models.Model):
+    """
+    Track abandoned cart email notifications.
+    Only for authenticated users (guests have no email).
+    """
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('sent', 'Sent'),
+        ('failed', 'Failed'),
+        ('skipped', 'Skipped'),
+        ('recovered', 'Cart Recovered'),
+    ]
+
+    cart = models.ForeignKey(
+        'cart.Cart',
+        on_delete=models.CASCADE,
+        related_name='abandonment_notifications'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='cart_abandonment_notifications'
+    )
+
+    # Snapshot of cart at notification time
+    cart_total = models.DecimalField(max_digits=10, decimal_places=2)
+    item_count = models.PositiveIntegerField()
+
+    # Tracking
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+    reminder_number = models.PositiveSmallIntegerField(
+        default=1,
+        help_text="1st, 2nd, or 3rd reminder"
+    )
+
+    # Timestamps
+    cart_last_activity = models.DateTimeField(
+        help_text="When the cart was last modified"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    error_message = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Abandoned Cart Notification'
+        verbose_name_plural = 'Abandoned Cart Notifications'
+        indexes = [
+            models.Index(fields=['status', 'created_at']),
+            models.Index(fields=['user', 'cart', 'reminder_number']),
+        ]
+
+    def __str__(self):
+        return f"Cart reminder #{self.reminder_number} for {self.user.username}"

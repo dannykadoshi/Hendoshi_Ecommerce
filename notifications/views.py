@@ -119,6 +119,8 @@ def unsubscribe_one_click(request, token, notification_type):
         prefs.sale_notifications = False
     elif notification_type == 'restock':
         prefs.restock_notifications = False
+    elif notification_type == 'cart':
+        prefs.cart_abandonment_notifications = False
     elif notification_type == 'vault':
         prefs.vault_photo_notifications = False
     elif notification_type == 'vault_featured':

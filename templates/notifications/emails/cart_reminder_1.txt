@@ -1,0 +1,20 @@
+Hey {{ profile_name|default:user.first_name|default:user.username }}!
+
+Looks like you left some killer items in your cart. Don't worry - we saved them for you!
+
+YOUR CART ({{ item_count }} items):
+{% for item in cart_items %}
+- {{ item.product.name }} ({{ item.size|upper }} / {{ item.color|title }}) x {{ item.quantity }} - {{ item.get_total_price }}
+{% endfor %}
+
+SUBTOTAL: {{ cart_total }}
+
+Complete your order: {{ checkout_url }}
+
+These items won't wait forever - grab them before they're gone!
+
+---
+HENDOSHI - Wear Your Weird
+
+Stop cart reminders: {{ unsubscribe_url }}
+Manage preferences: {{ preferences_url }}

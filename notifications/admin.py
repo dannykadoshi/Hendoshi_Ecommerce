@@ -4,7 +4,8 @@ from .models import (
     PriceHistory,
     StockHistory,
     PendingNotification,
-    SentNotificationLog
+    SentNotificationLog,
+    AbandonedCartNotification
 )
 
 
@@ -15,6 +16,7 @@ class NotificationPreferenceAdmin(admin.ModelAdmin):
         'email_notifications_enabled',
         'sale_notifications',
         'restock_notifications',
+        'cart_abandonment_notifications',
         'vault_photo_notifications',
         'updated_at'
     ]
@@ -22,6 +24,7 @@ class NotificationPreferenceAdmin(admin.ModelAdmin):
         'email_notifications_enabled',
         'sale_notifications',
         'restock_notifications',
+        'cart_abandonment_notifications',
         'vault_photo_notifications'
     ]
     search_fields = ['user__username', 'user__email']
@@ -123,3 +126,36 @@ class NewsletterSubscriberAdmin(admin.ModelAdmin):
         from django.http import HttpResponse
         return HttpResponse(emails, content_type='text/plain')
     export_emails.short_description = 'Export selected emails'
+
+
+@admin.register(AbandonedCartNotification)
+class AbandonedCartNotificationAdmin(admin.ModelAdmin):
+    list_display = [
+        'user',
+        'reminder_number',
+        'item_count',
+        'cart_total',
+        'status',
+        'cart_last_activity',
+        'sent_at'
+    ]
+    list_filter = ['status', 'reminder_number', 'created_at']
+    search_fields = ['user__username', 'user__email']
+    readonly_fields = ['created_at', 'sent_at', 'cart_last_activity']
+    raw_id_fields = ['cart', 'user']
+    date_hierarchy = 'created_at'
+
+    actions = ['resend_notifications', 'mark_as_skipped']
+
+    def resend_notifications(self, request, queryset):
+        count = queryset.filter(status='failed').update(
+            status='pending',
+            error_message=''
+        )
+        self.message_user(request, f'{count} notifications queued for retry.')
+    resend_notifications.short_description = "Retry failed notifications"
+
+    def mark_as_skipped(self, request, queryset):
+        count = queryset.update(status='skipped')
+        self.message_user(request, f'{count} notifications marked as skipped.')
+    mark_as_skipped.short_description = "Mark as skipped"

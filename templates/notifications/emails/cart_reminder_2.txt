@@ -1,0 +1,22 @@
+Hey {{ profile_name|default:user.first_name|default:user.username }}!
+
+Still thinking about it? Your cart has been waiting patiently, but these items are calling your name!
+
+We noticed you haven't completed your order yet. Here's what's waiting for you:
+
+YOUR CART ({{ item_count }} items):
+{% for item in cart_items %}
+- {{ item.product.name }} ({{ item.size|upper }} / {{ item.color|title }}) x {{ item.quantity }} - {{ item.get_total_price }}
+{% endfor %}
+
+SUBTOTAL: {{ cart_total }}
+
+Finish checkout now: {{ checkout_url }}
+
+Don't let these unique pieces slip away - complete your order today!
+
+---
+HENDOSHI - Wear Your Weird
+
+Stop cart reminders: {{ unsubscribe_url }}
+Manage preferences: {{ preferences_url }}
