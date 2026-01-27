@@ -1677,6 +1677,17 @@ body {
     background: rgba(255, 20, 147, 0.1);
 }
 
+/* Blue focus ring used on dropdown toggles in desktop menu — apply same visual to other desktop nav items */
+.desktop-menu .nav-link:hover,
+.desktop-menu .nav-link:focus,
+.desktop-menu .nav-link:focus-visible,
+.desktop-menu .nav-item.dropdown.show > .nav-link,
+.desktop-menu .nav-link.nav-link-blue-focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(38, 121, 255, 0.18), 0 4px 10px rgba(38, 121, 255, 0.06);
+    border-radius: 8px;
+}
+
 /* Animated underline effect */
 .desktop-menu .nav-link::before {
     content: '';
