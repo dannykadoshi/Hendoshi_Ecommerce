@@ -11,22 +11,24 @@
         <meta name="author" content="HENDOSHI">
         <!-- Open Graph / Social Media -->
         <meta property="og:type" content="website">
-        <meta property="og:url" content="https://hendoshi.com">
+        <meta property="og:site_name" content="HENDOSHI">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
         <meta property="og:title" content="HENDOSHI - Wear Your Weird">
         <meta property="og:description"
               content="Metal-inspired apparel with original skull, animal, and gym designs. No filler, just killer.">
         <meta property="og:image"
-              content="{% static 'images/hendoshi-og-image.png' %}">
+              content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/hendoshi-gothic-tee.png' %}">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
+        <meta property="og:image:type" content="image/png">
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:url" content="https://hendoshi.com">
+        <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
         <meta name="twitter:title" content="HENDOSHI - Wear Your Weird">
         <meta name="twitter:description"
               content="Metal-inspired apparel with original skull, animal, and gym designs.">
         <meta name="twitter:image"
-              content="{% static 'images/hendoshi-og-image.png' %}">
+              content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/hendoshi-gothic-tee.png' %}">
         <title>HENDOSHI |
             {% block extra_title %}{% endblock %}
         </title>
