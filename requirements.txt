@@ -24,3 +24,5 @@ whitenoise==6.11.0
 stripe==11.4.1
 google-generativeai==0.8.3
 django-unfold==0.77
+django-ckeditor==6.7.1
+django-js-asset==2.2.0

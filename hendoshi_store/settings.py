@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django.contrib.sites',  # Required by allauth
+    'ckeditor',  # Rich text editor for admin
     
     # Hendoshi Apps (must be before allauth for custom template precedence)
     'home',
