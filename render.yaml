@@ -24,4 +24,4 @@ services:
 
 databases:
   - name: hendoshi-db
-    plan: free
+    plan: starter
