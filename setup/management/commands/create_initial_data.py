@@ -4,6 +4,7 @@ from django.utils import timezone
 from datetime import timedelta
 from products.models import Product, Collection, ProductType
 from checkout.models import DiscountCode
+from allauth.account.models import EmailAddress
 
 
 class Command(BaseCommand):
@@ -16,19 +17,29 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Creating initial data...')
 
-        # Create superuser
-        admin_email = options.get('admin_email') or 'admin@hendoshi.com'
-        admin_password = options.get('admin_password') or 'admin123'
+        # Create superuser with specific credentials
+        admin_username = 'hendoshi'
+        admin_email = 'admin@hendoshi.com'
+        admin_password = 'hendoshi1058*'
 
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser(
-                username='admin',
+        if not User.objects.filter(username=admin_username).exists():
+            user = User.objects.create_superuser(
+                username=admin_username,
                 email=admin_email,
                 password=admin_password,
-                first_name='Admin',
-                last_name='User'
+                first_name='Hendoshi',
+                last_name='Admin'
             )
-            self.stdout.write(self.style.SUCCESS(f'Created superuser: admin / {admin_password}'))
+            
+            # Mark email as verified for allauth
+            EmailAddress.objects.get_or_create(
+                user=user,
+                email=admin_email,
+                defaults={'verified': True, 'primary': True}
+            )
+            
+            self.stdout.write(self.style.SUCCESS(f'Created superuser: {admin_username} / {admin_password}'))
+            self.stdout.write(self.style.SUCCESS(f'Email: {admin_email} (pre-verified)'))
         else:
             self.stdout.write('Superuser already exists')
 
@@ -146,5 +157,6 @@ class Command(BaseCommand):
                 self.stdout.write(f'Created discount code: {discount.code}')
 
         self.stdout.write(self.style.SUCCESS('Initial data creation completed!'))
-        self.stdout.write('Admin login: admin / admin123 (or your specified password)')
+        self.stdout.write('Admin login: hendoshi / hendoshi1058*')
+        self.stdout.write('Email: admin@hendoshi.com (pre-verified)')
         self.stdout.write('You can now log in to /admin/ and manage your content.')
