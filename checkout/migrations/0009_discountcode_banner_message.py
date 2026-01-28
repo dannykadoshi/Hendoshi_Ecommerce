@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('checkout', '0008_fix_discountcode_table'),
+        ('checkout', '0007_discountcode_order_discount_amount_and_more'),
     ]
 
     operations = [
