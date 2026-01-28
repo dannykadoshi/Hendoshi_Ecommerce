@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'community',
     'notifications',
     'vault',
-    
+    'themes',
+
     # Allauth apps
     'allauth',
     'allauth.account',
@@ -131,7 +132,7 @@ TEMPLATES = [
                 'cart.context_processors.cart_contents',  # Cart context
                 'products.context_processors.site_collections_and_types',
                 'checkout.context_processors.discount_banner',
-                
+                'themes.context_processors.active_seasonal_theme',
             ],
         },
     },

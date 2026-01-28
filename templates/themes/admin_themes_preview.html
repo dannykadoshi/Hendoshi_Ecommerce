@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_title %}Preview: {{ theme.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'themes/css/seasonal_themes.css' %}">
+<link rel="stylesheet" href="{% static 'themes/css/theme_' %}{{ theme.theme_type }}.css">
+<style>
+/* Preview controls wrapper */
+.preview-controls-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* Preview controls */
+.preview-controls {
+    background: rgba(0, 0, 0, 0.95);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 45, 161, 0.4);
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.preview-controls .btn {
+    border-radius: 50px;
+}
+
+.preview-info {
+    background: rgba(255, 45, 161, 0.1);
+    border: 1px solid rgba(255, 45, 161, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.preview-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 45, 161, 0.2);
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+/* More visible gray text */
+.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Dark themed table for preview */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--off-white, #f5f5f5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table th {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+}
+
+.table td {
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--off-white, #f5f5f5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Button text alignment */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Auth card dark styling */
+.auth-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Preview Hero with Theme Animation -->
+    <section class="vault-hero theme-active theme-speed-{{ theme.animation_speed }}{% if theme.is_paused %} theme-paused{% endif %}" id="previewHero">
+        <div class="theme-animation-layer" id="themeAnimationLayer"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">{{ theme.name }}</h1>
+                    <p class="vault-hero-subtitle">This is a preview of how the "{{ theme.get_theme_type_display }}" theme will appear on your store.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid vault-container admin-products-container">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <div class="auth-card">
+
+                    <!-- Preview Info -->
+                    <div class="preview-info">
+                        <div class="d-flex flex-wrap gap-3 align-items-center">
+                            <span class="preview-badge">
+                                <i class="fas fa-magic"></i> {{ theme.get_theme_type_display }}
+                            </span>
+                            <span class="preview-badge">
+                                <i class="fas fa-tachometer-alt"></i> Speed: {{ theme.animation_speed|title }}
+                            </span>
+                            <span class="preview-badge">
+                                <i class="fas fa-cloud"></i> Density: {{ theme.particle_density|title }}
+                            </span>
+                            <span class="preview-badge">
+                                <i class="fas fa-sort-numeric-up"></i> Priority: {{ theme.priority }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <h4 class="mb-3"><i class="fas fa-eye me-2"></i>Theme Preview</h4>
+                    <p class="text-muted mb-4">
+                        The animation above shows how this theme will appear in the vault-hero sections across your site.
+                        The particles animate behind the text content to ensure readability.
+                    </p>
+
+                    <h5 class="mt-4 mb-3"><i class="fas fa-info-circle me-2"></i>Theme Information</h5>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="width: 200px;">Name</th>
+                                <td>{{ theme.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Theme Type</th>
+                                <td>{{ theme.get_theme_type_display }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    {% with status=theme.get_status_display_text %}
+                                    <span class="badge bg-{{ status|lower }}">{{ status }}</span>
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Animation Speed</th>
+                                <td>{{ theme.animation_speed|title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Particle Density</th>
+                                <td>{{ theme.particle_density|title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Priority</th>
+                                <td>{{ theme.priority }}</td>
+                            </tr>
+                            <tr>
+                                <th>Start Date</th>
+                                <td>{% if theme.start_date %}{{ theme.start_date|date:"F j, Y g:i A" }}{% else %}<span class="text-muted">Not set (immediate)</span>{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th>End Date</th>
+                                <td>{% if theme.end_date %}{{ theme.end_date|date:"F j, Y g:i A" }}{% else %}<span class="text-muted">Not set (no expiry)</span>{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th>Created</th>
+                                <td>{{ theme.created_at|date:"F j, Y g:i A" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Last Updated</th>
+                                <td>{{ theme.updated_at|date:"F j, Y g:i A" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {% if theme.custom_css %}
+                    <h5 class="mt-4 mb-3"><i class="fas fa-code me-2"></i>Custom CSS</h5>
+                    <pre class="p-3 rounded" style="background: rgba(0,0,0,0.3); color: #e0e0e0; overflow-x: auto;">{{ theme.custom_css }}</pre>
+                    {% endif %}
+
+                    <!-- Preview Controls -->
+                    <div class="preview-controls-wrapper text-center my-4">
+                        <div class="preview-controls">
+                            <button class="btn btn-sm btn-outline-light" id="toggleAnimation" title="Play/Pause">
+                                <i class="fas fa-pause" id="toggleIcon"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-light" id="restartAnimation" title="Restart Animation">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <span class="small" style="color: rgba(255, 255, 255, 0.5);">Preview Controls</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-between mt-4">
+                        <a href="{% url 'admin_themes_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Back to List
+                        </a>
+                        <a href="{% url 'admin_themes_edit' theme.id %}" class="btn btn-pink">
+                            <i class="fas fa-edit me-2"></i> Edit Theme
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'themes/js/seasonal_themes.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the theme animation for preview
+    if (typeof SeasonalThemes !== 'undefined') {
+        SeasonalThemes.init({
+            theme: '{{ theme.theme_type }}',
+            speed: '{{ theme.animation_speed }}',
+            density: '{{ theme.particle_density }}',
+            isPaused: {% if theme.is_paused %}true{% else %}false{% endif %}
+        });
+    }
+
+    // Preview controls
+    let isPaused = {% if theme.is_paused %}true{% else %}false{% endif %};
+    const toggleBtn = document.getElementById('toggleAnimation');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const restartBtn = document.getElementById('restartAnimation');
+
+    toggleBtn.addEventListener('click', function() {
+        isPaused = !isPaused;
+        if (isPaused) {
+            toggleIcon.className = 'fas fa-play';
+            if (typeof SeasonalThemes !== 'undefined') {
+                SeasonalThemes.pauseAnimation();
+            }
+        } else {
+            toggleIcon.className = 'fas fa-pause';
+            if (typeof SeasonalThemes !== 'undefined') {
+                SeasonalThemes.startAnimation();
+            }
+        }
+    });
+
+    restartBtn.addEventListener('click', function() {
+        if (typeof SeasonalThemes !== 'undefined') {
+            SeasonalThemes.destroy();
+            SeasonalThemes.init({
+                theme: '{{ theme.theme_type }}',
+                speed: '{{ theme.animation_speed }}',
+                density: '{{ theme.particle_density }}',
+                isPaused: false
+            });
+            isPaused = false;
+            toggleIcon.className = 'fas fa-pause';
+        }
+    });
+});
+</script>
+{% endblock %}

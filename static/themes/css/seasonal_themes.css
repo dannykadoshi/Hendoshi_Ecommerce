@@ -1,0 +1,203 @@
+/**
+ * Seasonal Themes - Base Styles
+ * Core animation layer and particle system styles
+ */
+
+/* Theme-active vault hero container */
+.vault-hero.theme-active {
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animation layer - sits behind content */
+.theme-animation-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Ensure text content stays above animations */
+.vault-hero.theme-active .container {
+    position: relative;
+    z-index: 2;
+}
+
+.vault-hero.theme-active .vault-hero-title,
+.vault-hero.theme-active .vault-hero-subtitle,
+.vault-hero.theme-active .pug-skull-branding,
+.vault-hero.theme-active .btn {
+    position: relative;
+    z-index: 2;
+}
+
+/* Base particle styles */
+.theme-particle {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform, opacity;
+    user-select: none;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+
+/* Speed modifiers */
+.theme-speed-slow .theme-particle {
+    animation-duration: 10s !important;
+}
+
+.theme-speed-normal .theme-particle {
+    animation-duration: 6s !important;
+}
+
+.theme-speed-fast .theme-particle {
+    animation-duration: 3s !important;
+}
+
+/* Paused state */
+.theme-paused .theme-animation-layer,
+.theme-paused .theme-particle {
+    animation-play-state: paused !important;
+}
+
+/* Base animations */
+@keyframes themeFall {
+    0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(calc(100vh + 50px)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes themeFloat {
+    0% {
+        transform: translateY(100%) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(50%) translateX(20px) rotate(180deg);
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100%) translateX(-20px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes themeDrift {
+    0% {
+        transform: translateY(100%) translateX(-50px) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(0%) translateX(50px) scale(1);
+    }
+    80% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100%) translateX(-30px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+@keyframes themeSway {
+    0%, 100% {
+        transform: translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateX(15px) rotate(5deg);
+    }
+    75% {
+        transform: translateX(-15px) rotate(-5deg);
+    }
+}
+
+@keyframes themeSparkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes themePulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(1.3);
+    }
+}
+
+@keyframes themeBurst {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .theme-particle {
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-particle {
+        font-size: 0.6em;
+    }
+
+    /* Reduce animation complexity on mobile */
+    .theme-animation-layer {
+        opacity: 0.7;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .theme-particle {
+        animation: none !important;
+        opacity: 0.3 !important;
+    }
+
+    .theme-animation-layer {
+        opacity: 0.3;
+    }
+}

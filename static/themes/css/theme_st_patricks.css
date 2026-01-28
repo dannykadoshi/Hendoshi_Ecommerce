@@ -1,0 +1,120 @@
+/**
+ * Saint Patrick's Day Theme
+ * Shamrocks, gold coins, and rainbow accents
+ */
+
+/* Theme-specific background overlay */
+.vault-hero.theme-active[data-theme="st_patricks"]::before,
+.vault-hero.theme-active .theme-animation-layer[data-theme="st_patricks"] {
+    background: radial-gradient(ellipse at bottom, rgba(0, 128, 0, 0.08) 0%, transparent 60%);
+}
+
+/* St Patrick's particle animations */
+.theme-particle.st_patricks {
+    animation-name: shamrockFloat;
+}
+
+.theme-particle.st_patricks.shamrock {
+    color: #228B22;
+    text-shadow: 0 0 15px rgba(34, 139, 34, 0.6);
+}
+
+.theme-particle.st_patricks.gold {
+    color: #FFD700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    animation-name: goldCoinSpin;
+}
+
+.theme-particle.st_patricks.rainbow {
+    background: linear-gradient(135deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation-name: rainbowShimmer;
+}
+
+@keyframes shamrockFloat {
+    0% {
+        transform: translateY(-10%) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+        transform: translateY(5%) rotate(-10deg) scale(1);
+    }
+    25% {
+        transform: translateY(25%) rotate(15deg) translateX(-20px);
+    }
+    50% {
+        transform: translateY(50%) rotate(-10deg) translateX(15px);
+    }
+    75% {
+        transform: translateY(75%) rotate(20deg) translateX(-10px);
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(105%) rotate(360deg) translateX(5px);
+        opacity: 0;
+    }
+}
+
+@keyframes goldCoinSpin {
+    0% {
+        transform: translateY(-20%) rotateY(0deg) scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    25% {
+        transform: translateY(20%) rotateY(180deg) translateX(15px);
+    }
+    50% {
+        transform: translateY(50%) rotateY(360deg) translateX(-10px);
+    }
+    75% {
+        transform: translateY(80%) rotateY(540deg) translateX(10px);
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110%) rotateY(720deg) translateX(-5px);
+        opacity: 0;
+    }
+}
+
+@keyframes rainbowShimmer {
+    0% {
+        transform: translateY(100%) scale(0.3);
+        opacity: 0;
+        filter: hue-rotate(0deg);
+    }
+    10% {
+        opacity: 0.9;
+        transform: translateY(90%) scale(1);
+    }
+    50% {
+        transform: translateY(40%) scale(1.1);
+        filter: hue-rotate(180deg);
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-10%) scale(0.8);
+        opacity: 0;
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Clover variations */
+.theme-particle.st_patricks.light-green {
+    color: #32CD32;
+}
+
+.theme-particle.st_patricks.dark-green {
+    color: #006400;
+}

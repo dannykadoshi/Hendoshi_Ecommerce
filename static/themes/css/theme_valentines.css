@@ -1,0 +1,132 @@
+/**
+ * Valentines Day Theme
+ * Floating hearts and rose petals with soft pink glow
+ */
+
+/* Theme-specific background overlay */
+.vault-hero.theme-active[data-theme="valentines"]::before,
+.vault-hero.theme-active .theme-animation-layer[data-theme="valentines"] {
+    background: radial-gradient(ellipse at center, rgba(255, 20, 147, 0.08) 0%, transparent 60%);
+}
+
+/* Valentines particle animations */
+.theme-particle.valentines {
+    animation-name: valentinesFloat;
+}
+
+.theme-particle.valentines.heart {
+    color: #FF1493;
+    text-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+    animation-name: heartFloat;
+}
+
+.theme-particle.valentines.petal {
+    color: #FFB6C1;
+    animation-name: petalDrift;
+}
+
+@keyframes valentinesFloat {
+    0% {
+        transform: translateY(100%) translateX(0) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.8;
+        transform: translateY(80%) translateX(-10px) rotate(-10deg) scale(1);
+    }
+    35% {
+        transform: translateY(50%) translateX(15px) rotate(5deg);
+    }
+    55% {
+        transform: translateY(30%) translateX(-10px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(10%) translateX(5px) rotate(3deg);
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-20%) translateX(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+@keyframes heartFloat {
+    0% {
+        transform: translateY(100%) scale(0.3);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+        transform: translateY(90%) scale(1);
+    }
+    30% {
+        transform: translateY(60%) translateX(20px) scale(1.1);
+    }
+    50% {
+        transform: translateY(40%) translateX(-15px) scale(0.95);
+    }
+    70% {
+        transform: translateY(20%) translateX(10px) scale(1.05);
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-10%) translateX(-5px) scale(0.9);
+        opacity: 0;
+    }
+}
+
+@keyframes petalDrift {
+    0% {
+        transform: translateY(-10%) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    25% {
+        transform: translateY(20%) translateX(30px) rotate(45deg);
+    }
+    50% {
+        transform: translateY(45%) translateX(-20px) rotate(90deg);
+    }
+    75% {
+        transform: translateY(70%) translateX(25px) rotate(180deg);
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(100%) translateX(-10px) rotate(270deg);
+        opacity: 0;
+    }
+}
+
+/* Pink heart */
+.theme-particle.valentines.pink {
+    color: #FF69B4;
+    text-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+}
+
+/* Red heart */
+.theme-particle.valentines.red {
+    color: #DC143C;
+    text-shadow: 0 0 15px rgba(220, 20, 60, 0.7);
+}
+
+/* Soft pulse on hearts */
+.theme-particle.valentines.heart {
+    animation: heartFloat 8s ease-in-out infinite, heartPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes heartPulse {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}

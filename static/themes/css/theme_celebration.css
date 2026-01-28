@@ -1,0 +1,194 @@
+/**
+ * Celebration Theme (Confetti)
+ * Colorful falling confetti with spinning and floating animations
+ */
+
+/* Theme-specific background overlay */
+.vault-hero.theme-active[data-theme="celebration"]::before,
+.vault-hero.theme-active .theme-animation-layer[data-theme="celebration"] {
+    background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+}
+
+/* Celebration particle animations */
+.theme-particle.celebration {
+    animation-name: confettiFall;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.theme-particle.celebration.confetti {
+    animation-name: confettiFall;
+}
+
+.theme-particle.celebration.sparkle {
+    animation-name: celebrationSparkle;
+}
+
+.theme-particle.celebration.burst {
+    animation-name: confettiBurst;
+}
+
+.theme-particle.celebration.float {
+    animation-name: confettiFloat;
+}
+
+/* Main confetti fall - spinning rectangles like the discount banner */
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-10%) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    5% {
+        transform: translateY(-5%) translateX(5px) rotate(18deg);
+        opacity: 1;
+    }
+    15% {
+        transform: translateY(10%) translateX(15px) rotate(72deg);
+        opacity: 1;
+    }
+    30% {
+        transform: translateY(25%) translateX(-10px) rotate(144deg);
+        opacity: 1;
+    }
+    45% {
+        transform: translateY(40%) translateX(20px) rotate(216deg);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(55%) translateX(-15px) rotate(288deg);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(70%) translateX(10px) rotate(360deg);
+        opacity: 0.9;
+    }
+    85% {
+        transform: translateY(85%) translateX(-5px) rotate(400deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(110%) translateX(-5px) rotate(432deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Sparkle animation with scale pulse */
+@keyframes celebrationSparkle {
+    0% {
+        transform: translateY(-10%) scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        transform: translateY(5%) scale(1.2) rotate(30deg);
+        opacity: 1;
+    }
+    30% {
+        transform: translateY(25%) scale(0.9) rotate(90deg);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateY(45%) scale(1.3) rotate(180deg);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(65%) scale(1) rotate(270deg);
+        opacity: 0.8;
+    }
+    85% {
+        transform: translateY(85%) scale(0.8) rotate(330deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(110%) scale(0.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Burst outward from center */
+@keyframes confettiBurst {
+    0% {
+        transform: translateY(50%) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        transform: translateY(40%) scale(1.5) rotate(45deg);
+        opacity: 1;
+    }
+    30% {
+        transform: translateY(20%) translateX(30px) scale(1.2) rotate(135deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(40%) translateX(-20px) scale(1) rotate(225deg);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(70%) translateX(15px) scale(0.9) rotate(315deg);
+        opacity: 0.8;
+    }
+    85% {
+        transform: translateY(90%) translateX(5px) scale(0.7) rotate(360deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(110%) translateX(-10px) scale(0.5) rotate(405deg);
+        opacity: 0;
+    }
+}
+
+/* Gentle float with side-to-side motion */
+@keyframes confettiFloat {
+    0% {
+        transform: translateY(-15%) translateX(0) rotate(-10deg);
+        opacity: 0;
+    }
+    10% {
+        transform: translateY(0%) translateX(10px) rotate(0deg);
+        opacity: 0.9;
+    }
+    25% {
+        transform: translateY(15%) translateX(25px) rotate(15deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(45%) translateX(-20px) rotate(-15deg);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(75%) translateX(15px) rotate(10deg);
+        opacity: 0.8;
+    }
+    90% {
+        transform: translateY(95%) translateX(-5px) rotate(-2deg);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(110%) translateX(-10px) rotate(-5deg);
+        opacity: 0;
+    }
+}
+
+/* Confetti colors - matching discount banner palette */
+.theme-particle.celebration.confetti-pink {
+    color: #FF1493;
+    text-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
+}
+
+.theme-particle.celebration.confetti-gold {
+    color: #FFD700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.theme-particle.celebration.confetti-cyan {
+    color: #00CED1;
+    text-shadow: 0 0 15px rgba(0, 206, 209, 0.8);
+}
+
+.theme-particle.celebration.confetti-purple {
+    color: #9400D3;
+    text-shadow: 0 0 15px rgba(148, 0, 211, 0.8);
+}
+
+.theme-particle.celebration.confetti-orange {
+    color: #FF6B35;
+    text-shadow: 0 0 15px rgba(255, 107, 53, 0.8);
+}

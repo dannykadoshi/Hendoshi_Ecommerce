@@ -1,0 +1,44 @@
+{% load static %}
+{#
+    Theme Animation Layer Include
+    Include this in pages that have a vault-hero section to enable seasonal animations.
+
+    Requirements:
+    - seasonal_theme context variable must be available
+    - Include base seasonal_themes.css and theme-specific CSS in the page head
+    - Include seasonal_themes.js before closing body tag
+#}
+
+{% if seasonal_theme %}
+<!-- Seasonal Theme: {{ seasonal_theme.name }} -->
+<script>
+    // Add theme-active class to all vault-hero sections
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroes = document.querySelectorAll('.vault-hero');
+        heroes.forEach(function(hero) {
+            hero.classList.add('theme-active');
+            hero.classList.add('theme-speed-{{ seasonal_theme.animation_speed }}');
+            {% if seasonal_theme.is_paused %}
+            hero.classList.add('theme-paused');
+            {% endif %}
+        });
+
+        // Initialize seasonal themes
+        if (typeof SeasonalThemes !== 'undefined') {
+            SeasonalThemes.init({
+                theme: '{{ seasonal_theme.theme_type }}',
+                speed: '{{ seasonal_theme.animation_speed }}',
+                density: '{{ seasonal_theme.particle_density }}',
+                isPaused: {% if seasonal_theme.is_paused %}true{% else %}false{% endif %}
+            });
+        }
+    });
+</script>
+
+{% if seasonal_theme.custom_css %}
+<style>
+/* Custom CSS for {{ seasonal_theme.name }} */
+{{ seasonal_theme.custom_css|safe }}
+</style>
+{% endif %}
+{% endif %}

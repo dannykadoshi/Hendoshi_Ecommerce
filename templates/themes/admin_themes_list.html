@@ -1,0 +1,427 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_title %}Seasonal Themes Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
+<style>
+/* Theme-specific badge colors */
+.badge.bg-active { background-color: #28a745 !important; }
+.badge.bg-inactive { background-color: #6c757d !important; }
+.badge.bg-paused { background-color: #fd7e14 !important; }
+.badge.bg-scheduled { background-color: #17a2b8 !important; }
+.badge.bg-expired { background-color: #dc3545 !important; }
+
+/* More visible gray text */
+.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Theme type badges */
+.theme-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(255, 45, 161, 0.15);
+    color: var(--neon-pink);
+}
+
+/* Priority indicator */
+.priority-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.priority-badge.high { background: rgba(255, 45, 161, 0.3); color: var(--neon-pink); }
+.priority-badge.medium { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
+.priority-badge.low { background: rgba(108, 117, 125, 0.3); color: #adb5bd; }
+
+/* Animation speed/density display */
+.config-pills {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+.config-pill {
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Button text alignment */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Seasonal Themes Management Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Seasonal Themes</h1>
+                    <p class="vault-hero-subtitle">Create and manage festive animations for your store. Toggle themes on/off, set schedules, and customize animations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div class="container-fluid vault-container admin-products-container">
+    <div class="row">
+        <div class="col-12 mx-auto">
+            <div class="auth-card">
+
+                <!-- Header with Create Button -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Seasonal Themes</h3>
+                    <a href="{% url 'admin_themes_create' %}" class="btn btn-pink">
+                        <i class="fas fa-plus me-2"></i> Create New Theme
+                    </a>
+                </div>
+
+                <!-- Filters and Search -->
+                <form method="get" class="mb-4 p-3 rounded admin-filter-form">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-12 col-md-3">
+                            <label>Status</label>
+                            <select name="status" class="form-select">
+                                <option value="">All</option>
+                                <option value="active" {% if status == 'active' %}selected{% endif %}>Active</option>
+                                <option value="paused" {% if status == 'paused' %}selected{% endif %}>Paused</option>
+                                <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <label>Search</label>
+                            <input type="text" name="search" class="form-control" placeholder="Theme name..." value="{{ search }}">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label>Sort By</label>
+                            <select name="sort" class="form-select">
+                                <option value="-priority" {% if sort == '-priority' %}selected{% endif %}>Highest Priority</option>
+                                <option value="priority" {% if sort == 'priority' %}selected{% endif %}>Lowest Priority</option>
+                                <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>Newest</option>
+                                <option value="created_at" {% if sort == 'created_at' %}selected{% endif %}>Oldest</option>
+                                <option value="name" {% if sort == 'name' %}selected{% endif %}>Name A-Z</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-1 d-flex align-items-end">
+                            <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn">Filter</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Themes Table/Card View -->
+                {% if page_obj %}
+                <!-- Desktop Table View -->
+                <div class="table-responsive d-none d-md-block">
+                    <table class="table archived-products-table">
+                        <thead>
+                            <tr>
+                                <th>Theme</th>
+                                <th>Type</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Schedule</th>
+                                <th>Config</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for theme in page_obj %}
+                            <tr>
+                                <td><strong>{{ theme.name }}</strong></td>
+                                <td>
+                                    <span class="theme-type-badge">
+                                        <i class="fas fa-magic"></i>
+                                        {{ theme.get_theme_type_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="priority-badge {% if theme.priority >= 50 %}high{% elif theme.priority >= 20 %}medium{% else %}low{% endif %}">
+                                        {{ theme.priority }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% with status=theme.get_status_display_text %}
+                                    <span class="badge bg-{{ status|lower }}">{{ status }}</span>
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {% if theme.start_date or theme.end_date %}
+                                        {% if theme.start_date %}{{ theme.start_date|date:"M d" }}{% else %}--{% endif %}
+                                        <i class="fas fa-arrow-right mx-1" style="font-size: 0.7rem;"></i>
+                                        {% if theme.end_date %}{{ theme.end_date|date:"M d" }}{% else %}--{% endif %}
+                                    {% else %}
+                                        <span class="text-muted">Always</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="config-pills">
+                                        <span class="config-pill"><i class="fas fa-tachometer-alt me-1"></i>{{ theme.animation_speed|title }}</span>
+                                        <span class="config-pill"><i class="fas fa-cloud me-1"></i>{{ theme.particle_density|title }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1 min-width-200 shipping-admin-actions">
+                                        <!-- Preview -->
+                                        <a href="{% url 'admin_themes_preview' theme.id %}" class="btn btn-sm btn-info btn-width-32 btn-height-32" title="Preview Theme">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <!-- Toggle Active -->
+                                        <form method="post" action="{% url 'admin_themes_toggle' theme.id %}" class="display-inline">
+                                            {% csrf_token %}
+                                            {% if theme.is_active %}
+                                            <button type="submit" class="btn btn-sm btn-warning btn-width-32 btn-height-32" title="Deactivate">
+                                                <i class="fas fa-power-off"></i>
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Activate">
+                                                <i class="fas fa-power-off"></i>
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                        <!-- Pause/Play -->
+                                        {% if theme.is_active %}
+                                        <form method="post" action="{% url 'admin_themes_pause' theme.id %}" class="display-inline">
+                                            {% csrf_token %}
+                                            {% if theme.is_paused %}
+                                            <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Resume Animation">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-sm btn-secondary btn-width-32 btn-height-32" title="Pause Animation">
+                                                <i class="fas fa-pause"></i>
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                        {% endif %}
+                                        <!-- Edit -->
+                                        <a href="{% url 'admin_themes_edit' theme.id %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit Theme">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <!-- Delete -->
+                                        <form method="post" action="{% url 'admin_themes_delete' theme.id %}" class="display-inline">
+                                            {% csrf_token %}
+                                            <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmThemeDelete({{ theme.id }}, '{{ theme.name }}')" title="Delete Theme">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="7" class="text-center">No seasonal themes found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card View -->
+                <div class="d-md-none">
+                    <div class="row g-3">
+                        {% for theme in page_obj %}
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h6 class="card-title mb-1">
+                                                <strong>{{ theme.name }}</strong>
+                                            </h6>
+                                            <span class="theme-type-badge">
+                                                <i class="fas fa-magic"></i>
+                                                {{ theme.get_theme_type_display }}
+                                            </span>
+                                        </div>
+                                        <div class="text-end">
+                                            {% with status=theme.get_status_display_text %}
+                                            <span class="badge bg-{{ status|lower }}">{{ status }}</span>
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-4">
+                                            <small class="text-muted">Priority</small>
+                                            <div>
+                                                <span class="priority-badge {% if theme.priority >= 50 %}high{% elif theme.priority >= 20 %}medium{% else %}low{% endif %}">
+                                                    {{ theme.priority }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <small class="text-muted">Speed</small>
+                                            <div>{{ theme.animation_speed|title }}</div>
+                                        </div>
+                                        <div class="col-4">
+                                            <small class="text-muted">Density</small>
+                                            <div>{{ theme.particle_density|title }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                        <a href="{% url 'admin_themes_preview' theme.id %}" class="btn btn-sm btn-info btn-width-80 btn-height-32">
+                                            <i class="fas fa-eye"></i> Preview
+                                        </a>
+                                        <form method="post" action="{% url 'admin_themes_toggle' theme.id %}" class="display-inline">
+                                            {% csrf_token %}
+                                            {% if theme.is_active %}
+                                            <button type="submit" class="btn btn-sm btn-warning btn-width-80 btn-height-32">
+                                                <i class="fas fa-power-off"></i> Off
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-sm btn-success btn-width-80 btn-height-32">
+                                                <i class="fas fa-power-off"></i> On
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                        <a href="{% url 'admin_themes_edit' theme.id %}" class="btn btn-sm btn-primary btn-width-80 btn-height-32">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <form method="post" action="{% url 'admin_themes_delete' theme.id %}" class="display-inline">
+                                            {% csrf_token %}
+                                            <button type="button" class="btn btn-sm btn-danger btn-width-80 btn-height-32" onclick="confirmThemeDelete({{ theme.id }}, '{{ theme.name }}')">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <nav aria-label="Themes pagination" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ num }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-magic fa-3x text-muted mb-3"></i>
+                    <h4>No seasonal themes found</h4>
+                    <p class="text-muted">Create your first seasonal theme to add festive animations to your store.</p>
+                    <a href="{% url 'admin_themes_create' %}" class="btn btn-pink mt-2">
+                        <i class="fas fa-plus me-2"></i> Create Your First Theme
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="vaultConfirmModal" tabindex="-1" aria-labelledby="vaultConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="vaultConfirmModalLabel">
+                    <i class="fas fa-question-circle vault-modal-icon"></i>
+                    <span id="modal-title-text">Confirm Action</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon" id="modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message" id="modal-message">Are you sure you want to perform this action?</p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn vault-modal-btn-confirm" id="modal-confirm-btn">
+                    <i class="fas fa-check"></i> <span id="modal-confirm-text">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentFormToSubmit = null;
+
+function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form) {
+    document.getElementById('modal-title-text').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
+    document.getElementById('modal-confirm-text').textContent = confirmText;
+
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    confirmBtn.className = `btn ${confirmClass} vault-modal-btn-confirm`;
+
+    currentFormToSubmit = form;
+
+    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
+    modal.show();
+}
+
+document.getElementById('modal-confirm-btn').addEventListener('click', function() {
+    if (currentFormToSubmit) {
+        currentFormToSubmit.submit();
+    }
+});
+
+function confirmThemeDelete(themeId, themeName) {
+    const form = document.querySelector(`form[action*="delete"][action*="/${themeId}/"]`);
+    showVaultConfirmModal(
+        'Delete Seasonal Theme',
+        `Are you sure you want to permanently delete the theme "${themeName}"? This action cannot be undone!`,
+        'fa-trash',
+        'Delete Forever',
+        'btn-danger',
+        form
+    );
+    return false;
+}
+</script>
+{% endblock %}

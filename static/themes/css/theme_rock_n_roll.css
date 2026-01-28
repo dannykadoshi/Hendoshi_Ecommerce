@@ -1,0 +1,142 @@
+/**
+ * Rock'N'Roll Day Theme
+ * Guitar picks, lightning bolts, and musical notes with electric vibes
+ */
+
+/* Theme-specific background overlay */
+.vault-hero.theme-active[data-theme="rock_n_roll"]::before,
+.vault-hero.theme-active .theme-animation-layer[data-theme="rock_n_roll"] {
+    background: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.1) 0%, transparent 60%);
+}
+
+/* Rock'N'Roll particle animations */
+.theme-particle.rock_n_roll {
+    animation-name: rockDrift;
+}
+
+.theme-particle.rock_n_roll.guitar {
+    color: #8B0000;
+    text-shadow: 0 0 15px rgba(139, 0, 0, 0.7);
+}
+
+.theme-particle.rock_n_roll.lightning {
+    color: #FFD700;
+    text-shadow: 0 0 25px rgba(255, 215, 0, 1);
+    animation-name: lightningFlash;
+}
+
+.theme-particle.rock_n_roll.note {
+    color: #9400D3;
+    text-shadow: 0 0 15px rgba(148, 0, 211, 0.6);
+    animation-name: noteFloat;
+}
+
+.theme-particle.rock_n_roll.skull {
+    color: #2F2F2F;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes rockDrift {
+    0% {
+        transform: translateY(-20%) translateX(0) rotate(-15deg);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.8;
+    }
+    25% {
+        transform: translateY(15%) translateX(-20px) rotate(10deg);
+    }
+    50% {
+        transform: translateY(45%) translateX(25px) rotate(-10deg);
+    }
+    75% {
+        transform: translateY(75%) translateX(-15px) rotate(15deg);
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(110%) translateX(10px) rotate(-5deg);
+        opacity: 0;
+    }
+}
+
+@keyframes lightningFlash {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    5% {
+        opacity: 1;
+        transform: scale(1.5);
+        filter: brightness(3);
+    }
+    10% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    15% {
+        opacity: 1;
+        transform: scale(1.3);
+        filter: brightness(2);
+    }
+    25% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 0;
+    }
+    55% {
+        opacity: 1;
+        transform: scale(1.4);
+        filter: brightness(2.5);
+    }
+    65% {
+        opacity: 0;
+    }
+}
+
+@keyframes noteFloat {
+    0% {
+        transform: translateY(100%) translateX(0) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+        transform: translateY(85%) scale(1);
+    }
+    30% {
+        transform: translateY(55%) translateX(30px) rotate(15deg);
+    }
+    50% {
+        transform: translateY(35%) translateX(-20px) rotate(-10deg);
+    }
+    70% {
+        transform: translateY(15%) translateX(25px) rotate(10deg);
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-10%) translateX(-10px) rotate(-5deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Electric colors */
+.theme-particle.rock_n_roll.electric-purple {
+    color: #BF00FF;
+    text-shadow: 0 0 20px rgba(191, 0, 255, 0.8);
+}
+
+.theme-particle.rock_n_roll.hot-pink {
+    color: #FF1493;
+    text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+}
+
+.theme-particle.rock_n_roll.neon-blue {
+    color: #00FFFF;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+}

@@ -129,6 +129,13 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+        <!-- Seasonal Themes CSS -->
+        {% if seasonal_theme %}
+        <link rel="stylesheet" href="{% static 'themes/css/seasonal_themes.css' %}">
+        <link rel="stylesheet" href="{% static 'themes/css/theme_' %}{{ seasonal_theme.theme_type }}.css">
+        {% endif %}
+
         {% block extra_css %}{% endblock %}
         {% block extra_js %}{% endblock %}
     </head>
@@ -400,6 +407,7 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_themes_list' %}"><i class="fas fa-magic"></i> Seasonal Themes</a></li>
                                             <li class="dropdown-submenu">
                                                 <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu" role="button" data-bs-toggle="dropdown">
                                                     <i class="fas fa-gavel"></i> Content Moderation
@@ -458,6 +466,7 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_themes_list' %}"><i class="fas fa-magic"></i> Seasonal Themes</a></li>
                                             <li class="dropdown-submenu">
                                                 <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu2" role="button" data-bs-toggle="dropdown">
                                                     <i class="fas fa-gavel"></i> Content Moderation
@@ -600,6 +609,15 @@
                     </a>
                     <a href="{% url 'admin_orders_list' %}" class="submenu-item">
                         <i class="fas fa-clipboard-list"></i> <span>Orders Management</span>
+                    </a>
+                    <a href="{% url 'admin_discount_codes_list' %}" class="submenu-item">
+                        <i class="fas fa-tags"></i> <span>Discount Codes</span>
+                    </a>
+                    <a href="{% url 'admin_shipping_list' %}" class="submenu-item">
+                        <i class="fas fa-shipping-fast"></i> <span>Shipping Rates</span>
+                    </a>
+                    <a href="{% url 'admin_themes_list' %}" class="submenu-item">
+                        <i class="fas fa-magic"></i> <span>Seasonal Themes</span>
                     </a>
                     <button class="submenu-item submenu-trigger" data-submenu="moderation">
                         <i class="fas fa-gavel"></i> <span>Content Moderation</span>
@@ -1901,6 +1919,22 @@
             initOfferCycling();
             initCloseHandlers();
             initCrossTabSync();
+        });
+        </script>
+        {% endif %}
+
+        <!-- Seasonal Themes JavaScript -->
+        {% if seasonal_theme %}
+        <script src="{% static 'themes/js/seasonal_themes.js' %}"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize seasonal theme animations
+            SeasonalThemes.init({
+                theme: '{{ seasonal_theme.theme_type }}',
+                speed: '{{ seasonal_theme.animation_speed }}',
+                density: '{{ seasonal_theme.particle_density }}',
+                isPaused: {{ seasonal_theme.is_paused|yesno:"true,false" }}
+            });
         });
         </script>
         {% endif %}

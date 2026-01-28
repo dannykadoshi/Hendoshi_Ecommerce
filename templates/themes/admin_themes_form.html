@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
+<style>
+.theme-form-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-check-label {
+    color: var(--off-white);
+}
+
+.theme-type-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 45, 161, 0.1);
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.theme-type-preview .emoji {
+    font-size: 2rem;
+}
+
+.theme-type-preview .description {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Custom CSS textarea styling */
+.custom-css-editor {
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.85rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+}
+
+/* More visible gray text */
+.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Button text alignment */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Form Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">{{ title }}</h1>
+                    <p class="vault-hero-subtitle">Configure the seasonal theme settings and animation properties.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid vault-container admin-products-container">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <div class="auth-card theme-form-card">
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-info-circle"></i> Basic Information
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">{{ form.name.label }}</label>
+                                    {{ form.name }}
+                                    {% if form.name.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.name.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">A descriptive name for this theme configuration.</small>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">{{ form.theme_type.label }}</label>
+                                    {{ form.theme_type }}
+                                    {% if form.theme_type.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.theme_type.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div id="themeTypePreview" class="theme-type-preview mt-3" style="display: none;">
+                                <span class="emoji" id="themeEmoji"></span>
+                                <span class="description" id="themeDescription"></span>
+                            </div>
+                        </div>
+
+                        <!-- Activation Settings -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-toggle-on"></i> Activation Settings
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <div class="form-check">
+                                        {{ form.is_active }}
+                                        <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                            {{ form.is_active.label }}
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Enable this theme to display on the site.</small>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-check">
+                                        {{ form.is_paused }}
+                                        <label class="form-check-label" for="{{ form.is_paused.id_for_label }}">
+                                            {{ form.is_paused.label }}
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Temporarily pause the animation.</small>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label">{{ form.priority.label }}</label>
+                                    {{ form.priority }}
+                                    {% if form.priority.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.priority.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Higher priority wins when multiple themes are active.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scheduling -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-calendar-alt"></i> Scheduling (Optional)
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">{{ form.start_date.label }}</label>
+                                    {{ form.start_date }}
+                                    {% if form.start_date.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.start_date.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Leave empty to start immediately when activated.</small>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">{{ form.end_date.label }}</label>
+                                    {{ form.end_date }}
+                                    {% if form.end_date.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.end_date.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Leave empty for no end date.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Animation Settings -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-sliders-h"></i> Animation Settings
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">{{ form.animation_speed.label }}</label>
+                                    {{ form.animation_speed }}
+                                    <small class="text-muted">How fast the particles move.</small>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">{{ form.particle_density.label }}</label>
+                                    {{ form.particle_density }}
+                                    <small class="text-muted">How many particles are displayed.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Custom CSS (Advanced) -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-code"></i> Custom CSS (Advanced)
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    {{ form.custom_css }}
+                                    {% if form.custom_css.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.custom_css.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Add custom CSS to override or extend the default theme styles. Leave empty for default styling.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Errors -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                            <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Submit Buttons -->
+                        <div class="d-flex gap-3 justify-content-between mt-4">
+                            <a href="{% url 'admin_themes_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Back to List
+                            </a>
+                            <div class="d-flex gap-2">
+                                {% if is_edit %}
+                                <a href="{% url 'admin_themes_preview' theme.id %}" class="btn btn-outline-info">
+                                    <i class="fas fa-eye me-2"></i> Preview
+                                </a>
+                                {% endif %}
+                                <button type="submit" class="btn btn-pink">
+                                    <i class="fas fa-save me-2"></i> {{ submit_text }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Theme type descriptions
+const themeDescriptions = {
+    'new_years': { emoji: '🎆✨', desc: 'Gold/silver confetti, champagne bubbles, and firework sparkles' },
+    'valentines': { emoji: '❤️💕', desc: 'Floating hearts and rose petals with soft pink glow' },
+    'st_patricks': { emoji: '☘️🍀', desc: 'Shamrocks, gold coins, and rainbow accents' },
+    'mothers_day': { emoji: '🌸🦋', desc: 'Delicate flower petals and butterflies' },
+    'fathers_day': { emoji: '🔧👔', desc: 'Subtle geometric shapes with navy/gray tones' },
+    'fourth_july': { emoji: '🎆⭐', desc: 'Fireworks and stars in red, white, and blue' },
+    'rock_n_roll': { emoji: '🎸⚡', desc: 'Guitar picks, lightning bolts, and musical notes' },
+    'thanksgiving': { emoji: '🍂🍁', desc: 'Autumn leaves and warm harvest colors' },
+    'christmas': { emoji: '❄️🎄', desc: 'Snowflakes, ornaments, and twinkling lights' },
+    'everyday': { emoji: '💀🦇', desc: 'Skulls, flames, bats, and dark gothic vibes' },
+    'celebration': { emoji: '🎉🎊', desc: 'Colorful confetti, sparkles, and party vibes' }
+};
+
+const themeTypeSelect = document.getElementById('id_theme_type');
+const previewDiv = document.getElementById('themeTypePreview');
+const emojiSpan = document.getElementById('themeEmoji');
+const descSpan = document.getElementById('themeDescription');
+
+function updateThemePreview() {
+    const selectedType = themeTypeSelect.value;
+    if (selectedType && themeDescriptions[selectedType]) {
+        const info = themeDescriptions[selectedType];
+        emojiSpan.textContent = info.emoji;
+        descSpan.textContent = info.desc;
+        previewDiv.style.display = 'flex';
+    } else {
+        previewDiv.style.display = 'none';
+    }
+}
+
+themeTypeSelect.addEventListener('change', updateThemePreview);
+updateThemePreview();
+</script>
+{% endblock %}

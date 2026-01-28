@@ -24,6 +24,7 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),  # Checkout URLs
     path('notifications/', include('notifications.urls')),  # Notification URLs
     path('vault/', include('vault.urls')),  # Vault URLs
+    path('themes/', include('themes.urls')),  # Seasonal Themes URLs
     path('collections/', views.collections, name='collections'),
     path('product-types/', views.product_types, name='product_types'),
     path('new-drops/', views.new_drops, name='new_drops'),
