@@ -29,7 +29,36 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [config('RENDER_EXTERNAL_HOSTNAME', default='localhost'), '127.0.0.1', 'localhost']
+# Allowed hosts - include Render hostname and any custom domains
+RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default='')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# Add custom domain if you have one (e.g., hendoshi.com)
+CUSTOM_DOMAIN = config('CUSTOM_DOMAIN', default='')
+if CUSTOM_DOMAIN:
+    ALLOWED_HOSTS.append(CUSTOM_DOMAIN)
+    ALLOWED_HOSTS.append(f'www.{CUSTOM_DOMAIN}')
+
+# CSRF and Security settings for production (Render uses HTTPS proxy)
+CSRF_TRUSTED_ORIGINS = []
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+if CUSTOM_DOMAIN:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{CUSTOM_DOMAIN}')
+    CSRF_TRUSTED_ORIGINS.append(f'https://www.{CUSTOM_DOMAIN}')
+
+# Trust the X-Forwarded-Proto header from Render's proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Production security settings (only when DEBUG is False)
+if not DEBUG:
+    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
 # Application definition
