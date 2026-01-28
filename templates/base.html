@@ -1388,9 +1388,10 @@
             }
         });
         </script>
-        
+        {% endif %}
+
         <!-- Discount Banner JavaScript - Enhanced -->
-        <script id="discount-offers-data" type="application/json">{{ discount_banner.all_offers_json|default:"[]" }}</script>
+        <script id="discount-offers-data" type="application/json">{{ discount_banner.all_offers_json|default:"[]"|safe }}</script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
@@ -1941,14 +1942,11 @@
             initOfferCycling();
             initCloseHandlers();
             initCrossTabSync();
-
-            console.log('Discount banner initialized successfully');
             } catch (err) {
                 console.error('Discount banner error:', err);
             }
         });
         </script>
-        {% endif %}
 
         <!-- Seasonal Themes JavaScript -->
         {% if seasonal_theme %}
