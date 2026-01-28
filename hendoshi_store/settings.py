@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'notifications',
     'vault',
     'themes',
+    'setup',  # Temporary app for initial data setup
 
     # Allauth apps
     'allauth',
