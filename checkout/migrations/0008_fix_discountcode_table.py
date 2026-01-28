@@ -13,17 +13,17 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             """
             CREATE TABLE checkout_discountcode (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 code VARCHAR(50) NOT NULL UNIQUE,
                 discount_type VARCHAR(20) NOT NULL,
                 discount_value DECIMAL(10,2) NOT NULL,
                 minimum_order_value DECIMAL(10,2) NOT NULL DEFAULT 0,
-                max_uses INTEGER UNSIGNED NOT NULL DEFAULT 0,
-                used_count INTEGER UNSIGNED NOT NULL DEFAULT 0,
-                is_active BOOLEAN NOT NULL DEFAULT 1,
-                expires_at DATETIME NULL,
-                created_at DATETIME NOT NULL,
-                updated_at DATETIME NOT NULL
+                max_uses INTEGER NOT NULL DEFAULT 0,
+                used_count INTEGER NOT NULL DEFAULT 0,
+                is_active BOOLEAN NOT NULL DEFAULT true,
+                expires_at TIMESTAMP NULL,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL
             );
             """,
             reverse_sql="DROP TABLE IF EXISTS checkout_discountcode;"
