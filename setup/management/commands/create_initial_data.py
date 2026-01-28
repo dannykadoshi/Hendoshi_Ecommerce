@@ -1,10 +1,13 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
 from products.models import Product, Collection, ProductType
 from checkout.models import DiscountCode
 from allauth.account.models import EmailAddress
+import os
 
 
 class Command(BaseCommand):
@@ -16,6 +19,29 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write('Creating initial data...')
+
+        # Setup Site for django.contrib.sites (required by allauth)
+        render_hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')
+        custom_domain = os.environ.get('CUSTOM_DOMAIN', '')
+
+        if custom_domain:
+            site_domain = custom_domain
+            site_name = 'HENDOSHI Store'
+        elif render_hostname:
+            site_domain = render_hostname
+            site_name = 'HENDOSHI Store'
+        else:
+            site_domain = 'localhost:8000'
+            site_name = 'HENDOSHI Store (Local)'
+
+        site, created = Site.objects.update_or_create(
+            id=settings.SITE_ID,
+            defaults={'domain': site_domain, 'name': site_name}
+        )
+        if created:
+            self.stdout.write(self.style.SUCCESS(f'Created site: {site_domain}'))
+        else:
+            self.stdout.write(f'Updated site domain: {site_domain}')
 
         # Create superuser with specific credentials
         admin_username = 'hendoshi'

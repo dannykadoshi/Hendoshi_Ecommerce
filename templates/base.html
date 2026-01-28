@@ -1390,8 +1390,10 @@
         </script>
         
         <!-- Discount Banner JavaScript - Enhanced -->
+        <script id="discount-offers-data" type="application/json">{{ discount_banner.all_offers_json|default:"[]" }}</script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
+            try {
             const discountBanner = document.getElementById('discountBanner');
             const discountClose = document.getElementById('discountClose');
             const navbar = document.querySelector('.navbar');
@@ -1411,8 +1413,16 @@
             const offerCount = parseInt(discountBanner.dataset.offerCount) || 1;
             let currentOfferIndex = parseInt(discountBanner.dataset.currentIndex) || 0;
 
-            // All offers data (JSON-serialized to avoid JS parse errors)
-            const allOffers = {{ discount_banner.all_offers_json|safe|default:"[]" }};
+            // All offers data (safely parsed from JSON script tag)
+            let allOffers = [];
+            try {
+                const offersDataEl = document.getElementById('discount-offers-data');
+                if (offersDataEl) {
+                    allOffers = JSON.parse(offersDataEl.textContent || '[]');
+                }
+            } catch (jsonErr) {
+                console.warn('Failed to parse discount offers JSON:', jsonErr);
+            }
 
             // URL override for testing
             const urlParams = new URLSearchParams(window.location.search || '');
@@ -1931,6 +1941,11 @@
             initOfferCycling();
             initCloseHandlers();
             initCrossTabSync();
+
+            console.log('Discount banner initialized successfully');
+            } catch (err) {
+                console.error('Discount banner error:', err);
+            }
         });
         </script>
         {% endif %}

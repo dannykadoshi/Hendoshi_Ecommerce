@@ -117,6 +117,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'email2*', 'username*', 'password1*', 'password2*']  # Required signup fields
 ACCOUNT_USERNAME_MIN_LENGTH = 4
+ACCOUNT_LOGOUT_ON_GET = False  # Require POST for logout (security)
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'  # Redirect to homepage after login
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'  # Redirect to homepage after logout
