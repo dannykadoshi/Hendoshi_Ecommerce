@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',  # Required by allauth
     'ckeditor',  # Rich text editor for admin
+    'storages',  # For using S3 in production if needed
     
     # Hendoshi Apps (must be before allauth for custom template precedence)
     'home',
@@ -216,13 +217,43 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+# Static files are served by WhiteNoise (faster, no S3 costs)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Media files (User uploads)
-MEDIA_URL = '/media/'
+# Media files (User uploads, Product images)
+# In development: local storage
+# In production: AWS S3
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# AWS S3 Configuration for Media Files
+USE_S3 = config('USE_S3', default=False, cast=bool)
+
+if USE_S3:
+    # AWS Credentials
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='eu-north-1')
+
+    # S3 URL configuration (include region for non-us-east-1)
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+
+    # S3 settings
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',  # Cache for 1 day
+    }
+    AWS_DEFAULT_ACL = 'public-read'  # Make uploaded files publicly readable
+    AWS_QUERYSTRING_AUTH = False  # Don't add auth params to URLs
+    AWS_S3_FILE_OVERWRITE = False  # Don't overwrite files with same name
+
+    # Use S3 for media files only (static files use WhiteNoise)
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+else:
+    # Local media storage for development
+    MEDIA_URL = '/media/'
 
 # Stripe configuration
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
@@ -230,8 +261,6 @@ STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
 STRIPE_CURRENCY = config('STRIPE_CURRENCY', default='usd')
 SITE_URL = config('SITE_URL', default='http://localhost:8000')
-
-# (reCAPTCHA removed) Use environment variables or add back if needed later
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
