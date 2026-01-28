@@ -24,4 +24,4 @@ services:
 
 databases:
   - name: hendoshi-db
-    plan: starter
+    plan: basic-256mb
