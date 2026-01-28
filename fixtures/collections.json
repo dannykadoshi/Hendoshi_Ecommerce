@@ -1,0 +1,82 @@
+[
+{
+  "model": "products.collection",
+  "pk": 4,
+  "fields": {
+    "name": "Dark Humor",
+    "slug": "dark-humor",
+    "description": "Twisted, sarcastic, and darkly funny designs. For those who laugh at the absurd.",
+    "image": "collections/f-caw-f_viking_crow.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 12,
+  "fields": {
+    "name": "Fantasy",
+    "slug": "fantasy",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 3,
+  "fields": {
+    "name": "Gym Therapy",
+    "slug": "gym-therapy",
+    "description": "Iron therapy meets metal aesthetics. Motivational designs for warriors who lift heavy and embrace the grind.",
+    "image": "collections/63-_Gym_Dark_Designs.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 11,
+  "fields": {
+    "name": "Horror",
+    "slug": "horror",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 10,
+  "fields": {
+    "name": "Recreate Collection",
+    "slug": "recreate-collection",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 1,
+  "fields": {
+    "name": "Skulls & Death",
+    "slug": "skulls-death",
+    "description": "Dark and deadly designs featuring skulls, skeletons, and the macabre. For those who wear their mortality with pride.",
+    "image": "collections/Cool_Skull_T-Shirt_Designs_-_Zombie_Skull.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 5,
+  "fields": {
+    "name": "Vikings",
+    "slug": "vikings",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 2,
+  "fields": {
+    "name": "Weird Animals",
+    "slug": "weird-animals",
+    "description": "Pugs in battle helmets, roosters as rockstars, and other animals gone metal. Wholesome weird at its finest.",
+    "image": "collections/Pug_Christmas_Design_-_Merch_by_Amazon_T-Shirt.png"
+  }
+}
+]
