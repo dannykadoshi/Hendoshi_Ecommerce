@@ -67,11 +67,11 @@ def product_types(request):
     # DB-backed product types
     db_types = ProductType.objects.all()
     for pt in db_types:
-        product_count = Product.objects.filter(product_type_fk=pt, is_active=True, is_archived=False).count()
+        product_count = Product.objects.filter(product_type=pt, is_active=True, is_archived=False).count()
         if product_count > 0:
             # Get a representative product (first active one with an image)
             representative_product = Product.objects.filter(
-                product_type_fk=pt, 
+                product_type=pt, 
                 is_active=True, 
                 is_archived=False,
                 main_image__isnull=False
