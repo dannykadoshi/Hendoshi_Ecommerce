@@ -59,6 +59,10 @@
     background: rgba(255, 255, 255, 0.08);
     color: rgba(255, 255, 255, 0.7);
 }
+.config-pill.strip-enabled {
+    background: rgba(255, 45, 161, 0.2);
+    color: var(--neon-pink);
+}
 
 /* Button text alignment */
 .btn {
@@ -178,6 +182,9 @@
                                     <div class="config-pills">
                                         <span class="config-pill"><i class="fas fa-tachometer-alt me-1"></i>{{ theme.animation_speed|title }}</span>
                                         <span class="config-pill"><i class="fas fa-cloud me-1"></i>{{ theme.particle_density|title }}</span>
+                                        {% if theme.show_message_strip %}
+                                        <span class="config-pill strip-enabled"><i class="fas fa-scroll me-1"></i>Strip</span>
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td>

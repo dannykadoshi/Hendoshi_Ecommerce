@@ -33,6 +33,12 @@ class SeasonalTheme(models.Model):
         ('heavy', 'Heavy'),
     ]
 
+    STRIP_COLOR_CHOICES = [
+        ('theme', 'Match Theme Colors'),
+        ('pink_yellow', 'Pink to Yellow (Default)'),
+        ('custom', 'Custom Gradient'),
+    ]
+
     name = models.CharField(
         max_length=100,
         help_text="Display name for the theme (e.g., 'Christmas 2024')"
@@ -88,6 +94,33 @@ class SeasonalTheme(models.Model):
     custom_css = models.TextField(
         blank=True,
         help_text="Custom CSS for this theme (advanced users only)"
+    )
+
+    # Message Strip Configuration
+    show_message_strip = models.BooleanField(
+        default=False,
+        help_text="Display a scrolling message strip below the vault-hero"
+    )
+    strip_messages = models.TextField(
+        blank=True,
+        help_text="Messages separated by | (e.g., 'HAPPY VALENTINE'S | LOVE FULLY | SPREAD JOY')"
+    )
+    strip_color_scheme = models.CharField(
+        max_length=20,
+        choices=STRIP_COLOR_CHOICES,
+        default='theme',
+        help_text="Color scheme for the message strip"
+    )
+    strip_custom_gradient = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Custom CSS gradient (e.g., 'linear-gradient(135deg, #ff0000, #00ff00)')"
+    )
+    strip_scroll_speed = models.CharField(
+        max_length=20,
+        choices=SPEED_CHOICES,
+        default='normal',
+        help_text="Speed of the scrolling text animation"
     )
 
     # Metadata
@@ -148,3 +181,53 @@ class SeasonalTheme(models.Model):
             'is_paused': self.is_paused,
             'custom_css': self.custom_css,
         }
+
+    def get_strip_messages_list(self):
+        """
+        Parse strip_messages field and return as a list.
+        Messages are separated by |
+        """
+        if not self.strip_messages:
+            return []
+        messages = [msg.strip() for msg in self.strip_messages.split('|') if msg.strip()]
+        return messages
+
+    def get_strip_gradient(self):
+        """
+        Return the CSS gradient for the message strip based on color scheme.
+        """
+        # Theme-specific color mappings
+        theme_gradients = {
+            'new_years': 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
+            'valentines': 'linear-gradient(135deg, #FF1493 0%, #FF69B4 50%, #FF1493 100%)',
+            'st_patricks': 'linear-gradient(135deg, #228B22 0%, #32CD32 50%, #FFD700 100%)',
+            'mothers_day': 'linear-gradient(135deg, #DDA0DD 0%, #FF69B4 50%, #DDA0DD 100%)',
+            'fathers_day': 'linear-gradient(135deg, #4169E1 0%, #6495ED 50%, #4169E1 100%)',
+            'fourth_july': 'linear-gradient(135deg, #DC143C 0%, #FFFFFF 50%, #4169E1 100%)',
+            'rock_n_roll': 'linear-gradient(135deg, #8B008B 0%, #FF1493 50%, #000000 100%)',
+            'thanksgiving': 'linear-gradient(135deg, #D2691E 0%, #FF8C00 50%, #8B4513 100%)',
+            'christmas': 'linear-gradient(135deg, #DC143C 0%, #228B22 50%, #DC143C 100%)',
+            'everyday': 'linear-gradient(135deg, #4B0082 0%, #8B0000 50%, #000000 100%)',
+            'celebration': 'linear-gradient(135deg, #FF1493 0%, #FFD700 50%, #00CED1 100%)',
+        }
+
+        if self.strip_color_scheme == 'custom' and self.strip_custom_gradient:
+            return self.strip_custom_gradient
+        elif self.strip_color_scheme == 'theme':
+            return theme_gradients.get(
+                self.theme_type,
+                'linear-gradient(135deg, var(--neon-pink) 0%, #ff6b9d 50%, var(--electric-yellow) 100%)'
+            )
+        else:  # pink_yellow default
+            return 'linear-gradient(135deg, var(--neon-pink) 0%, #ff6b9d 50%, var(--electric-yellow) 100%)'
+
+    def get_strip_scroll_duration(self):
+        """
+        Return CSS animation duration based on scroll speed.
+        """
+        speed_map = {
+            'slow': '35s',
+            'normal': '25s',
+            'fast': '15s',
+        }
+        return speed_map.get(self.strip_scroll_speed, '25s')

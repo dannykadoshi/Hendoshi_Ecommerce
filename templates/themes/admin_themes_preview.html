@@ -106,6 +106,17 @@
         </div>
     </section>
 
+    <!-- Message Strip Preview -->
+    {% if theme.show_message_strip and theme.strip_messages %}
+    <div class="seasonal-message-strip speed-{{ theme.strip_scroll_speed }}" style="background: {{ theme.get_strip_gradient }};">
+        <div class="seasonal-message-content">
+            {% for message in strip_messages_preview %}
+            <span class="seasonal-message-text">{{ message }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <div class="container-fluid vault-container admin-products-container">
         <div class="row">
             <div class="col-12 mx-auto">
@@ -126,6 +137,11 @@
                             <span class="preview-badge">
                                 <i class="fas fa-sort-numeric-up"></i> Priority: {{ theme.priority }}
                             </span>
+                            {% if theme.show_message_strip %}
+                            <span class="preview-badge">
+                                <i class="fas fa-scroll"></i> Message Strip: ON
+                            </span>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -182,6 +198,23 @@
                                 <th>Last Updated</th>
                                 <td>{{ theme.updated_at|date:"F j, Y g:i A" }}</td>
                             </tr>
+                            <tr>
+                                <th>Message Strip</th>
+                                <td>
+                                    {% if theme.show_message_strip %}
+                                    <span class="badge bg-success">Enabled</span>
+                                    <span class="ms-2 text-muted small">Speed: {{ theme.strip_scroll_speed|title }}</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Disabled</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% if theme.show_message_strip and theme.strip_messages %}
+                            <tr>
+                                <th>Strip Messages</th>
+                                <td>{{ theme.strip_messages }}</td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
 

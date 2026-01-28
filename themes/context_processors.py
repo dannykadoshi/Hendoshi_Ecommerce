@@ -33,7 +33,24 @@ def active_seasonal_theme(request):
         active_theme = theme
         break
 
-    return {
+    # Build context data
+    context = {
         'seasonal_theme': active_theme,
         'has_seasonal_theme': active_theme is not None,
     }
+
+    # Add message strip data if theme has strip enabled
+    if active_theme and active_theme.show_message_strip:
+        messages = active_theme.get_strip_messages_list()
+        if messages:
+            # Duplicate messages for seamless loop (like philosophy strip)
+            context['theme_strip_messages'] = messages + messages
+            context['theme_strip_gradient'] = active_theme.get_strip_gradient()
+            context['theme_strip_speed'] = active_theme.strip_scroll_speed
+            context['show_theme_message_strip'] = True
+        else:
+            context['show_theme_message_strip'] = False
+    else:
+        context['show_theme_message_strip'] = False
+
+    return context

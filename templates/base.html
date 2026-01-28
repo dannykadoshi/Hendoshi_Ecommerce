@@ -752,6 +752,18 @@
         <main>
             {% block content %}{% endblock %}
         </main>
+
+        <!-- Seasonal Theme Message Strip -->
+        {% if show_theme_message_strip and theme_strip_messages %}
+        <div id="seasonalMessageStrip" class="seasonal-message-strip speed-{{ theme_strip_speed }}" style="background: {{ theme_strip_gradient }}; display: none;">
+            <div class="seasonal-message-content">
+                {% for message in theme_strip_messages %}
+                <span class="seasonal-message-text">{{ message }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
@@ -1935,6 +1947,17 @@
                 density: '{{ seasonal_theme.particle_density }}',
                 isPaused: {{ seasonal_theme.is_paused|yesno:"true,false" }}
             });
+
+            // Position the message strip after the first vault-hero
+            const messageStrip = document.getElementById('seasonalMessageStrip');
+            if (messageStrip) {
+                const vaultHero = document.querySelector('.vault-hero');
+                if (vaultHero) {
+                    // Insert the strip right after the vault-hero
+                    vaultHero.parentNode.insertBefore(messageStrip, vaultHero.nextSibling);
+                    messageStrip.style.display = 'block';
+                }
+            }
         });
         </script>
         {% endif %}

@@ -10,7 +10,10 @@ class SeasonalThemeForm(forms.ModelForm):
         fields = [
             'name', 'theme_type', 'is_active', 'is_paused', 'priority',
             'start_date', 'end_date', 'animation_speed', 'particle_density',
-            'custom_css'
+            'custom_css',
+            # Message Strip fields
+            'show_message_strip', 'strip_messages', 'strip_color_scheme',
+            'strip_custom_gradient', 'strip_scroll_speed'
         ]
         widgets = {
             'name': forms.TextInput(attrs={
@@ -51,6 +54,25 @@ class SeasonalThemeForm(forms.ModelForm):
                 'rows': 6,
                 'placeholder': '/* Custom CSS for advanced users */'
             }),
+            # Message Strip widgets
+            'show_message_strip': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'strip_messages': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': "HAPPY VALENTINE'S DAY | LOVE FULLY | SPREAD THE LOVE"
+            }),
+            'strip_color_scheme': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'strip_custom_gradient': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'linear-gradient(135deg, #ff0000, #00ff00)'
+            }),
+            'strip_scroll_speed': forms.Select(attrs={
+                'class': 'form-select'
+            }),
         }
         labels = {
             'name': 'Theme Name',
@@ -63,12 +85,24 @@ class SeasonalThemeForm(forms.ModelForm):
             'animation_speed': 'Animation Speed',
             'particle_density': 'Particle Density',
             'custom_css': 'Custom CSS',
+            # Message Strip labels
+            'show_message_strip': 'Show Message Strip',
+            'strip_messages': 'Strip Messages',
+            'strip_color_scheme': 'Color Scheme',
+            'strip_custom_gradient': 'Custom Gradient',
+            'strip_scroll_speed': 'Scroll Speed',
         }
         help_texts = {
             'priority': 'Higher number = higher priority. When multiple themes are active, the highest priority wins.',
             'start_date': 'Leave blank to start immediately when activated.',
             'end_date': 'Leave blank for no end date.',
             'custom_css': 'Add custom CSS to override or extend the default theme styles.',
+            # Message Strip help texts
+            'show_message_strip': 'Display a scrolling message strip below the vault-hero section.',
+            'strip_messages': 'Enter messages separated by | (pipe). Each message will be separated by a skull icon.',
+            'strip_color_scheme': 'Choose auto-matching theme colors, the default pink-yellow, or set a custom gradient.',
+            'strip_custom_gradient': 'Only used when Color Scheme is "Custom Gradient".',
+            'strip_scroll_speed': 'How fast the text scrolls horizontally.',
         }
 
     def clean(self):

@@ -190,6 +190,139 @@
     }
 }
 
+/* ============================================
+   SEASONAL MESSAGE STRIP
+   Scrolling celebration banner below vault-hero
+   ============================================ */
+
+.seasonal-message-strip {
+    padding: 0.5rem 0;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0;
+    box-shadow:
+        0 0 30px rgba(255, 20, 147, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Gradient border accents */
+.seasonal-message-strip::before,
+.seasonal-message-strip::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.seasonal-message-strip::before {
+    top: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.seasonal-message-strip::after {
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.seasonal-message-content {
+    display: flex;
+    align-items: center;
+    animation: seasonalStripScroll 25s linear infinite;
+    white-space: nowrap;
+}
+
+/* Speed variations */
+.seasonal-message-strip.speed-slow .seasonal-message-content {
+    animation-duration: 35s;
+}
+
+.seasonal-message-strip.speed-normal .seasonal-message-content {
+    animation-duration: 25s;
+}
+
+.seasonal-message-strip.speed-fast .seasonal-message-content {
+    animation-duration: 15s;
+}
+
+/* Pause on hover */
+.seasonal-message-strip:hover .seasonal-message-content {
+    animation-play-state: paused;
+}
+
+.seasonal-message-text {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--black);
+    margin: 0 1rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow:
+        0 2px 4px rgba(255, 255, 255, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Skull separator */
+.seasonal-message-text::after {
+    content: '\f54c';
+    font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 1.4rem;
+    margin-left: 1.5rem;
+    opacity: 0.7;
+    display: inline-block;
+    animation: skullPulse 2s ease-in-out infinite;
+}
+
+@keyframes seasonalStripScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes skullPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments for message strip */
+@media (max-width: 768px) {
+    .seasonal-message-text {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+        margin: 0 0.75rem;
+    }
+
+    .seasonal-message-text::after {
+        font-size: 1.1rem;
+        margin-left: 1rem;
+    }
+
+    .seasonal-message-strip {
+        padding: 1rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .seasonal-message-text {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        margin: 0 0.5rem;
+    }
+
+    .seasonal-message-text::after {
+        font-size: 0.9rem;
+        margin-left: 0.75rem;
+    }
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
     .theme-particle {
@@ -199,5 +332,9 @@
 
     .theme-animation-layer {
         opacity: 0.3;
+    }
+
+    .seasonal-message-content {
+        animation: none !important;
     }
 }

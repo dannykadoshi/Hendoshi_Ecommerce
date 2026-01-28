@@ -209,6 +209,56 @@
                             </div>
                         </div>
 
+                        <!-- Message Strip Settings -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-scroll"></i> Message Strip
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="form-check mb-3">
+                                        {{ form.show_message_strip }}
+                                        <label class="form-check-label" for="{{ form.show_message_strip.id_for_label }}">
+                                            {{ form.show_message_strip.label }}
+                                        </label>
+                                    </div>
+                                    <small class="text-muted d-block mb-3">Display a scrolling message strip below the vault-hero section with skull separators.</small>
+                                </div>
+                                <div class="col-12" id="stripSettingsContainer">
+                                    <label class="form-label">{{ form.strip_messages.label }}</label>
+                                    {{ form.strip_messages }}
+                                    {% if form.strip_messages.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.strip_messages.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Enter messages separated by | (pipe). Example: HAPPY VALENTINE'S DAY | LOVE FULLY | SPREAD THE LOVE</small>
+                                </div>
+                                <div class="col-12 col-md-4" id="stripColorContainer">
+                                    <label class="form-label">{{ form.strip_color_scheme.label }}</label>
+                                    {{ form.strip_color_scheme }}
+                                    <small class="text-muted">Choose how the strip is colored.</small>
+                                </div>
+                                <div class="col-12 col-md-4" id="stripCustomGradientContainer" style="display: none;">
+                                    <label class="form-label">{{ form.strip_custom_gradient.label }}</label>
+                                    {{ form.strip_custom_gradient }}
+                                    {% if form.strip_custom_gradient.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.strip_custom_gradient.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">CSS gradient for the strip background.</small>
+                                </div>
+                                <div class="col-12 col-md-4" id="stripSpeedContainer">
+                                    <label class="form-label">{{ form.strip_scroll_speed.label }}</label>
+                                    {{ form.strip_scroll_speed }}
+                                    <small class="text-muted">How fast the text scrolls.</small>
+                                </div>
+                            </div>
+                            <!-- Strip Preview -->
+                            <div id="stripPreview" class="mt-3 p-2 rounded" style="display: none; overflow: hidden;">
+                                <div id="stripPreviewContent" style="white-space: nowrap; animation: previewScroll 10s linear infinite;">
+                                    <span class="preview-message">Sample Message</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Custom CSS (Advanced) -->
                         <div class="form-section">
                             <h4 class="form-section-title">
@@ -293,5 +343,36 @@ function updateThemePreview() {
 
 themeTypeSelect.addEventListener('change', updateThemePreview);
 updateThemePreview();
+
+// Message Strip toggle functionality
+const showStripCheckbox = document.getElementById('id_show_message_strip');
+const stripSettingsContainer = document.getElementById('stripSettingsContainer');
+const stripColorContainer = document.getElementById('stripColorContainer');
+const stripCustomGradientContainer = document.getElementById('stripCustomGradientContainer');
+const stripSpeedContainer = document.getElementById('stripSpeedContainer');
+const stripColorScheme = document.getElementById('id_strip_color_scheme');
+
+function toggleStripSettings() {
+    const isChecked = showStripCheckbox.checked;
+    stripSettingsContainer.style.display = isChecked ? 'block' : 'none';
+    stripColorContainer.style.display = isChecked ? 'block' : 'none';
+    stripSpeedContainer.style.display = isChecked ? 'block' : 'none';
+    if (isChecked) {
+        toggleCustomGradient();
+    } else {
+        stripCustomGradientContainer.style.display = 'none';
+    }
+}
+
+function toggleCustomGradient() {
+    const isCustom = stripColorScheme.value === 'custom';
+    stripCustomGradientContainer.style.display = isCustom ? 'block' : 'none';
+}
+
+showStripCheckbox.addEventListener('change', toggleStripSettings);
+stripColorScheme.addEventListener('change', toggleCustomGradient);
+
+// Initialize on page load
+toggleStripSettings();
 </script>
 {% endblock %}

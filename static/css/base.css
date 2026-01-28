@@ -15619,7 +15619,7 @@ datalist option {
    appear between the hero and the main content. Use general sibling
    selectors and slightly higher specificity to avoid accidental overrides. */
 section.vault-hero {
-    margin-bottom: 3rem !important;
+    margin-bottom: 0.1rem !important;
     padding-bottom: 1.25rem !important;
 }
 
@@ -15639,7 +15639,7 @@ section.vault-hero {
 
 @media (max-width: 991px) {
     section.vault-hero {
-        margin-bottom: 1.75rem !important;
+        margin-bottom: 0.1rem !important;
         padding-bottom: 0.75rem !important;
     }
     .vault-hero ~ .contact-form-section,

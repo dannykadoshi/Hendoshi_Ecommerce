@@ -141,9 +141,14 @@ def admin_themes_preview(request, theme_id):
     """Preview a specific theme animation"""
     theme = get_object_or_404(SeasonalTheme, id=theme_id)
 
+    # Get strip messages for preview (duplicated for seamless loop)
+    strip_messages = theme.get_strip_messages_list()
+    strip_messages_preview = strip_messages + strip_messages if strip_messages else []
+
     context = {
         'theme': theme,
         'preview_mode': True,
+        'strip_messages_preview': strip_messages_preview,
     }
 
     return render(request, 'themes/admin_themes_preview.html', context)
