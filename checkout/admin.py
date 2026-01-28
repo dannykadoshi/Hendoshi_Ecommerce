@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Order, OrderItem
 from .models import ShippingRate
+from .models import DiscountCode
 
 
 class OrderItemInline(admin.TabularInline):
@@ -63,3 +64,27 @@ class ShippingRateAdmin(admin.ModelAdmin):
     list_filter = ('is_active',)
     search_fields = ('name',)
     readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(DiscountCode)
+class DiscountCodeAdmin(admin.ModelAdmin):
+    list_display = ('code', 'discount_type', 'discount_value', 'is_active', 'used_count', 'max_uses', 'expires_at')
+    list_filter = ('is_active', 'discount_type', 'expires_at')
+    search_fields = ('code',)
+    readonly_fields = ('created_at', 'updated_at', 'used_count')
+    
+    fieldsets = (
+        ('Discount Details', {
+            'fields': ('code', 'discount_type', 'discount_value', 'banner_message')
+        }),
+        ('Usage Limits', {
+            'fields': ('minimum_order_value', 'max_uses', 'max_uses_per_user', 'used_count')
+        }),
+        ('Status', {
+            'fields': ('is_active', 'expires_at')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
