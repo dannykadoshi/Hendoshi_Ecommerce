@@ -1,5 +1,6 @@
 import os
 import cloudinary.uploader
+import cloudinary.utils
 from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
 from django.conf import settings
@@ -22,24 +23,19 @@ class HybridCloudinaryStorage(Storage):
         `name` is the path Django wants to save to (e.g., 'products/filename.png')
         """
         try:
-            # Extract folder from the path (e.g., 'products' from 'products/filename.png')
-            folder = os.path.dirname(name) or 'uploads'
-
-            # Extract filename without extension for public_id
-            filename = os.path.basename(name)
-            filename_without_ext = os.path.splitext(filename)[0]
-
+            # Use the full path as public_id (e.g., 'products/gallery/filename')
+            # Remove extension for Cloudinary public_id
+            public_id = os.path.splitext(name)[0]
+            
             # Upload to Cloudinary
             result = cloudinary.uploader.upload(
                 content,
-                folder=folder,
-                public_id=filename_without_ext,
+                public_id=public_id,
                 overwrite=True,
                 resource_type='auto'
             )
 
-            # Return the full public_id (folder/filename) which Cloudinary returns
-            # This is what gets stored in the database
+            # Return the public_id (without extension) which Cloudinary uses
             return result['public_id']
         except Exception as e:
             # If Cloudinary fails, fall back to local storage
@@ -64,10 +60,11 @@ class HybridCloudinaryStorage(Storage):
                 return f"{settings.MEDIA_URL}{name}"
             else:
                 # This is a Cloudinary public_id (no extension)
-                # Cloudinary will auto-detect and serve the correct format
+                # Use Cloudinary's URL generation
+                import cloudinary.utils
                 cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME']
-                # Use f_auto for automatic format selection
-                return f"https://res.cloudinary.com/{cloud_name}/image/upload/{name}"
+                url = cloudinary.utils.cloudinary_url(name, cloud_name=cloud_name, format='auto', quality='auto')[0]
+                return url
         except Exception:
             # Fallback to local
             return f"{settings.MEDIA_URL}{name}"

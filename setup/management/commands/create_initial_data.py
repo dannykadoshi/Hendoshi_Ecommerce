@@ -101,58 +101,8 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(f'Created product type: {product_type.name}')
 
-        # Create sample products
-        sample_products = [
-            {
-                'name': 'Skull King T-Shirt',
-                'slug': 'skull-king-tshirt',
-                'description': 'Premium cotton t-shirt featuring our iconic skull king design.',
-                'collection': 'skulls-death',
-                'product_type': 'tshirt',
-                'base_price': 29.99,
-                'is_active': True,
-            },
-            {
-                'name': 'Weird Cat Hoodie',
-                'slug': 'weird-cat-hoodie',
-                'description': 'Cozy hoodie with our bizarre cat illustration.',
-                'collection': 'weird-animals',
-                'product_type': 'hoodie',
-                'base_price': 59.99,
-                'is_active': True,
-            },
-            {
-                'name': 'Horror Sticker Pack',
-                'slug': 'horror-sticker-pack',
-                'description': 'Set of 5 horror-themed stickers.',
-                'collection': 'horror',
-                'product_type': 'sticker',
-                'base_price': 12.99,
-                'is_active': True,
-            },
-        ]
-
-        for product_data in sample_products:
-            try:
-                collection = Collection.objects.get(slug=product_data['collection'])
-                product_type = ProductType.objects.get(slug=product_data['product_type'])
-
-                product, created = Product.objects.get_or_create(
-                    slug=product_data['slug'],
-                    defaults={
-                        'name': product_data['name'],
-                        'description': product_data['description'],
-                        'collection': collection,
-                        'product_type': product_type,
-                        'base_price': product_data['base_price'],
-                        'is_active': product_data['is_active'],
-                        'meta_description': f"Buy {product_data['name']} from Hendoshi Store",
-                    }
-                )
-                if created:
-                    self.stdout.write(f'Created product: {product.name}')
-            except Exception as e:
-                self.stdout.write(self.style.WARNING(f'Error creating product {product_data["name"]}: {e}'))
+        # Sample products removed - create your own products through the admin interface
+        self.stdout.write('Skipping sample product creation (create your own products through /admin/)')
 
         # Create sample discount codes
         discount_codes = [
