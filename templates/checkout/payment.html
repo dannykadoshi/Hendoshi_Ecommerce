@@ -89,7 +89,7 @@
         align-items: center;
         gap: 0.5rem;
     }
-    
+
     .edit-discount-icon {
         color: var(--neon-pink);
         font-size: 0.9rem;
@@ -99,11 +99,71 @@
         padding: 0.2rem;
         border-radius: 3px;
     }
-    
+
     .edit-discount-icon:hover {
         opacity: 1;
         background-color: rgba(255, 20, 147, 0.1);
         color: var(--neon-pink);
+    }
+
+    /* Full-screen shipping modal on mobile */
+    @media (max-width: 576px) {
+        #shippingModal .modal-dialog {
+            margin: 0;
+            max-width: 100%;
+            min-height: 100vh;
+        }
+
+        #shippingModal .modal-content {
+            min-height: 100vh;
+            border-radius: 0;
+            border: none;
+        }
+
+        #shippingModal .modal-body {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        #shippingModal .list-group-item {
+            padding: 1rem;
+        }
+    }
+
+    /* Return to cart link styling */
+    .return-to-cart-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .return-to-cart-link:hover {
+        color: var(--neon-pink);
+    }
+
+    /* Payment method logos */
+    .payment-methods {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .payment-method-logo {
+        height: 24px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+
+    .payment-method-logo:hover {
+        opacity: 1;
     }
 </style>
 {% endblock %}
@@ -250,6 +310,12 @@
                         <button type="button" class="btn btn-outline-pink btn-sm flex-grow-1" data-bs-toggle="modal" data-bs-target="#shippingModal">Select Shipping Rate</button>
                         <a href="mailto:support@hendoshi.com" class="btn btn-outline-pink btn-sm">Help</a>
                     </div>
+
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'view_cart' %}" class="return-to-cart-link">
+                            <i class="fas fa-arrow-left"></i> Return to Cart
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Payment Section -->
@@ -326,6 +392,15 @@
                         <div class="security-notice mt-4">
                             <i class="fas fa-lock"></i>
                             <span>Your payment information is encrypted. Card data is handled securely by Stripe.</span>
+                        </div>
+
+                        <!-- Payment Method Logos -->
+                        <div class="payment-methods">
+                            <img src="{% static 'images/payment/visa.svg' %}" alt="Visa" class="payment-method-logo" onerror="this.style.display='none'">
+                            <img src="{% static 'images/payment/mastercard.svg' %}" alt="Mastercard" class="payment-method-logo" onerror="this.style.display='none'">
+                            <img src="{% static 'images/payment/amex.svg' %}" alt="American Express" class="payment-method-logo" onerror="this.style.display='none'">
+                            <img src="{% static 'images/payment/apple-pay.svg' %}" alt="Apple Pay" class="payment-method-logo" onerror="this.style.display='none'">
+                            <img src="{% static 'images/payment/google-pay.svg' %}" alt="Google Pay" class="payment-method-logo" onerror="this.style.display='none'">
                         </div>
 
                         <div class="form-actions mt-4">
@@ -538,6 +613,9 @@
                             <div>
                                 <input type="radio" name="selected_shipping_id_modal" value="{{ rate.id }}" id="modal_shipping_{{ rate.id }}" {% if rate.id == selected_shipping_id %}checked{% endif %} class="form-check-input me-2 shipping-rate-radio-modal">
                                 <strong>{{ rate.name }}</strong>
+                                {% if rate.estimated_delivery %}
+                                    <small class="d-block ms-4 estimated-delivery-text"><i class="fas fa-clock me-1"></i>{{ rate.estimated_delivery }}</small>
+                                {% endif %}
                                 {% if rate.free_over %}
                                     <small class="shipping-free-text"> • Free over €{{ rate.free_over }}</small>
                                 {% endif %}

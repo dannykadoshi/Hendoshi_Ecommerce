@@ -58,6 +58,13 @@
                                 {% if form.free_over.errors %}<div class="text-danger small">{{ form.free_over.errors }}</div>{% endif %}
                             </div>
 
+                            <div class="col-12">
+                                <label class="form-label">Estimated Delivery (optional)</label>
+                                {{ form.estimated_delivery }}
+                                <small class="form-text text-muted">e.g. "5-7 business days" or "2-3 business days"</small>
+                                {% if form.estimated_delivery.errors %}<div class="text-danger small">{{ form.estimated_delivery.errors }}</div>{% endif %}
+                            </div>
+
                             <div class="col-12 col-md-6">
                                 <div class="form-check mt-2">
                                     {{ form.is_active }}

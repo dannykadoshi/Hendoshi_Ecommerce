@@ -607,11 +607,26 @@ def select_shipping_rate(request):
 @require_http_methods(['POST'])
 def remove_discount_code(request):
     """Remove any applied discount from the user's session."""
+    from cart.views import get_or_create_cart
+    cart = get_or_create_cart(request)
+    cart_subtotal = float(cart.get_subtotal())
+
     if 'applied_discount' in request.session:
         request.session.pop('applied_discount')
         request.session.modified = True
-        return JsonResponse({'success': True, 'message': 'Discount removed.'})
-    return JsonResponse({'success': False, 'message': 'No discount to remove.'})
+        return JsonResponse({
+            'success': True,
+            'message': 'Discount removed.',
+            'cart_subtotal': cart_subtotal,
+            'cart_total': cart_subtotal,
+            'new_total': cart_subtotal
+        })
+    return JsonResponse({
+        'success': False,
+        'message': 'No discount to remove.',
+        'cart_subtotal': cart_subtotal,
+        'cart_total': cart_subtotal
+    })
 
 
 @require_http_methods(['POST'])

@@ -193,11 +193,14 @@ class ShippingRate(models.Model):
     - `price`: fixed shipping price applied when selected
     - `free_over`: optional order subtotal threshold above which this rate becomes free
     - `is_active`: whether this shipping option is available
+    - `estimated_delivery`: display text for estimated delivery time
     """
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     free_over = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
                                     help_text='If set, shipping is free when order subtotal >= this value')
+    estimated_delivery = models.CharField(max_length=100, blank=True, default='',
+                                          help_text='e.g. "5-7 business days" or "2-3 business days"')
     is_active = models.BooleanField(default=True)
     is_standard = models.BooleanField(default=False, help_text='Mark this as the standard/default shipping rate')
     created_at = models.DateTimeField(auto_now_add=True)

@@ -152,7 +152,10 @@
                                     <form id="couponForm" class="d-flex" onsubmit="return applyCoupon(event)">
                                         {% csrf_token %}
                                         <input type="text" id="couponCode" name="discount_code" class="form-control me-2" placeholder="Promo code">
-                                        <button type="submit" class="btn btn-pink">Apply</button>
+                                        <button type="submit" class="btn btn-pink coupon-apply-btn">
+                                            <span class="btn-text">Apply</span>
+                                            <span class="btn-spinner d-none"><span class="spinner-border spinner-border-sm" role="status"></span></span>
+                                        </button>
                                     </form>
                                     <div id="couponMessage" class="small text-muted mt-2"></div>
                                 {% endif %}
@@ -213,6 +216,19 @@
                 Cancel
             </button>
         </div>
+    </div>
+</div>
+
+<!-- Mobile Sticky Checkout Bar -->
+<div class="mobile-checkout-bar d-lg-none">
+    <div class="mobile-checkout-content">
+        <div class="mobile-checkout-total">
+            <span class="mobile-total-label">Total</span>
+            <span class="mobile-total-value" id="mobile-cart-total">€{{ total|floatformat:2 }}</span>
+        </div>
+        <a href="{% url 'checkout' %}" class="btn btn-pink mobile-checkout-btn {% if not cart_items %}disabled{% endif %}">
+            <i class="fas fa-lock"></i> Checkout
+        </a>
     </div>
 </div>
 
@@ -288,6 +304,9 @@
                 const totalToShow = (data.cart_total !== undefined) ? data.cart_total : data.cart_subtotal;
                 if (totalToShow !== undefined) {
                     document.getElementById('cart-total').textContent = '€' + totalToShow.toFixed(2);
+                    // Update mobile checkout bar total
+                    const mobileTotal = document.getElementById('mobile-cart-total');
+                    if (mobileTotal) mobileTotal.textContent = '€' + totalToShow.toFixed(2);
                 }
 
                 // Also update hero subtotal at top of page
@@ -397,6 +416,9 @@
                     const newTotal = (data.cart_total !== undefined) ? data.cart_total : data.cart_subtotal;
                     if (newTotal !== undefined) {
                         document.getElementById('cart-total').textContent = '€' + newTotal.toFixed(2);
+                        // Update mobile checkout bar total
+                        const mobileTotal = document.getElementById('mobile-cart-total');
+                        if (mobileTotal) mobileTotal.textContent = '€' + newTotal.toFixed(2);
                     }
 
                     // Update saved amount when item removed
@@ -478,9 +500,18 @@
         const codeInput = document.getElementById('couponCode');
         const code = codeInput ? codeInput.value.trim() : '';
         const messageEl = document.getElementById('couponMessage');
+        const applyBtn = document.querySelector('.coupon-apply-btn');
+
         if (!code) {
             if (messageEl) messageEl.textContent = 'Enter a promo code.';
             return false;
+        }
+
+        // Show loading spinner
+        if (applyBtn) {
+            applyBtn.disabled = true;
+            applyBtn.querySelector('.btn-text')?.classList.add('d-none');
+            applyBtn.querySelector('.btn-spinner')?.classList.remove('d-none');
         }
 
         const formData = new URLSearchParams();
@@ -497,25 +528,42 @@
         }).then(r => r.json()).catch(() => ({ success: false, error: 'Network error' }));
 
         if (resp.success) {
-            // Update totals
-            if (resp.new_total !== undefined) {
-                document.getElementById('cart-total').textContent = '€' + resp.new_total.toFixed(2);
-                document.getElementById('cart-subtotal').textContent = '€' + (resp.new_total + (resp.discount_amount || 0)).toFixed(2);
-            }
-            // Update hero subtotal and saved amount
+            // Update totals without reload
+            const subtotalVal = resp.new_total + (resp.discount_amount || 0);
+            document.getElementById('cart-subtotal').textContent = '€' + subtotalVal.toFixed(2);
+            document.getElementById('cart-total').textContent = '€' + resp.new_total.toFixed(2);
+
+            // Update mobile checkout bar total
+            const mobileTotal = document.getElementById('mobile-cart-total');
+            if (mobileTotal) mobileTotal.textContent = '€' + resp.new_total.toFixed(2);
+
+            // Update hero subtotal
             const hero = document.getElementById('hero-subtotal');
-            if (hero && resp.new_total !== undefined) {
-                hero.textContent = (resp.new_total + (resp.discount_amount || 0)).toFixed(2);
+            if (hero) hero.textContent = subtotalVal.toFixed(2);
+
+            // Replace the coupon form with applied coupon UI
+            // Note: server returns 'code' not 'discount_code'
+            const discountCode = resp.code || resp.discount_code || code;
+            const promoRow = document.querySelector('.promo-row > div');
+            if (promoRow) {
+                promoRow.innerHTML = `
+                    <div class="applied-coupon mb-2">
+                        <strong>Code:</strong> ${discountCode}
+                        <span class="small text-success ms-2">You saved €<span id="savedAmount">${parseFloat(resp.discount_amount).toFixed(2)}</span></span>
+                        <button type="button" id="removeCouponBtn" class="btn btn-outline-pink btn-sm ms-2">Remove</button>
+                    </div>
+                `;
             }
-            const savedEl = document.getElementById('savedAmount');
-            if (savedEl && resp.discount_amount !== undefined) {
-                savedEl.textContent = parseFloat(resp.discount_amount).toFixed(2);
-            }
-            if (typeof showToast === 'function') showToast(resp.message || 'Applied.', 'success');
-            // Reload to show applied coupon UI (simple and reliable)
-            setTimeout(() => location.reload(), 600);
+
+            if (typeof showToast === 'function') showToast(resp.message || 'Discount applied!', 'success');
         } else {
             if (typeof showToast === 'function') showToast(resp.error || 'Invalid code.', 'error');
+            // Reset button state on error
+            if (applyBtn) {
+                applyBtn.disabled = false;
+                applyBtn.querySelector('.btn-text')?.classList.remove('d-none');
+                applyBtn.querySelector('.btn-spinner')?.classList.add('d-none');
+            }
         }
 
         return false;
@@ -532,13 +580,66 @@
                 }
             }).then(r => r.json()).then(data => {
                 if (data && data.success) {
+                    // Update totals without reload
+                    const newSubtotal = data.cart_subtotal || data.new_total;
+                    const newTotal = data.cart_total || data.new_total || newSubtotal;
+
+                    if (newSubtotal !== undefined) {
+                        document.getElementById('cart-subtotal').textContent = '€' + parseFloat(newSubtotal).toFixed(2);
+                        const hero = document.getElementById('hero-subtotal');
+                        if (hero) hero.textContent = parseFloat(newSubtotal).toFixed(2);
+                    }
+                    if (newTotal !== undefined) {
+                        document.getElementById('cart-total').textContent = '€' + parseFloat(newTotal).toFixed(2);
+                        const mobileTotal = document.getElementById('mobile-cart-total');
+                        if (mobileTotal) mobileTotal.textContent = '€' + parseFloat(newTotal).toFixed(2);
+                    }
+
+                    // Replace applied coupon with form
+                    const promoRow = document.querySelector('.promo-row > div');
+                    if (promoRow) {
+                        promoRow.innerHTML = `
+                            <form id="couponForm" class="d-flex" onsubmit="return applyCoupon(event)">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="${getCookie('csrftoken')}">
+                                <input type="text" id="couponCode" name="discount_code" class="form-control me-2" placeholder="Promo code">
+                                <button type="submit" class="btn btn-pink coupon-apply-btn">
+                                    <span class="btn-text">Apply</span>
+                                    <span class="btn-spinner d-none"><span class="spinner-border spinner-border-sm" role="status"></span></span>
+                                </button>
+                            </form>
+                            <div id="couponMessage" class="small text-muted mt-2"></div>
+                        `;
+                    }
+
                     if (typeof showToast === 'function') showToast(data.message || 'Discount removed', 'success');
                 } else {
                     if (typeof showToast === 'function') showToast(data.message || 'No discount to remove', 'warning');
                 }
-                setTimeout(() => location.reload(), 300);
-            }).catch(()=> location.reload());
+            }).catch((err)=> {
+                console.error('Error removing coupon:', err);
+                if (typeof showToast === 'function') showToast('Error removing discount', 'error');
+            });
         }
+    });
+
+    // Sync mobile checkout buttons with cart state
+    function syncMobileCheckout(totalItems) {
+        const disabled = totalItems <= 0;
+        document.querySelectorAll('.mobile-checkout-btn').forEach(btn => {
+            btn.classList.toggle('disabled', disabled);
+            if (disabled) {
+                btn.setAttribute('aria-disabled', 'true');
+                btn.setAttribute('tabindex', '-1');
+            } else {
+                btn.removeAttribute('aria-disabled');
+                btn.removeAttribute('tabindex');
+            }
+        });
+    }
+
+    // Call sync on initial load
+    document.addEventListener('DOMContentLoaded', function() {
+        syncMobileCheckout(initialCartCount);
     });
 </script>
 

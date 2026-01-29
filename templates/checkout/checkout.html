@@ -164,6 +164,7 @@
                     <div class="mb-3">
                         {{ form.phone.label_tag }}
                         {{ form.phone }}
+                        <small class="form-text text-muted">Format: +1 (555) 123-4567 or 10-15 digits</small>
                         {% if form.phone.errors %}
                             <div class="form-error-text">
                                 <i class="fas fa-exclamation-circle"></i> {{ form.phone.errors.0 }}
@@ -255,6 +256,9 @@
                             <div>
                                 <input type="radio" name="selected_shipping_id" value="{{ rate.id }}" id="shipping_{{ rate.id }}" {% if rate.id == selected_shipping_id %}checked{% endif %} class="form-check-input me-2 shipping-rate-radio">
                                 <strong>{{ rate.name }}</strong>
+                                {% if rate.estimated_delivery %}
+                                    <small class="d-block ms-4 estimated-delivery-text"><i class="fas fa-clock me-1"></i>{{ rate.estimated_delivery }}</small>
+                                {% endif %}
                                 {% if rate.free_over %}
                                     <small class="text-muted"> • Free over €{{ rate.free_over }}</small>
                                 {% endif %}
@@ -302,8 +306,9 @@
                 <input type="hidden" name="applied_discount_amount" id="applied_discount_amount" value="{% if applied_discount %}{{ discount_amount }}{% endif %}">
 
                 <!-- Action Buttons: Back to Cart + Continue to Payment -->
-                <div class="mt-4 d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
-                    <a href="{% url 'view_cart' %}" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">
+                <!-- On mobile (flex-column-reverse), Continue to Payment appears first -->
+                <div class="mt-4 d-flex flex-column-reverse flex-sm-row gap-3 justify-content-center align-items-center">
+                    <a href="{% url 'view_cart' %}" class="btn btn-outline-pink w-100 w-sm-auto profile-btn-mobile">
                         <i class="fas fa-arrow-left me-2"></i> Back to Cart
                     </a>
                     <button type="submit" form="checkoutForm" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">

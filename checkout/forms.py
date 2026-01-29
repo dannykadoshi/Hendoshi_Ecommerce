@@ -487,11 +487,12 @@ class ShippingRateForm(forms.ModelForm):
     class Meta:
         from .models import ShippingRate
         model = ShippingRate
-        fields = ['name', 'price', 'free_over', 'is_active', 'is_standard']
+        fields = ['name', 'price', 'free_over', 'estimated_delivery', 'is_active', 'is_standard']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Standard'}),
             'price': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'free_over': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'estimated_delivery': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. 5-7 business days'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_standard': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
