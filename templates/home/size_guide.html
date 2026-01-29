@@ -34,8 +34,11 @@
                                 <div class="shipping-intro mb-5">
                                     <p class="shipping-description">
                                         Our t-shirts are printed on premium quality blanks from Gildan and Bella Canvas.
-                                        All measurements are in inches and refer to product dimensions. Please note that
+                                        All measurements refer to product dimensions. Please note that
                                         sizing can vary slightly between different print providers.
+                                    </p>
+                                    <p class="shipping-description d-block d-md-none mt-2" style="font-size: 0.9rem; color: var(--neon-pink);">
+                                        <i class="fas fa-info-circle me-1"></i> Measurements shown in cm on mobile
                                     </p>
                                 </div>
 
@@ -447,10 +450,42 @@
 }
 
 @media (max-width: 768px) {
+    /* Hide inches columns on mobile - show only cm for cleaner display */
+    .size-table th:nth-child(2),
+    .size-table td:nth-child(2),
+    .size-table th:nth-child(4),
+    .size-table td:nth-child(4),
+    .size-table th:nth-child(6),
+    .size-table td:nth-child(6) {
+        display: none;
+    }
+
     .size-table th,
     .size-table td {
-        padding: 6px 8px;
-        font-size: 0.85rem;
+        padding: 8px 6px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .size-table {
+        margin: 15px 0;
+    }
+
+    /* Prevent horizontal scroll */
+    .table-responsive {
+        overflow-x: visible;
+    }
+
+    .contact-card {
+        padding: 1rem 0.5rem !important;
+    }
+
+    .shipping-content {
+        padding: 0.5rem !important;
+    }
+
+    .shipping-region {
+        padding: 1rem 0.5rem !important;
     }
 }
 </style>

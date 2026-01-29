@@ -163,3 +163,21 @@
 </div>
 
 {% endblock %}
+
+{% block extra_css %}
+<style>
+@media (max-width: 768px) {
+    .contact-card {
+        padding: 1rem 0.5rem !important;
+    }
+
+    .shipping-content {
+        padding: 0.5rem !important;
+    }
+
+    .shipping-region {
+        padding: 1rem 0.5rem !important;
+    }
+}
+</style>
+{% endblock %}

@@ -227,3 +227,28 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
+
+{% block extra_css %}
+<style>
+/* Override full-width styles for contact page - keep some padding from edges */
+@media (max-width: 768px) {
+    .contact-page .contact-card {
+        width: auto !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 12px !important;
+        padding: 1.5rem 1rem !important;
+    }
+
+    .contact-page .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    .contact-info-card {
+        padding: 1rem;
+    }
+}
+</style>
+{% endblock %}
