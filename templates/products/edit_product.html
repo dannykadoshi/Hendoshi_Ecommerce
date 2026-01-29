@@ -251,37 +251,112 @@
                     <!-- SIZE & COLOR VARIANTS SECTION -->
                     <div class="form-section mb-5">
                         <h3 class="section-title mb-4">Size & Color Options</h3>
-                        <p class="helper-text mb-4">Manage size/color combinations with stock quantities</p>
 
-                        <div class="variant-formset-container" id="variantFormsetContainer">
-                            <div class="formset-hidden">{{ variant_formset.management_form }}</div>
-                            {% for form in variant_formset %}
-                                <div class="variant-form-row mb-4 p-4">
-                                    <div class="formset-hidden">{{ form.id }}</div>
-                                    <div class="row align-items-end">
-                                        <div class="col-md-4">
-                                            <label class="form-label">Size *</label>
-                                            {{ form.size }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Color *</label>
-                                            {{ form.color }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Stock Quantity *</label>
-                                            {{ form.stock }}
+                        <!-- Existing Variants Management -->
+                        {% if variant_formset.forms %}
+                        <div class="existing-variants-section mb-4">
+                            <h5 class="mb-3"><i class="fas fa-list me-2"></i>Current Variants</h5>
+                            <p class="helper-text mb-3">Edit stock or mark variants for removal</p>
+
+                            <div class="variant-formset-container" id="variantFormsetContainer">
+                                <div class="formset-hidden">{{ variant_formset.management_form }}</div>
+                                {% for form in variant_formset %}
+                                    <div class="variant-form-row mb-3 p-3">
+                                        <div class="formset-hidden">{{ form.id }}</div>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <label class="form-label small mb-1">Size</label>
+                                                {{ form.size }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label small mb-1">Color</label>
+                                                {{ form.color }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label small mb-1">Stock</label>
+                                                {{ form.stock }}
+                                            </div>
+                                            <div class="col-md-3 d-flex align-items-center">
+                                                <div class="form-check mt-3">
+                                                    {{ form.DELETE }}
+                                                    <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label text-danger">
+                                                        <i class="fas fa-trash-alt me-1"></i>Remove
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="mt-3">
-                                        {{ form.DELETE }}
-                                        <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Add New Variants Section -->
+                        <div class="add-variants-section">
+                            <h5 class="mb-3"><i class="fas fa-plus-circle me-2"></i>Add New Variants</h5>
+                            <p class="helper-text mb-4">Select sizes and colors to quickly add new variant combinations</p>
+
+                            <div class="variant-selection-container">
+                                <!-- Sizes Selection -->
+                                <div class="variant-group mb-4">
+                                    <label class="form-label variant-group-label">
+                                        <i class="fas fa-ruler me-2"></i>Sizes to Add
+                                    </label>
+                                    <div class="variant-toggles" id="sizesToggles">
+                                        <ul>
+                                            {% for value, label in variant_selection_form.sizes.field.choices %}
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="sizes" value="{{ value }}"
+                                                        {% if value in variant_selection_form.sizes.value %}checked{% endif %}>
+                                                    {{ label }}
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
-                            {% endfor %}
+
+                                <!-- Colors Selection -->
+                                <div class="variant-group mb-4">
+                                    <label class="form-label variant-group-label">
+                                        <i class="fas fa-palette me-2"></i>Colors to Add
+                                    </label>
+                                    <div class="variant-toggles" id="colorToggles">
+                                        <ul>
+                                            {% for value, label in variant_selection_form.colors.field.choices %}
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="colors" value="{{ value }}"
+                                                        {% if value in variant_selection_form.colors.value %}checked{% endif %}>
+                                                    {{ label }}
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Default Stock -->
+                                <div class="variant-group mb-4">
+                                    <label class="form-label variant-group-label" for="{{ variant_selection_form.default_stock.id_for_label }}">
+                                        <i class="fas fa-boxes me-2"></i>Stock for New Variants
+                                    </label>
+                                    {{ variant_selection_form.default_stock }}
+                                    <small class="helper-text d-block mt-2">Stock quantity for newly added variants (existing variants not affected)</small>
+                                </div>
+
+                                <!-- Preview -->
+                                <div class="variant-preview" id="variantPreview">
+                                    <label class="form-label variant-group-label">
+                                        <i class="fas fa-eye me-2"></i>New Variants Preview
+                                    </label>
+                                    <div class="variant-preview-list" id="variantPreviewList">
+                                        <p class="text-muted">Select sizes and/or colors to add new variants</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-outline-pink btn-sm" id="addVariantBtn">
-                            <i class="fas fa-plus"></i> Add Size/Color Variant
-                        </button>
                     </div>
 
                     <!-- STATUS SECTION -->
@@ -1198,86 +1273,59 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add Variant Button Functionality
-    const addVariantBtn = document.getElementById('addVariantBtn');
-    const variantFormsetContainer = document.getElementById('variantFormsetContainer');
+    // Variant Selection Toggle Preview Functionality
+    function updateVariantPreview() {
+        const sizeCheckboxes = document.querySelectorAll('#sizesToggles input[type="checkbox"]:checked');
+        const colorCheckboxes = document.querySelectorAll('#colorToggles input[type="checkbox"]:checked');
+        const previewList = document.getElementById('variantPreviewList');
 
-    if (addVariantBtn && variantFormsetContainer) {
-        addVariantBtn.addEventListener('click', function() {
-            const totalForms = document.querySelector('input[name="variants-TOTAL_FORMS"]');
-            const formCount = parseInt(totalForms.value);
-            const lastForm = variantFormsetContainer.querySelector('.variant-form-row:last-of-type');
+        if (!previewList) return;
 
-            if (lastForm) {
-                const newForm = lastForm.cloneNode(true);
-
-                // Add position relative for positioning the close button
-                newForm.style.position = 'relative';
-                newForm.classList.add('dynamically-added');
-
-                // Update form index in all fields
-                const formRegex = new RegExp('variants-\\d+-', 'g');
-                newForm.innerHTML = newForm.innerHTML.replace(formRegex, `variants-${formCount}-`);
-
-                // Clear values in cloned form
-                newForm.querySelectorAll('input[type="text"], input[type="number"], select').forEach(input => {
-                    if (input.tagName === 'SELECT') {
-                        input.selectedIndex = 0;
-                    } else {
-                        input.value = '';
-                    }
-                    input.classList.remove('has-value');
-                });
-
-                // Uncheck DELETE checkbox
-                const deleteCheckbox = newForm.querySelector('input[type="checkbox"]');
-                if (deleteCheckbox) {
-                    deleteCheckbox.checked = false;
-                }
-
-                // Add close button
-                const closeBtn = document.createElement('button');
-                closeBtn.type = 'button';
-                closeBtn.className = 'btn-close-formset';
-                closeBtn.innerHTML = '×';
-                closeBtn.title = 'Remove this form';
-                closeBtn.addEventListener('click', function() {
-                    newForm.remove();
-                    // Decrement total forms count
-                    totalForms.value = parseInt(totalForms.value) - 1;
-                });
-                newForm.insertBefore(closeBtn, newForm.firstChild);
-
-                // Append new form
-                variantFormsetContainer.appendChild(newForm);
-
-                // Increment total forms count
-                totalForms.value = formCount + 1;
-
-                // Re-initialize event listeners for new form
-                const newInputs = newForm.querySelectorAll('.form-control, select.auth-form-input, input.auth-form-input');
-                newInputs.forEach(input => {
-                    if (input.type === 'file' || input.type === 'checkbox') return;
-
-                    input.addEventListener('input', function() {
-                        if (checkInputValue(this)) {
-                            this.classList.add('has-value');
-                        } else {
-                            this.classList.remove('has-value');
-                        }
-                    });
-
-                    input.addEventListener('change', function() {
-                        if (checkInputValue(this)) {
-                            this.classList.add('has-value');
-                        } else {
-                            this.classList.remove('has-value');
-                        }
-                    });
-                });
-            }
+        // Get label text from parent label element (Django's CheckboxSelectMultiple structure)
+        const selectedSizes = Array.from(sizeCheckboxes).map(cb => {
+            const label = cb.closest('label');
+            const text = label ? label.textContent.trim() : cb.value;
+            return { value: cb.value, label: text };
         });
+        const selectedColors = Array.from(colorCheckboxes).map(cb => {
+            const label = cb.closest('label');
+            const text = label ? label.textContent.trim() : cb.value;
+            return { value: cb.value, label: text };
+        });
+
+        let variants = [];
+
+        // Generate combinations
+        if (selectedSizes.length && selectedColors.length) {
+            selectedSizes.forEach(size => {
+                selectedColors.forEach(color => {
+                    variants.push(`${size.label} / ${color.label}`);
+                });
+            });
+        } else if (selectedSizes.length) {
+            variants = selectedSizes.map(s => s.label);
+        } else if (selectedColors.length) {
+            variants = selectedColors.map(c => c.label);
+        }
+
+        // Update preview
+        if (variants.length) {
+            previewList.innerHTML = variants.map(v =>
+                `<span class="variant-preview-item">${v}</span>`
+            ).join('') +
+            `<div class="variant-count w-100"><i class="fas fa-layer-group me-2"></i>${variants.length} new variant(s) will be added</div>`;
+        } else {
+            previewList.innerHTML = '<p class="text-muted">Select sizes and/or colors to add new variants</p>';
+        }
     }
+
+    // Add event listeners to all toggle checkboxes
+    document.querySelectorAll('.variant-toggles input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateVariantPreview);
+    });
+
+    // Initial update
+    updateVariantPreview();
 });
 </script>
 
@@ -1550,6 +1598,139 @@ document.addEventListener('DOMContentLoaded', function() {
     width: 3rem;
     height: 3rem;
     border-width: 0.3rem;
+}
+
+/* Variant Toggle Selection Styles */
+.variant-selection-container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.variant-group-label {
+    color: var(--neon-pink);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+/* Style Django's CheckboxSelectMultiple output */
+.variant-toggles ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.variant-toggles li {
+    margin: 0;
+}
+
+.variant-toggles li label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.variant-toggles li label:hover {
+    border-color: rgba(255, 20, 147, 0.5);
+    background: rgba(255, 20, 147, 0.1);
+    color: #fff;
+}
+
+.variant-toggles li label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    margin: 0;
+}
+
+.variant-toggles li label:has(input:checked) {
+    background: rgba(255, 20, 147, 0.2);
+    border-color: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+}
+
+.variant-toggles li label:has(input:checked)::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 0.7rem;
+    color: var(--electric-yellow);
+    margin-left: 0.5rem;
+}
+
+/* Variant Preview */
+.variant-preview {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.variant-preview-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.variant-preview-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    background: rgba(255, 20, 147, 0.1);
+    border: 1px solid rgba(255, 20, 147, 0.3);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.variant-count {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--electric-yellow);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Existing variants section */
+.existing-variants-section {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.existing-variants-section h5 {
+    color: var(--electric-yellow);
+    font-weight: 600;
+}
+
+.add-variants-section h5 {
+    color: var(--neon-pink);
+    font-weight: 600;
 }
 </style>
 </div>

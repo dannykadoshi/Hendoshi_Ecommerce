@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q, Sum
 from django.http import JsonResponse
-from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm
+from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm, VariantSelectionForm
 from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory, ProductReview
 from .image_utils import optimize_product_images
 
@@ -214,29 +214,32 @@ def create_admin_product(request):
     """Frontend admin view for creating products"""
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES)
-        variant_formset = ProductVariantFormSet(request.POST, instance=None)
+        variant_selection_form = VariantSelectionForm(request.POST)
         image_formset = ProductImageFormSet(request.POST, request.FILES, instance=None)
         design_form = DesignStoryForm(request.POST)
 
         if product_form.is_valid():
             product = product_form.save()
 
-            # Handle variants
-            variant_formset = ProductVariantFormSet(request.POST, instance=product)
-            if variant_formset.is_valid():
-                variant_formset.save()
-            else:
-                product.delete()
-                for form in variant_formset:
-                    if form.errors:
-                        for error in form.errors.values():
-                            messages.error(request, f'Variant error: {error}')
-                return render(request, 'products/admin_create_product.html', {
-                    'product_form': product_form,
-                    'variant_formset': variant_formset,
-                    'image_formset': image_formset,
-                    'design_form': design_form
-                })
+            # Handle variants using the new toggle-based selection
+            if variant_selection_form.is_valid():
+                variants_data = variant_selection_form.generate_variants_data()
+                variants_created = 0
+                for variant_data in variants_data:
+                    try:
+                        ProductVariant.objects.create(
+                            product=product,
+                            size=variant_data['size'],
+                            color=variant_data['color'],
+                            stock=variant_data['stock']
+                        )
+                        variants_created += 1
+                    except Exception as e:
+                        # Skip duplicates or other errors
+                        pass
+
+                if variants_created > 0:
+                    messages.info(request, f'{variants_created} variant(s) created.')
 
             # Handle images
             image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
@@ -271,20 +274,20 @@ def create_admin_product(request):
                     messages.error(request, f'{field}: {error}')
     else:
         product_form = ProductForm()
-        variant_formset = ProductVariantFormSet(instance=None)
+        variant_selection_form = VariantSelectionForm()
         image_formset = ProductImageFormSet(instance=None)
         design_form = DesignStoryForm()
 
     context = {
         'product_form': product_form,
-        'variant_formset': variant_formset,
+        'variant_selection_form': variant_selection_form,
         'image_formset': image_formset,
         'design_form': design_form,
         'page_title': 'Create Product',
         'is_create': True,
     }
 
-    return render(request, 'products/admin_create_product.html', context)
+    return render(request, 'products/create_product.html', context)
 
 
 @login_required
@@ -293,8 +296,14 @@ def edit_admin_product(request, pk):
     """Frontend admin view for editing products"""
     product = get_object_or_404(Product, pk=pk)
 
+    # Get existing variant sizes and colors for pre-population
+    existing_variants = product.variants.all()
+    existing_sizes = list(set(v.size for v in existing_variants if v.size))
+    existing_colors = list(set(v.color for v in existing_variants if v.color))
+
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES, instance=product)
+        variant_selection_form = VariantSelectionForm(request.POST)
         variant_formset = ProductVariantFormSet(request.POST, instance=product)
         image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
 
@@ -309,20 +318,35 @@ def edit_admin_product(request, pk):
         if product_form.is_valid():
             product = product_form.save()
 
+            # Handle existing variants (formset for editing/deleting)
             if variant_formset.is_valid():
                 variant_formset.save()
-            else:
-                for form in variant_formset:
-                    if form.errors:
-                        for error in form.errors.values():
-                            messages.error(request, f'Variant error: {error}')
-                return render(request, 'products/admin_edit_product.html', {
-                    'product_form': product_form,
-                    'variant_formset': variant_formset,
-                    'image_formset': image_formset,
-                    'design_form': design_form,
-                    'product': product
-                })
+
+            # Handle new variants from selection form (adds new combinations)
+            if variant_selection_form.is_valid():
+                variants_data = variant_selection_form.generate_variants_data()
+                variants_created = 0
+                for variant_data in variants_data:
+                    # Check if variant already exists
+                    exists = ProductVariant.objects.filter(
+                        product=product,
+                        size=variant_data['size'],
+                        color=variant_data['color']
+                    ).exists()
+                    if not exists:
+                        try:
+                            ProductVariant.objects.create(
+                                product=product,
+                                size=variant_data['size'],
+                                color=variant_data['color'],
+                                stock=variant_data['stock']
+                            )
+                            variants_created += 1
+                        except Exception:
+                            pass
+
+                if variants_created > 0:
+                    messages.info(request, f'{variants_created} new variant(s) added.')
 
             if image_formset.is_valid():
                 image_formset.save()
@@ -345,6 +369,12 @@ def edit_admin_product(request, pk):
                     messages.error(request, f'{field}: {error}')
     else:
         product_form = ProductForm(instance=product)
+        # Pre-populate with existing selections
+        variant_selection_form = VariantSelectionForm(initial={
+            'sizes': existing_sizes,
+            'colors': existing_colors,
+            'default_stock': 10
+        })
         variant_formset = ProductVariantFormSet(instance=product)
         image_formset = ProductImageFormSet(instance=product)
 
@@ -358,12 +388,15 @@ def edit_admin_product(request, pk):
 
     context = {
         'product_form': product_form,
+        'variant_selection_form': variant_selection_form,
         'variant_formset': variant_formset,
         'image_formset': image_formset,
         'design_form': design_form,
         'product': product,
         'page_title': 'Edit Product',
         'is_edit': True,
+        'existing_sizes': existing_sizes,
+        'existing_colors': existing_colors,
     }
 
     return render(request, 'products/edit_product.html', context)

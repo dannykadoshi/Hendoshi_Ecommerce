@@ -60,7 +60,8 @@ from .forms import (
     DesignStoryForm,
     ProductVariantFormSet,
     ProductImageFormSet,
-    ProductReviewForm
+    ProductReviewForm,
+    VariantSelectionForm
 )
 
 
@@ -367,29 +368,23 @@ def create_product(request):
     """
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES)
-        variant_formset = ProductVariantFormSet(request.POST, instance=None)
+        variant_selection_form = VariantSelectionForm(request.POST)
         image_formset = ProductImageFormSet(request.POST, request.FILES, instance=None)
         design_form = DesignStoryForm(request.POST)
         
-        if product_form.is_valid():
+        if product_form.is_valid() and variant_selection_form.is_valid():
             product = product_form.save()
             
-            # Handle variants
-            variant_formset = ProductVariantFormSet(request.POST, instance=product)
-            if variant_formset.is_valid():
-                variant_formset.save()
-            else:
-                product.delete()
-                for form in variant_formset:
-                    if form.errors:
-                        for error in form.errors.values():
-                            messages.error(request, f'Variant error: {error}')
-                return render(request, 'products/create_product.html', {
-                    'product_form': product_form,
-                    'variant_formset': variant_formset,
-                    'image_formset': image_formset,
-                    'design_form': design_form
-                })
+            # Handle variants using toggle selection
+            if variant_selection_form.is_valid():
+                variants_data = variant_selection_form.generate_variants_data()
+                for variant_data in variants_data:
+                    ProductVariant.objects.create(
+                        product=product,
+                        size=variant_data['size'],
+                        color=variant_data['color'],
+                        stock=variant_data['stock']
+                    )
             
             # Handle images
             image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
@@ -402,37 +397,28 @@ def create_product(request):
                 design.product = product
                 design.save()
             
-            # Optimize product images after successful creation
-            # try:
-            #     optimization_result = optimize_product_images(product)
-            #     if optimization_result['success']:
-            #         if optimization_result['optimized_count'] > 0:
-            #             messages.info(request, f'Product created and {optimization_result["optimized_count"]} image(s) optimized successfully!')
-            #         else:
-            #             messages.success(request, f'Product "{product.name}" created successfully!')
-            #     else:
-            #         messages.warning(request, f'Product created but {len(optimization_result["errors"])} image optimization error(s) occurred. Check logs for details.')
-            #         messages.success(request, f'Product "{product.name}" created successfully!')
-            # except Exception as e:
-            #     messages.warning(request, f'Product created but image optimization failed: {str(e)}')
-            #     messages.success(request, f'Product "{product.name}" created successfully!')
-            
             messages.success(request, f'Product "{product.name}" created successfully!')
             
             return redirect('product_detail', slug=product.slug)
         else:
-            for field, errors in product_form.errors.items():
-                for error in errors:
-                    messages.error(request, f'{field}: {error}')
+            # Handle form errors
+            if not product_form.is_valid():
+                for field, errors in product_form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'{field}: {error}')
+            if not variant_selection_form.is_valid():
+                for field, errors in variant_selection_form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'Variant {field}: {error}')
     else:
         product_form = ProductForm()
-        variant_formset = ProductVariantFormSet(instance=None)
+        variant_selection_form = VariantSelectionForm()
         image_formset = ProductImageFormSet(instance=None)
         design_form = DesignStoryForm()
     
     context = {
         'product_form': product_form,
-        'variant_formset': variant_formset,
+        'variant_selection_form': variant_selection_form,
         'image_formset': image_formset,
         'design_form': design_form,
         'page_title': 'Create Product',

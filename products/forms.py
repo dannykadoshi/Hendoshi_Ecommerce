@@ -172,6 +172,113 @@ class ProductVariantForm(forms.ModelForm):
         return stock
 
 
+class VariantSelectionForm(forms.Form):
+    """
+    Form for selecting multiple sizes and colors at once to bulk-create variants.
+    Uses checkboxes/toggles instead of individual variant forms.
+    """
+    # Size choices (excluding empty option)
+    SIZE_CHOICES = [
+        ('one_size', 'One Size'),
+        ('xs', 'XS'),
+        ('s', 'S'),
+        ('m', 'M'),
+        ('l', 'L'),
+        ('xl', 'XL'),
+        ('2xl', '2XL'),
+        ('3xl', '3XL'),
+        ('4xl', '4XL'),
+        ('5xl', '5XL'),
+    ]
+
+    # Color choices (excluding empty option)
+    COLOR_CHOICES = [
+        ('n/a', 'N/A'),
+        ('black', 'Black'),
+        ('white', 'White'),
+        ('charcoal', 'Charcoal Grey'),
+        ('navy', 'Navy Blue'),
+        ('red', 'Red'),
+    ]
+
+    sizes = forms.MultipleChoiceField(
+        choices=SIZE_CHOICES,
+        widget=forms.CheckboxSelectMultiple(attrs={
+            'class': 'variant-toggle-checkbox',
+        }),
+        required=False,
+        label='Available Sizes'
+    )
+
+    colors = forms.MultipleChoiceField(
+        choices=COLOR_CHOICES,
+        widget=forms.CheckboxSelectMultiple(attrs={
+            'class': 'variant-toggle-checkbox',
+        }),
+        required=False,
+        label='Available Colors'
+    )
+
+    default_stock = forms.IntegerField(
+        min_value=0,
+        initial=10,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control auth-form-input',
+            'placeholder': 'Default stock for each variant',
+            'min': '0',
+        }),
+        label='Default Stock per Variant',
+        help_text='This stock value will be applied to all generated variants'
+    )
+
+    def get_selected_sizes(self):
+        """Return list of selected size values"""
+        return self.cleaned_data.get('sizes', [])
+
+    def get_selected_colors(self):
+        """Return list of selected color values"""
+        return self.cleaned_data.get('colors', [])
+
+    def generate_variants_data(self):
+        """
+        Generate variant combinations based on selected sizes and colors.
+        Returns a list of dicts with size, color, and stock.
+        """
+        sizes = self.get_selected_sizes()
+        colors = self.get_selected_colors()
+        stock = self.cleaned_data.get('default_stock', 10)
+
+        variants = []
+
+        # If both sizes and colors are selected, create combinations
+        if sizes and colors:
+            for size in sizes:
+                for color in colors:
+                    variants.append({
+                        'size': size,
+                        'color': color,
+                        'stock': stock
+                    })
+        # If only sizes are selected
+        elif sizes:
+            for size in sizes:
+                variants.append({
+                    'size': size,
+                    'color': '',
+                    'stock': stock
+                })
+        # If only colors are selected
+        elif colors:
+            for color in colors:
+                variants.append({
+                    'size': '',
+                    'color': color,
+                    'stock': stock
+                })
+
+        return variants
+
+
 class ProductImageForm(forms.ModelForm):
     """
     Form for uploading additional product images
