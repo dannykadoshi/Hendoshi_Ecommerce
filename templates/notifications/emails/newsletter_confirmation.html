@@ -1,35 +1,150 @@
 <!DOCTYPE html>
-<html>
+<!-- HTML Email Template - Meta description/keywords not needed for emails -->
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirm your subscription</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Subscription - HENDOSHI</title>
+    <style>
+        :root {
+            --neon-pink: #ff1493;
+            --electric-yellow: #ffff00;
+        }
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .email-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .email-header {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .email-header .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-pink) 50%, var(--electric-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            position: relative;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+        .email-body {
+            padding: 40px;
+            text-align: center;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+        }
+        .footer-note {
+            font-size: 14px;
+            color: #777;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .email-footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .email-footer p {
+            margin: 5px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .unsubscribe-links {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        .unsubscribe-links a {
+            color: #6c757d;
+            margin: 0 8px;
+            text-decoration: underline;
+            font-size: 12px;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; background:#f7f7f7; padding:20px;">
-  <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
-    <tr>
-      <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff; border-radius:6px; overflow:hidden;">
-          <tr>
-            <td style="padding:24px; text-align:center; background:#111; color:#fff;">
-              <h1 style="margin:0; font-size:24px;">Confirm your subscription</h1>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:20px; color:#333;">
-              <p>Hi,</p>
-              <p>Thanks for signing up to receive exclusive offers and updates from {{ site_name }}. Please confirm your email address by clicking the button below.</p>
-              <p style="text-align:center; margin:28px 0;">
-                <a href="{{ confirm_url }}" style="display:inline-block; padding:12px 20px; background:#ff2fa0; color:#fff; text-decoration:none; border-radius:4px;">Confirm subscription</a>
-              </p>
-              <p>If you didn't request this, you can ignore this email.</p>
-              <hr style="border:none; height:1px; background:#eee; margin:20px 0;">
-              <p style="font-size:12px; color:#777;">By confirming you agree to receive emails from {{ site_name }}. You can unsubscribe anytime. <a href="{{ SITE_URL }}{% url 'notification_preferences' %}">Manage preferences</a>.</p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">HENDOSHI</div>
+            <h1>Confirm Your Subscription</h1>
+        </div>
+
+        <div class="email-body">
+            <p class="greeting">Hey there!</p>
+
+            <p class="message">Thanks for signing up to receive exclusive offers and updates from HENDOSHI. We're excited to have you join our weird and wonderful community!</p>
+
+            <p class="message">Please confirm your email address by clicking the button below to start receiving our latest drops, special offers, and metal-inspired goodness.</p>
+
+            <div>
+                <a href="{{ confirm_url }}" class="cta-button">Confirm My Subscription</a>
+            </div>
+
+            <p class="message" style="margin-top: 30px; font-size: 14px; color: #666;">
+                If you didn't request this subscription, you can safely ignore this email.
+            </p>
+
+            <div class="footer-note">
+                By confirming, you agree to receive emails from HENDOSHI. You can unsubscribe or manage your preferences anytime.
+                <br><a href="{{ SITE_URL }}{% url 'notification_preferences' %}" style="color: #ff1493;">Manage your preferences</a>
+            </div>
+        </div>
+
+        <div class="email-footer">
+            <p><strong>HENDOSHI</strong> - Wear Your Weird</p>
+            <p>Metal-inspired apparel with original skull, animal, and gym designs</p>
+        </div>
+    </div>
 </body>
 </html>

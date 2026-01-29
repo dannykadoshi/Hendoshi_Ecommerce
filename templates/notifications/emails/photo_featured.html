@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+<!-- HTML Email Template - Meta description/keywords not needed for emails -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Photo is Featured - HENDOSHI</title>
     <style>
+        :root {
+            --neon-pink: #ff1493;
+            --electric-yellow: #ffff00;
+        }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
             line-height: 1.6;
@@ -36,7 +41,14 @@
         .email-header .logo {
             font-size: 28px;
             font-weight: 900;
-            color: #ff1493;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-pink) 50%, var(--electric-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            position: relative;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+            transition: all 0.3s ease;
             margin-bottom: 10px;
         }
         .featured-badge {
