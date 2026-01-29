@@ -248,9 +248,9 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': config('CLOUDINARY_API_SECRET'),
 }
 
-# Use custom Cloudinary storage
-DEFAULT_FILE_STORAGE = 'products.storage.CloudinaryStorage'
-MEDIA_URL = f'https://res.cloudinary.com/{config("CLOUDINARY_CLOUD_NAME")}/image/upload/'
+# Use hybrid Cloudinary + local storage
+DEFAULT_FILE_STORAGE = 'products.storage.HybridCloudinaryStorage'
+MEDIA_URL = '/media/'  # Local media URL for existing images
 
 # Stripe configuration
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
