@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',  # Required by allauth
     'ckeditor',  # Rich text editor for admin
     'storages',  # For using S3 in production if needed
+    'cloudinary_storage',
+    'cloudinary',
     'anymail',  # For Resend email integration
     
     # Hendoshi Apps (must be before allauth for custom template precedence)
@@ -232,34 +234,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # In production: AWS S3
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# AWS S3 Configuration for Media Files
-USE_S3 = config('USE_S3', default=False, cast=bool)
+# Cloudinary Configuration for Media Files
+import cloudinary_storage
 
-if USE_S3:
-    # AWS Credentials
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='eu-north-1')
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
 
-    # S3 URL configuration (include region for non-us-east-1)
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
-
-    # S3 settings
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',  # Cache for 1 day
-        'ACL': 'public-read',  # Make uploaded files publicly readable
-    }
-    AWS_DEFAULT_ACL = None  # Deprecated, use object parameters instead
-    AWS_QUERYSTRING_AUTH = False  # Don't add auth params to URLs
-    AWS_S3_FILE_OVERWRITE = False  # Don't overwrite files with same name
-
-    # Use S3 for media files only (static files use WhiteNoise)
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
-else:
-    # Local media storage for development
-    MEDIA_URL = '/media/'
+# Use Cloudinary for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
+MEDIA_URL = f'https://res.cloudinary.com/{config("CLOUDINARY_CLOUD_NAME")}/image/upload/'
 
 # Stripe configuration
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
