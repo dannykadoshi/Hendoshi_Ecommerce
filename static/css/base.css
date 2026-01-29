@@ -5856,32 +5856,32 @@ a.btn-pink {
     padding-left: 0.5rem;
 }
 
-/* Products Grid - Killstar Style: 4 cols -> 3 cols -> 2 cols -> 1 col */
+/* Products Grid - Responsive: 6 -> 5 -> 4 -> 2 (mobile) */
 .products-grid-wrapper {
     width: 100%;
 }
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1.5rem;
 }
 
-/* 5 columns for very large screens */
-@media (min-width: 1600px) {
+/* 5 columns for very large but not ultra-wide screens */
+@media (max-width: 1700px) {
     .products-grid {
         grid-template-columns: repeat(5, 1fr);
     }
 }
 
-/* 3 columns for large tablets */
+/* 4 columns for normal large screens */
 @media (max-width: 1400px) {
     .products-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
-/* 2 columns for tablets */
+/* 2 columns for tablets and mobile */
 @media (max-width: 991px) {
     .products-page {
         padding-top: 120px;
@@ -5937,7 +5937,7 @@ a.btn-pink {
         border-bottom: 1px solid rgba(255, 105, 180, 0.2);
         margin-bottom: 1rem;
     }
-
+    
     .filters-title {
         color: var(--neon-pink);
         font-size: 1.2rem;
@@ -5965,7 +5965,7 @@ a.btn-pink {
     }
 }
 
-/* 1 column for mobile */
+/* Mobile adjustments (small) */
 @media (max-width: 600px) {
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -6151,7 +6151,10 @@ a.btn-pink {
 .product-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 1;
+    /* Use 4:5 portrait ratio so a single AI-generated image works well
+       across desktop and mobile. Keeps consistent card heights while
+       providing more vertical room for product photos. */
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
 }
@@ -12634,12 +12637,31 @@ input[type="number"] {
     margin-right: 0.5rem;
 }
 
-/* Battle Vest Grid */
+/* Battle Vest Grid - match product grid: 6 -> 5 -> 4 -> 2 */
 .battle-vest-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(6, 1fr);
     gap: 2rem;
     margin-bottom: 3rem;
+}
+
+@media (max-width: 1700px) {
+    .battle-vest-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 1400px) {
+    .battle-vest-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .battle-vest-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
 }
 
 /* Vest Item Card */
@@ -12661,7 +12683,8 @@ input[type="number"] {
 .vest-item-image-wrapper {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 1;
+    /* Use portrait 4:5 ratio to match product cards for consistent display */
+    aspect-ratio: 4 / 5;
     background: rgba(0, 0, 0, 0.5);
 }
 

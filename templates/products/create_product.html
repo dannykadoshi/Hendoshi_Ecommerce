@@ -254,12 +254,7 @@
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
-                            <!-- Quill Editor Container -->
-                            <div id="quill-editor" class="quill-editor-fixed-height"></div>
-                            <!-- Hidden textarea to store the actual data -->
-                            <div class="formset-hidden">
-                                {{ design_form.story }}
-                            </div>
+                            {{ design_form.story }}
                             <div class="d-flex justify-content-between align-items-center mt-1">
                                 <small class="helper-text">Tell the inspiration and creative process behind this design</small>
                                 <small id="story-char-count" class="story-char-count">0 / 500</small>
@@ -278,26 +273,7 @@
                             {{ design_form.status }}
                         </div>
                     {% block extra_js %}
-                    <!-- Quill JS -->
-                    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
                     <script>
-                        // Initialize Quill editor (use shared global instance)
-                            if (!window.__quill_editor) {
-                                window.__quill_editor = new Quill('#quill-editor', {
-                                    theme: 'snow',
-                                    modules: {
-                                        toolbar: [
-                                            ['bold', 'italic', 'underline'],
-                                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                            ['link'],
-                                            ['clean']
-                                        ]
-                                    },
-                                    placeholder: 'Tell me the design story...'
-                                });
-                            }
-                            var quill = window.__quill_editor;
-
                         // Helper to read Django CSRF cookie
                         function getCookie(name) {
                             let cookieValue = null;
@@ -314,31 +290,22 @@
                             return cookieValue;
                         }
 
-                        // Update character count for Quill editor
+                        // Update character count for story textarea
                         function updateStoryCharCount() {
-                            var text = quill.getText();
-                            var length = text.trim().length;
-                            var counter = document.getElementById('story-char-count');
-                            if (counter) {
-                                counter.textContent = length + ' / 500';
-                                if (length > 500) {
-                                    counter.style.color = '#ff1493';
-                                } else {
-                                    counter.style.color = 'var(--neon-pink)';
+                            var textarea = document.getElementById('id_story');
+                            if (textarea) {
+                                var length = textarea.value.length;
+                                var counter = document.getElementById('story-char-count');
+                                if (counter) {
+                                    counter.textContent = length + ' / 500';
+                                    if (length > 500) {
+                                        counter.style.color = '#ff1493';
+                                    } else {
+                                        counter.style.color = 'var(--neon-pink)';
+                                    }
                                 }
                             }
                         }
-
-                        // Sync Quill content with hidden textarea
-                        quill.on('text-change', function() {
-                            var html = quill.root.innerHTML;
-                            var textarea = document.getElementById('id_story');
-                            if (textarea) {
-                                // Store plain text in textarea (since model has max 500 chars)
-                                textarea.value = quill.getText().trim();
-                            }
-                            updateStoryCharCount();
-                        });
 
                         // Update character count for SEO meta description
                         function updateMetaCharCount(textarea) {
@@ -365,12 +332,10 @@
                             }
 
                             // Initialize story counter
-                            updateStoryCharCount();
-
-                            // Load existing content into Quill if editing
-                            var storyTextarea = document.getElementById('id_story');
-                            if (storyTextarea && storyTextarea.value) {
-                                quill.setText(storyTextarea.value);
+                            var storyField = document.getElementById('id_story');
+                            if (storyField) {
+                                updateStoryCharCount();
+                                storyField.addEventListener('input', updateStoryCharCount);
                             }
 
                             // AI Meta Description Generator
@@ -521,7 +486,7 @@
                                                     if (type === 'title') {
                                                         document.getElementById('id_title').value = suggestion;
                                                     } else {
-                                                        quill.setText(suggestion);
+                                                        document.getElementById('id_story').value = suggestion;
                                                         updateStoryCharCount();
                                                     }
                                                     storyModal.style.display = 'none';

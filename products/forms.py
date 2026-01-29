@@ -92,13 +92,16 @@ class ProductForm(forms.ModelForm):
             raise forms.ValidationError('Product name must be at least 3 characters long.')
         return name
 
-    def clean_description(self):
-        description = self.cleaned_data.get('description')
-        if not description:
-            raise forms.ValidationError('Product description is required.')
-        if len(description) < 10:
-            raise forms.ValidationError('Description must be at least 10 characters long.')
-        return description
+    def clean_main_image(self):
+        image = self.cleaned_data.get('main_image')
+        if image:
+            # Check file size (5MB limit)
+            if image.size > 5 * 1024 * 1024:
+                raise forms.ValidationError('Image file size must be under 5MB.')
+            # Check if it's an image
+            if not image.content_type in ['image/jpeg', 'image/png', 'image/webp']:
+                raise forms.ValidationError('Please upload a valid image file (JPEG, PNG, or WebP).')
+        return image
 
     def clean_base_price(self):
         price = self.cleaned_data.get('base_price')
@@ -219,7 +222,6 @@ class DesignStoryForm(forms.ModelForm):
                 'placeholder': 'Tell the story behind this design...',
                 'rows': 8,
                 'maxlength': '500',
-                'required': 'required',
                 'oninput': 'updateCharCount(this)'
             }),
             'author': forms.TextInput(attrs={
