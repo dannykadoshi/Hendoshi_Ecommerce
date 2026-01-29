@@ -7680,6 +7680,95 @@ a.btn-pink {
     background: rgba(255, 105, 180, 0.1);
 }
 
+/* Shipping Rates Section - Dark Theme Styling */
+.checkout-page .shipping-rates-section {
+    margin-bottom: 1.5rem;
+}
+
+.checkout-page .shipping-rates-section h5 {
+    color: var(--off-white);
+    font-weight: 600;
+}
+
+.checkout-page .shipping-rates-section h5 i {
+    color: var(--neon-pink);
+}
+
+.checkout-page .shipping-rates-section .list-group {
+    background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.checkout-page .shipping-rates-section .list-group-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--off-white);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkout-page .shipping-rates-section .list-group-item:hover {
+    background: rgba(255, 20, 147, 0.08);
+    border-color: rgba(255, 20, 147, 0.25);
+}
+
+.checkout-page .shipping-rates-section .list-group-item:has(input:checked) {
+    background: rgba(255, 20, 147, 0.12);
+    border-color: var(--neon-pink);
+}
+
+.checkout-page .shipping-rates-section .list-group-item strong {
+    color: var(--neon-pink);
+    font-weight: 600;
+}
+
+.checkout-page .shipping-rates-section .list-group-item .text-end span {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.checkout-page .shipping-rates-section .list-group-item .text-success {
+    color: #4ade80 !important;
+    font-weight: 600;
+}
+
+.checkout-page .shipping-rates-section .form-check-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.checkout-page .shipping-rates-section .form-check-input:checked {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.checkout-page .shipping-rates-section .badge.bg-pink {
+    background-color: var(--neon-pink) !important;
+    color: var(--black);
+    font-weight: 600;
+}
+
+/* Shipping Totals Summary - Dark Theme Styling */
+.checkout-page .shipping-totals-summary {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--off-white);
+}
+
+.checkout-page .shipping-totals-summary hr {
+    border-color: rgba(255, 255, 255, 0.15);
+    margin: 0.75rem 0;
+}
+
+.checkout-page .shipping-totals-summary .fw-bold {
+    color: var(--electric-yellow);
+}
+
 /* Moved from templates/checkout/payment.html */
 .payment-section {
     background: rgba(255, 255, 255, 0.03);
@@ -9126,6 +9215,51 @@ a.btn-pink {
 
 :root.light-mode .checkout-container .text-muted {
     color: #222222 !important;
+}
+
+/* Light Mode - Shipping Rates Section */
+:root.light-mode .checkout-page .shipping-rates-section h5 {
+    color: #1f1f1f;
+}
+
+:root.light-mode .checkout-page .shipping-rates-section .list-group-item {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #1f1f1f;
+}
+
+:root.light-mode .checkout-page .shipping-rates-section .list-group-item:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .checkout-page .shipping-rates-section .list-group-item:has(input:checked) {
+    background: rgba(255, 20, 147, 0.08);
+    border-color: var(--neon-pink);
+}
+
+:root.light-mode .checkout-page .shipping-rates-section .list-group-item .text-end span {
+    color: #333333;
+}
+
+:root.light-mode .checkout-page .shipping-rates-section .form-check-input {
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+/* Light Mode - Shipping Totals Summary */
+:root.light-mode .checkout-page .shipping-totals-summary {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #1f1f1f;
+}
+
+:root.light-mode .checkout-page .shipping-totals-summary hr {
+    border-color: #e0e0e0;
+}
+
+:root.light-mode .checkout-page .shipping-totals-summary .fw-bold {
+    color: var(--neon-pink);
 }
 
 /* Stripe Payment Elements */
