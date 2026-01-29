@@ -202,11 +202,11 @@
     <div class="confirmation-modal">
         <p id="confirmationMessage" class="confirmation-message">Are you sure?</p>
         <div class="confirmation-buttons">
-            <button type="button" class="btn btn-outline-secondary" onclick="closeConfirmationModal()">
-                Cancel
-            </button>
-            <button type="button" class="btn btn-pink" id="confirmBtn" onclick="executeConfirmation()">
+            <button type="button" class="btn confirmation-btn-ok" id="confirmBtn" onclick="executeConfirmation()">
                 OK
+            </button>
+            <button type="button" class="btn confirmation-btn-cancel" onclick="closeConfirmationModal()">
+                Cancel
             </button>
         </div>
     </div>
