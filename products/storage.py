@@ -1,7 +1,6 @@
 import os
 import cloudinary.uploader
-from django.core.files.storage import Storage, default_storage
-from django.core.files.base import File
+from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
 from django.conf import settings
 
@@ -9,7 +8,8 @@ from django.conf import settings
 @deconstructible
 class HybridCloudinaryStorage(Storage):
     """
-    Hybrid storage that tries Cloudinary first, falls back to local storage
+    Hybrid storage that uploads to Cloudinary, falls back to local storage.
+    Stores the full Cloudinary public_id (with folder) in the database.
     """
 
     def __init__(self):
@@ -18,18 +18,28 @@ class HybridCloudinaryStorage(Storage):
 
     def _save(self, name, content):
         """
-        Save file to Cloudinary
+        Save file to Cloudinary.
+        `name` is the path Django wants to save to (e.g., 'products/filename.png')
         """
         try:
+            # Extract folder from the path (e.g., 'products' from 'products/filename.png')
+            folder = os.path.dirname(name) or 'uploads'
+
+            # Extract filename without extension for public_id
+            filename = os.path.basename(name)
+            filename_without_ext = os.path.splitext(filename)[0]
+
             # Upload to Cloudinary
             result = cloudinary.uploader.upload(
                 content,
-                folder='products',  # Default folder
-                public_id=name.split('/')[-1].split('.')[0],  # Extract filename without extension
+                folder=folder,
+                public_id=filename_without_ext,
                 overwrite=True,
                 resource_type='auto'
             )
-            # Return the public_id which will be stored in the database
+
+            # Return the full public_id (folder/filename) which Cloudinary returns
+            # This is what gets stored in the database
             return result['public_id']
         except Exception as e:
             # If Cloudinary fails, fall back to local storage
@@ -38,80 +48,97 @@ class HybridCloudinaryStorage(Storage):
 
     def url(self, name):
         """
-        Return the URL for the file - Cloudinary for new uploads, local for existing
+        Return the URL for the file.
+        `name` is what's stored in the database - could be:
+        - Cloudinary public_id (e.g., 'products/filename') - no extension
+        - Local path (e.g., 'products/filename.png') - has extension
         """
+        if not name:
+            return ''
+
         try:
-            # If name has a file extension, it's a local file path
-            if '.' in name and name.split('.')[-1].lower() in ['png', 'jpg', 'jpeg', 'webp', 'gif']:
-                # Local file path - return local URL
+            # Check if this is a local file (has common image extension)
+            ext = os.path.splitext(name)[1].lower()
+            if ext in ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']:
+                # This is a local file path with extension
                 return f"{settings.MEDIA_URL}{name}"
             else:
-                # Cloudinary public_id
+                # This is a Cloudinary public_id (no extension)
+                # Cloudinary will auto-detect and serve the correct format
                 cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME']
-                return f"https://res.cloudinary.com/{cloud_name}/image/upload/{name}.png"
-        except:
+                # Use f_auto for automatic format selection
+                return f"https://res.cloudinary.com/{cloud_name}/image/upload/{name}"
+        except Exception:
             # Fallback to local
             return f"{settings.MEDIA_URL}{name}"
 
     def exists(self, name):
         """
-        Check if file exists in Cloudinary or locally
+        Check if file exists in Cloudinary or locally.
         """
+        if not name:
+            return False
+
         try:
-            # Try Cloudinary first
-            if '/' not in name or name.startswith('products/'):
-                # Check Cloudinary
-                result = cloudinary.api.resource(name)
-                return result is not None
-            else:
-                # Check local
+            ext = os.path.splitext(name)[1].lower()
+            if ext in ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']:
+                # Local file
                 return self.local_storage.exists(name)
-        except:
-            # Check local as fallback
+            else:
+                # Cloudinary - check via API
+                import cloudinary.api
+                try:
+                    cloudinary.api.resource(name)
+                    return True
+                except cloudinary.exceptions.NotFound:
+                    return False
+        except Exception:
             return self.local_storage.exists(name)
 
     def delete(self, name):
         """
-        Delete file from Cloudinary or local
+        Delete file from Cloudinary or local storage.
         """
+        if not name:
+            return
+
         try:
-            if '/' not in name or name.startswith('products/'):
-                cloudinary.uploader.destroy(name)
-            else:
+            ext = os.path.splitext(name)[1].lower()
+            if ext in ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']:
+                # Local file
                 self.local_storage.delete(name)
-        except:
+            else:
+                # Cloudinary
+                cloudinary.uploader.destroy(name)
+        except Exception:
             pass
 
     def size(self, name):
         """
-        Get file size
+        Get file size.
         """
+        if not name:
+            return 0
+
         try:
-            if '/' not in name or name.startswith('products/'):
+            ext = os.path.splitext(name)[1].lower()
+            if ext in ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']:
+                return self.local_storage.size(name)
+            else:
+                import cloudinary.api
                 result = cloudinary.api.resource(name)
                 return result.get('bytes', 0)
-            else:
-                return self.local_storage.size(name)
-        except:
-            return self.local_storage.size(name)
+        except Exception:
+            return 0
 
     def accessed_time(self, name):
-        """
-        Get accessed time
-        """
         from datetime import datetime
         return datetime.now()
 
     def created_time(self, name):
-        """
-        Get created time
-        """
         from datetime import datetime
         return datetime.now()
 
     def modified_time(self, name):
-        """
-        Get modified time
-        """
         from datetime import datetime
         return datetime.now()
