@@ -1,10 +1,73 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
+from django.urls import reverse
+from django.db.models import Q
 from products.models import Product
 from .models import Cart, CartItem
 from decimal import Decimal
 from checkout.models import DiscountCode
+
+
+def get_related_products(product, limit=6):
+    """
+    Get related products for the cart drawer carousel.
+    Priority: same collection > same product type > random active products
+    """
+    related = Product.objects.filter(is_active=True).exclude(id=product.id)
+
+    # First try: same collection
+    if product.collection:
+        collection_products = related.filter(collection=product.collection)[:limit]
+        if collection_products.count() >= limit:
+            return collection_products
+
+    # Second try: same product type
+    if product.product_type:
+        type_products = related.filter(product_type=product.product_type)[:limit]
+        if type_products.count() >= limit:
+            return type_products
+
+    # Fallback: combine collection + type products, then fill with random
+    combined = related.filter(
+        Q(collection=product.collection) | Q(product_type=product.product_type)
+    ).distinct()[:limit]
+
+    if combined.count() < limit:
+        # Fill remaining with any other active products
+        exclude_ids = list(combined.values_list('id', flat=True)) + [product.id]
+        remaining = limit - combined.count()
+        filler = related.exclude(id__in=exclude_ids).order_by('?')[:remaining]
+        return list(combined) + list(filler)
+
+    return combined
+
+
+def serialize_related_product(product):
+    """Serialize a product for JSON response"""
+    # Default to placeholder image
+    image_url = '/static/images/pug-skull.webp'
+    if product.main_image:
+        image_url = product.main_image.url
+    elif product.images.exists():
+        image_url = product.images.first().image.url
+
+    # Get first available size and color for quick-add
+    sizes = product.get_available_sizes() if hasattr(product, 'get_available_sizes') else []
+    colors = product.get_available_colors() if hasattr(product, 'get_available_colors') else []
+
+    return {
+        'id': product.id,
+        'name': product.name,
+        'slug': product.slug,
+        'image_url': image_url,
+        'price': float(product.base_price),
+        'rating': float(product.get_average_rating() or 0),
+        'review_count': product.get_review_count(),
+        'url': reverse('product_detail', kwargs={'slug': product.slug}),
+        'default_size': sizes[0] if sizes else '',
+        'default_color': colors[0] if colors else '',
+    }
 
 
 def get_or_create_cart(request):
@@ -96,6 +159,21 @@ def add_to_cart(request, product_id):
                     discount_amount = Decimal(str(applied.get('amount', 0) or 0))
 
             cart_total = max(Decimal('0.0'), cart_subtotal - discount_amount)
+
+            # Get product image URL for cart drawer (fallback to placeholder)
+            product_image_url = '/static/images/pug-skull.webp'
+            if product.main_image:
+                product_image_url = product.main_image.url
+            elif product.images.exists():
+                product_image_url = product.images.first().image.url
+
+            # Get related products for "Customers often buy together" section
+            try:
+                related_products = get_related_products(product, limit=10)
+                related_products_data = [serialize_related_product(p) for p in related_products]
+            except Exception:
+                related_products_data = []
+
             return JsonResponse({
                 'success': True,
                 'message': message,
@@ -104,6 +182,19 @@ def add_to_cart(request, product_id):
                 'cart_total': float(cart_total),
                 'discount_amount': float(discount_amount),
                 'discount_code': discount_code,
+                # Item details for cart drawer
+                'item': {
+                    'name': product.name,
+                    'image_url': product_image_url,
+                    'size': size.upper(),
+                    'color': color.title(),
+                    'quantity': quantity,
+                    'price': float(product.base_price),
+                    'total': float(product.base_price * quantity),
+                    'product_url': reverse('product_detail', kwargs={'slug': product.slug}),
+                },
+                # Related products for carousel
+                'related_products': related_products_data,
             })
 
         messages.success(request, message)

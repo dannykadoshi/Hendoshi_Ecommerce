@@ -257,10 +257,11 @@
                         const form = document.getElementById('addToCartForm');
                         
                         form.addEventListener('submit', function(e) {
+                            e.preventDefault(); // Prevent default form submission
+                            
                             // Check if size is selected
                             const sizeSelect = document.getElementById('size-select');
                             if (sizeSelect && sizeSelect.value === '') {
-                                e.preventDefault();
                                 showValidationToast('Please select a size before adding to cart.');
                                 return false;
                             }
@@ -268,14 +269,81 @@
                             // Check if color is selected
                             const colorSelect = document.getElementById('color-select');
                             if (colorSelect && colorSelect.value === '') {
-                                e.preventDefault();
                                 showValidationToast('Please select a color before adding to cart.');
                                 return false;
                             }
                             
-                            // All validations passed, allow form to submit
-                            return true;
+                            // Submit via AJAX
+                            submitAddToCartForm();
+                            return false;
                         });
+
+                        // AJAX form submission
+                        function submitAddToCartForm() {
+                            const form = document.getElementById('addToCartForm');
+                            
+                            // Get values from form elements
+                            const sizeSelect = document.getElementById('size-select');
+                            const colorSelect = document.getElementById('color-select');
+                            const quantityInput = document.getElementById('quantity');
+                            
+                            const size = sizeSelect.value;
+                            const color = colorSelect.value;
+                            const quantity = quantityInput.value;
+                            const productId = {{ product.id }};
+                            
+                            // Show loading state
+                            const submitBtn = form.querySelector('.add-to-cart-btn');
+                            const originalText = submitBtn.innerHTML;
+                            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+                            submitBtn.disabled = true;
+                            
+                            // Get CSRF token from the form
+                            const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+                            
+                            fetch(`/cart/add/${productId}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': csrfToken,
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: `csrfmiddlewaretoken=${encodeURIComponent(csrfToken)}&size=${encodeURIComponent(size)}&color=${encodeURIComponent(color)}&quantity=${encodeURIComponent(quantity)}`
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.success) {
+                                    // Update cart count
+                                    updateCartCount(data.cart_count);
+                                    
+                                    // Show cart drawer with item details
+                                    showCartDrawer(data);
+                                    
+                                    // Success toast removed to avoid overlap with cart drawer
+                                } else {
+                                    // Show error
+                                    if (typeof showToast === 'function') {
+                                        showToast(data.message, 'error');
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                if (typeof showToast === 'function') {
+                                    showToast('Failed to add item to cart. Please try again.', 'error');
+                                }
+                            })
+                            .finally(() => {
+                                // Reset button
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                            });
+                        }
 
                         // Use global showToast for validation messages
                         function showValidationToast(message) {

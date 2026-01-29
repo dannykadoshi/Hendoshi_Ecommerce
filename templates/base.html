@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
         <meta name="description"
               content="HENDOSHI - Wear Your Weird. Metal-inspired apparel with original skull, animal, and gym designs.">
         <meta name="keywords"
@@ -749,7 +750,93 @@
         
         <!-- Mobile Menu Overlay -->
         <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-        
+
+        <!-- Cart Drawer Overlay -->
+        <div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+
+        <!-- Cart Drawer (Slide-in Panel) -->
+        <div class="cart-drawer" id="cartDrawer">
+            <div class="cart-drawer-header">
+                <div class="cart-drawer-header-content">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <span>Added to your cart</span>
+                </div>
+                <button class="cart-drawer-close" id="cartDrawerClose" aria-label="Close cart drawer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cart-drawer-body">
+                <!-- Item Just Added -->
+                <div class="cart-drawer-item" id="cartDrawerItem">
+                    <div class="cart-drawer-item-image">
+                        <img src="" alt="" id="cartDrawerItemImage">
+                    </div>
+                    <div class="cart-drawer-item-details">
+                        <h4 class="cart-drawer-item-name" id="cartDrawerItemName"></h4>
+                        <p class="cart-drawer-item-variant" id="cartDrawerItemVariant"></p>
+                        <div class="cart-drawer-item-price-row">
+                            <span class="cart-drawer-item-qty" id="cartDrawerItemQty"></span>
+                            <span class="cart-drawer-item-price" id="cartDrawerItemPrice"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-drawer-summary">
+                    <div class="cart-drawer-summary-row">
+                        <span>Subtotal</span>
+                        <span id="cartDrawerSubtotal">€0.00</span>
+                    </div>
+                    <div class="cart-drawer-summary-row cart-drawer-discount-row" id="cartDrawerDiscountRow" style="display: none;">
+                        <span>Discount (<span id="cartDrawerDiscountCode"></span>)</span>
+                        <span class="text-success">-€<span id="cartDrawerDiscountAmount">0.00</span></span>
+                    </div>
+                    <div class="cart-drawer-summary-row cart-drawer-total-row">
+                        <span>Total (<span id="cartDrawerItemCount">0</span> items)</span>
+                        <span id="cartDrawerTotal">€0.00</span>
+                    </div>
+                </div>
+
+                <!-- Free Shipping Progress -->
+                <div class="cart-drawer-shipping" id="cartDrawerShipping">
+                    <div class="cart-drawer-shipping-progress">
+                        <div class="cart-drawer-shipping-bar" id="cartDrawerShippingBar" style="width: 0%"></div>
+                    </div>
+                    <p class="cart-drawer-shipping-text" id="cartDrawerShippingText">
+                        <i class="fas fa-truck me-1"></i> Add <span id="cartDrawerShippingRemaining">€50.00</span> more for FREE shipping!
+                    </p>
+                </div>
+
+                <!-- Related Products Carousel -->
+                <div class="cart-drawer-related" id="cartDrawerRelated" style="display: none;">
+                    <h5 class="cart-drawer-related-title">
+                        <i class="fas fa-fire-alt me-2"></i>Customers often buy together
+                    </h5>
+                    <div class="cart-drawer-carousel-container">
+                        <button type="button" class="cart-drawer-carousel-btn cart-drawer-carousel-prev" id="carouselPrev" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="cart-drawer-carousel" id="cartDrawerCarousel">
+                            <!-- Product cards will be inserted here by JavaScript -->
+                        </div>
+                        <button type="button" class="cart-drawer-carousel-btn cart-drawer-carousel-next" id="carouselNext" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-drawer-footer">
+                <a href="{% url 'view_cart' %}" class="btn cart-drawer-btn-cart">
+                    <i class="fas fa-shopping-cart me-2"></i> View Cart
+                </a>
+                <button type="button" class="btn cart-drawer-btn-continue" id="cartDrawerContinue">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <main>
             {% block content %}{% endblock %}
@@ -1976,5 +2063,300 @@
         });
         </script>
         {% endif %}
+
+        <!-- Cart Drawer JavaScript -->
+        <script>
+        // Global cart drawer functions
+        function updateCartCount(count) {
+            const badge = document.getElementById('cartCountBadge');
+            if (badge) {
+                badge.textContent = count;
+                if (count > 0) {
+                    badge.classList.remove('badge-hidden');
+                } else {
+                    badge.classList.add('badge-hidden');
+                }
+            }
+        }
+
+        function showCartDrawer(data) {
+            // Update drawer with item details
+            document.getElementById('cartDrawerItemImage').src = data.item.image_url;
+            document.getElementById('cartDrawerItemImage').alt = data.item.name;
+            document.getElementById('cartDrawerItemName').textContent = data.item.name;
+            document.getElementById('cartDrawerItemVariant').textContent = `${data.item.size} / ${data.item.color}`;
+            document.getElementById('cartDrawerItemQty').textContent = `Qty: ${data.item.quantity}`;
+            document.getElementById('cartDrawerItemPrice').textContent = `€${data.item.total.toFixed(2)}`;
+
+            // Update summary
+            document.getElementById('cartDrawerSubtotal').textContent = `€${data.cart_subtotal.toFixed(2)}`;
+            document.getElementById('cartDrawerItemCount').textContent = data.cart_count;
+            document.getElementById('cartDrawerTotal').textContent = `€${data.cart_total.toFixed(2)}`;
+
+            // Handle discount
+            const discountRow = document.getElementById('cartDrawerDiscountRow');
+            if (data.discount_code) {
+                document.getElementById('cartDrawerDiscountCode').textContent = data.discount_code;
+                document.getElementById('cartDrawerDiscountAmount').textContent = data.discount_amount.toFixed(2);
+                discountRow.style.display = 'flex';
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            // Calculate and show free shipping progress
+            updateShippingProgress(data.cart_subtotal);
+
+            // Populate related products carousel
+            if (data.related_products && data.related_products.length > 0) {
+                populateRelatedProducts(data.related_products);
+                document.getElementById('cartDrawerRelated').style.display = 'block';
+            } else {
+                document.getElementById('cartDrawerRelated').style.display = 'none';
+            }
+
+            // Show the drawer
+            document.getElementById('cartDrawerOverlay').classList.add('active');
+            document.getElementById('cartDrawer').classList.add('active');
+            document.body.classList.add('cart-drawer-open');
+        }
+
+        // Generate star rating HTML
+        function generateStarRating(rating) {
+            let html = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    html += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    html += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    html += '<i class="fas fa-star empty"></i>';
+                }
+            }
+            return html;
+        }
+
+        // Populate related products carousel
+        function populateRelatedProducts(products) {
+            const carousel = document.getElementById('cartDrawerCarousel');
+            carousel.innerHTML = '';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'cart-drawer-product-card';
+                card.innerHTML = `
+                    <a href="${product.url}" class="cart-drawer-product-image">
+                        <img src="${product.image_url}" alt="${product.name}" loading="lazy">
+                        <button type="button" class="cart-drawer-quick-add"
+                                data-product-id="${product.id}"
+                                data-default-size="${product.default_size}"
+                                data-default-color="${product.default_color}"
+                                title="Quick add to cart"
+                                onclick="event.preventDefault(); event.stopPropagation(); quickAddToCart(this);">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </a>
+                    <a href="${product.url}" class="cart-drawer-product-info">
+                        <h6 class="cart-drawer-product-name">${product.name}</h6>
+                        <div class="cart-drawer-product-rating">
+                            <span class="cart-drawer-product-stars">${generateStarRating(product.rating)}</span>
+                            <span class="cart-drawer-product-reviews">(${product.review_count})</span>
+                        </div>
+                        <span class="cart-drawer-product-price">€${product.price.toFixed(2)}</span>
+                    </a>
+                `;
+                carousel.appendChild(card);
+            });
+
+            // Initialize carousel buttons state
+            updateCarouselButtons();
+        }
+
+        // Quick add to cart from carousel
+        function quickAddToCart(button) {
+            const productId = button.dataset.productId;
+            const size = button.dataset.defaultSize;
+            const color = button.dataset.defaultColor;
+
+            // If no size/color, redirect to product page
+            if (!size || !color) {
+                const card = button.closest('.cart-drawer-product-card');
+                const link = card.querySelector('a').href;
+                window.location.href = link;
+                return;
+            }
+
+            // Show loading state
+            const originalHtml = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+
+            // Get CSRF token (try form field, meta tag, then cookie)
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value ||
+                              document.querySelector('meta[name="csrf-token"]')?.content ||
+                              getCookie('csrftoken');
+
+            fetch(`/cart/add/${productId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `csrfmiddlewaretoken=${encodeURIComponent(csrfToken)}&size=${encodeURIComponent(size)}&color=${encodeURIComponent(color)}&quantity=1`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Update cart count
+                    updateCartCount(data.cart_count);
+
+                    // Show success state briefly
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    button.classList.add('adding');
+
+                    // Update cart drawer totals
+                    document.getElementById('cartDrawerSubtotal').textContent = `€${data.cart_subtotal.toFixed(2)}`;
+                    document.getElementById('cartDrawerItemCount').textContent = data.cart_count;
+                    document.getElementById('cartDrawerTotal').textContent = `€${data.cart_total.toFixed(2)}`;
+                    updateShippingProgress(data.cart_subtotal);
+
+                    setTimeout(() => {
+                        button.innerHTML = originalHtml;
+                        button.classList.remove('adding');
+                        button.disabled = false;
+                    }, 1500);
+                } else {
+                    button.innerHTML = originalHtml;
+                    button.disabled = false;
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || 'Could not add to cart', 'error');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Quick add error:', error);
+                button.innerHTML = originalHtml;
+                button.disabled = false;
+            });
+        }
+
+        // Carousel navigation
+        function updateCarouselButtons() {
+            const carousel = document.getElementById('cartDrawerCarousel');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+
+            if (!carousel || !prevBtn || !nextBtn) return;
+
+            prevBtn.disabled = carousel.scrollLeft <= 0;
+            nextBtn.disabled = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 5;
+        }
+
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('cartDrawerCarousel');
+            const cardWidth = 148; // card width + gap
+            const scrollAmount = cardWidth * 2;
+
+            carousel.scrollBy({
+                left: direction === 'next' ? scrollAmount : -scrollAmount,
+                behavior: 'smooth'
+            });
+
+            setTimeout(updateCarouselButtons, 350);
+        }
+
+        // Get CSRF cookie helper
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function updateShippingProgress(subtotal) {
+            const freeShippingThreshold = 50.00;
+            const remaining = Math.max(0, freeShippingThreshold - subtotal);
+            const percentage = Math.min(100, (subtotal / freeShippingThreshold) * 100);
+            
+            const shippingBar = document.getElementById('cartDrawerShippingBar');
+            const shippingText = document.getElementById('cartDrawerShippingText');
+            const shippingRemaining = document.getElementById('cartDrawerShippingRemaining');
+            
+            shippingBar.style.width = `${percentage}%`;
+            shippingRemaining.textContent = `€${remaining.toFixed(2)}`;
+
+            if (remaining === 0) {
+                shippingText.innerHTML = '<i class="fas fa-check-circle text-success me-1"></i> You qualify for FREE shipping!';
+            } else {
+                shippingText.innerHTML = '<i class="fas fa-truck me-1"></i> Add <span id="cartDrawerShippingRemaining">€' + remaining.toFixed(2) + '</span> more for FREE shipping!';
+            }
+        }
+
+        function hideCartDrawer() {
+            document.getElementById('cartDrawerOverlay').classList.remove('active');
+            document.getElementById('cartDrawer').classList.remove('active');
+            document.body.classList.remove('cart-drawer-open');
+        }
+
+        // Cart drawer event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cart drawer close functionality
+            const cartDrawerClose = document.getElementById('cartDrawerClose');
+            const cartDrawerContinue = document.getElementById('cartDrawerContinue');
+            const cartDrawerOverlay = document.getElementById('cartDrawerOverlay');
+
+            if (cartDrawerClose) {
+                cartDrawerClose.addEventListener('click', hideCartDrawer);
+            }
+
+            if (cartDrawerContinue) {
+                cartDrawerContinue.addEventListener('click', hideCartDrawer);
+            }
+
+            if (cartDrawerOverlay) {
+                cartDrawerOverlay.addEventListener('click', hideCartDrawer);
+            }
+
+            // Carousel navigation
+            const carouselPrev = document.getElementById('carouselPrev');
+            const carouselNext = document.getElementById('carouselNext');
+            const carousel = document.getElementById('cartDrawerCarousel');
+
+            if (carouselPrev) {
+                carouselPrev.addEventListener('click', () => scrollCarousel('prev'));
+            }
+
+            if (carouselNext) {
+                carouselNext.addEventListener('click', () => scrollCarousel('next'));
+            }
+
+            if (carousel) {
+                carousel.addEventListener('scroll', updateCarouselButtons);
+            }
+
+            // Close drawer on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('cartDrawer').classList.contains('active')) {
+                    hideCartDrawer();
+                }
+            });
+        });
+        </script>
     </body>
 </html>
