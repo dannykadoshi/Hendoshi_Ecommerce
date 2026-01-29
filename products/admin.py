@@ -199,9 +199,19 @@ class BattleVestItemAdmin(admin.ModelAdmin):
 
 @admin.register(ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
+    list_display = ['name', 'slug', 'requires_size', 'requires_color']
+    list_editable = ['requires_size', 'requires_color']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'slug')
+        }),
+        ('Variant Requirements', {
+            'fields': ('requires_size', 'requires_color'),
+            'description': 'Configure which variant options are required when adding products of this type to cart.'
+        }),
+    )
 
 
 @admin.register(ProductReview)

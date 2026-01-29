@@ -133,7 +133,8 @@ class ProductForm(forms.ModelForm):
 
 class ProductVariantForm(forms.ModelForm):
     """
-    Form for creating product variants (size/color combinations)
+    Form for creating product variants (size/color combinations).
+    Size and color are optional - they depend on the ProductType settings.
     """
     class Meta:
         model = ProductVariant
@@ -141,11 +142,9 @@ class ProductVariantForm(forms.ModelForm):
         widgets = {
             'size': forms.Select(attrs={
                 'class': 'form-control auth-form-input',
-                'required': 'required'
             }),
             'color': forms.Select(attrs={
                 'class': 'form-control auth-form-input',
-                'required': 'required'
             }),
             'stock': forms.NumberInput(attrs={
                 'class': 'form-control auth-form-input',
@@ -154,6 +153,12 @@ class ProductVariantForm(forms.ModelForm):
                 'required': 'required'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make size and color not required by default - validation is based on ProductType
+        self.fields['size'].required = False
+        self.fields['color'].required = False
 
     def clean_stock(self):
         stock = self.cleaned_data.get('stock')
@@ -227,6 +232,12 @@ class DesignStoryForm(forms.ModelForm):
             }),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Default to 'published' so new design stories show immediately
+        if not self.instance.pk:
+            self.fields['status'].initial = 'published'
+
     def clean_title(self):
         title = self.cleaned_data.get('title')
         if not title:
@@ -276,10 +287,16 @@ class CollectionForm(forms.ModelForm):
 class ProductTypeForm(forms.ModelForm):
     class Meta:
         model = ProductType
-        fields = ['name', 'slug']
+        fields = ['name', 'slug', 'requires_size', 'requires_color']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control auth-form-input', 'required': True}),
             'slug': forms.TextInput(attrs={'class': 'form-control auth-form-input'}),
+            'requires_size': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'requires_color': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        help_texts = {
+            'requires_size': 'If checked, customers must select a size when adding this product type to cart.',
+            'requires_color': 'If checked, customers must select a color when adding this product type to cart.',
         }
 
 

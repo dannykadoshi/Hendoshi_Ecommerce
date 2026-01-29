@@ -115,11 +115,17 @@ def get_variant_options(request, product_id):
         if not colors:
             colors = list(product.variants.values_list('color', flat=True).distinct())
 
+        # Determine variant requirements from ProductType
+        requires_size = product.product_type.requires_size if product.product_type else True
+        requires_color = product.product_type.requires_color if product.product_type else True
+
         return JsonResponse({
             'success': True,
             'sizes': sizes,
             'colors': colors,
-            'product_name': product.name
+            'product_name': product.name,
+            'requires_size': requires_size,
+            'requires_color': requires_color
         })
     except Exception as e:
         return JsonResponse({
@@ -285,14 +291,21 @@ def product_detail(request, slug):
         collection=product.collection,
         is_active=True
     ).exclude(id=product.id)[:4]
-    
+
+    # Determine variant requirements from ProductType
+    # Default to True if no product_type is assigned
+    requires_size = product.product_type.requires_size if product.product_type else True
+    requires_color = product.product_type.requires_color if product.product_type else True
+
     context = {
         'product': product,
         'available_sizes': available_sizes,
         'available_colors': available_colors,
         'related_products': related_products,
+        'requires_size': requires_size,
+        'requires_color': requires_color,
     }
-    
+
     return render(request, 'products/product_detail.html', context)
 
 

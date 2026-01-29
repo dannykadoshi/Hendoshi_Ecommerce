@@ -76,6 +76,8 @@ def list_product_types(request):
             'slug': pt.slug,
             'pk': pt.pk,
             'is_static': False,
+            'requires_size': pt.requires_size,
+            'requires_color': pt.requires_color,
             'product_count': Product.objects.filter(product_type=pt, is_active=True, is_archived=False).count()
         })
     return render(request, 'products/admin_product_types_list.html', {'types': types})

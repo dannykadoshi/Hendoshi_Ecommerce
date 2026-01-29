@@ -32,23 +32,34 @@ class CartItem(models.Model):
     """
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    size = models.CharField(max_length=10)
-    color = models.CharField(max_length=50)
+    size = models.CharField(max_length=10, blank=True, null=True)
+    color = models.CharField(max_length=50, blank=True, null=True)
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = ('cart', 'product', 'size', 'color')
-    
+
     def __str__(self):
-        return f"{self.quantity}x {self.product.name} ({self.size}, {self.color})"
-    
+        parts = [f"{self.quantity}x {self.product.name}"]
+        if self.size or self.color:
+            variant_info = []
+            if self.size:
+                variant_info.append(self.size)
+            if self.color:
+                variant_info.append(self.color)
+            parts.append(f"({', '.join(variant_info)})")
+        return ' '.join(parts)
+
     def get_total_price(self):
         """Calculate total price for this cart item"""
         return self.product.base_price * self.quantity
-    
+
     def get_variant_stock(self):
         """Get the stock for this item's specific variant"""
+        # If no size/color required, return default stock
+        if not self.size and not self.color:
+            return 10
         try:
             variant = self.product.variants.get(size=self.size, color=self.color)
             return variant.stock if variant.stock > 0 else 10

@@ -35,6 +35,14 @@ class ProductType(models.Model):
     """
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True, blank=True)
+    requires_size = models.BooleanField(
+        default=True,
+        help_text="If checked, products of this type require a size selection before adding to cart."
+    )
+    requires_color = models.BooleanField(
+        default=True,
+        help_text="If checked, products of this type require a color selection before adding to cart."
+    )
 
     class Meta:
         ordering = ['name']
@@ -220,6 +228,8 @@ class ProductVariant(models.Model):
     This is essential for POD integration where each size/color combo needs tracking
     """
     SIZE_CHOICES = [
+        ('', '---------'),
+        ('one_size', 'One Size'),
         ('xs', 'XS'),
         ('s', 'S'),
         ('m', 'M'),
@@ -230,22 +240,24 @@ class ProductVariant(models.Model):
         ('4xl', '4XL'),
         ('5xl', '5XL'),
     ]
-    
+
     COLOR_CHOICES = [
+        ('', '---------'),
+        ('n/a', 'N/A'),
         ('black', 'Black'),
         ('white', 'White'),
         ('charcoal', 'Charcoal Grey'),
         ('navy', 'Navy Blue'),
         ('red', 'Red'),
     ]
-    
+
     product = models.ForeignKey(
         'Product',
         on_delete=models.CASCADE,
         related_name='variants'
     )
-    size = models.CharField(max_length=10, choices=SIZE_CHOICES)
-    color = models.CharField(max_length=20, choices=COLOR_CHOICES)
+    size = models.CharField(max_length=10, choices=SIZE_CHOICES, blank=True, default='')
+    color = models.CharField(max_length=20, choices=COLOR_CHOICES, blank=True, default='')
     
     # Stock management
     stock = models.IntegerField(default=0)
@@ -267,11 +279,26 @@ class ProductVariant(models.Model):
         Override save to auto-generate SKU if not provided
         """
         if not self.sku:
-            self.sku = f"{self.product.slug}-{self.size}-{self.color}".upper()
+            # Build SKU based on available fields
+            sku_parts = [self.product.slug]
+            if self.size:
+                sku_parts.append(self.size)
+            if self.color:
+                sku_parts.append(self.color)
+            # Add a unique identifier if no size/color
+            if len(sku_parts) == 1:
+                import uuid
+                sku_parts.append(str(uuid.uuid4())[:8])
+            self.sku = '-'.join(sku_parts).upper()
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
-        return f"{self.product.name} - {self.get_size_display()} / {self.get_color_display()}"
+        parts = [self.product.name]
+        if self.size:
+            parts.append(self.get_size_display())
+        if self.color:
+            parts.append(self.get_color_display())
+        return ' - '.join(parts) if len(parts) > 1 else parts[0]
     
     @property
     def is_in_stock(self):
