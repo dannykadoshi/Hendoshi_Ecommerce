@@ -248,8 +248,9 @@ if USE_S3:
     # S3 settings
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',  # Cache for 1 day
+        'ACL': 'public-read',  # Make uploaded files publicly readable
     }
-    AWS_DEFAULT_ACL = 'public-read'  # Make uploaded files publicly readable
+    AWS_DEFAULT_ACL = None  # Deprecated, use object parameters instead
     AWS_QUERYSTRING_AUTH = False  # Don't add auth params to URLs
     AWS_S3_FILE_OVERWRITE = False  # Don't overwrite files with same name
 
