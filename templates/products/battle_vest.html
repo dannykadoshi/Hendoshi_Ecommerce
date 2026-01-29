@@ -62,13 +62,13 @@
                 <div class="modal-body">
                     <form id="addToCartVestForm">
                         <input type="hidden" name="product_id" id="vestProductId">
-                        <div class="mb-3">
+                        <div class="mb-3" id="vestSizeWrapper">
                             <label class="form-label">Size</label>
-                            <select name="size" id="vestSizeSelect" class="form-select" required></select>
+                            <select name="size" id="vestSizeSelect" class="form-select"></select>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="vestColorWrapper">
                             <label class="form-label">Color</label>
-                            <select name="color" id="vestColorSelect" class="form-select" required></select>
+                            <select name="color" id="vestColorSelect" class="form-select"></select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Quantity</label>
@@ -175,19 +175,49 @@ function openAddToCartVestModal(productId, productName) {
         .then(data => {
             const sizeSelect = document.getElementById('vestSizeSelect');
             const colorSelect = document.getElementById('vestColorSelect');
-            
+            const sizeWrapper = document.getElementById('vestSizeWrapper');
+            const colorWrapper = document.getElementById('vestColorWrapper');
+
             // Deduplicate sizes and colors
             const uniqueSizes = [...new Set(data.sizes)];
             const uniqueColors = [...new Set(data.colors)];
-            
+
             sizeSelect.innerHTML = '';
             colorSelect.innerHTML = '';
-            uniqueSizes.forEach(s => {
-                sizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
-            });
-            uniqueColors.forEach(c => {
-                colorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
-            });
+
+            // Show size field if: required by ProductType OR multiple sizes exist
+            // This allows products to have optional size choices even if type doesn't require it
+            if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
+                sizeWrapper.style.display = 'block';
+                sizeSelect.required = true;
+                uniqueSizes.forEach(s => {
+                    sizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                });
+            } else {
+                sizeWrapper.style.display = 'none';
+                sizeSelect.required = false;
+                // Auto-select the only size if there is one
+                if (uniqueSizes.length === 1) {
+                    sizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
+                }
+            }
+
+            // Show color field if: required by ProductType OR multiple colors exist
+            if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
+                colorWrapper.style.display = 'block';
+                colorSelect.required = true;
+                uniqueColors.forEach(c => {
+                    colorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                });
+            } else {
+                colorWrapper.style.display = 'none';
+                colorSelect.required = false;
+                // Auto-select the only color if there is one
+                if (uniqueColors.length === 1) {
+                    colorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
+                }
+            }
+
             // Show modal
             const modal = new bootstrap.Modal(document.getElementById('addToCartVestModal'));
             modal.show();

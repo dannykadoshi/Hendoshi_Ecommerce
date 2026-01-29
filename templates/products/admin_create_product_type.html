@@ -38,9 +38,36 @@
                         {{ form.slug }}
                         {{ form.slug.errors }}
                     </div>
+
+                    <!-- Variant Requirements Section -->
+                    <div class="mb-4 mt-4">
+                        <h5 class="text-white mb-3"><i class="fas fa-cog me-2"></i>Variant Requirements</h5>
+                        <p class="text-muted small mb-3">Configure which options customers must select when adding products of this type to their cart.</p>
+
+                        <div class="form-check mb-2">
+                            {{ form.requires_size }}
+                            <label class="form-check-label text-white" for="{{ form.requires_size.id_for_label }}">
+                                <i class="fas fa-ruler me-1"></i> Requires Size Selection
+                            </label>
+                            {% if form.requires_size.help_text %}
+                            <small class="form-text text-muted d-block ms-4">{{ form.requires_size.help_text }}</small>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-check mb-2">
+                            {{ form.requires_color }}
+                            <label class="form-check-label text-white" for="{{ form.requires_color.id_for_label }}">
+                                <i class="fas fa-palette me-1"></i> Requires Color Selection
+                            </label>
+                            {% if form.requires_color.help_text %}
+                            <small class="form-text text-muted d-block ms-4">{{ form.requires_color.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+
                     <div class="d-flex justify-content-end">
                         <a href="{% url 'admin_list_product_types' %}" class="btn btn-outline-pink me-2">Cancel</a>
-                        <button class="btn btn-pink">Create</button>
+                        <button class="btn btn-pink">{% if product_type %}Update{% else %}Create{% endif %}</button>
                     </div>
                 </form>
             </div>

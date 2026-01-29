@@ -3,6 +3,10 @@
 
 {% block extra_title %}{{ product.name }}{% endblock %}
 
+{% block meta_description %}{% if product.meta_description %}{{ product.meta_description }}{% else %}{{ product.name }} - Metal-inspired apparel from HENDOSHI. Wear Your Weird with original skull, animal, and gym designs.{% endif %}{% endblock %}
+
+{% block meta_keywords %}{{ product.name }}, {{ product.collection.name }}, metal apparel, gothic clothing, alternative fashion, HENDOSHI{% endblock %}
+
 {% block extra_head %}
 <!-- Product-specific Open Graph meta tags -->
 <meta property="og:type" content="product">
@@ -147,8 +151,8 @@
                     <form method="post" action="{% url 'add_to_cart' product.id %}" id="addToCartForm" novalidate>
                         {% csrf_token %}
                         
-                        <!-- Size Selection -->
-                        {% if available_sizes %}
+                        <!-- Size Selection (show if required by ProductType OR multiple sizes exist) -->
+                        {% if requires_size and available_sizes or available_sizes|length > 1 %}
                         <div class="mb-4">
                             <label class="form-label product-label" for="size-select">Select Size <span class="required-star">*</span></label>
                             <select class="form-select product-dropdown" name="size" id="size-select" required>
@@ -160,9 +164,9 @@
                             <small class="form-help-text">Choose your preferred size</small>
                         </div>
                         {% endif %}
-                        
-                        <!-- Color Selection -->
-                        {% if available_colors %}
+
+                        <!-- Color Selection (show if required by ProductType OR multiple colors exist) -->
+                        {% if requires_color and available_colors or available_colors|length > 1 %}
                         <div class="mb-4">
                             <label class="form-label product-label" for="color-select">Select Color <span class="required-star">*</span></label>
                             <select class="form-select product-dropdown" name="color" id="color-select" required>
@@ -281,26 +285,26 @@
                         // AJAX form submission
                         function submitAddToCartForm() {
                             const form = document.getElementById('addToCartForm');
-                            
-                            // Get values from form elements
+
+                            // Get values from form elements (handle missing selectors)
                             const sizeSelect = document.getElementById('size-select');
                             const colorSelect = document.getElementById('color-select');
                             const quantityInput = document.getElementById('quantity');
-                            
-                            const size = sizeSelect.value;
-                            const color = colorSelect.value;
+
+                            const size = sizeSelect ? sizeSelect.value : '';
+                            const color = colorSelect ? colorSelect.value : '';
                             const quantity = quantityInput.value;
                             const productId = {{ product.id }};
-                            
+
                             // Show loading state
                             const submitBtn = form.querySelector('.add-to-cart-btn');
                             const originalText = submitBtn.innerHTML;
                             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
                             submitBtn.disabled = true;
-                            
+
                             // Get CSRF token from the form
                             const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-                            
+
                             fetch(`/cart/add/${productId}/`, {
                                 method: 'POST',
                                 headers: {

@@ -92,21 +92,28 @@ def add_to_cart(request, product_id):
     """
     if request.method == 'POST':
         product = get_object_or_404(Product, id=product_id, is_active=True)
-        size = request.POST.get('size')
-        color = request.POST.get('color')
+        size = request.POST.get('size') or None
+        color = request.POST.get('color') or None
         quantity = int(request.POST.get('quantity', 1))
 
         # Check if this is an AJAX request
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
-        # Validation
-        if not size:
+        # Check ProductType requirements
+        requires_size = True  # Default to requiring both
+        requires_color = True
+        if product.product_type:
+            requires_size = product.product_type.requires_size
+            requires_color = product.product_type.requires_color
+
+        # Validation - only validate if required by ProductType
+        if requires_size and not size:
             if is_ajax:
                 return JsonResponse({'success': False, 'message': 'Please select a size.'})
             messages.error(request, 'Please select a size before adding to cart.')
             return redirect('product_detail', slug=product.slug)
 
-        if not color:
+        if requires_color and not color:
             if is_ajax:
                 return JsonResponse({'success': False, 'message': 'Please select a color.'})
             messages.error(request, 'Please select a color before adding to cart.')
@@ -136,7 +143,16 @@ def add_to_cart(request, product_id):
             cart_item.save()
             message = f'Updated {product.name} quantity to {cart_item.quantity} in your cart.'
         else:
-            message = f'Added {product.name} ({size.upper()}, {color.title()}) to your cart!'
+            # Build message based on what variant info we have
+            variant_parts = []
+            if size:
+                variant_parts.append(size.upper())
+            if color:
+                variant_parts.append(color.title())
+            if variant_parts:
+                message = f'Added {product.name} ({", ".join(variant_parts)}) to your cart!'
+            else:
+                message = f'Added {product.name} to your cart!'
 
         # Return JSON for AJAX requests
         if is_ajax:
@@ -186,8 +202,8 @@ def add_to_cart(request, product_id):
                 'item': {
                     'name': product.name,
                     'image_url': product_image_url,
-                    'size': size.upper(),
-                    'color': color.title(),
+                    'size': size.upper() if size else '',
+                    'color': color.title() if color else '',
                     'quantity': quantity,
                     'price': float(product.base_price),
                     'total': float(product.base_price * quantity),

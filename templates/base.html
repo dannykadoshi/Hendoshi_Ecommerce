@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token }}">
         <meta name="description"
-              content="HENDOSHI - Wear Your Weird. Metal-inspired apparel with original skull, animal, and gym designs.">
+              content="{% block meta_description %}HENDOSHI - Wear Your Weird. Metal-inspired apparel with original skull, animal, and gym designs.{% endblock %}">
         <meta name="keywords"
-              content="metal apparel, gothic clothing, gym wear, unique t-shirts, alternative fashion">
+              content="{% block meta_keywords %}metal apparel, gothic clothing, gym wear, unique t-shirts, alternative fashion, skull designs, heavy metal merch{% endblock %}">
         <meta name="author" content="HENDOSHI">
         <!-- Open Graph / Social Media -->
         <meta property="og:type" content="website">
@@ -16,7 +16,7 @@
         <meta property="og:url" content="{{ request.build_absolute_uri }}">
         <meta property="og:title" content="HENDOSHI - Wear Your Weird">
         <meta property="og:description"
-              content="Metal-inspired apparel with original skull, animal, and gym designs. No filler, just killer.">
+              content="{% block og_description %}Metal-inspired apparel with original skull, animal, and gym designs. No filler, just killer.{% endblock %}">
         <meta property="og:image"
               content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/hendoshi-gothic-tee.png' %}">
         <meta property="og:image:width" content="1200">
@@ -27,7 +27,7 @@
         <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
         <meta name="twitter:title" content="HENDOSHI - Wear Your Weird">
         <meta name="twitter:description"
-              content="Metal-inspired apparel with original skull, animal, and gym designs.">
+              content="{% block twitter_description %}Metal-inspired apparel with original skull, animal, and gym designs.{% endblock %}">
         <meta name="twitter:image"
               content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/hendoshi-gothic-tee.png' %}">
         <title>HENDOSHI |
@@ -2084,7 +2084,19 @@
             document.getElementById('cartDrawerItemImage').src = data.item.image_url;
             document.getElementById('cartDrawerItemImage').alt = data.item.name;
             document.getElementById('cartDrawerItemName').textContent = data.item.name;
-            document.getElementById('cartDrawerItemVariant').textContent = `${data.item.size} / ${data.item.color}`;
+
+            // Build variant text (handle missing size/color)
+            const variantParts = [];
+            if (data.item.size) variantParts.push(data.item.size);
+            if (data.item.color) variantParts.push(data.item.color);
+            const variantElement = document.getElementById('cartDrawerItemVariant');
+            if (variantParts.length > 0) {
+                variantElement.textContent = variantParts.join(' / ');
+                variantElement.style.display = 'block';
+            } else {
+                variantElement.style.display = 'none';
+            }
+
             document.getElementById('cartDrawerItemQty').textContent = `Qty: ${data.item.quantity}`;
             document.getElementById('cartDrawerItemPrice').textContent = `€${data.item.total.toFixed(2)}`;
 

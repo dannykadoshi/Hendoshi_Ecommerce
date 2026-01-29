@@ -300,13 +300,13 @@
                                 <form id="quickAddFormUnified">
                                     {% csrf_token %}
                                     <input type="hidden" name="product_id" id="quickAddProductId">
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="quickAddSizeWrapper">
                                         <label class="form-label">Size</label>
-                                        <select name="size" id="quickAddSizeSelect" class="form-select" required></select>
+                                        <select name="size" id="quickAddSizeSelect" class="form-select"></select>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="quickAddColorWrapper">
                                         <label class="form-label">Color</label>
-                                        <select name="color" id="quickAddColorSelect" class="form-select" required></select>
+                                        <select name="color" id="quickAddColorSelect" class="form-select"></select>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Quantity</label>
@@ -371,6 +371,8 @@
                     const quickAddProductId = document.getElementById('quickAddProductId');
                     const quickAddSizeSelect = document.getElementById('quickAddSizeSelect');
                     const quickAddColorSelect = document.getElementById('quickAddColorSelect');
+                    const quickAddSizeWrapper = document.getElementById('quickAddSizeWrapper');
+                    const quickAddColorWrapper = document.getElementById('quickAddColorWrapper');
                     const quickAddQuantitySelect = document.getElementById('quickAddQuantitySelect');
                     const quickAddModalTitle = document.getElementById('quickAddModalTitle');
                     quickAddBtns.forEach(btn => {
@@ -387,17 +389,44 @@
                                 .then(data => {
                                     quickAddSizeSelect.innerHTML = '';
                                     quickAddColorSelect.innerHTML = '';
-                                    
+
                                     // Deduplicate sizes and colors
                                     const uniqueSizes = [...new Set(data.sizes)];
                                     const uniqueColors = [...new Set(data.colors)];
-                                    
-                                    uniqueSizes.forEach(s => {
-                                        quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
-                                    });
-                                    uniqueColors.forEach(c => {
-                                        quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
-                                    });
+
+                                    // Show size field if: required by ProductType OR multiple sizes exist
+                                    // This allows products to have optional size choices even if type doesn't require it
+                                    if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
+                                        quickAddSizeWrapper.style.display = 'block';
+                                        quickAddSizeSelect.required = true;
+                                        uniqueSizes.forEach(s => {
+                                            quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                                        });
+                                    } else {
+                                        quickAddSizeWrapper.style.display = 'none';
+                                        quickAddSizeSelect.required = false;
+                                        // Auto-select the only size if there is one
+                                        if (uniqueSizes.length === 1) {
+                                            quickAddSizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
+                                        }
+                                    }
+
+                                    // Show color field if: required by ProductType OR multiple colors exist
+                                    if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
+                                        quickAddColorWrapper.style.display = 'block';
+                                        quickAddColorSelect.required = true;
+                                        uniqueColors.forEach(c => {
+                                            quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                                        });
+                                    } else {
+                                        quickAddColorWrapper.style.display = 'none';
+                                        quickAddColorSelect.required = false;
+                                        // Auto-select the only color if there is one
+                                        if (uniqueColors.length === 1) {
+                                            quickAddColorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
+                                        }
+                                    }
+
                                     const modal = new bootstrap.Modal(quickAddModal);
                                     modal.show();
                                 })

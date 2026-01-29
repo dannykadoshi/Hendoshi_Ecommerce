@@ -56,15 +56,19 @@
                                     <a href="{% url 'product_detail' item.product.slug %}">{{ item.product.name }}</a>
                                 </h3>
                                 
+                                {% if item.size %}
                                 <div class="cart-item-specs">
                                     <span class="spec-label">Size:</span>
                                     <span class="spec-value">{{ item.size|upper }}</span>
                                 </div>
-                                
+                                {% endif %}
+
+                                {% if item.color %}
                                 <div class="cart-item-specs">
                                     <span class="spec-label">Color:</span>
                                     <span class="spec-value">{{ item.color|title }}</span>
                                 </div>
+                                {% endif %}
 
                                 <div class="cart-item-price">
                                     <span class="price-label">Price:</span>

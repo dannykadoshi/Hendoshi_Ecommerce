@@ -70,9 +70,11 @@
                                             </div>
                                             <div class="modal-body">
                                                 {% with sizes=product.get_available_sizes colors=product.get_available_colors %}
-                                                {% if sizes|length and colors|length %}
+                                                {% with requires_size=product.product_type.requires_size|default:True requires_color=product.product_type.requires_color|default:True %}
                                                     <form action="{% url 'add_to_cart' product.id %}" method="post">
                                                         {% csrf_token %}
+                                                        {# Show size if: required by ProductType OR multiple sizes exist #}
+                                                        {% if requires_size and sizes|length or sizes|length > 1 %}
                                                         <div class="mb-3">
                                                             <label class="form-label">Size</label>
                                                             <select name="size" class="form-select" required>
@@ -81,6 +83,9 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
+                                                        {% endif %}
+                                                        {# Show color if: required by ProductType OR multiple colors exist #}
+                                                        {% if requires_color and colors|length or colors|length > 1 %}
                                                         <div class="mb-3">
                                                             <label class="form-label">Color</label>
                                                             <select name="color" class="form-select" required>
@@ -89,18 +94,14 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
+                                                        {% endif %}
                                                         <div class="mb-3">
                                                             <label class="form-label">Quantity</label>
                                                             <input type="number" name="quantity" class="form-control" min="1" max="99" value="1" required>
                                                         </div>
                                                         <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
                                                     </form>
-                                                {% else %}
-                                                    <form action="{% url 'add_to_cart' product.id %}" method="post">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
-                                                    </form>
-                                                {% endif %}
+                                                {% endwith %}
                                                 {% endwith %}
                                             </div>
                                         </div>
