@@ -18,12 +18,18 @@ def index(request):
     # Get all collections and calculate their product counts
     all_collections = Collection.objects.all()
     for collection in all_collections:
-        product_count = collection.products.filter(is_active=True, is_archived=False).count()
+        products = collection.products.filter(is_active=True, is_archived=False)
+        product_count = products.count()
         if product_count > 0:  # Only show collections that have products
+            # Get most popular product (featured first, then most recently created)
+            hero_product = (products.filter(featured=True).first() or 
+                          products.order_by('-created_at').first())
+            
             collections_data.append({
                 'name': collection.name,
                 'slug': collection.slug,
-                'product_count': product_count
+                'product_count': product_count,
+                'hero_product': hero_product,
             })
 
     # Sort by product count (highest first), then by name

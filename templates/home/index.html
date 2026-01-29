@@ -251,8 +251,9 @@
                     <div class="collections-track" id="collections-track">
                     {% for collection in collections %}
                     <div class="collection-carousel-item">
-                        <div class="collection-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
+                        <div class="collection-card{% if collection.hero_product and collection.hero_product.main_image %} has-background-image{% endif %}" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'"{% if collection.hero_product and collection.hero_product.main_image %} style="background-image: url('{{ collection.hero_product.main_image.url }}'); background-size: cover; background-position: center;"{% endif %}>
                             <div class="collection-image">
+                                {% if not collection.hero_product or not collection.hero_product.main_image %}
                                 {% if collection.slug == 'skulls-death' %}
                                     <i class="fas fa-skull fa-4x"></i>
                                 {% elif collection.slug == 'weird-animals' %}
@@ -268,10 +269,10 @@
                                 {% else %}
                                     <i class="fas fa-palette fa-4x"></i>
                                 {% endif %}
+                                {% endif %}
                             </div>
                             <div class="collection-info">
                                 <h3>{{ collection.name }}</h3>
-                                <p>{{ collection.product_count }} Design{{ collection.product_count|pluralize }}</p>
                             </div>
                         </div>
                     </div>
