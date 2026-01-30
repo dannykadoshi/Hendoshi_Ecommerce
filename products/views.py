@@ -51,6 +51,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
+from hendoshi_store.cookies import CookieManager
 from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful, ReviewImage
 from .image_utils import optimize_product_images
 from .forms import (
@@ -277,16 +278,22 @@ def product_detail(request, slug):
         product = get_object_or_404(Product, slug=slug, is_active=True)
     else:
         product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
-    
+
+    # Track recently viewed products (if user has consented to preference cookies)
+    consent = CookieManager.get_cookie_consent(request)
+    if consent.get(CookieManager.PREFERENCES, False):
+        # Add to recently viewed (this will be handled in the response middleware)
+        pass  # We'll handle this in the template or middleware
+
     # Get available sizes and colors (remove duplicates)
     available_sizes = list(set(product.get_available_sizes()))
     available_colors = list(set(product.get_available_colors()))
-    
+
     # Sort sizes and colors for better display
     size_order = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl']
     available_sizes = sorted(available_sizes, key=lambda x: size_order.index(x.lower()) if x.lower() in size_order else 999)
     available_colors = sorted(available_colors)
-    
+
     # Get related products from same collection
     related_products = Product.objects.filter(
         collection=product.collection,
@@ -298,6 +305,16 @@ def product_detail(request, slug):
     requires_size = product.product_type.requires_size if product.product_type else True
     requires_color = product.product_type.requires_color if product.product_type else True
 
+    # Get recently viewed products for display
+    recently_viewed_ids = CookieManager.get_recently_viewed(request)
+    recently_viewed_products = []
+    if recently_viewed_ids:
+        recently_viewed_products = Product.objects.filter(
+            id__in=recently_viewed_ids[:6],  # Show up to 6 recently viewed
+            is_active=True,
+            is_archived=False
+        ).exclude(id=product.id)[:5]  # Exclude current product
+
     context = {
         'product': product,
         'available_sizes': available_sizes,
@@ -305,9 +322,16 @@ def product_detail(request, slug):
         'related_products': related_products,
         'requires_size': requires_size,
         'requires_color': requires_color,
+        'recently_viewed_products': recently_viewed_products,
     }
 
-    return render(request, 'products/product_detail.html', context)
+    response = render(request, 'products/product_detail.html', context)
+
+    # Add to recently viewed after rendering (so we can modify the response)
+    if consent.get(CookieManager.PREFERENCES, False):
+        CookieManager.add_recently_viewed(response, product.id)
+
+    return response
 
 
 def collection_detail(request, slug):

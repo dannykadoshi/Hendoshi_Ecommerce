@@ -516,6 +516,36 @@
         </div>
         {% endif %}
 
+        <!-- Recently Viewed Products -->
+        {% if recently_viewed_products and cookie_consent.preferences %}
+        <div class="recently-viewed-products mt-5">
+            <h2 class="text-center mb-4">Recently Viewed</h2>
+            <div class="row g-4">
+                {% for viewed_product in recently_viewed_products %}
+                <div class="col-md-3">
+                    <div class="product-card">
+                        <a href="{% url 'product_detail' viewed_product.slug %}">
+                            <div class="product-image">
+                                {% if viewed_product.main_image %}
+                                    <img src="{{ viewed_product.main_image.url }}" alt="{{ viewed_product.name }}">
+                                {% else %}
+                                    <div class="placeholder-image">
+                                        <i class="fas fa-image fa-2x"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ viewed_product.name }}</h3>
+                                <p class="product-price">€{{ viewed_product.base_price }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 </div>
 

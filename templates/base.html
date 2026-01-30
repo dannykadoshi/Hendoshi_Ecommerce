@@ -939,6 +939,9 @@
                             <li>
                                 <a href="{% url 'faq' %}">FAQ</a>
                             </li>
+                            <li>
+                                <a href="{% url 'cookie_settings' %}">Cookie Settings</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-md-3">
@@ -2424,5 +2427,8 @@
             });
         });
         </script>
+
+        <!-- Cookie Consent Banner -->
+        {% include 'cookies/cookie_consent.html' %}
     </body>
 </html>
