@@ -116,10 +116,11 @@ class HybridCloudinaryStorage(Storage):
                 # Fallback to local URL
                 return f"{settings.MEDIA_URL}{name}"
 
-            # Generate Cloudinary URL
+            # Generate Cloudinary URL with full URL (secure=True ensures https)
             url, _ = cloudinary.utils.cloudinary_url(
                 public_id,
-                format='auto',
+                secure=True,
+                fetch_format='auto',
                 quality='auto'
             )
 
