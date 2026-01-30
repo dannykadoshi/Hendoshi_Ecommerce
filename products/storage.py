@@ -95,17 +95,16 @@ class HybridCloudinaryStorage(Storage):
         if not name:
             return ''
 
-        # Ensure cloudinary is configured
-        _ensure_cloudinary_configured()
-
         try:
+            # Ensure cloudinary is configured
+            _ensure_cloudinary_configured()
+
             ext = os.path.splitext(name)[1].lower()
             image_extensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']
 
             # Determine the public_id for Cloudinary
             if ext in image_extensions:
-                # Has extension - could be legacy local file or incorrectly stored
-                # Strip extension to get Cloudinary public_id
+                # Has extension - strip it to get Cloudinary public_id
                 public_id = os.path.splitext(name)[0]
             else:
                 # No extension - this is a proper Cloudinary public_id
@@ -113,14 +112,9 @@ class HybridCloudinaryStorage(Storage):
 
             # Check if cloudinary is configured
             cloud_name = cloudinary.config().cloud_name
-            print(f"[CLOUDINARY url] name={name}, public_id={public_id}, cloud_name={cloud_name}", flush=True)
-
             if not cloud_name:
-                print(f"[CLOUDINARY url] ERROR: cloud_name is empty!", flush=True)
-                logger.error(f"Cloudinary not configured! Cannot generate URL for {name}")
-                if settings.DEBUG:
-                    return f"{settings.MEDIA_URL}{name}"
-                return ''
+                # Fallback to local URL
+                return f"{settings.MEDIA_URL}{name}"
 
             # Generate Cloudinary URL
             url, _ = cloudinary.utils.cloudinary_url(
@@ -129,27 +123,16 @@ class HybridCloudinaryStorage(Storage):
                 quality='auto'
             )
 
-            print(f"[CLOUDINARY url] Generated URL: {url}", flush=True)
-            logger.debug(f"Generated Cloudinary URL for {public_id}: {url}")
-
             if url:
                 return url
 
-            # Fallback to local URL (only useful in development)
-            print(f"[CLOUDINARY url] URL was empty, DEBUG={settings.DEBUG}", flush=True)
-            if settings.DEBUG:
-                return f"{settings.MEDIA_URL}{name}"
-
-            # In production without Cloudinary, log error
-            logger.error(f"Could not generate URL for {name}: cloudinary_url returned empty")
-            return ''
+            # Fallback to local URL
+            return f"{settings.MEDIA_URL}{name}"
 
         except Exception as e:
-            logger.error(f"Error generating URL for {name}: {e}", exc_info=True)
-            # Fallback to local in development only
-            if settings.DEBUG:
-                return f"{settings.MEDIA_URL}{name}"
-            return ''
+            logger.error(f"Error generating URL for {name}: {e}")
+            # Fallback to local URL on any error
+            return f"{settings.MEDIA_URL}{name}"
 
     def exists(self, name):
         """
