@@ -264,7 +264,15 @@ CLOUDINARY_STORAGE = {
 }
 
 # Use hybrid Cloudinary + local storage
-DEFAULT_FILE_STORAGE = 'products.storage.HybridCloudinaryStorage'
+# Django 4.2+ requires STORAGES dict instead of DEFAULT_FILE_STORAGE
+STORAGES = {
+    "default": {
+        "BACKEND": "products.storage.HybridCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 MEDIA_URL = '/media/'  # Local media URL for existing images
 
 # Stripe configuration
