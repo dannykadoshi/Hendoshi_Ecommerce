@@ -41,6 +41,10 @@ class HybridCloudinaryStorage(Storage):
         # Ensure cloudinary is configured
         _ensure_cloudinary_configured()
 
+        # Debug: Print to stdout so it shows in Render logs
+        print(f"[CLOUDINARY _save] Starting upload for: {name}", flush=True)
+        print(f"[CLOUDINARY _save] Cloud name: {cloudinary.config().cloud_name}", flush=True)
+
         try:
             # Reset file position to beginning (Django may have read it already)
             if hasattr(content, 'seek'):
@@ -50,6 +54,7 @@ class HybridCloudinaryStorage(Storage):
             # Remove extension for Cloudinary public_id
             public_id = os.path.splitext(name)[0]
 
+            print(f"[CLOUDINARY _save] Uploading with public_id: {public_id}", flush=True)
             logger.info(f"Uploading to Cloudinary: {public_id} (cloud: {cloudinary.config().cloud_name})")
 
             # Upload to Cloudinary
@@ -60,19 +65,23 @@ class HybridCloudinaryStorage(Storage):
                 resource_type='auto'
             )
 
+            print(f"[CLOUDINARY _save] Upload successful! public_id: {result['public_id']}", flush=True)
             logger.info(f"Cloudinary upload successful: {result['public_id']}")
             # Return the public_id (without extension) which Cloudinary uses
             return result['public_id']
         except Exception as e:
             # Log the error with full details
+            print(f"[CLOUDINARY _save] ERROR: {e}", flush=True)
             logger.error(f"Cloudinary upload failed for {name}: {e}", exc_info=True)
 
             # In production (DEBUG=False), don't fall back to local storage
             # because Render's filesystem is ephemeral and files won't persist
+            print(f"[CLOUDINARY _save] DEBUG={settings.DEBUG}", flush=True)
             if not settings.DEBUG:
                 raise Exception(f"Cloudinary upload failed: {e}. Local fallback disabled in production.")
 
             # In development, fall back to local storage
+            print(f"[CLOUDINARY _save] Falling back to local storage", flush=True)
             logger.warning(f"Falling back to local storage for {name}")
             return self.local_storage._save(name, content)
 
@@ -104,7 +113,10 @@ class HybridCloudinaryStorage(Storage):
 
             # Check if cloudinary is configured
             cloud_name = cloudinary.config().cloud_name
+            print(f"[CLOUDINARY url] name={name}, public_id={public_id}, cloud_name={cloud_name}", flush=True)
+
             if not cloud_name:
+                print(f"[CLOUDINARY url] ERROR: cloud_name is empty!", flush=True)
                 logger.error(f"Cloudinary not configured! Cannot generate URL for {name}")
                 if settings.DEBUG:
                     return f"{settings.MEDIA_URL}{name}"
@@ -117,12 +129,14 @@ class HybridCloudinaryStorage(Storage):
                 quality='auto'
             )
 
+            print(f"[CLOUDINARY url] Generated URL: {url}", flush=True)
             logger.debug(f"Generated Cloudinary URL for {public_id}: {url}")
 
             if url:
                 return url
 
             # Fallback to local URL (only useful in development)
+            print(f"[CLOUDINARY url] URL was empty, DEBUG={settings.DEBUG}", flush=True)
             if settings.DEBUG:
                 return f"{settings.MEDIA_URL}{name}"
 
