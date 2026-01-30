@@ -82,23 +82,21 @@ class HybridCloudinaryStorage(Storage):
                 public_id = name
 
             # Always try to generate Cloudinary URL first (works in production)
-            cloud_name = settings.CLOUDINARY_STORAGE.get('CLOUD_NAME')
-            if cloud_name:
-                url, _ = cloudinary.utils.cloudinary_url(
-                    public_id,
-                    cloud_name=cloud_name,
-                    format='auto',
-                    quality='auto'
-                )
-                if url:
-                    return url
+            # Use cloudinary's built-in config (from CLOUDINARY_URL or explicit config)
+            url, _ = cloudinary.utils.cloudinary_url(
+                public_id,
+                format='auto',
+                quality='auto'
+            )
+            if url:
+                return url
 
             # Fallback to local URL (only useful in development)
             if settings.DEBUG:
                 return f"{settings.MEDIA_URL}{name}"
 
             # In production without Cloudinary, log error
-            logger.error(f"Could not generate URL for {name}: No Cloudinary cloud_name configured")
+            logger.error(f"Could not generate URL for {name}: Cloudinary not configured")
             return ''
 
         except Exception as e:

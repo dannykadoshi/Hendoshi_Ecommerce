@@ -236,16 +236,29 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Cloudinary Configuration for Media Files
 import cloudinary
-cloudinary.config(
-    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
-    api_key=config('CLOUDINARY_API_KEY'),
-    api_secret=config('CLOUDINARY_API_SECRET'),
-)
+
+# Support both CLOUDINARY_URL format and individual variables
+CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
+
+if CLOUDINARY_URL:
+    # Parse CLOUDINARY_URL format: cloudinary://api_key:api_secret@cloud_name
+    # The cloudinary SDK auto-configures from CLOUDINARY_URL env var
+    cloudinary.config()
+    # Extract cloud_name from the URL for our settings
+    import re
+    match = re.search(r'@([^/]+)$', CLOUDINARY_URL)
+    CLOUDINARY_CLOUD_NAME = match.group(1) if match else ''
+else:
+    # Use individual environment variables
+    CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
+    cloudinary.config(
+        cloud_name=CLOUDINARY_CLOUD_NAME,
+        api_key=config('CLOUDINARY_API_KEY', default=''),
+        api_secret=config('CLOUDINARY_API_SECRET', default=''),
+    )
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': config('CLOUDINARY_API_KEY'),
-    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+    'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
 }
 
 # Use hybrid Cloudinary + local storage
