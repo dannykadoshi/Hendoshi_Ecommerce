@@ -263,7 +263,7 @@ class ProductVariant(models.Model):
     stock = models.IntegerField(default=0)
     
     # POD SKU (for Printify/Printful integration)
-    sku = models.CharField(max_length=50, unique=True, blank=True)
+    sku = models.CharField(max_length=100, unique=True, blank=True)
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -280,7 +280,9 @@ class ProductVariant(models.Model):
         """
         if not self.sku:
             # Build SKU based on available fields
-            sku_parts = [self.product.slug]
+            # Truncate product slug to prevent SKU from being too long
+            slug_part = self.product.slug[:30] if len(self.product.slug) > 30 else self.product.slug
+            sku_parts = [slug_part]
             if self.size:
                 sku_parts.append(self.size)
             if self.color:
