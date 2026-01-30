@@ -1,5 +1,6 @@
 import os
 import logging
+import cloudinary
 import cloudinary.uploader
 import cloudinary.utils
 from django.core.files.storage import Storage
@@ -7,6 +8,18 @@ from django.utils.deconstruct import deconstructible
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
+
+
+def _ensure_cloudinary_configured():
+    """Ensure cloudinary is configured from environment."""
+    if not cloudinary.config().cloud_name:
+        # Try to configure from CLOUDINARY_URL environment variable
+        cloudinary_url = os.environ.get('CLOUDINARY_URL', '')
+        if cloudinary_url:
+            cloudinary.config(cloudinary_url=cloudinary_url)
+            logger.info(f"Cloudinary configured with cloud: {cloudinary.config().cloud_name}")
+        else:
+            logger.error("CLOUDINARY_URL environment variable not set!")
 
 
 @deconstructible
@@ -25,6 +38,9 @@ class HybridCloudinaryStorage(Storage):
         Save file to Cloudinary.
         `name` is the path Django wants to save to (e.g., 'products/filename.png')
         """
+        # Ensure cloudinary is configured
+        _ensure_cloudinary_configured()
+
         try:
             # Reset file position to beginning (Django may have read it already)
             if hasattr(content, 'seek'):
@@ -33,6 +49,8 @@ class HybridCloudinaryStorage(Storage):
             # Use the full path as public_id (e.g., 'products/gallery/filename')
             # Remove extension for Cloudinary public_id
             public_id = os.path.splitext(name)[0]
+
+            logger.info(f"Uploading to Cloudinary: {public_id} (cloud: {cloudinary.config().cloud_name})")
 
             # Upload to Cloudinary
             result = cloudinary.uploader.upload(
@@ -68,6 +86,9 @@ class HybridCloudinaryStorage(Storage):
         if not name:
             return ''
 
+        # Ensure cloudinary is configured
+        _ensure_cloudinary_configured()
+
         try:
             ext = os.path.splitext(name)[1].lower()
             image_extensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']
@@ -81,13 +102,23 @@ class HybridCloudinaryStorage(Storage):
                 # No extension - this is a proper Cloudinary public_id
                 public_id = name
 
-            # Always try to generate Cloudinary URL first (works in production)
-            # Use cloudinary's built-in config (from CLOUDINARY_URL or explicit config)
+            # Check if cloudinary is configured
+            cloud_name = cloudinary.config().cloud_name
+            if not cloud_name:
+                logger.error(f"Cloudinary not configured! Cannot generate URL for {name}")
+                if settings.DEBUG:
+                    return f"{settings.MEDIA_URL}{name}"
+                return ''
+
+            # Generate Cloudinary URL
             url, _ = cloudinary.utils.cloudinary_url(
                 public_id,
                 format='auto',
                 quality='auto'
             )
+
+            logger.debug(f"Generated Cloudinary URL for {public_id}: {url}")
+
             if url:
                 return url
 
@@ -96,11 +127,11 @@ class HybridCloudinaryStorage(Storage):
                 return f"{settings.MEDIA_URL}{name}"
 
             # In production without Cloudinary, log error
-            logger.error(f"Could not generate URL for {name}: Cloudinary not configured")
+            logger.error(f"Could not generate URL for {name}: cloudinary_url returned empty")
             return ''
 
         except Exception as e:
-            logger.error(f"Error generating URL for {name}: {e}")
+            logger.error(f"Error generating URL for {name}: {e}", exc_info=True)
             # Fallback to local in development only
             if settings.DEBUG:
                 return f"{settings.MEDIA_URL}{name}"
