@@ -505,6 +505,16 @@
         
         <!-- Slide-in Mobile Menu -->
         <div class="mobile-menu" id="mobileMenu">
+            <!-- Menu Header with Logo and Close Button -->
+            <div class="mobile-menu-header">
+                <a href="{% url 'home' %}" class="menu-logo">
+                    <span class="logo-text">HEND<i class="fas fa-skull"></i>SHI</span>
+                </a>
+                <button class="menu-close-btn" id="mobileMenuClose" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
             <!-- Discount Code Section -->
             <div class="menu-discount-section">
                 <p class="discount-text">10% OFF on your First Order</p>
@@ -559,39 +569,39 @@
             <div class="menu-content-wrapper">
             <!-- Currency Submenu -->
             <div class="menu-submenu hidden" id="currencySubmenu">
-                <button class="submenu-back" data-back="main">&lt; Back</button>
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Currency</button>
                 <div class="submenu-content">
-                    <button class="submenu-item" data-currency="US">
+                    <button class="submenu-item submenu-item-animate" style="--item-index: 0;" data-currency="US">
                         <span>🇺🇸 United States</span>
                     </button>
-                    <button class="submenu-item" data-currency="EU">
+                    <button class="submenu-item submenu-item-animate" style="--item-index: 1;" data-currency="EU">
                         <span>🇪🇺 European Union</span>
                     </button>
                 </div>
             </div>
-            
+
             <!-- Account Submenu -->
             <div class="menu-submenu hidden" id="accountSubmenu">
-                <button class="submenu-back" data-back="main">&lt; Back</button>
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Account</button>
                 <div class="submenu-content">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}" class="submenu-item">
+                        <a href="{% url 'profile' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
                             <i class="fas fa-user-circle"></i> <span>Profile</span>
                         </a>
                         {% if user.is_staff %}
-                        <button class="submenu-item submenu-trigger" data-submenu="admin-panel">
+                        <button class="submenu-item submenu-trigger submenu-item-animate" style="--item-index: 1;" data-submenu="admin-panel">
                             <i class="fas fa-cog"></i> <span>Admin Panel</span>
-                            <span class="submenu-arrow">→</span>
+                            <i class="fas fa-chevron-right submenu-arrow-icon"></i>
                         </button>
                         {% endif %}
-                        <a href="{% url 'account_logout' %}" class="submenu-item">
+                        <a href="{% url 'account_logout' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;">
                             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                         </a>
                     {% else %}
-                        <a href="{% url 'account_login' %}" class="submenu-item">
+                        <a href="{% url 'account_login' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
                             <i class="fas fa-sign-in-alt"></i> <span>Login</span>
                         </a>
-                        <a href="{% url 'account_signup' %}" class="submenu-item">
+                        <a href="{% url 'account_signup' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;">
                             <i class="fas fa-user-plus"></i> <span>Sign Up</span>
                         </a>
                     {% endif %}
@@ -600,45 +610,45 @@
 
             <!-- Admin Panel Submenu -->
             <div class="menu-submenu hidden" id="submenuAdminPanel">
-                <button class="submenu-back" data-back="account">&lt; Admin Panel</button>
+                <button class="submenu-back" data-back="account"><i class="fas fa-chevron-left"></i> Admin Panel</button>
                 <div class="submenu-content">
-                    <a href="{% url 'admin:index' %}" class="submenu-item">
+                    <a href="{% url 'admin:index' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
                         <i class="fas fa-tachometer-alt"></i> <span>Django Dashboard</span>
                     </a>
-                    <a href="{% url 'admin_list_subscribers' %}" class="submenu-item">
+                    <a href="{% url 'admin_list_subscribers' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;">
                         <i class="fas fa-envelope"></i> <span>Newsletter Subscribers</span>
                     </a>
-                    <a href="{% url 'admin_list_products' %}" class="submenu-item">
+                    <a href="{% url 'admin_list_products' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;">
                         <i class="fas fa-boxes"></i> <span>Products Management</span>
                     </a>
-                    <a href="{% url 'admin_orders_list' %}" class="submenu-item">
+                    <a href="{% url 'admin_orders_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 3;">
                         <i class="fas fa-clipboard-list"></i> <span>Orders Management</span>
                     </a>
-                    <a href="{% url 'admin_discount_codes_list' %}" class="submenu-item">
+                    <a href="{% url 'admin_discount_codes_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 4;">
                         <i class="fas fa-tags"></i> <span>Discount Codes</span>
                     </a>
-                    <a href="{% url 'admin_shipping_list' %}" class="submenu-item">
+                    <a href="{% url 'admin_shipping_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 5;">
                         <i class="fas fa-shipping-fast"></i> <span>Shipping Rates</span>
                     </a>
-                    <a href="{% url 'admin_themes_list' %}" class="submenu-item">
+                    <a href="{% url 'admin_themes_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 6;">
                         <i class="fas fa-magic"></i> <span>Seasonal Themes</span>
                     </a>
-                    <button class="submenu-item submenu-trigger" data-submenu="moderation">
+                    <button class="submenu-item submenu-trigger submenu-item-animate" style="--item-index: 7;" data-submenu="moderation">
                         <i class="fas fa-gavel"></i> <span>Content Moderation</span>
-                        <span class="submenu-arrow">→</span>
+                        <i class="fas fa-chevron-right submenu-arrow-icon"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Moderation Submenu (mobile) -->
             <div class="menu-submenu hidden" id="submenuModeration">
-                <button class="submenu-back" data-back="admin-panel">&lt; Content Moderation</button>
+                <button class="submenu-back" data-back="admin-panel"><i class="fas fa-chevron-left"></i> Content Moderation</button>
                 <div class="submenu-content">
-                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item">
+                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
                         <i class="fas fa-star-half-alt"></i> <span>Review Moderation</span>
                     </a>
-                    <a href="{% url 'vault:moderate_photos' %}" class="submenu-item">
-                        <i class="fas fa-gavel"></i> <span>Vault Moderation</span>
+                    <a href="{% url 'vault:moderate_photos' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;">
+                        <i class="fas fa-camera"></i> <span>Vault Moderation</span>
                     </a>
                 </div>
             </div>
@@ -646,32 +656,44 @@
             <!-- Main Menu Items -->
             <div class="menu-main" id="menuMain">
                 <ul class="menu-items">
-                    <li class="menu-item-group">
-                        <button class="menu-item-header menu-item-trigger" data-submenu="collections">Collections</button>
-                        <button class="menu-item-arrow" data-submenu="collections">→</button>
+                    <li class="menu-item-group menu-item-animate" style="--item-index: 0;">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="collections">
+                            <i class="fas fa-layer-group menu-item-icon"></i> Collections
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="collections"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group">
-                        <button class="menu-item-header menu-item-trigger" data-submenu="product-type">Product Type</button>
-                        <button class="menu-item-arrow" data-submenu="product-type">→</button>
+                    <li class="menu-item-group menu-item-animate" style="--item-index: 1;">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="product-type">
+                            <i class="fas fa-tshirt menu-item-icon"></i> Product Type
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="product-type"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group" onclick="window.location.href='{% url 'sale' %}'">
-                        <span class="menu-item-header gradient-text-mobile">🔥 Sale</span>
-                        <button class="menu-item-arrow" disabled>→</button>
+                    <li class="menu-item-group menu-item-sale menu-item-animate" style="--item-index: 2;" onclick="window.location.href='{% url 'sale' %}'">
+                        <span class="menu-item-header">
+                            <i class="fas fa-fire-alt menu-item-icon sale-icon"></i> <span class="sale-text">Sale</span>
+                        </span>
+                        <button class="menu-item-arrow" disabled><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group" onclick="window.location.href='{% url 'new_drops' %}'">
-                        <span class="menu-item-header">New Drops</span>
-                        <button class="menu-item-arrow" disabled>→</button>
+                    <li class="menu-item-group menu-item-animate" style="--item-index: 3;" onclick="window.location.href='{% url 'new_drops' %}'">
+                        <span class="menu-item-header">
+                            <i class="fas fa-bolt menu-item-icon"></i> New Drops
+                        </span>
+                        <button class="menu-item-arrow" disabled><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group">
-                        <button class="menu-item-header menu-item-trigger" data-submenu="vault">The Vault</button>
-                        <button class="menu-item-arrow" data-submenu="vault">→</button>
+                    <li class="menu-item-group menu-item-animate" style="--item-index: 4;">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="vault">
+                            <i class="fas fa-gem menu-item-icon"></i> The Vault
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="vault"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group">
-                        <button class="menu-item-header menu-item-trigger" data-submenu="about">About</button>
-                        <button class="menu-item-arrow" data-submenu="about">→</button>
+                    <li class="menu-item-group menu-item-animate" style="--item-index: 5;">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="about">
+                            <i class="fas fa-info-circle menu-item-icon"></i> About
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="about"><i class="fas fa-chevron-right"></i></button>
                     </li>
                     <li class="menu-item-divider"></li>
-                    <li>
+                    <li class="menu-item-animate" style="--item-index: 6;">
                         <button class="menu-item menu-theme-toggle" id="mobileThemeToggle">
                             <i class="fas fa-moon"></i> <span>Dark Mode</span>
                         </button>
@@ -681,72 +703,91 @@
             
             <!-- Collections Submenu -->
             <div class="menu-submenu hidden" id="submenuCollections">
-                <button class="submenu-back" data-back="main">&lt; Collections</button>
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Collections</button>
                 <div class="submenu-content">
-                    <a href="{% url 'products' %}" class="submenu-item">All Products</a>
+                    <a href="{% url 'products' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-th-large"></i> All Products</a>
                     {% if site_collections %}
                         {% for c in site_collections %}
-                            <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item">{{ c.name }}</a>
+                            <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter }};"><i class="fas fa-folder"></i> {{ c.name }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item">Skulls & Death</a>
-                        <a href="{% url 'collection_detail' 'weird-animals' %}" class="submenu-item">Weird Animals</a>
-                        <a href="{% url 'collection_detail' 'gym-therapy' %}" class="submenu-item">Gym Therapy</a>
-                        <a href="{% url 'collection_detail' 'dark-humor' %}" class="submenu-item">Dark Humor</a>
+                        <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-skull"></i> Skulls & Death</a>
+                        <a href="{% url 'collection_detail' 'weird-animals' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-paw"></i> Weird Animals</a>
+                        <a href="{% url 'collection_detail' 'gym-therapy' %}" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-dumbbell"></i> Gym Therapy</a>
+                        <a href="{% url 'collection_detail' 'dark-humor' %}" class="submenu-item submenu-item-animate" style="--item-index: 4;"><i class="fas fa-laugh-squint"></i> Dark Humor</a>
                     {% endif %}
                 </div>
             </div>
             
             <!-- Product Type Submenu -->
             <div class="menu-submenu hidden" id="submenuProductType">
-                <button class="submenu-back" data-back="main">&lt; Product Type</button>
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Product Type</button>
                 <div class="submenu-content">
                     {% if site_product_types %}
                         {% for t in site_product_types %}
-                            <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item">{{ t.name }}</a>
+                            <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter0 }};"><i class="fas fa-tag"></i> {{ t.name }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'products' %}?type=tshirt" class="submenu-item">T-Shirts</a>
-                        <a href="{% url 'products' %}?type=hoodie" class="submenu-item">Hoodies</a>
-                        <a href="{% url 'products' %}?type=sticker" class="submenu-item">Stickers</a>
-                        <a href="{% url 'products' %}?type=accessory" class="submenu-item">Accessories</a>
+                        <a href="{% url 'products' %}?type=tshirt" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-tshirt"></i> T-Shirts</a>
+                        <a href="{% url 'products' %}?type=hoodie" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-mitten"></i> Hoodies</a>
+                        <a href="{% url 'products' %}?type=sticker" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-sticky-note"></i> Stickers</a>
+                        <a href="{% url 'products' %}?type=accessory" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-ring"></i> Accessories</a>
                     {% endif %}
                 </div>
             </div>
             
             <!-- The Vault Submenu -->
             <div class="menu-submenu hidden" id="submenuVault">
-                <button class="submenu-back" data-back="main">&lt; The Vault</button>
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> The Vault</button>
                 <div class="submenu-content">
-                    <a href="{% url 'vault:vault_gallery' %}" class="submenu-item"><i class="fas fa-images"></i> Community Gallery</a>
-                    <button class="submenu-item submenu-trigger" data-submenu="hall-of-fame">
-                        <i class="fas fa-trophy"></i> Hall of Fame
-                        <span class="submenu-arrow">→</span>
+                    <a href="{% url 'vault:vault_gallery' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-images"></i> Community Gallery</a>
+                    <button class="submenu-item submenu-trigger submenu-item-animate" style="--item-index: 1;" data-submenu="hall-of-fame">
+                        <i class="fas fa-trophy"></i> <span>Hall of Fame</span>
+                        <i class="fas fa-chevron-right submenu-arrow-icon"></i>
                     </button>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'vault:submit_photo' %}" class="submenu-item"><i class="fas fa-plus"></i> Submit Photo</a>
+                    <a href="{% url 'vault:submit_photo' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-camera"></i> Submit Photo</a>
                     {% endif %}
                 </div>
             </div>
-            
+
             <!-- Hall of Fame Submenu -->
             <div class="menu-submenu hidden" id="submenuHallOfFame">
-                <button class="submenu-back" data-back="vault">&lt; Hall of Fame</button>
+                <button class="submenu-back" data-back="vault"><i class="fas fa-chevron-left"></i> Hall of Fame</button>
                 <div class="submenu-content">
-                    <a href="{% url 'vault:hall_of_fame_overview' %}" class="submenu-item"><i class="fas fa-info-circle"></i> What Makes a Legend</a>
-                    <a href="{% url 'vault:hall_of_fame' %}" class="submenu-item"><i class="fas fa-star"></i> Legendary Photos</a>
+                    <a href="{% url 'vault:hall_of_fame_overview' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-info-circle"></i> What Makes a Legend</a>
+                    <a href="{% url 'vault:hall_of_fame' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-crown"></i> Legendary Photos</a>
                 </div>
             </div>
-            
+
             <!-- About Submenu -->
             <div class="menu-submenu hidden" id="submenuAbout">
-                <button class="submenu-back" data-back="main">&lt; About</button>
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> About</button>
                 <div class="submenu-content">
-                    <a href="{% url 'about' %}" class="submenu-item">Our Story</a>
-                    <a href="{% url 'contact' %}" class="submenu-item">Contact Us</a>
+                    <a href="{% url 'about' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-book-open"></i> Our Story</a>
+                    <a href="{% url 'contact' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-envelope"></i> Contact Us</a>
                 </div>
             </div>
             </div> <!-- End menu-content-wrapper -->
+
+            <!-- Social Links Footer -->
+            <div class="menu-footer">
+                <div class="menu-social-links">
+                    <a href="https://instagram.com/hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://twitter.com/hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://pinterest.com/hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="Pinterest">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+                <p class="menu-copyright">&copy; {% now "Y" %} Hendoshi</p>
+            </div>
         </div>
         
         <!-- Mobile Menu Overlay -->
@@ -990,6 +1031,7 @@
                 const navBurger = document.getElementById('navBurger');
                 const mobileMenu = document.getElementById('mobileMenu');
                 const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+                const mobileMenuClose = document.getElementById('mobileMenuClose');
                 const currencySwitcher = document.getElementById('currencySwitcher');
                 const mobileThemeToggle = document.getElementById('mobileThemeToggle');
                 const mobileSearchToggle = document.getElementById('mobileSearchToggle');
@@ -997,7 +1039,7 @@
                 const menuArrows = document.querySelectorAll('.menu-item-arrow');
                 const menuTriggers = document.querySelectorAll('.menu-item-trigger');
                 const submenuBackButtons = document.querySelectorAll('.submenu-back');
-                
+
                 // Toggle mobile menu
                 function toggleMobileMenu() {
                     navBurger.classList.toggle('active');
@@ -1005,9 +1047,20 @@
                     mobileMenuOverlay.classList.toggle('active');
                     document.body.classList.toggle('menu-open');
                 }
-                
+
+                // Close mobile menu (for close button)
+                function closeMobileMenu() {
+                    navBurger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+
                 navBurger.addEventListener('click', toggleMobileMenu);
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+                if (mobileMenuClose) {
+                    mobileMenuClose.addEventListener('click', closeMobileMenu);
+                }
                                 // Mobile search toggle (in burger menu)
                                 if (mobileSearchToggle && mobileSearchBox) {
                                     mobileSearchToggle.addEventListener('click', function(e) {

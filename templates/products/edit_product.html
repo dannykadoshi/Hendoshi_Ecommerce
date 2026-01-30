@@ -294,65 +294,69 @@
                         <!-- Add New Variants Section -->
                         <div class="add-variants-section">
                             <h5 class="mb-3"><i class="fas fa-plus-circle me-2"></i>Add New Variants</h5>
-                            <p class="helper-text mb-4">Select sizes and colors to quickly add new variant combinations</p>
+                            <p class="helper-text mb-4">Select additional sizes and colors to create new variant combinations. Already existing combinations will be skipped.</p>
 
                             <div class="variant-selection-container">
                                 <!-- Sizes Selection -->
                                 <div class="variant-group mb-4">
                                     <label class="form-label variant-group-label">
-                                        <i class="fas fa-ruler me-2"></i>Sizes to Add
+                                        <i class="fas fa-ruler me-2"></i>Available Sizes
                                     </label>
                                     <div class="variant-toggles" id="sizesToggles">
                                         <ul>
                                             {% for value, label in variant_selection_form.sizes.field.choices %}
                                             <li>
-                                                <label>
+                                                <label {% if value in existing_sizes %}class="existing-variant"{% endif %}>
                                                     <input type="checkbox" name="sizes" value="{{ value }}"
-                                                        {% if value in variant_selection_form.sizes.value %}checked{% endif %}>
+                                                        {% if value in existing_sizes %}checked{% endif %}>
                                                     {{ label }}
+                                                    {% if value in existing_sizes %}<span class="variant-exists-badge">In Use</span>{% endif %}
                                                 </label>
                                             </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
+                                    <small class="helper-text d-block mt-2"><i class="fas fa-info-circle me-1"></i>Sizes marked "In Use" already have variants</small>
                                 </div>
 
                                 <!-- Colors Selection -->
                                 <div class="variant-group mb-4">
                                     <label class="form-label variant-group-label">
-                                        <i class="fas fa-palette me-2"></i>Colors to Add
+                                        <i class="fas fa-palette me-2"></i>Available Colors
                                     </label>
                                     <div class="variant-toggles" id="colorToggles">
                                         <ul>
                                             {% for value, label in variant_selection_form.colors.field.choices %}
                                             <li>
-                                                <label>
+                                                <label {% if value in existing_colors %}class="existing-variant"{% endif %}>
                                                     <input type="checkbox" name="colors" value="{{ value }}"
-                                                        {% if value in variant_selection_form.colors.value %}checked{% endif %}>
+                                                        {% if value in existing_colors %}checked{% endif %}>
                                                     {{ label }}
+                                                    {% if value in existing_colors %}<span class="variant-exists-badge">In Use</span>{% endif %}
                                                 </label>
                                             </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
+                                    <small class="helper-text d-block mt-2"><i class="fas fa-info-circle me-1"></i>Colors marked "In Use" already have variants</small>
                                 </div>
 
                                 <!-- Default Stock -->
                                 <div class="variant-group mb-4">
                                     <label class="form-label variant-group-label" for="{{ variant_selection_form.default_stock.id_for_label }}">
-                                        <i class="fas fa-boxes me-2"></i>Stock for New Variants
+                                        <i class="fas fa-boxes me-2"></i>Default Stock for New Variants
                                     </label>
                                     {{ variant_selection_form.default_stock }}
-                                    <small class="helper-text d-block mt-2">Stock quantity for newly added variants (existing variants not affected)</small>
+                                    <small class="helper-text d-block mt-2">This stock will be applied to newly created size/color combinations only</small>
                                 </div>
 
                                 <!-- Preview -->
-                                <div class="variant-preview" id="variantPreview">
+                                <div class="variant-preview mt-4" id="variantPreview">
                                     <label class="form-label variant-group-label">
-                                        <i class="fas fa-eye me-2"></i>New Variants Preview
+                                        <i class="fas fa-eye me-2"></i>Variants Preview
                                     </label>
                                     <div class="variant-preview-list" id="variantPreviewList">
-                                        <p class="text-muted">Select sizes and/or colors to add new variants</p>
+                                        <p class="text-muted">Select sizes and/or colors above to see variant combinations</p>
                                     </div>
                                 </div>
                             </div>
@@ -1675,6 +1679,36 @@ document.addEventListener('DOMContentLoaded', function() {
     font-size: 0.7rem;
     color: var(--electric-yellow);
     margin-left: 0.5rem;
+}
+
+/* Existing Variant Badge */
+.variant-exists-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    background: rgba(40, 167, 69, 0.2);
+    border: 1px solid rgba(40, 167, 69, 0.5);
+    border-radius: 4px;
+    color: #28a745;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.variant-toggles li label.existing-variant {
+    border-color: rgba(40, 167, 69, 0.4);
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.variant-toggles li label.existing-variant:has(input:checked) {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.2);
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+}
+
+.variant-toggles li label.existing-variant:has(input:checked)::after {
+    color: #28a745;
 }
 
 /* Variant Preview */

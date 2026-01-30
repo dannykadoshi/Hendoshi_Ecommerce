@@ -439,6 +439,7 @@ def edit_product(request, slug):
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES, instance=product)
         variant_formset = ProductVariantFormSet(request.POST, instance=product)
+        variant_selection_form = VariantSelectionForm(request.POST)
         image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
         # Handle design story
         try:
@@ -447,9 +448,28 @@ def edit_product(request, slug):
             design_story_instance = None
         design_form = DesignStoryForm(request.POST, instance=design_story_instance)
 
-        if product_form.is_valid() and variant_formset.is_valid() and image_formset.is_valid() and design_form.is_valid():
+        if product_form.is_valid() and variant_formset.is_valid() and variant_selection_form.is_valid() and image_formset.is_valid() and design_form.is_valid():
             product = product_form.save()
             variant_formset.save()
+            
+            # Handle new variants from selection form
+            if variant_selection_form.is_valid():
+                variants_data = variant_selection_form.generate_variants_data()
+                for variant_data in variants_data:
+                    # Check if this variant combination already exists
+                    existing_variant = ProductVariant.objects.filter(
+                        product=product,
+                        size=variant_data['size'],
+                        color=variant_data['color']
+                    ).first()
+                    if not existing_variant:
+                        ProductVariant.objects.create(
+                            product=product,
+                            size=variant_data['size'],
+                            color=variant_data['color'],
+                            stock=variant_data['stock']
+                        )
+            
             image_formset.save()
 
             # Save design story
@@ -501,6 +521,7 @@ def edit_product(request, slug):
     else:
         product_form = ProductForm(instance=product)
         variant_formset = ProductVariantFormSet(instance=product)
+        variant_selection_form = VariantSelectionForm()
         image_formset = ProductImageFormSet(instance=product)
         try:
             design_story_instance = product.design_story
@@ -508,12 +529,19 @@ def edit_product(request, slug):
             design_story_instance = None
         design_form = DesignStoryForm(instance=design_story_instance)
 
+    # Get existing sizes and colors for the template
+    existing_sizes = list(product.variants.values_list('size', flat=True).distinct())
+    existing_colors = list(product.variants.values_list('color', flat=True).distinct())
+
     context = {
         'product': product,
         'product_form': product_form,
         'variant_formset': variant_formset,
+        'variant_selection_form': variant_selection_form,
         'image_formset': image_formset,
         'design_form': design_form,
+        'existing_sizes': existing_sizes,
+        'existing_colors': existing_colors,
         'page_title': f'Edit {product.name}',
         'is_create': False,
     }
