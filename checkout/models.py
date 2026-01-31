@@ -107,8 +107,8 @@ class OrderItem(models.Model):
     """
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    size = models.CharField(max_length=10)
-    color = models.CharField(max_length=50)
+    size = models.CharField(max_length=10, blank=True, null=True)
+    color = models.CharField(max_length=50, blank=True, null=True)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
