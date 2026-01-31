@@ -1796,37 +1796,15 @@
                     const scrollThreshold = 100; // Start hiding after 100px scroll
 
                     if (currentScrollY > scrollThreshold) {
-                        if (currentScrollY > lastScrollY && !isHidden) {
-                            // Scrolling down - hide banner (use class so transition runs)
+                        // Scrolled past threshold - hide banner
+                        if (!isHidden) {
                             discountBanner.classList.add('banner-hidden');
-
-                            // After transition, remove from flow so it can't overlap the navbar
-                            setTimeout(() => {
-                                if (discountBanner.classList.contains('banner-hidden')) {
-                                    discountBanner.style.display = 'none';
-                                }
-                            }, 420);
-
-                            // Use CSS class on navbar (keeps responsive behaviour consistent)
                             if (navbar) navbar.classList.add('banner-dismissed');
-
                             isHidden = true;
-                        } else if (currentScrollY < lastScrollY && isHidden) {
-                            // Scrolling up - show banner
-                            // Make sure it's displayed then remove hidden class so transition shows
-                            discountBanner.style.display = '';
-                            // Force reflow for transition to restart
-                            void discountBanner.offsetWidth;
-                            discountBanner.classList.remove('banner-hidden');
-
-                            if (navbar) navbar.classList.remove('banner-dismissed');
-                            isHidden = false;
                         }
                     } else {
-                        // Near top - always show
+                        // Near top - show banner
                         if (isHidden) {
-                            discountBanner.style.display = '';
-                            void discountBanner.offsetWidth;
                             discountBanner.classList.remove('banner-hidden');
                             if (navbar) navbar.classList.remove('banner-dismissed');
                             isHidden = false;

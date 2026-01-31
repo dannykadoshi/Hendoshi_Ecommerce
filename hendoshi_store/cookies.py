@@ -91,9 +91,9 @@ class CookieManager:
         return {}
 
     @staticmethod
-    def add_recently_viewed(response, product_id, max_items=10):
+    def add_recently_viewed(response, request, product_id, max_items=10):
         """Add product to recently viewed list"""
-        recently_viewed = CookieManager.get_recently_viewed_from_response(response)
+        recently_viewed = CookieManager.get_recently_viewed(request)
         if product_id in recently_viewed:
             recently_viewed.remove(product_id)
         recently_viewed.insert(0, product_id)

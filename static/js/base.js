@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const collectionsItems = collectionsTrack.children;
-    const itemWidth = 280 + 24; // item width + gap
+    const itemWidth = 210 + 24; // item width + gap
     let currentIndex = 0;
     const totalItems = collectionsItems.length;
     // Force max 3 visible items for better UX, always scrollable
@@ -546,7 +546,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let relatedMaxIndex = Math.max(0, totalRelatedItems - relatedVisibleItems);
 
     function updateRelatedProductsCarousel() {
-        const translateX = -relatedCurrentIndex * (280 + 24); // 280px item width + 24px gap
+        const itemWidth = relatedProductItems[0] ? relatedProductItems[0].offsetWidth + 24 : 234; // item width + gap
+        const translateX = -relatedCurrentIndex * itemWidth;
         relatedProductsTrack.style.transform = `translateX(${translateX}px)`;
     }
 
@@ -559,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function() {
             relatedCurrentIndex = 0;
             updateRelatedProductsCarousel();
         }
-        resetRelatedAutoPlay();
+        // Auto-play disabled
     }
 
     function prevRelatedProductsSlide() {
@@ -571,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
             relatedCurrentIndex = relatedMaxIndex;
             updateRelatedProductsCarousel();
         }
-        resetRelatedAutoPlay();
+        // Auto-play disabled
     }
 
     // Event listeners for navigation buttons
@@ -596,12 +597,12 @@ document.addEventListener('DOMContentLoaded', function() {
         startRelatedAutoPlay();
     }
 
-    // Pause auto-play on hover over carousel container
-    const relatedCarouselContainer = relatedProductsTrack.closest('.related-products-carousel');
-    if (relatedCarouselContainer) {
-        relatedCarouselContainer.addEventListener('mouseenter', stopRelatedAutoPlay);
-        relatedCarouselContainer.addEventListener('mouseleave', startRelatedAutoPlay);
-    }
+    // Pause auto-play on hover over carousel container (disabled)
+    // const relatedCarouselContainer = relatedProductsTrack.closest('.related-products-carousel');
+    // if (relatedCarouselContainer) {
+    //     relatedCarouselContainer.addEventListener('mouseenter', stopRelatedAutoPlay);
+    //     relatedCarouselContainer.addEventListener('mouseleave', startRelatedAutoPlay);
+    // }
 
     // Clear interval when page unloads
     window.addEventListener('beforeunload', stopRelatedAutoPlay);
@@ -621,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const relatedCurrentX = e.touches[0].clientX;
         const relatedDiff = relatedStartX - relatedCurrentX;
 
-        if (Math.abs(relatedDiff) > 50) {
+        if (Math.abs(relatedDiff) > 30) {
             if (relatedDiff > 0) {
                 nextRelatedProductsSlide();
             } else {
@@ -662,6 +663,142 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update on window resize
     window.addEventListener('resize', updateRelatedVisibleItems);
 
-    // Start auto-play
-    startRelatedAutoPlay();
+    // Auto-play disabled - manual navigation only
+});
+
+// Recently Viewed Products Carousel Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const recentlyViewedTrack = document.getElementById('recently-viewed-products-track');
+    const recentlyViewedPrev = document.getElementById('recently-viewed-products-prev');
+    const recentlyViewedNext = document.getElementById('recently-viewed-products-next');
+
+    if (!recentlyViewedTrack || !recentlyViewedPrev || !recentlyViewedNext) {
+        return; // Exit if elements don't exist
+    }
+
+    const recentlyViewedItems = recentlyViewedTrack.children;
+    const totalRecentlyViewedItems = recentlyViewedItems.length;
+    let recentlyViewedCurrentIndex = 0;
+    let recentlyViewedVisibleItems = 3; // Default for desktop
+    let recentlyViewedMaxIndex = Math.max(0, totalRecentlyViewedItems - recentlyViewedVisibleItems);
+
+    function updateRecentlyViewedCarousel() {
+        const itemWidth = recentlyViewedItems[0] ? recentlyViewedItems[0].offsetWidth + 24 : 234; // item width + gap
+        const translateX = -recentlyViewedCurrentIndex * itemWidth;
+        recentlyViewedTrack.style.transform = `translateX(${translateX}px)`;
+    }
+
+    function nextRecentlyViewedSlide() {
+        if (recentlyViewedCurrentIndex < recentlyViewedMaxIndex) {
+            recentlyViewedCurrentIndex++;
+            updateRecentlyViewedCarousel();
+        } else {
+            // Loop back to start
+            recentlyViewedCurrentIndex = 0;
+            updateRecentlyViewedCarousel();
+        }
+        // Auto-play disabled
+    }
+
+    function prevRecentlyViewedSlide() {
+        if (recentlyViewedCurrentIndex > 0) {
+            recentlyViewedCurrentIndex--;
+            updateRecentlyViewedCarousel();
+        } else {
+            // Loop to end
+            recentlyViewedCurrentIndex = recentlyViewedMaxIndex;
+            updateRecentlyViewedCarousel();
+        }
+        // Auto-play disabled
+    }
+
+    // Event listeners for navigation buttons
+    recentlyViewedNext.addEventListener('click', nextRecentlyViewedSlide);
+    recentlyViewedPrev.addEventListener('click', prevRecentlyViewedSlide);
+
+    // Auto-play functionality for recently viewed products
+    let recentlyViewedAutoPlayInterval;
+    const recentlyViewedAutoPlayDelay = 5000; // Auto-advance every 5 seconds
+
+    function startRecentlyViewedAutoPlay() {
+        clearInterval(recentlyViewedAutoPlayInterval);
+        recentlyViewedAutoPlayInterval = setInterval(nextRecentlyViewedSlide, recentlyViewedAutoPlayDelay);
+    }
+
+    function stopRecentlyViewedAutoPlay() {
+        clearInterval(recentlyViewedAutoPlayInterval);
+    }
+
+    function resetRecentlyViewedAutoPlay() {
+        stopRecentlyViewedAutoPlay();
+        startRecentlyViewedAutoPlay();
+    }
+
+    // Pause auto-play on hover over carousel container (disabled)
+    // const recentlyViewedCarouselContainer = recentlyViewedTrack.closest('.recently-viewed-products-carousel');
+    // if (recentlyViewedCarouselContainer) {
+    //     recentlyViewedCarouselContainer.addEventListener('mouseenter', stopRecentlyViewedAutoPlay);
+    //     recentlyViewedCarouselContainer.addEventListener('mouseleave', startRecentlyViewedAutoPlay);
+    // }
+
+    // Clear interval when page unloads
+    window.addEventListener('beforeunload', stopRecentlyViewedAutoPlay);
+
+    // Touch/swipe support for mobile
+    let recentlyViewedStartX = 0;
+    let recentlyViewedIsDragging = false;
+
+    recentlyViewedTrack.addEventListener('touchstart', (e) => {
+        recentlyViewedStartX = e.touches[0].clientX;
+        recentlyViewedIsDragging = true;
+        stopRecentlyViewedAutoPlay();
+    });
+
+    recentlyViewedTrack.addEventListener('touchmove', (e) => {
+        if (!recentlyViewedIsDragging) return;
+        const recentlyViewedCurrentX = e.touches[0].clientX;
+        const recentlyViewedDiff = recentlyViewedStartX - recentlyViewedCurrentX;
+
+        if (Math.abs(recentlyViewedDiff) > 30) {
+            if (recentlyViewedDiff > 0) {
+                nextRecentlyViewedSlide();
+            } else {
+                prevRecentlyViewedSlide();
+            }
+            recentlyViewedIsDragging = false;
+        }
+    });
+
+    recentlyViewedTrack.addEventListener('touchend', () => {
+        recentlyViewedIsDragging = false;
+        resetRecentlyViewedAutoPlay();
+    });
+
+    // Update visible items based on screen size
+    function updateRecentlyViewedVisibleItems() {
+        const screenWidth = window.innerWidth;
+        if (screenWidth <= 480) {
+            recentlyViewedVisibleItems = 1;
+        } else if (screenWidth <= 768) {
+            recentlyViewedVisibleItems = 2;
+        } else {
+            recentlyViewedVisibleItems = 3;
+        }
+        recentlyViewedMaxIndex = Math.max(0, totalRecentlyViewedItems - recentlyViewedVisibleItems);
+
+        if (recentlyViewedCurrentIndex > recentlyViewedMaxIndex) {
+            recentlyViewedCurrentIndex = recentlyViewedMaxIndex;
+        }
+
+        updateRecentlyViewedCarousel();
+    }
+
+    // Initialize carousel
+    updateRecentlyViewedVisibleItems();
+    updateRecentlyViewedCarousel();
+
+    // Update on window resize
+    window.addEventListener('resize', updateRecentlyViewedVisibleItems);
+
+    // Auto-play disabled - manual navigation only
 });

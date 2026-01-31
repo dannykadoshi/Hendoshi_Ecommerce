@@ -294,10 +294,20 @@ def product_detail(request, slug):
     available_sizes = sorted(available_sizes, key=lambda x: size_order.index(x.lower()) if x.lower() in size_order else 999)
     available_colors = sorted(available_colors)
 
-    # Get related products from same collection
+    # Get bestsellers based on total quantity sold
+    from django.db.models import Sum
+    from checkout.models import OrderItem
+    
+    # Get products ordered by total sales quantity
+    bestseller_ids = OrderItem.objects.values('product').annotate(
+        total_sold=Sum('quantity')
+    ).order_by('-total_sold').values_list('product', flat=True)[:10]
+    
+    # Get the actual product objects, excluding the current product
     related_products = Product.objects.filter(
-        collection=product.collection,
-        is_active=True
+        id__in=bestseller_ids,
+        is_active=True,
+        is_archived=False
     ).exclude(id=product.id)[:4]
 
     # Determine variant requirements from ProductType
@@ -329,7 +339,7 @@ def product_detail(request, slug):
 
     # Add to recently viewed after rendering (so we can modify the response)
     if consent.get(CookieManager.PREFERENCES, False):
-        CookieManager.add_recently_viewed(response, product.id)
+        CookieManager.add_recently_viewed(response, request, product.id)
 
     return response
 

@@ -98,7 +98,37 @@
             <div class="col-md-6">
                 <div class="product-details">
 
-                    <div class="d-flex align-items-center justify-content-between mb-3">
+                    <!-- Brand and Rating Header -->
+                    <div class="product-header d-flex align-items-center justify-content-between mb-2" style="margin-top: -0.5rem;">
+                        <div class="brand-name">
+                            <span class="brand-text">HENDOSHI</span>
+                        </div>
+                        <div class="product-rating">
+                            {% with reviews=product.reviews.all %}
+                                {% if reviews %}
+                                    <div class="rating-summary">
+                                        <div class="stars">
+                                            {% for i in "12345"|make_list %}
+                                                <i class="fas fa-star{% if forloop.counter <= product.average_rating %} filled{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <span class="rating-count">({{ reviews|length }} reviews)</span>
+                                    </div>
+                                {% else %}
+                                    <div class="no-reviews">
+                                        <div class="stars">
+                                            {% for i in "12345"|make_list %}
+                                                <i class="far fa-star"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <span class="rating-count">(No reviews yet)</span>
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between mb-2" style="margin-top: -0.5rem;">
                         <div class="d-flex align-items-center gap-2">
                             <h1 class="product-title mb-0">{{ product.name }}</h1>
                             {% if product.is_archived %}
@@ -143,28 +173,30 @@
                             <!-- Size Selection (show if required by ProductType OR multiple sizes exist) -->
                             {% if requires_size and available_sizes or available_sizes|length > 1 %}
                             <div class="size-color-item">
-                                <label class="form-label product-label" for="size-select">Select Size <span class="required-star">*</span></label>
-                                <select class="form-select product-dropdown" name="size" id="size-select" required>
-                                    <option value="">Choose a size...</option>
+                                <label class="form-label product-label">Select Size <span class="required-star">*</span></label>
+                                <div class="size-selector">
                                     {% for size in available_sizes %}
-                                    <option value="{{ size }}">{{ size|upper }}</option>
+                                    <button type="button" class="size-btn" data-value="{{ size }}">
+                                        {{ size|upper }}
+                                    </button>
                                     {% endfor %}
-                                </select>
-                                <small class="form-help-text">Choose your preferred size</small>
+                                </div>
+                                <input type="hidden" name="size" id="size-input" required>
                             </div>
                             {% endif %}
 
                             <!-- Color Selection (show if required by ProductType OR multiple colors exist) -->
                             {% if requires_color and available_colors or available_colors|length > 1 %}
                             <div class="size-color-item">
-                                <label class="form-label product-label" for="color-select">Select Color <span class="required-star">*</span></label>
-                                <select class="form-select product-dropdown" name="color" id="color-select" required>
-                                    <option value="">Choose a color...</option>
+                                <label class="form-label product-label">Select Color <span class="required-star">*</span></label>
+                                <div class="color-selector">
                                     {% for color in available_colors %}
-                                    <option value="{{ color }}">{{ color|title }}</option>
+                                    <button type="button" class="color-btn" data-value="{{ color }}" data-color="{{ color|lower }}">
+                                        <span class="color-name">{{ color|title }}</span>
+                                    </button>
                                     {% endfor %}
-                                </select>
-                                <small class="form-help-text">Choose your preferred color</small>
+                                </div>
+                                <input type="hidden" name="color" id="color-input" required>
                             </div>
                             {% endif %}
                         </div>
@@ -176,17 +208,16 @@
                                 <button type="button" class="qty-btn qty-minus" onclick="decrementQuantity()">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                                <input type="number" class="quantity-input" name="quantity" id="quantity" value="1" min="1" max="10" readonly>
+                                <input type="number" class="quantity-input" name="quantity" id="quantity" value="1" min="1" readonly>
                                 <button type="button" class="qty-btn qty-plus" onclick="incrementQuantity()">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                            <small class="form-help-text">Maximum 10 items per order</small>
                         </div>
                         
                         <!-- Buttons -->
                         <button type="submit" class="btn btn-pink btn-lg w-100 mb-2 add-to-cart-btn">
-                            <i class="fas fa-shopping-cart"></i> ADD TO CART
+                            <i class="fas fa-shopping-bag"></i> ADD TO BAG
                         </button>
 
                         {% if user.is_authenticated %}
@@ -202,21 +233,35 @@
                     {% endif %}
                     
                     <div class="product-description mb-4">
-                        <h4 class="section-title">Product Description</h4>
+                        <h4 class="section-title text-center">Product Description</h4>
                         <p>{{ product.description }}</p>
                     </div>
                     
-                    <!-- Design Story -->
-                    {% if product.design_story and product.design_story.status == 'published' %}
-                        <div class="design-story mb-4">
-                            <h4 class="section-title">Design Story</h4>
-                            <p class="story-text">{{ product.design_story.story }}</p>
-                            <small class="story-author">— {{ product.design_story.author }}</small>
-                        </div>
-                    {% endif %}
-                    
                     <!-- Collapsible Product Information -->
                     <div class="product-info-accordion mt-4">
+                        <!-- Design Story -->
+                        {% if product.design_story and product.design_story.status == 'published' %}
+                        <div class="accordion-item">
+                            <button class="accordion-header" type="button" data-bs-toggle="collapse" data-bs-target="#design-story" aria-expanded="false" aria-controls="design-story">
+                                <span class="accordion-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </span>
+                                <span class="accordion-title">Design Story</span>
+                                <span class="accordion-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </button>
+                            <div id="design-story" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <div class="info-content">
+                                        <p class="story-text">{{ product.design_story.story }}</p>
+                                        <small class="story-author">— {{ product.design_story.author }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
                         <div class="accordion-item">
                             <button class="accordion-header" type="button" data-bs-toggle="collapse" data-bs-target="#delivery-info" aria-expanded="false" aria-controls="delivery-info">
                                 <span class="accordion-icon">
@@ -384,14 +429,44 @@
                     </div>
                     
                     <script>
+                        // Size and Color Button Selection
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Size button functionality
+                            const sizeButtons = document.querySelectorAll('.size-btn');
+                            const sizeInput = document.getElementById('size-input');
+
+                            sizeButtons.forEach(button => {
+                                button.addEventListener('click', function() {
+                                    // Remove selected class from all size buttons
+                                    sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                                    // Add selected class to clicked button
+                                    this.classList.add('selected');
+                                    // Update hidden input
+                                    sizeInput.value = this.dataset.value;
+                                });
+                            });
+
+                            // Color button functionality
+                            const colorButtons = document.querySelectorAll('.color-btn');
+                            const colorInput = document.getElementById('color-input');
+
+                            colorButtons.forEach(button => {
+                                button.addEventListener('click', function() {
+                                    // Remove selected class from all color buttons
+                                    colorButtons.forEach(btn => btn.classList.remove('selected'));
+                                    // Add selected class to clicked button
+                                    this.classList.add('selected');
+                                    // Update hidden input
+                                    colorInput.value = this.dataset.value;
+                                });
+                            });
+                        });
+
                         function incrementQuantity() {
                             const input = document.getElementById('quantity');
-                            const max = parseInt(input.max);
-                            if (parseInt(input.value) < max) {
-                                input.value = parseInt(input.value) + 1;
-                            }
+                            input.value = parseInt(input.value) + 1;
                         }
-                        
+
                         function decrementQuantity() {
                             const input = document.getElementById('quantity');
                             const min = parseInt(input.min);
@@ -402,24 +477,24 @@
 
                         // Custom form validation with toast messages
                         const form = document.getElementById('addToCartForm');
-                        
+
                         form.addEventListener('submit', function(e) {
                             e.preventDefault(); // Prevent default form submission
-                            
+
                             // Check if size is selected
-                            const sizeSelect = document.getElementById('size-select');
-                            if (sizeSelect && sizeSelect.value === '') {
+                            const sizeInput = document.getElementById('size-input');
+                            if (sizeInput && sizeInput.value === '') {
                                 showValidationToast('Please select a size before adding to cart.');
                                 return false;
                             }
-                            
+
                             // Check if color is selected
-                            const colorSelect = document.getElementById('color-select');
-                            if (colorSelect && colorSelect.value === '') {
+                            const colorInput = document.getElementById('color-input');
+                            if (colorInput && colorInput.value === '') {
                                 showValidationToast('Please select a color before adding to cart.');
                                 return false;
                             }
-                            
+
                             // Submit via AJAX
                             submitAddToCartForm();
                             return false;
@@ -429,13 +504,13 @@
                         function submitAddToCartForm() {
                             const form = document.getElementById('addToCartForm');
 
-                            // Get values from form elements (handle missing selectors)
-                            const sizeSelect = document.getElementById('size-select');
-                            const colorSelect = document.getElementById('color-select');
+                            // Get values from hidden inputs
+                            const sizeInput = document.getElementById('size-input');
+                            const colorInput = document.getElementById('color-input');
                             const quantityInput = document.getElementById('quantity');
 
-                            const size = sizeSelect ? sizeSelect.value : '';
-                            const color = colorSelect ? colorSelect.value : '';
+                            const size = sizeInput ? sizeInput.value : '';
+                            const color = colorInput ? colorInput.value : '';
                             const quantity = quantityInput.value;
                             const productId = {{ product.id }};
 
@@ -553,6 +628,64 @@
                 </div>
             </div>
 
+            <!-- Reviews Summary and Filters -->
+            <div class="reviews-summary-container mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="rating-breakdown glassmorphic-card p-3">
+                            <h5 class="mb-3">Rating Breakdown</h5>
+                            {% with rating_dist=product.get_rating_distribution %}
+                            {% for star_val, count in rating_dist.items %}
+                                <div class="rating-row d-flex align-items-center mb-2">
+                                    <span class="star-label">{{ star_val }} <i class="fas fa-star"></i></span>
+                                    <div class="progress flex-grow-1 mx-3">
+                                        <div class="progress-bar bg-pink" role="progressbar"
+                                             style="width: {% widthratio count product.get_review_count 100 %}%"
+                                             aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ product.get_review_count }}"></div>
+                                    </div>
+                                    <span class="count">{{ count }}</span>
+                                </div>
+                            {% endfor %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="reviews-filters glassmorphic-card p-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="mb-3">Search Reviews</h5>
+                                    <div class="search-reviews mb-3">
+                                        <input type="text" class="form-control" id="reviewSearch" placeholder="Search reviews...">
+                                    </div>
+                                    <div class="filter-rating">
+                                        <label class="form-label">Filter by Rating</label>
+                                        <select class="form-select" id="ratingFilter">
+                                            <option value="">All Ratings</option>
+                                            <option value="5">5 Stars</option>
+                                            <option value="4">4 Stars</option>
+                                            <option value="3">3 Stars</option>
+                                            <option value="2">2 Stars</option>
+                                            <option value="1">1 Star</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="mb-3">Popular Topics</h5>
+                                    <div class="popular-topics">
+                                        <div class="topic-tag" data-topic="fit">Fit</div>
+                                        <div class="topic-tag" data-topic="quality">Quality</div>
+                                        <div class="topic-tag" data-topic="style">Style</div>
+                                        <div class="topic-tag" data-topic="comfort">Comfort</div>
+                                        <div class="topic-tag" data-topic="value">Value</div>
+                                        <div class="topic-tag" data-topic="shipping">Shipping</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Write Review Button -->
             <div id="reviewFormContainer" class="mb-4">
                 {% if user.is_authenticated %}
@@ -632,12 +765,17 @@
         <!-- Related Products -->
         {% if related_products %}
         <div class="related-products-carousel-container mt-5">
-            <h2 class="text-center mb-4">You Might Also Like</h2>
+            <h2 class="text-center mb-4 gradient-title">SHOP BESTSELLERS</h2>
             <div class="related-products-carousel">
                 <div class="related-products-track" id="related-products-track">
                     {% for related in related_products %}
                     <div class="related-product-item">
                         <div class="product-card">
+                            {% if user.is_authenticated %}
+                            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ related.slug }}" title="Add to Battle Vest">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            {% endif %}
                             <a href="{% url 'product_detail' related.slug %}">
                                 <div class="product-image">
                                     {% if related.main_image %}
@@ -653,6 +791,10 @@
                                     <p class="product-price">€{{ related.base_price }}</p>
                                 </div>
                             </a>
+                            <!-- Add to Bag Button -->
+                            <button class="btn btn-quick-add carousel-add-cart-btn carousel-add-cart-btn-positioned" data-product-id="{{ related.id }}" data-product-name="{{ related.name|escapejs }}">
+                                <i class="fas fa-shopping-cart"></i> ADD TO BAG
+                            </button>
                         </div>
                     </div>
                     {% endfor %}
@@ -670,30 +812,48 @@
 
         <!-- Recently Viewed Products -->
         {% if recently_viewed_products and cookie_consent.preferences %}
-        <div class="recently-viewed-products mt-5">
-            <h2 class="text-center mb-4">Recently Viewed</h2>
-            <div class="row g-4">
-                {% for viewed_product in recently_viewed_products %}
-                <div class="col-md-3">
-                    <div class="product-card">
-                        <a href="{% url 'product_detail' viewed_product.slug %}">
-                            <div class="product-image">
-                                {% if viewed_product.main_image %}
-                                    <img src="{{ viewed_product.main_image.url }}" alt="{{ viewed_product.name }}">
-                                {% else %}
-                                    <div class="placeholder-image">
-                                        <i class="fas fa-image fa-2x"></i>
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <h3>{{ viewed_product.name }}</h3>
-                                <p class="product-price">€{{ viewed_product.base_price }}</p>
-                            </div>
-                        </a>
+        <div class="recently-viewed-products-carousel-container mt-5">
+            <h2 class="text-center mb-4 gradient-title">Recently Viewed</h2>
+            <div class="recently-viewed-products-carousel">
+                <div class="recently-viewed-products-track" id="recently-viewed-products-track">
+                    {% for viewed_product in recently_viewed_products %}
+                    <div class="recently-viewed-product-item">
+                        <div class="product-card">
+                            {% if user.is_authenticated %}
+                            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ viewed_product.slug }}" title="Add to Battle Vest">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            {% endif %}
+                            <a href="{% url 'product_detail' viewed_product.slug %}">
+                                <div class="product-image">
+                                    {% if viewed_product.main_image %}
+                                        <img src="{{ viewed_product.main_image.url }}" alt="{{ viewed_product.name }}">
+                                    {% else %}
+                                        <div class="placeholder-image">
+                                            <i class="fas fa-image fa-2x"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="product-info">
+                                    <h3>{{ viewed_product.name }}</h3>
+                                    <p class="product-price">€{{ viewed_product.base_price }}</p>
+                                </div>
+                            </a>
+                            <!-- Add to Bag Button -->
+                            <button class="btn btn-quick-add carousel-add-cart-btn carousel-add-cart-btn-positioned" data-product-id="{{ viewed_product.id }}" data-product-name="{{ viewed_product.name|escapejs }}">
+                                <i class="fas fa-shopping-cart"></i> ADD TO BAG
+                            </button>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
+                <button class="recently-viewed-products-carousel-btn recently-viewed-products-carousel-prev" id="recently-viewed-products-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="recently-viewed-products-carousel-btn recently-viewed-products-carousel-next" id="recently-viewed-products-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
         {% endif %}
@@ -1607,5 +1767,313 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<script>
+{% if user.is_authenticated %}
+// Carousel Battle Vest functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Use event delegation for carousel heart buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.product-vest-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.product-vest-btn');
+            const productSlug = button.dataset.productSlug;
+            const heartIcon = button.querySelector('i');
+
+            const isInVest = button.classList.contains('in-vest');
+
+            if (isInVest) {
+                // Remove from vest
+                removeFromVestCarousel(button, productSlug);
+            } else {
+                // Add to vest
+                addToVestCarousel(button, productSlug);
+            }
+        }
+
+        // Handle carousel add to cart buttons
+        if (e.target.closest('.carousel-add-cart-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.carousel-add-cart-btn');
+            const productId = button.dataset.productId;
+            const productName = button.dataset.productName;
+            openAddToCartCarouselModal(productId, productName);
+        }
+    });
+
+    // Initialize carousel buttons on page load
+    initializeCarouselButtons();
+
+    function initializeCarouselButtons() {
+        const carouselButtons = document.querySelectorAll('.product-vest-btn[data-product-slug]');
+
+        carouselButtons.forEach(button => {
+            const productSlug = button.dataset.productSlug;
+            const heartIcon = button.querySelector('i');
+
+            // Check if product is in vest
+            fetch(`/products/${productSlug}/check-in-vest/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.in_vest) {
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas');
+                        button.classList.add('in-vest');
+                    }
+                })
+                .catch(error => console.error('Error checking vest for carousel:', error));
+        });
+    }
+
+    function addToVestCarousel(button, productSlug) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const heartIcon = button.querySelector('i');
+
+        fetch(`/products/${productSlug}/add-to-vest/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update button to filled heart
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                button.classList.add('in-vest');
+
+                // Show success toast
+                showToast(data.message, 'success');
+
+                // Update count
+                updateVestCount(data.item_count);
+            } else {
+                showToast(data.message, 'info');
+            }
+        })
+        .catch(error => {
+            console.error('Error adding to vest from carousel:', error);
+            showToast('Failed to add to Battle Vest', 'error');
+        });
+    }
+
+    function removeFromVestCarousel(button, productSlug) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const heartIcon = button.querySelector('i');
+
+        fetch(`/products/${productSlug}/remove-from-vest/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update button to outline heart
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                button.classList.remove('in-vest');
+
+                // Show info toast
+                showToast(data.message, 'info');
+
+                // Update count
+                updateVestCount(data.item_count);
+            } else {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error removing from vest from carousel:', error);
+            showToast('Failed to remove from Battle Vest', 'error');
+        });
+    }
+
+    function updateVestCount(count) {
+        // Update both mobile and desktop count badges
+        const mobileBadge = document.getElementById('battleVestCount');
+        const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+        if (mobileBadge) {
+            mobileBadge.textContent = count;
+            mobileBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+
+        if (desktopBadge) {
+            desktopBadge.textContent = count;
+            desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+    }
+
+    // Modal logic for Add to Cart from Carousel
+    let carouselProductId = null;
+    let carouselProductName = '';
+    function openAddToCartCarouselModal(productId, productName) {
+        carouselProductId = productId;
+        carouselProductName = productName;
+        document.getElementById('carouselProductId').value = productId;
+        // Fetch available sizes/colors via AJAX
+        fetch(`/products/${productId}/variant-options/`)
+            .then(response => response.json())
+            .then(data => {
+                const sizeSelect = document.getElementById('carouselSizeSelect');
+                const colorSelect = document.getElementById('carouselColorSelect');
+                const sizeWrapper = document.getElementById('carouselSizeWrapper');
+                const colorWrapper = document.getElementById('carouselColorWrapper');
+
+                // Deduplicate sizes and colors
+                const uniqueSizes = [...new Set(data.sizes)];
+                const uniqueColors = [...new Set(data.colors)];
+
+                sizeSelect.innerHTML = '';
+                colorSelect.innerHTML = '';
+
+                // Show size field if: required by ProductType OR multiple sizes exist
+                // This allows products to have optional size choices even if type doesn't require it
+                if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
+                    sizeWrapper.style.display = 'block';
+                    sizeSelect.required = true;
+                    uniqueSizes.forEach(s => {
+                        sizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                    });
+                } else {
+                    sizeWrapper.style.display = 'none';
+                    sizeSelect.required = false;
+                    // Auto-select the only size if there is one
+                    if (uniqueSizes.length === 1) {
+                        sizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
+                    }
+                }
+
+                // Show color field if: required by ProductType OR multiple colors exist
+                if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
+                    colorWrapper.style.display = 'block';
+                    colorSelect.required = true;
+                    uniqueColors.forEach(c => {
+                        colorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                    });
+                } else {
+                    colorWrapper.style.display = 'none';
+                    colorSelect.required = false;
+                    // Auto-select the only color if there is one
+                    if (uniqueColors.length === 1) {
+                        colorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
+                    }
+                }
+
+                // Show modal
+                const modalElement = document.getElementById('addToCartCarouselModal');
+                if (modalElement) {
+                    const modal = new bootstrap.Modal(modalElement);
+                    modal.show();
+                } else {
+                    console.error('Modal element not found');
+                }
+            })
+            .catch(() => {
+                if (typeof showToast === 'function') {
+                    showToast('Could not load product options. Redirecting...', 'error');
+                }
+                // Try to find the slug in the DOM for this product card
+                var cards = document.querySelectorAll('.product-card');
+                var slug = null;
+                cards.forEach(function(c) {
+                    var link = c.querySelector('a[href*="/products/"]');
+                    if (link) {
+                        var href = link.getAttribute('href');
+                        var match = href.match(/\/products\/([^\/]+)\//);
+                        if (match) {
+                            slug = match[1];
+                        }
+                    }
+                });
+                if (slug) {
+                    window.location.href = `/products/${slug}/`;
+                } else {
+                    window.location.href = '/products/';
+                }
+            });
+    }
+
+    // Handle form submission for carousel add to cart
+    document.getElementById('addToCartCarouselForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch(`/cart/add/${carouselProductId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById('addToCartCarouselModal')).hide();
+                
+                // Show success message
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
+                }
+                
+                // Update cart count
+                if (typeof updateCartCount === 'function') {
+                    updateCartCount(data.cart_count);
+                }
+            } else {
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'error');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error adding to cart from carousel:', error);
+            if (typeof showToast === 'function') {
+                showToast('Failed to add to cart', 'error');
+            }
+        });
+    });
+});
+{% endif %}
+</script>
+
+<!-- Add to Cart Modal for Carousel -->
+<div id="addToCartCarouselModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartCarouselModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered quick-add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartCarouselModalLabel">Add to Cart</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addToCartCarouselForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" id="carouselProductId">
+                    <div class="mb-3" id="carouselSizeWrapper">
+                        <label class="form-label">Size</label>
+                        <select name="size" id="carouselSizeSelect" class="form-select"></select>
+                    </div>
+                    <div class="mb-3" id="carouselColorWrapper">
+                        <label class="form-label">Color</label>
+                        <select name="color" id="carouselColorSelect" class="form-select"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" name="quantity" id="carouselQuantitySelect" class="form-control" min="1" max="99" value="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
