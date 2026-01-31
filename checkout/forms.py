@@ -413,7 +413,7 @@ class DiscountCodeForm(forms.ModelForm):
         model = DiscountCode
         fields = [
             'code', 'discount_type', 'discount_value', 'minimum_order_value',
-            'max_uses', 'max_uses_per_user', 'is_active', 'banner_message', 'expires_at'
+            'max_uses', 'max_uses_per_user', 'is_active', 'banner_message', 'banner_button', 'expires_at'
         ]
         widgets = {
             'code': forms.TextInput(attrs={

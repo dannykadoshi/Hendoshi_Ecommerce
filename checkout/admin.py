@@ -75,7 +75,7 @@ class DiscountCodeAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Discount Details', {
-            'fields': ('code', 'discount_type', 'discount_value', 'banner_message')
+            'fields': ('code', 'discount_type', 'discount_value', 'banner_message', 'banner_button')
         }),
         ('Usage Limits', {
             'fields': ('minimum_order_value', 'max_uses', 'max_uses_per_user', 'used_count')
