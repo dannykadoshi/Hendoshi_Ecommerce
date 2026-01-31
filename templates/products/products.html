@@ -540,35 +540,20 @@
         const filtersCloseBtn = document.getElementById('filtersCloseBtn');
         
         if (filtersBtn && filtersDropdown) {
-            // For desktop: show on hover
-            filtersBtn.addEventListener('mouseenter', function() {
-                if (window.innerWidth >= 992) {
-                    filtersDropdown.classList.add('show');
-                }
+            // Show dropdown on click for both desktop and mobile
+            filtersBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent triggering the document click listener
+                filtersDropdown.classList.toggle('show');
+                filtersOverlay.classList.toggle('show');
+                document.body.style.overflow = filtersDropdown.classList.contains('show') ? 'hidden' : '';
             });
             
-            filtersBtn.addEventListener('mouseleave', function(e) {
-                if (window.innerWidth >= 992) {
-                    setTimeout(() => {
-                        if (!filtersDropdown.matches(':hover')) {
-                            filtersDropdown.classList.remove('show');
-                        }
-                    }, 100);
-                }
-            });
-            
-            filtersDropdown.addEventListener('mouseleave', function() {
-                if (window.innerWidth >= 992) {
+            // Close when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!filtersBtn.contains(e.target) && !filtersDropdown.contains(e.target)) {
                     filtersDropdown.classList.remove('show');
-                }
-            });
-            
-            // For mobile: toggle on click
-            filtersBtn.addEventListener('click', function() {
-                if (window.innerWidth < 992) {
-                    filtersDropdown.classList.toggle('show');
-                    filtersOverlay.classList.toggle('show');
-                    document.body.style.overflow = filtersDropdown.classList.contains('show') ? 'hidden' : '';
+                    filtersOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
                 }
             });
             
