@@ -59,9 +59,17 @@ def discount_banner(request):
                 # Create clickable code span for copy functionality
                 clickable_code = f'<span class="discount-code-text" data-code="{discount.code}" title="Click to copy">{discount.code}</span>'
 
+                # Add button if specified
+                button_html = ''
+                if discount.banner_button == 'shop_now':
+                    button_html = f'<a href="/products/" class="discount-button shop-now">Shop Now</a> '
+                elif discount.banner_button == 'sale':
+                    button_html = f'<a href="/products/sale/" class="discount-button sale">Sale</a> '
+
                 offer_data = {
                     'code': discount.code,
-                    'message': discount.banner_message or f'{discount.discount_value}{"%" if discount.discount_type == "percentage" else "€"} OFF with code: {clickable_code}',
+                    'message': discount.banner_message or f'{discount.discount_value}{"%" if discount.discount_type == "percentage" else "€"} OFF with code: {clickable_code} {button_html}',
+                    'banner_button': discount.banner_button,
                     'expires_at': discount.expires_at.isoformat() if discount.expires_at else None,
                     'discount_value': float(discount.discount_value),
                     'discount_type': discount.discount_type,
@@ -69,7 +77,11 @@ def discount_banner(request):
                 }
                 if discount.banner_message:
                     # Replace {CODE} or {code} placeholders with clickable code
-                    offer_data['message'] = discount.banner_message.replace('{CODE}', clickable_code).replace('{code}', clickable_code)
+                    message = discount.banner_message.replace('{CODE}', clickable_code).replace('{code}', clickable_code)
+                    # Append button at the end if present
+                    if button_html:
+                        message += f' {button_html}'
+                    offer_data['message'] = message
                 banner_data['all_offers'].append(offer_data)
 
             # If only one discount code, use it directly
@@ -102,10 +114,20 @@ def discount_banner(request):
             # Create clickable code span
             clickable_code = f'<span class="discount-code-text" data-code="{selected_discount.code}" title="Click to copy">{selected_discount.code}</span>'
 
+            # Add button if specified
+            button_html = ''
+            if selected_discount.banner_button == 'shop_now':
+                button_html = f'<a href="/products/" class="discount-button shop-now">Shop Now</a> '
+            elif selected_discount.banner_button == 'sale':
+                button_html = f'<a href="/products/sale/" class="discount-button sale">Sale</a> '
+
             # Use custom banner message if provided, otherwise use default
             if selected_discount.banner_message:
                 # Replace {CODE} or {code} placeholders with clickable code
                 message = selected_discount.banner_message.replace('{CODE}', clickable_code).replace('{code}', clickable_code)
+                # Append button at the end if present
+                if button_html:
+                    message += f' {button_html}'
                 banner_data['banner_message'] = message
             else:
                 # Default message with the actual discount code
@@ -114,7 +136,7 @@ def discount_banner(request):
                 else:
                     discount_text = f"€{selected_discount.discount_value}"
 
-                banner_data['banner_message'] = f'{discount_text} OFF with code: {clickable_code}'
+                banner_data['banner_message'] = f'{discount_text} OFF with code: {clickable_code} {button_html}'
 
         # Serialize offers to JSON for safe embedding in JavaScript
         try:

@@ -168,6 +168,20 @@
                             {% endif %}
                             <div class="form-text">Custom message to display in the discount banner. Leave blank to use default message.</div>
                         </div>
+
+                        <!-- Banner Button -->
+                        <div class="col-12 col-md-6">
+                            <label for="{{ form.banner_button.id_for_label }}" class="form-label">
+                                Banner Button
+                            </label>
+                            {{ form.banner_button }}
+                            {% if form.banner_button.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.banner_button.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Add a button before the discount code in the banner</div>
+                        </div>
                     </div>
 
                     <!-- Form Errors -->

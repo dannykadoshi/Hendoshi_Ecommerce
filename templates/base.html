@@ -217,51 +217,26 @@
         
         <!-- Discount Banner -->
         <div class="discount-banner{% if discount_banner.is_high_value %} high-value{% endif %}" id="discountBanner"
-             {% if not discount_banner.show_discount_banner %}style="display: none;"{% endif %}
-             data-expires="{{ discount_banner.expires_at_iso|default:'' }}"
-             data-high-value="{{ discount_banner.is_high_value|yesno:'true,false' }}"
-             data-offer-count="{{ discount_banner.offer_count }}"
-             data-current-index="{{ discount_banner.current_offer_index }}">
+             {% if not discount_banner.show_discount_banner %}style="display: none;"{% endif %}>
 
             <!-- Confetti Canvas (for high-value discounts) -->
             <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
 
-            <!-- Close Button -->
-            <button class="discount-close" id="discountClose" aria-label="Dismiss discount banner">
-                <i class="fas fa-times"></i>
-            </button>
-
             <!-- Banner Content -->
             <div class="discount-banner-content">
-                <i class="fas fa-gift" id="discountIcon"></i>
-                <span id="discountMessage">{{ discount_banner.banner_message|safe }}</span>
-
-                <!-- Countdown Timer (if expires) -->
-                {% if discount_banner.expires_at_iso %}
-                <span class="discount-countdown" id="discountCountdown">
-                    <i class="fas fa-clock"></i>
-                    <span id="countdownTimer">--:--:--</span>
-                </span>
-                {% endif %}
-
-                <!-- Shop Sale CTA Button -->
-                <a href="{% url 'sale' %}" class="discount-cta" id="discountCta">
-                    Shop Sale <i class="fas fa-arrow-right"></i>
-                </a>
+                <div class="discount-message-container">
+                    <div class="discount-message-scroll">
+                        {% for offer in discount_banner.all_offers %}
+                        <span class="discount-message-text">{{ offer.message|safe }}</span>
+                        <span class="discount-separator">|</span>
+                        {% endfor %}
+                        {% for offer in discount_banner.all_offers %}
+                        <span class="discount-message-text">{{ offer.message|safe }}</span>
+                        {% if not forloop.last %}<span class="discount-separator">|</span>{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-
-            <!-- Progress Dots (for multiple offers) -->
-            {% if discount_banner.multiple_offers %}
-            <div class="discount-progress" id="discountProgress">
-                {% for offer in discount_banner.all_offers %}
-                <span class="progress-dot{% if forloop.counter0 == discount_banner.current_offer_index %} active{% endif %}"
-                      data-index="{{ forloop.counter0 }}" title="Offer {{ forloop.counter }}"></span>
-                {% endfor %}
-                <button class="discount-cycle" id="discountCycle" aria-label="Next offer" title="View next offer">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-            {% endif %}
 
             <!-- Copy Confirmation Tooltip -->
             <div class="copy-tooltip" id="copyTooltip">Copied!</div>
@@ -1545,20 +1520,13 @@
             const discountClose = document.getElementById('discountClose');
             const navbar = document.querySelector('.navbar');
             const discountMessage = document.getElementById('discountMessage');
-            const discountCycle = document.getElementById('discountCycle');
             const copyTooltip = document.getElementById('copyTooltip');
-            const countdownTimer = document.getElementById('countdownTimer');
-            const discountCountdown = document.getElementById('discountCountdown');
             const confettiCanvas = document.getElementById('confettiCanvas');
-            const progressDots = document.querySelectorAll('.progress-dot');
 
             if (!discountBanner) return;
 
             // Data attributes
-            const expiresAt = discountBanner.dataset.expires;
             const isHighValue = discountBanner.dataset.highValue === 'true';
-            const offerCount = parseInt(discountBanner.dataset.offerCount) || 1;
-            let currentOfferIndex = parseInt(discountBanner.dataset.currentIndex) || 0;
 
             // All offers data (safely parsed from JSON script tag)
             let allOffers = [];
@@ -1574,50 +1542,6 @@
             // URL override for testing
             const urlParams = new URLSearchParams(window.location.search || '');
             const forceShow = urlParams.get('show_discount_banner') === '1' || urlParams.get('show_discount_banner') === 'true';
-
-            // ============================================
-            // DISMISSAL LOGIC
-            // ============================================
-            function isDismissed() {
-                if (forceShow) return false;
-                try {
-                    if (localStorage.getItem && localStorage.getItem('discountBannerDismissed') === 'true') {
-                        try { localStorage.removeItem('discountBannerDismissed'); } catch (e) {}
-                    }
-                } catch (e) {}
-                try {
-                    return sessionStorage.getItem('discountBannerDismissed') === 'true';
-                } catch (e) {
-                    return false;
-                }
-            }
-
-            function persistDismissal() {
-                try { sessionStorage.setItem('discountBannerDismissed', 'true'); } catch (e) {}
-                try {
-                    if (!window._discountBroadcastChannel) {
-                        window._discountBroadcastChannel = new BroadcastChannel('discountBannerChannel');
-                    }
-                    window._discountBroadcastChannel.postMessage({ type: 'dismiss' });
-                } catch (e) {}
-            }
-
-            function hideBanner() {
-                if (!discountBanner) return;
-                discountBanner.classList.add('slide-up');
-                persistDismissal();
-                setTimeout(function() {
-                    discountBanner.style.display = 'none';
-                    if (navbar) navbar.classList.add('banner-dismissed');
-                }, 500);
-            }
-
-            // If already dismissed, hide immediately
-            if (isDismissed()) {
-                discountBanner.style.display = 'none';
-                if (navbar) navbar.classList.add('banner-dismissed');
-                return;
-            }
 
             // ============================================
             // CLICK-TO-COPY FUNCTIONALITY (with robust fallback and feedback)
@@ -1701,48 +1625,6 @@
                         }
                     } catch (e) {}
                 });
-            }
-
-            // ============================================
-            // COUNTDOWN TIMER
-            // ============================================
-            function initCountdown() {
-                if (!expiresAt || !countdownTimer || !discountCountdown) return;
-
-                const expiryDate = new Date(expiresAt);
-
-                function updateCountdown() {
-                    const now = new Date();
-                    const diff = expiryDate - now;
-
-                    if (diff <= 0) {
-                        countdownTimer.textContent = 'EXPIRED';
-                        discountCountdown.classList.add('urgent');
-                        return;
-                    }
-
-                    const hours = Math.floor(diff / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                    // Format display based on time remaining
-                    if (hours > 24) {
-                        const days = Math.floor(hours / 24);
-                        countdownTimer.textContent = `${days}d ${hours % 24}h`;
-                    } else if (hours > 0) {
-                        countdownTimer.textContent = `${hours}h ${minutes}m`;
-                    } else {
-                        countdownTimer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                    }
-
-                    // Add urgency styling when < 1 hour
-                    if (diff < 3600000) {
-                        discountCountdown.classList.add('urgent');
-                    }
-                }
-
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
             }
 
             // ============================================
@@ -1929,143 +1811,18 @@
                 }
 
                 // Run once on init to set the correct initial visibility (handles page loads where user starts scrolled)
-                try { if (!isDismissed()) updateBannerVisibility(); } catch (e) {}
+                try { updateBannerVisibility(); } catch (e) {}
 
                 window.addEventListener('scroll', function() {
-                    if (!ticking && !isDismissed()) {
+                    if (!ticking) {
                         requestAnimationFrame(updateBannerVisibility);
                         ticking = true;
                     }
                 }, { passive: true });
 
                 // Ensure banner updates when user returns to the tab or window (visibility/focus changes)
-                window.addEventListener('visibilitychange', function() { try { if (!isDismissed()) updateBannerVisibility(); } catch (e) {} });
-                window.addEventListener('focus', function() { try { if (!isDismissed()) updateBannerVisibility(); } catch (e) {} });
-            }
-
-            // ============================================
-            // OFFER CYCLING WITH PROGRESS DOTS
-            // ============================================
-            function initOfferCycling() {
-                if (offerCount <= 1 || !discountMessage) return;
-
-                function updateProgressDots() {
-                    progressDots.forEach((dot, index) => {
-                        dot.classList.toggle('active', index === currentOfferIndex);
-                    });
-                }
-
-                function cycleToOffer(index) {
-                    if (index === currentOfferIndex) return;
-
-                    currentOfferIndex = index;
-                    const offer = allOffers[currentOfferIndex];
-
-                    // Fade out
-                    discountMessage.classList.add('fade-out');
-
-                    setTimeout(() => {
-                        discountMessage.innerHTML = offer.message;
-                        discountMessage.classList.remove('fade-out');
-
-                        // Update countdown if offer has expiration
-                        if (offer.expires_at && discountCountdown) {
-                            discountCountdown.style.display = '';
-                            // Update expiry (would need to reinit countdown with new date)
-                        } else if (discountCountdown) {
-                            discountCountdown.style.display = 'none';
-                        }
-
-                        updateProgressDots();
-
-                        // If this offer is high-value, enable confetti; otherwise stop it
-                        try {
-                            const offerIsHigh = (offer.is_high_value !== undefined)
-                                ? offer.is_high_value
-                                : (offer.discount_type === 'percentage' ? offer.discount_value >= 20 : offer.discount_value >= 20);
-
-                            if (window.confettiController) {
-                                if (offerIsHigh) {
-                                    window.confettiController.start();
-                                    window.confettiController.burst();
-                                } else {
-                                    window.confettiController.stop();
-                                }
-                            }
-                        } catch (e) {}
-                    }, 200);
-                }
-
-                // Cycle button click
-                if (discountCycle) {
-                    discountCycle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const nextIndex = (currentOfferIndex + 1) % offerCount;
-                        cycleToOffer(nextIndex);
-                    });
-                }
-
-                // Progress dot clicks
-                progressDots.forEach((dot, index) => {
-                    dot.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        cycleToOffer(index);
-                    });
-                });
-
-                // Auto-rotate offers every 8 seconds
-                setInterval(() => {
-                    if (!isDismissed() && document.visibilityState === 'visible') {
-                        const nextIndex = (currentOfferIndex + 1) % offerCount;
-                        cycleToOffer(nextIndex);
-                    }
-                }, 8000);
-            }
-
-            // ============================================
-            // CLOSE BUTTON AND KEYBOARD
-            // ============================================
-            function initCloseHandlers() {
-                // Close button click
-                if (discountClose) {
-                    discountClose.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        hideBanner();
-                    });
-                }
-
-                // Escape key
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' && discountBanner.style.display !== 'none') {
-                        hideBanner();
-                    }
-                });
-            }
-
-            // ============================================
-            // CROSS-TAB SYNCHRONIZATION
-            // ============================================
-            function initCrossTabSync() {
-                try {
-                    if (!window._discountBroadcastChannel) {
-                        window._discountBroadcastChannel = new BroadcastChannel('discountBannerChannel');
-                        window._discountBroadcastChannel.onmessage = function(evt) {
-                            if (evt && evt.data && evt.data.type === 'dismiss') {
-                                if (discountBanner.style.display !== 'none') hideBanner();
-                            }
-                        };
-                    }
-                } catch (e) {}
-
-                window.addEventListener('focus', function() {
-                    if (isDismissed() && discountBanner.style.display !== 'none') {
-                        discountBanner.style.display = 'none';
-                        if (navbar) navbar.classList.add('banner-dismissed');
-                    }
-                });
+                window.addEventListener('visibilitychange', function() { try { updateBannerVisibility(); } catch (e) {} });
+                window.addEventListener('focus', function() { try { updateBannerVisibility(); } catch (e) {} });
             }
 
             // ============================================
@@ -2082,12 +1839,8 @@
             // ============================================
             initReducedMotion();
             initCopyToClipboard();
-            initCountdown();
             initConfetti();
             initScrollBehavior();
-            initOfferCycling();
-            initCloseHandlers();
-            initCrossTabSync();
             } catch (err) {
                 console.error('Discount banner error:', err);
             }
