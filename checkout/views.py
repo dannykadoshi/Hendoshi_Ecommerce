@@ -576,8 +576,10 @@ def apply_discount_code(request):
             'success': True,
             'message': f'Discount applied! You save €{discount_amount:.2f}.',
             'discount_amount': float(discount_amount),
-            'new_total': float(subtotal - discount_amount),
-            'code': discount_code.code,
+            'cart_subtotal': float(subtotal),
+            'cart_total': float(subtotal - discount_amount),
+            'cart_count': cart.get_total_items(),
+            'discount_code': discount_code.code,
         })
     except DiscountCode.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Invalid discount code.'})

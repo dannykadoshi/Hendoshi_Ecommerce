@@ -815,6 +815,22 @@
                     </div>
                 </div>
 
+                <!-- Discount Code Input -->
+                <div class="cart-drawer-discount-input" id="cartDrawerDiscountInput">
+                    <form id="cartDrawerDiscountForm" class="cart-drawer-discount-form">
+                        {% csrf_token %}
+                        <div class="cart-drawer-discount-field">
+                            <input type="text" id="cartDrawerDiscountCodeInput" name="discount_code" 
+                                   placeholder="Enter discount code" class="cart-drawer-discount-text" 
+                                   maxlength="20" autocomplete="off">
+                            <button type="submit" class="cart-drawer-discount-apply" id="cartDrawerDiscountApply">
+                                <i class="fas fa-tag"></i> Apply
+                            </button>
+                        </div>
+                        <div class="cart-drawer-discount-message" id="cartDrawerDiscountMessage" style="display: none;"></div>
+                    </form>
+                </div>
+
                 <!-- Free Shipping Progress -->
                 <div class="cart-drawer-shipping" id="cartDrawerShipping">
                     <div class="cart-drawer-shipping-progress">
@@ -827,9 +843,12 @@
 
                 <!-- Related Products Carousel -->
                 <div class="cart-drawer-related" id="cartDrawerRelated" style="display: none;">
-                    <h5 class="cart-drawer-related-title">
-                        <i class="fas fa-fire-alt me-2"></i>Customers often buy together
-                    </h5>
+                    <div class="cart-drawer-related-header">
+                        <h5 class="cart-drawer-related-title">
+                            <i class="fas fa-fire-alt me-2"></i>Complete Your Look
+                        </h5>
+                        <p class="cart-drawer-related-subtitle">Customers often buy these together</p>
+                    </div>
                     <div class="cart-drawer-carousel-container">
                         <button type="button" class="cart-drawer-carousel-btn cart-drawer-carousel-prev" id="carouselPrev" aria-label="Previous">
                             <i class="fas fa-chevron-left"></i>
@@ -841,12 +860,20 @@
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
+                    <div class="cart-drawer-related-cta">
+                        <a href="{% url 'products' %}" class="cart-drawer-browse-more">
+                            <i class="fas fa-plus me-1"></i> Browse More Products
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <div class="cart-drawer-footer">
+                <a href="{% url 'checkout' %}" class="btn cart-drawer-btn-checkout">
+                    <i class="fas fa-credit-card me-2"></i> Checkout Now
+                </a>
                 <a href="{% url 'view_cart' %}" class="btn cart-drawer-btn-cart">
-                    <i class="fas fa-shopping-cart me-2"></i> View Cart
+                    <i class="fas fa-shopping-cart me-2"></i> View Full Cart
                 </a>
                 <button type="button" class="btn cart-drawer-btn-continue" id="cartDrawerContinue">
                     Continue Shopping
@@ -1917,12 +1944,15 @@
 
             // Handle discount
             const discountRow = document.getElementById('cartDrawerDiscountRow');
+            const discountInput = document.getElementById('cartDrawerDiscountInput');
             if (data.discount_code) {
                 document.getElementById('cartDrawerDiscountCode').textContent = data.discount_code;
                 document.getElementById('cartDrawerDiscountAmount').textContent = data.discount_amount.toFixed(2);
                 discountRow.style.display = 'flex';
+                discountInput.style.display = 'none';
             } else {
                 discountRow.style.display = 'none';
+                discountInput.style.display = 'block';
             }
 
             // Calculate and show free shipping progress
@@ -2124,7 +2154,7 @@
             shippingRemaining.textContent = `€${remaining.toFixed(2)}`;
 
             if (remaining === 0) {
-                shippingText.innerHTML = '<i class="fas fa-check-circle text-success me-1"></i> You qualify for FREE shipping!';
+                shippingText.innerHTML = '<i class="fas fa-check-circle text-success me-1"></i> Congrats! 🎉 You\'ve unlocked FREE SHIPPING';
             } else {
                 shippingText.innerHTML = '<i class="fas fa-truck me-1"></i> Add <span id="cartDrawerShippingRemaining">€' + remaining.toFixed(2) + '</span> more for FREE shipping!';
             }
@@ -2178,7 +2208,113 @@
                     hideCartDrawer();
                 }
             });
+
+            // Discount code functionality
+            const discountForm = document.getElementById('cartDrawerDiscountForm');
+            const discountInput = document.getElementById('cartDrawerDiscountCodeInput');
+            const discountApplyBtn = document.getElementById('cartDrawerDiscountApply');
+            const discountMessage = document.getElementById('cartDrawerDiscountMessage');
+
+            if (discountForm) {
+                discountForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    applyDiscountCode();
+                });
+            }
+
+            if (discountInput) {
+                discountInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        applyDiscountCode();
+                    }
+                });
+            }
         });
+
+        // Apply discount code function
+        function applyDiscountCode() {
+            const discountInput = document.getElementById('cartDrawerDiscountCodeInput');
+            const discountApplyBtn = document.getElementById('cartDrawerDiscountApply');
+            const discountMessage = document.getElementById('cartDrawerDiscountMessage');
+            
+            const code = discountInput.value.trim().toUpperCase();
+            
+            if (!code) {
+                showDiscountMessage('Please enter a discount code', 'error');
+                return;
+            }
+
+            // Disable button and show loading
+            discountApplyBtn.disabled = true;
+            discountApplyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            const csrfToken = getCookie('csrftoken');
+            
+            fetch('/checkout/apply-discount/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `csrfmiddlewaretoken=${encodeURIComponent(csrfToken)}&discount_code=${encodeURIComponent(code)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart totals
+                    document.getElementById('cartDrawerSubtotal').textContent = `€${data.cart_subtotal.toFixed(2)}`;
+                    document.getElementById('cartDrawerTotal').textContent = `€${data.cart_total.toFixed(2)}`;
+                    
+                    // Show discount row
+                    if (data.discount_code) {
+                        document.getElementById('cartDrawerDiscountCode').textContent = data.discount_code;
+                        document.getElementById('cartDrawerDiscountAmount').textContent = data.discount_amount.toFixed(2);
+                        document.getElementById('cartDrawerDiscountRow').style.display = 'flex';
+                        
+                        // Hide discount input after successful application
+                        document.getElementById('cartDrawerDiscountInput').style.display = 'none';
+                    }
+                    
+                    // Update shipping progress
+                    updateShippingProgress(data.cart_subtotal);
+                    
+                    // Clear input and show success
+                    discountInput.value = '';
+                    showDiscountMessage('Discount code applied successfully!', 'success');
+                    
+                    // Update cart count in header if needed
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount(data.cart_count);
+                    }
+                } else {
+                    showDiscountMessage(data.message || 'Invalid discount code', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Discount application error:', error);
+                showDiscountMessage('An error occurred. Please try again.', 'error');
+            })
+            .finally(() => {
+                // Re-enable button
+                discountApplyBtn.disabled = false;
+                discountApplyBtn.innerHTML = '<i class="fas fa-tag"></i> Apply';
+            });
+        }
+
+        // Show discount message
+        function showDiscountMessage(message, type) {
+            const discountMessage = document.getElementById('cartDrawerDiscountMessage');
+            discountMessage.textContent = message;
+            discountMessage.className = `cart-drawer-discount-message ${type}`;
+            discountMessage.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                discountMessage.style.display = 'none';
+            }, 3000);
+        }
         </script>
 
         <!-- Cookie Consent Banner -->
