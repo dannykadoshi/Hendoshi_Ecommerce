@@ -528,3 +528,140 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCollectionsCarousel();
     });
 });
+
+// Related Products Carousel Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const relatedProductsTrack = document.getElementById('related-products-track');
+    const relatedProductsPrev = document.getElementById('related-products-prev');
+    const relatedProductsNext = document.getElementById('related-products-next');
+
+    if (!relatedProductsTrack || !relatedProductsPrev || !relatedProductsNext) {
+        return; // Exit if elements don't exist
+    }
+
+    const relatedProductItems = relatedProductsTrack.children;
+    const totalRelatedItems = relatedProductItems.length;
+    let relatedCurrentIndex = 0;
+    let relatedVisibleItems = 3; // Default for desktop
+    let relatedMaxIndex = Math.max(0, totalRelatedItems - relatedVisibleItems);
+
+    function updateRelatedProductsCarousel() {
+        const translateX = -relatedCurrentIndex * (280 + 24); // 280px item width + 24px gap
+        relatedProductsTrack.style.transform = `translateX(${translateX}px)`;
+    }
+
+    function nextRelatedProductsSlide() {
+        if (relatedCurrentIndex < relatedMaxIndex) {
+            relatedCurrentIndex++;
+            updateRelatedProductsCarousel();
+        } else {
+            // Loop back to start
+            relatedCurrentIndex = 0;
+            updateRelatedProductsCarousel();
+        }
+        resetRelatedAutoPlay();
+    }
+
+    function prevRelatedProductsSlide() {
+        if (relatedCurrentIndex > 0) {
+            relatedCurrentIndex--;
+            updateRelatedProductsCarousel();
+        } else {
+            // Loop to end
+            relatedCurrentIndex = relatedMaxIndex;
+            updateRelatedProductsCarousel();
+        }
+        resetRelatedAutoPlay();
+    }
+
+    // Event listeners for navigation buttons
+    relatedProductsNext.addEventListener('click', nextRelatedProductsSlide);
+    relatedProductsPrev.addEventListener('click', prevRelatedProductsSlide);
+
+    // Auto-play functionality for related products
+    let relatedAutoPlayInterval;
+    const relatedAutoPlayDelay = 5000; // Auto-advance every 5 seconds
+
+    function startRelatedAutoPlay() {
+        clearInterval(relatedAutoPlayInterval);
+        relatedAutoPlayInterval = setInterval(nextRelatedProductsSlide, relatedAutoPlayDelay);
+    }
+
+    function stopRelatedAutoPlay() {
+        clearInterval(relatedAutoPlayInterval);
+    }
+
+    function resetRelatedAutoPlay() {
+        stopRelatedAutoPlay();
+        startRelatedAutoPlay();
+    }
+
+    // Pause auto-play on hover over carousel container
+    const relatedCarouselContainer = relatedProductsTrack.closest('.related-products-carousel');
+    if (relatedCarouselContainer) {
+        relatedCarouselContainer.addEventListener('mouseenter', stopRelatedAutoPlay);
+        relatedCarouselContainer.addEventListener('mouseleave', startRelatedAutoPlay);
+    }
+
+    // Clear interval when page unloads
+    window.addEventListener('beforeunload', stopRelatedAutoPlay);
+
+    // Touch/swipe support for mobile
+    let relatedStartX = 0;
+    let relatedIsDragging = false;
+
+    relatedProductsTrack.addEventListener('touchstart', (e) => {
+        relatedStartX = e.touches[0].clientX;
+        relatedIsDragging = true;
+        stopRelatedAutoPlay();
+    });
+
+    relatedProductsTrack.addEventListener('touchmove', (e) => {
+        if (!relatedIsDragging) return;
+        const relatedCurrentX = e.touches[0].clientX;
+        const relatedDiff = relatedStartX - relatedCurrentX;
+
+        if (Math.abs(relatedDiff) > 50) {
+            if (relatedDiff > 0) {
+                nextRelatedProductsSlide();
+            } else {
+                prevRelatedProductsSlide();
+            }
+            relatedIsDragging = false;
+        }
+    });
+
+    relatedProductsTrack.addEventListener('touchend', () => {
+        relatedIsDragging = false;
+        resetRelatedAutoPlay();
+    });
+
+    // Update visible items based on screen size
+    function updateRelatedVisibleItems() {
+        const screenWidth = window.innerWidth;
+        if (screenWidth <= 480) {
+            relatedVisibleItems = 1;
+        } else if (screenWidth <= 768) {
+            relatedVisibleItems = 2;
+        } else {
+            relatedVisibleItems = 3;
+        }
+        relatedMaxIndex = Math.max(0, totalRelatedItems - relatedVisibleItems);
+
+        if (relatedCurrentIndex > relatedMaxIndex) {
+            relatedCurrentIndex = relatedMaxIndex;
+        }
+
+        updateRelatedProductsCarousel();
+    }
+
+    // Initialize carousel
+    updateRelatedVisibleItems();
+    updateRelatedProductsCarousel();
+
+    // Update on window resize
+    window.addEventListener('resize', updateRelatedVisibleItems);
+
+    // Start auto-play
+    startRelatedAutoPlay();
+});

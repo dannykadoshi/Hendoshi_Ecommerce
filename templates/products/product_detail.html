@@ -133,51 +133,41 @@
                         <p class="product-price">€{{ product.base_price }}</p>
                     {% endif %}
                     
-                    <div class="product-description mb-4">
-                        <p>{{ product.description }}</p>
-                    </div>
-                    
-                    <!-- Design Story -->
-                    {% if product.design_story and product.design_story.status == 'published' %}
-                        <div class="design-story mb-4">
-                            <h3 class="story-title">💭 {{ product.design_story.title }}</h3>
-                            <p class="story-text">{{ product.design_story.story }}</p>
-                            <small class="story-author">— {{ product.design_story.author }}</small>
-                        </div>
-                    {% endif %}
-                    
                     <!-- Add to Cart Form -->
                     {% if not product.is_archived %}
                     <form method="post" action="{% url 'add_to_cart' product.id %}" id="addToCartForm" novalidate>
                         {% csrf_token %}
                         
-                        <!-- Size Selection (show if required by ProductType OR multiple sizes exist) -->
-                        {% if requires_size and available_sizes or available_sizes|length > 1 %}
-                        <div class="mb-4">
-                            <label class="form-label product-label" for="size-select">Select Size <span class="required-star">*</span></label>
-                            <select class="form-select product-dropdown" name="size" id="size-select" required>
-                                <option value="">Choose a size...</option>
-                                {% for size in available_sizes %}
-                                <option value="{{ size }}">{{ size|upper }}</option>
-                                {% endfor %}
-                            </select>
-                            <small class="form-help-text">Choose your preferred size</small>
-                        </div>
-                        {% endif %}
+                        <!-- Size and Color Selection Row -->
+                        <div class="size-color-row">
+                            <!-- Size Selection (show if required by ProductType OR multiple sizes exist) -->
+                            {% if requires_size and available_sizes or available_sizes|length > 1 %}
+                            <div class="size-color-item">
+                                <label class="form-label product-label" for="size-select">Select Size <span class="required-star">*</span></label>
+                                <select class="form-select product-dropdown" name="size" id="size-select" required>
+                                    <option value="">Choose a size...</option>
+                                    {% for size in available_sizes %}
+                                    <option value="{{ size }}">{{ size|upper }}</option>
+                                    {% endfor %}
+                                </select>
+                                <small class="form-help-text">Choose your preferred size</small>
+                            </div>
+                            {% endif %}
 
-                        <!-- Color Selection (show if required by ProductType OR multiple colors exist) -->
-                        {% if requires_color and available_colors or available_colors|length > 1 %}
-                        <div class="mb-4">
-                            <label class="form-label product-label" for="color-select">Select Color <span class="required-star">*</span></label>
-                            <select class="form-select product-dropdown" name="color" id="color-select" required>
-                                <option value="">Choose a color...</option>
-                                {% for color in available_colors %}
-                                <option value="{{ color }}">{{ color|title }}</option>
-                                {% endfor %}
-                            </select>
-                            <small class="form-help-text">Choose your preferred color</small>
+                            <!-- Color Selection (show if required by ProductType OR multiple colors exist) -->
+                            {% if requires_color and available_colors or available_colors|length > 1 %}
+                            <div class="size-color-item">
+                                <label class="form-label product-label" for="color-select">Select Color <span class="required-star">*</span></label>
+                                <select class="form-select product-dropdown" name="color" id="color-select" required>
+                                    <option value="">Choose a color...</option>
+                                    {% for color in available_colors %}
+                                    <option value="{{ color }}">{{ color|title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <small class="form-help-text">Choose your preferred color</small>
+                            </div>
+                            {% endif %}
                         </div>
-                        {% endif %}
                         
                         <!-- Quantity -->
                         <div class="mb-4">
@@ -209,14 +199,167 @@
                         </button>
                         {% endif %}
                     </form>
-                    {% else %}
-                    <!-- Archived Product Notice -->
-                    <div class="alert alert-warning" role="alert">
-                        <i class="fas fa-archive me-2"></i>
-                        <strong>This product has been archived</strong><br>
-                        <small>This product is no longer available for purchase but can be viewed for reference.</small>
-                    </div>
                     {% endif %}
+                    
+                    <div class="product-description mb-4">
+                        <h4 class="section-title">Product Description</h4>
+                        <p>{{ product.description }}</p>
+                    </div>
+                    
+                    <!-- Design Story -->
+                    {% if product.design_story and product.design_story.status == 'published' %}
+                        <div class="design-story mb-4">
+                            <h4 class="section-title">Design Story</h4>
+                            <p class="story-text">{{ product.design_story.story }}</p>
+                            <small class="story-author">— {{ product.design_story.author }}</small>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Collapsible Product Information -->
+                    <div class="product-info-accordion mt-4">
+                        <div class="accordion-item">
+                            <button class="accordion-header" type="button" data-bs-toggle="collapse" data-bs-target="#delivery-info" aria-expanded="false" aria-controls="delivery-info">
+                                <span class="accordion-icon">
+                                    <i class="fas fa-truck"></i>
+                                </span>
+                                <span class="accordion-title">Delivery Information</span>
+                                <span class="accordion-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </button>
+                            <div id="delivery-info" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <div class="info-content">
+                                        <h5>Shipping Times</h5>
+                                        <ul class="shipping-list">
+                                            <li><strong>EU Orders:</strong> 3-7 business days</li>
+                                            <li><strong>UK Orders:</strong> 2-5 business days</li>
+                                            <li><strong>US Orders:</strong> 5-10 business days</li>
+                                            <li><strong>Rest of World:</strong> 7-14 business days</li>
+                                        </ul>
+                                        
+                                        <h5>Shipping Costs</h5>
+                                        <p>Free shipping on orders over €50. Standard shipping €4.99. Express shipping €9.99.</p>
+                                        
+                                        <h5>Order Tracking</h5>
+                                        <p>You'll receive a tracking number via email once your order ships. Track your package in real-time!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <button class="accordion-header" type="button" data-bs-toggle="collapse" data-bs-target="#returns-info" aria-expanded="false" aria-controls="returns-info">
+                                <span class="accordion-icon">
+                                    <i class="fas fa-undo"></i>
+                                </span>
+                                <span class="accordion-title">Returns & Exchanges</span>
+                                <span class="accordion-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </button>
+                            <div id="returns-info" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <div class="info-content">
+                                        <h5>30-Day Return Policy</h5>
+                                        <p>Not satisfied with your purchase? No problem! You have 30 days from delivery to return items for a full refund.</p>
+                                        
+                                        <h5>How to Return</h5>
+                                        <ol class="returns-steps">
+                                            <li>Contact us at <a href="mailto:returns@hendoshi.com">returns@hendoshi.com</a> with your order number</li>
+                                            <li>Pack your items securely in their original packaging</li>
+                                            <li>Include the return authorization form we'll send you</li>
+                                            <li>Ship to: HENDOSHI Returns, [Return Address], EU</li>
+                                        </ol>
+                                        
+                                        <h5>Return Conditions</h5>
+                                        <ul class="conditions-list">
+                                            <li>Items must be unworn and in original condition</li>
+                                            <li>Tags must still be attached</li>
+                                            <li>Return shipping costs are the customer's responsibility</li>
+                                            <li>Custom/sale items are not eligible for return</li>
+                                        </ul>
+                                        
+                                        <div class="returns-note">
+                                            <p><strong>Note:</strong> We want you to love your HENDOSHI gear! If you have any issues, we're here to help.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <button class="accordion-header" type="button" data-bs-toggle="collapse" data-bs-target="#size-guide" aria-expanded="false" aria-controls="size-guide">
+                                <span class="accordion-icon">
+                                    <i class="fas fa-ruler"></i>
+                                </span>
+                                <span class="accordion-title">Size Guide</span>
+                                <span class="accordion-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </button>
+                            <div id="size-guide" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <div class="info-content">
+                                        <h5>Size Chart</h5>
+                                        <div class="size-chart-container">
+                                            <table class="size-chart">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Size</th>
+                                                        <th>Chest (cm)</th>
+                                                        <th>Length (cm)</th>
+                                                        <th>Sleeve (cm)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>S</td>
+                                                        <td>86-91</td>
+                                                        <td>68</td>
+                                                        <td>19</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>M</td>
+                                                        <td>97-102</td>
+                                                        <td>71</td>
+                                                        <td>20</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>L</td>
+                                                        <td>107-112</td>
+                                                        <td>74</td>
+                                                        <td>21</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>XL</td>
+                                                        <td>117-122</td>
+                                                        <td>76</td>
+                                                        <td>22</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>XXL</td>
+                                                        <td>127-132</td>
+                                                        <td>79</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <h5>How to Measure</h5>
+                                        <ul class="measurement-guide">
+                                            <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal</li>
+                                            <li><strong>Length:</strong> Measure from the highest point of the shoulder to the bottom hem</li>
+                                            <li><strong>Sleeve:</strong> Measure from the shoulder seam to the end of the cuff</li>
+                                        </ul>
+                                        
+                                        <p class="size-note">Our garments run true to size. If you're between sizes, we recommend sizing up for a more relaxed fit.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- Social Share Section -->
                     <div class="social-share-section mt-4">
@@ -488,30 +631,39 @@
 
         <!-- Related Products -->
         {% if related_products %}
-        <div class="related-products mt-5">
+        <div class="related-products-carousel-container mt-5">
             <h2 class="text-center mb-4">You Might Also Like</h2>
-            <div class="row g-4">
-                {% for related in related_products %}
-                <div class="col-md-3">
-                    <div class="product-card">
-                        <a href="{% url 'product_detail' related.slug %}">
-                            <div class="product-image">
-                                {% if related.main_image %}
-                                    <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
-                                {% else %}
-                                    <div class="placeholder-image">
-                                        <i class="fas fa-image fa-2x"></i>
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <h3>{{ related.name }}</h3>
-                                <p class="product-price">€{{ related.base_price }}</p>
-                            </div>
-                        </a>
+            <div class="related-products-carousel">
+                <div class="related-products-track" id="related-products-track">
+                    {% for related in related_products %}
+                    <div class="related-product-item">
+                        <div class="product-card">
+                            <a href="{% url 'product_detail' related.slug %}">
+                                <div class="product-image">
+                                    {% if related.main_image %}
+                                        <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
+                                    {% else %}
+                                        <div class="placeholder-image">
+                                            <i class="fas fa-image fa-2x"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="product-info">
+                                    <h3>{{ related.name }}</h3>
+                                    <p class="product-price">€{{ related.base_price }}</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
+                <button class="related-products-carousel-btn related-products-carousel-prev" id="related-products-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="related-products-carousel-btn related-products-carousel-next" id="related-products-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
         {% endif %}
