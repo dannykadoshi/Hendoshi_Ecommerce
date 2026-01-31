@@ -279,18 +279,18 @@ def update_cart_item(request, item_id):
                 size=cart_item.size,
                 color=cart_item.color
             )
-            max_stock = variant.stock if variant.stock > 0 else 10
+            max_stock = variant.stock
+            if max_stock > 0 and quantity > max_stock:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': False,
+                        'error': f'Only {max_stock} items available in stock.'
+                    })
+                messages.error(request, f'Only {max_stock} items available in stock.')
+                return redirect('view_cart')
         except:
-            max_stock = 10
-        
-        if quantity > max_stock:
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': False,
-                    'error': f'Only {max_stock} items available in stock.'
-                })
-            messages.error(request, f'Only {max_stock} items available in stock.')
-            return redirect('view_cart')
+            # No stock information available - allow unlimited quantity
+            pass
         
         if quantity > 0:
             cart_item.quantity = quantity
