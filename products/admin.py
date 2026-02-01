@@ -58,6 +58,7 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'collection',
         'product_type_display',
+        'audience',
         'base_price',
         'sale_price',
         'is_on_sale',
@@ -65,7 +66,7 @@ class ProductAdmin(admin.ModelAdmin):
         'featured',
         'created_at'
     ]
-    list_filter = ['collection', 'product_type', 'is_active', 'featured']
+    list_filter = ['collection', 'product_type', 'audience', 'is_active', 'featured']
     search_fields = ['name', 'description', 'slug']
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ['is_active', 'featured', 'sale_price']
@@ -75,7 +76,7 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('name', 'slug', 'description')
         }),
         ('Categorization', {
-            'fields': ('collection', 'product_type')
+            'fields': ('collection', 'product_type', 'audience')
         }),
         ('Pricing & Images', {
             'fields': ('base_price', 'main_image')
