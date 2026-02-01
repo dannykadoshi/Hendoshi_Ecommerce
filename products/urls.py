@@ -58,6 +58,12 @@ urlpatterns = [
     # Canonical collection pages
     path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),
 
+    # Audience hubs
+    path('men/', views.audience_hub, {'audience_slug': 'men'}, name='audience_men'),
+    path('women/', views.audience_hub, {'audience_slug': 'women'}, name='audience_women'),
+    path('kids/', views.audience_hub, {'audience_slug': 'kids'}, name='audience_kids'),
+    path('unisex/', views.audience_hub, {'audience_slug': 'unisex'}, name='audience_unisex'),
+
     # Product browsing
     path('sale/', views.sale_products, name='sale'),
     path('', views.all_products, name='products'),

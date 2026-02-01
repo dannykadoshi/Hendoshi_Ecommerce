@@ -159,6 +159,15 @@ def all_products(request):
     if 'collection' in request.GET:
         selected_collection = request.GET['collection']
         products = products.filter(collection__slug=selected_collection)
+
+    # Filter by audience
+    if 'audience' in request.GET:
+        selected_audience = request.GET['audience']
+        if selected_audience:
+            products = products.filter(audience=selected_audience)
+        else:
+            # empty value means all audiences
+            pass
     
     # Filter by product type
     if 'type' in request.GET:
@@ -193,6 +202,7 @@ def all_products(request):
         'search_term': query,
         'current_collection': selected_collection,
         'current_type': selected_type,
+        'current_audience': request.GET.get('audience', None),
         'current_sorting': f'{sort}_{direction}',
     }
     
@@ -233,6 +243,12 @@ def sale_products(request):
     if 'collection' in request.GET:
         selected_collection = request.GET['collection']
         products = products.filter(collection__slug=selected_collection)
+
+    # Filter by audience
+    if 'audience' in request.GET:
+        selected_audience = request.GET['audience']
+        if selected_audience:
+            products = products.filter(audience=selected_audience)
 
     # Filter by product type
     if 'type' in request.GET:
@@ -343,6 +359,22 @@ def product_detail(request, slug):
         'recently_viewed_products': recently_viewed_products,
     }
 
+    # Audience switcher: find other products with same name but different audience
+    audience_switches = {}
+    try:
+        other_versions = Product.objects.filter(name=product.name).exclude(id=product.id)
+        for a in ['men', 'women', 'kids', 'unisex']:
+            match = other_versions.filter(audience=a).first()
+            if match:
+                audience_switches[a] = match.slug
+            else:
+                # fallback to audience hub filtered by product name
+                audience_switches[a] = None
+    except Exception:
+        audience_switches = {a: None for a in ['men', 'women', 'kids', 'unisex']}
+
+    context['audience_switches'] = audience_switches
+
     response = render(request, 'products/product_detail.html', context)
 
     # Add to recently viewed after rendering (so we can modify the response)
@@ -373,6 +405,12 @@ def collection_detail(request, slug):
     if selected_type:
         products = products.filter(product_type=selected_type)
 
+    # Filter by audience
+    if 'audience' in request.GET:
+        selected_audience = request.GET.get('audience')
+        if selected_audience:
+            products = products.filter(audience=selected_audience)
+
     if sort:
         sortkey = sort
         if sortkey == 'name':
@@ -390,6 +428,63 @@ def collection_detail(request, slug):
         'current_collection': collection.slug,
         'current_type': selected_type,
         'current_sorting': f'{sort}_{direction}',
+    }
+
+    return render(request, 'products/products.html', context)
+
+
+def audience_hub(request, audience_slug):
+    """
+    Audience hub pages (Men / Women / Kids) - reuse products listing template
+    """
+    # Validate audience
+    valid = ['men', 'women', 'kids', 'unisex']
+    if audience_slug not in valid:
+        # Fallback to all products if invalid
+        return all_products(request)
+
+    products = Product.objects.filter(audience=audience_slug, is_active=True, is_archived=False)
+    collections = Collection.objects.all()
+
+    # Support search, collection and product_type filters similar to all_products
+    query = request.GET.get('q')
+    selected_collection = request.GET.get('collection')
+    selected_type = request.GET.get('type')
+    sort = request.GET.get('sort')
+    direction = request.GET.get('direction')
+
+    if query:
+        products = products.filter(Q(name__icontains=query) | Q(description__icontains=query))
+
+    if selected_collection:
+        products = products.filter(collection__slug=selected_collection)
+
+    if selected_type:
+        try:
+            product_type = ProductType.objects.get(slug=selected_type)
+            products = products.filter(product_type=product_type)
+        except ProductType.DoesNotExist:
+            products = products.none()
+
+    if sort:
+        sortkey = sort
+        if sortkey == 'name':
+            sortkey = 'name'
+        if sortkey == 'price':
+            sortkey = 'base_price'
+        if direction == 'desc':
+            sortkey = f'-{sortkey}'
+        products = products.order_by(sortkey)
+
+    context = {
+        'products': products,
+        'collections': collections,
+        'search_term': query,
+        'current_collection': selected_collection,
+        'current_type': selected_type,
+        'current_sorting': f'{sort}_{direction}',
+        'current_audience': audience_slug,
+        'audience_hub': True,
     }
 
     return render(request, 'products/products.html', context)
