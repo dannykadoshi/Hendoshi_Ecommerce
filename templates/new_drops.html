@@ -26,9 +26,6 @@
                         <div class="product-card glassmorphic-card">
                             {% if request.user.is_staff or request.user.is_superuser %}
 
-                            <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
                             {% endif %}
                             <div class="product-card-inner">
                                 <!-- Battle Vest Button (always same style) -->
@@ -43,6 +40,11 @@
                                 {% endif %}
                                 <a href="{% url 'product_detail' product.slug %}">
                                     <div class="product-image product-image-relative">
+                                        {% if request.user.is_staff or request.user.is_superuser %}
+                                        <button type="button" class="edit-product-icon" title="Edit Product" onclick="window.location.href='{% url 'edit_product' product.slug %}'">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        {% endif %}
                                         {% if product.main_image %}
                                             <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
                                             {% with second_image=product.images.first %}

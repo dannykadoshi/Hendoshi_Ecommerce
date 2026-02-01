@@ -35,7 +35,7 @@
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     <h1 class="vault-hero-title">My Battle Vest</h1>
-                    <p class="vault-hero-subtitle">Your curated collection of metal masterpieces</p>
+                    <p class="vault-hero-subtitle">Save your favorite HENDOSHI gear here - like a warrior's armor, but for your wishlist! 💪❤️</p>
                     {% if item_count > 0 %}
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="vest-hero-stat">
@@ -114,27 +114,29 @@
                         {{ item.product.name }}
                     </a>
 
-                    {% if item.product.collection %}
-                    <p class="vest-item-collection">{{ item.product.collection.name }}</p>
-                    {% endif %}
+                    <div class="vest-item-bottom">
+                        {% if item.product.collection %}
+                        <p class="vest-item-collection">{{ item.product.collection.name }}</p>
+                        {% endif %}
 
-                    {% if item.product.is_on_sale %}
-                        <div class="vest-item-price">
-                            <span class="original-price">€{{ item.product.base_price }}</span>
-                            <span class="sale-price">€{{ item.product.current_price }}</span>
-                        </div>
-                    {% else %}
-                        <p class="vest-item-price">€{{ item.product.base_price }}</p>
-                    {% endif %}
+                        {% if item.product.is_on_sale %}
+                            <div class="vest-item-price">
+                                <span class="original-price">€{{ item.product.base_price }}</span>
+                                <span class="sale-price">€{{ item.product.current_price }}</span>
+                            </div>
+                        {% else %}
+                            <p class="vest-item-price">€{{ item.product.base_price }}</p>
+                        {% endif %}
 
-                    <p class="vest-item-date">
-                        <i class="far fa-clock"></i> Added {{ item.added_at|timesince }} ago
-                    </p>
+                        <p class="vest-item-date">
+                            <i class="far fa-clock"></i> Added {{ item.added_at|timesince }} ago
+                        </p>
 
-                    <!-- Add to Cart Button -->
-                    <button class="btn btn-quick-add w-100 vest-add-cart-btn" onclick="openAddToCartVestModal({{ item.product.id }}, '{{ item.product.name|escapejs }}')">
-                        <i class="fas fa-shopping-cart"></i> ADD TO BAG
-                    </button>
+                        <!-- Add to Cart Button -->
+                        <button class="btn btn-quick-add w-100 vest-add-cart-btn" onclick="openAddToCartVestModal({{ item.product.id }}, '{{ item.product.name|escapejs }}')">
+                            <i class="fas fa-shopping-cart"></i> ADD TO BAG
+                        </button>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -151,7 +153,7 @@
         <!-- Empty Battle Vest -->
         <div class="empty-vest text-center">
             <div class="empty-vest-icon">
-                <i class="fas fa-shield-alt"></i>
+                <i class="fas fa-heart"></i>
             </div>
             <h2 class="empty-vest-title">Your Battle Vest is Empty</h2>
             <p class="empty-vest-text">
@@ -419,6 +421,22 @@ style.textContent = `
     @keyframes fadeOut {
         from { opacity: 1; transform: scale(1); }
         to { opacity: 0; transform: scale(0.9); }
+    }
+    
+    .battle-vest-explanation {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .battle-vest-explanation p {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .battle-vest-explanation small {
+        font-size: 0.9rem;
+        opacity: 0.8;
     }
 `;
 document.head.appendChild(style);

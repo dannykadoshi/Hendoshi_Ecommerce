@@ -39,6 +39,41 @@
 {
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function makeCarouselCardsClickable(containerSelector, itemSelector) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+
+        // Use delegated listeners on the track to avoid per-item handlers
+        container.addEventListener('click', function(e) {
+            // Ignore clicks on real controls or links
+            if (e.target.closest('a, button, .product-vest-btn, .edit-product-icon, .carousel-add-cart-btn')) return;
+            const item = e.target.closest(itemSelector);
+            if (!item) return;
+            const link = item.querySelector('a[href*="/products/"]');
+            if (link && link.href) {
+                window.location.href = link.href;
+            }
+        });
+
+        // Also handle touchend for mobile where click may be suppressed after drag
+        container.addEventListener('touchend', function(e) {
+            if (e.target.closest('a, button, .product-vest-btn, .edit-product-icon, .carousel-add-cart-btn')) return;
+            const item = e.target.closest(itemSelector);
+            if (!item) return;
+            const link = item.querySelector('a[href*="/products/"]');
+            if (link && link.href) {
+                window.location.href = link.href;
+            }
+        }, {passive: true});
+    }
+
+    makeCarouselCardsClickable('#related-products-track', '.related-product-item');
+    makeCarouselCardsClickable('#recently-viewed-products-track', '.recently-viewed-product-item');
+});
+</script>
+
 {% endblock %}
 {% block content %}
     <div class="products-page">
@@ -63,6 +98,8 @@
                 <div class="product-images">
                     <div class="main-image mb-3 glassmorphic-card" id="mainImageContainer">
                         {% if product.main_image %}
+                            {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
+                            {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
                             <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}">
                             {% with second_image=product.images.first %}
                                 {% if second_image %}
@@ -157,7 +194,6 @@
                         <div class="product-price">
                             <div class="original-price">€{{ product.base_price }}</div>
                             <div class="sale-price">€{{ product.current_price }}</div>
-                            <span class="sale-badge">Sale</span>
                         </div>
                     {% else %}
                         <p class="product-price">€{{ product.base_price }}</p>
@@ -216,15 +252,19 @@
                         </div>
                         
                         <!-- Buttons -->
-                        <button type="submit" class="btn btn-pink btn-lg w-100 mb-2 add-to-cart-btn">
+                        <div class="d-flex gap-2 mb-2">
+                        <button type="submit" class="btn btn-pink btn-lg flex-fill add-to-cart-btn">
                             <i class="fas fa-shopping-bag"></i> ADD TO BAG
                         </button>
 
                         {% if user.is_authenticated %}
-                        <button type="button" class="btn btn-outline-pink w-100 battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
-                            <i class="far fa-heart heart-icon"></i> <span class="vest-btn-text">ADD TO BATTLE VEST</span>
+                        <button type="button" class="btn btn-outline-pink battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
+                            <i class="far fa-heart heart-icon" style="font-size: 2em;"></i>
                         </button>
-                        {% else %}
+                        {% endif %}
+                        </div>
+
+                        {% if not user.is_authenticated %}
                         <button type="button" class="btn btn-outline-pink w-100" onclick="window.location.href='{% url 'account_login' %}?next={{ request.path }}'">
                             <i class="fas fa-sign-in-alt"></i> LOGIN TO ADD TO BATTLE VEST
                         </button>
@@ -776,8 +816,8 @@
                                 <i class="far fa-heart"></i>
                             </button>
                             {% endif %}
-                            <a href="{% url 'product_detail' related.slug %}">
-                                <div class="product-image">
+                            <div class="product-image">
+                                <a href="{% url 'product_detail' related.slug %}">
                                     {% if related.main_image %}
                                         <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
                                     {% else %}
@@ -785,19 +825,24 @@
                                             <i class="fas fa-image fa-2x"></i>
                                         </div>
                                     {% endif %}
-                                </div>
-                                <div class="product-info">
-                                    <h3>{{ related.name }}</h3>
-                                    {% if related.is_on_sale %}
-                                        <div class="product-price">
-                                            <span class="original-price">€{{ related.base_price }}</span>
-                                            <span class="sale-price">€{{ related.current_price }}</span>
-                                        </div>
-                                    {% else %}
-                                        <p class="product-price">€{{ related.base_price }}</p>
-                                    {% endif %}
-                                </div>
-                            </a>
+                                </a>
+                                {% if request.user.is_staff or request.user.is_superuser %}
+                                <button type="button" class="edit-product-icon" title="Edit Product" onclick="window.location.href='{% url 'edit_product' related.slug %}'">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <a href="{% url 'product_detail' related.slug %}"><h3>{{ related.name }}</h3></a>
+                                {% if related.is_on_sale %}
+                                    <div class="product-price">
+                                        <span class="original-price">€{{ related.base_price }}</span>
+                                        <span class="sale-price">€{{ related.current_price }}</span>
+                                    </div>
+                                {% else %}
+                                    <p class="product-price">€{{ related.base_price }}</p>
+                                {% endif %}
+                            </div>
                             <!-- Add to Bag Button -->
                             <button class="btn btn-quick-add carousel-add-cart-btn carousel-add-cart-btn-positioned" data-product-id="{{ related.id }}" data-product-name="{{ related.name|escapejs }}">
                                 <i class="fas fa-shopping-cart"></i> ADD TO BAG
@@ -826,11 +871,11 @@
                     {% for viewed_product in recently_viewed_products %}
                     <div class="recently-viewed-product-item">
                         <div class="product-card">
-                            {% if user.is_authenticated %}
-                            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ viewed_product.slug }}" title="Add to Battle Vest">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            {% endif %}
+                                {% if user.is_authenticated %}
+                                <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ viewed_product.slug }}" title="Add to Battle Vest">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                {% endif %}
                             <a href="{% url 'product_detail' viewed_product.slug %}">
                                 <div class="product-image">
                                     {% if viewed_product.main_image %}
@@ -839,6 +884,11 @@
                                         <div class="placeholder-image">
                                             <i class="fas fa-image fa-2x"></i>
                                         </div>
+                                    {% endif %}
+                                    {% if request.user.is_staff or request.user.is_superuser %}
+                                    <button type="button" class="edit-product-icon" title="Edit Product" onclick="window.location.href='{% url 'edit_product' viewed_product.slug %}'">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
                                     {% endif %}
                                 </div>
                                 <div class="product-info">
@@ -882,7 +932,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const battleVestBtn = document.getElementById('battleVestBtn');
     const productSlug = battleVestBtn.dataset.productSlug;
     const heartIcon = battleVestBtn.querySelector('.heart-icon');
-    const btnText = battleVestBtn.querySelector('.vest-btn-text');
+    const btnText = battleVestBtn.querySelector('.vest-btn-text'); // May be null now
 
     // Check if product is already in vest on page load
     checkInVest();
@@ -908,7 +958,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Product is in vest - show filled heart
                     heartIcon.classList.remove('far');
                     heartIcon.classList.add('fas');
-                    btnText.textContent = 'IN YOUR BATTLE VEST';
+                    if (btnText) btnText.textContent = 'IN YOUR BATTLE VEST';
                     battleVestBtn.classList.add('in-vest');
                 }
                 updateVestCount(data.item_count);
@@ -932,7 +982,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update button to filled heart
                 heartIcon.classList.remove('far');
                 heartIcon.classList.add('fas');
-                btnText.textContent = 'IN YOUR BATTLE VEST';
+                if (btnText) btnText.textContent = 'IN YOUR BATTLE VEST';
                 battleVestBtn.classList.add('in-vest');
 
                 // Show success toast
@@ -966,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update button to outline heart
                 heartIcon.classList.remove('fas');
                 heartIcon.classList.add('far');
-                btnText.textContent = 'ADD TO BATTLE VEST';
+                if (btnText) btnText.textContent = 'ADD TO BATTLE VEST';
                 battleVestBtn.classList.remove('in-vest');
 
                 // Show info toast
@@ -1766,7 +1816,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="reviewer-name">${review.username}</span>
                         ${review.verified ? '<span class="verified-badge ms-2"><i class="fas fa-check-circle"></i> Verified Purchase</span>' : ''}
                     </div>
-                    <div class="review-rating">${stars}</div>
+                        <div class="review-rating">${stars}</div>
                 </div>
                 ${review.title ? `<h5 class="review-title">${review.title}</h5>` : ''}
                 <p class="review-text">${review.text}</p>

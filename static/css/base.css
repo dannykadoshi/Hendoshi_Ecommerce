@@ -1212,10 +1212,10 @@ input[type="file"]::-ms-browse:hover {
     margin-left: 15px;
 }
 
-/* Mobile: Move edit button above add to bag button */
+/* Mobile: Edit button positioned in bottom right of image */
 @media (max-width: 991px) {
     .edit-product-icon {
-        bottom: 60px;
+        bottom: 10px;
         right: 10px;
     }
 }
@@ -2268,6 +2268,31 @@ span.gradient-text-mobile {
 .navbar-brand:hover .logo-text .fa-skull {
     background-size: 200% 200%;
     animation: logo-shimmer 2s ease infinite;
+}
+
+/* Light-mode: simplify navbar brand (HENDOSHI) — keep gradient only, remove animations/effects */
+:root.light-mode .navbar-brand .logo-text,
+:root.light-mode .navbar-brand .logo-text .fa-skull {
+    /* Keep the gradient text but remove heavy shadows/animations; allow transform transitions */
+    filter: none !important;
+    text-shadow: none !important;
+    /* start with no transform but allow smooth transform transitions on hover */
+    transform: none !important;
+    transition: transform 180ms ease, filter 180ms ease !important;
+    animation: none !important;
+    background-size: auto !important;
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+:root.light-mode .navbar-brand .logo-text:hover,
+:root.light-mode .navbar-brand .logo-text:hover .fa-skull {
+    /* Subtle moving effect on hover in light mode */
+    filter: none !important;
+    animation: none !important;
+    transform: translateY(-3px) scale(1.02) !important;
 }
 
 .navbar-right {
@@ -6324,9 +6349,8 @@ h2.gradient-title {
 /* Quick Add overlay bar */
 .quick-add {
     position: absolute;
-    bottom: 35px;
-    left: 60%;
-    transform: translateX(-50%);
+    bottom: 15px;
+    right: 15px;
     width: auto;
     background: transparent;
     padding: 0;
@@ -6337,7 +6361,7 @@ h2.gradient-title {
 
 .product-card:hover .quick-add {
     opacity: 1;
-    bottom: 40px;
+    bottom: 20px;
 }
 
 @media (max-width: 991px) {
@@ -6448,6 +6472,20 @@ h2.gradient-title {
     position: relative;
 }
 
+/* Ensure product cards are equal-height and contents align so prices sit on the same baseline
+   regardless of title length. Using flexbox makes the image sit above and the info
+   fill the remaining space; the price is pushed to the bottom with margin-top:auto. */
+.product-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
 .product-card:hover {
     border-color: var(--neon-pink);
     margin-top: -5px;
@@ -6528,9 +6566,7 @@ h2.gradient-title {
 }
 
 .badge-featured {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    display: inline-block;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: var(--black);
     padding: 0.25rem 0.6rem;
@@ -6538,30 +6574,42 @@ h2.gradient-title {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    z-index: 10;
+    z-index: 20;
     pointer-events: none;
     border-radius: 3px;
 }
 
 .badge-sale {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    display: inline-block;
     background: linear-gradient(135deg, #ff0000, #ff1493);
-    color: var(--white);
+    color: #fff;
     padding: 0.25rem 0.6rem;
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    z-index: 10;
+    z-index: 20;
     pointer-events: none;
     border-radius: 3px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Move sale badge below featured badge when both are present */
-.badge-featured + .badge-sale {
+/* Absolute positioning in product images */
+.product-image .badge-featured,
+.product-image .badge-sale,
+.main-image .badge-featured,
+.main-image .badge-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+}
+
+/* Move second badge below first when both are present */
+.product-image .badge-featured + .badge-sale,
+.product-image .badge-sale + .badge-featured,
+.main-image .badge-featured + .badge-sale,
+.main-image .badge-sale + .badge-featured {
     top: 35px;
 }
 
@@ -6622,6 +6670,7 @@ h2.gradient-title {
     padding: 1rem 1.25rem 1.25rem;
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
 }
 
 .product-info h3 {
@@ -6631,6 +6680,15 @@ h2.gradient-title {
     color: var(--off-white);
     transition: color 0.3s ease;
     line-height: 1.3;
+}
+
+/* Clamp product title to two lines so product-type below it sits consistently */
+.product-info h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(2 * 1.3em);
 }
 
 .product-card:hover .product-info h3 {
@@ -6643,6 +6701,18 @@ h2.gradient-title {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
+}
+
+/* Ensure product type occupies a single line and doesn't shift layout */
+.product-type {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Push price to the bottom of the product info area so it aligns across cards */
+.product-price {
+    margin-top: auto;
 }
 
 .product-collection {
@@ -13416,7 +13486,7 @@ input[type="number"] {
 
 /* Battle Vest Page */
 .battle-vest-page {
-    padding: 10rem 0 4rem;
+    padding: 120px 0 4rem;
     min-height: 100vh;
     background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%);
 }
@@ -13504,6 +13574,13 @@ input[type="number"] {
     position: relative;
 }
 
+/* Make vest cards layout stable regardless of title length */
+.vest-item-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .vest-item-card:hover {
     border-color: var(--neon-pink);
     transform: translateY(-5px);
@@ -13589,6 +13666,14 @@ input[type="number"] {
     padding: 1.5rem;
 }
 
+/* Ensure info column stretches and content below title aligns */
+.vest-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1 1 auto;
+}
+
 .vest-item-title {
     font-size: 1.2rem;
     font-weight: 700;
@@ -13599,6 +13684,17 @@ input[type="number"] {
     transition: color 0.3s ease;
 }
 
+/* Clamp product titles to 3 lines and reserve space so cards remain uniform */
+.vest-item-title {
+    font-size: 1.1rem; /* match product card titles */
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* support up to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: calc(1.3em * 2);
+}
+
 .vest-item-title:hover {
     color: var(--neon-pink);
 }
@@ -13606,7 +13702,7 @@ input[type="number"] {
 .vest-item-collection {
     font-size: 0.85rem;
     color: var(--electric-yellow);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.125rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -13615,14 +13711,14 @@ input[type="number"] {
     font-size: 1.4rem;
     font-weight: 800;
     color: var(--neon-pink);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.125rem;
 }
 
 .vest-item-date {
     font-size: 0.8rem;
     color: var(--off-white);
     opacity: 0.5;
-    margin-bottom: 1rem;
+    margin-bottom: 0.125rem;
 }
 
 .vest-add-cart-btn {
@@ -13632,6 +13728,18 @@ input[type="number"] {
     font-weight: 700;
     padding: 0.75rem;
     transition: all 0.3s ease;
+}
+
+/* Push add-to-cart to the bottom of the info column for consistent card heights */
+.vest-item-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.vest-add-cart-btn {
+    margin-top: 0; /* controlled by .vest-item-bottom spacing */
 }
 
 .vest-add-cart-btn:hover {
@@ -13757,6 +13865,14 @@ input[type="number"] {
 
     .vest-title {
         font-size: 1.5rem;
+    }
+}
+
+/* Ensure Battle Vest shows 2 items per row on small mobile screens */
+@media (max-width: 576px) {
+    .battle-vest-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem;
     }
 }
 
@@ -16565,6 +16681,7 @@ datalist option {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 1.5rem 0 0.5rem;
     margin-top: -20px;
     margin-bottom: 4rem;

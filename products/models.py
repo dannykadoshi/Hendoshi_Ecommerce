@@ -83,6 +83,19 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         related_name='products'
     )
+    # Audience (Men/Women/Kids/Unisex)
+    AUDIENCE_CHOICES = [
+        ('men', 'Men'),
+        ('women', 'Women'),
+        ('kids', 'Kids'),
+        ('unisex', 'Unisex'),
+    ]
+    audience = models.CharField(
+        max_length=10,
+        choices=AUDIENCE_CHOICES,
+        default='unisex',
+        help_text='Primary audience for this product'
+    )
     # DB-backed FK to ProductType (final field name after migration)
     product_type = models.ForeignKey(
         'ProductType',

@@ -13,6 +13,7 @@ class ProductForm(forms.ModelForm):
         fields = [
             'name',
             'description',
+            'audience',
             'collection',
             'product_type',
             'base_price',
@@ -35,6 +36,9 @@ class ProductForm(forms.ModelForm):
                 'placeholder': 'Product Description',
                 'rows': 6,
                 'required': 'required'
+            }),
+            'audience': forms.Select(attrs={
+                'class': 'form-control auth-form-input',
             }),
             'collection': forms.Select(attrs={
                 'class': 'form-control auth-form-input',

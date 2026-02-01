@@ -219,9 +219,6 @@
                             <div class="product-card glassmorphic-card">
                                 {% if request.user.is_staff or request.user.is_superuser %}
 
-                                <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
                                 {% endif %}
                                 <div class="product-card-inner">
                                     <!-- Battle Vest Button (always same style) -->
@@ -236,6 +233,11 @@
                                     {% endif %}
                                     <a href="{% url 'product_detail' product.slug %}">
                                         <div class="product-image product-image-relative">
+                                            {% if request.user.is_staff or request.user.is_superuser %}
+                                            <button type="button" class="edit-product-icon" title="Edit Product" data-edit-url="{% url 'edit_product' product.slug %}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            {% endif %}
                                             {% if product.main_image %}
                                                 <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
                                                 {% with second_image=product.images.first %}
@@ -256,10 +258,10 @@
                                             <h3>{{ product.name }}</h3>
                                             <p class="product-type">{{ product.product_type_display }}</p>
                                             {% if product.is_on_sale %}
-                                                <div class="product-price">
-                                                    <div class="original-price">€{{ product.base_price }}</div>
-                                                    <div class="sale-price">€{{ product.current_price }}</div>
-                                                </div>
+                                                <p class="product-price">
+                                                    <span class="original-price">€{{ product.base_price }}</span>
+                                                    <span class="sale-price">€{{ product.current_price }}</span>
+                                                </p>
                                             {% else %}
                                                 <p class="product-price">€{{ product.base_price }}</p>
                                             {% endif %}
@@ -267,7 +269,9 @@
                                     </a>
                                     <!-- Quick Add overlay -->
                                     <div class="quick-add">
-                                        <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}">ADD TO BAG</button>
+                                        <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -713,6 +717,18 @@
                 });
             });
         });
+    });
+    // Handle edit-product-icon clicks without nesting anchors
+    document.addEventListener('click', function(e) {
+        const editBtn = e.target.closest('.edit-product-icon');
+        if (editBtn) {
+            e.stopPropagation();
+            e.preventDefault();
+            const url = editBtn.dataset.editUrl;
+            if (url) {
+                window.location.href = url;
+            }
+        }
     });
     </script>
 {% endblock %}
