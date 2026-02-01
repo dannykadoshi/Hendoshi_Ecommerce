@@ -11,35 +11,42 @@ def cookie_settings(request):
     consent = CookieManager.get_cookie_consent(request)
     preferences = CookieManager.get_user_preferences(request)
 
+    # Add consent status to each category
+    categories = [
+        {
+            'key': CookieManager.ESSENTIAL,
+            'name': 'Essential Cookies',
+            'description': 'Required for the website to function properly.',
+            'required': True,
+            'consented': consent.get(CookieManager.ESSENTIAL, True)
+        },
+        {
+            'key': CookieManager.ANALYTICS,
+            'name': 'Analytics Cookies',
+            'description': 'Help us understand how visitors interact with our website.',
+            'required': False,
+            'consented': consent.get(CookieManager.ANALYTICS, False)
+        },
+        {
+            'key': CookieManager.MARKETING,
+            'name': 'Marketing Cookies',
+            'description': 'Used to deliver personalized advertisements.',
+            'required': False,
+            'consented': consent.get(CookieManager.MARKETING, False)
+        },
+        {
+            'key': CookieManager.PREFERENCES,
+            'name': 'Preference Cookies',
+            'description': 'Remember your settings and preferences.',
+            'required': False,
+            'consented': consent.get(CookieManager.PREFERENCES, False)
+        }
+    ]
+
     context = {
         'cookie_consent': consent,
         'user_preferences': preferences,
-        'cookie_categories': [
-            {
-                'key': CookieManager.ESSENTIAL,
-                'name': 'Essential Cookies',
-                'description': 'Required for the website to function properly.',
-                'required': True
-            },
-            {
-                'key': CookieManager.ANALYTICS,
-                'name': 'Analytics Cookies',
-                'description': 'Help us understand how visitors interact with our website.',
-                'required': False
-            },
-            {
-                'key': CookieManager.MARKETING,
-                'name': 'Marketing Cookies',
-                'description': 'Used to deliver personalized advertisements.',
-                'required': False
-            },
-            {
-                'key': CookieManager.PREFERENCES,
-                'name': 'Preference Cookies',
-                'description': 'Remember your settings and preferences.',
-                'required': False
-            }
-        ]
+        'cookie_categories': categories
     }
     return render(request, 'cookies/cookie_settings.html', context)
 

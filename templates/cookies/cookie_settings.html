@@ -4,14 +4,27 @@
 {% block title %}Cookie Settings - Hendoshi{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="cookie-settings-card">
-                <div class="card-header">
-                    <h1 class="h2 mb-0">Cookie Settings</h1>
-                    <p class="text-muted mt-2 mb-0">Manage your cookie preferences</p>
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- Cookie Settings Hero -->
+        <section class="vault-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                        <h1 class="vault-hero-title">Cookie Settings</h1>
+                        <p class="vault-hero-subtitle">Manage your privacy preferences and cookie settings.</p>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Cookie Settings Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="contact-card">
 
                 <div class="card-body">
                     <div class="cookie-intro">
@@ -30,7 +43,7 @@
                             <label class="cookie-toggle">
                                 <input type="checkbox"
                                        id="{{ category.key }}-toggle"
-                                       {% if cookie_consent|get_item:category.key %}checked{% endif %}>
+                                       {% if category.consented %}checked{% endif %}>
                                 <span class="cookie-toggle-slider"></span>
                             </label>
                             {% else %}
@@ -87,6 +100,7 @@
             </div>
         </div>
     </div>
+</section>
 </div>
 {% endblock %}
 
