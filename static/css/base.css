@@ -405,6 +405,55 @@
     }
 }
 
+/* Audience badges */
+.badge-audience {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #111;
+    margin-left: 0.5rem;
+}
+.badge-audience.badge-men { background: linear-gradient(90deg,#2b8cff,#1e6fe5); color: #fff; }
+.badge-audience.badge-women { background: linear-gradient(90deg,#ff6fb5,#ff3a8d); color: #fff; }
+.badge-audience.badge-kids { background: linear-gradient(90deg,#ffd166,#ffb84d); color: #111; }
+.badge-audience.badge-unisex { background: linear-gradient(90deg,#9be7c4,#5cc4a2); color: #111; }
+
+.audience-badge { display:inline-block; margin-left:0.5rem; padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.85rem; }
+
+/* Audience switcher button hover/focus colors to match badge gradients */
+.audience-switcher .btn.badge-men:hover,
+.audience-switcher .btn.badge-men:focus {
+    background: linear-gradient(90deg,#2b8cff,#1e6fe5);
+    border-color: transparent;
+    color: #fff;
+}
+.audience-switcher .btn.badge-women:hover,
+.audience-switcher .btn.badge-women:focus {
+    background: linear-gradient(90deg,#ff6fb5,#ff3a8d);
+    border-color: transparent;
+    color: #fff;
+}
+.audience-switcher .btn.badge-kids:hover,
+.audience-switcher .btn.badge-kids:focus {
+    background: linear-gradient(90deg,#ffd166,#ffb84d);
+    border-color: transparent;
+    color: #111;
+}
+.audience-switcher .btn.badge-unisex:hover,
+.audience-switcher .btn.badge-unisex:focus {
+    background: linear-gradient(90deg,#9be7c4,#5cc4a2);
+    border-color: transparent;
+    color: #111;
+}
+
+/* Slight transition for smooth hover */
+.audience-switcher .btn {
+    transition: background 220ms ease, color 220ms ease, transform 120ms ease;
+}
+.audience-switcher .btn:active { transform: translateY(1px); }
+
 /* Make contact-type pages' inner cards full-bleed on small screens
    so shipping, returns, size guide, FAQ, and contact pages use
    the full viewport width (minus small internal padding). */
@@ -7413,6 +7462,38 @@ h2.gradient-title {
     color: var(--neon-pink);
     font-weight: 700;
     margin-bottom: 1.5rem;
+}
+
+/* Ensure original and sale prices sit inline and are styled consistently */
+.product-price {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    font-size: 1.25rem; /* slightly larger for grid and simple listings */
+}
+.product-card .product-price { /* explicit grid/card override */
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.product-price .original-price {
+    text-decoration: line-through;
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
+    font-size: 1.05rem;
+    opacity: 0.95;
+}
+.product-price .sale-price {
+    color: var(--neon-pink);
+    font-weight: 900;
+    font-size: 1.3rem; /* larger sale price in grid */
+}
+
+/* Larger sale price on product detail pages */
+.product-detail-page .product-price .sale-price {
+    font-size: 2.8rem;
+}
+.product-detail-page .product-price .original-price {
+    font-size: 1.2rem;
 }
 
 .product-description {

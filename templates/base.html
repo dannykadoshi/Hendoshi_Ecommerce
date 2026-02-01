@@ -299,6 +299,19 @@
                             {% endif %}
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="audienceMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">Shop by Audience</a>
+                        <ul class="dropdown-menu" aria-labelledby="audienceMenu">
+                            <li><a class="dropdown-item" href="{% url 'audience_men' %}">Men</a></li>
+                            <li><a class="dropdown-item" href="{% url 'audience_women' %}">Women</a></li>
+                            <li><a class="dropdown-item" href="{% url 'audience_kids' %}">Kids</a></li>
+                            <li><a class="dropdown-item" href="{% url 'audience_unisex' %}">Unisex</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link gradient-text" href="{% url 'sale' %}">🔥 Sale</a>
                     </li>
@@ -643,6 +656,12 @@
                         </button>
                         <button class="menu-item-arrow" data-submenu="product-type"><i class="fas fa-chevron-right"></i></button>
                     </li>
+                    <li class="menu-item-group menu-item-animate" style="--item-index: 2;">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="audience">
+                            <i class="fas fa-venus-mars menu-item-icon"></i> Shop by Audience
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="audience"><i class="fas fa-chevron-right"></i></button>
+                    </li>
                     <li class="menu-item-group menu-item-sale menu-item-animate" style="--item-index: 2;" onclick="window.location.href='{% url 'sale' %}'">
                         <span class="menu-item-header">
                             <i class="fas fa-fire-alt menu-item-icon sale-icon"></i> <span class="sale-text">Sale</span>
@@ -708,6 +727,17 @@
                         <a href="{% url 'products' %}?type=sticker" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-sticky-note"></i> Stickers</a>
                         <a href="{% url 'products' %}?type=accessory" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-ring"></i> Accessories</a>
                     {% endif %}
+                </div>
+            </div>
+
+            <!-- Audience Submenu -->
+            <div class="menu-submenu hidden" id="submenuAudience">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Shop by Audience</button>
+                <div class="submenu-content">
+                    <a href="{% url 'audience_men' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-male"></i> Men</a>
+                    <a href="{% url 'audience_women' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-female"></i> Women</a>
+                    <a href="{% url 'audience_kids' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-child"></i> Kids</a>
+                    <a href="{% url 'audience_unisex' %}" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-users"></i> Unisex</a>
                 </div>
             </div>
             

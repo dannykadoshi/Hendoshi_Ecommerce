@@ -188,6 +188,43 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="collection-badge">{{ product.collection.name }}</span>
                         {% endif %}
                         <span class="type-badge">{{ product.product_type_display }}</span>
+                        {% if product.audience %}
+                            <span class="type-badge badge-audience badge-{{ product.audience }}">{{ product.get_audience_display }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Audience Switcher -->
+                    <div class="audience-switcher mt-3">
+                        <label class="form-label small">View this product for:</label>
+                        <div class="d-flex gap-2">
+                            {% comment %} Men {% endcomment %}
+                            {% if audience_switches and audience_switches.men %}
+                                <a class="btn btn-outline-light btn-sm badge-men" href="{% url 'product_detail' audience_switches.men %}">Men</a>
+                            {% else %}
+                                <a class="btn btn-outline-light btn-sm badge-men" href="{% url 'products' %}?audience=men&q={{ product.name|urlencode }}">Men</a>
+                            {% endif %}
+
+                            {% comment %} Women {% endcomment %}
+                            {% if audience_switches and audience_switches.women %}
+                                <a class="btn btn-outline-light btn-sm badge-women" href="{% url 'product_detail' audience_switches.women %}">Women</a>
+                            {% else %}
+                                <a class="btn btn-outline-light btn-sm badge-women" href="{% url 'products' %}?audience=women&q={{ product.name|urlencode }}">Women</a>
+                            {% endif %}
+
+                            {% comment %} Kids {% endcomment %}
+                            {% if audience_switches and audience_switches.kids %}
+                                <a class="btn btn-outline-light btn-sm badge-kids" href="{% url 'product_detail' audience_switches.kids %}">Kids</a>
+                            {% else %}
+                                <a class="btn btn-outline-light btn-sm badge-kids" href="{% url 'products' %}?audience=kids&q={{ product.name|urlencode }}">Kids</a>
+                            {% endif %}
+
+                            {% comment %} Unisex {% endcomment %}
+                            {% if audience_switches and audience_switches.unisex %}
+                                <a class="btn btn-outline-light btn-sm badge-unisex" href="{% url 'product_detail' audience_switches.unisex %}">Unisex</a>
+                            {% else %}
+                                <a class="btn btn-outline-light btn-sm badge-unisex" href="{% url 'products' %}?audience=unisex&q={{ product.name|urlencode }}">Unisex</a>
+                            {% endif %}
+                        </div>
                     </div>
                     
                     {% if product.is_on_sale %}
@@ -827,7 +864,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {% endif %}
                                 </a>
                                 {% if request.user.is_staff or request.user.is_superuser %}
-                                <button type="button" class="edit-product-icon" title="Edit Product" onclick="window.location.href='{% url 'edit_product' related.slug %}'">
+                                <button type="button" class="edit-product-icon" title="Edit Product" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='{% url 'edit_product' related.slug %}'">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
                                 {% endif %}
@@ -886,7 +923,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
                                     {% endif %}
                                     {% if request.user.is_staff or request.user.is_superuser %}
-                                    <button type="button" class="edit-product-icon" title="Edit Product" onclick="window.location.href='{% url 'edit_product' viewed_product.slug %}'">
+                                    <button type="button" class="edit-product-icon" title="Edit Product" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='{% url 'edit_product' viewed_product.slug %}'">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
                                     {% endif %}

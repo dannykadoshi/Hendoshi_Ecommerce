@@ -49,6 +49,8 @@
                                 {% for collection in collections %}
                                     {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
                                 {% endfor %}
+                            {% elif current_audience %}
+                                {{ current_audience|title }}
                             {% elif current_type %}
                                 {{ current_type|title }}
                             {% elif search_term %}
@@ -89,6 +91,9 @@
                         </button>
                         <button class="filter-tab" data-tab="type">
                             <i class="fas fa-tag"></i> Type
+                        </button>
+                        <button class="filter-tab" data-tab="audience">
+                            <i class="fas fa-user-friends"></i> Audience
                         </button>
                         <button class="filter-tab" data-tab="sort">
                             <i class="fas fa-sort"></i> Sort
@@ -148,6 +153,42 @@
                                     <input type="checkbox" name="types" value="accessory" {% if current_type == 'accessory' %}checked{% endif %}>
                                     <i class="fas fa-gem"></i>
                                     <span>Accessories</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Audience Tab -->
+                        <div class="filter-tab-pane" id="audience-tab">
+                            <div class="filter-options">
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="audience" value="" {% if not current_audience %}checked{% endif %}>
+                                    <i class="fas fa-user"></i>
+                                    <span>All Audiences</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="audience" value="men" {% if current_audience == 'men' %}checked{% endif %}>
+                                    <i class="fas fa-male"></i>
+                                    <span>Men</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="audience" value="women" {% if current_audience == 'women' %}checked{% endif %}>
+                                    <i class="fas fa-female"></i>
+                                    <span>Women</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="audience" value="kids" {% if current_audience == 'kids' %}checked{% endif %}>
+                                    <i class="fas fa-child"></i>
+                                    <span>Kids</span>
+                                    <div class="checkmark"></div>
+                                </label>
+                                <label class="filter-option checkbox-option">
+                                    <input type="checkbox" name="audience" value="unisex" {% if current_audience == 'unisex' %}checked{% endif %}>
+                                    <i class="fas fa-genderless"></i>
+                                    <span>Unisex</span>
                                     <div class="checkmark"></div>
                                 </label>
                             </div>
@@ -253,6 +294,9 @@
                                             {% endif %}
                                             {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
                                             {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
+                                            {% if product.audience %}
+                                                <span class="type-badge badge-audience badge-{{ product.audience }}">{{ product.get_audience_display }}</span>
+                                            {% endif %}
                                         </div>
                                         <div class="product-info">
                                             <h3>{{ product.name }}</h3>
@@ -502,6 +546,7 @@
         const clearFiltersBtn = document.querySelector('.clear-filters-btn');
         const collectionCheckboxes = document.querySelectorAll('input[name="collections"]');
         const typeCheckboxes = document.querySelectorAll('input[name="types"]');
+        const audienceCheckboxes = document.querySelectorAll('input[name="audience"]');
         const sortRadios = document.querySelectorAll('input[name="sort"]');
 
         // Handle "All Products" checkbox logic
@@ -578,6 +623,15 @@
                 params.set('type', selectedTypes[0]);
             }
 
+            // Get selected audience (only first one applied)
+            const selectedAudiences = Array.from(audienceCheckboxes)
+                .filter(cb => cb.checked && cb.value !== '')
+                .map(cb => cb.value);
+
+            if (selectedAudiences.length > 0) {
+                params.set('audience', selectedAudiences[0]);
+            }
+
             if (selectedSort && selectedSort.value) {
                 const [sortField, sortDirection] = selectedSort.value.split('_');
                 params.set('sort', sortField);
@@ -600,6 +654,9 @@
             // Check the "All Products" and "All Types" by default
             document.querySelector('input[name="collections"][value=""]').checked = true;
             document.querySelector('input[name="types"][value=""]').checked = true;
+            // Reset audience to All
+            const allAudience = document.querySelector('input[name="audience"][value=""]');
+            if (allAudience) allAudience.checked = true;
             document.querySelector('input[name="sort"][value=""]').checked = true;
         }
 

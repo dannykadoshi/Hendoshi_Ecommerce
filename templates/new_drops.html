@@ -41,7 +41,7 @@
                                 <a href="{% url 'product_detail' product.slug %}">
                                     <div class="product-image product-image-relative">
                                         {% if request.user.is_staff or request.user.is_superuser %}
-                                        <button type="button" class="edit-product-icon" title="Edit Product" onclick="window.location.href='{% url 'edit_product' product.slug %}'">
+                                        <button type="button" class="edit-product-icon" title="Edit Product" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='{% url 'edit_product' product.slug %}'">
                                             <i class="fas fa-pencil-alt"></i>
                                         </button>
                                         {% endif %}
