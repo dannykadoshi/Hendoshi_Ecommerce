@@ -309,6 +309,14 @@ def product_detail(request, slug):
         is_active=True,
         is_archived=False
     ).exclude(id=product.id)[:4]
+    
+    # Fallback to featured products if no bestsellers exist
+    if not related_products.exists():
+        related_products = Product.objects.filter(
+            featured=True,
+            is_active=True,
+            is_archived=False
+        ).exclude(id=product.id)[:4]
 
     # Determine variant requirements from ProductType
     # Default to True if no product_type is assigned
