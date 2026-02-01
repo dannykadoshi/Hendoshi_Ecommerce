@@ -808,35 +808,6 @@
     font-weight: 600;
     font-size: 1rem;
 }
-.product-checkbox-wrapper {
-    position: absolute;
-    z-index: 3;
-    background: rgba(0,0,0,0.7);
-    border-radius: 50%;
-    padding: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.product-checkbox-wrapper.bottom-right {
-    bottom: 12px;
-    right: 12px;
-    top: auto;
-    left: auto;
-}
-.product-select-checkbox {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--neon-pink);
-    border-radius: 4px;
-    border: 2px solid var(--neon-pink);
-    background: #181818;
-    transition: box-shadow 0.2s;
-}
-.product-select-checkbox:focus {
-    box-shadow: 0 0 0 2px var(--electric-yellow);
-    outline: none;
-}
 /* Archived Products Table - styled like order history */
 .table-responsive .archived-products-table {
     color: var(--off-white) !important;
@@ -1207,8 +1178,8 @@ input[type="file"]::-ms-browse:hover {
 /* Edit Product Icon (Admin Only) */
 .edit-product-icon {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    bottom: 10px;
+    right: 10px;
     z-index: 12;
     background: #222;
     color: var(--electric-yellow);
@@ -1239,6 +1210,14 @@ input[type="file"]::-ms-browse:hover {
     left: auto;
     flex-shrink: 0;
     margin-left: 15px;
+}
+
+/* Mobile: Move edit button above add to bag button */
+@media (max-width: 991px) {
+    .edit-product-icon {
+        bottom: 60px;
+        right: 10px;
+    }
 }
 .product-card {
     position: relative;
@@ -1960,7 +1939,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 1001;
     box-shadow: 0 4px 30px rgba(255, 20, 147, 0.15);
     transition: all 0.3s ease;
 }
@@ -2038,7 +2017,7 @@ body {
     padding: 0.5rem;
     flex-direction: column;
     gap: 0.4rem;
-    z-index: 1001;
+    z-index: 1002;
 }
 
 .navbar-burger span {
@@ -2138,6 +2117,16 @@ body {
 }
 
 .nav-link:hover {
+    color: var(--neon-pink) !important;
+    background: rgba(255, 20, 147, 0.1);
+}
+
+/* Light mode overrides for navbar links */
+:root.light-mode .nav-link {
+    color: rgba(0, 0, 0, 0.9) !important;
+}
+
+:root.light-mode .nav-link:hover {
     color: var(--neon-pink) !important;
     background: rgba(255, 20, 147, 0.1);
 }
@@ -2496,7 +2485,7 @@ span.gradient-text-mobile {
     visibility: hidden;
     transform: translateY(-10px) scale(0.95);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
+    z-index: 1002;
 }
 
 .floating-search-box::before {
@@ -2702,20 +2691,21 @@ span.gradient-text-mobile {
 
 /* Light mode dropdown styling */
 :root.light-mode .navbar-right .dropdown-menu {
-    background-color: white;
-    border: 2px solid var(--neon-pink);
+    background-color: white !important;
+    border: 2px solid var(--neon-pink) !important;
 }
 
-
+/* Force dark text for navbar-right dropdown items in light mode */
 :root.light-mode .navbar-right .dropdown-item,
 :root.light-mode .navbar-right .menu-dropdown-item {
-    color: var(--charcoal);
+    color: #000 !important;
+    background: transparent !important;
 }
 
 :root.light-mode .navbar-right .dropdown-item:hover,
 :root.light-mode .navbar-right .menu-dropdown-item:hover {
-    background-color: var(--neon-pink);
-    color: white;
+    background-color: rgba(255, 20, 147, 0.1) !important;
+    color: var(--neon-pink) !important;
 }
 
 :root.light-mode .navbar-right .dropdown-divider {
@@ -5104,6 +5094,13 @@ a.btn-pink {
     padding-bottom: 0;
 }
 
+/* Light mode override for features section */
+:root.light-mode .features-section {
+    background: white;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
 .features-section::before {
     content: '';
     position: absolute;
@@ -5200,7 +5197,21 @@ a.btn-pink {
     left: 100%;
 }
 
+/* Light mode: feature cards have shimmer effect like hover */
+:root.light-mode .feature-card::before {
+    left: 100%;
+}
+
 .feature-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 20, 147, 0.3);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(255, 20, 147, 0.1);
+}
+
+/* Light mode: feature cards styled like hover state */
+:root.light-mode .feature-card {
     transform: translateY(-8px);
     border-color: rgba(255, 20, 147, 0.3);
     box-shadow: 
@@ -5215,6 +5226,12 @@ a.btn-pink {
 }
 
 .feature-card:hover .feature-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.5));
+}
+
+/* Light mode: feature icons styled like hover state */
+:root.light-mode .feature-card .feature-icon {
     transform: scale(1.1);
     filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.5));
 }
@@ -5245,6 +5262,13 @@ a.btn-pink {
     -webkit-backdrop-filter: blur(25px);
     position: relative;
     overflow: hidden;
+}
+
+/* Light mode override for collections preview */
+:root.light-mode .collections-preview {
+    background: white;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .collections-preview::before {
@@ -6300,7 +6324,7 @@ h2.gradient-title {
 /* Quick Add overlay bar */
 .quick-add {
     position: absolute;
-    bottom: 15px;
+    bottom: 35px;
     left: 60%;
     transform: translateX(-50%);
     width: auto;
@@ -6313,7 +6337,7 @@ h2.gradient-title {
 
 .product-card:hover .quick-add {
     opacity: 1;
-    bottom: 20px;
+    bottom: 40px;
 }
 
 @media (max-width: 991px) {
@@ -6505,7 +6529,7 @@ h2.gradient-title {
 
 .badge-featured {
     position: absolute;
-    top: 55px;
+    top: 10px;
     left: 10px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: var(--black);
@@ -6521,10 +6545,10 @@ h2.gradient-title {
 
 .badge-sale {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: var(--black);
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #ff0000, #ff1493);
+    color: var(--white);
     padding: 0.25rem 0.6rem;
     font-size: 0.7rem;
     font-weight: 700;
@@ -6533,15 +6557,19 @@ h2.gradient-title {
     z-index: 10;
     pointer-events: none;
     border-radius: 3px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Move sale badge below featured badge when both are present */
+.badge-featured + .badge-sale {
+    top: 35px;
 }
 
 /* Product Card Battle Vest Button */
 .product-vest-btn {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid rgba(255, 20, 147, 0.5);
+    /* positioning removed - now handled by .product-vest-btn-positioned class */
+    background: rgba(255, 20, 147, 0.2);
+    border: 2px solid var(--neon-pink);
     color: var(--neon-pink);
     width: 40px;
     height: 40px;
@@ -6554,13 +6582,13 @@ h2.gradient-title {
     z-index: 11;
     font-size: 1.1rem;
     text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .product-vest-btn:hover {
-    background: rgba(255, 20, 147, 0.2);
-    border-color: var(--neon-pink);
     transform: scale(1.1);
-    color: var(--neon-pink);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
+    background: rgba(255, 20, 147, 0.3);
 }
 
 .product-vest-btn.in-vest {
@@ -6640,7 +6668,7 @@ h2.gradient-title {
     text-decoration: line-through;
     color: #888;
     font-size: 0.9rem;
-    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .sale-price {
@@ -7449,6 +7477,12 @@ h2.gradient-title {
     min-width: 200px;
 }
 
+/* Light mode override for user dropdown menu */
+:root.light-mode .dropdown-menu {
+    background-color: white !important;
+    border: 2px solid var(--neon-pink) !important;
+}
+
 /* Add invisible bridge to prevent dropdown from closing when moving mouse */
 .desktop-menu .nav-item.dropdown .dropdown-menu::before {
     content: '';
@@ -7471,6 +7505,13 @@ h2.gradient-title {
     padding: 0.5rem !important;
 }
 
+/* Light mode override for desktop menu dropdown */
+:root.light-mode .desktop-menu .dropdown-menu {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(255, 105, 180, 0.3) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 20, 147, 0.1) !important;
+}
+
 .dropdown-item {
     color: rgba(255, 255, 255, 0.85) !important;
     padding: 0.7rem 1rem !important;
@@ -7491,6 +7532,17 @@ h2.gradient-title {
 
 .dropdown-item:hover,
 .dropdown-item:focus {
+    background: rgba(255, 20, 147, 0.15) !important;
+    color: var(--neon-pink) !important;
+}
+
+/* Light mode overrides for dropdown items */
+:root.light-mode .dropdown-item {
+    color: rgba(0, 0, 0, 0.85) !important;
+}
+
+:root.light-mode .dropdown-item:hover,
+:root.light-mode .dropdown-item:focus {
     background: rgba(255, 20, 147, 0.15) !important;
     color: var(--neon-pink) !important;
 }
@@ -15419,7 +15471,7 @@ datalist option {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--pink);
     font-size: 1.25rem;
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
@@ -15456,9 +15508,19 @@ datalist option {
     position: relative;
 }
 
+/* Light mode override for legend text */
+:root.light-mode .legend-text {
+    color: var(--charcoal);
+}
+
 .legend-text em {
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
+}
+
+/* Light mode override for legend text emphasis */
+:root.light-mode .legend-text em {
+    color: rgba(0, 0, 0, 0.8);
 }
 
 /* Hall of Fame Card Styles */
@@ -15494,6 +15556,11 @@ datalist option {
 
 .featured-info {
     text-align: right;
+}
+
+.featured-info i {
+    color: var(--pink);
+    margin-right: 0.25rem;
 }
 
 .featured-date,
@@ -17362,9 +17429,9 @@ section.vault-hero {
     background: none;
     border: none;
     padding: 0;
-    position: absolute;
-    top: 16px;
-    left: 16px;
+    position: absolute !important;
+    top: 6px !important;
+    right: 6px !important;
     z-index: 10;
 }
 
@@ -20451,7 +20518,7 @@ body.cart-drawer-open {
 }
 
 .related-products-carousel .product-info .product-price {
-    color: var(--electric-yellow);
+    color: var(--neon-pink);
     font-weight: 700;
     font-size: 1.1rem;
     text-align: center;
@@ -20643,7 +20710,7 @@ body.cart-drawer-open {
 }
 
 .recently-viewed-products-carousel .product-info .product-price {
-    color: var(--electric-yellow);
+    color: var(--neon-pink);
     font-weight: 700;
     font-size: 1.1rem;
     text-align: center;
@@ -20830,6 +20897,20 @@ body.cart-drawer-open {
     .products-page .container {
         padding-top: 1.5rem;
     }
+}
+
+/* Remove hover effects from shop bestsellers and recently viewed cards */
+.related-products-carousel .product-card:hover::before,
+.recently-viewed-products-carousel .product-card:hover::before {
+    opacity: 0 !important;
+}
+
+.related-products-carousel .product-card:hover,
+.recently-viewed-products-carousel .product-card:hover {
+    margin-top: 0 !important;
+    box-shadow: none !important;
+    border-color: rgba(255, 20, 147, 0.3) !important;
+    z-index: auto !important;
 }
 
 

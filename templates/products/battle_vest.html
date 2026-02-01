@@ -118,7 +118,14 @@
                     <p class="vest-item-collection">{{ item.product.collection.name }}</p>
                     {% endif %}
 
-                    <p class="vest-item-price">€{{ item.product.base_price }}</p>
+                    {% if item.product.is_on_sale %}
+                        <div class="vest-item-price">
+                            <span class="original-price">€{{ item.product.base_price }}</span>
+                            <span class="sale-price">€{{ item.product.current_price }}</span>
+                        </div>
+                    {% else %}
+                        <p class="vest-item-price">€{{ item.product.base_price }}</p>
+                    {% endif %}
 
                     <p class="vest-item-date">
                         <i class="far fa-clock"></i> Added {{ item.added_at|timesince }} ago

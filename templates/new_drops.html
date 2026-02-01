@@ -25,9 +25,7 @@
                     <div class="product-card-wrapper">
                         <div class="product-card glassmorphic-card">
                             {% if request.user.is_staff or request.user.is_superuser %}
-                            <div class="product-checkbox-wrapper bottom-right">
-                                <input type="checkbox" name="product_ids" value="{{ product.id }}" class="form-check-input product-select-checkbox">
-                            </div>
+
                             <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
@@ -77,6 +75,12 @@
                                         </p>
                                     </div>
                                 </a>
+                                <!-- Quick Add overlay -->
+                                <div class="quick-add">
+                                    <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,4 +209,152 @@
 }
 </style>
 
+<!-- Unified Quick Add Modal -->
+<div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered quick-add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickAddFormUnified">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" id="quickAddProductId">
+                    <div class="mb-3" id="quickAddSizeWrapper">
+                        <label class="form-label">Size</label>
+                        <select name="size" id="quickAddSizeSelect" class="form-select"></select>
+                    </div>
+                    <div class="mb-3" id="quickAddColorWrapper">
+                        <label class="form-label">Color</label>
+                        <select name="color" id="quickAddColorSelect" class="form-select"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" name="quantity" id="quickAddQuantitySelect" class="form-control" min="1" max="99" value="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Unified Quick Add Modal logic for new drops
+    document.addEventListener('DOMContentLoaded', function() {
+        const quickAddBtns = document.querySelectorAll('.product-grid-add-bag-btn');
+        const quickAddModal = document.getElementById('quickAddModalUnified');
+        const quickAddForm = document.getElementById('quickAddFormUnified');
+        const quickAddProductId = document.getElementById('quickAddProductId');
+        const quickAddSizeSelect = document.getElementById('quickAddSizeSelect');
+        const quickAddColorSelect = document.getElementById('quickAddColorSelect');
+        const quickAddSizeWrapper = document.getElementById('quickAddSizeWrapper');
+        const quickAddColorWrapper = document.getElementById('quickAddColorWrapper');
+        const quickAddQuantitySelect = document.getElementById('quickAddQuantitySelect');
+        const quickAddModalTitle = document.getElementById('quickAddModalTitle');
+
+        quickAddBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = btn.getAttribute('data-product-id');
+                const productSlug = btn.getAttribute('data-product-slug');
+                const productName = btn.getAttribute('data-product-name');
+
+                quickAddProductId.value = productId;
+                quickAddModalTitle.textContent = `Add ${productName}`;
+
+                // Fetch options
+                fetch(`/products/${productId}/variant-options/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        quickAddSizeSelect.innerHTML = '';
+                        quickAddColorSelect.innerHTML = '';
+
+                        // Deduplicate sizes and colors
+                        const uniqueSizes = [...new Set(data.sizes)];
+                        const uniqueColors = [...new Set(data.colors)];
+
+                        // Show size field if: required by ProductType OR multiple sizes exist
+                        if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
+                            quickAddSizeWrapper.style.display = 'block';
+                            quickAddSizeSelect.required = true;
+                            uniqueSizes.forEach(s => {
+                                quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                            });
+                        } else {
+                            quickAddSizeWrapper.style.display = 'none';
+                            quickAddSizeSelect.required = false;
+                            // Auto-select the only size if there is one
+                            if (uniqueSizes.length === 1) {
+                                quickAddSizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
+                            }
+                        }
+
+                        // Show color field if: required by ProductType OR multiple colors exist
+                        if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
+                            quickAddColorWrapper.style.display = 'block';
+                            quickAddColorSelect.required = true;
+                            uniqueColors.forEach(c => {
+                                quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                            });
+                        } else {
+                            quickAddColorWrapper.style.display = 'none';
+                            quickAddColorSelect.required = false;
+                            // Auto-select the only color if there is one
+                            if (uniqueColors.length === 1) {
+                                quickAddColorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
+                            }
+                        }
+
+                        const modal = new bootstrap.Modal(quickAddModal);
+                        modal.show();
+                    })
+                    .catch(() => {
+                        window.location.href = `/products/${productSlug}/`;
+                    });
+            });
+        });
+
+        if (quickAddForm) {
+            quickAddForm.onsubmit = function(e) {
+                e.preventDefault();
+                const productId = quickAddProductId.value;
+                const size = quickAddSizeSelect.value;
+                const color = quickAddColorSelect.value;
+                const quantity = quickAddQuantitySelect.value;
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                fetch(`/cart/add/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `size=${size}&color=${color}&quantity=${quantity}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        bootstrap.Modal.getInstance(quickAddModal).hide();
+                        // Update cart count badge
+                        updateCartCount(data.cart_count);
+                        // Show cart drawer with item details
+                        if (typeof showCartDrawer === 'function' && data.item) {
+                            showCartDrawer(data);
+                        }
+                    } else {
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Could not add to cart', 'error');
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
 {% endblock %}

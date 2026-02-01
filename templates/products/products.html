@@ -212,26 +212,13 @@
             <!-- Products Grid -->
             <div class="products-grid-wrapper">
                 {% if products %}
-                <form method="post" action="{% url 'bulk_archive_products' %}" id="bulkArchiveForm">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" id="bulkAction" value="archive">
-                    {% if request.user.is_staff or request.user.is_superuser %}
-                    <div class="bulk-archive-bar d-flex align-items-center mb-3 glassmorphic-panel">
-                        <input type="checkbox" id="selectAllProducts" class="form-check-input">
-                        <label for="selectAllProducts" class="form-label mb-0 ms-2">Select All</label>
-                        <button type="submit" class="btn btn-pink btn-sm ms-3" id="bulkArchiveBtn" disabled>Archive Selected</button>
-                        <button type="submit" class="btn btn-outline-danger btn-sm ms-2" id="bulkDeleteBtn" disabled>Delete Selected</button>
-                    </div>
-                    {% endif %}
 
                     <div class="products-grid">
                         {% for product in products %}
                         <div class="product-card-wrapper">
                             <div class="product-card glassmorphic-card">
                                 {% if request.user.is_staff or request.user.is_superuser %}
-                                <div class="product-checkbox-wrapper bottom-right">
-                                    <input type="checkbox" name="product_ids" value="{{ product.id }}" class="form-check-input product-select-checkbox">
-                                </div>
+
                                 <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
@@ -270,8 +257,8 @@
                                             <p class="product-type">{{ product.product_type_display }}</p>
                                             {% if product.is_on_sale %}
                                                 <div class="product-price">
-                                                    <span class="original-price">€{{ product.base_price }}</span>
-                                                    <span class="sale-price">€{{ product.current_price }}</span>
+                                                    <div class="original-price">€{{ product.base_price }}</div>
+                                                    <div class="sale-price">€{{ product.current_price }}</div>
                                                 </div>
                                             {% else %}
                                                 <p class="product-price">€{{ product.base_price }}</p>
@@ -287,7 +274,7 @@
                         </div>
                         {% endfor %}
                     </div>
-                </form>
+
                 <!-- Unified Quick Add Modal (MUST be outside the bulk archive form) -->
                 <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered quick-add-modal">
@@ -330,35 +317,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content delete-confirm-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="delete-icon-wrapper">
-                        <i class="fas fa-trash-alt"></i>
-                    </div>
-                    <p class="delete-message">
-                        Are you sure you want to permanently delete <strong id="deleteCount">0</strong> product(s)?
-                    </p>
-                    <p class="delete-warning">
-                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                        <i class="fas fa-trash-alt"></i> Delete Permanently
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
 {% block extra_js %}
@@ -472,67 +430,6 @@
                         }
                     }
                 });
-    // Bulk select and enable/disable archive/delete buttons
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectAll = document.getElementById('selectAllProducts');
-        const checkboxes = document.querySelectorAll('.product-select-checkbox');
-        const archiveBtn = document.getElementById('bulkArchiveBtn');
-        const deleteBtn = document.getElementById('bulkDeleteBtn');
-        const actionInput = document.getElementById('bulkAction');
-
-        function updateButtons() {
-            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-            if (archiveBtn) archiveBtn.disabled = !anyChecked;
-            if (deleteBtn) deleteBtn.disabled = !anyChecked;
-        }
-
-        if (selectAll) {
-            selectAll.addEventListener('change', function() {
-                checkboxes.forEach(cb => { cb.checked = selectAll.checked; });
-                updateButtons();
-            });
-        }
-
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', function() {
-                updateButtons();
-                if (!cb.checked && selectAll.checked) selectAll.checked = false;
-                if (Array.from(checkboxes).every(c => c.checked)) selectAll.checked = true;
-            });
-        });
-
-        // Set action based on which button is clicked
-        if (archiveBtn) {
-            archiveBtn.addEventListener('click', function() {
-                actionInput.value = 'archive';
-            });
-        }
-
-        // Delete button opens modal
-        const deleteModal = document.getElementById('deleteConfirmModal');
-        const deleteCountEl = document.getElementById('deleteCount');
-        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-        const form = document.getElementById('bulkArchiveForm');
-
-        if (deleteBtn && deleteModal) {
-            const bsModal = new bootstrap.Modal(deleteModal);
-
-            deleteBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-                deleteCountEl.textContent = checkedCount;
-                bsModal.show();
-            });
-
-            confirmDeleteBtn.addEventListener('click', function() {
-                actionInput.value = 'delete';
-                bsModal.hide();
-                form.submit();
-            });
-        }
-
-        updateButtons();
-    });
     document.addEventListener('DOMContentLoaded', function() {
         const filtersBtn = document.getElementById('filtersSortBtn');
         const filtersDropdown = document.getElementById('filtersDropdown');

@@ -118,21 +118,8 @@ def new_drops(request):
             created_at__gte=sixty_days_ago
         ).order_by('-created_at')[:50]
     
-    # Convert to list for template
-    new_drops_data = []
-    for product in recent_products:
-        new_drops_data.append({
-            'name': product.name,
-            'slug': product.slug,
-            'main_image': product.main_image,
-            'base_price': product.base_price,
-            'sale_price': product.sale_price,
-            'collection': product.collection,
-            'created_at': product.created_at,
-        })
-    
     context = {
-        'new_drops': new_drops_data,
-        'total_count': len(new_drops_data),
+        'new_drops': recent_products,
+        'total_count': recent_products.count(),
     }
     return render(request, 'new_drops.html', context)

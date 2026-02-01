@@ -155,8 +155,8 @@
                     
                     {% if product.is_on_sale %}
                         <div class="product-price">
-                            <span class="original-price">€{{ product.base_price }}</span>
-                            <span class="sale-price">€{{ product.current_price }}</span>
+                            <div class="original-price">€{{ product.base_price }}</div>
+                            <div class="sale-price">€{{ product.current_price }}</div>
                             <span class="sale-badge">Sale</span>
                         </div>
                     {% else %}
@@ -788,7 +788,14 @@
                                 </div>
                                 <div class="product-info">
                                     <h3>{{ related.name }}</h3>
-                                    <p class="product-price">€{{ related.base_price }}</p>
+                                    {% if related.is_on_sale %}
+                                        <div class="product-price">
+                                            <span class="original-price">€{{ related.base_price }}</span>
+                                            <span class="sale-price">€{{ related.current_price }}</span>
+                                        </div>
+                                    {% else %}
+                                        <p class="product-price">€{{ related.base_price }}</p>
+                                    {% endif %}
                                 </div>
                             </a>
                             <!-- Add to Bag Button -->
@@ -836,7 +843,14 @@
                                 </div>
                                 <div class="product-info">
                                     <h3>{{ viewed_product.name }}</h3>
-                                    <p class="product-price">€{{ viewed_product.base_price }}</p>
+                                    {% if viewed_product.is_on_sale %}
+                                        <div class="product-price">
+                                            <span class="original-price">€{{ viewed_product.base_price }}</span>
+                                            <span class="sale-price">€{{ viewed_product.current_price }}</span>
+                                        </div>
+                                    {% else %}
+                                        <p class="product-price">€{{ viewed_product.base_price }}</p>
+                                    {% endif %}
                                 </div>
                             </a>
                             <!-- Add to Bag Button -->
