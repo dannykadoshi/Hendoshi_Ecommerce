@@ -239,6 +239,144 @@
     overflow: hidden;
 }
 
+/* Styles for Create Product - Audience accordion and inputs */
+.accordion#audienceAccordion {
+    border-radius: 10px;
+}
+.accordion#audienceAccordion .accordion-item {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.03);
+    margin-bottom: 0.6rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.accordion#audienceAccordion .accordion-button {
+    padding: 0.9rem 1.1rem;
+    font-weight: 700;
+    color: var(--off-white);
+    background: rgba(0,0,0,0.25);
+    border: none;
+}
+.accordion#audienceAccordion .accordion-button::after {
+    filter: brightness(0.9) invert(1);
+}
+.accordion#audienceAccordion .accordion-button:not(.collapsed) {
+    box-shadow: none;
+    background: rgba(255,255,255,0.03);
+}
+.accordion#audienceAccordion .accordion-body {
+    background: rgba(0,0,0,0.12);
+    padding: 1rem 1.25rem;
+    color: var(--off-white);
+}
+.accordion#audienceAccordion .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+.accordion#audienceAccordion .form-check-label {
+    font-weight: 700;
+}
+.accordion#audienceAccordion input[type="file"] {
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.55rem 0.6rem;
+}
+.accordion#audienceAccordion .variant-toggles ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    list-style: none;
+}
+.accordion#audienceAccordion .variant-toggles li {
+    margin: 0;
+}
+.accordion#audienceAccordion .variant-toggles label {
+    display: inline-block;
+    padding: 0.35rem 0.6rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    color: var(--off-white);
+    border: 1px solid rgba(255,255,255,0.03);
+    font-size: 0.95rem;
+}
+.accordion#audienceAccordion .variant-toggles input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+/* Mirror audience accordion styles for product type copies (hoodies/dresses) */
+.accordion#typeCopiesAccordion {
+    border-radius: 10px;
+}
+.accordion#typeCopiesAccordion .accordion-item {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.03);
+    margin-bottom: 0.6rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.accordion#typeCopiesAccordion .accordion-button {
+    padding: 0.9rem 1.1rem;
+    font-weight: 700;
+    color: var(--off-white);
+    background: rgba(0,0,0,0.25);
+    border: none;
+}
+.accordion#typeCopiesAccordion .accordion-button::after {
+    filter: brightness(0.9) invert(1);
+}
+.accordion#typeCopiesAccordion .accordion-button:not(.collapsed) {
+    box-shadow: none;
+    background: rgba(255,255,255,0.03);
+}
+.accordion#typeCopiesAccordion .accordion-body {
+    background: rgba(0,0,0,0.12);
+    padding: 1rem 1.25rem;
+    color: var(--off-white);
+}
+.accordion#typeCopiesAccordion .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+.accordion#typeCopiesAccordion .form-check-label {
+    font-weight: 700;
+}
+.accordion#typeCopiesAccordion input[type="file"] {
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.55rem 0.6rem;
+}
+.accordion#typeCopiesAccordion .variant-toggles ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    list-style: none;
+}
+.accordion#typeCopiesAccordion .variant-toggles label {
+    display: inline-block;
+    padding: 0.35rem 0.6rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    color: var(--off-white);
+    border: 1px solid rgba(255,255,255,0.03);
+    font-size: 0.95rem;
+}
+
+/* Make accordion more compact on desktop */
+@media (min-width: 992px) {
+    .accordion#audienceAccordion .accordion-button { padding: 0.7rem 1rem; }
+    .accordion#audienceAccordion .accordion-body { padding: 0.85rem 1rem; }
+}
+
 .contact-card::before {
     content: '';
     position: absolute;
@@ -453,6 +591,23 @@
     transition: background 220ms ease, color 220ms ease, transform 120ms ease;
 }
 .audience-switcher .btn:active { transform: translateY(1px); }
+
+/* Product type switcher colors (for "View this design in:") */
+.audience-switcher .btn.badge-product-type:hover,
+.audience-switcher .btn.badge-product-type:focus {
+    background: linear-gradient(90deg,#9b59d0,#7b3fa5);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* All Products button styling */
+.audience-switcher .btn.badge-all-products:hover,
+.audience-switcher .btn.badge-all-products:focus {
+    background: linear-gradient(90deg,#ff1493,#ff6b35);
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+}
 
 /* Make contact-type pages' inner cards full-bleed on small screens
    so shipping, returns, size guide, FAQ, and contact pages use
@@ -1362,7 +1517,7 @@ body {
 
 /* Main Banner Container */
 .discount-banner {
-    background: linear-gradient(-45deg, var(--charcoal) 0%, #FF1493 25%, #FFD700 50%, var(--charcoal) 100%);
+    background: linear-gradient(-45deg, var(--charcoal) 0%, rgba(255,20,147,0.3) 25%, rgba(255,215,0,0.2) 50%, var(--charcoal) 100%);
     background-size: 400% 400%;
     color: var(--off-white);
     text-align: center;
@@ -1401,7 +1556,7 @@ body {
 
 /* High-value discount special styling */
 .discount-banner.high-value {
-    background: linear-gradient(-45deg, #1a0a14 0%, #FF1493 20%, #FFD700 40%, #FF6B35 60%, #FF1493 80%, #1a0a14 100%);
+    background: linear-gradient(-45deg, #1a0a14 0%, rgba(255,20,147,0.4) 20%, rgba(255,215,0,0.3) 40%, rgba(255,107,53,0.3) 60%, rgba(255,20,147,0.4) 80%, #1a0a14 100%);
     background-size: 600% 600%;
     animation: bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
                gradientShiftFast 8s ease-in-out infinite 0.6s,
@@ -1497,25 +1652,25 @@ body {
 }
 
 .discount-button.shop-now {
-    background: linear-gradient(45deg, #FF6B35, #F7931E);
+    background: linear-gradient(45deg, #E71F7F, #FF69B4);
     color: white;
 }
 
 .discount-button.shop-now:hover {
-    background: linear-gradient(45deg, #FF8C42, #FFB347);
+    background: linear-gradient(45deg, #FF1493, #FF8BC4);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 2px 8px rgba(231, 31, 127, 0.4);
 }
 
 .discount-button.sale {
-    background: linear-gradient(45deg, #FF1493, #FF69B4);
-    color: white;
+    background: linear-gradient(45deg, #B8D400, #D4E157);
+    color: #000000;
 }
 
 .discount-button.sale:hover {
-    background: linear-gradient(45deg, #FF33A1, #FF8BC4);
+    background: linear-gradient(45deg, #C6E226, #E0EE6E);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 2px 8px rgba(184, 212, 0, 0.4);
 }
 
 .discount-banner:hover .discount-message-scroll {
@@ -1630,15 +1785,15 @@ body {
 
 /* Light mode styles */
 :root.light-mode .discount-banner {
-    background: linear-gradient(-45deg, #FFE4E1 0%, #FF1493 30%, #FFD700 60%, #FFE4E1 100%);
+    background: linear-gradient(-45deg, #F5F5F5 0%, rgba(255,20,147,0.15) 30%, rgba(255,215,0,0.15) 60%, #F5F5F5 100%);
     background-size: 400% 400%;
     border-bottom-color: rgba(0,0,0,0.12);
-    color: white;
+    color: #000000;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
 }
 
 :root.light-mode .discount-banner.high-value {
-    background: linear-gradient(-45deg, #fff0f5 0%, #FF1493 20%, #FFD700 40%, #FF6B35 60%, #FF1493 80%, #fff0f5 100%);
+    background: linear-gradient(-45deg, #fff0f5 0%, rgba(255,20,147,0.2) 20%, rgba(255,215,0,0.2) 40%, rgba(255,107,53,0.15) 60%, rgba(255,20,147,0.2) 80%, #fff0f5 100%);
 }
 
 :root.light-mode .discount-banner #discountIcon {
@@ -1646,15 +1801,23 @@ body {
 }
 
 :root.light-mode .discount-banner .discount-code-text {
-    background: linear-gradient(45deg, #FF1493, #FFD700, #FFA500, #FF1493);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #000000;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
+
+:root.light-mode .discount-button.shop-now {
+    color: #FFFFFF;
+}
+
+:root.light-mode .discount-button.sale {
+    color: #000000;
 }
 
 :root.light-mode .discount-close {
-    color: white;
+    color: #000000;
 }
 
 :root.light-mode .discount-close:hover {
@@ -2237,6 +2400,22 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
+}
+
+/* Light mode gradient text */
+:root.light-mode .gradient-text {
+    color: #E71F7F !important;
+    -webkit-text-fill-color: #E71F7F !important;
+    background: none !important;
+}
+
+:root.light-mode .gradient-text:hover {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    background: linear-gradient(135deg, #E71F7F, #FF69B4) !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: #FFFFFF !important;
 }
 
 /* Mobile gradient text */
@@ -5959,10 +6138,31 @@ h2.gradient-title {
 
 .filter-tab-pane {
     display: none;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
 }
 
 .filter-tab-pane.active {
     display: block;
+}
+
+.filter-tab-pane::-webkit-scrollbar {
+    width: 6px;
+}
+
+.filter-tab-pane::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.filter-tab-pane::-webkit-scrollbar-thumb {
+    background: rgba(255, 20, 147, 0.5);
+    border-radius: 10px;
+}
+
+.filter-tab-pane::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 20, 147, 0.8);
 }
 
 .filter-options {
@@ -13850,10 +14050,11 @@ input[type="number"] {
     bottom: 8px;
     left: 50%;
     margin-left: -70px; /* Half of button width approx */
-    z-index: 10;
+    z-index: 5;
     padding: 0.75rem;
     margin-top: 0;
     width: 140px; /* Set explicit width to fit text */
+    pointer-events: auto;
 }
 
 /* Empty Vest State */
@@ -19853,7 +20054,354 @@ body.cart-drawer-open {
     }
 }
 
+/* ============================================
+   CART DRAWER - LIGHT MODE
+   ============================================ */
+
+:root.light-mode .cart-drawer {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-header {
+    background: linear-gradient(135deg, rgba(231, 31, 127, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+    border-bottom: 1px solid rgba(231, 31, 127, 0.15);
+}
+
+:root.light-mode .cart-drawer-header-content {
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-header-content i {
+    color: #E71F7F;
+}
+
+:root.light-mode .cart-drawer-close {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #666666;
+}
+
+:root.light-mode .cart-drawer-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-item-image {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-item-name {
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-item-variant {
+    color: #666666;
+}
+
+:root.light-mode .cart-drawer-item-qty {
+    color: #666666;
+}
+
+:root.light-mode .cart-drawer-summary {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-summary-row {
+    color: #666666;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+:root.light-mode .cart-drawer-total-row {
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-discount-text {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-discount-text:focus {
+    border-color: #E71F7F;
+    box-shadow: 0 0 0 2px rgba(231, 31, 127, 0.1);
+    background: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-discount-text::placeholder {
+    color: #999999;
+}
+
+:root.light-mode .cart-drawer-discount-form {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-discount-message.success {
+    background: rgba(184, 212, 0, 0.1);
+    color: #B8D400;
+    border: 1px solid rgba(184, 212, 0, 0.3);
+}
+
+:root.light-mode .cart-drawer-discount-message.error {
+    background: rgba(231, 31, 127, 0.1);
+    color: #E71F7F;
+    border: 1px solid rgba(231, 31, 127, 0.3);
+}
+
+:root.light-mode .cart-drawer-shipping {
+    background: linear-gradient(135deg, rgba(184, 212, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+    border: 1px solid rgba(184, 212, 0, 0.15);
+}
+
+:root.light-mode .cart-drawer-shipping-progress {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .cart-drawer-shipping-text {
+    color: #666666;
+}
+
+:root.light-mode .cart-drawer-shipping.free-shipping-achieved {
+    background: linear-gradient(135deg, rgba(184, 212, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+    border-color: rgba(184, 212, 0, 0.3);
+}
+
+:root.light-mode .cart-drawer-shipping.free-shipping-achieved .cart-drawer-shipping-text {
+    color: #B8D400;
+}
+
+:root.light-mode .cart-drawer-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-btn-continue {
+    background: transparent;
+    color: #666666;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+:root.light-mode .cart-drawer-btn-continue:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #000000;
+    border-color: rgba(0, 0, 0, 0.25);
+}
+
+:root.light-mode .cart-drawer-related {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-related-subtitle {
+    color: #999999;
+}
+
+:root.light-mode .cart-drawer-related-cta {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+:root.light-mode .cart-drawer-carousel-btn {
+    background: rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #999999;
+}
+
+:root.light-mode .cart-drawer-carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.15);
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-product-card {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-product-card:hover {
+    border-color: rgba(231, 31, 127, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .cart-drawer-product-image {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-drawer-product-info {
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-product-name {
+    color: #000000;
+}
+
+:root.light-mode .cart-drawer-product-reviews {
+    color: #999999;
+}
+
+:root.light-mode .cart-drawer-product-stars i.empty {
+    color: rgba(0, 0, 0, 0.2);
+}
+
+:root.light-mode .cart-drawer-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+:root.light-mode .cart-drawer-btn-cart {
+    color: #FFFFFF;
+}
+
 /* End Cart Drawer */
+
+/* ============================================
+   LIGHT MODE - PRODUCT PAGE FIXES
+   ============================================ */
+
+/* Sale Badge Light Mode */
+:root.light-mode .sale-badge {
+    background: linear-gradient(90deg, rgba(231, 31, 127, 0.9), rgba(255, 140, 0, 0.9));
+    color: #FFFFFF;
+}
+
+/* Size and Color Selector Light Mode */
+:root.light-mode .size-btn {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.05);
+    color: #000000;
+}
+
+:root.light-mode .size-btn:hover {
+    border-color: #E71F7F;
+    background: rgba(231, 31, 127, 0.1);
+}
+
+:root.light-mode .size-btn.selected {
+    border-color: #E71F7F;
+    background: #E71F7F;
+    color: #FFFFFF;
+}
+
+:root.light-mode .color-btn {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.05);
+    color: #000000;
+}
+
+:root.light-mode .color-btn:hover {
+    border-color: #B8D400;
+    background: rgba(184, 212, 0, 0.1);
+}
+
+:root.light-mode .color-btn.selected {
+    border-color: #B8D400;
+    background: #B8D400;
+    color: #000000;
+}
+
+/* Rating Breakdown Light Mode */
+:root.light-mode .rating-breakdown {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+:root.light-mode .rating-breakdown h5 {
+    color: #000000;
+}
+
+:root.light-mode .star-label {
+    color: #B8D400;
+}
+
+:root.light-mode .star-label i {
+    color: #B8D400;
+}
+
+:root.light-mode .rating-row .count {
+    color: #1A1A1A;
+}
+
+:root.light-mode .rating-row {
+    color: #333333;
+}
+
+:root.light-mode .progress {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+:root.light-mode .progress-bar {
+    background: linear-gradient(90deg, #E71F7F, #FF69B4) !important;
+}
+
+/* Carousel Buttons Light Mode */
+:root.light-mode .related-products-carousel-btn {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .related-products-carousel-btn:hover {
+    background: rgba(231, 31, 127, 0.8);
+    color: #FFFFFF;
+    border-color: rgba(231, 31, 127, 0.5);
+}
+
+:root.light-mode .recently-viewed-products-carousel-btn {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .recently-viewed-products-carousel-btn:hover {
+    background: rgba(231, 31, 127, 0.8);
+    color: #FFFFFF;
+    border-color: rgba(231, 31, 127, 0.5);
+}
+
+/* Light Mode Info Content Styling */
+:root.light-mode .info-content h5 {
+    color: #E71F7F;
+}
+
+:root.light-mode .info-content p {
+    color: #333333;
+}
+
+:root.light-mode .info-content ul,
+:root.light-mode .info-content ol {
+    color: #333333;
+}
+
+:root.light-mode .info-content li {
+    color: #333333;
+}
+
+:root.light-mode .info-content li strong {
+    color: #E71F7F;
+}
+
+:root.light-mode .info-content a {
+    color: #E71F7F;
+}
+
+:root.light-mode .info-content a:hover {
+    color: #B8D400;
+}
+
+:root.light-mode .returns-note,
+:root.light-mode .size-note {
+    background: rgba(231, 31, 127, 0.1);
+    border-left: 3px solid #E71F7F;
+}
+
+:root.light-mode .returns-note p,
+:root.light-mode .size-note p {
+    color: #333333;
+}
 
 /* Glow animation for checkout button */
 @keyframes glow {
@@ -20648,6 +21196,12 @@ body.cart-drawer-open {
     position: relative;
     overflow: visible;
     margin-bottom: 0;
+}
+
+.related-products-carousel .product-card a {
+    position: relative;
+    z-index: 2;
+    display: block;
 }
 
 .related-products-carousel .product-card::before {

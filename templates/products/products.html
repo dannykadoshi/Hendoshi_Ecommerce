@@ -131,30 +131,14 @@
                                     <span>All Types</span>
                                     <div class="checkmark"></div>
                                 </label>
+                                {% for type in product_types %}
                                 <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="types" value="tshirt" {% if current_type == 'tshirt' %}checked{% endif %}>
-                                    <i class="fas fa-tshirt"></i>
-                                    <span>T-Shirts</span>
+                                    <input type="checkbox" name="types" value="{{ type.slug }}" {% if current_type == type.slug %}checked{% endif %}>
+                                    <i class="fas fa-tag"></i>
+                                    <span>{{ type.name }}</span>
                                     <div class="checkmark"></div>
                                 </label>
-                                <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="types" value="hoodie" {% if current_type == 'hoodie' %}checked{% endif %}>
-                                    <i class="fas fa-sweatshirt"></i>
-                                    <span>Hoodies</span>
-                                    <div class="checkmark"></div>
-                                </label>
-                                <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="types" value="sticker" {% if current_type == 'sticker' %}checked{% endif %}>
-                                    <i class="fas fa-sticky-note"></i>
-                                    <span>Stickers</span>
-                                    <div class="checkmark"></div>
-                                </label>
-                                <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="types" value="accessory" {% if current_type == 'accessory' %}checked{% endif %}>
-                                    <i class="fas fa-gem"></i>
-                                    <span>Accessories</span>
-                                    <div class="checkmark"></div>
-                                </label>
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -254,73 +238,12 @@
             <div class="products-grid-wrapper">
                 {% if products %}
 
-                    <div class="products-grid">
-                        {% for product in products %}
-                        <div class="product-card-wrapper">
-                            <div class="product-card glassmorphic-card">
-                                {% if request.user.is_staff or request.user.is_superuser %}
+                    <div class="products-grid" id="productsGrid">
+                        {% include 'products/_product_cards.html' with products=products %}
+                    </div>
 
-                                {% endif %}
-                                <div class="product-card-inner">
-                                    <!-- Battle Vest Button (always same style) -->
-                                    {% if user.is_authenticated %}
-                                    <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                    {% else %}
-                                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn product-vest-btn-positioned" title="Login to add to Battle Vest">
-                                        <i class="far fa-heart"></i>
-                                    </a>
-                                    {% endif %}
-                                    <a href="{% url 'product_detail' product.slug %}">
-                                        <div class="product-image product-image-relative">
-                                            {% if request.user.is_staff or request.user.is_superuser %}
-                                            <button type="button" class="edit-product-icon" title="Edit Product" data-edit-url="{% url 'edit_product' product.slug %}">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>
-                                            {% endif %}
-                                            {% if product.main_image %}
-                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
-                                                {% with second_image=product.images.first %}
-                                                    {% if second_image %}
-                                                        <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy">
-                                                    {% endif %}
-                                                {% endwith %}
-                                            {% else %}
-                                                <div class="placeholder-image">
-                                                    <i class="fas fa-image fa-3x"></i>
-                                                    <p>No Image</p>
-                                                </div>
-                                            {% endif %}
-                                            {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
-                                            {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
-                                            {% if product.audience %}
-                                                <span class="type-badge badge-audience badge-{{ product.audience }}">{{ product.get_audience_display }}</span>
-                                            {% endif %}
-                                        </div>
-                                        <div class="product-info">
-                                            <h3>{{ product.name }}</h3>
-                                            <p class="product-type">{{ product.product_type_display }}</p>
-                                            {% if product.is_on_sale %}
-                                                <p class="product-price">
-                                                    <span class="original-price">€{{ product.base_price }}</span>
-                                                    <span class="sale-price">€{{ product.current_price }}</span>
-                                                </p>
-                                            {% else %}
-                                                <p class="product-price">€{{ product.base_price }}</p>
-                                            {% endif %}
-                                        </div>
-                                    </a>
-                                    <!-- Quick Add overlay -->
-                                    <div class="quick-add">
-                                        <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
+                    <div class="text-center mt-4" id="infiniteScrollLoader" data-has-next="{{ page_obj.has_next|yesno:'true,false' }}" data-next-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">
+                        <div class="spinner-border spinner-border-pink" role="status" style="display: none;"></div>
                     </div>
 
                 <!-- Unified Quick Add Modal (MUST be outside the bulk archive form) -->
@@ -371,7 +294,6 @@
     <script>
                 // Unified Quick Add Modal logic for product grid
                 document.addEventListener('DOMContentLoaded', function() {
-                    const quickAddBtns = document.querySelectorAll('.product-grid-add-bag-btn');
                     const quickAddModal = document.getElementById('quickAddModalUnified');
                     const quickAddForm = document.getElementById('quickAddFormUnified');
                     const quickAddProductId = document.getElementById('quickAddProductId');
@@ -381,66 +303,161 @@
                     const quickAddColorWrapper = document.getElementById('quickAddColorWrapper');
                     const quickAddQuantitySelect = document.getElementById('quickAddQuantitySelect');
                     const quickAddModalTitle = document.getElementById('quickAddModalTitle');
-                    quickAddBtns.forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const productId = btn.getAttribute('data-product-id');
-                            const productSlug = btn.getAttribute('data-product-slug');
-                            const productName = btn.getAttribute('data-product-name');
-                            quickAddProductId.value = productId;
-                            quickAddModalTitle.textContent = `Add ${productName}`;
-                            // Fetch options
-                            fetch(`/products/${productId}/variant-options/`)
+
+                    function initProductCardBindings(root) {
+                        const scope = root || document;
+
+                        const quickAddBtns = scope.querySelectorAll('.product-grid-add-bag-btn:not([data-quickadd-bound])');
+                        quickAddBtns.forEach(btn => {
+                            btn.dataset.quickaddBound = 'true';
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                const productId = btn.getAttribute('data-product-id');
+                                const productSlug = btn.getAttribute('data-product-slug');
+                                const productName = btn.getAttribute('data-product-name');
+                                quickAddProductId.value = productId;
+                                quickAddModalTitle.textContent = `Add ${productName}`;
+                                // Fetch options
+                                fetch(`/products/${productId}/variant-options/`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        quickAddSizeSelect.innerHTML = '';
+                                        quickAddColorSelect.innerHTML = '';
+
+                                        // Deduplicate sizes and colors
+                                        const uniqueSizes = [...new Set(data.sizes)];
+                                        const uniqueColors = [...new Set(data.colors)];
+
+                                        // Show size field if: required by ProductType OR multiple sizes exist
+                                        // This allows products to have optional size choices even if type doesn't require it
+                                        if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
+                                            quickAddSizeWrapper.style.display = 'block';
+                                            quickAddSizeSelect.required = true;
+                                            uniqueSizes.forEach(s => {
+                                                quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                                            });
+                                        } else {
+                                            quickAddSizeWrapper.style.display = 'none';
+                                            quickAddSizeSelect.required = false;
+                                            // Auto-select the only size if there is one
+                                            if (uniqueSizes.length === 1) {
+                                                quickAddSizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
+                                            }
+                                        }
+
+                                        // Show color field if: required by ProductType OR multiple colors exist
+                                        if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
+                                            quickAddColorWrapper.style.display = 'block';
+                                            quickAddColorSelect.required = true;
+                                            uniqueColors.forEach(c => {
+                                                quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                                            });
+                                        } else {
+                                            quickAddColorWrapper.style.display = 'none';
+                                            quickAddColorSelect.required = false;
+                                            // Auto-select the only color if there is one
+                                            if (uniqueColors.length === 1) {
+                                                quickAddColorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
+                                            }
+                                        }
+
+                                        const modal = new bootstrap.Modal(quickAddModal);
+                                        modal.show();
+                                    })
+                                    .catch(() => {
+                                        window.location.href = `/products/${productSlug}/`;
+                                    });
+                            });
+                        });
+
+                        const vestButtons = scope.querySelectorAll('.product-vest-btn[data-product-slug]:not([data-vest-bound])');
+                        vestButtons.forEach(btn => {
+                            btn.dataset.vestBound = 'true';
+                            const slug = btn.dataset.productSlug;
+
+                            fetch(`/products/${slug}/check-in-vest/`)
                                 .then(response => response.json())
                                 .then(data => {
-                                    quickAddSizeSelect.innerHTML = '';
-                                    quickAddColorSelect.innerHTML = '';
-
-                                    // Deduplicate sizes and colors
-                                    const uniqueSizes = [...new Set(data.sizes)];
-                                    const uniqueColors = [...new Set(data.colors)];
-
-                                    // Show size field if: required by ProductType OR multiple sizes exist
-                                    // This allows products to have optional size choices even if type doesn't require it
-                                    if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
-                                        quickAddSizeWrapper.style.display = 'block';
-                                        quickAddSizeSelect.required = true;
-                                        uniqueSizes.forEach(s => {
-                                            quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
-                                        });
-                                    } else {
-                                        quickAddSizeWrapper.style.display = 'none';
-                                        quickAddSizeSelect.required = false;
-                                        // Auto-select the only size if there is one
-                                        if (uniqueSizes.length === 1) {
-                                            quickAddSizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
-                                        }
+                                    if (data.in_vest) {
+                                        btn.classList.add('in-vest');
+                                        btn.querySelector('i').classList.remove('far');
+                                        btn.querySelector('i').classList.add('fas');
                                     }
-
-                                    // Show color field if: required by ProductType OR multiple colors exist
-                                    if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
-                                        quickAddColorWrapper.style.display = 'block';
-                                        quickAddColorSelect.required = true;
-                                        uniqueColors.forEach(c => {
-                                            quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
-                                        });
-                                    } else {
-                                        quickAddColorWrapper.style.display = 'none';
-                                        quickAddColorSelect.required = false;
-                                        // Auto-select the only color if there is one
-                                        if (uniqueColors.length === 1) {
-                                            quickAddColorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
-                                        }
-                                    }
-
-                                    const modal = new bootstrap.Modal(quickAddModal);
-                                    modal.show();
                                 })
-                                .catch(() => {
-                                    window.location.href = `/products/${productSlug}/`;
+                                .catch(error => console.error('Error checking vest:', error));
+
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                const icon = this.querySelector('i');
+                                const isInVest = this.classList.contains('in-vest');
+                                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                                const url = isInVest
+                                    ? `/products/${slug}/remove-from-vest/`
+                                    : `/products/${slug}/add-to-vest/`;
+
+                                fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRFToken': csrfToken,
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        if (isInVest) {
+                                            this.classList.remove('in-vest');
+                                            icon.classList.remove('fas');
+                                            icon.classList.add('far');
+                                        } else {
+                                            this.classList.add('in-vest');
+                                            icon.classList.remove('far');
+                                            icon.classList.add('fas');
+                                        }
+
+                                        // Update vest count in navigation
+                                        const mobileBadge = document.getElementById('battleVestCount');
+                                        const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+                                        if (mobileBadge) {
+                                            mobileBadge.textContent = data.item_count;
+                                            mobileBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
+                                        }
+                                        if (desktopBadge) {
+                                            desktopBadge.textContent = data.item_count;
+                                            desktopBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
+                                        }
+
+                                        // Show toast notification
+                                        if (typeof showToast === 'function') {
+                                            showToast(data.message, isInVest ? 'info' : 'success');
+                                        }
+                                    } else {
+                                        // Backend returned a non-success response (e.g., already in vest)
+                                        if (typeof showToast === 'function') {
+                                            showToast(data.message || 'Action not completed', 'info');
+                                        }
+                                        // If server indicates item is in vest, ensure UI reflects that
+                                        if (data.in_vest) {
+                                            this.classList.add('in-vest');
+                                            icon.classList.remove('far');
+                                            icon.classList.add('fas');
+                                        }
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
                                 });
+                            });
                         });
-                    });
+                    }
+
+                    window.initProductCardBindings = initProductCardBindings;
+                    initProductCardBindings(document);
+
                     if (quickAddForm) {
                         quickAddForm.onsubmit = function(e) {
                             e.preventDefault();
@@ -686,94 +703,56 @@
             });
         }
 
-        // Battle Vest buttons functionality
-        const vestButtons = document.querySelectorAll('.product-vest-btn[data-product-slug]');
+        // Battle Vest bindings handled in initProductCardBindings
+    });
 
-        // Check which products are already in vest
-        vestButtons.forEach(btn => {
-            const slug = btn.dataset.productSlug;
-            fetch(`/products/${slug}/check-in-vest/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.in_vest) {
-                        btn.classList.add('in-vest');
-                        btn.querySelector('i').classList.remove('far');
-                        btn.querySelector('i').classList.add('fas');
+    // Infinite scroll (30 products per page)
+    document.addEventListener('DOMContentLoaded', function() {
+        const loader = document.getElementById('infiniteScrollLoader');
+        const grid = document.getElementById('productsGrid');
+        const spinner = loader ? loader.querySelector('.spinner-border') : null;
+
+        if (!loader || !grid) return;
+
+        const loadMore = () => {
+            const hasNext = loader.dataset.hasNext === 'true';
+            const nextPage = loader.dataset.nextPage;
+            if (!hasNext || !nextPage) return;
+
+            if (spinner) spinner.style.display = 'inline-block';
+
+            const params = new URLSearchParams(window.location.search);
+            params.set('page', nextPage);
+
+            fetch(`${window.location.pathname}?${params.toString()}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.html) {
+                    grid.insertAdjacentHTML('beforeend', data.html);
+                    if (window.initProductCardBindings) {
+                        window.initProductCardBindings(grid);
                     }
-                })
-                .catch(error => console.error('Error checking vest:', error));
-        });
-
-        // Handle vest button clicks
-        vestButtons.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                const slug = this.dataset.productSlug;
-                const icon = this.querySelector('i');
-                const isInVest = this.classList.contains('in-vest');
-                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                const url = isInVest
-                    ? `/products/${slug}/remove-from-vest/`
-                    : `/products/${slug}/add-to-vest/`;
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        if (isInVest) {
-                            this.classList.remove('in-vest');
-                            icon.classList.remove('fas');
-                            icon.classList.add('far');
-                        } else {
-                            this.classList.add('in-vest');
-                            icon.classList.remove('far');
-                            icon.classList.add('fas');
-                        }
-
-                        // Update vest count in navigation
-                        const mobileBadge = document.getElementById('battleVestCount');
-                        const desktopBadge = document.getElementById('battleVestCountDesktop');
-
-                        if (mobileBadge) {
-                            mobileBadge.textContent = data.item_count;
-                            mobileBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
-                        }
-                        if (desktopBadge) {
-                            desktopBadge.textContent = data.item_count;
-                            desktopBadge.style.display = data.item_count > 0 ? 'flex' : 'none';
-                        }
-
-                        // Show toast notification
-                        if (typeof showToast === 'function') {
-                            showToast(data.message, isInVest ? 'info' : 'success');
-                        }
-                    } else {
-                        // Backend returned a non-success response (e.g., already in vest)
-                        if (typeof showToast === 'function') {
-                            showToast(data.message || 'Action not completed', 'info');
-                        }
-                        // If server indicates item is in vest, ensure UI reflects that
-                        if (data.in_vest) {
-                            this.classList.add('in-vest');
-                            icon.classList.remove('far');
-                            icon.classList.add('fas');
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                }
+                loader.dataset.hasNext = data.has_next ? 'true' : 'false';
+                loader.dataset.nextPage = data.next_page ? data.next_page : '';
+            })
+            .catch(() => {})
+            .finally(() => {
+                if (spinner) spinner.style.display = 'none';
             });
-        });
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    loadMore();
+                }
+            });
+        }, { rootMargin: '200px' });
+
+        observer.observe(loader);
     });
     // Handle edit-product-icon clicks without nesting anchors
     document.addEventListener('click', function(e) {

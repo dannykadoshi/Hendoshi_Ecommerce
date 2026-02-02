@@ -1,0 +1,66 @@
+{% for product in products %}
+<div class="product-card-wrapper">
+    <div class="product-card glassmorphic-card">
+        {% if request.user.is_staff or request.user.is_superuser %}
+
+        {% endif %}
+        <div class="product-card-inner">
+            <!-- Battle Vest Button (always same style) -->
+            {% if user.is_authenticated %}
+            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
+                <i class="far fa-heart"></i>
+            </button>
+            {% else %}
+            <a href="{% url 'account_login' %}?next={{ request.path }}" class="product-vest-btn product-vest-btn-positioned" title="Login to add to Battle Vest">
+                <i class="far fa-heart"></i>
+            </a>
+            {% endif %}
+            <a href="{% url 'product_detail' product.slug %}">
+                <div class="product-image product-image-relative">
+                    {% if request.user.is_staff or request.user.is_superuser %}
+                    <button type="button" class="edit-product-icon" title="Edit Product" data-edit-url="{% url 'edit_product' product.slug %}">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    {% endif %}
+                    {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
+                        {% with second_image=product.images.first %}
+                            {% if second_image %}
+                                <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy">
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        <div class="placeholder-image">
+                            <i class="fas fa-image fa-3x"></i>
+                            <p>No Image</p>
+                        </div>
+                    {% endif %}
+                    {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
+                    {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
+                    {% if product.audience %}
+                        <span class="type-badge badge-audience badge-{{ product.audience }}">{{ product.get_audience_display }}</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="product-type">{{ product.product_type_display }}</p>
+                    {% if product.is_on_sale %}
+                        <p class="product-price">
+                            <span class="original-price">€{{ product.base_price }}</span>
+                            <span class="sale-price">€{{ product.current_price }}</span>
+                        </p>
+                    {% else %}
+                        <p class="product-price">€{{ product.base_price }}</p>
+                    {% endif %}
+                </div>
+            </a>
+            <!-- Quick Add overlay -->
+            <div class="quick-add">
+                <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
