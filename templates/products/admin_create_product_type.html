@@ -28,6 +28,8 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
+                    
+                    <!-- Basic Info Section -->
                     <div class="mb-3">
                         {{ form.name.label_tag }}
                         {{ form.name }}
@@ -36,13 +38,26 @@
                     <div class="mb-3">
                         {{ form.slug.label_tag }}
                         {{ form.slug }}
+                        {% if form.slug.help_text %}
+                            <small class="form-text text-white-50 d-block">{{ form.slug.help_text|safe }}</small>
+                        {% endif %}
                         {{ form.slug.errors }}
+                    </div>
+
+                    <!-- Category Section -->
+                    <div class="mb-4">
+                        {{ form.category.label_tag }}
+                        {{ form.category }}
+                        {% if form.category.help_text %}
+                            <small class="form-text text-white-50 d-block">{{ form.category.help_text|safe }}</small>
+                        {% endif %}
+                        {{ form.category.errors }}
                     </div>
 
                     <!-- Variant Requirements Section -->
                     <div class="mb-4 mt-4">
                         <h5 class="text-white mb-3"><i class="fas fa-cog me-2"></i>Variant Requirements</h5>
-                        <p class="text-muted small mb-3">Configure which options customers must select when adding products of this type to their cart.</p>
+                        <p class="text-white-50 small mb-3">Configure which options customers must select when adding products of this type to their cart.</p>
 
                         <div class="form-check mb-2">
                             {{ form.requires_size }}
@@ -50,7 +65,7 @@
                                 <i class="fas fa-ruler me-1"></i> Requires Size Selection
                             </label>
                             {% if form.requires_size.help_text %}
-                            <small class="form-text text-muted d-block ms-4">{{ form.requires_size.help_text }}</small>
+                            <small class="form-text text-white-50 d-block ms-4">{{ form.requires_size.help_text }}</small>
                             {% endif %}
                         </div>
 
@@ -60,14 +75,34 @@
                                 <i class="fas fa-palette me-1"></i> Requires Color Selection
                             </label>
                             {% if form.requires_color.help_text %}
-                            <small class="form-text text-muted d-block ms-4">{{ form.requires_color.help_text }}</small>
+                            <small class="form-text text-white-50 d-block ms-4">{{ form.requires_color.help_text }}</small>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-check mb-2">
+                            {{ form.requires_audience }}
+                            <label class="form-check-label text-white" for="{{ form.requires_audience.id_for_label }}">
+                                <i class="fas fa-users me-1"></i> Requires Audience Selection
+                            </label>
+                            {% if form.requires_audience.help_text %}
+                            <small class="form-text text-white-50 d-block ms-4">{{ form.requires_audience.help_text }}</small>
                             {% endif %}
                         </div>
                     </div>
 
+                    <!-- Default Stock Section -->
+                    <div class="mb-4">
+                        {{ form.default_stock.label_tag }}
+                        {{ form.default_stock }}
+                        {% if form.default_stock.help_text %}
+                            <small class="form-text text-white-50 d-block">{{ form.default_stock.help_text }}</small>
+                        {% endif %}
+                        {{ form.default_stock.errors }}
+                    </div>
+
                     <div class="d-flex justify-content-end">
                         <a href="{% url 'admin_list_product_types' %}" class="btn btn-outline-pink me-2">Cancel</a>
-                        <button class="btn btn-pink">{% if product_type %}Update{% else %}Create{% endif %}</button>
+                        <button type="submit" class="btn btn-pink">{% if product_type %}Update{% else %}Create{% endif %}</button>
                     </div>
                 </form>
             </div>

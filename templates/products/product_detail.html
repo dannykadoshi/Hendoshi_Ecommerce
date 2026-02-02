@@ -311,6 +311,59 @@ document.addEventListener('DOMContentLoaded', function() {
                         </button>
                         {% endif %}
                     </form>
+
+                    <!-- Sticky Add to Cart Bar (appears on scroll) -->
+                    <div class="sticky-add-to-cart" id="stickyAddToCart" aria-hidden="true">
+                        <div class="sticky-add-inner">
+                            <div class="sticky-product">
+                                <div class="sticky-thumb">
+                                    {% if product.main_image %}
+                                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <div class="sticky-thumb-placeholder">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="sticky-info">
+                                    <div class="sticky-name">{{ product.name }}</div>
+                                    <div class="sticky-price">
+                                        {% if product.is_on_sale %}
+                                            <span class="sticky-price-original">€{{ product.base_price }}</span>
+                                            <span class="sticky-price-sale">€{{ product.current_price }}</span>
+                                        {% else %}
+                                            <span class="sticky-price-regular">€{{ product.base_price }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sticky-options">
+                                {% if requires_size and available_sizes or available_sizes|length > 1 %}
+                                <select class="sticky-select" id="stickySizeSelect" aria-label="Select size">
+                                    <option value="">Size</option>
+                                    {% for size_value, size_display in available_sizes_display %}
+                                        <option value="{{ size_value }}">{{ size_display }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% endif %}
+
+                                {% if requires_color and available_colors or available_colors|length > 1 %}
+                                <select class="sticky-select" id="stickyColorSelect" aria-label="Select color">
+                                    <option value="">Color</option>
+                                    {% for color in available_colors %}
+                                        <option value="{{ color }}">{{ color|title }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% endif %}
+                            </div>
+
+                            <button type="button" class="btn btn-pink sticky-add-btn" id="stickyAddBtn">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span class="sticky-add-text">Add to Bag</span>
+                            </button>
+                        </div>
+                    </div>
                     {% endif %}
                     
                     <div class="product-description mb-4">
@@ -516,6 +569,22 @@ document.addEventListener('DOMContentLoaded', function() {
                             const sizeButtons = document.querySelectorAll('.size-btn');
                             const sizeInput = document.getElementById('size-input');
 
+                            // Color button functionality
+                            const colorButtons = document.querySelectorAll('.color-btn');
+                            const colorInput = document.getElementById('color-input');
+
+                            const stickySizeSelect = document.getElementById('stickySizeSelect');
+                            const stickyColorSelect = document.getElementById('stickyColorSelect');
+
+                            function syncStickyFromInputs() {
+                                if (stickySizeSelect && sizeInput) {
+                                    stickySizeSelect.value = sizeInput.value || '';
+                                }
+                                if (stickyColorSelect && colorInput) {
+                                    stickyColorSelect.value = colorInput.value || '';
+                                }
+                            }
+
                             sizeButtons.forEach(button => {
                                 button.addEventListener('click', function() {
                                     // Remove selected class from all size buttons
@@ -524,12 +593,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     this.classList.add('selected');
                                     // Update hidden input
                                     sizeInput.value = this.dataset.value;
+                                    syncStickyFromInputs();
                                 });
                             });
-
-                            // Color button functionality
-                            const colorButtons = document.querySelectorAll('.color-btn');
-                            const colorInput = document.getElementById('color-input');
 
                             colorButtons.forEach(button => {
                                 button.addEventListener('click', function() {
@@ -539,8 +605,33 @@ document.addEventListener('DOMContentLoaded', function() {
                                     this.classList.add('selected');
                                     // Update hidden input
                                     colorInput.value = this.dataset.value;
+                                    syncStickyFromInputs();
                                 });
                             });
+
+                            if (stickySizeSelect) {
+                                stickySizeSelect.addEventListener('change', function() {
+                                    const match = Array.from(sizeButtons).find(btn => btn.dataset.value === this.value);
+                                    if (match) {
+                                        match.click();
+                                    } else if (sizeInput) {
+                                        sizeInput.value = '';
+                                    }
+                                });
+                            }
+
+                            if (stickyColorSelect) {
+                                stickyColorSelect.addEventListener('change', function() {
+                                    const match = Array.from(colorButtons).find(btn => btn.dataset.value === this.value);
+                                    if (match) {
+                                        match.click();
+                                    } else if (colorInput) {
+                                        colorInput.value = '';
+                                    }
+                                });
+                            }
+
+                            syncStickyFromInputs();
                         });
 
                         function incrementQuantity() {
@@ -647,6 +738,54 @@ document.addEventListener('DOMContentLoaded', function() {
                                 submitBtn.disabled = false;
                             });
                         }
+
+                        // Sticky add-to-cart bar behavior
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const stickyBar = document.getElementById('stickyAddToCart');
+                            const stickyAddBtn = document.getElementById('stickyAddBtn');
+                            const trigger = document.getElementById('mainImageContainer');
+                            if (!stickyBar || !trigger) return;
+
+                            let lastScrollY = window.scrollY;
+                            let isPastTrigger = false;
+
+                            const observer = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => {
+                                    isPastTrigger = !entry.isIntersecting;
+                                });
+                            }, { rootMargin: '-80px 0px 0px 0px', threshold: 0.1 });
+
+                            observer.observe(trigger);
+
+                            function hideSticky() {
+                                stickyBar.classList.remove('is-visible');
+                                stickyBar.setAttribute('aria-hidden', 'true');
+                            }
+
+                            function showSticky() {
+                                stickyBar.classList.add('is-visible');
+                                stickyBar.setAttribute('aria-hidden', 'false');
+                            }
+
+                            window.addEventListener('scroll', () => {
+                                const currentY = window.scrollY;
+                                const scrollingDown = currentY > lastScrollY;
+                                lastScrollY = currentY;
+
+                                if (!isPastTrigger || currentY < 200 || !scrollingDown) {
+                                    hideSticky();
+                                    return;
+                                }
+
+                                showSticky();
+                            }, { passive: true });
+
+                            if (stickyAddBtn) {
+                                stickyAddBtn.addEventListener('click', function() {
+                                    submitAddToCartForm();
+                                });
+                            }
+                        });
 
                         // Use global showToast for validation messages
                         function showValidationToast(message) {
