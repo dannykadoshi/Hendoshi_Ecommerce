@@ -163,9 +163,6 @@
                                             <a href="{% url 'edit_product' product.slug %}" class="btn btn-outline-primary btn-sm" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="{% url 'admin_optimize_product_images' product.pk %}" class="btn btn-outline-success btn-sm" title="Optimize Images">
-                                                <i class="fas fa-magic"></i>
-                                            </a>
                                             <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteProduct('{{ product.pk }}', '{{ product.name|escapejs }}', '{{ product.collection.name|default:"—"|escapejs }}', '{{ product.get_product_type_display|escapejs }}', '{{ product.base_price }}', '{{ product.is_active|yesno:"Active,Inactive"|escapejs }}{% if product.is_archived %} (Archived){% endif %}', '{{ product.variants.count }}', '{{ product.created_at|date:"M d, Y H:i"|escapejs }}', {% if product.main_image %}'{{ product.main_image.url|escapejs }}'{% else %}''{% endif %}, '{% url 'admin_delete_product' product.pk %}')" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -257,9 +254,6 @@
                                                 </a>
                                                 <a href="{% url 'edit_product' product.slug %}" class="btn btn-outline-primary btn-sm" title="Edit">
                                                     <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="{% url 'admin_optimize_product_images' product.pk %}" class="btn btn-outline-success btn-sm" title="Optimize Images">
-                                                    <i class="fas fa-magic"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteProduct('{{ product.pk }}', '{{ product.name|escapejs }}', '{{ product.collection.name|default:"—"|escapejs }}', '{{ product.get_product_type_display|escapejs }}', '{{ product.base_price }}', '{{ product.is_active|yesno:"Active,Inactive"|escapejs }}{% if product.is_archived %} (Archived){% endif %}', '{{ product.variants.count }}', '{{ product.created_at|date:"M d, Y H:i"|escapejs }}', {% if product.main_image %}'{{ product.main_image.url|escapejs }}'{% else %}''{% endif %}, '{% url 'admin_delete_product' product.pk %}')" title="Delete">
                                                     <i class="fas fa-trash"></i>
