@@ -148,20 +148,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.75rem;
-        margin-top: 1rem;
-        padding-top: 1rem;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
+        flex-wrap: wrap;
     }
 
-    .payment-method-logo {
-        height: 24px;
-        opacity: 0.7;
-        transition: opacity 0.2s ease;
+    .payment-method-icon {
+        font-size: 2.5rem;
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
     }
 
-    .payment-method-logo:hover {
-        opacity: 1;
+    .payment-method-icon:hover {
+        color: var(--neon-pink);
+        transform: translateY(-3px);
     }
     
     /* Ensure proper viewport height on mobile */
@@ -424,11 +426,11 @@
 
                         <!-- Payment Method Logos -->
                         <div class="payment-methods">
-                            <img src="{% static 'images/payment/visa.svg' %}" alt="Visa" class="payment-method-logo" onerror="this.style.display='none'">
-                            <img src="{% static 'images/payment/mastercard.svg' %}" alt="Mastercard" class="payment-method-logo" onerror="this.style.display='none'">
-                            <img src="{% static 'images/payment/amex.svg' %}" alt="American Express" class="payment-method-logo" onerror="this.style.display='none'">
-                            <img src="{% static 'images/payment/apple-pay.svg' %}" alt="Apple Pay" class="payment-method-logo" onerror="this.style.display='none'">
-                            <img src="{% static 'images/payment/google-pay.svg' %}" alt="Google Pay" class="payment-method-logo" onerror="this.style.display='none'">
+                            <i class="fab fa-cc-visa payment-method-icon"></i>
+                            <i class="fab fa-cc-mastercard payment-method-icon"></i>
+                            <i class="fab fa-cc-amex payment-method-icon"></i>
+                            <i class="fab fa-cc-apple-pay payment-method-icon"></i>
+                            <i class="fab fa-google-pay payment-method-icon"></i>
                         </div>
 
                         <div class="form-actions mt-4">
