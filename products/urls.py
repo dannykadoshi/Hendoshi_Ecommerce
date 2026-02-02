@@ -7,6 +7,7 @@ from .admin_views import (
     list_products, create_admin_product, edit_admin_product, delete_admin_product,
     bulk_archive_admin_products, bulk_delete_admin_products, optimize_admin_product_images,
     list_reviews, update_review_status, view_review_detail, admin_reply_review, delete_review_image,
+    bulk_create_products_step1, bulk_create_products_step2,
 )
 
 urlpatterns = [
@@ -28,6 +29,8 @@ urlpatterns = [
     # Product management admin
     path('admin/products/', list_products, name='admin_list_products'),
     path('admin/products/create/', create_admin_product, name='admin_create_product'),
+    path('admin/products/create/bulk/step1/', bulk_create_products_step1, name='bulk_create_products_step1'),
+    path('admin/products/create/bulk/step2/', bulk_create_products_step2, name='bulk_create_products_step2'),
     path('admin/products/<int:pk>/edit/', edit_admin_product, name='admin_edit_product'),
     path('admin/products/<int:pk>/delete/', delete_admin_product, name='admin_delete_product'),
     path('admin/products/<int:pk>/optimize/', optimize_admin_product_images, name='admin_optimize_product_images'),
@@ -57,6 +60,9 @@ urlpatterns = [
 
     # Canonical collection pages
     path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),
+    
+    # Design products - all products for a specific design
+    path('design/<slug:design_slug>/', views.design_products, name='design_products'),
 
     # Audience hubs
     path('men/', views.audience_hub, {'audience_slug': 'men'}, name='audience_men'),

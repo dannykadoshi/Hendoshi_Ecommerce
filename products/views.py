@@ -64,6 +64,10 @@ from .forms import (
     ProductReviewForm,
     VariantSelectionForm
 )
+from django.db import transaction, IntegrityError
+from django.utils.text import slugify
+import logging
+from decimal import Decimal, InvalidOperation
 
 
 def search(request):
@@ -141,7 +145,10 @@ def all_products(request):
     View to show all products with filtering and sorting
     """
     products = Product.objects.filter(is_active=True, is_archived=False)
+    from django.core.paginator import Paginator
+    from django.template.loader import render_to_string
     collections = Collection.objects.all()
+    product_types = ProductType.objects.all()
     query = None
     selected_collection = None
     selected_type = None
@@ -196,9 +203,29 @@ def all_products(request):
         
         products = products.order_by(sortkey)
     
+    # Pagination (30 per page)
+    per_page = 30
+    paginator = Paginator(products, per_page)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # AJAX load-more support
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        cards_html = render_to_string('products/_product_cards.html', {
+            'products': page_obj,
+            'request': request,
+        })
+        return JsonResponse({
+            'html': cards_html,
+            'has_next': page_obj.has_next(),
+            'next_page': page_obj.next_page_number() if page_obj.has_next() else None,
+        })
+
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'collections': collections,
+        'product_types': product_types,
         'search_term': query,
         'current_collection': selected_collection,
         'current_type': selected_type,
@@ -213,6 +240,8 @@ def sale_products(request):
     """
     View to show products on sale with filtering and sorting
     """
+    from django.core.paginator import Paginator
+    from django.template.loader import render_to_string
     # Filter for products that have a sale_price and are within sale dates (if set)
     now = timezone.now()
     products = Product.objects.filter(
@@ -226,6 +255,7 @@ def sale_products(request):
     )
 
     collections = Collection.objects.all()
+    product_types = ProductType.objects.all()
     query = None
     selected_collection = None
     selected_type = None
@@ -253,7 +283,11 @@ def sale_products(request):
     # Filter by product type
     if 'type' in request.GET:
         selected_type = request.GET['type']
-        products = products.filter(product_type=selected_type)
+        try:
+            product_type = ProductType.objects.get(slug=selected_type)
+            products = products.filter(product_type=product_type)
+        except ProductType.DoesNotExist:
+            products = products.none()
 
     # Sorting
     if 'sort' in request.GET:
@@ -272,9 +306,29 @@ def sale_products(request):
 
         products = products.order_by(sortkey)
 
+    # Pagination (30 per page)
+    per_page = 30
+    paginator = Paginator(products, per_page)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # AJAX load-more support
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        cards_html = render_to_string('products/_product_cards.html', {
+            'products': page_obj,
+            'request': request,
+        })
+        return JsonResponse({
+            'html': cards_html,
+            'has_next': page_obj.has_next(),
+            'next_page': page_obj.next_page_number() if page_obj.has_next() else None,
+        })
+
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'collections': collections,
+        'product_types': product_types,
         'search_term': query,
         'current_collection': selected_collection,
         'current_type': selected_type,
@@ -309,6 +363,11 @@ def product_detail(request, slug):
     size_order = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl']
     available_sizes = sorted(available_sizes, key=lambda x: size_order.index(x.lower()) if x.lower() in size_order else 999)
     available_colors = sorted(available_colors)
+    
+    # Create size display mapping for template
+    from products.models import ProductVariant
+    size_choices_dict = dict(ProductVariant.SIZE_CHOICES)
+    available_sizes_display = [(size, size_choices_dict.get(size, size.upper())) for size in available_sizes]
 
     # Get bestsellers based on total quantity sold
     from django.db.models import Sum
@@ -352,6 +411,7 @@ def product_detail(request, slug):
     context = {
         'product': product,
         'available_sizes': available_sizes,
+        'available_sizes_display': available_sizes_display,
         'available_colors': available_colors,
         'related_products': related_products,
         'requires_size': requires_size,
@@ -359,21 +419,115 @@ def product_detail(request, slug):
         'recently_viewed_products': recently_viewed_products,
     }
 
-    # Audience switcher: find other products with same name but different audience
+    # Audience switcher: find other products by base name without audience suffix
     audience_switches = {}
     try:
-        other_versions = Product.objects.filter(name=product.name).exclude(id=product.id)
+        import re
+        from django.db.models import Q
+
+        base_name = re.sub(r'\s*-\s*(men|women|kids|unisex)\s*$', '', product.name, flags=re.I)
+        base_name = re.sub(r'\s+', ' ', base_name).strip()
+        audience_labels = dict(Product.AUDIENCE_CHOICES)
+
+        name_pattern = rf'^{re.escape(base_name)}\s*(?:-\s*(Men|Women|Kids|Unisex))?\s*$'
+
         for a in ['men', 'women', 'kids', 'unisex']:
-            match = other_versions.filter(audience=a).first()
-            if match:
-                audience_switches[a] = match.slug
-            else:
-                # fallback to audience hub filtered by product name
+            if a == product.audience:
                 audience_switches[a] = None
+                continue
+
+            display = audience_labels.get(a, a)
+
+            qs = Product.objects.filter(
+                audience=a,
+                is_active=True,
+                is_archived=False
+            ).exclude(id=product.id)
+
+            if product.product_type:
+                qs = qs.filter(product_type=product.product_type)
+
+            match = qs.filter(
+                Q(name__iregex=name_pattern) |
+                Q(name__iexact=f"{base_name} - {display}") |
+                Q(name__iexact=base_name)
+            ).first()
+
+            audience_switches[a] = match.slug if match else None
     except Exception:
         audience_switches = {a: None for a in ['men', 'women', 'kids', 'unisex']}
 
     context['audience_switches'] = audience_switches
+
+    # Product type switcher: find same design across different product types
+    product_type_switches = {}
+    base_design_slug = None
+    try:
+        import re
+        from django.db.models import Q, Case, When, IntegerField
+
+        raw_base_name = re.sub(r'\s*-\s*(men|women|kids|unisex)\s*$', '', product.name, flags=re.I)
+        raw_base_name = re.sub(r'\s+', ' ', raw_base_name).strip()
+
+        base_design = raw_base_name
+        if product.product_type:
+            pt_name = product.product_type.name
+            pt_pattern = re.compile(rf'\s*(?:-|–)?\s*{re.escape(pt_name)}\s*$', re.I)
+            base_design = re.sub(pt_pattern, '', base_design).strip() or raw_base_name
+
+        # Create slug for base design to use in "All products" link
+        from django.utils.text import slugify
+        base_design_slug = slugify(base_design)
+
+        from .models import ProductType
+        for pt in ProductType.objects.all():
+            if product.product_type and pt.id == product.product_type.id:
+                continue
+
+            pattern = rf'^{re.escape(base_design)}\s*(?:-|–)?\s*{re.escape(pt.name)}(?:\s*-\s*(Men|Women|Kids|Unisex))?\s*$'
+
+            # First, try to find a match with the same audience if the current product has one
+            match = None
+            if product.audience:
+                match = Product.objects.filter(
+                    product_type=pt,
+                    audience=product.audience,
+                    is_active=True,
+                    is_archived=False
+                ).filter(
+                    Q(name__iregex=pattern) |
+                    Q(name__istartswith=base_design)
+                ).exclude(id=product.id).first()
+            
+            # If no match with same audience, try with preferred order: unisex > men > women > kids
+            if not match:
+                audience_priority = Case(
+                    When(audience='unisex', then=1),
+                    When(audience='men', then=2),
+                    When(audience='women', then=3),
+                    When(audience='kids', then=4),
+                    default=5,
+                    output_field=IntegerField()
+                )
+                
+                match = Product.objects.filter(
+                    product_type=pt,
+                    is_active=True,
+                    is_archived=False
+                ).filter(
+                    Q(name__iregex=pattern) |
+                    Q(name__istartswith=base_design)
+                ).exclude(id=product.id).order_by(audience_priority).first()
+
+            if match:
+                product_type_switches[pt.name] = match.slug
+    except Exception:
+        product_type_switches = {}
+        base_design_slug = None
+
+    context['product_type_switches'] = product_type_switches
+    context['base_design_slug'] = base_design_slug
+    context['base_design_name'] = base_design if 'base_design' in locals() else None
 
     response = render(request, 'products/product_detail.html', context)
 
@@ -384,6 +538,91 @@ def product_detail(request, slug):
     return response
 
 
+def design_products(request, design_slug):
+    """
+    View to show all products (all types and audiences) for a specific design.
+    """
+    import re
+    from django.db.models import Q
+    from django.utils.text import slugify
+    
+    # Convert slug back to a searchable name
+    design_name = design_slug.replace('-', ' ').title()
+    
+    # Find all products that match this design base name
+    products = Product.objects.filter(
+        is_active=True,
+        is_archived=False
+    ).select_related('product_type', 'collection')
+    
+    # Filter products that contain the design name
+    matching_products = []
+    for product in products:
+        # Remove audience suffix from product name
+        base_name = re.sub(r'\s*-\s*(men|women|kids|unisex)\s*$', '', product.name, flags=re.I)
+        # Remove product type suffix
+        if product.product_type:
+            pt_pattern = re.compile(rf'\s*(?:-|–)?\s*{re.escape(product.product_type.name)}\s*$', re.I)
+            base_name = re.sub(pt_pattern, '', base_name).strip()
+        
+        base_name = re.sub(r'\s+', ' ', base_name).strip()
+        
+        # Check if this product matches the design
+        if slugify(base_name) == design_slug:
+            matching_products.append(product)
+    
+    # Get the design name from the first product if available
+    if matching_products:
+        first_product = matching_products[0]
+        design_display_name = re.sub(r'\s*-\s*(men|women|kids|unisex)\s*$', '', first_product.name, flags=re.I)
+        if first_product.product_type:
+            pt_pattern = re.compile(rf'\s*(?:-|–)?\s*{re.escape(first_product.product_type.name)}\s*$', re.I)
+            design_display_name = re.sub(pt_pattern, '', design_display_name).strip()
+        design_display_name = re.sub(r'\s+', ' ', design_display_name).strip()
+    else:
+        design_display_name = design_name
+    
+    # Group products by type and audience for organized display
+    products_by_type = {}
+    for product in matching_products:
+        type_name = product.product_type.name if product.product_type else 'Other'
+        if type_name not in products_by_type:
+            products_by_type[type_name] = []
+        products_by_type[type_name].append(product)
+    
+    from django.core.paginator import Paginator
+    from django.template.loader import render_to_string
+
+    # Pagination (30 per page)
+    per_page = 30
+    paginator = Paginator(matching_products, per_page)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # AJAX load-more support
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        cards_html = render_to_string('products/_product_cards.html', {
+            'products': page_obj,
+            'request': request,
+        })
+        return JsonResponse({
+            'html': cards_html,
+            'has_next': page_obj.has_next(),
+            'next_page': page_obj.next_page_number() if page_obj.has_next() else None,
+        })
+
+    context = {
+        'design_name': design_display_name,
+        'design_slug': design_slug,
+        'products': page_obj,
+        'page_obj': page_obj,
+        'products_by_type': products_by_type,
+        'total_products': len(matching_products),
+    }
+    
+    return render(request, 'products/design_products.html', context)
+
+
 def collection_detail(request, slug):
     """
     Canonical collection page that lists products for a given collection slug.
@@ -392,6 +631,7 @@ def collection_detail(request, slug):
     collection = get_object_or_404(Collection, slug=slug)
     products = Product.objects.filter(collection=collection, is_active=True, is_archived=False)
     collections = Collection.objects.all()
+    product_types = ProductType.objects.all()
 
     # Support sorting and filtering similar to all_products
     query = request.GET.get('q')
@@ -421,9 +661,32 @@ def collection_detail(request, slug):
             sortkey = f'-{sortkey}'
         products = products.order_by(sortkey)
 
+    from django.core.paginator import Paginator
+    from django.template.loader import render_to_string
+
+    # Pagination (30 per page)
+    per_page = 30
+    paginator = Paginator(products, per_page)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # AJAX load-more support
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        cards_html = render_to_string('products/_product_cards.html', {
+            'products': page_obj,
+            'request': request,
+        })
+        return JsonResponse({
+            'html': cards_html,
+            'has_next': page_obj.has_next(),
+            'next_page': page_obj.next_page_number() if page_obj.has_next() else None,
+        })
+
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'collections': collections,
+        'product_types': product_types,
         'search_term': query,
         'current_collection': collection.slug,
         'current_type': selected_type,
@@ -445,6 +708,7 @@ def audience_hub(request, audience_slug):
 
     products = Product.objects.filter(audience=audience_slug, is_active=True, is_archived=False)
     collections = Collection.objects.all()
+    product_types = ProductType.objects.all()
 
     # Support search, collection and product_type filters similar to all_products
     query = request.GET.get('q')
@@ -476,9 +740,32 @@ def audience_hub(request, audience_slug):
             sortkey = f'-{sortkey}'
         products = products.order_by(sortkey)
 
+    from django.core.paginator import Paginator
+    from django.template.loader import render_to_string
+
+    # Pagination (30 per page)
+    per_page = 30
+    paginator = Paginator(products, per_page)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    # AJAX load-more support
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        cards_html = render_to_string('products/_product_cards.html', {
+            'products': page_obj,
+            'request': request,
+        })
+        return JsonResponse({
+            'html': cards_html,
+            'has_next': page_obj.has_next(),
+            'next_page': page_obj.next_page_number() if page_obj.has_next() else None,
+        })
+
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'collections': collections,
+        'product_types': product_types,
         'search_term': query,
         'current_collection': selected_collection,
         'current_type': selected_type,
@@ -508,35 +795,332 @@ def create_product(request):
         variant_selection_form = VariantSelectionForm(request.POST)
         image_formset = ProductImageFormSet(request.POST, request.FILES, instance=None)
         design_form = DesignStoryForm(request.POST)
-        
+
+        # Design form is optional; only require product and variant selection to proceed
         if product_form.is_valid() and variant_selection_form.is_valid():
-            product = product_form.save()
-            
-            # Handle variants using toggle selection
-            if variant_selection_form.is_valid():
-                variants_data = variant_selection_form.generate_variants_data()
-                for variant_data in variants_data:
-                    ProductVariant.objects.create(
-                        product=product,
-                        size=variant_data['size'],
-                        color=variant_data['color'],
-                        stock=variant_data['stock']
-                    )
-            
-            # Handle images
-            image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
-            if image_formset.is_valid():
-                image_formset.save()
-            
-            # Handle design story
-            if design_form.is_valid() and design_form.cleaned_data.get('title'):
-                design = design_form.save(commit=False)
-                design.product = product
-                design.save()
-            
-            messages.success(request, f'Product "{product.name}" created successfully!')
-            
-            return redirect('product_detail', slug=product.slug)
+            # Create primary product and any enabled audience copies atomically
+            try:
+                with transaction.atomic():
+                    base_data = product_form.cleaned_data
+                    # Create primary product (handle slug collisions)
+                    logger = logging.getLogger(__name__)
+                    product = product_form.save(commit=False)
+                    # If slug not provided, generate and ensure uniqueness
+                    if not product.slug:
+                        base_slug = slugify(product.name)
+                        candidate = base_slug
+                        counter = 1
+                        while Product.objects.filter(slug=candidate).exists():
+                            logger.info('Primary slug exists, bumping: %s', candidate)
+                            candidate = f"{base_slug}-{counter}"
+                            counter += 1
+                        product.slug = candidate
+                    try:
+                        product.save()
+                    except IntegrityError:
+                        logger.exception('IntegrityError saving primary product, retrying with uuid suffix')
+                        import uuid
+                        product.slug = f"{product.slug}-{str(uuid.uuid4())[:8]}"
+                        product.save()
+
+                    # Handle variants for primary product
+                    variants_data = variant_selection_form.generate_variants_data()
+                    for variant_data in variants_data:
+                        ProductVariant.objects.create(
+                            product=product,
+                            size=variant_data['size'],
+                            color=variant_data['color'],
+                            stock=variant_data['stock']
+                        )
+
+                    # Handle images for primary product using formset
+                    image_formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+                    if image_formset.is_valid():
+                        image_formset.save()
+
+                    # Handle design story
+                    if design_form.is_valid() and design_form.cleaned_data.get('title'):
+                        design = design_form.save(commit=False)
+                        design.product = product
+                        design.save()
+
+                    # Now process additional audience blocks (men/women/kids/unisex)
+                    audience_keys = ['men', 'women', 'kids', 'unisex']
+                    # If primary product was created for one audience, skip recreating the same audience
+                    primary_audience = base_data.get('audience')
+
+                    # Debug: record which audience flags were submitted
+                    detected_flags = {a: bool(request.POST.get(f'enable_audience_{a}')) for a in audience_keys}
+                    messages.info(request, f'Audience flags submitted: {detected_flags}')
+
+                    # prepare logger
+                    logger = logging.getLogger(__name__)
+
+                    for a in audience_keys:
+                        # Skip the primary audience (already created)
+                        if a == primary_audience:
+                            continue
+
+                        # Determine whether this audience block should be created.
+                        # Accept explicit checkbox or infer from provided files/variants so admins don't have to tick the box.
+                        explicit_flag = bool(request.POST.get(f'enable_audience_{a}'))
+                        has_main_image = f'main_image_audience_{a}' in request.FILES
+                        has_gallery = bool(request.FILES.getlist(f'gallery_images_audience_{a}'))
+                        has_sizes = bool(request.POST.getlist(f'sizes_{a}'))
+                        has_colors = bool(request.POST.getlist(f'colors_{a}'))
+                        enabled = explicit_flag or has_main_image or has_gallery or has_sizes or has_colors
+
+                        if enabled:
+                            # Build product copy using shared fields
+                            copy = Product(
+                                name=base_data.get('name'),
+                                description=base_data.get('description'),
+                                collection=base_data.get('collection'),
+                                product_type=base_data.get('product_type'),
+                                base_price=base_data.get('base_price'),
+                                sale_price=base_data.get('sale_price'),
+                                sale_start=base_data.get('sale_start'),
+                                sale_end=base_data.get('sale_end'),
+                                meta_description=base_data.get('meta_description'),
+                                is_active=base_data.get('is_active'),
+                                featured=base_data.get('featured'),
+                                audience=a,
+                            )
+                                # Apply per-audience price override if provided
+                            price_field = request.POST.get(f'base_price_audience_{a}', '').strip()
+                            if price_field:
+                                try:
+                                    copy.base_price = Decimal(price_field)
+                                except (InvalidOperation, ValueError):
+                                    logger.warning('Invalid audience price provided for %s: %s', a, price_field)
+                            # Generate unique slug per audience (log checks)
+                            base_slug = slugify(base_data.get('name'))
+                            candidate = f"{base_slug}-{a}"
+                            counter = 1
+                            while Product.objects.filter(slug=candidate).exists():
+                                logger.info('Slug candidate exists, bumping: %s', candidate)
+                                candidate = f"{base_slug}-{a}-{counter}"
+                                counter += 1
+                            copy.slug = candidate
+                            logger.info('Prepared audience copy for save: audience=%s candidate=%s', a, candidate)
+                            # Log owner if present
+                            existing = Product.objects.filter(slug=candidate).first()
+                            if existing:
+                                logger.info('Existing product with candidate slug found: id=%s slug=%s', existing.id, existing.slug)
+
+                            # Attach main image for this audience if provided
+                            main_field = f'main_image_audience_{a}'
+                            if main_field in request.FILES:
+                                copy.main_image = request.FILES.get(main_field)
+
+                            # Save with retry in case slug unique constraint collides
+                            try:
+                                # Use a savepoint so a failing save doesn't taint the outer transaction
+                                with transaction.atomic():
+                                    copy.save()
+                                    logger.info('Saved audience copy id=%s slug=%s', copy.id, copy.slug)
+                            except IntegrityError as ie:
+                                logger.exception('IntegrityError saving copy for audience=%s candidate=%s', a, candidate)
+                                # Fallback: append a short uuid fragment to guarantee uniqueness and retry
+                                import uuid
+                                fallback = f"{candidate}-{str(uuid.uuid4())[:8]}"
+                                copy.slug = fallback
+                                logger.info('Retrying save with fallback slug=%s', fallback)
+                                try:
+                                    with transaction.atomic():
+                                        copy.save()
+                                        logger.info('Saved audience copy after fallback id=%s slug=%s', copy.id, copy.slug)
+                                except Exception:
+                                    logger.exception('Second save attempt failed for audience=%s slug=%s', a, copy.slug)
+                                    raise
+
+                            # Gallery images for this audience (multiple files supported)
+                            gallery_field = f'gallery_images_audience_{a}'
+                            gallery_files = request.FILES.getlist(gallery_field)
+                            for gf in gallery_files:
+                                ProductImage.objects.create(product=copy, image=gf)
+
+                            # Variant generation per-audience
+                            sizes = request.POST.getlist(f'sizes_{a}')
+                            colors = request.POST.getlist(f'colors_{a}')
+                            try:
+                                default_stock = int(request.POST.get(f'default_stock_{a}', 0) or 0)
+                            except ValueError:
+                                default_stock = 0
+
+                            # Generate combinations similar to VariantSelectionForm.generate_variants_data
+                            variants = []
+                            if sizes and colors:
+                                for sz in sizes:
+                                    for col in colors:
+                                        variants.append({'size': sz, 'color': col, 'stock': default_stock})
+                            elif sizes:
+                                for sz in sizes:
+                                    variants.append({'size': sz, 'color': '', 'stock': default_stock})
+                            elif colors:
+                                for col in colors:
+                                    variants.append({'size': '', 'color': col, 'stock': default_stock})
+
+                            for v in variants:
+                                ProductVariant.objects.create(
+                                    product=copy,
+                                    size=v['size'],
+                                    color=v['color'],
+                                    stock=v['stock']
+                                )
+
+                    # --- Create copies for selected clothing product types (hoodie_men, hoodie_women, dress) ---
+                    create_type_slugs = request.POST.getlist('create_types')
+                    created_type_slugs = []
+                    # Accept specific clothing copies: hoodie_men, hoodie_women, dress
+                    if create_type_slugs:
+                        messages.info(request, f'Requested type copies: {create_type_slugs}')
+                        for type_slug in create_type_slugs:
+                            # base type (e.g., 'hoodie' from 'hoodie_men')
+                            base_type = type_slug.split('_')[0]
+                            if base_type not in ('hoodie', 'dress'):
+                                # skip unsupported types
+                                logger.info('Skipping unsupported type copy request: %s', type_slug)
+                                continue
+
+                            # Resolve ProductType by base_type slug (expect a ProductType with slug 'hoodie' or 'dress')
+                            try:
+                                pt = ProductType.objects.get(slug=base_type)
+                            except ProductType.DoesNotExist:
+                                # Fallback: try to find by name containing the base_type
+                                pt = ProductType.objects.filter(name__icontains=base_type).first()
+                                if not pt:
+                                    logger.warning('Requested product type not found for base type: %s', base_type)
+                                    messages.warning(request, f'Product type not found for: {base_type}')
+                                    continue
+
+                            # Build the product copy
+                            pt_copy = Product(
+                                name=base_data.get('name'),
+                                description=base_data.get('description'),
+                                collection=base_data.get('collection'),
+                                product_type=pt,
+                                base_price=base_data.get('base_price'),
+                                sale_price=base_data.get('sale_price'),
+                                sale_start=base_data.get('sale_start'),
+                                sale_end=base_data.get('sale_end'),
+                                meta_description=base_data.get('meta_description'),
+                                is_active=base_data.get('is_active'),
+                                featured=base_data.get('featured'),
+                            )
+
+                            # Apply per-type price override if provided
+                            price_field_type = request.POST.get(f'base_price_type_{type_slug}', '').strip()
+                            if price_field_type:
+                                try:
+                                    pt_copy.base_price = Decimal(price_field_type)
+                                except (InvalidOperation, ValueError):
+                                    logger.warning('Invalid type price provided for %s: %s', type_slug, price_field_type)
+
+                            # Determine audience: hoodies can be men or women based on suffix; dresses always women
+                            if base_type == 'hoodie':
+                                if type_slug.endswith('_men'):
+                                    pt_copy.audience = 'men'
+                                elif type_slug.endswith('_women'):
+                                    pt_copy.audience = 'women'
+                                else:
+                                    pt_copy.audience = base_data.get('audience')
+                            elif base_type == 'dress':
+                                pt_copy.audience = 'women'
+
+                            # Per-type main image override
+                            main_field = f'main_image_type_{type_slug}'
+                            if main_field in request.FILES:
+                                pt_copy.main_image = request.FILES.get(main_field)
+
+                            # Slug candidate includes type slug to avoid collisions
+                            base_slug = slugify(base_data.get('name'))
+                            candidate = f"{base_slug}-{type_slug}"
+                            counter = 1
+                            while Product.objects.filter(slug=candidate).exists():
+                                candidate = f"{base_slug}-{type_slug}-{counter}"
+                                counter += 1
+                            pt_copy.slug = candidate
+
+                            try:
+                                with transaction.atomic():
+                                    pt_copy.save()
+                                    created_type_slugs.append(pt_copy.slug)
+
+                                    # Gallery images
+                                    gallery_field = f'gallery_images_type_{type_slug}'
+                                    gallery_files = request.FILES.getlist(gallery_field)
+                                    for gf in gallery_files:
+                                        ProductImage.objects.create(product=pt_copy, image=gf)
+
+                                    # Variants from per-type inputs, fallback to copying primary variants
+                                    sizes = request.POST.getlist(f'sizes_type_{type_slug}')
+                                    colors = request.POST.getlist(f'colors_type_{type_slug}')
+                                    try:
+                                        default_stock = int(request.POST.get(f'default_stock_type_{type_slug}', 0) or 0)
+                                    except ValueError:
+                                        default_stock = 0
+
+                                    variants_to_create = []
+                                    if sizes and colors:
+                                        for sz in sizes:
+                                            for col in colors:
+                                                variants_to_create.append({'size': sz, 'color': col, 'stock': default_stock})
+                                    elif sizes:
+                                        for sz in sizes:
+                                            variants_to_create.append({'size': sz, 'color': '', 'stock': default_stock})
+                                    elif colors:
+                                        for col in colors:
+                                            variants_to_create.append({'size': '', 'color': col, 'stock': default_stock})
+                                    else:
+                                        # copy variants from primary product if available
+                                        if product:
+                                            for v in product.variants.all():
+                                                variants_to_create.append({'size': v.size, 'color': v.color, 'stock': v.stock})
+
+                                    for vv in variants_to_create:
+                                        ProductVariant.objects.create(
+                                            product=pt_copy,
+                                            size=vv['size'],
+                                            color=vv['color'],
+                                            stock=vv['stock']
+                                        )
+
+                                    # Copy design story if provided
+                                    if design_form.is_valid() and design_form.cleaned_data.get('title'):
+                                        try:
+                                            ds = DesignStory(
+                                                product=pt_copy,
+                                                title=design_form.cleaned_data.get('title'),
+                                                story=design_form.cleaned_data.get('story'),
+                                                author=design_form.cleaned_data.get('author') or 'HENDOSHI Design Team',
+                                                status=design_form.cleaned_data.get('status') or 'draft'
+                                            )
+                                            ds.save()
+                                        except Exception:
+                                            logger.exception('Failed to save design story for product type copy %s', type_slug)
+                            except IntegrityError:
+                                logger.exception('IntegrityError saving product type copy %s, retrying with uuid', type_slug)
+                                import uuid
+                                fallback = f"{candidate}-{str(uuid.uuid4())[:8]}"
+                                pt_copy.slug = fallback
+                                with transaction.atomic():
+                                    pt_copy.save()
+                                    created_type_slugs.append(pt_copy.slug)
+
+                    # Success message: include created type copies
+                    created_list = ', '.join(created_type_slugs) if created_type_slugs else ''
+                    if 'product' in locals() and product:
+                        messages.success(request, f'Product "{product.name}" created successfully! {"Copies:" if created_list else ""} {created_list}')
+                        return redirect('product_detail', slug=product.slug)
+                    elif created_type_slugs:
+                        # No primary product (edge case), redirect to first created copy
+                        messages.success(request, f'Created copies: {created_list}')
+                        return redirect('product_detail', slug=created_type_slugs[0])
+                    else:
+                        messages.success(request, 'No products were created.')
+            except Exception as e:
+                messages.error(request, f'Error creating products: {str(e)}')
         else:
             # Handle form errors
             if not product_form.is_valid():
@@ -548,7 +1132,19 @@ def create_product(request):
                     for error in errors:
                         messages.error(request, f'Variant {field}: {error}')
     else:
-        product_form = ProductForm()
+        # Ensure the audience select renders a placeholder by default
+        product_form = ProductForm(initial={'audience': ''})
+        # Prepend a server-side placeholder choice so the blank value is selectable
+        try:
+            field = product_form.fields.get('audience')
+            if field is not None:
+                choices = list(field.choices)
+                if not any(c[0] == '' for c in choices):
+                    field.choices = [('', '----')] + choices
+                field.initial = ''
+        except Exception:
+            pass
+
         variant_selection_form = VariantSelectionForm()
         image_formset = ProductImageFormSet(instance=None)
         design_form = DesignStoryForm()
