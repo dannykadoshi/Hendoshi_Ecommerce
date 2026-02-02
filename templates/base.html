@@ -132,7 +132,7 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.3">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.8">
         <!-- Newsletter Popup CSS -->
         <link rel="stylesheet" href="{% static 'css/newsletter-popup.css' %}">
 
@@ -930,14 +930,14 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <h5>HENDOSHI</h5>
                         <p class="tagline">WEAR YOUR WEIRD</p>
                         <p>Metal meets mayhem. Original designs for those who embrace their weird.</p>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <h5>Shop</h5>
                         <ul class="list-unstyled">
                             <li>
@@ -954,23 +954,37 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-3">
-                        <h5>Support</h5>
+                    <div class="col-md-2">
+                        <h5>Customer Care</h5>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="{% url 'shipping' %}">Shipping Info</a>
+                                <a href="{% url 'track_order' %}">Track Your Order</a>
                             </li>
                             <li>
-                                <a href="{% url 'size_guide' %}">Size Guide</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'returns' %}">Returns</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'contact' %}">Contact</a>
+                                <a href="{% url 'contact' %}">Contact Us</a>
                             </li>
                             <li>
                                 <a href="{% url 'faq' %}">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'about' %}">About Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Legal</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{% url 'privacy' %}">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'returns' %}">Return Policy</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'shipping' %}">Shipping Policy</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'size_guide' %}">Size Guide</a>
                             </li>
                             <li>
                                 <a href="{% url 'cookie_settings' %}">Cookie Settings</a>
@@ -985,7 +999,7 @@
                             <input type="email" id="newsletter-email" name="email" class="form-control mb-2" placeholder="Your email..." autocomplete="email" required>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" value="1" id="newsletter-consent" name="consent">
-                                <label class="form-check-label small" for="newsletter-consent">I agree to receive marketing emails and accept the <a href="{% url 'privacy' %}">Privacy Policy</a>.</label>
+                                <label class="form-check-label small" for="newsletter-consent">I agree to receive marketing emails and accept the <a href="{% url 'privacy' %}" style="color: #ff1493; text-decoration: none; font-weight: 600;">Privacy Policy</a>.</label>
                             </div>
                             
                             <div class="newsletter-error"></div>
@@ -1000,9 +1014,26 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Payment Methods -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="footer-payment-methods">
+                            <span class="payment-label">We Accept</span>
+                            <div class="payment-icons-wrapper">
+                                <i class="fab fa-cc-visa payment-icon"></i>
+                                <i class="fab fa-cc-mastercard payment-icon"></i>
+                                <i class="fab fa-cc-amex payment-icon"></i>
+                                <i class="fab fa-cc-apple-pay payment-icon"></i>
+                                <i class="fab fa-google-pay payment-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <hr>
                 <div class="text-center">
-                    <p>© 2025 HENDOSHI. Wear Your Weird. All rights reserved.</p>
+                    <p class="mb-0">© 2025 HENDOSHI · Wear Your Weird</p>
                 </div>
             </div>
         </footer>

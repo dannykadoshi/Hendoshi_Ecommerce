@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block extra_title %}Privacy Policy{% endblock %}
 {% block content %}
-{# djlint:off H025 #}
-<div class="container checkout-container mt-5 mb-5">
-    <div class="checkout-wrapper">
-        <div class="checkout-header checkout-header-spaced">
-            <h1 class="page-title">PRIVACY POLICY</h1>
-        </div>
-        
-        <div class="checkout-content checkout-content-spaced">
-            <div class="checkout-main">
-                <div class="profile-card">
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- Privacy Policy Hero -->
+        <section class="vault-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                        <h1 class="vault-hero-title">Privacy Policy</h1>
+                        <p class="vault-hero-subtitle">We respect your privacy and data protection.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Content Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="contact-card">
                     <p>Last updated: {{ last_updated|default:"January 2026" }}</p>
 
                     <h2>Introduction</h2>
@@ -89,10 +101,11 @@
 
                     <h2>Contact</h2>
                     <p>If you have questions about this policy, contact: <a href="mailto:support@hendoshi.com">support@hendoshi.com</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>
-{# djlint:on #}
 {% endblock %}

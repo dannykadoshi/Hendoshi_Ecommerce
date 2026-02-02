@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Shipping notification email from Hendoshi Store">
+    <title>Your Order Has Shipped - Hendoshi Store</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 40px 20px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .tracking-box {
+            background: linear-gradient(135deg, rgba(255, 45, 161, 0.1), rgba(255, 0, 122, 0.05));
+            border: 2px solid #FF2DA1;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .tracking-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .tracking-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF2DA1;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            margin: 10px 0 20px;
+        }
+        .carrier-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .track-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .track-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 45, 161, 0.3);
+        }
+        .order-info {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .order-info-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF2DA1;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .order-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-detail:last-child {
+            border-bottom: none;
+        }
+        .order-detail-label {
+            font-weight: 600;
+            color: #666;
+        }
+        .order-detail-value {
+            color: #333;
+        }
+        .items-list {
+            margin: 15px 0;
+        }
+        .item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        .item-name {
+            font-weight: 600;
+            color: #333;
+        }
+        .item-details {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .footer {
+            background: #f9f9f9;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+            margin: 10px 0;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #FF2DA1;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .tagline {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FF2DA1;
+            margin: 10px 0;
+        }
+        .support-info {
+            background: #fff3f8;
+            border-left: 4px solid #FF2DA1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .support-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .support-link {
+            color: #FF2DA1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            .header {
+                padding: 30px 15px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .content {
+                padding: 30px 15px;
+            }
+            .tracking-number {
+                font-size: 20px;
+            }
+            .track-button {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icon">📦</div>
+            <h1>Your Order Has Shipped!</h1>
+            <p>Your HENDOSHI package is on its way</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p class="greeting">Hey {{ order.full_name }}! 🤘</p>
+            
+            <p class="message">
+                Great news! Your order <strong>#{{ order.order_number }}</strong> has been shipped and is on its way to you. 
+                You can track your package using the information below.
+            </p>
+
+            <!-- Tracking Information -->
+            <div class="tracking-box">
+                <div class="tracking-label">Tracking Number</div>
+                <div class="tracking-number">{{ order.tracking_number }}</div>
+                
+                {% if order.carrier %}
+                <div class="carrier-info">
+                    <strong>Carrier:</strong> {{ order.get_carrier_display_name }}
+                </div>
+                {% endif %}
+                
+                {% if tracking_url %}
+                <a href="{{ tracking_url }}" class="track-button">
+                    🚚 Track Your Package
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Order Details -->
+            <div class="order-info">
+                <div class="order-info-title">Order Details</div>
+                
+                <div class="items-list">
+                    {% for item in order.items.all %}
+                    <div class="item">
+                        <div class="item-name">{{ item.product.name }} × {{ item.quantity }}</div>
+                        <div class="item-details">
+                            {% if item.size %}Size: {{ item.size }}{% endif %}
+                            {% if item.color %}{% if item.size %} | {% endif %}Color: {{ item.color }}{% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="order-detail">
+                    <span class="order-detail-label">Shipping To:</span>
+                    <span class="order-detail-value">{{ order.full_name }}</span>
+                </div>
+                <div class="order-detail">
+                    <span class="order-detail-label">Address:</span>
+                    <span class="order-detail-value">
+                        {{ order.address }}, {{ order.city }}, {{ order.state_or_county }} {{ order.postal_code }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Support Information -->
+            <div class="support-info">
+                <p><strong>Questions about your order?</strong></p>
+                <p>
+                    Our support team is here to help! Contact us at 
+                    <a href="mailto:support@hendoshi.com" class="support-link">support@hendoshi.com</a>
+                    and include your order number for faster assistance.
+                </p>
+            </div>
+
+            <p class="message">
+                Thank you for shopping with HENDOSHI! We hope you love your new gear. 
+                Don't forget to share your look with us on social media! 🖤
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="tagline">WEAR YOUR WEIRD</p>
+            
+            <div class="social-links">
+                <a href="https://www.instagram.com/hendoshiart/" class="social-link">Instagram</a> |
+                <a href="https://www.facebook.com/hendoshiart" class="social-link">Facebook</a> |
+                <a href="https://x.com/hendoshiart" class="social-link">Twitter</a>
+            </div>
+            
+            <p class="footer-text">
+                © 2025 HENDOSHI · Wear Your Weird<br>
+                <a href="https://hendoshi.com" style="color: #FF2DA1; text-decoration: none;">hendoshi.com</a>
+            </p>
+            
+            <p class="footer-text" style="font-size: 12px; color: #999; margin-top: 20px;">
+                This email was sent to {{ order.email }} because you placed an order with HENDOSHI.<br>
+                If you have any concerns, please contact us at support@hendoshi.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>
