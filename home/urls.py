@@ -8,4 +8,5 @@ urlpatterns = [
     path('returns/', views.returns, name='returns'),
     path('size-guide/', views.size_guide, name='size_guide'),
     path('faq/', views.faq, name='faq'),
+    path('track-order/', views.track_order, name='track_order'),
 ]

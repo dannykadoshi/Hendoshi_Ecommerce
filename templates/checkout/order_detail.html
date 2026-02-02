@@ -71,13 +71,41 @@
                 </div>
                 
                 {% if order.tracking_number %}
-                <div class="status-card">
+                <div class="status-card tracking-card">
+                    <div class="status-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="status-info">
+                        <div class="status-label">
+                            Tracking Number
+                            {% if order.carrier %}
+                                <span class="carrier-badge">{{ order.get_carrier_display_name }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="status-value tracking-number">
+                            {{ order.tracking_number }}
+                            <button class="btn-copy-tracking" onclick="copyTracking('{{ order.tracking_number }}')" title="Copy tracking number">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        {% if order.get_tracking_url %}
+                        <a href="{{ order.get_tracking_url }}" target="_blank" class="btn-track-package mt-2">
+                            <i class="fas fa-external-link-alt"></i> Track Package
+                        </a>
+                        {% else %}
+                        <small class="text-muted mt-2 d-block">Click copy button to track on carrier's website</small>
+                        {% endif %}
+                    </div>
+                </div>
+                {% elif request.user.is_staff %}
+                <div class="status-card tracking-card-empty">
                     <div class="status-icon">
                         <i class="fas fa-truck"></i>
                     </div>
                     <div class="status-info">
                         <div class="status-label">Tracking Number</div>
-                        <div class="status-value tracking-number">{{ order.tracking_number }}</div>
+                        <div class="status-value text-muted">Not yet available</div>
+                        <small class="text-muted mt-2 d-block">Add tracking below when shipped</small>
                     </div>
                 </div>
                 {% endif %}
@@ -94,6 +122,46 @@
             </div>
 
             {% if request.user.is_staff %}
+            <!-- Admin: Tracking Number Update Form -->
+            <div class="order-section mb-4">
+                <h3 class="section-title"><i class="fas fa-shipping-fast"></i> Update Tracking Information</h3>
+                <form method="post" class="tracking-update-form">
+                    {% csrf_token %}
+                    <div class="tracking-update-fields">
+                        <div class="tracking-update-field">
+                            <label for="tracking_number"><i class="fas fa-hashtag"></i> Tracking Number:</label>
+                            <input 
+                                type="text" 
+                                name="tracking_number" 
+                                id="tracking_number" 
+                                class="form-control" 
+                                value="{{ order.tracking_number|default:'' }}"
+                                placeholder="Enter tracking number">
+                        </div>
+                        <div class="tracking-update-field">
+                            <label for="carrier"><i class="fas fa-truck"></i> Carrier (Optional):</label>
+                            <select name="carrier" id="carrier" class="form-control">
+                                <option value="">Select carrier...</option>
+                                <option value="usps" {% if order.carrier == 'usps' %}selected{% endif %}>USPS</option>
+                                <option value="ups" {% if order.carrier == 'ups' %}selected{% endif %}>UPS</option>
+                                <option value="fedex" {% if order.carrier == 'fedex' %}selected{% endif %}>FedEx</option>
+                                <option value="dhl" {% if order.carrier == 'dhl' %}selected{% endif %}>DHL</option>
+                                <option value="other" {% if order.carrier == 'other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="mark_as_shipped" id="mark_as_shipped" {% if order.status == 'shipped' %}disabled{% endif %}>
+                        <label class="form-check-label" for="mark_as_shipped">
+                            Mark order as "Shipped" when updating tracking
+                        </label>
+                    </div>
+                    <button type="submit" name="update_tracking" class="btn btn-pink tracking-update-btn">
+                        <i class="fas fa-save"></i> Update Tracking
+                    </button>
+                </form>
+            </div>
+            
             <!-- Admin: Order Status Update Form -->
             <div class="order-section mb-4">
                 <h3 class="section-title"><i class="fas fa-edit"></i> Update Order Status</h3>
@@ -255,3 +323,212 @@
             </div>
             </div> <!-- end profile-card -->
         {% endblock %}
+
+<style>
+/* Tracking Card Enhancements */
+.tracking-card {
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 20, 147, 0.02));
+    border: 2px solid rgba(255, 20, 147, 0.2) !important;
+}
+
+.tracking-card-empty {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.tracking-number {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: monospace;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.carrier-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.3);
+}
+
+.btn-copy-tracking {
+    background: rgba(255, 20, 147, 0.1);
+    border: 1px solid rgba(255, 20, 147, 0.3);
+    color: var(--neon-pink);
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-copy-tracking:hover {
+    background: var(--neon-pink);
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-track-package {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+}
+
+.btn-track-package:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-track-package i {
+    margin-right: 0.5rem;
+}
+
+
+/* Tracking Update Form */
+.tracking-update-form {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tracking-update-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tracking-update-field label {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.tracking-update-field label i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.tracking-update-field .form-control {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.tracking-update-field .form-control:focus {
+    border-color: var(--neon-pink);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
+}
+
+.tracking-update-field .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.tracking-update-btn {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.form-check-input:checked {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.form-check-label {
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: 0.5rem;
+}
+
+/* Toast for copy feedback */
+.copy-toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+    font-weight: 600;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .tracking-update-fields {
+        grid-template-columns: 1fr;
+    }
+    
+    .tracking-number {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 1rem;
+    }
+    
+    .copy-toast {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+    }
+}
+</style>
+
+<script>
+function copyTracking(trackingNumber) {
+    // Copy to clipboard
+    navigator.clipboard.writeText(trackingNumber).then(function() {
+        // Show toast notification
+        const toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.innerHTML = '<i class="fas fa-check-circle"></i> Tracking number copied!';
+        document.body.appendChild(toast);
+        
+        // Remove toast after 3 seconds
+        setTimeout(function() {
+            toast.style.animation = 'slideIn 0.3s ease reverse';
+            setTimeout(function() {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }).catch(function(err) {
+        console.error('Failed to copy: ', err);
+        alert('Failed to copy tracking number');
+    });
+}
+</script>

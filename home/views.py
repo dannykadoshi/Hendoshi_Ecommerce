@@ -158,3 +158,26 @@ def faq(request):
     View to display frequently asked questions
     """
     return render(request, 'home/faq.html')
+
+def track_order(request):
+    """
+    View to handle order tracking
+    """
+    from checkout.models import Order
+    
+    if request.method == 'POST':
+        order_number = request.POST.get('order_number', '').strip()
+        email = request.POST.get('email', '').strip()
+        
+        try:
+            # Find order by order number and email
+            order = Order.objects.get(
+                order_number=order_number,
+                email__iexact=email
+            )
+            # Redirect to order detail page
+            return redirect('order_detail', order_number=order.order_number)
+        except Order.DoesNotExist:
+            messages.error(request, 'Order not found. Please check your order number and email address.')
+    
+    return render(request, 'home/track_order.html')

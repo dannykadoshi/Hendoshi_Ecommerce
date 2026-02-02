@@ -842,6 +842,91 @@ def order_detail(request, order_number):
     status_logs = order.status_logs.order_by('-timestamp')
     status_form = None
     if request.user.is_staff:
+        # Handle tracking number update
+        if request.method == 'POST' and 'update_tracking' in request.POST:
+            tracking_number = request.POST.get('tracking_number', '').strip()
+            carrier = request.POST.get('carrier', '').strip()
+            mark_as_shipped = request.POST.get('mark_as_shipped') == 'on'
+            
+            if tracking_number:
+                old_tracking = order.tracking_number
+                old_carrier = order.carrier
+                order.tracking_number = tracking_number
+                
+                # Update carrier if provided
+                if carrier:
+                    order.carrier = carrier
+                
+                # Update status if checkbox is checked and order isn't already shipped
+                if mark_as_shipped and order.status != 'shipped':
+                    old_status = order.status
+                    order.status = 'shipped'
+                    
+                    # Log status change
+                    OrderStatusLog.objects.create(
+                        order=order,
+                        old_status=old_status,
+                        new_status='shipped',
+                        admin_user=request.user,
+                        note=f'Tracking number added: {tracking_number}' + (f' via {carrier.upper()}' if carrier else '')
+                    )
+                
+                order.save()
+                
+                # Send email notification if tracking was added/changed
+                if old_tracking != tracking_number or old_carrier != carrier:
+                    try:
+                        # Get tracking URL if carrier is set
+                        tracking_url = order.get_tracking_url()
+                        
+                        # Render HTML email
+                        html_message = render_to_string('checkout/emails/shipping_notification.html', {
+                            'order': order,
+                            'tracking_url': tracking_url,
+                        })
+                        
+                        # Plain text fallback
+                        plain_message = f"""Hello {order.full_name},
+
+Great news! Your order {order.order_number} has shipped!
+
+Tracking Number: {tracking_number}
+{f'Carrier: {order.get_carrier_display_name()}' if order.carrier else ''}
+{f'Track your package: {tracking_url}' if tracking_url else ''}
+
+Shipping To:
+{order.full_name}
+{order.address}
+{order.city}, {order.state_or_county} {order.postal_code}
+
+Thank you for shopping at HENDOSHI!
+Wear Your Weird 🤘
+
+Questions? Contact us at support@hendoshi.com
+
+© 2025 HENDOSHI
+https://hendoshi.com
+"""
+                        
+                        send_mail(
+                            subject=f"Your order {order.order_number} has shipped! 📦",
+                            message=plain_message,
+                            from_email=None,
+                            recipient_list=[order.email],
+                            html_message=html_message,
+                            fail_silently=True
+                        )
+                        messages.success(request, f"Tracking updated and shipping notification sent to {order.email}!")
+                    except Exception as e:
+                        messages.warning(request, f"Tracking updated but email failed: {str(e)}")
+                else:
+                    messages.success(request, "Tracking information updated successfully!")
+                
+                return redirect(request.path + f'?from={request.GET.get("from", "admin")}')
+            else:
+                messages.error(request, "Please enter a tracking number.")
+        
+        # Handle status update
         if request.method == 'POST' and 'update_status' in request.POST:
             status_form = OrderStatusUpdateForm(request.POST)
             if status_form.is_valid():
