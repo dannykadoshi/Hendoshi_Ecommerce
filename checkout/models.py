@@ -46,6 +46,14 @@ class Order(models.Model):
         ('declined', 'Declined'),
     ]
     
+    CARRIER_CHOICES = [
+        ('usps', 'USPS'),
+        ('ups', 'UPS'),
+        ('fedex', 'FedEx'),
+        ('dhl', 'DHL'),
+        ('other', 'Other'),
+    ]
+    
     order_number = models.CharField(max_length=32, unique=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     email = models.EmailField()
@@ -80,6 +88,7 @@ class Order(models.Model):
     # Status and timestamps
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     tracking_number = models.CharField(max_length=100, null=True, blank=True)
+    carrier = models.CharField(max_length=20, choices=CARRIER_CHOICES, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -98,6 +107,26 @@ class Order(models.Model):
     
     def get_shipping_address_display(self):
         """Return formatted shipping address"""
+    
+    def get_tracking_url(self):
+        """Return tracking URL based on carrier"""
+        if not self.tracking_number or not self.carrier:
+            return None
+        
+        tracking_urls = {
+            'usps': f'https://tools.usps.com/go/TrackConfirmAction?tLabels={self.tracking_number}',
+            'ups': f'https://www.ups.com/track?tracknum={self.tracking_number}',
+            'fedex': f'https://www.fedex.com/fedextrack/?tracknumbers={self.tracking_number}',
+            'dhl': f'https://www.dhl.com/en/express/tracking.html?AWB={self.tracking_number}',
+        }
+        
+        return tracking_urls.get(self.carrier)
+    
+    def get_carrier_display_name(self):
+        """Return carrier display name"""
+        if not self.carrier:
+            return None
+        return dict(self.CARRIER_CHOICES).get(self.carrier)
         return f"{self.full_name}\n{self.address}\n{self.address_line_2 or ''}\n{self.city}, {self.state_or_county} {self.postal_code}\n{self.country}"
 
 
@@ -120,6 +149,8 @@ class OrderItem(models.Model):
     
     def get_total_price(self):
         """Calculate total price for this item"""
+        if self.price is None or self.quantity is None:
+            return 0
         return self.price * self.quantity
 
 

@@ -14,15 +14,18 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_number', 'user', 'email', 'status', 'total_amount', 'created_at')
-    list_filter = ('status', 'created_at')
-    search_fields = ('order_number', 'email', 'user__email')
+    list_display = ('order_number', 'user', 'email', 'status', 'tracking_number', 'carrier', 'total_amount', 'created_at')
+    list_filter = ('status', 'payment_status', 'carrier', 'created_at')
+    search_fields = ('order_number', 'email', 'user__email', 'tracking_number')
     readonly_fields = ('order_number', 'created_at', 'updated_at', 'get_order_items')
     inlines = [OrderItemInline]
     
     fieldsets = (
         ('Order Information', {
-            'fields': ('order_number', 'status', 'created_at', 'updated_at')
+            'fields': ('order_number', 'status', 'payment_status', 'created_at', 'updated_at')
+        }),
+        ('Shipping Information', {
+            'fields': ('tracking_number', 'carrier')
         }),
         ('Customer Information', {
             'fields': ('user', 'email', 'phone')
@@ -31,9 +34,27 @@ class OrderAdmin(admin.ModelAdmin):
             'fields': ('full_name', 'address', 'address_line_2', 'city', 'state_or_county', 'country', 'postal_code')
         }),
         ('Order Totals', {
-            'fields': ('subtotal_amount', 'shipping_cost', 'tax_amount', 'total_amount')
+            'fields': ('subtotal', 'shipping_cost', 'tax_amount', 'discount_amount', 'total_amount')
+        }),
+        ('Payment Details', {
+            'fields': ('stripe_payment_intent_id', 'payment_error'),
+            'classes': ('collapse',)
         }),
     )
+    
+    actions = ['mark_as_shipped', 'mark_as_delivered']
+    
+    def mark_as_shipped(self, request, queryset):
+        """Mark selected orders as shipped"""
+        updated = queryset.update(status='shipped')
+        self.message_user(request, f'{updated} order(s) marked as shipped.')
+    mark_as_shipped.short_description = "Mark selected orders as shipped"
+    
+    def mark_as_delivered(self, request, queryset):
+        """Mark selected orders as delivered"""
+        updated = queryset.update(status='delivered')
+        self.message_user(request, f'{updated} order(s) marked as delivered.')
+    mark_as_delivered.short_description = "Mark selected orders as delivered"
     
     def get_order_items(self, obj):
         items = obj.orderitem_set.all()
