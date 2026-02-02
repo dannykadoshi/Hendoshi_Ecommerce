@@ -132,7 +132,9 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.3">
+        <!-- Newsletter Popup CSS -->
+        <link rel="stylesheet" href="{% static 'css/newsletter-popup.css' %}">
 
         <!-- Seasonal Themes CSS -->
         {% if seasonal_theme %}
@@ -143,7 +145,7 @@
         {% block extra_css %}{% endblock %}
         {% block extra_js %}{% endblock %}
     </head>
-    <body>
+    <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
         <!-- Toast Messages - Server-rendered -->
         {% if messages %}
             <div class="toast-container-custom">
@@ -2325,6 +2327,9 @@
             }, 3000);
         }
         </script>
+
+        <!-- Newsletter Popup Script -->
+        <script src="{% static 'js/newsletter-popup.js' %}"></script>
 
         <!-- Cookie Consent Banner -->
         {% include 'cookies/cookie_consent.html' %}

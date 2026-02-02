@@ -1,0 +1,335 @@
+/* Newsletter Popup Modal */
+.newsletter-popup-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.newsletter-popup-backdrop.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.newsletter-popup {
+    position: relative;
+    max-width: 700px;
+    width: 90%;
+    background: rgba(20, 20, 20, 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(255, 20, 147, 0.3),
+                0 20px 60px 0 rgba(0, 0, 0, 0.4),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 20, 147, 0.2);
+    animation: popupSlideUp 0.4s ease;
+}
+
+/* Background image layer */
+.newsletter-popup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/images/hendoshi-gothic-tee.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popupSlideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.newsletter-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--off-white);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-popup-close:hover {
+    background: rgba(255, 20, 147, 0.3);
+    backdrop-filter: blur(15px);
+    transform: rotate(90deg);
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.newsletter-popup-content {
+    padding: 3rem 2.5rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+}
+
+.newsletter-popup-logo {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    letter-spacing: 3px;
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
+    text-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+}
+
+.newsletter-popup-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--off-white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.newsletter-popup-subtitle {
+    font-size: 1.1rem;
+    color: var(--neon-pink);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+}
+
+.newsletter-popup-form {
+    margin-bottom: 1.5rem;
+}
+
+.newsletter-popup-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: var(--off-white);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-popup-input:focus {
+    outline: none;
+    border-color: var(--neon-pink);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.3),
+                inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-popup-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.newsletter-popup-consent {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    gap: 0.75rem;
+}
+
+.newsletter-popup-consent input[type="checkbox"] {
+    margin-top: 0.25rem;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--neon-pink);
+}
+
+.newsletter-popup-consent label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.newsletter-popup-consent a {
+    color: var(--neon-pink);
+    text-decoration: underline;
+}
+
+.newsletter-popup-consent a:hover {
+    color: var(--electric-yellow);
+}
+
+.newsletter-popup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.newsletter-popup-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    backdrop-filter: blur(10px);
+}
+
+.newsletter-popup-btn-primary {
+    background: linear-gradient(135deg, var(--neon-pink), #ff69b4);
+    color: white;
+    box-shadow: 0 4px 20px rgba(255, 20, 147, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.newsletter-popup-btn-primary:hover {
+    background: linear-gradient(135deg, #ff69b4, var(--electric-yellow));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(255, 20, 147, 0.7);
+}
+
+.newsletter-popup-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.newsletter-popup-btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-popup-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--off-white);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+}
+
+.newsletter-popup-error {
+    background: rgba(255, 20, 147, 0.15);
+    border-left: 3px solid var(--neon-pink);
+    color: var(--neon-pink);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: left;
+    display: none;
+}
+
+.newsletter-popup-error.show {
+    display: block;
+    animation: shake 0.3s ease;
+}
+
+.newsletter-popup-success {
+    background: rgba(204, 255, 0, 0.15);
+    border-left: 3px solid var(--electric-yellow);
+    color: var(--electric-yellow);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: left;
+    display: none;
+}
+
+.newsletter-popup-success.show {
+    display: block;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Mobile responsive */
+@media (max-width: 576px) {
+    .newsletter-popup {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    /* Use same image on all screen sizes */
+    .newsletter-popup::before {
+        background-image: url('/static/images/hendoshi-gothic-tee.webp');
+    }
+    
+    .newsletter-popup-content {
+        padding: 2rem 1.5rem;
+    }
+    
+    .newsletter-popup-title {
+        font-size: 1.5rem;
+    }
+    
+    .newsletter-popup-subtitle {
+        font-size: 1rem;
+    }
+    
+    .newsletter-popup-logo {
+        font-size: 2rem;
+    }
+}
+
+/* Tablet and medium screens */
+@media (min-width: 577px) and (max-width: 1200px) {
+    .newsletter-popup::before {
+        background-image: url('/static/images/hendoshi-gothic-tee.webp');
+    }
+}
+
+/* Large screens */
+@media (min-width: 1201px) {
+    .newsletter-popup::before {
+        background-image: url('/static/images/hendoshi-gothic-tee.webp');
+    }
+}
