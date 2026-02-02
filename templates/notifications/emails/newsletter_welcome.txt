@@ -1,0 +1,41 @@
+Welcome to HENDOSHI - 10% OFF Your First Order!
+
+Hey there, Dark Soul! 🖤
+
+Welcome to HENDOSHI - where weird meets wonderful and metal meets fashion! We're stoked to have you join our community of misfits, metalheads, and gothic fashionistas.
+
+🎁 YOUR EXCLUSIVE 10% OFF CODE 🎁
+
+{{ discount_code }}
+
+Valid for your first purchase only
+{% if expires_at %}Expires: {{ expires_at|date:"F d, Y" }}{% else %}No expiration date{% endif %}
+
+Start Shopping: {{ shop_url }}
+
+WHAT YOU GET AS A HENDOSHI INSIDER:
+
+🎨 Original Designs - Unique skull, animal, and gym-inspired artwork you won't find anywhere else
+
+⚡ Exclusive Drops - Be the first to know about new collections and limited editions
+
+🎁 Special Offers - Get access to subscriber-only deals and surprise discounts
+
+🚚 Fast Shipping - Quick delivery across Europe so you can rock your new gear ASAP
+
+Can't wait to see you wearing HENDOSHI! Follow us on social media for style inspiration, behind-the-scenes content, and more.
+
+Questions? Just reply to this email - we're here to help!
+
+---
+HENDOSHI - Wear Your Weird
+Metal-inspired apparel with original skull, animal, and gym designs
+
+Instagram: https://www.instagram.com/hendoshiart/
+Facebook: https://www.facebook.com/hendoshiart
+Twitter: https://twitter.com/hendoshiart
+
+Shop: {{ shop_url }}
+New Drops: {{ shop_url }}/new-drops/
+Contact: {{ shop_url }}/contact/
+Unsubscribe: {{ unsubscribe_url }}

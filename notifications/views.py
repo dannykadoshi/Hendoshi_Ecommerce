@@ -201,6 +201,64 @@ def send_newsletter_confirmation_email(subscriber, request):
         pass
 
 
+def send_welcome_email_with_discount(subscriber, request):
+    """Generate unique discount code and send welcome email after confirmation."""
+    import string
+    import random
+    from checkout.models import DiscountCode
+    from datetime import timedelta
+    
+    # Generate unique discount code: WELCOME10-XXXXX
+    def generate_unique_code():
+        while True:
+            random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+            code = f"WELCOME10-{random_suffix}"
+            if not DiscountCode.objects.filter(code=code).exists():
+                return code
+    
+    unique_code = generate_unique_code()
+    
+    # Create discount code (10% off, single use, expires in 30 days)
+    expires_at = timezone.now() + timedelta(days=30)
+    discount_code = DiscountCode.objects.create(
+        code=unique_code,
+        discount_type='percentage',
+        discount_value=10,
+        minimum_order_value=0,
+        max_uses=1,  # Single use only
+        max_uses_per_user=1,
+        is_active=True,
+        expires_at=expires_at,
+        banner_message=f'Welcome! Get 10% off your first order with code {unique_code}',
+        banner_button='shop_now'
+    )
+    
+    # Send welcome email
+    subject = 'Welcome to HENDOSHI - Here\'s Your 10% Off! 🎁'
+    shop_url = request.build_absolute_uri('/')
+    unsubscribe_url = request.build_absolute_uri(reverse('newsletter_unsubscribe', args=[subscriber.confirmation_token]))
+    
+    context = {
+        'subscriber': subscriber,
+        'discount_code': discount_code.code,
+        'expires_at': discount_code.expires_at,
+        'shop_url': shop_url,
+        'unsubscribe_url': unsubscribe_url,
+        'site_name': getattr(settings, 'SITE_NAME', 'HENDOSHI'),
+    }
+    
+    text_body = render_to_string('notifications/emails/newsletter_welcome.txt', context)
+    html_body = render_to_string('notifications/emails/newsletter_welcome.html', context)
+    
+    msg = EmailMultiAlternatives(subject, text_body, settings.DEFAULT_FROM_EMAIL, [subscriber.email])
+    msg.attach_alternative(html_body, 'text/html')
+    try:
+        msg.send(fail_silently=False)
+    except Exception as e:
+        # Log error but don't fail the confirmation process
+        print(f"Failed to send welcome email: {e}")
+
+
 def newsletter_confirm(request, token):
     """Confirm subscription when user clicks email link."""
     try:
@@ -212,6 +270,9 @@ def newsletter_confirm(request, token):
         subscriber.is_confirmed = True
         subscriber.confirmed_at = timezone.now()
         subscriber.save()
+        
+        # Generate unique discount code and send welcome email
+        send_welcome_email_with_discount(subscriber, request)
 
     return render(request, 'notifications/newsletter_confirm.html', {'success': True, 'subscriber': subscriber})
 
