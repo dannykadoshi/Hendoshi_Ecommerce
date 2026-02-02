@@ -252,21 +252,7 @@ def create_admin_product(request):
                 design.product = product
                 design.save()
 
-            # Optimize product images after successful creation
-            try:
-                optimization_result = optimize_product_images(product)
-                if optimization_result['success']:
-                    if optimization_result['optimized_count'] > 0:
-                        messages.info(request, f'Product created and {optimization_result["optimized_count"]} image(s) optimized successfully!')
-                    else:
-                        messages.success(request, f'Product "{product.name}" created successfully!')
-                else:
-                    messages.warning(request, f'Product created but {len(optimization_result["errors"])} image optimization error(s) occurred. Check logs for details.')
-                    messages.success(request, f'Product "{product.name}" created successfully!')
-            except Exception as e:
-                messages.warning(request, f'Product created but image optimization failed: {str(e)}')
-                messages.success(request, f'Product "{product.name}" created successfully!')
-
+            messages.success(request, f'Product "{product.name}" created successfully!')
             return redirect('admin_list_products')
         else:
             for field, errors in product_form.errors.items():
@@ -483,19 +469,11 @@ def bulk_delete_admin_products(request, product_ids=None):
 @login_required
 @user_passes_test(is_staff_or_admin)
 def optimize_admin_product_images(request, pk):
-    """Frontend admin view for optimizing a single product's images"""
-    product = get_object_or_404(Product, pk=pk)
-
-    result = optimize_product_images(product)
-
-    if result['success']:
-        if result['optimized_count'] > 0:
-            messages.success(request, f'Successfully optimized {result["optimized_count"]} image(s) for "{product.name}"!')
-        else:
-            messages.info(request, f'No images needed optimization for "{product.name}".')
-    else:
-        messages.error(request, f'Failed to optimize images for "{product.name}": {", ".join(result["errors"])}')
-
+    """
+    Removed: Image optimization not needed with Cloudinary.
+    Cloudinary handles optimization automatically via URL parameters.
+    """
+    messages.info(request, 'Image optimization is handled automatically by Cloudinary.')
     return redirect('admin_list_products')
 
 
@@ -637,3 +615,283 @@ def delete_review_image(request, image_id):
         return JsonResponse({'success': True, 'review_id': review_id})
 
     return JsonResponse({'success': False}, status=400)
+
+# ==================== BULK PRODUCT CREATION VIEWS ====================
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def bulk_create_products_step1(request):
+    """
+    Step 1: Select product types and audiences for bulk creation
+    """
+    from .forms import BulkProductSelectionForm
+    
+    if request.method == 'POST':
+        form = BulkProductSelectionForm(request.POST)
+        if form.is_valid():
+            # Store selections in session
+            product_type_ids = [pt.id for pt in form.cleaned_data['product_types']]
+            audiences = form.cleaned_data.get('audiences', [])
+            
+            request.session['bulk_product_types'] = product_type_ids
+            request.session['bulk_audiences'] = audiences
+            
+            return redirect('bulk_create_products_step2')
+    else:
+        form = BulkProductSelectionForm()
+    
+    # Group product types by category
+    product_types_by_category = {}
+    for pt in ProductType.objects.all().order_by('category', 'name'):
+        category = pt.get_category_display()
+        if category not in product_types_by_category:
+            product_types_by_category[category] = []
+        product_types_by_category[category].append(pt)
+    
+    context = {
+        'form': form,
+        'product_types_by_category': product_types_by_category,
+        'page_title': 'Bulk Product Creation - Step 1',
+    }
+    
+    return render(request, 'products/bulk_select_types.html', context)
+
+
+@login_required
+@user_passes_test(is_staff_or_admin)
+def bulk_create_products_step2(request):
+    """
+    Step 2: Fill in details for each product combination
+    """
+    from .forms import SharedBulkDataForm, BulkProductItemForm
+    from django.db import transaction
+    
+    # Get selections from session
+    product_type_ids = request.session.get('bulk_product_types', [])
+    audiences = request.session.get('bulk_audiences', [])
+    
+    if not product_type_ids:
+        messages.error(request, 'No product types selected. Please start from step 1.')
+        return redirect('bulk_create_products_step1')
+    
+    # Get ProductType objects
+    product_types = ProductType.objects.filter(id__in=product_type_ids)
+    
+    def is_apparel_type(product_type):
+        if product_type.category == 'apparel':
+            return True
+        name = (product_type.name or '').lower()
+        return any(token in name for token in ['tshirt', 't-shirt', 'hoodie', 'dress', 'dresses', 'tee', 't shirt'])
+
+    # Generate combinations
+    combinations = []
+    for pt in product_types:
+        needs_audience = pt.requires_audience and is_apparel_type(pt)
+        if needs_audience and audiences:
+            for aud in audiences:
+                combinations.append({
+                    'product_type': pt,
+                    'audience': aud,
+                    'audience_display': dict(Product.AUDIENCE_CHOICES).get(aud, aud)
+                })
+        else:
+            combinations.append({
+                'product_type': pt,
+                'audience': None,
+                'audience_display': None
+            })
+    
+    if request.method == 'POST':
+        shared_form = SharedBulkDataForm(request.POST)
+        
+        # Create individual forms for each combination
+        item_forms = []
+        for idx, combo in enumerate(combinations):
+            prefix = f'product_{idx}'
+            form_data = request.POST.copy()
+            form_data[f'{prefix}-product_type_id'] = combo['product_type'].id
+            form_data[f'{prefix}-audience'] = combo['audience'] or ''
+            
+            item_form = BulkProductItemForm(
+                form_data,
+                request.FILES,
+                prefix=prefix,
+                product_type=combo['product_type']
+            )
+            item_forms.append({
+                'form': item_form,
+                'combo': combo,
+                'prefix': prefix
+            })
+        
+        # Validate all forms
+        all_valid = shared_form.is_valid() and all(item['form'].is_valid() for item in item_forms)
+        
+        if all_valid:
+            # Create products
+            created_count = 0
+            failed_count = 0
+            errors = []
+            
+            try:
+                with transaction.atomic():
+                    shared_data = shared_form.cleaned_data
+                    
+                    for item_data in item_forms:
+                        try:
+                            form = item_data['form']
+                            combo = item_data['combo']
+                            data = form.cleaned_data
+                            
+                            # Create product
+                            audience_display = combo['audience_display'] or 'Everyone'
+                            product = Product(
+                                name=data['name'],
+                                description=shared_data['base_description'].replace(
+                                    '{{product_type}}', combo['product_type'].name
+                                ).replace(
+                                    '{{audience}}', audience_display
+                                ),
+                                collection=shared_data['collection'],
+                                product_type=combo['product_type'],
+                                audience=combo['audience'] or 'unisex',
+                                base_price=data['base_price'],
+                                sale_price=data.get('sale_price'),
+                                main_image=data['main_image'],
+                                meta_description=shared_data.get('meta_description', '').replace(
+                                    '{{product_type}}', combo['product_type'].name
+                                ).replace(
+                                    '{{audience}}', audience_display
+                                ),
+                                is_active=data.get('is_active', True),
+                                featured=data.get('featured', False)
+                            )
+                            product.save()
+                            
+                            # Create variants
+                            sizes = data.get('sizes', [])
+                            colors = data.get('colors', [])
+                            stock = data.get('stock_per_variant', combo['product_type'].default_stock)
+                            
+                            if sizes and colors:
+                                for size in sizes:
+                                    for color in colors:
+                                        ProductVariant.objects.create(
+                                            product=product,
+                                            size=size,
+                                            color=color,
+                                            stock=stock
+                                        )
+                            elif sizes:
+                                for size in sizes:
+                                    ProductVariant.objects.create(
+                                        product=product,
+                                        size=size,
+                                        color='n/a',
+                                        stock=stock
+                                    )
+                            elif colors:
+                                for color in colors:
+                                    ProductVariant.objects.create(
+                                        product=product,
+                                        size='one_size',
+                                        color=color,
+                                        stock=stock
+                                    )
+                            else:
+                                # No size/color variants
+                                ProductVariant.objects.create(
+                                    product=product,
+                                    size='one_size',
+                                    color='n/a',
+                                    stock=stock
+                                )
+                            
+                            # Handle gallery images
+                            gallery_images = request.FILES.getlist(f'{item_data["prefix"]}-gallery_images')
+                            for idx, img in enumerate(gallery_images):
+                                ProductImage.objects.create(
+                                    product=product,
+                                    image=img,
+                                    alt_text=f'{product.name} - Image {idx + 1}',
+                                    order=idx
+                                )
+                            
+                            # Create design story if provided (only once for first product)
+                            if created_count == 0 and shared_data.get('design_story_title'):
+                                DesignStory.objects.create(
+                                    product=product,
+                                    title=shared_data['design_story_title'],
+                                    story=shared_data.get('design_story_content', '')
+                                )
+                            
+                            
+                            created_count += 1
+                            
+                        except Exception as e:
+                            failed_count += 1
+                            errors.append(f'{data.get("name", "Unknown")}: {str(e)}')
+                    
+                    # Clear session
+                    if 'bulk_product_types' in request.session:
+                        del request.session['bulk_product_types']
+                    if 'bulk_audiences' in request.session:
+                        del request.session['bulk_audiences']
+                    
+                    # Success message
+                    if created_count > 0:
+                        messages.success(request, f'Successfully created {created_count} product(s)!')
+                    if failed_count > 0:
+                        messages.warning(request, f'{failed_count} product(s) failed. Errors: {"; ".join(errors)}')
+                    
+                    return redirect('admin_list_products')
+                    
+            except Exception as e:
+                messages.error(request, f'Error creating products: {str(e)}')
+        else:
+            # Show validation errors
+            if not shared_form.is_valid():
+                for field, errors_list in shared_form.errors.items():
+                    for error in errors_list:
+                        messages.error(request, f'Shared data - {field}: {error}')
+            
+            for item_data in item_forms:
+                if not item_data['form'].is_valid():
+                    product_name = item_data['combo']['product_type'].name
+                    audience = item_data['combo']['audience_display']
+                    for field, errors_list in item_data['form'].errors.items():
+                        for error in errors_list:
+                            messages.error(request, f'{product_name} ({audience}) - {field}: {error}')
+    else:
+        # GET request - initialize forms
+        shared_form = SharedBulkDataForm()
+        item_forms = []
+        for idx, combo in enumerate(combinations):
+            prefix = f'product_{idx}'
+            item_form = BulkProductItemForm(
+                prefix=prefix,
+                product_type=combo['product_type'],
+                initial={
+                    'product_type_id': combo['product_type'].id,
+                    'audience': combo['audience'] or '',
+                    'name': f"{combo['product_type'].name}" + (f" - {combo['audience_display']}" if combo['audience'] else ""),
+                    'is_active': True,
+                    'featured': False,
+                    'stock_per_variant': combo['product_type'].default_stock
+                }
+            )
+            item_forms.append({
+                'form': item_form,
+                'combo': combo,
+                'prefix': prefix
+            })
+    
+    context = {
+        'shared_form': shared_form,
+        'item_forms': item_forms,
+        'combinations': combinations,
+        'page_title': 'Bulk Product Creation - Step 2',
+        'total_products': len(combinations)
+    }
+    
+    return render(request, 'products/bulk_create_form.html', context)

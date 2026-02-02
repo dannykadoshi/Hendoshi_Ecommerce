@@ -33,8 +33,20 @@ class ProductType(models.Model):
     Optional DB-backed Product Type to allow runtime creation of product types.
     This is additive and will not affect existing `Product.product_type` values.
     """
+    CATEGORY_CHOICES = [
+        ('apparel', 'Apparel'),
+        ('accessory', 'Accessory'),
+        ('custom', 'Custom'),
+    ]
+    
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True, blank=True)
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='custom',
+        help_text="Category grouping for bulk creation and filtering."
+    )
     requires_size = models.BooleanField(
         default=True,
         help_text="If checked, products of this type require a size selection before adding to cart."
@@ -42,6 +54,14 @@ class ProductType(models.Model):
     requires_color = models.BooleanField(
         default=True,
         help_text="If checked, products of this type require a color selection before adding to cart."
+    )
+    requires_audience = models.BooleanField(
+        default=True,
+        help_text="If checked, products of this type require an audience selection (Men/Women/Kids/Unisex)."
+    )
+    default_stock = models.IntegerField(
+        default=500,
+        help_text="Default stock quantity for variants when creating products of this type in bulk."
     )
 
     class Meta:
@@ -293,17 +313,26 @@ class ProductVariant(models.Model):
         """
         if not self.sku:
             # Build SKU based on available fields
-            # Truncate product slug to prevent SKU from being too long
-            slug_part = self.product.slug[:30] if len(self.product.slug) > 30 else self.product.slug
-            sku_parts = [slug_part]
-            if self.size:
+            # Use product ID to ensure uniqueness instead of just truncating slug
+            sku_parts = []
+            
+            # Add product slug (truncate if too long, but include product ID for uniqueness)
+            slug_part = self.product.slug[:25] if len(self.product.slug) > 25 else self.product.slug
+            sku_parts.append(slug_part)
+            
+            # Add product ID to ensure uniqueness
+            sku_parts.append(f'p{self.product.id}')
+            
+            if self.size and self.size != 'one_size':
                 sku_parts.append(self.size)
-            if self.color:
+            if self.color and self.color != 'n/a':
                 sku_parts.append(self.color)
-            # Add a unique identifier if no size/color
-            if len(sku_parts) == 1:
+                
+            # Add a unique identifier if no distinguishing features
+            if len(sku_parts) == 2:  # Only slug and product ID
                 import uuid
                 sku_parts.append(str(uuid.uuid4())[:8])
+                
             self.sku = '-'.join(sku_parts).upper()
         super().save(*args, **kwargs)
 
