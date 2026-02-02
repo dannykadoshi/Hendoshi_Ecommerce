@@ -193,39 +193,43 @@ document.addEventListener('DOMContentLoaded', function() {
                         {% endif %}
                     </div>
 
-                    <!-- Audience Switcher -->
+                    <!-- Audience Switcher (only show if product has audience variants) -->
+                    {% if product.audience and audience_switches %}
                     <div class="audience-switcher mt-3">
                         <label class="form-label small">View this product for:</label>
                         <div class="d-flex gap-2">
-                            {% comment %} Men {% endcomment %}
-                            {% if audience_switches and audience_switches.men %}
+                            {% if audience_switches.men %}
                                 <a class="btn btn-outline-light btn-sm badge-men" href="{% url 'product_detail' audience_switches.men %}">Men</a>
-                            {% else %}
-                                <a class="btn btn-outline-light btn-sm badge-men" href="{% url 'products' %}?audience=men&q={{ product.name|urlencode }}">Men</a>
                             {% endif %}
-
-                            {% comment %} Women {% endcomment %}
-                            {% if audience_switches and audience_switches.women %}
+                            {% if audience_switches.women %}
                                 <a class="btn btn-outline-light btn-sm badge-women" href="{% url 'product_detail' audience_switches.women %}">Women</a>
-                            {% else %}
-                                <a class="btn btn-outline-light btn-sm badge-women" href="{% url 'products' %}?audience=women&q={{ product.name|urlencode }}">Women</a>
                             {% endif %}
-
-                            {% comment %} Kids {% endcomment %}
-                            {% if audience_switches and audience_switches.kids %}
+                            {% if audience_switches.kids %}
                                 <a class="btn btn-outline-light btn-sm badge-kids" href="{% url 'product_detail' audience_switches.kids %}">Kids</a>
-                            {% else %}
-                                <a class="btn btn-outline-light btn-sm badge-kids" href="{% url 'products' %}?audience=kids&q={{ product.name|urlencode }}">Kids</a>
                             {% endif %}
-
-                            {% comment %} Unisex {% endcomment %}
-                            {% if audience_switches and audience_switches.unisex %}
+                            {% if audience_switches.unisex %}
                                 <a class="btn btn-outline-light btn-sm badge-unisex" href="{% url 'product_detail' audience_switches.unisex %}">Unisex</a>
-                            {% else %}
-                                <a class="btn btn-outline-light btn-sm badge-unisex" href="{% url 'products' %}?audience=unisex&q={{ product.name|urlencode }}">Unisex</a>
                             {% endif %}
                         </div>
                     </div>
+                    {% endif %}
+
+                    <!-- Product Type Switcher - Show other product types with the same design -->
+                    {% if product_type_switches or base_design_slug %}
+                    <div class="audience-switcher mt-3">
+                        <label class="form-label small">View this design in:</label>
+                        <div class="d-flex gap-2 flex-wrap">
+                            {% if base_design_slug %}
+                                <a class="btn btn-outline-light btn-sm badge-all-products" href="{% url 'design_products' base_design_slug %}">
+                                    <i class="fas fa-th-large"></i> All Products
+                                </a>
+                            {% endif %}
+                            {% for pt_name, pt_slug in product_type_switches.items %}
+                                <a class="btn btn-outline-light btn-sm badge-product-type" href="{% url 'product_detail' pt_slug %}">{{ pt_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                     
                     {% if product.is_on_sale %}
                         <div class="product-price">
@@ -248,9 +252,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="size-color-item">
                                 <label class="form-label product-label">Select Size <span class="required-star">*</span></label>
                                 <div class="size-selector">
-                                    {% for size in available_sizes %}
-                                    <button type="button" class="size-btn" data-value="{{ size }}">
-                                        {{ size|upper }}
+                                    {% for size_value, size_display in available_sizes_display %}
+                                    <button type="button" class="size-btn" data-value="{{ size_value }}">
+                                        {{ size_display }}
                                     </button>
                                     {% endfor %}
                                 </div>
@@ -853,8 +857,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <i class="far fa-heart"></i>
                             </button>
                             {% endif %}
-                            <div class="product-image">
-                                <a href="{% url 'product_detail' related.slug %}">
+                            <a href="{% url 'product_detail' related.slug %}">
+                                <div class="product-image">
                                     {% if related.main_image %}
                                         <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
                                     {% else %}
@@ -862,24 +866,24 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <i class="fas fa-image fa-2x"></i>
                                         </div>
                                     {% endif %}
-                                </a>
-                                {% if request.user.is_staff or request.user.is_superuser %}
-                                <button type="button" class="edit-product-icon" title="Edit Product" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='{% url 'edit_product' related.slug %}'">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <a href="{% url 'product_detail' related.slug %}"><h3>{{ related.name }}</h3></a>
-                                {% if related.is_on_sale %}
-                                    <div class="product-price">
-                                        <span class="original-price">€{{ related.base_price }}</span>
-                                        <span class="sale-price">€{{ related.current_price }}</span>
-                                    </div>
-                                {% else %}
-                                    <p class="product-price">€{{ related.base_price }}</p>
-                                {% endif %}
-                            </div>
+                                    {% if request.user.is_staff or request.user.is_superuser %}
+                                    <button type="button" class="edit-product-icon" title="Edit Product" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='{% url 'edit_product' related.slug %}'">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                                <div class="product-info">
+                                    <h3>{{ related.name }}</h3>
+                                    {% if related.is_on_sale %}
+                                        <div class="product-price">
+                                            <span class="original-price">€{{ related.base_price }}</span>
+                                            <span class="sale-price">€{{ related.current_price }}</span>
+                                        </div>
+                                    {% else %}
+                                        <p class="product-price">€{{ related.base_price }}</p>
+                                    {% endif %}
+                                </div>
+                            </a>
                             <!-- Add to Bag Button -->
                             <button class="btn btn-quick-add carousel-add-cart-btn carousel-add-cart-btn-positioned" data-product-id="{{ related.id }}" data-product-name="{{ related.name|escapejs }}">
                                 <i class="fas fa-shopping-cart"></i> ADD TO BAG

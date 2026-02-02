@@ -341,6 +341,9 @@ function removeFromVest(slug) {
                     const remainingItems = document.querySelectorAll('.vest-item-card');
                     if (remainingItems.length === 0) {
                         location.reload(); // Reload to show empty state
+                    } else {
+                        // Update totals in hero section
+                        updateVestHeroStats();
                     }
                 }, 300);
             }
@@ -361,6 +364,44 @@ function removeFromVest(slug) {
         console.error('Error:', error);
         showToast('Failed to remove item from Battle Vest', 'error');
     });
+}
+
+function updateVestHeroStats() {
+    // Get all remaining vest items
+    const remainingItems = document.querySelectorAll('.vest-item-card');
+    const itemCount = remainingItems.length;
+    
+    // Calculate total value by summing prices from remaining items
+    let totalValue = 0;
+    remainingItems.forEach(item => {
+        const priceElement = item.querySelector('.vest-item-price');
+        if (priceElement) {
+            // Get the text content and extract the price
+            const priceText = priceElement.textContent.trim();
+            // Match all €X.XX patterns
+            const matches = priceText.match(/€([\d.]+)/g);
+            if (matches && matches.length > 0) {
+                // Take the last match (which is the current/sale price if on sale, or regular price)
+                const lastPrice = matches[matches.length - 1];
+                const price = parseFloat(lastPrice.replace('€', ''));
+                if (!isNaN(price)) {
+                    totalValue += price;
+                }
+            }
+        }
+    });
+    
+    // Update the item count in hero
+    const itemCountElement = document.querySelector('.vest-hero-stat .fa-tshirt');
+    if (itemCountElement && itemCountElement.parentElement) {
+        itemCountElement.parentElement.innerHTML = `<i class="fas fa-tshirt"></i> ${itemCount} Item${itemCount !== 1 ? 's' : ''}`;
+    }
+    
+    // Update the total value in hero
+    const totalValueElement = document.querySelector('.vest-hero-stat .fa-coins');
+    if (totalValueElement && totalValueElement.parentElement) {
+        totalValueElement.parentElement.innerHTML = `<i class="fas fa-coins"></i> Total Value: €${totalValue.toFixed(2)}`;
+    }
 }
 
 // Add to Cart from Battle Vest with toast

@@ -302,10 +302,10 @@
                         </div>
                         {% endif %}
 
-                        <!-- Add New Variants Section -->
+                        <!-- Available Sizes & Colors -->
                         <div class="add-variants-section">
-                            <h5 class="mb-3"><i class="fas fa-plus-circle me-2"></i>Add New Variants</h5>
-                            <p class="helper-text mb-4">Select additional sizes and colors to create new variant combinations. Already existing combinations will be skipped.</p>
+                            <h5 class="mb-3"><i class="fas fa-sliders-h me-2"></i>Available Sizes & Colors</h5>
+                            <p class="helper-text mb-4">Use sizes and colors below to manage available variant options. Existing combinations will be preserved.</p>
 
                             <div class="variant-selection-container">
                                 <!-- Sizes Selection -->
@@ -317,11 +317,11 @@
                                         <ul>
                                             {% for value, label in variant_selection_form.sizes.field.choices %}
                                             <li>
-                                                <label {% if value in existing_sizes %}class="existing-variant"{% endif %}>
+                                                <label class="size-color-toggle{% if value in existing_sizes %} existing-variant{% endif %}" data-existing="{% if value in existing_sizes %}true{% else %}false{% endif %}">
                                                     <input type="checkbox" name="sizes" value="{{ value }}"
                                                         {% if value in existing_sizes %}checked{% endif %}>
                                                     {{ label }}
-                                                    {% if value in existing_sizes %}<span class="variant-exists-badge">In Use</span>{% endif %}
+                                                    <span class="variant-status-badge {% if value in existing_sizes %}in-use{% else %}not-in-use{% endif %}">{% if value in existing_sizes %}In Use{% else %}Not in Use{% endif %}</span>
                                                 </label>
                                             </li>
                                             {% endfor %}
@@ -339,11 +339,11 @@
                                         <ul>
                                             {% for value, label in variant_selection_form.colors.field.choices %}
                                             <li>
-                                                <label {% if value in existing_colors %}class="existing-variant"{% endif %}>
+                                                <label class="size-color-toggle{% if value in existing_colors %} existing-variant{% endif %}" data-existing="{% if value in existing_colors %}true{% else %}false{% endif %}">
                                                     <input type="checkbox" name="colors" value="{{ value }}"
                                                         {% if value in existing_colors %}checked{% endif %}>
                                                     {{ label }}
-                                                    {% if value in existing_colors %}<span class="variant-exists-badge">In Use</span>{% endif %}
+                                                    <span class="variant-status-badge {% if value in existing_colors %}in-use{% else %}not-in-use{% endif %}">{% if value in existing_colors %}In Use{% else %}Not in Use{% endif %}</span>
                                                 </label>
                                             </li>
                                             {% endfor %}
@@ -361,15 +361,6 @@
                                     <small class="helper-text d-block mt-2">This stock will be applied to newly created size/color combinations only</small>
                                 </div>
 
-                                <!-- Preview -->
-                                <div class="variant-preview mt-4" id="variantPreview">
-                                    <label class="form-label variant-group-label">
-                                        <i class="fas fa-eye me-2"></i>Variants Preview
-                                    </label>
-                                    <div class="variant-preview-list" id="variantPreviewList">
-                                        <p class="text-muted">Select sizes and/or colors above to see variant combinations</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -402,7 +393,7 @@
                         <h3 class="section-title mb-4">Design Story</h3>
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <label for="{{ design_form.title.id_for_label }}" class="form-label mb-0">Title *</label>
+                                <label for="{{ design_form.title.id_for_label }}" class="form-label mb-0">Title</label>
                                 <button type="button" id="generateStoryTitleBtn" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
@@ -416,7 +407,7 @@
                         </div>
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <label for="{{ design_form.story.id_for_label }}" class="form-label mb-0">Story *</label>
+                                <label for="{{ design_form.story.id_for_label }}" class="form-label mb-0">Story</label>
                                 <button type="button" id="generateStoryContentBtn" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
@@ -934,9 +925,9 @@
 
                     <!-- DELETE BUTTON -->
                     <div class="text-center pt-3 border-top border-dark">
-                        <a href="{% url 'delete_product' product.slug %}" class="btn btn-danger btn-sm btn-delete-product">
+                        <button type="button" class="btn btn-danger btn-sm btn-delete-product" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
                             <i class="fas fa-trash"></i> DELETE PRODUCT
-                        </a>
+                        </button>
                     </div>
                 </form>
 
@@ -1288,59 +1279,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Variant Selection Toggle Preview Functionality
-    function updateVariantPreview() {
-        const sizeCheckboxes = document.querySelectorAll('#sizesToggles input[type="checkbox"]:checked');
-        const colorCheckboxes = document.querySelectorAll('#colorToggles input[type="checkbox"]:checked');
-        const previewList = document.getElementById('variantPreviewList');
+    // Size/Color toggle status badges
+    function updateVariantStatusBadge(checkbox) {
+        const label = checkbox.closest('label');
+        if (!label) return;
+        const badge = label.querySelector('.variant-status-badge');
+        if (!badge) return;
 
-        if (!previewList) return;
-
-        // Get label text from parent label element (Django's CheckboxSelectMultiple structure)
-        const selectedSizes = Array.from(sizeCheckboxes).map(cb => {
-            const label = cb.closest('label');
-            const text = label ? label.textContent.trim() : cb.value;
-            return { value: cb.value, label: text };
-        });
-        const selectedColors = Array.from(colorCheckboxes).map(cb => {
-            const label = cb.closest('label');
-            const text = label ? label.textContent.trim() : cb.value;
-            return { value: cb.value, label: text };
-        });
-
-        let variants = [];
-
-        // Generate combinations
-        if (selectedSizes.length && selectedColors.length) {
-            selectedSizes.forEach(size => {
-                selectedColors.forEach(color => {
-                    variants.push(`${size.label} / ${color.label}`);
-                });
-            });
-        } else if (selectedSizes.length) {
-            variants = selectedSizes.map(s => s.label);
-        } else if (selectedColors.length) {
-            variants = selectedColors.map(c => c.label);
-        }
-
-        // Update preview
-        if (variants.length) {
-            previewList.innerHTML = variants.map(v =>
-                `<span class="variant-preview-item">${v}</span>`
-            ).join('') +
-            `<div class="variant-count w-100"><i class="fas fa-layer-group me-2"></i>${variants.length} new variant(s) will be added</div>`;
+        if (checkbox.checked) {
+            badge.textContent = 'In Use';
+            badge.classList.remove('not-in-use');
+            badge.classList.add('in-use');
         } else {
-            previewList.innerHTML = '<p class="text-muted">Select sizes and/or colors to add new variants</p>';
+            badge.textContent = 'Not in Use';
+            badge.classList.remove('in-use');
+            badge.classList.add('not-in-use');
         }
     }
 
-    // Add event listeners to all toggle checkboxes
-    document.querySelectorAll('.variant-toggles input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', updateVariantPreview);
+    document.querySelectorAll('#sizesToggles input[type="checkbox"], #colorToggles input[type="checkbox"]').forEach(checkbox => {
+        updateVariantStatusBadge(checkbox);
+        checkbox.addEventListener('change', function() {
+            updateVariantStatusBadge(this);
+        });
     });
 
-    // Initial update
-    updateVariantPreview();
 });
 </script>
 
@@ -1722,41 +1685,28 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #28a745;
 }
 
-/* Variant Preview */
-.variant-preview {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
-}
-
-.variant-preview-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.variant-preview-item {
+.variant-status-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.35rem 0.75rem;
-    background: rgba(255, 20, 147, 0.1);
-    border: 1px solid rgba(255, 20, 147, 0.3);
-    border-radius: 6px;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.9);
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-left: 0.5rem;
+    text-transform: uppercase;
 }
 
-.variant-count {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--electric-yellow);
-    font-weight: 600;
-    font-size: 0.9rem;
+.variant-status-badge.in-use {
+    background: rgba(40, 167, 69, 0.15);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.5);
+}
+
+.variant-status-badge.not-in-use {
+    background: rgba(220, 53, 69, 0.12);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.45);
 }
 
 /* Existing variants section */
@@ -1778,5 +1728,43 @@ document.addEventListener('DOMContentLoaded', function() {
     font-weight: 600;
 }
 </style>
+</div>
+
+<!-- Delete Product Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="deleteProductModalLabel">
+                    <i class="fas fa-trash vault-modal-icon"></i>
+                    Delete Product
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message">
+                        Are you sure you want to delete <strong>{{ product.name }}</strong>?
+                        <br>
+                        <small class="text-muted">This action cannot be undone. All associated data including images, variants, and reviews will be permanently deleted.</small>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <form method="post" action="{% url 'delete_product' product.slug %}" class="display-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger vault-modal-btn-confirm">
+                        <i class="fas fa-trash"></i> Delete Product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
