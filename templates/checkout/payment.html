@@ -5,8 +5,6 @@
 {% block extra_css %}
 <style>
     /* Minimal page-scoped overrides kept short — main styling now lives in static/css/base.css */
-    #discountBanner { display: none !important; visibility: hidden !important; }
-    .navbar { margin-top: 0 !important; }
     
     /* Override Bootstrap list-group-item active state for shipping modal */
     #shippingModal .list-group {
@@ -165,27 +163,57 @@
     .payment-method-logo:hover {
         opacity: 1;
     }
+    
+    /* Ensure proper viewport height on mobile */
+    @media (max-width: 768px) {
+        .checkout-page {
+            min-height: auto;
+            padding-bottom: 2rem;
+            overflow-x: hidden;
+        }
+        
+        .container-fluid.vault-container {
+            padding-left: 5px;
+            padding-right: 5px;
+            overflow-x: hidden;
+        }
+        
+        .payment-section {
+            overflow-x: hidden;
+        }
+        
+        .payment-form {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .form-control,
+        .input-group,
+        .stripe-card-element {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        .row > * {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+    
+    /* Prevent content being cut off */
+    .checkout-page .checkout-container {
+        padding-bottom: 3rem;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="checkout-page">
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            var nb = document.querySelector('.navbar');
-            if (nb && !nb.classList.contains('banner-dismissed')) nb.classList.add('banner-dismissed');
-            // remove any inline outline/box-shadow/border styles leftover from debugging
-            try {
-                document.querySelectorAll('[style]').forEach(function(el){
-                    try {
-                        if (el.style.outline) el.style.outline = '';
-                        if (el.style.boxShadow) el.style.boxShadow = '';
-                        if (el.style.border) el.style.border = '';
-                    } catch(e){}
-                });
-            } catch(e){}
-        });
-    </script>
     <!-- Payment Hero -->
     <section class="vault-hero">
         <div class="container">

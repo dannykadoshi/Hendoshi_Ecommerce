@@ -222,7 +222,6 @@
 
 @media (max-width: 768px) {
     .about-vibrant .two-columns { grid-template-columns: 1fr; }
-    .vault-hero { padding: 2rem 0 0.5rem; }
 }
 
 /* Layout fixes for symmetric About page */
@@ -8575,9 +8574,10 @@ h2.gradient-title {
 
 /* Moved from templates/checkout/checkout.html */
 .checkout-page {
-    min-height: 100vh;
+    min-height: calc(100vh - 120px);
     padding-top: 120px;
     margin-top: 0 !important;
+    padding-bottom: 3rem;
 }
 
 .checkout-hero-stat {
@@ -8593,6 +8593,71 @@ h2.gradient-title {
 .checkout-container {
     padding-top: 3rem;
     padding-bottom: 3rem;
+}
+
+/* Mobile responsive adjustments for checkout containers */
+@media (max-width: 768px) {
+    .checkout-page {
+        padding-top: 100px;
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+    
+    .checkout-page * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .checkout-container {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: hidden;
+    }
+    
+    .container-fluid.vault-container {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        margin-right: 0;
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+    
+    .vault-container > .container {
+        padding-left: 5px;
+        padding-right: 5px;
+        max-width: 100%;
+    }
+    
+    .checkout-wrapper {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .progress-container {
+        padding: 1rem 5px;
+        margin-bottom: 1rem;
+        overflow-x: hidden;
+    }
+    
+    .checkout-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    
+    .checkout-main {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        overflow-x: hidden;
+    }
 }
 
 .checkout-page .panel {
@@ -8727,6 +8792,33 @@ h2.gradient-title {
     padding: 2rem;
 }
 
+/* Mobile adjustments for payment section */
+@media (max-width: 768px) {
+    .payment-section {
+        padding: 1.5rem 2px;
+        margin: 0 2px;
+        border-radius: 8px;
+        max-width: calc(100% - 2px);
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+    
+    .payment-section * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .payment-section .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .payment-section .col-md-6 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
 .payment-section h2 {
     color: var(--neon-pink);
     font-weight: 700;
@@ -8757,6 +8849,31 @@ h2.gradient-title {
 .progress-bar-wrapper.horizontal .step-label { margin-top:0.75rem; font-size:0.9rem; font-weight:600; color:var(--off-white); text-align:center; white-space:nowrap; }
 .progress-bar-wrapper.horizontal .progress-line { height:3px; background-color: rgba(255,20,147,0.2); flex:1; min-width:60px; margin:0 -10px; margin-bottom:35px; transition:all .3s ease; z-index:1; }
 .progress-bar-wrapper.horizontal .progress-line.completed { background-color:var(--neon-pink); box-shadow:0 0 10px rgba(255,20,147,0.4); }
+
+/* Mobile progress bar adjustments */
+@media (max-width: 576px) {
+    .progress-bar-wrapper.horizontal {
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .progress-bar-wrapper.horizontal .step-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .progress-bar-wrapper.horizontal .step-label {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+    }
+    
+    .progress-bar-wrapper.horizontal .progress-line {
+        min-width: 30px;
+        margin: 0 -5px;
+        margin-bottom: 28px;
+    }
+}
 
 /* Moved from templates/checkout/order_confirmation.html */
 .glassmorphic-panel {
@@ -10331,6 +10448,18 @@ h2.gradient-title {
     .order-summary-card { padding:1rem; }
     .order-item img { width:48px; height:48px; }
     .summary-total-amount .amount { font-size:1.15rem; }
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+    .order-summary-card {
+        margin: 0 5px 1.5rem;
+        padding: 1.25rem 8px;
+        border-radius: 8px;
+        max-width: calc(100% - 10px);
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
 }
 
 /* Accessibility: focus states */
@@ -13288,7 +13417,7 @@ h2.gradient-title {
 
 .form-actions .btn {
     min-width: 150px;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -16964,12 +17093,21 @@ datalist option {
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem 0 0.5rem;
-    margin-top: -20px;
-    margin-bottom: 4rem;
+    padding: 1.0rem 0 1.5rem;
+    margin-top: 0;
+    margin-bottom: 3rem;
     position: relative;
     z-index: 1;
-    min-height: 200px;
+    min-height: 220px;
+}
+
+@media (max-width: 768px) {
+    .vault-hero {
+        padding: 0.5rem 0 0.75rem;
+        min-height: 140px;
+        margin-bottom: 1.5rem;
+        margin-top: 0;
+    }
 }
 
 .vault-hero-title {
@@ -19002,6 +19140,24 @@ section.vault-hero {
 .form-actions a,
 .form-actions button {
     flex: 1;
+}
+
+/* Mobile responsive form actions */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0 5px;
+    }
+    
+    .form-actions a,
+    .form-actions button {
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.95rem !important;
+    }
 }
 
 .form-actions a.btn-pink {
