@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             <button type="button" class="btn btn-pink sticky-add-btn" id="stickyAddBtn">
                                 <i class="fas fa-shopping-bag"></i>
-                                <span class="sticky-add-text">Add to Bag</span>
+                                <span class="sticky-add-text ms-2">Add to Bag</span>
                             </button>
                         </div>
                     </div>
@@ -548,7 +548,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <i class="fab fa-facebook-f"></i>
                             </button>
                             <button class="share-btn twitter-btn" data-platform="twitter" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
-                                <i class="fab fa-twitter"></i>
+                                <i class="fa-brands fa-x-twitter"></i>
                             </button>
                             <button class="share-btn pinterest-btn" data-platform="pinterest" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" {% if product.main_image %}data-product-image="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"{% endif %}>
                                 <i class="fab fa-pinterest-p"></i>
@@ -1791,6 +1791,209 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .average-rating {
         flex-wrap: wrap;
+    }
+}
+
+/* Sticky Add to Cart Bar */
+.sticky-add-to-cart {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 2px solid rgba(255, 20, 147, 0.3);
+    padding: 0.75rem 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.sticky-add-to-cart.visible,
+.sticky-add-to-cart.is-visible {
+    transform: translateY(0);
+}
+
+.sticky-add-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.sticky-product {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+}
+
+.sticky-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.sticky-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sticky-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 1.5rem;
+}
+
+.sticky-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sticky-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sticky-price {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sticky-price-original {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 0.85rem;
+}
+
+.sticky-price-sale {
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.sticky-price-regular {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.sticky-options {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    max-width: 600px;
+}
+
+.sticky-select {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23fff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    min-width: 100px;
+}
+
+.sticky-select:hover {
+    border-color: rgba(255, 20, 147, 0.5);
+}
+
+.sticky-select:focus {
+    outline: none;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
+}
+
+.sticky-add-btn {
+    padding: 0.6rem 2rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    min-width: 140px;
+}
+
+@media (max-width: 768px) {
+    .sticky-add-inner {
+        padding: 0 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .sticky-product {
+        gap: 0.5rem;
+        max-width: 40%;
+    }
+
+    .sticky-thumb {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sticky-name {
+        font-size: 0.85rem;
+    }
+
+    .sticky-price-sale,
+    .sticky-price-regular {
+        font-size: 0.9rem;
+    }
+
+    .sticky-options {
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+    }
+
+    .sticky-select {
+        min-width: 70px;
+        padding: 0.5rem 1.75rem 0.5rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .sticky-add-btn {
+        padding: 0.6rem 0.8rem;
+        font-size: 1.1rem;
+        min-width: auto;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sticky-add-text {
+        display: none;
+    }
+
+    .sticky-add-btn .fas {
+        margin: 0;
     }
 }
 </style>
