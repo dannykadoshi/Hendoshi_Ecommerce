@@ -510,59 +510,77 @@
         // Show loading spinner
         if (applyBtn) {
             applyBtn.disabled = true;
-            applyBtn.querySelector('.btn-text')?.classList.add('d-none');
-            applyBtn.querySelector('.btn-spinner')?.classList.remove('d-none');
+            const btnText = applyBtn.querySelector('.btn-text');
+            const btnSpinner = applyBtn.querySelector('.btn-spinner');
+            if (btnText) btnText.classList.add('d-none');
+            if (btnSpinner) btnSpinner.classList.remove('d-none');
         }
 
         const formData = new URLSearchParams();
         formData.append('discount_code', code);
 
-        const resp = await fetch('{% url "apply_discount_code" %}', {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formData.toString()
-        }).then(r => r.json()).catch(() => ({ success: false, error: 'Network error' }));
+        try {
+            const response = await fetch('{% url "apply_discount_code" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            });
+            
+            const resp = await response.json();
 
-        if (resp.success) {
-            // Update totals without reload
-            const subtotalVal = resp.new_total + (resp.discount_amount || 0);
-            document.getElementById('cart-subtotal').textContent = '€' + subtotalVal.toFixed(2);
-            document.getElementById('cart-total').textContent = '€' + resp.new_total.toFixed(2);
+            if (resp.success) {
+                // Update totals without reload
+                const cartSubtotal = document.getElementById('cart-subtotal');
+                const cartTotal = document.getElementById('cart-total');
+                const mobileTotal = document.getElementById('mobile-cart-total');
+                const hero = document.getElementById('hero-subtotal');
+                
+                if (cartSubtotal) cartSubtotal.textContent = '€' + parseFloat(resp.cart_subtotal).toFixed(2);
+                if (cartTotal) cartTotal.textContent = '€' + parseFloat(resp.cart_total).toFixed(2);
+                if (mobileTotal) mobileTotal.textContent = '€' + parseFloat(resp.cart_total).toFixed(2);
+                if (hero) hero.textContent = parseFloat(resp.cart_subtotal).toFixed(2);
 
-            // Update mobile checkout bar total
-            const mobileTotal = document.getElementById('mobile-cart-total');
-            if (mobileTotal) mobileTotal.textContent = '€' + resp.new_total.toFixed(2);
+                // Replace the coupon form with applied coupon UI
+                const discountCode = resp.code || resp.discount_code || code;
+                const promoRow = document.querySelector('.promo-row > div');
+                if (promoRow) {
+                    promoRow.innerHTML = `
+                        <div class="applied-coupon mb-2">
+                            <strong>Code:</strong> ${discountCode}
+                            <span class="small text-success ms-2">You saved €<span id="savedAmount">${parseFloat(resp.discount_amount).toFixed(2)}</span></span>
+                            <button type="button" id="removeCouponBtn" class="btn btn-outline-pink btn-sm ms-2">Remove</button>
+                        </div>
+                    `;
+                }
 
-            // Update hero subtotal
-            const hero = document.getElementById('hero-subtotal');
-            if (hero) hero.textContent = subtotalVal.toFixed(2);
-
-            // Replace the coupon form with applied coupon UI
-            // Note: server returns 'code' not 'discount_code'
-            const discountCode = resp.code || resp.discount_code || code;
-            const promoRow = document.querySelector('.promo-row > div');
-            if (promoRow) {
-                promoRow.innerHTML = `
-                    <div class="applied-coupon mb-2">
-                        <strong>Code:</strong> ${discountCode}
-                        <span class="small text-success ms-2">You saved €<span id="savedAmount">${parseFloat(resp.discount_amount).toFixed(2)}</span></span>
-                        <button type="button" id="removeCouponBtn" class="btn btn-outline-pink btn-sm ms-2">Remove</button>
-                    </div>
-                `;
+                if (typeof showToast === 'function') showToast(resp.message || 'Discount applied!', 'success');
+            } else {
+                if (typeof showToast === 'function') showToast(resp.error || 'Invalid code.', 'error');
+                
+                // Reset button state on error only (on success, button is replaced)
+                if (applyBtn) {
+                    applyBtn.disabled = false;
+                    const btnText = applyBtn.querySelector('.btn-text');
+                    const btnSpinner = applyBtn.querySelector('.btn-spinner');
+                    if (btnText) btnText.classList.remove('d-none');
+                    if (btnSpinner) btnSpinner.classList.add('d-none');
+                }
             }
-
-            if (typeof showToast === 'function') showToast(resp.message || 'Discount applied!', 'success');
-        } else {
-            if (typeof showToast === 'function') showToast(resp.error || 'Invalid code.', 'error');
-            // Reset button state on error
+        } catch (error) {
+            console.error('Coupon apply error:', error);
+            if (typeof showToast === 'function') showToast('Network error. Please try again.', 'error');
+            
+            // Reset button on error
             if (applyBtn) {
                 applyBtn.disabled = false;
-                applyBtn.querySelector('.btn-text')?.classList.remove('d-none');
-                applyBtn.querySelector('.btn-spinner')?.classList.add('d-none');
+                const btnText = applyBtn.querySelector('.btn-text');
+                const btnSpinner = applyBtn.querySelector('.btn-spinner');
+                if (btnText) btnText.classList.remove('d-none');
+                if (btnSpinner) btnSpinner.classList.add('d-none');
             }
         }
 

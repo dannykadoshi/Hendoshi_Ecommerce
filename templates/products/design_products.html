@@ -26,7 +26,7 @@
             </div>
 
             <div class="text-center mt-4" id="infiniteScrollLoader" data-has-next="{{ page_obj.has_next|yesno:'true,false' }}" data-next-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">
-                <div class="spinner-border spinner-border-pink" role="status" class="d-none"></div>
+                <div class="spinner-border spinner-border-pink d-none" role="status"></div>
             </div>
             
             <!-- Unified Quick Add Modal -->
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const nextPage = loader.dataset.nextPage;
             if (!hasNext || !nextPage) return;
 
-            if (spinner) spinner.style.display = 'inline-block';
+            if (spinner) spinner.classList.remove('d-none');
 
             const params = new URLSearchParams(window.location.search);
             params.set('page', nextPage);
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(() => {})
             .finally(() => {
-                if (spinner) spinner.style.display = 'none';
+                if (spinner) spinner.classList.add('d-none');
             });
         };
 
