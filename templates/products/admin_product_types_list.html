@@ -241,19 +241,8 @@
     </div>
 </div>
 
-<script>
-function confirmDeleteProductType(productTypeId, productTypeName, deleteUrl) {
-    // Update modal content
-    document.getElementById('product-type-name').textContent = productTypeName;
+{% endblock %}
 
-    // Set the form action URL
-    const form = document.getElementById('delete-product-type-form');
-    form.action = deleteUrl;
-
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('deleteProductTypeModal'));
-    modal.show();
-}
-</script>
-
+{% block extra_js %}
+<script src="{% static 'js/admin-forms.js' %}"></script>
 {% endblock %}

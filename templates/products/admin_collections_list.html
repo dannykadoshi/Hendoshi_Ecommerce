@@ -114,19 +114,8 @@
     </div>
 </div>
 
-<script>
-function confirmDeleteCollection(collectionId, collectionName, deleteUrl) {
-    // Update modal content
-    document.getElementById('collection-name').textContent = collectionName;
+{% endblock %}
 
-    // Set the form action URL
-    const form = document.getElementById('delete-collection-form');
-    form.action = deleteUrl;
-
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('deleteCollectionModal'));
-    modal.show();
-}
-</script>
-
+{% block extra_js %}
+<script src="{% static 'js/admin-forms.js' %}"></script>
 {% endblock %}

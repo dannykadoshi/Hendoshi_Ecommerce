@@ -384,3 +384,19 @@ window.confirmDeleteProduct = function(productId, productName, productCollection
     const modal = new bootstrap.Modal(document.getElementById('deleteProductModal'));
     modal.show();
 };
+
+window.confirmDeleteCollection = function(collectionId, collectionName, deleteUrl) {
+    document.getElementById('collection-name').textContent = collectionName;
+    const form = document.getElementById('delete-collection-form');
+    form.action = deleteUrl;
+    const modal = new bootstrap.Modal(document.getElementById('deleteCollectionModal'));
+    modal.show();
+};
+
+window.confirmDeleteProductType = function(productTypeId, productTypeName, deleteUrl) {
+    document.getElementById('product-type-name').textContent = productTypeName;
+    const form = document.getElementById('delete-product-type-form');
+    form.action = deleteUrl;
+    const modal = new bootstrap.Modal(document.getElementById('deleteProductTypeModal'));
+    modal.show();
+};
