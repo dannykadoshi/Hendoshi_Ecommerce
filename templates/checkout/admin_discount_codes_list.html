@@ -314,49 +314,8 @@
     </div>
 </div>
 
-<script>
-// Vault Confirmation Modal Functionality
-let currentFormToSubmit = null;
+{% endblock %}
 
-function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form) {
-    // Update modal content
-    document.getElementById('modal-title-text').textContent = title;
-    document.getElementById('modal-message').textContent = message;
-    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
-    document.getElementById('modal-confirm-text').textContent = confirmText;
-
-    // Update confirm button styling
-    const confirmBtn = document.getElementById('modal-confirm-btn');
-    confirmBtn.className = `btn ${confirmClass} vault-modal-btn-confirm`;
-    
-    // Store form reference
-    currentFormToSubmit = form;
-    
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
-    modal.show();
-}
-
-// Handle modal confirm button click
-document.getElementById('modal-confirm-btn').addEventListener('click', function() {
-    if (currentFormToSubmit) {
-        currentFormToSubmit.submit();
-    }
-});
-
-// Discount code confirmation functions
-function confirmDiscountCodeDelete(codeId, codeName) {
-    const form = document.querySelector(`form[action*="delete"][action*="/${codeId}/"]`);
-    showVaultConfirmModal(
-        'Delete Discount Code',
-        `Are you sure you want to permanently delete the discount code "${codeName}"? This action cannot be undone!`,
-        'fa-trash',
-        'Delete Forever',
-        'btn-danger',
-        form
-    );
-    return false;
-}
-</script>
-
+{% block extra_js %}
+<script src="{% static 'js/admin-forms.js' %}"></script>
 {% endblock %}

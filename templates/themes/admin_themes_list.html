@@ -328,41 +328,8 @@
     </div>
 </div>
 
-<script>
-let currentFormToSubmit = null;
+{% endblock %}
 
-function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form) {
-    document.getElementById('modal-title-text').textContent = title;
-    document.getElementById('modal-message').textContent = message;
-    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
-    document.getElementById('modal-confirm-text').textContent = confirmText;
-
-    const confirmBtn = document.getElementById('modal-confirm-btn');
-    confirmBtn.className = `btn ${confirmClass} vault-modal-btn-confirm`;
-
-    currentFormToSubmit = form;
-
-    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
-    modal.show();
-}
-
-document.getElementById('modal-confirm-btn').addEventListener('click', function() {
-    if (currentFormToSubmit) {
-        currentFormToSubmit.submit();
-    }
-});
-
-function confirmThemeDelete(themeId, themeName) {
-    const form = document.querySelector(`form[action*="delete"][action*="/${themeId}/"]`);
-    showVaultConfirmModal(
-        'Delete Seasonal Theme',
-        `Are you sure you want to permanently delete the theme "${themeName}"? This action cannot be undone!`,
-        'fa-trash',
-        'Delete Forever',
-        'btn-danger',
-        form
-    );
-    return false;
-}
-</script>
+{% block extra_js %}
+<script src="{% static 'js/admin-forms.js' %}"></script>
 {% endblock %}

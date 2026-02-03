@@ -204,21 +204,39 @@
     </div>
 </div>
 
-<!-- Confirmation modal already provided globally in base.html; add helper JS -->
-<script>
-function confirmShippingRateDelete(rateId, rateName) {
-    const form = document.querySelector(`form[action*="/shipping/${rateId}/delete/"]`);
-    if (!form) return;
-    showVaultConfirmModal(
-        'Delete Shipping Rate',
-        `Are you sure you want to permanently delete the shipping rate "${rateName}"? This action cannot be undone!`,
-        'fa-trash',
-        'Delete Forever',
-        'btn-danger',
-        form
-    );
-    return false;
-}
-</script>
+<!-- Custom Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="vaultConfirmModal" tabindex="-1" aria-labelledby="vaultConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="vaultConfirmModalLabel">
+                    <i class="fas fa-question-circle vault-modal-icon"></i>
+                    <span id="modal-title-text">Confirm Action</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon" id="modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message" id="modal-message">Are you sure you want to perform this action?</p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn vault-modal-btn-confirm" id="modal-confirm-btn">
+                    <i class="fas fa-check"></i> <span id="modal-confirm-text">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin-forms.js' %}?v=2"></script>
 {% endblock %}
