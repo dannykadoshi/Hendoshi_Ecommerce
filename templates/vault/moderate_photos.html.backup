@@ -17,7 +17,7 @@
                     <h1 class="vault-hero-title">Moderation Queue</h1>
                     <p class="vault-hero-subtitle">Review and manage vault photo submissions</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
-                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink moderation-btn-mobile">
+                        <a href="{% url 'vault:vault_gallery' %}" class="btn btn-outline-pink moderation-btn-mobile">
                             <i class="fas fa-eye"></i> View Public Gallery
                         </a>
                     </div>
@@ -38,11 +38,11 @@
                         <div class="col-md-6">
                             <label class="form-label vault-form-label vault-moderate-label">Status</label>
                             <select name="status" class="form-select vault-filter-select" id="status-filter">
-                                <option value="all" {% if status_filter == 'all' or not status_filter %}selected{% endif %}>All</option>
                                 <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
                                 <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
                                 <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
                                 <option value="archived" {% if status_filter == 'archived' %}selected{% endif %}>Archived</option>
+                                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -52,6 +52,9 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
+                            <button type="submit" class="btn btn-pink me-2 moderation-btn-mobile" id="apply-filters-btn">
+                                <i class="fas fa-filter"></i> Apply Filters
+                            </button>
                             {% if search_query %}
                             <a href="{% url 'vault:moderate_photos' %}?status={{ status_filter }}" class="btn btn-outline-secondary moderation-btn-mobile">
                                 <i class="fas fa-times"></i> Clear Search
@@ -239,8 +242,50 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
-<!-- Vault Confirmation Modal -->
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit status filter when changed
+    const statusFilter = document.getElementById('status-filter');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', function() {
+            document.getElementById('status-filter-form').submit();
+        });
+    }
+
+    // Bulk selection functionality (only when select-all checkbox exists)
+    const selectAllCheckbox = document.getElementById('select-all');
+    if (selectAllCheckbox) {
+        const photoCheckboxes = document.querySelectorAll('.photo-checkbox');
+        const selectedPhotosInput = document.getElementById('selected-photos');
+
+        function updateSelectedPhotos() {
+            const selected = Array.from(photoCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+            selectedPhotosInput.value = selected.join(',');
+        }
+
+        selectAllCheckbox.addEventListener('change', function() {
+            photoCheckboxes.forEach(cb => {
+                cb.checked = this.checked;
+            });
+            updateSelectedPhotos();
+        });
+
+        photoCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateSelectedPhotos);
+        });
+
+        // Update on page load
+        updateSelectedPhotos();
+    }
+});
+</script>
+
+<!-- Custom Confirmation Modal -->
 <div class="modal fade vault-confirm-modal" id="vaultConfirmModal" tabindex="-1" aria-labelledby="vaultConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content vault-modal-content">
@@ -289,8 +334,172 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block extra_js %}
-<script src="{% static 'js/vault.js' %}"></script>
+<script>
+// Vault Confirmation Modal Functionality
+let currentFormToSubmit = null;
+
+function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction = false) {
+    // Update modal content
+    document.getElementById('modal-title-text').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
+    document.getElementById('modal-confirm-text').textContent = confirmText;
+
+    // Update confirm button styling
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    confirmBtn.className = `btn vault-modal-btn-confirm ${confirmClass}`;
+
+    // Handle rejection reason textarea
+    const rejectionContainer = document.getElementById('rejection-reason-container');
+    const rejectionTextarea = document.getElementById('rejection-reason');
+
+    if (isRejectAction) {
+        rejectionContainer.classList.remove('d-none');
+        rejectionTextarea.value = ''; // Clear previous value
+        updateRejectionCharCount();
+
+        // Focus on textarea after modal is shown
+        setTimeout(() => {
+            rejectionTextarea.focus();
+        }, 500);
+    } else {
+        rejectionContainer.classList.add('d-none');
+        rejectionTextarea.value = '';
+    }
+
+    // Store the form to submit
+    currentFormToSubmit = form;
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
+    modal.show();
+}
+
+// Character count for rejection reason
+function updateRejectionCharCount() {
+    const textarea = document.getElementById('rejection-reason');
+    const counter = document.getElementById('rejection-char-count');
+    const count = textarea.value.length;
+    counter.textContent = count;
+
+    // Change color based on character count
+    if (count > 450) {
+        counter.style.color = '#dc3545';
+    } else if (count > 400) {
+        counter.style.color = '#ffc107';
+    } else {
+        counter.style.color = '#6c757d';
+    }
+}
+
+// Add event listener for textarea
+document.getElementById('rejection-reason').addEventListener('input', updateRejectionCharCount);
+
+// Handle modal confirm button click
+document.getElementById('modal-confirm-btn').addEventListener('click', function() {
+    if (currentFormToSubmit) {
+        // If this is a rejection, include the rejection reason
+        const rejectionReason = document.getElementById('rejection-reason').value;
+        if (rejectionReason.trim()) {
+            const reasonInput = currentFormToSubmit.querySelector('input[name="rejection_reason"]');
+            if (reasonInput) {
+                reasonInput.value = rejectionReason.trim();
+            }
+        }
+        currentFormToSubmit.submit();
+    }
+    // Hide modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('vaultConfirmModal'));
+    modal.hide();
+});
+
+// Vault-specific confirmation functions
+function confirmVaultAction(action, photoId, title, message, iconClass, confirmText, confirmClass, isRejectAction = false) {
+    // Find the form for this action
+    const form = document.querySelector(`form input[name="photo_id"][value="${photoId}"]`).closest('form');
+    form.querySelector('input[name="action"]').value = action;
+
+    showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction);
+    return false; // Prevent default form submission
+}
+
+// Auto-search functionality for username search
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const statusFilter = document.getElementById('status-filter');
+    const filterForm = document.getElementById('status-filter-form');
+    const applyBtn = document.getElementById('apply-filters-btn');
+    let searchTimeout;
+
+    // Function to submit form with delay
+    function submitSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            // Show loading state on button
+            if (applyBtn) {
+                applyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                applyBtn.disabled = true;
+            }
+            filterForm.submit();
+        }, 500); // 500ms delay to avoid too many requests while typing
+    }
+
+    // Auto-submit when user types in search field
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const hasValue = this.value.trim().length > 0;
+
+            // Show loading state on input
+            this.style.opacity = '0.7';
+
+            // Update button text based on search state
+            if (applyBtn) {
+                if (hasValue) {
+                    applyBtn.innerHTML = '<i class="fas fa-search"></i> Searching...';
+                } else {
+                    applyBtn.innerHTML = '<i class="fas fa-filter"></i> Apply Filters';
+                }
+            }
+
+            // Submit with delay
+            submitSearch();
+        });
+
+        // Submit immediately on Enter key
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                if (applyBtn) {
+                    applyBtn.innerHTML = '<i class="fas fa-search"></i> Searching...';
+                    applyBtn.disabled = true;
+                }
+                filterForm.submit();
+            }
+        });
+
+        // Reset opacity when input loses focus
+        searchInput.addEventListener('blur', function() {
+            this.style.opacity = '1';
+        });
+    }
+
+    // Also auto-submit when status filter changes
+    if (statusFilter) {
+        statusFilter.addEventListener('change', function() {
+            if (applyBtn) {
+                applyBtn.innerHTML = '<i class="fas fa-filter"></i> Applying...';
+                applyBtn.disabled = true;
+            }
+            filterForm.submit();
+        });
+    }
+
+    // Reset button state when page loads with existing search
+    if (searchInput && searchInput.value.trim() && applyBtn) {
+        applyBtn.innerHTML = '<i class="fas fa-search"></i> Search Active';
+    }
+});
+</script>
+
 {% endblock %}

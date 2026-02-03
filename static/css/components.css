@@ -4446,4 +4446,36 @@ body.cart-drawer-open {
     box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 
+/* Glassmorphic Utility Classes */
+.bg-glass-light {
+    background: rgba(255, 255, 255, 0.03);
+}
 
+.border-glass {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rounded-glass {
+    border-radius: 10px;
+}
+
+.p-glass {
+    padding: 1rem 1.25rem;
+}
+
+/* Button Utility Classes */
+.btn-pink {
+    background: var(--neon-pink);
+    border: 2px solid var(--neon-pink);
+    color: #000;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-pink:hover {
+    background: var(--electric-yellow);
+    border-color: var(--electric-yellow);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+}

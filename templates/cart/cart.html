@@ -146,7 +146,7 @@
                                     <div class="applied-coupon mb-2">
                                         <strong>Code:</strong> {{ discount_code }}
                                         <span class="small text-success ms-2">You saved €<span id="savedAmount">{{ discount_amount|floatformat:2 }}</span></span>
-                                        <button type="button" id="removeCouponBtn" class="btn btn-outline-pink btn-sm ms-2">Remove</button>
+                                        <button type="button" id="removeCouponBtn" class="btn btn-pink btn-sm ms-2">Remove</button>
                                     </div>
                                 {% else %}
                                     <form id="couponForm" class="d-flex" onsubmit="return applyCoupon(event)">

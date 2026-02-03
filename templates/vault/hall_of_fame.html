@@ -14,7 +14,7 @@
                     <h1 class="vault-hero-title">Hall of Fame</h1>
                     <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-                        <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-outline-pink hall-of-fame-btn-mobile">
+                        <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-pink hall-of-fame-btn-mobile">
                             <i class="fas fa-crown"></i> Hall of Fame Overview
                         </a>
                         <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink hall-of-fame-btn-mobile">
@@ -102,7 +102,7 @@
                                 <i class="fas fa-thumbs-down"></i>
                             </button>
                             {% endif %}
-                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-outline-pink{% endif %} btn-sm hall-of-fame-like-btn">
+                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-pink{% endif %} btn-sm hall-of-fame-like-btn">
                                 <i class="fas fa-heart"></i> {{ photo.likes.count }}
                             </button>
                         </div>

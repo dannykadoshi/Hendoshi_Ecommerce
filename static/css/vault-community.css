@@ -322,22 +322,6 @@ datalist option {
     border-color: var(--neon-pink);
 }
 
-.btn-pink {
-    background: var(--neon-pink);
-    border: 2px solid var(--neon-pink);
-    color: #000;
-    font-weight: 700;
-    transition: all 0.3s ease;
-}
-
-.btn-pink:hover {
-    background: var(--electric-yellow);
-    border-color: var(--electric-yellow);
-    color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
-}
-
 .pagination .page-link {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 20, 147, 0.2);

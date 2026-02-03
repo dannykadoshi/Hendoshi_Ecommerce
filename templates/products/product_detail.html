@@ -266,14 +266,14 @@
                         </button>
 
                         {% if user.is_authenticated %}
-                        <button type="button" class="btn btn-outline-pink battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
+                        <button type="button" class="btn btn-pink battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
                             <i class="far fa-heart heart-icon heart-icon-large"></i>
                         </button>
                         {% endif %}
                         </div>
 
                         {% if not user.is_authenticated %}
-                        <button type="button" class="btn btn-outline-pink w-100 login-to-add-btn">
+                        <button type="button" class="btn btn-pink w-100 login-to-add-btn">
                             <i class="fas fa-sign-in-alt"></i> LOGIN TO ADD TO BATTLE VEST
                         </button>
                         {% endif %}
@@ -624,11 +624,11 @@
             <!-- Write Review Button -->
             <div id="reviewFormContainer" class="mb-4">
                 {% if user.is_authenticated %}
-                    <button type="button" class="btn btn-outline-pink" id="writeReviewBtn" data-product-slug="{{ product.slug }}">
+                    <button type="button" class="btn btn-pink" id="writeReviewBtn" data-product-slug="{{ product.slug }}">
                         <i class="fas fa-pen"></i> Write a Review
                     </button>
                 {% else %}
-                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-outline-pink">
+                    <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-pink">
                         <i class="fas fa-sign-in-alt"></i> Login to Write a Review
                     </a>
                 {% endif %}
@@ -690,7 +690,7 @@
             <!-- Load More Button -->
             {% if product.get_review_count > 5 %}
                 <div class="text-center mt-3">
-                    <button type="button" class="btn btn-outline-pink" id="loadMoreReviews" data-page="1" data-product-slug="{{ product.slug }}">
+                    <button type="button" class="btn btn-pink" id="loadMoreReviews" data-page="1" data-product-slug="{{ product.slug }}">
                         Load More Reviews
                     </button>
                 </div>

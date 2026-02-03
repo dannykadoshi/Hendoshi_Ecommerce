@@ -1,0 +1,1350 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit {{ product.name }} - HENDOSHI{% endblock %}
+
+{% block extra_css %}
+<!-- Quill CSS -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="vault-page">
+    <!-- Edit Product Hero -->
+    <section class="vault-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="vault-hero-title">Edit Product</h1>
+                    <p class="vault-hero-subtitle">Modify "{{ product.name }}" details. Update pricing, images, descriptions, and product specifications.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_list_products' %}" class="btn btn-pink"><i class="fas fa-arrow-left me-2"></i>Back</a>
+                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-pink">View Product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div class="container-fluid vault-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="auth-card">
+                <div class="relative-container">
+                    <a href="{% url 'admin_list_products' %}" class="btn-close-auth" aria-label="Close">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="svg-center">
+                            <line x1="9" y1="9" x2="23" y2="23" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="23" y1="9" x2="9" y2="23" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" id="editProductForm" novalidate>
+                    {% csrf_token %}
+
+                    <!-- BASIC INFORMATION SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Basic Information</h3>
+                        
+                        <!-- Product Name -->
+                        <div class="mb-4">
+                            <label for="{{ product_form.name.id_for_label }}" class="form-label">Product Name *</label>
+                            {{ product_form.name }}
+                            <div class="form-error-text hidden-error"></div>
+                            {% if product_form.name.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ product_form.name.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ product_form.description.id_for_label }}" class="form-label mb-0">Description *</label>
+                                <button type="button" id="generateDescriptionBtn" class="btn btn-sm btn-ai">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
+                            {{ product_form.description }}
+                            <div class="form-error-text hidden-error"></div>
+                            {% if product_form.description.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ product_form.description.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ product_form.meta_description.id_for_label }}" class="form-label mb-0">SEO Meta Description (Optional)</label>
+                                <button type="button" id="generateMetaBtn" class="btn btn-sm btn-ai">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
+                            {{ product_form.meta_description }}
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <small class="helper-text">Max 160 characters for search engines</small>
+                                <small id="meta-char-count" class="meta-char-count">0 / 160</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORIZATION SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Categorization</h3>
+                        
+                        <div class="row">
+                            <!-- Collection -->
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ product_form.collection.id_for_label }}" class="form-label">Collection *</label>
+                                {{ product_form.collection }}
+                                {% if product_form.collection.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.collection.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Product Type -->
+                            <div class="col-md-4 mb-4">
+                                <label for="{{ product_form.product_type.id_for_label }}" class="form-label">Product Type *</label>
+                                {{ product_form.product_type }}
+                                {% if product_form.product_type.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.product_type.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Audience -->
+                            <div class="col-md-4 mb-4">
+                                <label for="{{ product_form.audience.id_for_label }}" class="form-label">Audience</label>
+                                {{ product_form.audience }}
+                                {% if product_form.audience.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.audience.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRICING & IMAGES SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Pricing & Images</h3>
+                        
+                        <!-- Base Price -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ product_form.base_price.id_for_label }}" class="form-label">Price *</label>
+                                {{ product_form.base_price }}
+                                {% if product_form.base_price.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.base_price.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Sale Price -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ product_form.sale_price.id_for_label }}" class="form-label">Sale Price (Optional)</label>
+                                {{ product_form.sale_price }}
+                                {% if product_form.sale_price.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.sale_price.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                <small class="helper-text">Leave blank if not on sale</small>
+                            </div>
+                        </div>
+
+                        <!-- Sale Dates -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ product_form.sale_start.id_for_label }}" class="form-label">Sale Start Date/Time (Optional)</label>
+                                {{ product_form.sale_start }}
+                                {% if product_form.sale_start.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.sale_start.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ product_form.sale_end.id_for_label }}" class="form-label">Sale End Date/Time (Optional)</label>
+                                {{ product_form.sale_end }}
+                                {% if product_form.sale_end.errors %}
+                                    <div class="form-error-text">
+                                        <i class="fas fa-exclamation-circle"></i> {{ product_form.sale_end.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Main Image -->
+                        <div class="mb-4">
+                            <label for="{{ product_form.main_image.id_for_label }}" class="form-label">Main Product Image *</label>
+                            {% if product.main_image %}
+                                <div class="mb-3">
+                                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="image-preview-current">
+                                </div>
+                            {% endif %}
+                            <div class="file-input-wrapper position-relative">
+                                {{ product_form.main_image }}
+                                <span class="clear-file-x" title="Remove selection">×</span>
+                            </div>
+                            {% if product_form.main_image.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ product_form.main_image.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <small class="helper-text d-block mt-2">Primary image for product display</small>
+                        </div>
+
+                        <!-- Additional Images -->
+                        <div class="mb-4">
+                            <h4 class="mb-3">Additional Images (Gallery)</h4>
+                            <div class="image-formset-container" id="imageFormsetContainer">
+                                <div class="formset-hidden">{{ image_formset.management_form }}</div>
+                                <!-- Empty form template for JS cloning when there are no existing image forms -->
+                                <div id="emptyImageFormTemplate" class="formset-hidden">{{ image_formset.empty_form.as_p|safe }}</div>
+                                {% for form in image_formset %}
+                                    <div class="image-form-row mb-4 p-4">
+                                        <div class="formset-hidden">{{ form.id }}</div>
+                                        {% if form.instance.image %}
+                                            <div class="mb-3">
+                                                <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="image-preview-current">
+                                            </div>
+                                        {% endif %}
+                                        <div class="row align-items-end">
+                                            <div class="col-md-7">
+                                                <label class="form-label">Image</label>
+                                                <div class="file-input-wrapper position-relative">
+                                                    {{ form.image }}
+                                                    <span class="clear-file-x" title="Remove selection">×</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Alt Text</label>
+                                                {{ form.alt_text }}
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label">Order</label>
+                                                {{ form.order }}
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            {{ form.DELETE }}
+                                            <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label">Remove</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-outline-pink btn-sm" id="addImageBtn">
+                                <i class="fas fa-plus"></i> Add Another Image
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SIZE & COLOR VARIANTS SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Size & Color Options</h3>
+
+                        <!-- Existing Variants Management -->
+                        {% if variant_formset.forms %}
+                        <div class="existing-variants-section mb-4">
+                            <h5 class="mb-3"><i class="fas fa-list me-2"></i>Current Variants</h5>
+                            <p class="helper-text mb-3">Edit stock or mark variants for removal</p>
+
+                            <div class="variant-formset-container" id="variantFormsetContainer">
+                                <div class="formset-hidden">{{ variant_formset.management_form }}</div>
+                                {% for form in variant_formset %}
+                                    <div class="variant-form-row mb-3 p-3">
+                                        <div class="formset-hidden">{{ form.id }}</div>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <label class="form-label small mb-1">Size</label>
+                                                {{ form.size }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label small mb-1">Color</label>
+                                                {{ form.color }}
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label small mb-1">Stock</label>
+                                                {{ form.stock }}
+                                            </div>
+                                            <div class="col-md-3 d-flex align-items-center">
+                                                <div class="form-check mt-3">
+                                                    {{ form.DELETE }}
+                                                    <label for="{{ form.DELETE.id_for_label }}" class="form-check-label delete-label text-danger">
+                                                        <i class="fas fa-trash-alt me-1"></i>Remove
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Available Sizes & Colors -->
+                        <div class="add-variants-section">
+                            <h5 class="mb-3"><i class="fas fa-sliders-h me-2"></i>Available Sizes & Colors</h5>
+                            <p class="helper-text mb-4">Use sizes and colors below to manage available variant options. Existing combinations will be preserved.</p>
+
+                            <div class="variant-selection-container">
+                                <!-- Sizes Selection -->
+                                <div class="variant-group mb-4">
+                                    <label class="form-label variant-group-label">
+                                        <i class="fas fa-ruler me-2"></i>Available Sizes
+                                    </label>
+                                    <div class="variant-toggles" id="sizesToggles">
+                                        <ul>
+                                            {% for value, label in variant_selection_form.sizes.field.choices %}
+                                            <li>
+                                                <label class="size-color-toggle{% if value in existing_sizes %} existing-variant{% endif %}" data-existing="{% if value in existing_sizes %}true{% else %}false{% endif %}">
+                                                    <input type="checkbox" name="sizes" value="{{ value }}"
+                                                        {% if value in existing_sizes %}checked{% endif %}>
+                                                    {{ label }}
+                                                    <span class="variant-status-badge {% if value in existing_sizes %}in-use{% else %}not-in-use{% endif %}">{% if value in existing_sizes %}In Use{% else %}Not in Use{% endif %}</span>
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <small class="helper-text d-block mt-2"><i class="fas fa-info-circle me-1"></i>Sizes marked "In Use" already have variants</small>
+                                </div>
+
+                                <!-- Colors Selection -->
+                                <div class="variant-group mb-4">
+                                    <label class="form-label variant-group-label">
+                                        <i class="fas fa-palette me-2"></i>Available Colors
+                                    </label>
+                                    <div class="variant-toggles" id="colorToggles">
+                                        <ul>
+                                            {% for value, label in variant_selection_form.colors.field.choices %}
+                                            <li>
+                                                <label class="size-color-toggle{% if value in existing_colors %} existing-variant{% endif %}" data-existing="{% if value in existing_colors %}true{% else %}false{% endif %}">
+                                                    <input type="checkbox" name="colors" value="{{ value }}"
+                                                        {% if value in existing_colors %}checked{% endif %}>
+                                                    {{ label }}
+                                                    <span class="variant-status-badge {% if value in existing_colors %}in-use{% else %}not-in-use{% endif %}">{% if value in existing_colors %}In Use{% else %}Not in Use{% endif %}</span>
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <small class="helper-text d-block mt-2"><i class="fas fa-info-circle me-1"></i>Colors marked "In Use" already have variants</small>
+                                </div>
+
+                                <!-- Default Stock -->
+                                <div class="variant-group mb-4">
+                                    <label class="form-label variant-group-label" for="{{ variant_selection_form.default_stock.id_for_label }}">
+                                        <i class="fas fa-boxes me-2"></i>Default Stock for New Variants
+                                    </label>
+                                    {{ variant_selection_form.default_stock }}
+                                    <small class="helper-text d-block mt-2">This stock will be applied to newly created size/color combinations only</small>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STATUS SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Status</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    {{ product_form.is_active }}
+                                    <label class="form-check-label" for="{{ product_form.is_active.id_for_label }}">
+                                        Publish (make visible)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    {{ product_form.featured }}
+                                    <label class="form-check-label" for="{{ product_form.featured.id_for_label }}">
+                                        Feature product
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DESIGN STORY SECTION -->
+                    <div class="form-section mb-5">
+                        <h3 class="section-title mb-4">Design Story</h3>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ design_form.title.id_for_label }}" class="form-label mb-0">Title</label>
+                                <button type="button" id="generateStoryTitleBtn" class="btn btn-sm btn-ai">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
+                            {{ design_form.title }}
+                            {% if design_form.title.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ design_form.title.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="{{ design_form.story.id_for_label }}" class="form-label mb-0">Story</label>
+                                <button type="button" id="generateStoryContentBtn" class="btn btn-sm btn-ai">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
+                            <!-- Quill Editor Container -->
+                            <div id="quill-editor" class="quill-editor-fixed-height"></div>
+                            <!-- Hidden textarea to store the actual data -->
+                            <div class="formset-hidden">
+                                {{ design_form.story }}
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <small class="helper-text">Max 500 characters</small>
+                                <small id="story-char-count" class="story-char-count">0 / 500</small>
+                            </div>
+                            {% if design_form.story.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ design_form.story.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <label for="{{ design_form.author.id_for_label }}" class="form-label">Author</label>
+                            {{ design_form.author }}
+                            {% if design_form.author.errors %}
+                                <div class="form-error-text">
+                                    <i class="fas fa-exclamation-circle"></i> {{ design_form.author.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <label for="{{ design_form.status.id_for_label }}" class="form-label">Status</label>
+                            {{ design_form.status }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Preview</label>
+                            <div id="story-preview" class="p-3 story-preview-box">{{ design_form.story.value|default_if_none:'' }}</div>
+                        </div>
+                    <!-- Quill JS -->
+                    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+                    <script>
+                        // Helper to read Django CSRF cookie
+                        function getCookie(name) {
+                            let cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                const cookies = document.cookie.split(';');
+                                for (let i = 0; i < cookies.length; i++) {
+                                    const cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
+                        }
+
+                    
+                        // Initialize Quill editor and expose global instance for shared usage
+                        var quill = new Quill('#quill-editor', {
+                            theme: 'snow',
+                            modules: {
+                                toolbar: [
+                                    ['bold', 'italic', 'underline'],
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    ['link'],
+                                    ['clean']
+                                ]
+                            },
+                            placeholder: 'Tell me the design story...'
+                        });
+                        window.__quill_editor = quill;
+
+                        // Update character count and preview for Quill editor
+                        function updateStoryCharCountAndPreview() {
+                            var text = quill.getText();
+                            var length = text.trim().length;
+                            var counter = document.getElementById('story-char-count');
+                            if (counter) {
+                                counter.textContent = length + ' / 500';
+                                if (length > 500) {
+                                    counter.style.color = '#ff1493';
+                                } else {
+                                    counter.style.color = 'var(--neon-pink)';
+                                }
+                            }
+                            var preview = document.getElementById('story-preview');
+                            if (preview) {
+                                preview.textContent = text.trim();
+                            }
+                        }
+
+                        // Sync Quill content with hidden textarea
+                        quill.on('text-change', function() {
+                            var textarea = document.getElementById('id_story');
+                            if (textarea) {
+                                // Store plain text in textarea (since model has max 500 chars)
+                                textarea.value = quill.getText().trim();
+                            }
+                            updateStoryCharCountAndPreview();
+                        });
+
+                        // Update character count for SEO meta description
+                        function updateMetaCharCount(textarea) {
+                            var count = textarea.value.length;
+                            var counter = document.getElementById('meta-char-count');
+                            if (counter) {
+                                counter.textContent = count + ' / 160';
+                                if (count > 160) {
+                                    counter.style.color = '#ff1493';
+                                } else {
+                                    counter.style.color = 'var(--neon-pink)';
+                                }
+                            }
+                        }
+
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Initialize meta description counter
+                            var metaField = document.getElementById('id_meta_description');
+                            if (metaField) {
+                                updateMetaCharCount(metaField);
+                                metaField.addEventListener('input', function() {
+                                    updateMetaCharCount(this);
+                                });
+                            }
+
+                            // Load existing content into Quill
+                            var storyTextarea = document.getElementById('id_story');
+                            if (storyTextarea && storyTextarea.value) {
+                                quill.setText(storyTextarea.value);
+                            }
+
+                            // Initialize story counter and preview
+                            updateStoryCharCountAndPreview();
+
+                            // AI Meta Description Generator
+                            const generateBtn = document.getElementById('generateMetaBtn');
+                            const modal = document.getElementById('aiSuggestionsModal');
+                            const closeModalBtn = document.getElementById('closeModal');
+                            const loadingSpinner = document.getElementById('loadingSpinner');
+                            const suggestionsContainer = document.getElementById('suggestionsContainer');
+                            const suggestionsList = document.getElementById('suggestionsList');
+                            const errorContainer = document.getElementById('errorContainer');
+                            const errorMessage = document.getElementById('errorMessage');
+
+                            generateBtn.addEventListener('click', async function() {
+                                const productName = document.getElementById('id_name').value.trim();
+                                const productDescription = document.getElementById('id_description').value.trim();
+
+                                if (!productDescription) {
+                                    alert('Please enter a product description first!');
+                                    return;
+                                }
+
+                                // Show modal with loading state
+                                modal.style.display = 'flex';
+                                loadingSpinner.style.display = 'block';
+                                suggestionsContainer.style.display = 'none';
+                                errorContainer.style.display = 'none';
+
+                                try {
+                                    const response = await fetch('{% url "generate_seo_meta" %}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': getCookie('csrftoken')
+                                        },
+                                        body: JSON.stringify({
+                                            name: productName,
+                                            description: productDescription
+                                        })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success && data.suggestions) {
+                                        // Hide loading, show suggestions
+                                        loadingSpinner.style.display = 'none';
+                                        suggestionsContainer.style.display = 'block';
+
+                                        // Clear previous suggestions
+                                        suggestionsList.innerHTML = '';
+
+                                        // Add each suggestion as a clickable card
+                                        data.suggestions.forEach((suggestion, index) => {
+                                            const card = document.createElement('div');
+                                            card.className = 'suggestion-card';
+                                            card.innerHTML = `
+                                                <div class="suggestion-text">${suggestion}</div>
+                                                <div class="suggestion-length">${suggestion.length} characters</div>
+                                            `;
+                                            card.addEventListener('click', function() {
+                                                document.getElementById('id_meta_description').value = suggestion;
+                                                updateMetaCharCount(document.getElementById('id_meta_description'));
+                                                modal.style.display = 'none';
+                                            });
+                                            suggestionsList.appendChild(card);
+                                        });
+                                    } else {
+                                        throw new Error(data.error || 'Failed to generate suggestions');
+                                    }
+                                } catch (error) {
+                                    loadingSpinner.style.display = 'none';
+                                    errorContainer.style.display = 'block';
+                                    errorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                }
+                            });
+
+                            // Close modal
+                            closeModalBtn.addEventListener('click', function() {
+                                modal.style.display = 'none';
+                            });
+
+                            // Close modal when clicking outside
+                            modal.addEventListener('click', function(e) {
+                                if (e.target === modal) {
+                                    modal.style.display = 'none';
+                                }
+                            });
+
+                            // Design Story AI Generation
+                            const storyModal = document.getElementById('aiDesignStoryModal');
+                            const storyModalTitle = document.getElementById('storyModalTitle');
+                            const closeStoryModal = document.getElementById('closeStoryModal');
+                            const storyLoadingSpinner = document.getElementById('storyLoadingSpinner');
+                            const storySuggestionsContainer = document.getElementById('storySuggestionsContainer');
+                            const storySuggestionsList = document.getElementById('storySuggestionsList');
+                            const storyErrorContainer = document.getElementById('storyErrorContainer');
+                            const storyErrorMessage = document.getElementById('storyErrorMessage');
+
+                            async function generateDesignStory(type) {
+                                const productName = document.getElementById('id_name').value.trim();
+                                const productDescription = document.getElementById('id_description').value.trim();
+
+                                if (!productName || !productDescription) {
+                                    alert('Please enter product name and description first!');
+                                    return;
+                                }
+
+                                // Update modal title
+                                storyModalTitle.textContent = type === 'title' ? 'AI-Generated Story Titles' : 'AI-Generated Design Stories';
+
+                                // Show modal with loading state
+                                storyModal.style.display = 'flex';
+                                storyLoadingSpinner.style.display = 'block';
+                                storySuggestionsContainer.style.display = 'none';
+                                storyErrorContainer.style.display = 'none';
+
+                                try {
+                                    const response = await fetch('{% url "generate_design_story" %}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': getCookie('csrftoken')
+                                        },
+                                        body: JSON.stringify({
+                                            name: productName,
+                                            description: productDescription,
+                                            type: type
+                                        })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success) {
+                                        storyLoadingSpinner.style.display = 'none';
+                                        storySuggestionsContainer.style.display = 'block';
+                                        storySuggestionsList.innerHTML = '';
+
+                                        const suggestions = type === 'title' ? data.titles : data.stories;
+
+                                        if (suggestions && suggestions.length > 0) {
+                                            suggestions.forEach((suggestion) => {
+                                                const card = document.createElement('div');
+                                                card.className = 'suggestion-card';
+                                                card.innerHTML = `
+                                                    <div class="suggestion-text">${suggestion}</div>
+                                                    <div class="suggestion-length">${suggestion.length} characters</div>
+                                                `;
+                                                card.addEventListener('click', function() {
+                                                    if (type === 'title') {
+                                                        document.getElementById('id_title').value = suggestion;
+                                                    } else {
+                                                        quill.setText(suggestion);
+                                                        updateStoryCharCountAndPreview();
+                                                    }
+                                                    storyModal.style.display = 'none';
+                                                });
+                                                storySuggestionsList.appendChild(card);
+                                            });
+                                        } else {
+                                            throw new Error('No suggestions generated');
+                                        }
+                                    } else {
+                                        throw new Error(data.error || 'Failed to generate suggestions');
+                                    }
+                                } catch (error) {
+                                    storyLoadingSpinner.style.display = 'none';
+                                    storyErrorContainer.style.display = 'block';
+                                    storyErrorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                }
+                            }
+
+                            // Title generation button
+                            document.getElementById('generateStoryTitleBtn').addEventListener('click', function() {
+                                generateDesignStory('title');
+                            });
+
+                            // Story content generation button
+                            document.getElementById('generateStoryContentBtn').addEventListener('click', function() {
+                                generateDesignStory('story');
+                            });
+
+                            // Close story modal
+                            closeStoryModal.addEventListener('click', function() {
+                                storyModal.style.display = 'none';
+                            });
+
+                            // Close modal when clicking outside
+                            storyModal.addEventListener('click', function(e) {
+                                if (e.target === storyModal) {
+                                    storyModal.style.display = 'none';
+                                }
+                            });
+
+                            // Product Description AI Generation
+                            const descInputModal = document.getElementById('aiDescriptionInputModal');
+                            const descModal = document.getElementById('aiDescriptionModal');
+                            const descriptionInput = document.getElementById('descriptionInput');
+                            const closeDescInputModal = document.getElementById('closeDescInputModal');
+                            const closeDescModal = document.getElementById('closeDescModal');
+                            const submitDescriptionInput = document.getElementById('submitDescriptionInput');
+                            const descLoadingSpinner = document.getElementById('descLoadingSpinner');
+                            const descSuggestionsContainer = document.getElementById('descSuggestionsContainer');
+                            const descSuggestionsList = document.getElementById('descSuggestionsList');
+                            const descErrorContainer = document.getElementById('descErrorContainer');
+                            const descErrorMessage = document.getElementById('descErrorMessage');
+
+                            // Open input modal when clicking Generate with AI
+                            document.getElementById('generateDescriptionBtn').addEventListener('click', function() {
+                                const productName = document.getElementById('id_name').value.trim();
+                                if (!productName) {
+                                    alert('Please enter a product name first!');
+                                    return;
+                                }
+                                descInputModal.style.display = 'flex';
+                                descriptionInput.focus();
+                            });
+
+                            function sanitizeAIError(raw) {
+                                if (!raw) return 'AI service temporarily unavailable. Please try again later.';
+                                const low = String(raw).toLowerCase();
+                                if (low.includes('quota') || low.includes('429')) return 'AI quota exceeded. Please try again later.';
+                                if (low.length > 300) return 'AI service temporarily unavailable. Please try again later.';
+                                if (low.includes('http') || low.includes('https') || low.includes('{') || low.includes('}')) return 'AI service temporarily unavailable. Please try again later.';
+                                return String(raw);
+                            }
+
+                            let descRetryTimer = null;
+                            function startDescRetryCountdown(seconds) {
+                                const genBtn = document.getElementById('generateDescriptionBtn');
+                                if (genBtn) genBtn.disabled = true;
+
+                                if (descRetryTimer) { clearInterval(descRetryTimer); descRetryTimer = null; }
+                                const existing = document.getElementById('descRetryBtn');
+                                if (existing) existing.remove();
+
+                                let remaining = Math.max(0, Math.floor(seconds));
+                                const retryBtn = document.createElement('button');
+                                retryBtn.id = 'descRetryBtn';
+                                retryBtn.className = 'btn btn-pink mt-3';
+                                retryBtn.disabled = true;
+                                retryBtn.textContent = `Retry (${remaining}s)`;
+                                descErrorContainer.appendChild(retryBtn);
+
+                                descRetryTimer = setInterval(() => {
+                                    remaining -= 1;
+                                    if (remaining <= 0) {
+                                        clearInterval(descRetryTimer);
+                                        descRetryTimer = null;
+                                        retryBtn.disabled = false;
+                                        retryBtn.textContent = 'Retry now';
+                                        if (genBtn) genBtn.disabled = false;
+                                    } else {
+                                        retryBtn.textContent = `Retry (${remaining}s)`;
+                                    }
+                                }, 1000);
+
+                                retryBtn.addEventListener('click', function() {
+                                    retryBtn.remove();
+                                    descErrorContainer.style.display = 'none';
+                                    submitDescriptionInput.click();
+                                });
+                            }
+
+                            // Submit description input and generate
+                            submitDescriptionInput.addEventListener('click', async function() {
+                                const productName = document.getElementById('id_name').value.trim();
+                                const userInput = descriptionInput.value.trim();
+
+                                if (!userInput) {
+                                    alert('Please enter a description or keywords!');
+                                    return;
+                                }
+
+                                // Close input modal, open suggestions modal with loading
+                                descInputModal.style.display = 'none';
+                                descModal.style.display = 'flex';
+                                descLoadingSpinner.style.display = 'block';
+                                descSuggestionsContainer.style.display = 'none';
+                                descErrorContainer.style.display = 'none';
+
+                                try {
+                                    const genBtn = document.getElementById('generateDescriptionBtn');
+                                    if (genBtn) genBtn.disabled = true;
+                                    const response = await fetch('{% url "generate_product_description" %}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': getCookie('csrftoken')
+                                        },
+                                        body: JSON.stringify({
+                                            name: productName,
+                                            input: userInput
+                                        })
+                                    });
+
+                                    let data;
+                                    try {
+                                        data = await response.json();
+                                    } catch (jsonErr) {
+                                        if (!response.ok) {
+                                            if (response.status === 429) throw new Error('AI quota exceeded. Please try again later.');
+                                            throw new Error('AI service temporarily unavailable. Please try again later.');
+                                        }
+                                        throw new Error('Unexpected AI response. Please try again.');
+                                    }
+
+                                    if (response.ok && data.success && data.descriptions) {
+                                        descLoadingSpinner.style.display = 'none';
+                                        descSuggestionsContainer.style.display = 'block';
+                                        descSuggestionsList.innerHTML = '';
+
+                                        data.descriptions.forEach((description) => {
+                                            const card = document.createElement('div');
+                                            card.className = 'suggestion-card';
+                                            card.innerHTML = `
+                                                <div class="suggestion-text">${description}</div>
+                                                <div class="suggestion-length">${description.length} characters</div>
+                                            `;
+                                            card.addEventListener('click', function() {
+                                                document.getElementById('id_description').value = description;
+                                                descModal.style.display = 'none';
+                                                descriptionInput.value = ''; // Clear input for next time
+                                            });
+                                            descSuggestionsList.appendChild(card);
+                                        });
+                                    } else if (!response.ok) {
+                                        if (data && data.retry_seconds) {
+                                            descLoadingSpinner.style.display = 'none';
+                                            descErrorContainer.style.display = 'block';
+                                            descErrorMessage.textContent = sanitizeAIError(data.error);
+                                            startDescRetryCountdown(data.retry_seconds);
+                                            return;
+                                        }
+                                        throw new Error(sanitizeAIError(data.error));
+                                    } else {
+                                        throw new Error(sanitizeAIError(data.error || 'Failed to generate descriptions'));
+                                    }
+                                } catch (error) {
+                                    descLoadingSpinner.style.display = 'none';
+                                    descErrorContainer.style.display = 'block';
+                                    descErrorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                                    const genBtn = document.getElementById('generateDescriptionBtn');
+                                    if (genBtn && !descRetryTimer) genBtn.disabled = false;
+                                }
+                            });
+
+                            // Close description input modal
+                            closeDescInputModal.addEventListener('click', function() {
+                                descInputModal.style.display = 'none';
+                            });
+
+                            // Close description suggestions modal
+                            closeDescModal.addEventListener('click', function() {
+                                descModal.style.display = 'none';
+                            });
+
+                            // Close modals when clicking outside
+                            descInputModal.addEventListener('click', function(e) {
+                                if (e.target === descInputModal) {
+                                    descInputModal.style.display = 'none';
+                                }
+                            });
+
+                            descModal.addEventListener('click', function(e) {
+                                if (e.target === descModal) {
+                                    descModal.style.display = 'none';
+                                }
+                            });
+                        });
+                    </script>
+                    </div>
+
+                    <!-- SUBMIT BUTTONS -->
+                    <div class="form-section text-center mb-4">
+                        <div class="product-edit-btn-group">
+                            <button type="submit" class="btn btn-pink">
+                                UPDATE PRODUCT
+                            </button>
+                            <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-pink">
+                                CANCEL
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- DELETE BUTTON -->
+                    <div class="text-center pt-3 border-top border-dark">
+                        <button type="button" class="btn btn-danger btn-sm btn-delete-product" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
+                            <i class="fas fa-trash"></i> DELETE PRODUCT
+                        </button>
+                    </div>
+                </form>
+
+                <!-- AI Suggestions Modal -->
+                <div id="aiSuggestionsModal" class="ai-modal">
+                    <div class="ai-modal-content">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-sparkles"></i> AI-Generated SEO Descriptions</h3>
+                            <button type="button" class="ai-modal-close" id="closeModal">×</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <div id="loadingSpinner" class="loading-spinner-center">
+                                <div class="spinner-border spinner-border-pink" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="modal-loading-text">Generating SEO descriptions...</p>
+                            </div>
+                            <div id="suggestionsContainer" class="formset-hidden">
+                                <p class="modal-helper-text">Click on a suggestion to use it:</p>
+                                <div id="suggestionsList"></div>
+                            </div>
+                            <div id="errorContainer" class="error-container">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p id="errorMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Design Story Modal -->
+                <div id="aiDesignStoryModal" class="ai-modal">
+                    <div class="ai-modal-content">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-sparkles"></i> <span id="storyModalTitle">AI-Generated Suggestions</span></h3>
+                            <button type="button" class="ai-modal-close" id="closeStoryModal">×</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <div id="storyLoadingSpinner" class="loading-spinner-center">
+                                <div class="spinner-border spinner-border-pink" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="modal-loading-text">Generating suggestions...</p>
+                            </div>
+                            <div id="storySuggestionsContainer" class="formset-hidden">
+                                <p class="modal-helper-text">Click on a suggestion to use it:</p>
+                                <div id="storySuggestionsList"></div>
+                            </div>
+                            <div id="storyErrorContainer" class="error-container">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p id="storyErrorMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Description Input Modal -->
+                <div id="aiDescriptionInputModal" class="ai-modal">
+                    <div class="ai-modal-content">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-lightbulb"></i> Describe Your Product</h3>
+                            <button type="button" class="ai-modal-close" id="closeDescInputModal">×</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <p class="modal-helper-text">Enter a brief description or keywords about your product. AI will create SEO-optimized, sales-focused descriptions.</p>
+                            <textarea id="descriptionInput" rows="5" class="form-control desc-input" placeholder="Example: Black hoodie with skull design, streetwear style, premium cotton, sizes S-XXL..."></textarea>
+                            <div class="text-center mt-4">
+                                <button type="button" id="submitDescriptionInput" class="btn btn-pink">
+                                    <i class="fas fa-magic"></i> Generate Descriptions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Description Suggestions Modal -->
+                <div id="aiDescriptionModal" class="ai-modal">
+                    <div class="ai-modal-content ai-modal-content--wide">
+                        <div class="ai-modal-header">
+                            <h3><i class="fas fa-sparkles"></i> AI-Generated Product Descriptions</h3>
+                            <button type="button" class="ai-modal-close" id="closeDescModal">×</button>
+                        </div>
+                        <div class="ai-modal-body">
+                            <div id="descLoadingSpinner" class="loading-spinner-center">
+                                <div class="spinner-border spinner-border-pink" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="modal-loading-text">Generating SEO-optimized descriptions...</p>
+                            </div>
+                            <div id="descSuggestionsContainer" class="formset-hidden">
+                                <p class="modal-helper-text">Click on a description to use it:</p>
+                                <div id="descSuggestionsList"></div>
+                            </div>
+                            <div id="descErrorContainer" class="error-container">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p id="descErrorMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get ALL form inputs including formset fields
+    const formInputs = document.querySelectorAll('#editProductForm .form-control, #editProductForm select.auth-form-input, #editProductForm input.auth-form-input');
+
+    // File input clear X logic for main image
+    const mainFileInput = document.querySelector('input[type="file"][name$="main_image"]');
+    const mainClearX = document.querySelector('.file-input-wrapper > .clear-file-x');
+    if (mainFileInput && mainClearX) {
+        mainFileInput.addEventListener('change', function() {
+            mainClearX.style.display = mainFileInput.value ? 'inline' : 'none';
+            // Show preview using same markup as existing main image preview
+            const wrapper = mainFileInput.closest('.file-input-wrapper');
+            if (wrapper) {
+                const existingPreview = wrapper.parentElement.querySelector('.image-preview-current');
+                if (existingPreview && existingPreview.parentElement) existingPreview.parentElement.remove();
+                if (mainFileInput.files && mainFileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'mb-3';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Preview';
+                        img.className = 'image-preview-current';
+                        div.appendChild(img);
+                        // insert preview before the file input wrapper (same structure as existing main image)
+                        wrapper.parentElement.insertBefore(div, wrapper);
+                        // remove any stray 'Preview' text-only nodes that may exist from empty form markup
+                        Array.from(wrapper.parentElement.childNodes).forEach(function(node) {
+                            try {
+                                const text = (node.textContent || '').trim().toLowerCase();
+                                if (text === 'preview') node.remove();
+                            } catch (err) {
+                                // ignore
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(mainFileInput.files[0]);
+                }
+            }
+        });
+        mainClearX.addEventListener('click', function(e) {
+            e.preventDefault();
+            mainFileInput.value = '';
+            mainClearX.style.display = 'none';
+            const wrapper = mainFileInput.closest('.file-input-wrapper');
+            if (wrapper) {
+                const prev = wrapper.parentElement.querySelector('.image-preview-current');
+                if (prev && prev.parentElement) prev.parentElement.remove();
+            }
+        });
+    }
+
+    // File input clear X logic for additional images
+    document.querySelectorAll('.image-form-row .file-input-wrapper').forEach(function(wrapper) {
+        const fileInput = wrapper.querySelector('input[type="file"]');
+        const clearX = wrapper.querySelector('.clear-file-x');
+        if (fileInput && clearX) {
+            fileInput.addEventListener('change', function() {
+                clearX.style.display = fileInput.value ? 'inline' : 'none';
+            });
+            clearX.addEventListener('click', function(e) {
+                e.preventDefault();
+                fileInput.value = '';
+                clearX.style.display = 'none';
+            });
+        }
+    });
+
+    // Function to check if input has value (works for text, select, and number inputs)
+    function checkInputValue(input) {
+        if (input.tagName === 'SELECT') {
+            // For select elements, check if a value is selected
+            return input.value !== '' && input.value !== null;
+        } else if (input.type === 'number') {
+            // For number inputs, check if value exists
+            return input.value !== '';
+        } else {
+            // For text inputs
+            return input.value.trim() !== '';
+        }
+    }
+
+    formInputs.forEach(input => {
+        // Skip file inputs and checkboxes
+        if (input.type === 'file' || input.type === 'checkbox') {
+            return;
+        }
+
+        input.addEventListener('input', function() {
+            const errorElement = this.closest('div').querySelector('.form-error-text');
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+            if (checkInputValue(this)) {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+
+        input.addEventListener('change', function() {
+            if (checkInputValue(this)) {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+
+        input.addEventListener('blur', function() {
+            if (checkInputValue(this)) {
+                this.classList.add('has-value');
+            }
+        });
+
+        input.addEventListener('focus', function() {
+            const errorElement = this.closest('div').querySelector('.form-error-text');
+            if (errorElement && !this.hasAttribute('required')) {
+                errorElement.style.display = 'none';
+            }
+        });
+
+        // Set initial state for all inputs with values
+        if (checkInputValue(input)) {
+            input.classList.add('has-value');
+        }
+    });
+
+    // Add Image Button Functionality
+    const addImageBtn = document.getElementById('addImageBtn');
+    const imageFormsetContainer = document.getElementById('imageFormsetContainer');
+
+    if (addImageBtn && imageFormsetContainer) {
+        function attachImageInputListeners(wrapper) {
+            if (!wrapper) return;
+            const fileInput = wrapper.querySelector('input[type="file"]');
+            const clearX = wrapper.querySelector('.clear-file-x');
+
+            // ensure clearX exists
+            if (clearX) {
+                clearX.style.display = fileInput && fileInput.value ? 'inline' : 'none';
+                clearX.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (fileInput) fileInput.value = '';
+                    clearX.style.display = 'none';
+                    const prev = wrapper.querySelector('.image-preview-current');
+                    if (prev && prev.parentElement) prev.parentElement.remove();
+                });
+            }
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    if (clearX) clearX.style.display = fileInput.value ? 'inline' : 'none';
+                    // Show preview
+                    const existingPreview = wrapper.querySelector('.image-preview-current');
+                    if (existingPreview && existingPreview.parentElement) existingPreview.parentElement.remove();
+                        if (fileInput.files && fileInput.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                                const div = document.createElement('div');
+                                div.className = 'mb-3';
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.alt = 'Preview';
+                                img.className = 'image-preview-current';
+                                div.appendChild(img);
+                                // remove any stray 'Preview' text-only nodes inside this row (from empty form)
+                                Array.from(wrapper.querySelectorAll('*')).forEach(function(node) {
+                                    try {
+                                        const text = (node.textContent || '').trim().toLowerCase();
+                                        if (text === 'preview') node.remove();
+                                    } catch (err) {}
+                                });
+                                // insert preview at the top of the form row (same markup as main image preview)
+                                wrapper.insertBefore(div, wrapper.firstChild);
+                        };
+                        reader.readAsDataURL(fileInput.files[0]);
+                    }
+                });
+            }
+        }
+
+        addImageBtn.addEventListener('click', function() {
+            const totalForms = document.querySelector('input[name="images-TOTAL_FORMS"]');
+            const formCount = parseInt(totalForms.value || '0');
+            const lastForm = imageFormsetContainer.querySelector('.image-form-row:last-of-type');
+            let newForm;
+
+            if (lastForm) {
+                newForm = lastForm.cloneNode(true);
+                newForm.style.position = 'relative';
+                newForm.classList.add('dynamically-added');
+                const formRegex = new RegExp('images-\\d+-', 'g');
+                newForm.innerHTML = newForm.innerHTML.replace(formRegex, `images-${formCount}-`);
+                newForm.querySelectorAll('input[type="text"], input[type="number"], input[type="file"]').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('has-value');
+                });
+                const imagePreview = newForm.querySelector('.image-preview-current');
+                if (imagePreview && imagePreview.parentElement) {
+                    imagePreview.parentElement.remove();
+                }
+                const deleteCheckbox = newForm.querySelector('input[type="checkbox"]');
+                if (deleteCheckbox) deleteCheckbox.checked = false;
+            } else {
+                // Use empty form template
+                const template = document.getElementById('emptyImageFormTemplate');
+                newForm = document.createElement('div');
+                newForm.className = 'image-form-row mb-4 p-4 dynamically-added';
+                newForm.innerHTML = template.innerHTML.replace(/__prefix__/g, formCount);
+            }
+
+            // Add close button
+            const totalFormsField = document.querySelector('input[name="images-TOTAL_FORMS"]');
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'btn-close-formset';
+            closeBtn.innerHTML = '×';
+            closeBtn.title = 'Remove this form';
+            closeBtn.addEventListener('click', function() {
+                newForm.remove();
+                totalFormsField.value = parseInt(totalFormsField.value) - 1;
+            });
+            newForm.insertBefore(closeBtn, newForm.firstChild);
+
+            // Append new form and update total
+            imageFormsetContainer.appendChild(newForm);
+            totalForms.value = formCount + 1;
+
+            // Attach listeners for preview and clear
+            attachImageInputListeners(newForm);
+
+            // Re-init inputs for value styling
+            const newInputs = newForm.querySelectorAll('.form-control, select.auth-form-input, input.auth-form-input');
+            newInputs.forEach(input => {
+                if (input.type === 'file' || input.type === 'checkbox') return;
+                input.addEventListener('input', function() {
+                    if (checkInputValue(this)) this.classList.add('has-value'); else this.classList.remove('has-value');
+                });
+                input.addEventListener('change', function() {
+                    if (checkInputValue(this)) this.classList.add('has-value'); else this.classList.remove('has-value');
+                });
+            });
+        });
+    }
+
+    // Size/Color toggle status badges
+    function updateVariantStatusBadge(checkbox) {
+        const label = checkbox.closest('label');
+        if (!label) return;
+        const badge = label.querySelector('.variant-status-badge');
+        if (!badge) return;
+
+        if (checkbox.checked) {
+            badge.textContent = 'In Use';
+            badge.classList.remove('not-in-use');
+            badge.classList.add('in-use');
+        } else {
+            badge.textContent = 'Not in Use';
+            badge.classList.remove('in-use');
+            badge.classList.add('not-in-use');
+        }
+    }
+
+    document.querySelectorAll('#sizesToggles input[type="checkbox"], #colorToggles input[type="checkbox"]').forEach(checkbox => {
+        updateVariantStatusBadge(checkbox);
+        checkbox.addEventListener('change', function() {
+            updateVariantStatusBadge(this);
+        });
+    });
+
+});
+</script>
+
+
+</div>
+
+<!-- Delete Product Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="deleteProductModalLabel">
+                    <i class="fas fa-trash vault-modal-icon"></i>
+                    Delete Product
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message">
+                        Are you sure you want to delete <strong>{{ product.name }}</strong>?
+                        <br>
+                        <small class="text-muted">This action cannot be undone. All associated data including images, variants, and reviews will be permanently deleted.</small>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <form method="post" action="{% url 'delete_product' product.slug %}" class="display-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger vault-modal-btn-confirm">
+                        <i class="fas fa-trash"></i> Delete Product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

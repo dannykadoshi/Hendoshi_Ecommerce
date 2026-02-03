@@ -98,7 +98,7 @@
                                             {% else %}
                                                 <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn btn-sm btn-outline-pink btn-width-32 btn-height-32" title="Set as standard">
+                                                    <button type="submit" class="btn btn-sm btn-pink btn-width-32 btn-height-32" title="Set as standard">
                                                         <i class="fas fa-star"></i>
                                                     </button>
                                                 </form>
@@ -151,7 +151,7 @@
                                                 {% else %}
                                                     <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
                                                         {% csrf_token %}
-                                                        <button type="submit" class="btn btn-sm btn-outline-pink btn-width-80 btn-height-32"><i class="fas fa-star"></i> Set Standard</button>
+                                                        <button type="submit" class="btn btn-sm btn-pink btn-width-80 btn-height-32"><i class="fas fa-star"></i> Set Standard</button>
                                                     </form>
                                                 {% endif %}
                                                 <form method="post" action="{% url 'admin_shipping_delete' rate.id %}" class="display-inline" onsubmit="return false;">

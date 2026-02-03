@@ -1,0 +1,2405 @@
+{% load static %}
+{% load cloudinary %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <meta name="description"
+              content="{% block meta_description %}HENDOSHI - Wear Your Weird. Metal-inspired apparel with original skull, animal, and gym designs.{% endblock %}">
+        <meta name="keywords"
+              content="{% block meta_keywords %}metal apparel, gothic clothing, gym wear, unique t-shirts, alternative fashion, skull designs, heavy metal merch{% endblock %}">
+        <meta name="author" content="HENDOSHI">
+        <!-- Open Graph / Social Media -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="HENDOSHI">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        <meta property="og:title" content="HENDOSHI - Wear Your Weird">
+        <meta property="og:description"
+              content="{% block og_description %}Metal-inspired apparel with original skull, animal, and gym designs. No filler, just killer.{% endblock %}">
+        <meta property="og:image"
+              content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/hendoshi-gothic-tee.png' %}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:type" content="image/png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+        <meta name="twitter:title" content="HENDOSHI - Wear Your Weird">
+        <meta name="twitter:description"
+              content="{% block twitter_description %}Metal-inspired apparel with original skull, animal, and gym designs.{% endblock %}">
+        <meta name="twitter:image"
+              content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/hendoshi-gothic-tee.png' %}">
+        <title>HENDOSHI |
+            {% block extra_title %}{% endblock %}
+        </title>
+        {% block canonical %}
+        <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
+        {% endblock %}
+
+        <!-- Preload hero image for instant loading -->
+        <link rel="preload" as="image" href="{% static 'images/hero-1-gothic-1920.webp' %}">
+
+        <!-- Schema.org Organization and Website Structured Data -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "HENDOSHI",
+          "url": "https://hendoshi.com",
+          "logo": "https://hendoshi.com{% static 'images/hendoshi-logo.png' %}",
+          "description": "Metal-inspired apparel with original skull, animal, and gym designs. Wear Your Weird.",
+          "sameAs": [
+            "https://www.instagram.com/hendoshiart",
+            "https://www.tiktok.com/@hendoshi"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-555-HENDOSHI",
+            "contactType": "customer service",
+            "email": "support@hendoshi.com"
+          }
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "HENDOSHI",
+          "url": "https://hendoshi.com",
+          "description": "Wear Your Weird - Metal-inspired apparel with original designs",
+          "publisher": {
+            "@type": "Organization",
+            "name": "HENDOSHI"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://hendoshi.com/products/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+
+        <script>
+        // Set theme before page renders for no flicker
+        (function() {
+            try {
+                var theme = localStorage.getItem('theme');
+                if (theme === 'light') {
+                    document.documentElement.classList.add('light-mode');
+                } else {
+                    document.documentElement.classList.remove('light-mode');
+                }
+            } catch (e) {}
+        })();
+        </script>
+
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZV281N7TP0"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-ZV281N7TP0', {
+            'custom_map': {'custom_parameter': 'custom_value'}
+        });
+        </script>
+
+        <!-- Favicon -->
+        <link rel="icon"
+              type="image/x-icon"
+              href="{% static 'images/favicon.ico' %}">
+        <link rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="{% static 'images/pug-skull.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'images/pug-skull.png' %}">
+        
+        <!-- Resource Hints for Performance -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net">
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="dns-prefetch" href="//www.googletagmanager.com">
+        <link rel="dns-prefetch" href="//www.google-analytics.com">
+        
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+              rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <!-- Custom CSS -->
+        <!-- Base CSS with Variables -->
+        <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.9">
+        <!-- Components CSS -->
+        <link rel="stylesheet" href="{% static 'css/components.css' %}?v=1.0">
+        <!-- Navigation CSS -->
+        <link rel="stylesheet" href="{% static 'css/navigation.css' %}?v=2.0">
+        <!-- Hero Carousel CSS -->
+        <link rel="stylesheet" href="{% static 'css/hero-carousel.css' %}?v=1.2">
+        <!-- Products CSS -->
+        <link rel="stylesheet" href="{% static 'css/products.css' %}?v=1.0">
+        <!-- Cart & Checkout CSS -->
+        <link rel="stylesheet" href="{% static 'css/cart-checkout.css' %}?v=1.0">
+        <!-- Vault & Community CSS -->
+        <link rel="stylesheet" href="{% static 'css/vault-community.css' %}?v=1.0">
+        <!-- Profile & Account CSS -->
+        <link rel="stylesheet" href="{% static 'css/profile-account.css' %}?v=1.0">
+        <!-- Admin Pages CSS (only for staff) -->
+        {% if user.is_staff %}
+        <link rel="stylesheet" href="{% static 'css/admin-pages.css' %}?v=1.0">
+        {% endif %}
+        
+        <!-- Page-Specific CSS (extracted from inline styles for Code Institute compliance) -->
+        <link rel="stylesheet" href="{% static 'css/page-specific/home-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/products-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/checkout-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/profiles-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/themes-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/cookies-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/misc-pages.css' %}?v=1.0">
+        
+        <!-- Newsletter Popup CSS -->
+        <link rel="stylesheet" href="{% static 'css/newsletter-popup.css' %}">
+
+        <!-- Seasonal Themes CSS -->
+        {% if seasonal_theme %}
+        <link rel="stylesheet" href="{% static 'themes/css/seasonal_themes.css' %}">
+        <link rel="stylesheet" href="{% static 'themes/css/theme_' %}{{ seasonal_theme.theme_type }}.css">
+        {% endif %}
+
+        {% block extra_css %}{% endblock %}
+        {% block extra_js %}{% endblock %}
+    </head>
+    <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+        <!-- Toast Messages - Server-rendered -->
+        {% if messages %}
+            <div class="toast-container-custom">
+                {% for message in messages %}
+                    <div class="toast toast-{{ message.tags }}" role="alert" aria-live="assertive" aria-atomic="true" data-message="true">
+                        <div class="toast-content">
+                            <div class="toast-header">
+                                {% if message.tags == 'success' %}
+                                    <strong><i class="fas fa-check-circle"></i> Success</strong>
+                                {% elif message.tags == 'error' or message.tags == 'danger' %}
+                                    <strong><i class="fas fa-times-circle"></i> Error</strong>
+                                {% elif message.tags == 'warning' %}
+                                    <strong><i class="fas fa-exclamation-triangle"></i> Warning</strong>
+                                {% else %}
+                                    <strong><i class="fas fa-info-circle"></i> Info</strong>
+                                {% endif %}
+                            </div>
+                            <div class="toast-body">{{ message }}</div>
+                        </div>
+                        <button class="toast-close" aria-label="Close" onclick="this.closest('.toast').classList.add('toast-hiding'); setTimeout(() => this.closest('.toast').remove(), 300);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="toast-progress">
+                            <div class="toast-progress-bar"></div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const toasts = document.querySelectorAll('[data-message="true"]');
+                    toasts.forEach(function(toast, index) {
+                        // Stagger appearance for multiple toasts
+                        toast.style.animationDelay = (index * 0.1) + 's';
+
+                        let timeoutId;
+                        let remainingTime = 2000;
+                        let startTime = Date.now();
+
+                        // Pause timer on hover
+                        toast.addEventListener('mouseenter', function() {
+                            clearTimeout(timeoutId);
+                            remainingTime -= (Date.now() - startTime);
+                            // Pause progress bar
+                            const progressBar = toast.querySelector('.toast-progress-bar');
+                            if (progressBar) progressBar.style.animationPlayState = 'paused';
+                        });
+
+                        // Resume timer on mouse leave
+                        toast.addEventListener('mouseleave', function() {
+                            startTime = Date.now();
+                            timeoutId = setTimeout(dismissToast, remainingTime);
+                            // Resume progress bar
+                            const progressBar = toast.querySelector('.toast-progress-bar');
+                            if (progressBar) progressBar.style.animationPlayState = 'running';
+                        });
+
+                        function dismissToast() {
+                            toast.classList.add('toast-hiding');
+                            setTimeout(function() {
+                                if (toast.parentNode) toast.remove();
+                            }, 300);
+                        }
+
+                        // Start auto-dismiss timer
+                        timeoutId = setTimeout(dismissToast, 2000 + (index * 100));
+                    });
+                });
+            </script>
+        {% endif %}
+        
+        <!-- Discount Banner -->
+        <div class="discount-banner{% if discount_banner.is_high_value %} high-value{% endif %}" id="discountBanner"
+             {% if not discount_banner.show_discount_banner %}class="d-none"{% endif %}>
+
+            <!-- Confetti Canvas (for high-value discounts) -->
+            <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+            <!-- Banner Content -->
+            <div class="discount-banner-content">
+                <div class="discount-message-container">
+                    <div class="discount-message-scroll">
+                        {% for offer in discount_banner.all_offers %}
+                        <span class="discount-message-text">{{ offer.message|safe }}</span>
+                        <span class="discount-separator">|</span>
+                        {% endfor %}
+                        {% for offer in discount_banner.all_offers %}
+                        <span class="discount-message-text">{{ offer.message|safe }}</span>
+                        {% if not forloop.last %}<span class="discount-separator">|</span>{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copy Confirmation Tooltip -->
+            <div class="copy-tooltip" id="copyTooltip">Copied!</div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="navbar navbar-dark fixed-top">
+            <div class="container-fluid navbar-container">
+                <!-- Burger Menu (Mobile only) -->
+                <button class="navbar-burger" id="navBurger" type="button">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </button>
+                
+                <!-- Logo -->
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <span class="logo-text">HEND<i class="fas fa-skull"></i>SHI</span>
+                </a>
+                
+                <!-- Desktop Menu (Hidden on Mobile) -->
+                <ul class="navbar-menu desktop-menu">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="collectionsMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">Collections</a>
+                        <ul class="dropdown-menu" aria-labelledby="collectionsMenu">
+                            <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% if site_collections %}
+                                {% for c in site_collections %}
+                                    <li><a class="dropdown-item" href="{% url 'collection_detail' c.slug %}">{{ c.name }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=skulls-death">Skulls & Death</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=weird-animals">Weird Animals</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=gym-therapy">Gym Therapy</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?collection=dark-humor">Dark Humor</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="productTypeMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">Product Type</a>
+                        <ul class="dropdown-menu" aria-labelledby="productTypeMenu">
+                            {% if site_product_types %}
+                                {% for t in site_product_types %}
+                                    <li><a class="dropdown-item" href="{% url 'products' %}?type={{ t.slug }}">{{ t.name }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=tshirt">T-Shirts</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=hoodie">Hoodies</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=sticker">Stickers</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}?type=accessory">Accessories</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="audienceMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">Shop by Audience</a>
+                        <ul class="dropdown-menu" aria-labelledby="audienceMenu">
+                            <li><a class="dropdown-item" href="{% url 'audience_men' %}">Men</a></li>
+                            <li><a class="dropdown-item" href="{% url 'audience_women' %}">Women</a></li>
+                            <li><a class="dropdown-item" href="{% url 'audience_kids' %}">Kids</a></li>
+                            <li><a class="dropdown-item" href="{% url 'audience_unisex' %}">Unisex</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link gradient-text" href="{% url 'sale' %}">🔥 Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'new_drops' %}">New Drops</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="vaultMenu"
+                           role="button"
+                           data-bs-toggle="dropdown">The Vault</a>
+                        <ul class="dropdown-menu" aria-labelledby="vaultMenu">
+                            <li><a class="dropdown-item" href="{% url 'vault:vault_gallery' %}"><i class="fas fa-images"></i> Community Gallery</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#" id="hallOfFameMenu" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-trophy"></i> Hall of Fame
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="hallOfFameMenu">
+                                    <li><a class="dropdown-item" href="{% url 'vault:hall_of_fame_overview' %}"><i class="fas fa-info-circle"></i> What Makes a Legend</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'vault:hall_of_fame' %}"><i class="fas fa-star"></i> Legendary Photos</a></li>
+                                </ul>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'vault:submit_photo' %}"><i class="fas fa-plus"></i> Submit Photo</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                </ul>
+                
+                <!-- Right Side Icons -->
+                <div class="navbar-right">
+                    <!-- Search Icon + Floating Search Box (Desktop) -->
+                    <div class="desktop-search-container">
+                        <button class="nav-icon search-toggle" id="desktopSearchToggle" title="Search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <div class="floating-search-box" id="floatingSearchBox">
+                            <form class="floating-search-form" action="{% url 'search' %}" method="get">
+                                <input class="floating-search-input"
+                                       type="search"
+                                       name="q"
+                                       placeholder="Search designs..."
+                                       value="{{ request.GET.q }}"
+                                       aria-label="Search"
+                                       id="floatingSearchInput">
+                                <button class="floating-search-btn" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Icons (Always visible) -->
+                    <div class="mobile-icons">
+                        {% if user.is_authenticated %}
+                        <a class="nav-icon battle-vest-icon" href="{% url 'battle_vest' %}" title="Battle Vest">
+                            <i class="fas fa-heart"></i>
+                            <span class="vest-count-badge" id="battleVestCount">0</span>
+                        </a>
+                        {% else %}
+                        <a class="nav-icon" href="{% url 'account_login' %}" title="Login to access Battle Vest">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        {% endif %}
+                        <div class="dropdown">
+                            <button class="nav-icon dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_authenticated %}
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+                                    {% if user.is_staff %}
+                                    <li class="admin-panel-dropdown-wrapper">
+                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#">
+                                            <span><i class="fas fa-cog"></i> Admin Panel</span>
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                        <ul class="dropdown-menu admin-panel-submenu">
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Django Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_products' %}"><i class="fas fa-boxes"></i> Products Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Orders Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_themes_list' %}"><i class="fas fa-magic"></i> Seasonal Themes</a></li>
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu" role="button" data-bs-toggle="dropdown">
+                                                    <i class="fas fa-gavel"></i> Content Moderation
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="contentModerationMenu">
+                                                    <li><a class="dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    {% endif %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Icons (Hidden on Mobile) -->
+                    <div class="desktop-icons">
+                        {% if user.is_authenticated %}
+                        <a class="nav-icon battle-vest-icon" href="{% url 'battle_vest' %}" title="Battle Vest">
+                            <i class="fas fa-heart"></i>
+                            <span class="vest-count-badge" id="battleVestCountDesktop">0</span>
+                        </a>
+                        {% else %}
+                        <a class="nav-icon" href="{% url 'account_login' %}" title="Login to access Battle Vest">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        {% endif %}
+                        <div class="dropdown">
+                            <button class="nav-icon dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_authenticated %}
+                                    <li>
+                                        <a class="dropdown-item menu-dropdown-item" href="{% url 'profile' %}">
+                                            <i class="fas fa-user-circle"></i> Profile
+                                        </a>
+                                    </li>
+                                    {% if user.is_staff %}
+                                    <li class="admin-panel-dropdown-wrapper">
+                                        <a class="dropdown-item menu-dropdown-item admin-panel-toggle" href="#">
+                                            <span><i class="fas fa-cog"></i> Admin Panel</span>
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                        <ul class="dropdown-menu admin-panel-submenu">
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> Django Dashboard</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_products' %}"><i class="fas fa-boxes"></i> Products Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_orders_list' %}"><i class="fas fa-clipboard-list"></i> Orders Management</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_list_subscribers' %}"><i class="fas fa-envelope"></i> Newsletter Subscribers</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
+                                            <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_themes_list' %}"><i class="fas fa-magic"></i> Seasonal Themes</a></li>
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu2" role="button" data-bs-toggle="dropdown">
+                                                    <i class="fas fa-gavel"></i> Content Moderation
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="contentModerationMenu2">
+                                                    <li><a class="dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    {% endif %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                    <li><a class="dropdown-item menu-dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <button class="nav-icon theme-toggle" id="desktopThemeToggle" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    <a class="nav-icon cart-icon" href="{% url 'view_cart' %}">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count-badge {% if not cart_item_count or cart_item_count == 0 %}badge-hidden{% endif %}" id="cartCountBadge">{{ cart_item_count|default:0 }}</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Slide-in Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <!-- Menu Header with Logo and Close Button -->
+            <div class="mobile-menu-header">
+                <a href="{% url 'home' %}" class="menu-logo">
+                    <span class="logo-text">HEND<i class="fas fa-skull"></i>SHI</span>
+                </a>
+                <button class="menu-close-btn" id="mobileMenuClose" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Discount Code Section -->
+            <div class="menu-discount-section">
+                <p class="discount-text">10% OFF on your First Order</p>
+                <p class="discount-code">Use Code: <strong>Welcome</strong></p>
+            </div>
+            
+            <!-- Top Menu Icons -->
+            <div class="menu-top-icons">
+                <button class="menu-icon" id="accountMenuToggle">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </button>
+                {% if user.is_authenticated %}
+                <a href="{% url 'battle_vest' %}" class="menu-icon">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorites</span>
+                </a>
+                {% else %}
+                <a href="{% url 'account_login' %}" class="menu-icon">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorites</span>
+                </a>
+                {% endif %}
+                <button class="menu-icon" id="mobileSearchToggle">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </button>
+                <button class="menu-icon" id="currencySwitcher">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentCurrency">US</span>
+                </button>
+            </div>
+
+            <!-- Collapsible Search in Mobile Menu -->
+            <div class="mobile-search-box" id="mobileSearchBox">
+                <form class="search-form" action="{% url 'search' %}" method="get">
+                    <div class="search-wrapper">
+                        <input class="form-control search-input" 
+                               type="search" 
+                               name="q" 
+                               placeholder="Search..." 
+                               value="{{ request.GET.q }}"
+                               aria-label="Search">
+                        <button class="btn search-btn" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Menu Content Container -->
+            <div class="menu-content-wrapper">
+            <!-- Currency Submenu -->
+            <div class="menu-submenu hidden" id="currencySubmenu">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Currency</button>
+                <div class="submenu-content">
+                    <button class="submenu-item submenu-item-animate" data-currency="US">
+                        <span>🇺🇸 United States</span>
+                    </button>
+                    <button class="submenu-item submenu-item-animate" data-currency="EU">
+                        <span>🇪🇺 European Union</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Submenu -->
+            <div class="menu-submenu hidden" id="accountSubmenu">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Account</button>
+                <div class="submenu-content">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="submenu-item submenu-item-animate">
+                            <i class="fas fa-user-circle"></i> <span>Profile</span>
+                        </a>
+                        {% if user.is_staff %}
+                        <button class="submenu-item submenu-trigger submenu-item-animate" data-submenu="admin-panel">
+                            <i class="fas fa-cog"></i> <span>Admin Panel</span>
+                            <i class="fas fa-chevron-right submenu-arrow-icon"></i>
+                        </button>
+                        {% endif %}
+                        <a href="{% url 'account_logout' %}" class="submenu-item submenu-item-animate">
+                            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="submenu-item submenu-item-animate">
+                            <i class="fas fa-sign-in-alt"></i> <span>Login</span>
+                        </a>
+                        <a href="{% url 'account_signup' %}" class="submenu-item submenu-item-animate">
+                            <i class="fas fa-user-plus"></i> <span>Sign Up</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Admin Panel Submenu -->
+            <div class="menu-submenu hidden" id="submenuAdminPanel">
+                <button class="submenu-back" data-back="account"><i class="fas fa-chevron-left"></i> Admin Panel</button>
+                <div class="submenu-content">
+                    <a href="{% url 'admin:index' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-tachometer-alt"></i> <span>Django Dashboard</span>
+                    </a>
+                    <a href="{% url 'admin_list_subscribers' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-envelope"></i> <span>Newsletter Subscribers</span>
+                    </a>
+                    <a href="{% url 'admin_list_products' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-boxes"></i> <span>Products Management</span>
+                    </a>
+                    <a href="{% url 'admin_orders_list' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-clipboard-list"></i> <span>Orders Management</span>
+                    </a>
+                    <a href="{% url 'admin_discount_codes_list' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-tags"></i> <span>Discount Codes</span>
+                    </a>
+                    <a href="{% url 'admin_shipping_list' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-shipping-fast"></i> <span>Shipping Rates</span>
+                    </a>
+                    <a href="{% url 'admin_themes_list' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-magic"></i> <span>Seasonal Themes</span>
+                    </a>
+                    <button class="submenu-item submenu-trigger submenu-item-animate" data-submenu="moderation">
+                        <i class="fas fa-gavel"></i> <span>Content Moderation</span>
+                        <i class="fas fa-chevron-right submenu-arrow-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Moderation Submenu (mobile) -->
+            <div class="menu-submenu hidden" id="submenuModeration">
+                <button class="submenu-back" data-back="admin-panel"><i class="fas fa-chevron-left"></i> Content Moderation</button>
+                <div class="submenu-content">
+                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-star-half-alt"></i> <span>Review Moderation</span>
+                    </a>
+                    <a href="{% url 'vault:moderate_photos' %}" class="submenu-item submenu-item-animate">
+                        <i class="fas fa-camera"></i> <span>Vault Moderation</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Menu Items -->
+            <div class="menu-main" id="menuMain">
+                <ul class="menu-items">
+                    <li class="menu-item-group menu-item-animate">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="collections">
+                            <i class="fas fa-layer-group menu-item-icon"></i> Collections
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="collections"><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-group menu-item-animate">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="product-type">
+                            <i class="fas fa-tshirt menu-item-icon"></i> Product Type
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="product-type"><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-group menu-item-animate">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="audience">
+                            <i class="fas fa-venus-mars menu-item-icon"></i> Shop by Audience
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="audience"><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-group menu-item-sale menu-item-animate" onclick="window.location.href='{% url 'sale' %}'">
+                        <span class="menu-item-header">
+                            <i class="fas fa-fire-alt menu-item-icon sale-icon"></i> <span class="sale-text">Sale</span>
+                        </span>
+                        <button class="menu-item-arrow" disabled><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-group menu-item-animate" onclick="window.location.href='{% url 'new_drops' %}'">
+                        <span class="menu-item-header">
+                            <i class="fas fa-bolt menu-item-icon"></i> New Drops
+                        </span>
+                        <button class="menu-item-arrow" disabled><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-group menu-item-animate">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="vault">
+                            <i class="fas fa-gem menu-item-icon"></i> The Vault
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="vault"><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-group menu-item-animate">
+                        <button class="menu-item-header menu-item-trigger" data-submenu="about">
+                            <i class="fas fa-info-circle menu-item-icon"></i> About
+                        </button>
+                        <button class="menu-item-arrow" data-submenu="about"><i class="fas fa-chevron-right"></i></button>
+                    </li>
+                    <li class="menu-item-divider"></li>
+                    <li class="menu-item-animate">
+                        <button class="menu-item menu-theme-toggle" id="mobileThemeToggle">
+                            <i class="fas fa-moon"></i> <span>Dark Mode</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Collections Submenu -->
+            <div class="menu-submenu hidden" id="submenuCollections">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Collections</button>
+                <div class="submenu-content">
+                    <a href="{% url 'products' %}" class="submenu-item submenu-item-animate"><i class="fas fa-th-large"></i> All Products</a>
+                    {% if site_collections %}
+                        {% for c in site_collections %}
+                            <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter }};"><i class="fas fa-folder"></i> {{ c.name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item submenu-item-animate"><i class="fas fa-skull"></i> Skulls & Death</a>
+                        <a href="{% url 'collection_detail' 'weird-animals' %}" class="submenu-item submenu-item-animate"><i class="fas fa-paw"></i> Weird Animals</a>
+                        <a href="{% url 'collection_detail' 'gym-therapy' %}" class="submenu-item submenu-item-animate"><i class="fas fa-dumbbell"></i> Gym Therapy</a>
+                        <a href="{% url 'collection_detail' 'dark-humor' %}" class="submenu-item submenu-item-animate"><i class="fas fa-laugh-squint"></i> Dark Humor</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Product Type Submenu -->
+            <div class="menu-submenu hidden" id="submenuProductType">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Product Type</button>
+                <div class="submenu-content">
+                    {% if site_product_types %}
+                        {% for t in site_product_types %}
+                            <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter0 }};"><i class="fas fa-tag"></i> {{ t.name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="{% url 'products' %}?type=tshirt" class="submenu-item submenu-item-animate"><i class="fas fa-tshirt"></i> T-Shirts</a>
+                        <a href="{% url 'products' %}?type=hoodie" class="submenu-item submenu-item-animate"><i class="fas fa-mitten"></i> Hoodies</a>
+                        <a href="{% url 'products' %}?type=sticker" class="submenu-item submenu-item-animate"><i class="fas fa-sticky-note"></i> Stickers</a>
+                        <a href="{% url 'products' %}?type=accessory" class="submenu-item submenu-item-animate"><i class="fas fa-ring"></i> Accessories</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Audience Submenu -->
+            <div class="menu-submenu hidden" id="submenuAudience">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Shop by Audience</button>
+                <div class="submenu-content">
+                    <a href="{% url 'audience_men' %}" class="submenu-item submenu-item-animate"><i class="fas fa-male"></i> Men</a>
+                    <a href="{% url 'audience_women' %}" class="submenu-item submenu-item-animate"><i class="fas fa-female"></i> Women</a>
+                    <a href="{% url 'audience_kids' %}" class="submenu-item submenu-item-animate"><i class="fas fa-child"></i> Kids</a>
+                    <a href="{% url 'audience_unisex' %}" class="submenu-item submenu-item-animate"><i class="fas fa-users"></i> Unisex</a>
+                </div>
+            </div>
+            
+            <!-- The Vault Submenu -->
+            <div class="menu-submenu hidden" id="submenuVault">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> The Vault</button>
+                <div class="submenu-content">
+                    <a href="{% url 'vault:vault_gallery' %}" class="submenu-item submenu-item-animate"><i class="fas fa-images"></i> Community Gallery</a>
+                    <button class="submenu-item submenu-trigger submenu-item-animate" data-submenu="hall-of-fame">
+                        <i class="fas fa-trophy"></i> <span>Hall of Fame</span>
+                        <i class="fas fa-chevron-right submenu-arrow-icon"></i>
+                    </button>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'vault:submit_photo' %}" class="submenu-item submenu-item-animate"><i class="fas fa-camera"></i> Submit Photo</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Hall of Fame Submenu -->
+            <div class="menu-submenu hidden" id="submenuHallOfFame">
+                <button class="submenu-back" data-back="vault"><i class="fas fa-chevron-left"></i> Hall of Fame</button>
+                <div class="submenu-content">
+                    <a href="{% url 'vault:hall_of_fame_overview' %}" class="submenu-item submenu-item-animate"><i class="fas fa-info-circle"></i> What Makes a Legend</a>
+                    <a href="{% url 'vault:hall_of_fame' %}" class="submenu-item submenu-item-animate"><i class="fas fa-crown"></i> Legendary Photos</a>
+                </div>
+            </div>
+
+            <!-- About Submenu -->
+            <div class="menu-submenu hidden" id="submenuAbout">
+                <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> About</button>
+                <div class="submenu-content">
+                    <a href="{% url 'about' %}" class="submenu-item submenu-item-animate"><i class="fas fa-book-open"></i> Our Story</a>
+                    <a href="{% url 'contact' %}" class="submenu-item submenu-item-animate"><i class="fas fa-envelope"></i> Contact Us</a>
+                </div>
+            </div>
+            </div> <!-- End menu-content-wrapper -->
+
+            <!-- Social Links Footer -->
+            <div class="menu-footer">
+                <div class="menu-social-links">
+                    <a href="https://instagram.com/hendoshiart" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://twitter.com/hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <a href="https://pinterest.com/hendoshi" target="_blank" rel="noopener" class="social-link" aria-label="Pinterest">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+                <p class="menu-copyright">&copy; {% now "Y" %} Hendoshi</p>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+        <!-- Cart Drawer Overlay -->
+        <div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+
+        <!-- Cart Drawer (Slide-in Panel) -->
+        <div class="cart-drawer" id="cartDrawer">
+            <div class="cart-drawer-header">
+                <div class="cart-drawer-header-content">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <span>Added to your cart</span>
+                </div>
+                <button class="cart-drawer-close" id="cartDrawerClose" aria-label="Close cart drawer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="cart-drawer-body">
+                <!-- Item Just Added -->
+                <div class="cart-drawer-item" id="cartDrawerItem">
+                    <div class="cart-drawer-item-image">
+                        <img src="" alt="" id="cartDrawerItemImage">
+                    </div>
+                    <div class="cart-drawer-item-details">
+                        <h4 class="cart-drawer-item-name" id="cartDrawerItemName"></h4>
+                        <p class="cart-drawer-item-variant" id="cartDrawerItemVariant"></p>
+                        <div class="cart-drawer-item-price-row">
+                            <span class="cart-drawer-item-qty" id="cartDrawerItemQty"></span>
+                            <span class="cart-drawer-item-price" id="cartDrawerItemPrice"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-drawer-summary">
+                    <div class="cart-drawer-summary-row">
+                        <span>Subtotal</span>
+                        <span id="cartDrawerSubtotal">€0.00</span>
+                    </div>
+                    <div class="cart-drawer-summary-row cart-drawer-discount-row" id="cartDrawerDiscountRow" class="d-none">
+                        <span>Discount (<span id="cartDrawerDiscountCode"></span>)</span>
+                        <span class="text-success">-€<span id="cartDrawerDiscountAmount">0.00</span></span>
+                    </div>
+                    <div class="cart-drawer-summary-row cart-drawer-total-row">
+                        <span>Total (<span id="cartDrawerItemCount">0</span> items)</span>
+                        <span id="cartDrawerTotal">€0.00</span>
+                    </div>
+                </div>
+
+                <!-- Discount Code Input -->
+                <div class="cart-drawer-discount-input" id="cartDrawerDiscountInput">
+                    <form id="cartDrawerDiscountForm" class="cart-drawer-discount-form">
+                        {% csrf_token %}
+                        <div class="cart-drawer-discount-field">
+                            <input type="text" id="cartDrawerDiscountCodeInput" name="discount_code" 
+                                   placeholder="Enter discount code" class="cart-drawer-discount-text" 
+                                   maxlength="20" autocomplete="off">
+                            <button type="submit" class="cart-drawer-discount-apply" id="cartDrawerDiscountApply">
+                                <i class="fas fa-tag"></i> Apply
+                            </button>
+                        </div>
+                        <div class="cart-drawer-discount-message" id="cartDrawerDiscountMessage" class="d-none"></div>
+                    </form>
+                </div>
+
+                <!-- Free Shipping Progress -->
+                <div class="cart-drawer-shipping" id="cartDrawerShipping">
+                    <div class="cart-drawer-shipping-progress">
+                        <div class="cart-drawer-shipping-bar" id="cartDrawerShippingBar" style="width: 0%"></div>
+                    </div>
+                    <p class="cart-drawer-shipping-text" id="cartDrawerShippingText">
+                        <i class="fas fa-truck me-1"></i> Add <span id="cartDrawerShippingRemaining">€50.00</span> more for FREE shipping!
+                    </p>
+                </div>
+
+                <!-- Related Products Carousel -->
+                <div class="cart-drawer-related" id="cartDrawerRelated" class="d-none">
+                    <div class="cart-drawer-related-header">
+                        <h5 class="cart-drawer-related-title">
+                            <img src="{% static 'images/pug-skull.webp' %}" alt="Skull Pug" class="cart-drawer-title-icon me-2" style="width: 24px; height: 24px;">More weird, more wonderful
+                        </h5>
+                    </div>
+                    <div class="cart-drawer-carousel-container">
+                        <button type="button" class="cart-drawer-carousel-btn cart-drawer-carousel-prev" id="carouselPrev" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="cart-drawer-carousel" id="cartDrawerCarousel">
+                            <!-- Product cards will be inserted here by JavaScript -->
+                        </div>
+                        <button type="button" class="cart-drawer-carousel-btn cart-drawer-carousel-next" id="carouselNext" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="cart-drawer-related-cta">
+                        <a href="{% url 'products' %}" class="cart-drawer-browse-more">
+                            <i class="fas fa-plus me-1"></i> Browse More Products
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-drawer-footer">
+                <a href="{% url 'checkout' %}" class="btn cart-drawer-btn-checkout">
+                    <i class="fas fa-credit-card me-2"></i> Checkout Now
+                </a>
+                <a href="{% url 'view_cart' %}" class="btn cart-drawer-btn-cart">
+                    <i class="fas fa-shopping-cart me-2"></i> View Full Cart
+                </a>
+                <button type="button" class="btn cart-drawer-btn-continue" id="cartDrawerContinue">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Seasonal Theme Message Strip -->
+        {% if show_theme_message_strip and theme_strip_messages %}
+        <div id="seasonalMessageStrip" class="seasonal-message-strip speed-{{ theme_strip_speed }}" style="background: {{ theme_strip_gradient }}; display: none;">
+            <div class="seasonal-message-content">
+                {% for message in theme_strip_messages %}
+                <span class="seasonal-message-text">{{ message }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h5>HENDOSHI</h5>
+                        <p class="tagline">WEAR YOUR WEIRD</p>
+                        <p>Metal meets mayhem. Original designs for those who embrace their weird.</p>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Shop</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{% url 'sale' %}" class="gradient-text-footer">🔥 Sale</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'new_drops' %}">New Drops</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'collections' %}">Collections</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'product_types' %}">Products</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Customer Care</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{% url 'track_order' %}">Track Your Order</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'contact' %}">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'faq' %}">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'about' %}">About Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Legal</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{% url 'privacy' %}">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'returns' %}">Return Policy</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'shipping' %}">Shipping Policy</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'size_guide' %}">Size Guide</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cookie_settings' %}">Cookie Settings</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Join the Cult</h5>
+                        <p>Get exclusive drops and weird content.</p>
+                        <form class="newsletter-form" id="newsletterForm" novalidate>
+                            <label for="newsletter-email" class="visually-hidden">Email</label>
+                            <input type="email" id="newsletter-email" name="email" class="form-control mb-2" placeholder="Your email..." autocomplete="email" required>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" value="1" id="newsletter-consent" name="consent">
+                                <label class="form-check-label small" for="newsletter-consent">I agree to receive marketing emails and accept the <a href="{% url 'privacy' %}" style="color: #ff1493; text-decoration: none; font-weight: 600;">Privacy Policy</a>.</label>
+                            </div>
+                            
+                            <div class="newsletter-error"></div>
+                            <button type="submit" class="btn btn-pink w-100">Subscribe</button>
+                        </form>
+                        
+                        <div class="social-icons mt-3">
+                            <a href="https://www.instagram.com/hendoshiart/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/hendoshiart" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/hendoshiart" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="https://ie.pinterest.com/hendoshiart/" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Methods -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="footer-payment-methods">
+                            <span class="payment-label">We Accept</span>
+                            <div class="payment-icons-wrapper">
+                                <i class="fab fa-cc-visa payment-icon"></i>
+                                <i class="fab fa-cc-mastercard payment-icon"></i>
+                                <i class="fab fa-cc-amex payment-icon"></i>
+                                <i class="fab fa-cc-apple-pay payment-icon"></i>
+                                <i class="fab fa-google-pay payment-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+                <div class="text-center">
+                    <p class="mb-0">© 2025 HENDOSHI · Wear Your Weird</p>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Custom Modular JS -->
+        <script src="{% static 'js/base.js' %}"></script>
+        <script src="{% static 'js/theme-toggle.js' %}"></script>
+        <script src="{% static 'js/navigation-dropdown.js' %}"></script>
+        <script src="{% static 'js/utils.js' %}"></script>
+        <script src="{% static 'js/hero-carousel.js' %}"></script>
+        <script src="{% static 'js/newsletter-validation.js' %}"></script>
+        <script src="{% static 'js/carousels.js' %}"></script>
+        
+        <script>
+            // Admin Panel Dropdown - Click only (submenu opens to the left)
+            document.addEventListener('DOMContentLoaded', function() {
+                function closeAllAdminSubmenus() {
+                    document.querySelectorAll('.admin-panel-submenu').forEach(menu => {
+                        menu.classList.remove('show');
+                        if (menu.parentElement) menu.parentElement.classList.remove('show');
+                    });
+                }
+
+                // Handle Admin Panel click to toggle submenu (open to left)
+                document.querySelectorAll('.admin-panel-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const wrapper = this.closest('.admin-panel-dropdown-wrapper');
+                        const submenu = wrapper.querySelector('.admin-panel-submenu');
+                        // Toggle .show class for submenu
+                        const isOpen = submenu.classList.contains('show');
+                        closeAllAdminSubmenus();
+                        if (!isOpen) {
+                            submenu.classList.add('show');
+                            wrapper.classList.add('show');
+                        }
+                    });
+                });
+
+                // Prevent submenu from closing when clicking inside it
+                document.querySelectorAll('.admin-panel-submenu').forEach(submenu => {
+                    submenu.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'A' || e.target.closest('a')) {
+                            return;
+                        }
+                        e.stopPropagation();
+                    });
+                });
+
+                // Close submenu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.admin-panel-dropdown-wrapper')) {
+                        closeAllAdminSubmenus();
+                    }
+                });
+
+                // Close submenu when parent dropdown closes
+                document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
+                    parentDropdown.addEventListener('hidden.bs.dropdown', function() {
+                        closeAllAdminSubmenus();
+                    });
+                });
+            });
+
+            // Mobile Menu Functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                const navBurger = document.getElementById('navBurger');
+                const mobileMenu = document.getElementById('mobileMenu');
+                const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+                const mobileMenuClose = document.getElementById('mobileMenuClose');
+                const currencySwitcher = document.getElementById('currencySwitcher');
+                const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+                const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+                const mobileSearchBox = document.getElementById('mobileSearchBox');
+                const menuArrows = document.querySelectorAll('.menu-item-arrow');
+                const menuTriggers = document.querySelectorAll('.menu-item-trigger');
+                const submenuBackButtons = document.querySelectorAll('.submenu-back');
+
+                // Toggle mobile menu
+                function toggleMobileMenu() {
+                    navBurger.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                    mobileMenuOverlay.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
+                }
+
+                // Close mobile menu (for close button)
+                function closeMobileMenu() {
+                    navBurger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+
+                navBurger.addEventListener('click', toggleMobileMenu);
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+                if (mobileMenuClose) {
+                    mobileMenuClose.addEventListener('click', closeMobileMenu);
+                }
+                                // Mobile search toggle (in burger menu)
+                                if (mobileSearchToggle && mobileSearchBox) {
+                                    mobileSearchToggle.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        mobileSearchBox.classList.toggle('show');
+                                        const input = mobileSearchBox.querySelector('.search-input');
+                                        if (mobileSearchBox.classList.contains('show') && input) {
+                                            setTimeout(() => input.focus(), 100);
+                                        }
+                                    });
+                                }
+                
+                // Menu triggers (Collections, Product Type text)
+                menuTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenuId = this.dataset.submenu;
+                        const submenu = document.getElementById('submenu' + submenuId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''));
+                        
+                        const mainMenu = document.getElementById('menuMain');
+                        mainMenu.style.transform = 'translateX(-100%)';
+                        
+                        if (submenu) {
+                            submenu.classList.remove('hidden');
+                            setTimeout(() => {
+                                submenu.style.transform = 'translateX(0)';
+                            }, 10);
+                        }
+                    });
+                });
+                
+                // Menu item arrows (submenu navigation)
+                menuArrows.forEach(arrow => {
+                    arrow.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenuId = this.dataset.submenu;
+                        const submenu = document.getElementById('submenu' + submenuId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''));
+                        
+                        const mainMenu = document.getElementById('menuMain');
+                        mainMenu.style.transform = 'translateX(-100%)';
+                        
+                        if (submenu) {
+                            submenu.classList.remove('hidden');
+                            setTimeout(() => {
+                                submenu.style.transform = 'translateX(0)';
+                            }, 10);
+                        }
+                    });
+                });
+                
+                // Submenu back buttons
+                submenuBackButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const backTo = this.dataset.back;
+                        const currentSubmenu = this.closest('.menu-submenu');
+
+                        if (backTo === 'main') {
+                            // Going back to main menu
+                            const mainMenu = document.getElementById('menuMain');
+                            mainMenu.style.transform = 'translateX(0)';
+
+                            currentSubmenu.style.transform = 'translateX(100%)';
+                            setTimeout(() => {
+                                currentSubmenu.classList.add('hidden');
+                            }, 300);
+                        } else if (backTo === 'account') {
+                            // Going back to account submenu
+                            const accountSubmenu = document.getElementById('accountSubmenu');
+
+                            currentSubmenu.style.transform = 'translateX(100%)';
+                            setTimeout(() => {
+                                currentSubmenu.classList.add('hidden');
+                                accountSubmenu.style.transform = 'translateX(0)';
+                            }, 300);
+                        } else if (backTo === 'vault') {
+                            // Going back to vault submenu
+                            const vaultSubmenu = document.getElementById('submenuVault');
+
+                            currentSubmenu.style.transform = 'translateX(100%)';
+                            setTimeout(() => {
+                                currentSubmenu.classList.add('hidden');
+                                vaultSubmenu.style.transform = 'translateX(0)';
+                            }, 300);
+                        }
+                    });
+                });
+
+                // Handle submenu triggers (like Admin Panel)
+                const submenuTriggers = document.querySelectorAll('.submenu-trigger');
+                submenuTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const submenuId = this.dataset.submenu;
+                        const targetSubmenu = document.getElementById('submenu' + submenuId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''));
+                        const currentSubmenu = this.closest('.menu-submenu');
+
+                        if (targetSubmenu) {
+                            // Hide current submenu
+                            currentSubmenu.style.transform = 'translateX(-100%)';
+
+                            // Show target submenu
+                            targetSubmenu.classList.remove('hidden');
+                            setTimeout(() => {
+                                targetSubmenu.style.transform = 'translateX(0)';
+                            }, 10);
+                        }
+                    });
+                });
+                
+                // Currency switcher
+                currencySwitcher.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const mainMenu = document.getElementById('menuMain');
+                    const currencySubmenu = document.getElementById('currencySubmenu');
+                    
+                    mainMenu.style.transform = 'translateX(-100%)';
+                    currencySubmenu.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        currencySubmenu.style.transform = 'translateX(0)';
+                    }, 10);
+                });
+                
+                // Account menu toggle
+                const accountMenuToggle = document.getElementById('accountMenuToggle');
+                if (accountMenuToggle) {
+                    accountMenuToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const mainMenu = document.getElementById('menuMain');
+                        const accountSubmenu = document.getElementById('accountSubmenu');
+                        
+                        mainMenu.style.transform = 'translateX(-100%)';
+                        accountSubmenu.classList.remove('hidden');
+                        
+                        setTimeout(() => {
+                            accountSubmenu.style.transform = 'translateX(0)';
+                        }, 10);
+                    });
+                }
+                
+                // Currency selection
+                const currencyItems = document.querySelectorAll('#currencySubmenu .submenu-item');
+                currencyItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const currency = this.dataset.currency;
+                        document.getElementById('currentCurrency').textContent = currency;
+                        
+                        // Close submenu
+                        const mainMenu = document.getElementById('menuMain');
+                        const currencySubmenu = document.getElementById('currencySubmenu');
+                        mainMenu.style.transform = 'translateX(0)';
+                        currencySubmenu.style.transform = 'translateX(100%)';
+                        
+                        setTimeout(() => {
+                            currencySubmenu.classList.add('hidden');
+                            currencySubmenu.style.transform = 'translateX(100%)';
+                        }, 300);
+                    });
+                });
+                
+                // Mobile theme toggle
+                if (mobileThemeToggle) {
+                    mobileThemeToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const html = document.documentElement;
+                        const isDarkMode = html.classList.contains('light-mode');
+                        
+                        if (isDarkMode) {
+                            html.classList.remove('light-mode');
+                            localStorage.setItem('theme', 'dark');
+                            this.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+                        } else {
+                            html.classList.add('light-mode');
+                            localStorage.setItem('theme', 'light');
+                            this.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+                        }
+                    });
+                    
+                    // Update button text on load
+                    const html = document.documentElement;
+                    if (html.classList.contains('light-mode')) {
+                        mobileThemeToggle.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+                    } else {
+                        mobileThemeToggle.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+                    }
+                }
+                
+                // Desktop theme toggle
+                const desktopThemeToggle = document.getElementById('desktopThemeToggle');
+                if (desktopThemeToggle) {
+                    desktopThemeToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const html = document.documentElement;
+
+                        if (html.classList.contains('light-mode')) {
+                            html.classList.remove('light-mode');
+                            localStorage.setItem('theme', 'dark');
+                            this.innerHTML = '<i class="fas fa-sun"></i>';
+                        } else {
+                            html.classList.add('light-mode');
+                            localStorage.setItem('theme', 'light');
+                            this.innerHTML = '<i class="fas fa-moon"></i>';
+                        }
+                    });
+
+                    // Update icon on load
+                    const html = document.documentElement;
+                    if (html.classList.contains('light-mode')) {
+                        desktopThemeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    } else {
+                        desktopThemeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    }
+                }
+
+                // Desktop floating search toggle
+                const desktopSearchToggle = document.getElementById('desktopSearchToggle');
+                const floatingSearchBox = document.getElementById('floatingSearchBox');
+                const floatingSearchInput = document.getElementById('floatingSearchInput');
+
+                if (desktopSearchToggle && floatingSearchBox) {
+                    desktopSearchToggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        floatingSearchBox.classList.toggle('active');
+                        desktopSearchToggle.classList.toggle('active');
+
+                        // Focus on input when opened
+                        if (floatingSearchBox.classList.contains('active') && floatingSearchInput) {
+                            setTimeout(() => floatingSearchInput.focus(), 100);
+                        }
+                    });
+
+                    // Close search box when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!e.target.closest('.desktop-search-container')) {
+                            floatingSearchBox.classList.remove('active');
+                            desktopSearchToggle.classList.remove('active');
+                        }
+                    });
+
+                    // Close on Escape key
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape' && floatingSearchBox.classList.contains('active')) {
+                            floatingSearchBox.classList.remove('active');
+                            desktopSearchToggle.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        </script>
+
+        <!-- Global Toast Notification Function -->
+        <script>
+        function showToast(message, type = 'success') {
+            // Get or create toast container
+            let toastContainer = document.querySelector('.toast-container-custom');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container-custom';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Define icon and title based on type
+            const config = {
+                success: { icon: 'fa-check-circle', title: 'Success' },
+                error: { icon: 'fa-times-circle', title: 'Error' },
+                danger: { icon: 'fa-times-circle', title: 'Error' },
+                warning: { icon: 'fa-exclamation-triangle', title: 'Warning' },
+                info: { icon: 'fa-info-circle', title: 'Info' }
+            };
+            const { icon, title } = config[type] || config.info;
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            toast.style.position = 'relative';
+
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <div class="toast-header">
+                        <strong><i class="fas ${icon}"></i> ${title}</strong>
+                    </div>
+                    <div class="toast-body">${message}</div>
+                </div>
+                <button class="toast-close" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="toast-progress">
+                    <div class="toast-progress-bar"></div>
+                </div>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Store timeout ID for pause/resume functionality
+            let timeoutId;
+            let remainingTime = 2000;
+            let startTime = Date.now();
+
+            // Close button functionality
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dismissToast();
+            });
+
+            // Pause on hover
+            toast.addEventListener('mouseenter', () => {
+                clearTimeout(timeoutId);
+                remainingTime -= (Date.now() - startTime);
+            });
+
+            // Resume on mouse leave
+            toast.addEventListener('mouseleave', () => {
+                startTime = Date.now();
+                timeoutId = setTimeout(dismissToast, remainingTime);
+            });
+
+            // Dismiss function
+            function dismissToast() {
+                toast.classList.add('toast-hiding');
+                setTimeout(() => toast.remove(), 300);
+            }
+
+            // Auto-remove after 2 seconds
+            timeoutId = setTimeout(dismissToast, 2000);
+        }
+        </script>
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" class="back-to-top-btn" title="Back to top">
+            <span class="back-to-top-text">TOP</span>
+            <i class="fas fa-arrow-up back-to-top-arrow"></i>
+            <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="back-to-top-pug" loading="lazy">
+        </button>
+
+        <script>
+        // Back to Top Button Functionality
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        // Scroll to top when clicked
+        backToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        </script>
+
+        {% if user.is_authenticated %}
+        <script>
+        // Load Battle Vest count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get user's first product to check vest (we can use any product or create a dedicated endpoint)
+            // For now, we'll add a context processor to pass the count
+            // But we can also fetch it via AJAX if needed
+
+            // Update both mobile and desktop count badges
+            function updateVestCountBadges(count) {
+                const mobileBadge = document.getElementById('battleVestCount');
+                const desktopBadge = document.getElementById('battleVestCountDesktop');
+
+                if (mobileBadge) {
+                    mobileBadge.textContent = count;
+                    mobileBadge.style.display = count > 0 ? 'inline-block' : 'none';
+                }
+
+                if (desktopBadge) {
+                    desktopBadge.textContent = count;
+                    desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+                }
+            }
+
+            // Initialize count from server (we'll add this via context processor)
+            {% if request.user.battle_vest %}
+            updateVestCountBadges({{ request.user.battle_vest.get_item_count }});
+            {% else %}
+            updateVestCountBadges(0);
+            {% endif %}
+        });
+
+        // Collections Carousel Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const collectionsTrack = document.getElementById('collections-track');
+            const collectionsPrevBtn = document.getElementById('collections-prev');
+            const collectionsNextBtn = document.getElementById('collections-next');
+
+            if (collectionsTrack && collectionsPrevBtn && collectionsNextBtn) {
+                let currentIndex = 0;
+                let autoRotateInterval;
+                const items = collectionsTrack.children;
+                const itemWidth = 280 + 24; // card width + gap
+                const visibleItems = Math.floor(collectionsTrack.parentElement.offsetWidth / itemWidth) || 1;
+                const maxIndex = Math.max(0, items.length - visibleItems);
+
+                function updateCarousel() {
+                    const translateX = -currentIndex * itemWidth;
+                    collectionsTrack.style.transform = `translateX(${translateX}px)`;
+
+                    // Update button states
+                    collectionsPrevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+                    collectionsNextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+                }
+
+                function startAutoRotate() {
+                    autoRotateInterval = setInterval(function() {
+                        if (currentIndex < maxIndex) {
+                            currentIndex++;
+                            updateCarousel();
+                        } else {
+                            stopAutoRotate(); // Stop when reaching the end
+                        }
+                    }, 4000); // Auto-rotate every 4 seconds
+                }
+
+                function stopAutoRotate() {
+                    if (autoRotateInterval) {
+                        clearInterval(autoRotateInterval);
+                    }
+                }
+
+                collectionsPrevBtn.addEventListener('click', function() {
+                    stopAutoRotate(); // Stop auto-rotation when user interacts
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateCarousel();
+                    }
+                    startAutoRotate(); // Restart auto-rotation after user interaction
+                });
+
+                collectionsNextBtn.addEventListener('click', function() {
+                    stopAutoRotate(); // Stop auto-rotation when user interacts
+                    if (currentIndex < maxIndex) {
+                        currentIndex++;
+                        updateCarousel();
+                    }
+                    startAutoRotate(); // Restart auto-rotation after user interaction
+                });
+
+                // Initialize
+                updateCarousel();
+                startAutoRotate(); // Start auto-rotation
+
+                // Update on window resize
+                window.addEventListener('resize', function() {
+                    const newVisibleItems = Math.floor(collectionsTrack.parentElement.offsetWidth / itemWidth) || 1;
+                    const newMaxIndex = Math.max(0, items.length - newVisibleItems);
+
+                    if (currentIndex > newMaxIndex) {
+                        currentIndex = newMaxIndex;
+                    }
+
+                    updateCarousel();
+                });
+            }
+        });
+        </script>
+        {% endif %}
+
+        <!-- Discount Banner JavaScript - Enhanced -->
+        <script id="discount-offers-data" type="application/json">{{ discount_banner.all_offers_json|default:"[]"|safe }}</script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+            const discountBanner = document.getElementById('discountBanner');
+            const discountClose = document.getElementById('discountClose');
+            const navbar = document.querySelector('.navbar');
+            const discountMessage = document.getElementById('discountMessage');
+            const copyTooltip = document.getElementById('copyTooltip');
+            const confettiCanvas = document.getElementById('confettiCanvas');
+
+            if (!discountBanner) return;
+
+            // Data attributes
+            const isHighValue = discountBanner.dataset.highValue === 'true';
+
+            // All offers data (safely parsed from JSON script tag)
+            let allOffers = [];
+            try {
+                const offersDataEl = document.getElementById('discount-offers-data');
+                if (offersDataEl) {
+                    allOffers = JSON.parse(offersDataEl.textContent || '[]');
+                }
+            } catch (jsonErr) {
+                console.warn('Failed to parse discount offers JSON:', jsonErr);
+            }
+
+            // URL override for testing
+            const urlParams = new URLSearchParams(window.location.search || '');
+            const forceShow = urlParams.get('show_discount_banner') === '1' || urlParams.get('show_discount_banner') === 'true';
+
+            // ============================================
+            // CLICK-TO-COPY FUNCTIONALITY (with robust fallback and feedback)
+            // ============================================
+            function initCopyToClipboard() {
+                discountBanner.addEventListener('click', async function(e) {
+                    const codeElement = e.target.closest('.discount-code-text');
+                    if (!codeElement) return;
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const code = codeElement.dataset.code || codeElement.textContent.trim();
+
+                    function showCopiedFeedback() {
+                        // Show tooltip
+                        if (copyTooltip) {
+                            copyTooltip.classList.add('show');
+                            setTimeout(() => {
+                                copyTooltip.classList.remove('show');
+                            }, 2000);
+                        }
+
+                        // Visual feedback on the code
+                        codeElement.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            codeElement.style.transform = '';
+                        }, 200);
+
+                        // Global toast notification for clarity
+                        try {
+                            if (typeof showToast === 'function') {
+                                showToast('Copied code: ' + code, 'success');
+                            }
+                        } catch (e) {
+                            // No-op
+                        }
+                    }
+
+                    // Try navigator.clipboard first (preferred)
+                    try {
+                        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                            await navigator.clipboard.writeText(code);
+                            showCopiedFeedback();
+                            return;
+                        }
+                    } catch (err) {
+                        console.warn('navigator.clipboard.writeText failed:', err);
+                    }
+
+                    // Fallback to document.execCommand for older browsers / insecure contexts
+                    try {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = code;
+                        textarea.style.position = 'fixed'; // avoid scrolling to bottom
+                        textarea.style.left = '-9999px';
+                        textarea.setAttribute('aria-hidden', 'true');
+                        document.body.appendChild(textarea);
+                        textarea.focus();
+                        textarea.select();
+
+                        const successful = document.execCommand && document.execCommand('copy');
+                        document.body.removeChild(textarea);
+
+                        if (successful) {
+                            showCopiedFeedback();
+                            return;
+                        } else {
+                            console.warn('Fallback copy (execCommand) failed');
+                        }
+                    } catch (err) {
+                        console.warn('Fallback copy failed:', err);
+                    }
+
+                    // If copying failed, notify user
+                    try {
+                        if (typeof showToast === 'function') {
+                            showToast('Could not copy code to clipboard', 'warning');
+                        } else {
+                            alert('Could not copy code to clipboard. Code: ' + code);
+                        }
+                    } catch (e) {}
+                });
+            }
+
+            // ============================================
+            // CONFETTI EFFECT FOR HIGH-VALUE DISCOUNTS
+            // Implemented as a controller exposed at window.confettiController
+            // so it can be started/stopped when offers change.
+            // ============================================
+            function initConfetti() {
+                if (!confettiCanvas) return;
+
+                const ctx = confettiCanvas.getContext('2d');
+                let confettiPieces = [];
+                const colors = ['#FF1493', '#FFD700', '#FF6B35', '#00CED1', '#9400D3', '#FF69B4'];
+                let animationId = null;
+                let running = false;
+
+                class Confetti {
+                    constructor() {
+                        this.reset();
+                    }
+
+                    reset() {
+                        this.x = Math.random() * confettiCanvas.width;
+                        this.y = -10;
+                        this.size = Math.random() * 6 + 3;
+                        this.speedY = Math.random() * 2 + 1;
+                        this.speedX = (Math.random() - 0.5) * 2;
+                        this.rotation = Math.random() * 360;
+                        this.rotationSpeed = (Math.random() - 0.5) * 10;
+                        this.color = colors[Math.floor(Math.random() * colors.length)];
+                        this.opacity = 1;
+                    }
+
+                    update() {
+                        this.y += this.speedY;
+                        this.x += this.speedX;
+                        this.rotation += this.rotationSpeed;
+                        this.opacity -= 0.008;
+
+                        if (this.y > confettiCanvas.height || this.opacity <= 0) {
+                            this.reset();
+                        }
+                    }
+
+                    draw() {
+                        ctx.save();
+                        ctx.translate(this.x, this.y);
+                        ctx.rotate(this.rotation * Math.PI / 180);
+                        ctx.globalAlpha = this.opacity;
+                        ctx.fillStyle = this.color;
+                        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
+                        ctx.restore();
+                    }
+                }
+
+                function resizeCanvas() {
+                    confettiCanvas.width = confettiCanvas.offsetWidth;
+                    confettiCanvas.height = confettiCanvas.offsetHeight;
+                }
+
+                function animate() {
+                    if (!running) return;
+                    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                    confettiPieces.forEach(piece => {
+                        piece.update();
+                        piece.draw();
+                    });
+                    animationId = requestAnimationFrame(animate);
+                }
+
+                function startConfetti() {
+                    if (running) return;
+                    running = true;
+                    resizeCanvas();
+
+                    // If no pieces, create subtle particle rain
+                    if (confettiPieces.length === 0) {
+                        for (let i = 0; i < 30; i++) {
+                            const piece = new Confetti();
+                            piece.y = Math.random() * confettiCanvas.height;
+                            confettiPieces.push(piece);
+                        }
+                    }
+
+                    animate();
+                }
+
+                function burstConfetti(count = 20) {
+                    for (let i = 0; i < count; i++) {
+                        setTimeout(() => {
+                            const piece = new Confetti();
+                            piece.x = confettiCanvas.width / 2;
+                            piece.speedX = (Math.random() - 0.5) * 8;
+                            piece.speedY = Math.random() * 3 + 2;
+                            confettiPieces.push(piece);
+                        }, i * 30);
+                    }
+                }
+
+                function stopConfetti() {
+                    running = false;
+                    if (animationId) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    }
+                    // Clear particles after a short delay so last frame fades out
+                    setTimeout(() => {
+                        try { ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); } catch (e) {}
+                        confettiPieces = [];
+                    }, 200);
+                }
+
+                // Expose controller globally so cycling code can trigger it
+                window.confettiController = {
+                    start: startConfetti,
+                    stop: stopConfetti,
+                    burst: burstConfetti,
+                    isRunning: () => running
+                };
+
+                // Initialize canvas size and optional auto-start if initial offer flagged
+                resizeCanvas();
+                if (isHighValue && window.confettiController) {
+                    window.confettiController.start();
+                    window.confettiController.burst();
+                }
+
+                // Handle resize
+                window.addEventListener('resize', resizeCanvas);
+            }
+
+            // ============================================
+            // AUTO-SCROLL BEHAVIOR (Hide on scroll down, show on scroll up)
+            // ============================================
+            function initScrollBehavior() {
+                let lastScrollY = window.scrollY || 0;
+                let ticking = false;
+                let isHidden = false;
+
+                function updateBannerVisibility() {
+                    const currentScrollY = window.scrollY || 0;
+                    const scrollThreshold = 100; // Start hiding after 100px scroll
+
+                    if (currentScrollY > scrollThreshold) {
+                        // Scrolled past threshold - hide banner
+                        if (!isHidden) {
+                            discountBanner.classList.add('banner-hidden');
+                            if (navbar) navbar.classList.add('banner-dismissed');
+                            isHidden = true;
+                        }
+                    } else {
+                        // Near top - show banner
+                        if (isHidden) {
+                            discountBanner.classList.remove('banner-hidden');
+                            if (navbar) navbar.classList.remove('banner-dismissed');
+                            isHidden = false;
+                        }
+                    }
+
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                }
+
+                // Run once on init to set the correct initial visibility (handles page loads where user starts scrolled)
+                try { updateBannerVisibility(); } catch (e) {}
+
+                window.addEventListener('scroll', function() {
+                    if (!ticking) {
+                        requestAnimationFrame(updateBannerVisibility);
+                        ticking = true;
+                    }
+                }, { passive: true });
+
+                // Ensure banner updates when user returns to the tab or window (visibility/focus changes)
+                window.addEventListener('visibilitychange', function() { try { updateBannerVisibility(); } catch (e) {} });
+                window.addEventListener('focus', function() { try { updateBannerVisibility(); } catch (e) {} });
+            }
+
+            // ============================================
+            // REDUCED MOTION SUPPORT
+            // ============================================
+            function initReducedMotion() {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    discountBanner.classList.add('reduced-motion');
+                }
+            }
+
+            // ============================================
+            // INITIALIZE ALL FEATURES
+            // ============================================
+            initReducedMotion();
+            initCopyToClipboard();
+            initConfetti();
+            initScrollBehavior();
+            } catch (err) {
+                console.error('Discount banner error:', err);
+            }
+        });
+        </script>
+
+        <!-- Seasonal Themes JavaScript -->
+        {% if seasonal_theme %}
+        <script src="{% static 'themes/js/seasonal_themes.js' %}"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize seasonal theme animations
+            SeasonalThemes.init({
+                theme: '{{ seasonal_theme.theme_type }}',
+                speed: '{{ seasonal_theme.animation_speed }}',
+                density: '{{ seasonal_theme.particle_density }}',
+                isPaused: {{ seasonal_theme.is_paused|yesno:"true,false" }}
+            });
+
+            // Position the message strip after the first vault-hero
+            const messageStrip = document.getElementById('seasonalMessageStrip');
+            if (messageStrip) {
+                const vaultHero = document.querySelector('.vault-hero');
+                if (vaultHero) {
+                    // Insert the strip right after the vault-hero
+                    vaultHero.parentNode.insertBefore(messageStrip, vaultHero.nextSibling);
+                    messageStrip.style.display = 'block';
+                }
+            }
+        });
+        </script>
+        {% endif %}
+
+        <!-- Cart Drawer JavaScript -->
+        <script>
+        // Global cart drawer functions
+        function updateCartCount(count) {
+            const badge = document.getElementById('cartCountBadge');
+            if (badge) {
+                badge.textContent = count;
+                if (count > 0) {
+                    badge.classList.remove('badge-hidden');
+                } else {
+                    badge.classList.add('badge-hidden');
+                }
+            }
+        }
+
+        function showCartDrawer(data) {
+            // Update drawer with item details
+            document.getElementById('cartDrawerItemImage').src = data.item.image_url;
+            document.getElementById('cartDrawerItemImage').alt = data.item.name;
+            document.getElementById('cartDrawerItemName').textContent = data.item.name;
+
+            // Build variant text (handle missing size/color)
+            const variantParts = [];
+            if (data.item.size) variantParts.push(data.item.size);
+            if (data.item.color) variantParts.push(data.item.color);
+            const variantElement = document.getElementById('cartDrawerItemVariant');
+            if (variantParts.length > 0) {
+                variantElement.textContent = variantParts.join(' / ');
+                variantElement.style.display = 'block';
+            } else {
+                variantElement.style.display = 'none';
+            }
+
+            document.getElementById('cartDrawerItemQty').textContent = `Qty: ${data.item.quantity}`;
+            document.getElementById('cartDrawerItemPrice').textContent = `€${data.item.total.toFixed(2)}`;
+
+            // Update summary
+            document.getElementById('cartDrawerSubtotal').textContent = `€${data.cart_subtotal.toFixed(2)}`;
+            document.getElementById('cartDrawerItemCount').textContent = data.cart_count;
+            document.getElementById('cartDrawerTotal').textContent = `€${data.cart_total.toFixed(2)}`;
+
+            // Handle discount
+            const discountRow = document.getElementById('cartDrawerDiscountRow');
+            const discountInput = document.getElementById('cartDrawerDiscountInput');
+            if (data.discount_code) {
+                document.getElementById('cartDrawerDiscountCode').textContent = data.discount_code;
+                document.getElementById('cartDrawerDiscountAmount').textContent = data.discount_amount.toFixed(2);
+                discountRow.style.display = 'flex';
+                discountInput.style.display = 'none';
+            } else {
+                discountRow.style.display = 'none';
+                discountInput.style.display = 'block';
+            }
+
+            // Calculate and show free shipping progress
+            updateShippingProgress(data.cart_subtotal);
+
+            // Populate related products carousel
+            if (data.related_products && data.related_products.length > 0) {
+                populateRelatedProducts(data.related_products);
+                document.getElementById('cartDrawerRelated').style.display = 'block';
+            } else {
+                document.getElementById('cartDrawerRelated').style.display = 'none';
+            }
+
+            // Show the drawer
+            document.getElementById('cartDrawerOverlay').classList.add('active');
+            document.getElementById('cartDrawer').classList.add('active');
+            document.body.classList.add('cart-drawer-open');
+        }
+
+        // Generate star rating HTML
+        function generateStarRating(rating) {
+            let html = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    html += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    html += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    html += '<i class="fas fa-star empty"></i>';
+                }
+            }
+            return html;
+        }
+
+        // Populate related products carousel
+        function populateRelatedProducts(products) {
+            const carousel = document.getElementById('cartDrawerCarousel');
+            carousel.innerHTML = '';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'cart-drawer-product-card';
+                card.innerHTML = `
+                    <a href="${product.url}" class="cart-drawer-product-image">
+                        <img src="${product.image_url}" alt="${product.name}" loading="lazy">
+                        <button type="button" class="cart-drawer-quick-add"
+                                data-product-id="${product.id}"
+                                data-default-size="${product.default_size}"
+                                data-default-color="${product.default_color}"
+                                title="Quick add to cart"
+                                onclick="event.preventDefault(); event.stopPropagation(); quickAddToCart(this);">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </a>
+                    <a href="${product.url}" class="cart-drawer-product-info">
+                        <h6 class="cart-drawer-product-name">${product.name}</h6>
+                        <div class="cart-drawer-product-rating">
+                            <span class="cart-drawer-product-stars">${generateStarRating(product.rating)}</span>
+                            <span class="cart-drawer-product-reviews">(${product.review_count})</span>
+                        </div>
+                        <span class="cart-drawer-product-price">€${product.price.toFixed(2)}</span>
+                    </a>
+                `;
+                carousel.appendChild(card);
+            });
+
+            // Initialize carousel buttons state
+            updateCarouselButtons();
+        }
+
+        // Quick add to cart from carousel
+        function quickAddToCart(button) {
+            const productId = button.dataset.productId;
+            const size = button.dataset.defaultSize;
+            const color = button.dataset.defaultColor;
+
+            // If no size/color, redirect to product page
+            if (!size || !color) {
+                const card = button.closest('.cart-drawer-product-card');
+                const link = card.querySelector('a').href;
+                window.location.href = link;
+                return;
+            }
+
+            // Show loading state
+            const originalHtml = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+
+            // Get CSRF token (try form field, meta tag, then cookie)
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value ||
+                              document.querySelector('meta[name="csrf-token"]')?.content ||
+                              getCookie('csrftoken');
+
+            fetch(`/cart/add/${productId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `csrfmiddlewaretoken=${encodeURIComponent(csrfToken)}&size=${encodeURIComponent(size)}&color=${encodeURIComponent(color)}&quantity=1`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Update cart count
+                    updateCartCount(data.cart_count);
+
+                    // Show success state briefly
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    button.classList.add('adding');
+
+                    // Update cart drawer totals
+                    document.getElementById('cartDrawerSubtotal').textContent = `€${data.cart_subtotal.toFixed(2)}`;
+                    document.getElementById('cartDrawerItemCount').textContent = data.cart_count;
+                    document.getElementById('cartDrawerTotal').textContent = `€${data.cart_total.toFixed(2)}`;
+                    updateShippingProgress(data.cart_subtotal);
+
+                    setTimeout(() => {
+                        button.innerHTML = originalHtml;
+                        button.classList.remove('adding');
+                        button.disabled = false;
+                    }, 1500);
+                } else {
+                    button.innerHTML = originalHtml;
+                    button.disabled = false;
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || 'Could not add to cart', 'error');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Quick add error:', error);
+                button.innerHTML = originalHtml;
+                button.disabled = false;
+            });
+        }
+
+        // Carousel navigation
+        function updateCarouselButtons() {
+            const carousel = document.getElementById('cartDrawerCarousel');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+
+            if (!carousel || !prevBtn || !nextBtn) return;
+
+            prevBtn.disabled = carousel.scrollLeft <= 0;
+            nextBtn.disabled = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 5;
+        }
+
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('cartDrawerCarousel');
+            const cardWidth = 148; // card width + gap
+            const scrollAmount = cardWidth * 2;
+
+            carousel.scrollBy({
+                left: direction === 'next' ? scrollAmount : -scrollAmount,
+                behavior: 'smooth'
+            });
+
+            setTimeout(updateCarouselButtons, 350);
+        }
+
+        // Get CSRF cookie helper
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function updateShippingProgress(subtotal) {
+            const freeShippingThreshold = 50.00;
+            const remaining = Math.max(0, freeShippingThreshold - subtotal);
+            const percentage = Math.min(100, (subtotal / freeShippingThreshold) * 100);
+            
+            const shippingBar = document.getElementById('cartDrawerShippingBar');
+            const shippingText = document.getElementById('cartDrawerShippingText');
+            const shippingRemaining = document.getElementById('cartDrawerShippingRemaining');
+            
+            shippingBar.style.width = `${percentage}%`;
+            shippingRemaining.textContent = `€${remaining.toFixed(2)}`;
+
+            if (remaining === 0) {
+                shippingText.innerHTML = '<i class="fas fa-check-circle text-success me-1"></i> Congrats! 🎉 You\'ve unlocked FREE SHIPPING';
+            } else {
+                shippingText.innerHTML = '<i class="fas fa-truck me-1"></i> Add <span id="cartDrawerShippingRemaining">€' + remaining.toFixed(2) + '</span> more for FREE shipping!';
+            }
+        }
+
+        function hideCartDrawer() {
+            document.getElementById('cartDrawerOverlay').classList.remove('active');
+            document.getElementById('cartDrawer').classList.remove('active');
+            document.body.classList.remove('cart-drawer-open');
+        }
+
+        // Cart drawer event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cart drawer close functionality
+            const cartDrawerClose = document.getElementById('cartDrawerClose');
+            const cartDrawerContinue = document.getElementById('cartDrawerContinue');
+            const cartDrawerOverlay = document.getElementById('cartDrawerOverlay');
+
+            if (cartDrawerClose) {
+                cartDrawerClose.addEventListener('click', hideCartDrawer);
+            }
+
+            if (cartDrawerContinue) {
+                cartDrawerContinue.addEventListener('click', hideCartDrawer);
+            }
+
+            if (cartDrawerOverlay) {
+                cartDrawerOverlay.addEventListener('click', hideCartDrawer);
+            }
+
+            // Carousel navigation
+            const carouselPrev = document.getElementById('carouselPrev');
+            const carouselNext = document.getElementById('carouselNext');
+            const carousel = document.getElementById('cartDrawerCarousel');
+
+            if (carouselPrev) {
+                carouselPrev.addEventListener('click', () => scrollCarousel('prev'));
+            }
+
+            if (carouselNext) {
+                carouselNext.addEventListener('click', () => scrollCarousel('next'));
+            }
+
+            if (carousel) {
+                carousel.addEventListener('scroll', updateCarouselButtons);
+            }
+
+            // Close drawer on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('cartDrawer').classList.contains('active')) {
+                    hideCartDrawer();
+                }
+            });
+
+            // Discount code functionality
+            const discountForm = document.getElementById('cartDrawerDiscountForm');
+            const discountInput = document.getElementById('cartDrawerDiscountCodeInput');
+            const discountApplyBtn = document.getElementById('cartDrawerDiscountApply');
+            const discountMessage = document.getElementById('cartDrawerDiscountMessage');
+
+            if (discountForm) {
+                discountForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    applyDiscountCode();
+                });
+            }
+
+            if (discountInput) {
+                discountInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        applyDiscountCode();
+                    }
+                });
+            }
+        });
+
+        // Apply discount code function
+        function applyDiscountCode() {
+            const discountInput = document.getElementById('cartDrawerDiscountCodeInput');
+            const discountApplyBtn = document.getElementById('cartDrawerDiscountApply');
+            const discountMessage = document.getElementById('cartDrawerDiscountMessage');
+            
+            const code = discountInput.value.trim().toUpperCase();
+            
+            if (!code) {
+                showDiscountMessage('Please enter a discount code', 'error');
+                return;
+            }
+
+            // Disable button and show loading
+            discountApplyBtn.disabled = true;
+            discountApplyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            const csrfToken = getCookie('csrftoken');
+            
+            fetch('/checkout/apply-discount/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `csrfmiddlewaretoken=${encodeURIComponent(csrfToken)}&discount_code=${encodeURIComponent(code)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart totals
+                    document.getElementById('cartDrawerSubtotal').textContent = `€${data.cart_subtotal.toFixed(2)}`;
+                    document.getElementById('cartDrawerTotal').textContent = `€${data.cart_total.toFixed(2)}`;
+                    
+                    // Show discount row
+                    if (data.discount_code) {
+                        document.getElementById('cartDrawerDiscountCode').textContent = data.discount_code;
+                        document.getElementById('cartDrawerDiscountAmount').textContent = data.discount_amount.toFixed(2);
+                        document.getElementById('cartDrawerDiscountRow').style.display = 'flex';
+                        
+                        // Hide discount input after successful application
+                        document.getElementById('cartDrawerDiscountInput').style.display = 'none';
+                    }
+                    
+                    // Update shipping progress
+                    updateShippingProgress(data.cart_subtotal);
+                    
+                    // Clear input and show success
+                    discountInput.value = '';
+                    showDiscountMessage('Discount code applied successfully!', 'success');
+                    
+                    // Update cart count in header if needed
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount(data.cart_count);
+                    }
+                } else {
+                    showDiscountMessage(data.message || 'Invalid discount code', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Discount application error:', error);
+                showDiscountMessage('An error occurred. Please try again.', 'error');
+            })
+            .finally(() => {
+                // Re-enable button
+                discountApplyBtn.disabled = false;
+                discountApplyBtn.innerHTML = '<i class="fas fa-tag"></i> Apply';
+            });
+        }
+
+        // Show discount message
+        function showDiscountMessage(message, type) {
+            const discountMessage = document.getElementById('cartDrawerDiscountMessage');
+            discountMessage.textContent = message;
+            discountMessage.className = `cart-drawer-discount-message ${type}`;
+            discountMessage.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                discountMessage.style.display = 'none';
+            }, 3000);
+        }
+        </script>
+
+        <!-- Newsletter Popup Script -->
+        <script src="{% static 'js/newsletter-popup.js' %}"></script>
+
+        <!-- Cookie Consent Banner -->
+        {% include 'cookies/cookie_consent.html' %}
+    </body>
+</html>

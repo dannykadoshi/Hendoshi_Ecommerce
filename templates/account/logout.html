@@ -28,7 +28,7 @@
                         <form method="post" action="{% url 'account_logout' %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-pink btn-lg w-100 mb-3">YES, SIGN OUT</button>
-                            <a href="{% url 'home' %}" class="btn btn-outline-pink w-100">CANCEL</a>
+                            <a href="{% url 'home' %}" class="btn btn-pink w-100">CANCEL</a>
                         </form>
                     </div>
                 </div>
