@@ -943,17 +943,9 @@
 
 /* HENDOSHI Base Styles */
 
-    background: transparent !important;
-    border: none !important;
-    cursor: pointer;
-    padding: 0.5rem !important;
-    color: var(--off-white) !important;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    position: relative;
-    vertical-align: middle !important;
-    line-height: 1.4 !important;
-}
+/* ============================================
+   THEME TOGGLE BUTTON - Enhanced with 5 Improvements
+   ============================================ */
 
 .theme-toggle:hover {
     color: var(--neon-pink) !important;
@@ -2621,6 +2613,7 @@ body.cart-drawer-open {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
     height: 2.6em;
@@ -3775,6 +3768,101 @@ body.cart-drawer-open {
     }
 }
 
+/* Global Product Card Styles */
+.product-card-wrapper {
+    width: 100%;
+}
+
+.product-card {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.product-card:hover {
+    border-color: var(--neon-pink);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+}
+
+.product-card-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    /* Portrait 4:5 ratio to match product cards across site */
+    aspect-ratio: 4 / 5;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.product-img-main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img-main {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--off-white);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.product-card:hover .product-info h3 {
+    color: var(--neon-pink);
+}
+
+.product-type {
+    font-size: 0.85rem;
+    color: var(--electric-yellow);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
+}
+
+.collection-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--neon-pink);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    margin-top: auto;
+}
+
+.product-card:hover .collection-link {
+    color: var(--electric-yellow);
+}
+
 /* Related Products Carousel */
 .related-products-carousel-container {
     position: relative;
@@ -3821,14 +3909,6 @@ body.cart-drawer-open {
     position: relative;
     overflow: hidden;
     margin-bottom: 0;
-}
-
-.related-products-carousel .product-card a {
-    position: relative;
-    z-index: 2;
-    display: block;
-    text-decoration: none;
-    color: inherit;
 }
 
 .related-products-carousel .product-card a:hover {
@@ -3934,6 +4014,7 @@ body.cart-drawer-open {
 .recently-viewed-products-carousel .product-info h3 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
