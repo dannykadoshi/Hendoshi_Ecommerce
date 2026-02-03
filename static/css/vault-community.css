@@ -3398,22 +3398,6 @@ section.vault-hero {
     }
 }
 
-/* Glassmorphism Effects */
-.glassmorphic-card {
-    background: rgba(255, 255, 255, 0.03) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 15px !important;
-}
-
-.glassmorphic-card:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 105, 180, 0.3) !important;
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
-}
-
 /* Battle Vest Page Additional Styles */
 .vest-hero-stat {
     color: #ccc;
