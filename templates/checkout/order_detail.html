@@ -326,26 +326,6 @@
 
 
 
-<script>
-function copyTracking(trackingNumber) {
-    // Copy to clipboard
-    navigator.clipboard.writeText(trackingNumber).then(function() {
-        // Show toast notification
-        const toast = document.createElement('div');
-        toast.className = 'copy-toast';
-        toast.innerHTML = '<i class="fas fa-check-circle"></i> Tracking number copied!';
-        document.body.appendChild(toast);
-        
-        // Remove toast after 3 seconds
-        setTimeout(function() {
-            toast.style.animation = 'slideIn 0.3s ease reverse';
-            setTimeout(function() {
-                document.body.removeChild(toast);
-            }, 300);
-        }, 3000);
-    }).catch(function(err) {
-        console.error('Failed to copy: ', err);
-        alert('Failed to copy tracking number');
-    });
-}
-</script>
+{% block extra_js %}
+<script src="{% static 'js/order-detail.js' %}"></script>
+{% endblock %}
