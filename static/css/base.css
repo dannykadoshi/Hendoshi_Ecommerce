@@ -55,3 +55,45 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
 }
+
+/* ================================================
+   UTILITY CLASSES (Phase 3 refactoring)
+   ================================================ */
+
+/* Display utilities (Bootstrap provides d-none, d-block, d-flex with responsive variants) */
+.d-inline { display: inline !important; }
+.d-inline-block { display: inline-block !important; }
+
+/* Width utilities */
+.w-100 { width: 100% !important; }
+.w-auto { width: auto !important; }
+
+/* Cursor utilities */
+.cursor-pointer { cursor: pointer !important; }
+
+/* Visibility (alias for d-none/d-block) */
+.hidden { display: none !important; }
+.visible { display: block !important; }
+
+/* Text colors and opacity */
+.text-white-95 { color: rgba(255, 255, 255, 0.95) !important; font-weight: 500; }
+.text-white-90 { color: rgba(255, 255, 255, 0.9) !important; }
+
+/* Carrier logo placeholders (track order page) */
+.carrier-logo-placeholder {
+    padding: 1rem;
+    border-radius: 8px;
+}
+.carrier-logo-placeholder.bg-white { background: white; }
+.carrier-logo-placeholder.bg-ups { background: #351C15; }
+.carrier-logo-placeholder.bg-dhl { background: #FFCC00; }
+
+.carrier-logo-svg {
+    width: 100%;
+    height: 60px;
+}
+
+/* ================================================
+   END UTILITY CLASSES
+   ================================================ */
+

@@ -1,5 +1,5 @@
 {% load static %}
-<div id="cookie-consent-banner" class="cookie-consent-banner" style="display: none;">
+<div id="cookie-consent-banner" class="cookie-consent-banner d-none">
     <div class="cookie-consent-content">
         <div class="cookie-consent-text">
             <h4>Cookies & Privacy</h4>
@@ -15,7 +15,7 @@
 </div>
 
 <!-- Cookie Settings Modal -->
-<div id="cookie-settings-modal" class="cookie-modal" style="display: none;">
+<div id="cookie-settings-modal" class="cookie-modal d-none">
     <div class="cookie-modal-content">
         <div class="cookie-modal-header">
             <h3>Cookie Settings</h3>
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if user has already made a choice
     const consentCookie = getCookie('cookie_consent');
     if (!consentCookie) {
-        banner.style.display = 'block';
+        banner.classList.remove('d-none');
     }
 
     // Banner buttons
@@ -102,12 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
             marketing: true,
             preferences: true
         });
-        banner.style.display = 'none';
+        banner.classList.add("d-none");
     });
 
     document.getElementById('customize-cookies').addEventListener('click', function() {
-        banner.style.display = 'none';
-        modal.style.display = 'flex';
+        banner.classList.add("d-none");
+        modal.classList.remove("d-none");
         loadCurrentSettings();
     });
 
@@ -118,17 +118,17 @@ document.addEventListener('DOMContentLoaded', function() {
             marketing: false,
             preferences: false
         });
-        banner.style.display = 'none';
+        banner.classList.add("d-none");
     });
 
     document.getElementById('close-cookie-banner').addEventListener('click', function() {
-        banner.style.display = 'none';
+        banner.classList.add("d-none");
     });
 
     // Modal buttons
     document.getElementById('close-cookie-modal').addEventListener('click', function() {
-        modal.style.display = 'none';
-        banner.style.display = 'block';
+        modal.classList.add("d-none");
+        banner.classList.remove("d-none");
     });
 
     document.getElementById('save-cookie-settings').addEventListener('click', function() {
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             preferences: document.getElementById('preference-cookies').checked
         };
         setCookieConsent(settings);
-        modal.style.display = 'none';
+        modal.classList.add("d-none");
     });
 
     document.getElementById('accept-all-modal').addEventListener('click', function() {
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
             marketing: true,
             preferences: true
         });
-        modal.style.display = 'none';
+        modal.classList.add("d-none");
     });
 
     function setCookieConsent(settings) {
@@ -164,7 +164,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('Cookie consent updated');
+                console.log('Cookie consent updated successfully');
+                // Set cookie client-side as well for immediate effect
+                document.cookie = `cookie_consent=${JSON.stringify(settings)}; path=/; max-age=31536000; SameSite=Lax`;
+                
                 // Trigger any consent-dependent scripts
                 if (settings.analytics) {
                     loadAnalytics();
@@ -172,6 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (settings.marketing) {
                     loadMarketing();
                 }
+            } else {
+                console.error('Failed to update cookie consent');
             }
         })
         .catch(error => console.error('Error updating cookie consent:', error));
@@ -206,12 +211,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
+        if (parts.length === 2) {
+            return decodeURIComponent(parts.pop().split(';').shift());
+        }
+        return null;
     }
 
     function getCsrfToken() {
-        const token = document.querySelector('[name=csrfmiddlewaretoken]');
-        return token ? token.value : '';
+        // Try multiple ways to get CSRF token
+        const metaToken = document.querySelector('meta[name="csrf-token"]');
+        if (metaToken) return metaToken.content;
+        
+        const inputToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (inputToken) return inputToken.value;
+        
+        // Get from cookie as last resort
+        return getCookie('csrftoken');
     }
 });
 </script>

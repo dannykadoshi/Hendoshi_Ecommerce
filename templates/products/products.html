@@ -243,7 +243,7 @@
                     </div>
 
                     <div class="text-center mt-4" id="infiniteScrollLoader" data-has-next="{{ page_obj.has_next|yesno:'true,false' }}" data-next-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">
-                        <div class="spinner-border spinner-border-pink" role="status" style="display: none;"></div>
+                        <div class="spinner-border spinner-border-pink" role="status" class="d-none"></div>
                     </div>
 
                 <!-- Unified Quick Add Modal (MUST be outside the bulk archive form) -->

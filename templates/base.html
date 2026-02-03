@@ -248,7 +248,7 @@
         
         <!-- Discount Banner -->
         <div class="discount-banner{% if discount_banner.is_high_value %} high-value{% endif %}" id="discountBanner"
-             {% if not discount_banner.show_discount_banner %}style="display: none;"{% endif %}>
+             {% if not discount_banner.show_discount_banner %}class="d-none"{% endif %}>
 
             <!-- Confetti Canvas (for high-value discounts) -->
             <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
@@ -590,10 +590,10 @@
             <div class="menu-submenu hidden" id="currencySubmenu">
                 <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Currency</button>
                 <div class="submenu-content">
-                    <button class="submenu-item submenu-item-animate" style="--item-index: 0;" data-currency="US">
+                    <button class="submenu-item submenu-item-animate" data-currency="US">
                         <span>🇺🇸 United States</span>
                     </button>
-                    <button class="submenu-item submenu-item-animate" style="--item-index: 1;" data-currency="EU">
+                    <button class="submenu-item submenu-item-animate" data-currency="EU">
                         <span>🇪🇺 European Union</span>
                     </button>
                 </div>
@@ -604,23 +604,23 @@
                 <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Account</button>
                 <div class="submenu-content">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
+                        <a href="{% url 'profile' %}" class="submenu-item submenu-item-animate">
                             <i class="fas fa-user-circle"></i> <span>Profile</span>
                         </a>
                         {% if user.is_staff %}
-                        <button class="submenu-item submenu-trigger submenu-item-animate" style="--item-index: 1;" data-submenu="admin-panel">
+                        <button class="submenu-item submenu-trigger submenu-item-animate" data-submenu="admin-panel">
                             <i class="fas fa-cog"></i> <span>Admin Panel</span>
                             <i class="fas fa-chevron-right submenu-arrow-icon"></i>
                         </button>
                         {% endif %}
-                        <a href="{% url 'account_logout' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;">
+                        <a href="{% url 'account_logout' %}" class="submenu-item submenu-item-animate">
                             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                         </a>
                     {% else %}
-                        <a href="{% url 'account_login' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
+                        <a href="{% url 'account_login' %}" class="submenu-item submenu-item-animate">
                             <i class="fas fa-sign-in-alt"></i> <span>Login</span>
                         </a>
-                        <a href="{% url 'account_signup' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;">
+                        <a href="{% url 'account_signup' %}" class="submenu-item submenu-item-animate">
                             <i class="fas fa-user-plus"></i> <span>Sign Up</span>
                         </a>
                     {% endif %}
@@ -631,28 +631,28 @@
             <div class="menu-submenu hidden" id="submenuAdminPanel">
                 <button class="submenu-back" data-back="account"><i class="fas fa-chevron-left"></i> Admin Panel</button>
                 <div class="submenu-content">
-                    <a href="{% url 'admin:index' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
+                    <a href="{% url 'admin:index' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-tachometer-alt"></i> <span>Django Dashboard</span>
                     </a>
-                    <a href="{% url 'admin_list_subscribers' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;">
+                    <a href="{% url 'admin_list_subscribers' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-envelope"></i> <span>Newsletter Subscribers</span>
                     </a>
-                    <a href="{% url 'admin_list_products' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;">
+                    <a href="{% url 'admin_list_products' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-boxes"></i> <span>Products Management</span>
                     </a>
-                    <a href="{% url 'admin_orders_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 3;">
+                    <a href="{% url 'admin_orders_list' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-clipboard-list"></i> <span>Orders Management</span>
                     </a>
-                    <a href="{% url 'admin_discount_codes_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 4;">
+                    <a href="{% url 'admin_discount_codes_list' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-tags"></i> <span>Discount Codes</span>
                     </a>
-                    <a href="{% url 'admin_shipping_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 5;">
+                    <a href="{% url 'admin_shipping_list' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-shipping-fast"></i> <span>Shipping Rates</span>
                     </a>
-                    <a href="{% url 'admin_themes_list' %}" class="submenu-item submenu-item-animate" style="--item-index: 6;">
+                    <a href="{% url 'admin_themes_list' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-magic"></i> <span>Seasonal Themes</span>
                     </a>
-                    <button class="submenu-item submenu-trigger submenu-item-animate" style="--item-index: 7;" data-submenu="moderation">
+                    <button class="submenu-item submenu-trigger submenu-item-animate" data-submenu="moderation">
                         <i class="fas fa-gavel"></i> <span>Content Moderation</span>
                         <i class="fas fa-chevron-right submenu-arrow-icon"></i>
                     </button>
@@ -663,10 +663,10 @@
             <div class="menu-submenu hidden" id="submenuModeration">
                 <button class="submenu-back" data-back="admin-panel"><i class="fas fa-chevron-left"></i> Content Moderation</button>
                 <div class="submenu-content">
-                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;">
+                    <a href="{% url 'admin_list_reviews' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-star-half-alt"></i> <span>Review Moderation</span>
                     </a>
-                    <a href="{% url 'vault:moderate_photos' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;">
+                    <a href="{% url 'vault:moderate_photos' %}" class="submenu-item submenu-item-animate">
                         <i class="fas fa-camera"></i> <span>Vault Moderation</span>
                     </a>
                 </div>
@@ -675,50 +675,50 @@
             <!-- Main Menu Items -->
             <div class="menu-main" id="menuMain">
                 <ul class="menu-items">
-                    <li class="menu-item-group menu-item-animate" style="--item-index: 0;">
+                    <li class="menu-item-group menu-item-animate">
                         <button class="menu-item-header menu-item-trigger" data-submenu="collections">
                             <i class="fas fa-layer-group menu-item-icon"></i> Collections
                         </button>
                         <button class="menu-item-arrow" data-submenu="collections"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group menu-item-animate" style="--item-index: 1;">
+                    <li class="menu-item-group menu-item-animate">
                         <button class="menu-item-header menu-item-trigger" data-submenu="product-type">
                             <i class="fas fa-tshirt menu-item-icon"></i> Product Type
                         </button>
                         <button class="menu-item-arrow" data-submenu="product-type"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group menu-item-animate" style="--item-index: 2;">
+                    <li class="menu-item-group menu-item-animate">
                         <button class="menu-item-header menu-item-trigger" data-submenu="audience">
                             <i class="fas fa-venus-mars menu-item-icon"></i> Shop by Audience
                         </button>
                         <button class="menu-item-arrow" data-submenu="audience"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group menu-item-sale menu-item-animate" style="--item-index: 2;" onclick="window.location.href='{% url 'sale' %}'">
+                    <li class="menu-item-group menu-item-sale menu-item-animate" onclick="window.location.href='{% url 'sale' %}'">
                         <span class="menu-item-header">
                             <i class="fas fa-fire-alt menu-item-icon sale-icon"></i> <span class="sale-text">Sale</span>
                         </span>
                         <button class="menu-item-arrow" disabled><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group menu-item-animate" style="--item-index: 3;" onclick="window.location.href='{% url 'new_drops' %}'">
+                    <li class="menu-item-group menu-item-animate" onclick="window.location.href='{% url 'new_drops' %}'">
                         <span class="menu-item-header">
                             <i class="fas fa-bolt menu-item-icon"></i> New Drops
                         </span>
                         <button class="menu-item-arrow" disabled><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group menu-item-animate" style="--item-index: 4;">
+                    <li class="menu-item-group menu-item-animate">
                         <button class="menu-item-header menu-item-trigger" data-submenu="vault">
                             <i class="fas fa-gem menu-item-icon"></i> The Vault
                         </button>
                         <button class="menu-item-arrow" data-submenu="vault"><i class="fas fa-chevron-right"></i></button>
                     </li>
-                    <li class="menu-item-group menu-item-animate" style="--item-index: 5;">
+                    <li class="menu-item-group menu-item-animate">
                         <button class="menu-item-header menu-item-trigger" data-submenu="about">
                             <i class="fas fa-info-circle menu-item-icon"></i> About
                         </button>
                         <button class="menu-item-arrow" data-submenu="about"><i class="fas fa-chevron-right"></i></button>
                     </li>
                     <li class="menu-item-divider"></li>
-                    <li class="menu-item-animate" style="--item-index: 6;">
+                    <li class="menu-item-animate">
                         <button class="menu-item menu-theme-toggle" id="mobileThemeToggle">
                             <i class="fas fa-moon"></i> <span>Dark Mode</span>
                         </button>
@@ -730,16 +730,16 @@
             <div class="menu-submenu hidden" id="submenuCollections">
                 <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Collections</button>
                 <div class="submenu-content">
-                    <a href="{% url 'products' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-th-large"></i> All Products</a>
+                    <a href="{% url 'products' %}" class="submenu-item submenu-item-animate"><i class="fas fa-th-large"></i> All Products</a>
                     {% if site_collections %}
                         {% for c in site_collections %}
                             <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter }};"><i class="fas fa-folder"></i> {{ c.name }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-skull"></i> Skulls & Death</a>
-                        <a href="{% url 'collection_detail' 'weird-animals' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-paw"></i> Weird Animals</a>
-                        <a href="{% url 'collection_detail' 'gym-therapy' %}" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-dumbbell"></i> Gym Therapy</a>
-                        <a href="{% url 'collection_detail' 'dark-humor' %}" class="submenu-item submenu-item-animate" style="--item-index: 4;"><i class="fas fa-laugh-squint"></i> Dark Humor</a>
+                        <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item submenu-item-animate"><i class="fas fa-skull"></i> Skulls & Death</a>
+                        <a href="{% url 'collection_detail' 'weird-animals' %}" class="submenu-item submenu-item-animate"><i class="fas fa-paw"></i> Weird Animals</a>
+                        <a href="{% url 'collection_detail' 'gym-therapy' %}" class="submenu-item submenu-item-animate"><i class="fas fa-dumbbell"></i> Gym Therapy</a>
+                        <a href="{% url 'collection_detail' 'dark-humor' %}" class="submenu-item submenu-item-animate"><i class="fas fa-laugh-squint"></i> Dark Humor</a>
                     {% endif %}
                 </div>
             </div>
@@ -753,10 +753,10 @@
                             <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter0 }};"><i class="fas fa-tag"></i> {{ t.name }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'products' %}?type=tshirt" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-tshirt"></i> T-Shirts</a>
-                        <a href="{% url 'products' %}?type=hoodie" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-mitten"></i> Hoodies</a>
-                        <a href="{% url 'products' %}?type=sticker" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-sticky-note"></i> Stickers</a>
-                        <a href="{% url 'products' %}?type=accessory" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-ring"></i> Accessories</a>
+                        <a href="{% url 'products' %}?type=tshirt" class="submenu-item submenu-item-animate"><i class="fas fa-tshirt"></i> T-Shirts</a>
+                        <a href="{% url 'products' %}?type=hoodie" class="submenu-item submenu-item-animate"><i class="fas fa-mitten"></i> Hoodies</a>
+                        <a href="{% url 'products' %}?type=sticker" class="submenu-item submenu-item-animate"><i class="fas fa-sticky-note"></i> Stickers</a>
+                        <a href="{% url 'products' %}?type=accessory" class="submenu-item submenu-item-animate"><i class="fas fa-ring"></i> Accessories</a>
                     {% endif %}
                 </div>
             </div>
@@ -765,10 +765,10 @@
             <div class="menu-submenu hidden" id="submenuAudience">
                 <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> Shop by Audience</button>
                 <div class="submenu-content">
-                    <a href="{% url 'audience_men' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-male"></i> Men</a>
-                    <a href="{% url 'audience_women' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-female"></i> Women</a>
-                    <a href="{% url 'audience_kids' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-child"></i> Kids</a>
-                    <a href="{% url 'audience_unisex' %}" class="submenu-item submenu-item-animate" style="--item-index: 3;"><i class="fas fa-users"></i> Unisex</a>
+                    <a href="{% url 'audience_men' %}" class="submenu-item submenu-item-animate"><i class="fas fa-male"></i> Men</a>
+                    <a href="{% url 'audience_women' %}" class="submenu-item submenu-item-animate"><i class="fas fa-female"></i> Women</a>
+                    <a href="{% url 'audience_kids' %}" class="submenu-item submenu-item-animate"><i class="fas fa-child"></i> Kids</a>
+                    <a href="{% url 'audience_unisex' %}" class="submenu-item submenu-item-animate"><i class="fas fa-users"></i> Unisex</a>
                 </div>
             </div>
             
@@ -776,13 +776,13 @@
             <div class="menu-submenu hidden" id="submenuVault">
                 <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> The Vault</button>
                 <div class="submenu-content">
-                    <a href="{% url 'vault:vault_gallery' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-images"></i> Community Gallery</a>
-                    <button class="submenu-item submenu-trigger submenu-item-animate" style="--item-index: 1;" data-submenu="hall-of-fame">
+                    <a href="{% url 'vault:vault_gallery' %}" class="submenu-item submenu-item-animate"><i class="fas fa-images"></i> Community Gallery</a>
+                    <button class="submenu-item submenu-trigger submenu-item-animate" data-submenu="hall-of-fame">
                         <i class="fas fa-trophy"></i> <span>Hall of Fame</span>
                         <i class="fas fa-chevron-right submenu-arrow-icon"></i>
                     </button>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'vault:submit_photo' %}" class="submenu-item submenu-item-animate" style="--item-index: 2;"><i class="fas fa-camera"></i> Submit Photo</a>
+                    <a href="{% url 'vault:submit_photo' %}" class="submenu-item submenu-item-animate"><i class="fas fa-camera"></i> Submit Photo</a>
                     {% endif %}
                 </div>
             </div>
@@ -791,8 +791,8 @@
             <div class="menu-submenu hidden" id="submenuHallOfFame">
                 <button class="submenu-back" data-back="vault"><i class="fas fa-chevron-left"></i> Hall of Fame</button>
                 <div class="submenu-content">
-                    <a href="{% url 'vault:hall_of_fame_overview' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-info-circle"></i> What Makes a Legend</a>
-                    <a href="{% url 'vault:hall_of_fame' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-crown"></i> Legendary Photos</a>
+                    <a href="{% url 'vault:hall_of_fame_overview' %}" class="submenu-item submenu-item-animate"><i class="fas fa-info-circle"></i> What Makes a Legend</a>
+                    <a href="{% url 'vault:hall_of_fame' %}" class="submenu-item submenu-item-animate"><i class="fas fa-crown"></i> Legendary Photos</a>
                 </div>
             </div>
 
@@ -800,8 +800,8 @@
             <div class="menu-submenu hidden" id="submenuAbout">
                 <button class="submenu-back" data-back="main"><i class="fas fa-chevron-left"></i> About</button>
                 <div class="submenu-content">
-                    <a href="{% url 'about' %}" class="submenu-item submenu-item-animate" style="--item-index: 0;"><i class="fas fa-book-open"></i> Our Story</a>
-                    <a href="{% url 'contact' %}" class="submenu-item submenu-item-animate" style="--item-index: 1;"><i class="fas fa-envelope"></i> Contact Us</a>
+                    <a href="{% url 'about' %}" class="submenu-item submenu-item-animate"><i class="fas fa-book-open"></i> Our Story</a>
+                    <a href="{% url 'contact' %}" class="submenu-item submenu-item-animate"><i class="fas fa-envelope"></i> Contact Us</a>
                 </div>
             </div>
             </div> <!-- End menu-content-wrapper -->
@@ -866,7 +866,7 @@
                         <span>Subtotal</span>
                         <span id="cartDrawerSubtotal">€0.00</span>
                     </div>
-                    <div class="cart-drawer-summary-row cart-drawer-discount-row" id="cartDrawerDiscountRow" style="display: none;">
+                    <div class="cart-drawer-summary-row cart-drawer-discount-row" id="cartDrawerDiscountRow" class="d-none">
                         <span>Discount (<span id="cartDrawerDiscountCode"></span>)</span>
                         <span class="text-success">-€<span id="cartDrawerDiscountAmount">0.00</span></span>
                     </div>
@@ -888,7 +888,7 @@
                                 <i class="fas fa-tag"></i> Apply
                             </button>
                         </div>
-                        <div class="cart-drawer-discount-message" id="cartDrawerDiscountMessage" style="display: none;"></div>
+                        <div class="cart-drawer-discount-message" id="cartDrawerDiscountMessage" class="d-none"></div>
                     </form>
                 </div>
 
@@ -903,7 +903,7 @@
                 </div>
 
                 <!-- Related Products Carousel -->
-                <div class="cart-drawer-related" id="cartDrawerRelated" style="display: none;">
+                <div class="cart-drawer-related" id="cartDrawerRelated" class="d-none">
                     <div class="cart-drawer-related-header">
                         <h5 class="cart-drawer-related-title">
                             <img src="{% static 'images/pug-skull.webp' %}" alt="Skull Pug" class="cart-drawer-title-icon me-2" style="width: 24px; height: 24px;">More weird, more wonderful

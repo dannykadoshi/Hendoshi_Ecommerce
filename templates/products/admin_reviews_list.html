@@ -174,7 +174,7 @@
                                             </h6>
                                             <small class="text-muted">by {{ review.user.username }}</small>
                                         </div>
-                                        <select class="form-select form-select-sm status-select" data-review-id="{{ review.id }}" style="width: auto;">
+                                        <select class="form-select form-select-sm status-select w-auto" data-review-id="{{ review.id }}">
                                             <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>Pending</option>
                                             <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>Approved</option>
                                             <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>Rejected</option>

@@ -23,7 +23,7 @@
         <div class="products-grid">
             {% for collection in collections %}
             <div class="product-card-wrapper">
-                <div class="product-card glassmorphic-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'" style="cursor: pointer;">
+                <div class="product-card glassmorphic-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'" class="cursor-pointer">
                     <div class="product-card-inner">
                         <div class="product-image product-image-relative">
                             {% if collection.representative_product and collection.representative_product.main_image %}

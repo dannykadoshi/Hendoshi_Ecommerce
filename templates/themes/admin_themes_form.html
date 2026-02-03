@@ -52,7 +52,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div id="themeTypePreview" class="theme-type-preview mt-3" style="display: none;">
+                            <div id="themeTypePreview" class="theme-type-preview mt-3 d-none">
                                 <span class="emoji" id="themeEmoji"></span>
                                 <span class="description" id="themeDescription"></span>
                             </div>
@@ -165,7 +165,7 @@
                                     {{ form.strip_color_scheme }}
                                     <small class="text-muted">Choose how the strip is colored.</small>
                                 </div>
-                                <div class="col-12 col-md-4" id="stripCustomGradientContainer" style="display: none;">
+                                <div class="col-12 col-md-4 d-none" id="stripCustomGradientContainer">
                                     <label class="form-label">{{ form.strip_custom_gradient.label }}</label>
                                     {{ form.strip_custom_gradient }}
                                     {% if form.strip_custom_gradient.errors %}

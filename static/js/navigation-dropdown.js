@@ -1,5 +1,18 @@
 // Dropdown hover behavior for desktop
 document.addEventListener('DOMContentLoaded', function() {
+    // Phase 3: Add --item-index CSS variables to animated menu items
+    const animatedItems = document.querySelectorAll('.menu-item-animate, .submenu-item-animate');
+    animatedItems.forEach((item) => {
+        // Get parent menu to calculate index within that specific menu
+        const parentMenu = item.closest('.menu-submenu, .mobile-menu-content');
+        if (parentMenu) {
+            const siblings = parentMenu.querySelectorAll(item.classList.contains('menu-item-animate') ? '.menu-item-animate' : '.submenu-item-animate');
+            const localIndex = Array.from(siblings).indexOf(item);
+            item.style.setProperty('--item-index', localIndex);
+        }
+    });
+    
+    // Desktop dropdown hover behavior
     if (window.innerWidth >= 992) {
         const dropdowns = document.querySelectorAll('.navbar-right .dropdown, .desktop-menu .dropdown');
         

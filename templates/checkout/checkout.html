@@ -129,7 +129,7 @@
                 {% endif %}
 
                 <!-- Address Form (hidden by default for logged-in users with saved addresses) -->
-                <div id="addressFormContainer" {% if request.user.is_authenticated and saved_addresses %}style="display:none"{% endif %}>
+                <div id="addressFormContainer" {% if request.user.is_authenticated and saved_addresses %}class="d-none"{% endif %}>
                 <form class="checkout-form" method="post" novalidate id="checkoutForm">
                     {% csrf_token %}
 
