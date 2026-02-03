@@ -1322,3 +1322,24 @@ function showDiscountMessage(message, type) {
         discountMessage.style.display = 'none';
     }, 3000);
 }
+
+// ============================================
+// GLOBAL CART COUNT UPDATE FUNCTION
+// ============================================
+/**
+ * Update cart badge count across all pages
+ * Used by product detail page and other pages that add items to cart
+ * @param {number} count - New cart item count
+ */
+window.updateCartCount = function(count) {
+    // Update all cart badges on the page (mobile and desktop)
+    const badges = document.querySelectorAll('.cart-count-badge');
+    badges.forEach(badge => {
+        badge.textContent = count;
+        if (count > 0) {
+            badge.classList.remove('badge-hidden');
+        } else {
+            badge.classList.add('badge-hidden');
+        }
+    });
+};

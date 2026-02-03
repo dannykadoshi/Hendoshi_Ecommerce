@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="checkout-page">
+<div class="checkout-page" data-totals-url="{% url 'cart_totals' %}">
     <!-- Payment Hero -->
     <section class="vault-hero">
         <div class="container">
@@ -255,168 +255,14 @@
 
 {% block extra_js %}
 <script src="{% static 'js/stripe-payment.js' %}"></script>
-<script>
-// Discount banner handled globally in base templates; payment-specific JS is in `js/stripe-payment.js`.
-</script>
-<script>
-(function(){
-    const totalsUrl = "{% url 'cart_totals' %}";
-
-    function formatMoney(amount){
-        return '€' + Number(amount).toFixed(2);
-    }
-
-    function updateTotals(data){
-        try{
-            if (document.getElementById('summary-subtotal')){
-                document.getElementById('summary-subtotal').textContent = formatMoney(data.cart_subtotal);
-            }
-
-            // Shipping handling - always show shipping row
-            const shippingRow = document.getElementById('shipping-row');
-            const shippingAmountEl = document.getElementById('summary-shipping-amount');
-            if (shippingRow && shippingAmountEl) {
-                if (typeof data.shipping_cost !== 'undefined' && Number(data.shipping_cost) > 0) {
-                    shippingAmountEl.innerHTML = formatMoney(data.shipping_cost);
-                } else {
-                    shippingAmountEl.innerHTML = '<span class="text-success fw-bold">FREE</span>';
-                }
-                shippingRow.style.display = '';
-            }
-
-            // Discount handling
-            const discountRow = document.getElementById('discount-row');
-            if (data.discount_amount && Number(data.discount_amount) > 0){
-                if (discountRow){
-                    document.getElementById('summary-discount-value').textContent = '-' + formatMoney(data.discount_amount).replace('€','');
-                    if (data.discount_code && document.getElementById('summary-discount-code')){
-                        document.getElementById('summary-discount-code').textContent = data.discount_code;
-                    }
-                    discountRow.style.display = '';
-                }
-            } else {
-                if (discountRow){ discountRow.style.display = 'none'; }
-            }
-
-            // Total
-            if (document.getElementById('summary-total-amount')){
-                document.getElementById('summary-total-amount').textContent = formatMoney(data.cart_total);
-            }
-
-            // Update pay button amount if present
-            const submitBtn = document.getElementById('submitPayment');
-            if (submitBtn){
-                const defaultText = submitBtn.querySelector('.default-text');
-                if (defaultText){
-                    // Preserve other markup, replace amount after last space
-                    defaultText.textContent = 'Pay ' + formatMoney(data.cart_total);
-                }
-            }
-
-            // Update item count badge in summary header if present
-            const badge = document.getElementById('summary-item-count');
-            if (badge && typeof data.cart_total_items !== 'undefined'){
-                badge.textContent = data.cart_total_items;
-            }
-        }catch(e){ console.warn('updateTotals failed', e); }
-    }
-
-    async function fetchTotals(){
-        try{
-            const resp = await fetch(totalsUrl, { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-            if (!resp.ok) return;
-            const data = await resp.json();
-            updateTotals(data);
-        }catch(e){ console.warn('Could not fetch cart totals', e); }
-    }
-
-    // Fetch on load
-    document.addEventListener('DOMContentLoaded', fetchTotals);
-
-    // Fetch when the page becomes visible (user switched back to this tab)
-    document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') fetchTotals(); });
-
-    // Also fetch on window focus
-    window.addEventListener('focus', fetchTotals);
-
-    // Poll every 30s while page is visible
-    setInterval(function(){ if (document.visibilityState === 'visible') fetchTotals(); }, 30000);
-
-    // Handle shipping rate selection modal
-    document.addEventListener('DOMContentLoaded', function() {
-        const shippingModal = document.getElementById('shippingModal');
-        const confirmBtn = document.getElementById('confirmShippingBtn');
-        const radios = document.querySelectorAll('.shipping-rate-radio-modal');
-        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]')?.value;
-
-        // Handle confirm button
-        confirmBtn?.addEventListener('click', async function() {
-            const selectedRadio = document.querySelector('.shipping-rate-radio-modal:checked');
-            if (!selectedRadio) {
-                alert('Please select a shipping rate.');
-                return;
-            }
-
-            const selectedId = selectedRadio.value;
-            
-            try {
-                const resp = await fetch('{% url "update_order_shipping" order.order_number %}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `selected_shipping_id=${encodeURIComponent(selectedId)}`
-                });
-
-                if (!resp.ok) {
-                    const error = await resp.json();
-                    alert('Error: ' + (error.error || 'Failed to update shipping'));
-                    return;
-                }
-
-                const data = await resp.json();
-                
-                // Update the UI
-                updateTotals({
-                    cart_subtotal: {{ order.subtotal|floatformat:2 }},
-                    shipping_cost: data.shipping_cost,
-                    discount_amount: {{ order.discount_amount|floatformat:2 }},
-                    cart_total: data.total_amount,
-                    cart_total_items: {{ order.items.count }}
-                });
-
-                // Update Stripe PaymentIntent
-                if (window.stripe && data.client_secret) {
-                    // You might need to update the PaymentIntent client secret if amount changed
-                    // For now, just close the modal
-                }
-
-                // Close modal
-                const modal = bootstrap.Modal.getInstance(shippingModal);
-                modal.hide();
-
-            } catch (e) {
-                console.error('Failed to update shipping', e);
-                alert('Failed to update shipping. Please try again.');
-            }
-        });
-
-        // Handle radio button changes (optional visual feedback)
-        radios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                // Remove active class from all labels
-                document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
-                // Add active class to selected label
-                this.closest('.list-group-item').classList.add('active');
-            });
-        });
-    });
-})();
-</script>
+<script src="{% static 'js/page-specific/payment.js' %}"></script>
 
 <!-- Shipping Rate Selection Modal -->
-<div class="modal fade vault-confirm-modal" id="shippingModal" tabindex="-1" aria-labelledby="shippingModalLabel" aria-hidden="true">
+<div class="modal fade vault-confirm-modal" id="shippingModal" tabindex="-1" aria-labelledby="shippingModalLabel" aria-hidden="true"
+     data-update-url="{% url 'update_order_shipping' order.order_number %}"
+     data-order-subtotal="{{ order.subtotal|floatformat:2 }}"
+     data-order-discount="{{ order.discount_amount|floatformat:2 }}"
+     data-order-items="{{ order.items.count }}">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content vault-modal-content">
             <div class="modal-header vault-modal-header">
