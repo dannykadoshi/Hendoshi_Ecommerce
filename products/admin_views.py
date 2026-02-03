@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q, Sum
+from django.db.models.deletion import ProtectedError
 from django.http import JsonResponse
 from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm, VariantSelectionForm
 from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory, ProductReview
@@ -396,8 +397,11 @@ def delete_admin_product(request, pk):
 
     if request.method == 'POST':
         product_name = product.name
-        product.delete()
-        messages.success(request, f'Product "{product_name}" deleted successfully!')
+        try:
+            product.delete()
+            messages.success(request, f'Product "{product_name}" deleted successfully!')
+        except ProtectedError:
+            messages.error(request, f'Cannot delete "{product_name}" because it is referenced in existing orders. Products that have been ordered cannot be deleted to maintain order history integrity.')
         return redirect('admin_list_products')
 
     context = {
@@ -453,8 +457,11 @@ def bulk_delete_admin_products(request, product_ids=None):
     count = products.count()
 
     if request.method == 'POST':
-        products.delete()
-        messages.success(request, f'{count} product(s) deleted successfully!')
+        try:
+            products.delete()
+            messages.success(request, f'{count} product(s) deleted successfully!')
+        except ProtectedError:
+            messages.error(request, f'Cannot delete some products because they are referenced in existing orders. Products that have been ordered cannot be deleted to maintain order history integrity.')
         return redirect('admin_list_products')
 
     context = {

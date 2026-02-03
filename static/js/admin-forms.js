@@ -184,4 +184,203 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // ========================================
+    // REVIEWS ADMIN - Status Selection
+    // ========================================
+    
+    document.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const reviewId = this.dataset.reviewId;
+            const status = this.value;
+            updateReviewStatus(reviewId, status);
+        });
+    });
+    
+    // ========================================
+    // PRODUCTS ADMIN - Select All Checkboxes
+    // ========================================
+    
+    const selectAllEl = document.getElementById('select-all');
+    if (selectAllEl) {
+        selectAllEl.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.product-checkbox, .review-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    }
+    
 });
+
+// ========================================
+// REVIEWS ADMIN FUNCTIONS (GLOBAL for onclick)
+// ========================================
+
+window.toggleAllCheckboxes = function() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.review-checkbox');
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+};
+
+window.bulkUpdateStatus = function(status) {
+    const selectedReviews = document.querySelectorAll('.review-checkbox:checked');
+    if (selectedReviews.length === 0) {
+        alert('Please select reviews to update.');
+        return;
+    }
+
+    if (!confirm(`Update ${selectedReviews.length} review(s) to ${status}?`)) {
+        return;
+    }
+
+    selectedReviews.forEach(cb => {
+        updateReviewStatus(cb.value, status);
+    });
+};
+
+function updateReviewStatus(reviewId, status) {
+    fetch(`/products/admin/reviews/${reviewId}/status/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const select = document.querySelector(`[data-review-id="${reviewId}"]`);
+            if (select) {
+                select.value = status;
+            }
+            if (typeof showToast === 'function') {
+                showToast(`Review ${status}`, 'success');
+            }
+        } else {
+            if (typeof showToast === 'function') {
+                showToast('Failed to update review status', 'error');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (typeof showToast === 'function') {
+            showToast('Failed to update review status', 'error');
+        }
+    });
+}
+
+window.viewReviewDetail = function(reviewId) {
+    window.open(`/products/admin/reviews/${reviewId}/`, '_blank');
+};
+
+// ========================================
+// PRODUCTS ADMIN FUNCTIONS (GLOBAL for onclick)
+// ========================================
+
+window.submitBulkAction = function(action) {
+    const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
+    if (checkedBoxes.length === 0) {
+        alert('Please select at least one product.');
+        return;
+    }
+
+    if (action === 'delete') {
+        showBulkDeleteModal(checkedBoxes);
+        return;
+    }
+
+    document.getElementById('bulk-action').value = action;
+    document.getElementById('bulk-action-form').submit();
+};
+
+function showBulkDeleteModal(checkedBoxes) {
+    const productList = document.getElementById('bulk-delete-product-list');
+    const countElement = document.getElementById('bulk-delete-count');
+    
+    productList.innerHTML = '';
+    countElement.textContent = checkedBoxes.length;
+    
+    const bulkDeleteForm = document.getElementById('bulk-delete-form');
+    if (bulkDeleteForm) {
+        const previousInputs = bulkDeleteForm.querySelectorAll('input[name="product_ids"]');
+        previousInputs.forEach(i => i.remove());
+    }
+
+    checkedBoxes.forEach(checkbox => {
+        const row = checkbox.closest('tr') || checkbox.closest('.card');
+        let productName = '';
+        let productCollection = '';
+        let productType = '';
+        let productPrice = '';
+        let productStatus = '';
+        
+        if (row) {
+            const cells = row.querySelectorAll('td');
+            if (cells.length >= 5) {
+                productName = cells[1].textContent.trim();
+                productCollection = cells[2].textContent.trim();
+                productType = cells[3].textContent.trim();
+                productPrice = cells[4].textContent.trim();
+                productStatus = cells[5].textContent.trim();
+            } else {
+                const nameElement = row.querySelector('h6');
+                productName = nameElement ? nameElement.textContent.trim() : 'Unknown Product';
+                
+                const details = row.querySelectorAll('div small + div');
+                if (details.length >= 4) {
+                    productCollection = details[0].textContent.trim();
+                    productType = details[1].textContent.trim();
+                    productPrice = details[2].textContent.trim();
+                    productStatus = details[3].textContent.trim();
+                }
+            }
+        }
+        
+        const productItem = document.createElement('div');
+        productItem.className = 'bulk-delete-product-item';
+        productItem.innerHTML = `
+            <div class="bulk-delete-product-info">
+                <strong>${productName}</strong>
+                <small class="text-muted">${productCollection} • ${productType} • ${productPrice} • ${productStatus}</small>
+            </div>
+        `;
+        productList.appendChild(productItem);
+        
+        if (bulkDeleteForm) {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'product_ids';
+            hiddenInput.value = checkbox.value;
+            bulkDeleteForm.appendChild(hiddenInput);
+        }
+    });
+    
+    const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
+    modal.show();
+}
+
+window.confirmDeleteProduct = function(productId, productName, productCollection, productType, productPrice, productStatus, productVariants, productCreated, productImageUrl, deleteUrl) {
+    document.getElementById('product-name').textContent = productName;
+    document.getElementById('modal-product-name').textContent = productName;
+    document.getElementById('modal-product-collection').textContent = productCollection;
+    document.getElementById('modal-product-type').textContent = productType;
+    document.getElementById('modal-product-price').textContent = '$' + productPrice;
+    document.getElementById('modal-product-status').textContent = productStatus;
+    document.getElementById('modal-product-variants').textContent = productVariants;
+    document.getElementById('modal-product-created').textContent = productCreated;
+
+    const imageContainer = document.getElementById('modal-product-image-container');
+    const imageElement = document.getElementById('modal-product-image');
+    if (productImageUrl) {
+        imageElement.src = productImageUrl;
+        imageContainer.style.display = 'block';
+    } else {
+        imageContainer.style.display = 'none';
+    }
+
+    const form = document.getElementById('delete-product-form');
+    form.action = deleteUrl;
+
+    const modal = new bootstrap.Modal(document.getElementById('deleteProductModal'));
+    modal.show();
+};

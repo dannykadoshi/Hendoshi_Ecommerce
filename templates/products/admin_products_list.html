@@ -312,109 +312,7 @@
     </div>
 </div>
 
-<script>
-const selectAllEl = document.getElementById('select-all');
-if (selectAllEl) {
-    selectAllEl.addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.product-checkbox');
-        checkboxes.forEach(cb => cb.checked = this.checked);
-    });
-}
 
-function submitBulkAction(action) {
-    const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
-    if (checkedBoxes.length === 0) {
-        alert('Please select at least one product.');
-        return;
-    }
-
-    if (action === 'delete') {
-        // Show bulk delete modal instead of confirm dialog
-        showBulkDeleteModal(checkedBoxes);
-        return;
-    }
-
-    document.getElementById('bulk-action').value = action;
-    document.getElementById('bulk-action-form').submit();
-}
-
-function showBulkDeleteModal(checkedBoxes) {
-    const productList = document.getElementById('bulk-delete-product-list');
-    const countElement = document.getElementById('bulk-delete-count');
-    
-    // Clear existing list
-    productList.innerHTML = '';
-    
-    // Update count
-    countElement.textContent = checkedBoxes.length;
-    
-    // Clear any previous hidden inputs in the bulk-delete form
-    const bulkDeleteForm = document.getElementById('bulk-delete-form');
-    if (bulkDeleteForm) {
-        const previousInputs = bulkDeleteForm.querySelectorAll('input[name="product_ids"]');
-        previousInputs.forEach(i => i.remove());
-    }
-
-    // Add each selected product to the list
-    checkedBoxes.forEach(checkbox => {
-        const row = checkbox.closest('tr') || checkbox.closest('.card');
-        let productName = '';
-        let productCollection = '';
-        let productType = '';
-        let productPrice = '';
-        let productStatus = '';
-        
-        if (row) {
-            // Desktop table view
-            const cells = row.querySelectorAll('td');
-            if (cells.length >= 5) {
-                productName = cells[1].textContent.trim();
-                productCollection = cells[2].textContent.trim();
-                productType = cells[3].textContent.trim();
-                productPrice = cells[4].textContent.trim();
-                productStatus = cells[5].textContent.trim();
-            } else {
-                // Mobile card view
-                const nameElement = row.querySelector('h6');
-                productName = nameElement ? nameElement.textContent.trim() : 'Unknown Product';
-                
-                const details = row.querySelectorAll('div small + div');
-                if (details.length >= 4) {
-                    productCollection = details[0].textContent.trim();
-                    productType = details[1].textContent.trim();
-                    productPrice = details[2].textContent.trim();
-                    productStatus = details[3].textContent.trim();
-                }
-            }
-        }
-        
-        const productItem = document.createElement('div');
-        productItem.className = 'bulk-delete-product-item';
-        productItem.innerHTML = `
-            <div class="bulk-delete-product-info">
-                <strong>${productName}</strong>
-                <small class="text-muted">${productCollection} • ${productType} • ${productPrice} • ${productStatus}</small>
-            </div>
-        `;
-        productList.appendChild(productItem);
-        
-        // Also add to hidden form
-        if (bulkDeleteForm) {
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'product_ids';
-            hiddenInput.value = checkbox.value;
-            bulkDeleteForm.appendChild(hiddenInput);
-        }
-    });
-    
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('bulkDeleteModal'));
-    modal.show();
-}
-</script>
-
-<!-- Delete Product Confirmation Modal -->
 <div class="modal fade vault-confirm-modal" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content vault-modal-content">
@@ -477,39 +375,7 @@ function showBulkDeleteModal(checkedBoxes) {
     </div>
 </div>
 
-<script>
-function confirmDeleteProduct(productId, productName, productCollection, productType, productPrice, productStatus, productVariants, productCreated, productImageUrl, deleteUrl) {
-    // Update modal content
-    document.getElementById('product-name').textContent = productName;
-    document.getElementById('modal-product-name').textContent = productName;
-    document.getElementById('modal-product-collection').textContent = productCollection;
-    document.getElementById('modal-product-type').textContent = productType;
-    document.getElementById('modal-product-price').textContent = '$' + productPrice;
-    document.getElementById('modal-product-status').textContent = productStatus;
-    document.getElementById('modal-product-variants').textContent = productVariants;
-    document.getElementById('modal-product-created').textContent = productCreated;
-
-    // Handle product image
-    const imageContainer = document.getElementById('modal-product-image-container');
-    const imageElement = document.getElementById('modal-product-image');
-    if (productImageUrl) {
-        imageElement.src = productImageUrl;
-        imageContainer.style.display = 'block';
-    } else {
-        imageContainer.style.display = 'none';
-    }
-
-    // Set the form action URL
-    const form = document.getElementById('delete-product-form');
-    form.action = deleteUrl;
-
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('deleteProductModal'));
-    modal.show();
-}
-</script>
-
-<!-- Bulk Delete Products Confirmation Modal -->
+<!-- Delete Product Confirmation Modal -->
 <div class="modal fade vault-confirm-modal" id="bulkDeleteModal" tabindex="-1" aria-labelledby="bulkDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content vault-modal-content">
@@ -554,4 +420,8 @@ function confirmDeleteProduct(productId, productName, productCollection, product
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin-forms.js' %}"></script>
 {% endblock %}
