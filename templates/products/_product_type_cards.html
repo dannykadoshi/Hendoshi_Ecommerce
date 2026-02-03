@@ -1,0 +1,26 @@
+{% for product_type in product_types %}
+<div class="product-card-wrapper">
+    <div class="product-card glassmorphic-card cursor-pointer" onclick="window.location.href='{% url 'products' %}?type={{ product_type.slug }}'">
+        <div class="product-card-inner">
+            <div class="product-image product-image-relative">
+                {% if product_type.representative_product and product_type.representative_product.main_image %}
+                    <img src="{{ product_type.representative_product.main_image.url }}" alt="{{ product_type.representative_product.name }}" class="product-img-main" loading="lazy">
+                {% else %}
+                    <div class="placeholder-image">
+                        <i class="fas fa-shopping-bag fa-3x"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h3>{{ product_type.name }}</h3>
+                <p class="product-type">Product Type</p>
+                <p class="product-price">{{ product_type.product_count }} Product{{ product_type.product_count|pluralize }}</p>
+                <div class="product-type-link">
+                    <span>Shop {{ product_type.name }}</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

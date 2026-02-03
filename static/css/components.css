@@ -2350,9 +2350,12 @@
         font-size: 1rem;
     }
 
-    .cart-drawer-title-icon {
+    .cart-drawer-related-header img.cart-drawer-title-icon {
         width: 24px !important;
         height: 24px !important;
+        max-width: 24px !important;
+        max-height: 24px !important;
+        object-fit: contain;
     }
 
     .cart-drawer-related-cta {

@@ -52,6 +52,11 @@
                     {% else %}
                         <p class="product-price">€{{ product.base_price }}</p>
                     {% endif %}
+                    {% if show_new_drop_date %}
+                        <p class="new-drop-date">
+                            <i class="far fa-calendar"></i> New {{ product.created_at|timesince }} ago
+                        </p>
+                    {% endif %}
                 </div>
             </a>
             <!-- Quick Add overlay -->

@@ -21,32 +21,8 @@
     <div class="container-fluid vault-container">
         {% if collections %}
         <div class="products-grid">
-            {% for collection in collections %}
-            <div class="product-card-wrapper">
-                <div class="product-card glassmorphic-card" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'" class="cursor-pointer">
-                    <div class="product-card-inner">
-                        <div class="product-image product-image-relative">
-                            {% if collection.representative_product and collection.representative_product.main_image %}
-                                <img src="{{ collection.representative_product.main_image.url }}" alt="{{ collection.representative_product.name }}" class="product-img-main" loading="lazy">
-                            {% else %}
-                                <div class="placeholder-image">
-                                    <i class="fas fa-palette fa-3x"></i>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="product-info">
-                            <h3>{{ collection.name }}</h3>
-                            <p class="product-type">Collection</p>
-                            <p class="product-price">{{ collection.product_count }} Design{{ collection.product_count|pluralize }}</p>
-                            <div class="collection-link">
-                                <span>Explore Collection</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+            {% include 'products/_collection_cards.html' with collections=collections %}
+        </div>
         </div>
         {% else %}
         <div class="text-center">
