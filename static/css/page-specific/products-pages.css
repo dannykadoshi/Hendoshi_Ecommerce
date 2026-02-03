@@ -2451,3 +2451,19 @@
     color: var(--neon-pink);
     font-weight: 600;
 }
+
+/* ===== PRODUCT DETAIL INLINE STYLE EXTRACTION ===== */
+
+/* Product header spacing adjustments */
+.product-header-spacing {
+    margin-top: -0.5rem;
+}
+
+.product-title-spacing {
+    margin-top: -0.5rem;
+}
+
+/* Heart icon size variations */
+.heart-icon-large {
+    font-size: 2em;
+}

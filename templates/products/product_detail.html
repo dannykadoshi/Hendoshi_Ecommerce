@@ -103,7 +103,7 @@
                 <div class="product-details">
 
                     <!-- Brand and Rating Header -->
-                    <div class="product-header d-flex align-items-center justify-content-between mb-2" style="margin-top: -0.5rem;">
+                    <div class="product-header d-flex align-items-center justify-content-between mb-2 product-header-spacing">
                         <div class="brand-name">
                             <span class="brand-text">HENDOSHI</span>
                         </div>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex align-items-center justify-content-between mb-2" style="margin-top: -0.5rem;">
+                    <div class="d-flex align-items-center justify-content-between mb-2 product-title-spacing">
                         <div class="d-flex align-items-center gap-2">
                             <h1 class="product-title mb-0">{{ product.name }}</h1>
                             {% if product.is_archived %}
@@ -267,7 +267,7 @@
 
                         {% if user.is_authenticated %}
                         <button type="button" class="btn btn-outline-pink battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
-                            <i class="far fa-heart heart-icon" style="font-size: 2em;"></i>
+                            <i class="far fa-heart heart-icon heart-icon-large"></i>
                         </button>
                         {% endif %}
                         </div>

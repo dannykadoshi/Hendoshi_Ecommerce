@@ -2345,8 +2345,8 @@
     }
 
     .cart-drawer-title-icon {
-        width: 20px !important;
-        height: 20px !important;
+        width: 24px !important;
+        height: 24px !important;
     }
 
     .cart-drawer-related-cta {
@@ -4373,6 +4373,61 @@ body.cart-drawer-open {
     box-shadow: none !important;
     border-color: rgba(255, 20, 147, 0.3) !important;
     z-index: auto !important;
+}
+
+/* Privacy Policy Links */
+.privacy-policy-link {
+    color: #ff1493 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+}
+
+.privacy-policy-link:hover {
+    color: #ff69b4 !important;
+    text-decoration: underline !important;
+}
+
+/* Admin Theme Preview Styles */
+.theme-info-label {
+    width: 200px;
+}
+
+.preview-controls-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Product Creation Styles */
+.creation-mode-btn {
+    min-width: 250px;
+    flex: 1;
+    max-width: 300px;
+}
+
+.mode-description-text {
+    color: var(--text-primary);
+    opacity: 0.85;
+}
+
+/* Bulk Creation Styles */
+.explanatory-text {
+    color: var(--text-primary);
+    opacity: 0.8;
+}
+
+.summary-details-text {
+    color: var(--text-primary);
+    opacity: 0.8;
+}
+
+/* Admin Theme Styles */
+.date-range-arrow {
+    font-size: 0.7rem;
+}
+
+/* Size Guide Styles */
+.shipping-description-mobile {
+    font-size: 0.9rem;
+    color: var(--neon-pink);
 }
 
 

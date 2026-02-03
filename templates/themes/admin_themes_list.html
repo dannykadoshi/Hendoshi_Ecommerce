@@ -106,7 +106,7 @@
                                 <td>
                                     {% if theme.start_date or theme.end_date %}
                                         {% if theme.start_date %}{{ theme.start_date|date:"M d" }}{% else %}--{% endif %}
-                                        <i class="fas fa-arrow-right mx-1" style="font-size: 0.7rem;"></i>
+                                        <i class="fas fa-arrow-right mx-1 date-range-arrow"></i>
                                         {% if theme.end_date %}{{ theme.end_date|date:"M d" }}{% else %}--{% endif %}
                                     {% else %}
                                         <span class="text-muted">Always</span>
