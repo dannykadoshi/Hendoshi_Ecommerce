@@ -4465,11 +4465,23 @@ body.cart-drawer-open {
 }
 
 .rounded-glass {
-    var(--border-radius-glass);
+    border-radius: var(--border-radius-glass);
 }
 
 .p-glass {
-    var(--padding-glass);
+    padding: var(--padding-glass);
+}
+
+.text-light-gray {
+    color: var(--light-gray);
+}
+
+.text-neon-pink {
+    color: var(--neon-pink);
+}
+
+.bg-neon-pink {
+    background: var(--neon-pink);
 }
 
 /* Button Utility Classes */
@@ -4500,9 +4512,21 @@ body.cart-drawer-open {
     color: var(--text-muted) !important;
 }
 
+.text-light-gray {
+    color: var(--light-gray) !important;
+}
+
+.text-neon-pink {
+    color: var(--neon-pink) !important;
+}
+
 /* Background Utility Classes */
 .bg-glass-light {
     background: var(--bg-glass-light) !important;
+}
+
+.bg-neon-pink {
+    background: var(--neon-pink) !important;
 }
 
 /* Border Utility Classes */
