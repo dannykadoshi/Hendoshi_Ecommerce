@@ -1,19 +1,84 @@
 // Admin Review Detail - Review Status Update, Admin Reply, Image Deletion
-const reviewIdElem = document.querySelector('[data-review-id]');
-const reviewId = reviewIdElem ? reviewIdElem.dataset.reviewId : null;
+const reviewDetailCard = document.querySelector('.review-detail-card');
+const reviewId = reviewDetailCard ? reviewDetailCard.dataset.reviewId : null;
+
+// Make functions globally available
+window.updateStatus = updateStatus;
+window.clearReply = clearReply;
+window.deleteImage = deleteImage;
+window.closeReviewConfirmModal = closeReviewConfirmModal;
+
+// Global variables for modal callbacks
+let currentConfirmCallback = null;
+
+function showReviewConfirmModal(message, onConfirm) {
+    const modal = document.getElementById('reviewConfirmModal');
+    const messageEl = document.getElementById('reviewConfirmMessage');
+    const confirmBtn = document.getElementById('confirmActionBtn');
+
+    if (!modal || !messageEl || !confirmBtn) {
+        console.error('Review confirm modal elements not found');
+        // Fallback to browser confirm
+        if (confirm(message)) {
+            onConfirm();
+        }
+        return;
+    }
+
+    messageEl.textContent = message;
+    currentConfirmCallback = onConfirm;
+
+    // Set up confirm button
+    confirmBtn.onclick = function() {
+        const bsModal = bootstrap.Modal.getInstance(modal);
+        if (bsModal) {
+            bsModal.hide();
+        }
+        if (currentConfirmCallback) {
+            currentConfirmCallback();
+        }
+    };
+
+    // Show Bootstrap modal
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+}
+
+function closeReviewConfirmModal() {
+    const modal = document.getElementById('reviewConfirmModal');
+    if (modal) {
+        const bsModal = bootstrap.Modal.getInstance(modal);
+        if (bsModal) {
+            bsModal.hide();
+        }
+    }
+    currentConfirmCallback = null;
+}
 
 function updateStatus(reviewId, status) {
-    if (!confirm(`Are you sure you want to ${status} this review?`)) {
+    showReviewConfirmModal(
+        `Are you sure you want to ${status} this review?`,
+        function() {
+            proceedWithStatusUpdate(reviewId, status);
+        }
+    );
+}
+
+function proceedWithStatusUpdate(reviewId, status) {
+    if (!reviewDetailCard) {
+        console.error('Review detail card not found');
+        showToast('Error: Review detail card not found', 'error');
         return;
     }
 
-    const urlContainer = document.querySelector('[data-update-status-url]');
-    if (!urlContainer) {
-        console.error('URL container not found');
+    const updateStatusUrl = reviewDetailCard.dataset.updateStatusUrl;
+    const adminListReviewsUrl = reviewDetailCard.dataset.adminListReviewsUrl;
+
+    if (!updateStatusUrl) {
+        console.error('Update status URL not found');
+        showToast('Error: Update status URL not configured', 'error');
         return;
     }
-    const updateStatusUrl = urlContainer.dataset.updateStatusUrl;
-    const adminListReviewsUrl = urlContainer.dataset.adminListReviewsUrl;
 
     fetch(updateStatusUrl.replace('0', reviewId), {
         method: 'POST',
@@ -51,9 +116,9 @@ function updateStatus(reviewId, status) {
 // Admin Reply Form
 const adminReplyForm = document.getElementById('adminReplyForm');
 if (adminReplyForm) {
-    const adminReplyUrl = adminReplyForm.dataset.adminReplyUrl || '';
+    const adminReplyUrl = adminReplyForm.dataset.adminReplyUrl;
     if (!adminReplyUrl) {
-        console.error('Admin reply URL not found');
+        console.error('Admin reply URL not found on form');
     }
     
     adminReplyForm.addEventListener('submit', function(e) {
@@ -86,10 +151,15 @@ if (adminReplyForm) {
 }
 
 function clearReply() {
-    if (!confirm('Are you sure you want to remove this reply?')) {
-        return;
-    }
+    showReviewConfirmModal(
+        'Are you sure you want to remove this reply?',
+        function() {
+            proceedWithReplyRemoval();
+        }
+    );
+}
 
+function proceedWithReplyRemoval() {
     const adminReplyUrl = adminReplyForm.dataset.adminReplyUrl;
 
     fetch(adminReplyUrl.replace('0', reviewId), {
@@ -116,11 +186,16 @@ function clearReply() {
 }
 
 function deleteImage(imageId) {
-    if (!confirm('Are you sure you want to delete this image?')) {
-        return;
-    }
+    showReviewConfirmModal(
+        'Are you sure you want to delete this image?',
+        function() {
+            proceedWithImageDeletion(imageId);
+        }
+    );
+}
 
-    const deleteImageUrl = document.querySelector('[data-delete-image-url]').dataset.deleteImageUrl;
+function proceedWithImageDeletion(imageId) {
+    const deleteImageUrl = reviewDetailCard.dataset.deleteImageUrl;
 
     fetch(deleteImageUrl.replace('0', imageId), {
         method: 'POST',

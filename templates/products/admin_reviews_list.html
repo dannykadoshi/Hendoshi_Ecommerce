@@ -262,5 +262,36 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- Bulk Review Confirmation Modal -->
+<div class="modal fade vault-confirm-modal" id="bulkReviewConfirmModal" tabindex="-1" aria-labelledby="bulkReviewConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="bulkReviewConfirmModalLabel">
+                    <i class="fas fa-question-circle vault-modal-icon"></i>
+                    Confirm Bulk Action
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p id="bulkReviewConfirmMessage" class="vault-modal-message"></p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger vault-modal-btn-confirm" id="confirmBulkActionBtn">
+                    <i class="fas fa-check"></i> Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="{% static 'js/admin-forms.js' %}"></script>
 {% endblock %}

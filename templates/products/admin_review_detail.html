@@ -26,7 +26,7 @@
     <div class="container-fluid vault-container">
         <div class="row">
             <div class="col-12 col-lg-10 mx-auto">
-                <div class="review-detail-card">
+                <div class="review-detail-card" data-review-id="{{ review.id }}" data-update-status-url="{% url 'admin_update_review_status' 0 %}" data-admin-list-reviews-url="{% url 'admin_list_reviews' %}" data-delete-image-url="{% url 'admin_delete_review_image' 0 %}">
                     <!-- Back Button -->
                     <div class="mb-4">
                         <a href="{% url 'admin_list_reviews' %}" class="back-btn">
@@ -120,7 +120,7 @@
                         </div>
                         {% endif %}
 
-                        <form id="adminReplyForm" class="admin-reply-form">
+                        <form id="adminReplyForm" class="admin-reply-form" data-admin-reply-url="{% url 'admin_reply_review' 0 %}">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label class="form-label">{% if review.admin_reply %}Edit{% else %}Add{% endif %} Reply:</label>
@@ -216,23 +216,36 @@
     </div>
 </div>
 
-<script>
-// Pass review ID and URLs to external JS
-const reviewDataElem = document.querySelector('.review-card');
-if (reviewDataElem) {
-    reviewDataElem.dataset.reviewId = "{{ review.id }}";
-}
-const updateStatusUrlElem = document.createElement('div');
-updateStatusUrlElem.dataset.updateStatusUrl = "{% url 'admin_update_review_status' 0 %}";
-updateStatusUrlElem.dataset.adminListReviewsUrl = "{% url 'admin_list_reviews' %}";
-updateStatusUrlElem.dataset.deleteImageUrl = "{% url 'admin_delete_review_image' 0 %}";
-updateStatusUrlElem.style.display = 'none';
-document.body.appendChild(updateStatusUrlElem);
+<!-- Confirmation Modal for Review Actions -->
+<div class="modal fade vault-confirm-modal" id="reviewConfirmModal" tabindex="-1" aria-labelledby="reviewConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="reviewConfirmModalLabel">
+                    <i class="fas fa-question-circle vault-modal-icon"></i>
+                    Confirm Action
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p id="reviewConfirmMessage" class="vault-modal-message"></p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger vault-modal-btn-confirm" id="confirmActionBtn">
+                    <i class="fas fa-check"></i> Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-const adminReplyForm = document.getElementById('adminReplyForm');
-if (adminReplyForm) {
-    adminReplyForm.dataset.adminReplyUrl = "{% url 'admin_reply_review' 0 %}";
-}
-</script>
-<script src="{% static 'js/page-specific/admin-review-detail.js' %}"></script>
+<script src="{% static 'js/page-specific/admin-review-detail.js' %}?v=20260203"></script>
 {% endblock %}

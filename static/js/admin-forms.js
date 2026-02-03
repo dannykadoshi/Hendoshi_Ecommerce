@@ -70,6 +70,40 @@ window.confirmThemeDelete = function(themeId, themeName) {
     return false;
 };
 
+// ========================================
+// BULK REVIEW CONFIRMATION MODAL (GLOBAL SCOPE for onclick)
+// ========================================
+let bulkReviewCallback = null;
+
+window.showBulkReviewConfirmModal = function(message, callback) {
+    document.getElementById('bulkReviewConfirmMessage').textContent = message;
+    bulkReviewCallback = callback;
+    
+    // Show Bootstrap modal
+    const modal = document.getElementById('bulkReviewConfirmModal');
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+};
+
+window.closeBulkReviewConfirmModal = function() {
+    const modal = document.getElementById('bulkReviewConfirmModal');
+    const bsModal = bootstrap.Modal.getInstance(modal);
+    if (bsModal) {
+        bsModal.hide();
+    }
+    bulkReviewCallback = null;
+};
+
+// Handle bulk review confirm button click
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'confirmBulkActionBtn') {
+        if (bulkReviewCallback) {
+            bulkReviewCallback();
+            closeBulkReviewConfirmModal();
+        }
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // ========================================
@@ -227,12 +261,12 @@ window.bulkUpdateStatus = function(status) {
         return;
     }
 
-    if (!confirm(`Update ${selectedReviews.length} review(s) to ${status}?`)) {
-        return;
-    }
-
-    selectedReviews.forEach(cb => {
-        updateReviewStatus(cb.value, status);
+    const message = `Update ${selectedReviews.length} review(s) to ${status}?`;
+    
+    showBulkReviewConfirmModal(message, function() {
+        selectedReviews.forEach(cb => {
+            updateReviewStatus(cb.value, status);
+        });
     });
 };
 
