@@ -152,6 +152,16 @@
         {% if user.is_staff %}
         <link rel="stylesheet" href="{% static 'css/admin-pages.css' %}?v=1.0">
         {% endif %}
+        
+        <!-- Page-Specific CSS (extracted from inline styles for Code Institute compliance) -->
+        <link rel="stylesheet" href="{% static 'css/page-specific/home-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/products-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/checkout-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/profiles-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/themes-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/cookies-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/misc-pages.css' %}?v=1.0">
+        
         <!-- Newsletter Popup CSS -->
         <link rel="stylesheet" href="{% static 'css/newsletter-popup.css' %}">
 

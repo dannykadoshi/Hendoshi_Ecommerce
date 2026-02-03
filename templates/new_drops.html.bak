@@ -99,6 +99,117 @@
     </div>
 </div>
 
+<style>
+/* Vault Page Hero Styles */
+.vault-page {
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.vault-container {
+    padding-top: 2rem;
+}
+
+/* Glassmorphism Effects */
+.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 15px !important;
+}
+
+.glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 105, 180, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
+}
+    margin-top: -20px;
+}
+
+.collections-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.collections-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.collections-grid-section {
+    background: var(--dark-bg);
+}
+
+.price-section {
+    margin: 0.5rem 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.sale-price {
+    color: var(--neon-pink);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.regular-price {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.new-drop-date {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.vest-item-collection {
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .collections-title {
+        font-size: 2.5rem;
+    }
+
+    .collections-hero {
+        padding: 3rem 0;
+    }
+
+    .battle-vest-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .collections-title {
+        font-size: 2rem;
+    }
+
+    .battle-vest-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 
 <!-- Unified Quick Add Modal -->
 <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">

@@ -2,6 +2,12 @@
 {% load static %}
 {% block extra_title %}About HENDOSHI{% endblock %}
 {% block content %}
+<style>
+.about-buttons .btn-pink {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+</style>
 <div class="vault-page">
 	<div class="container-fluid">
 		<!-- Standard Site Hero (products/new drops/vault style) -->

@@ -4,79 +4,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
-<style>
-.theme-form-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 2rem;
-}
 
-.form-section {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.form-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.form-section-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--neon-pink);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.form-check-label {
-    color: var(--off-white);
-}
-
-.theme-type-preview {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: rgba(255, 45, 161, 0.1);
-    border-radius: 8px;
-    margin-top: 0.5rem;
-}
-
-.theme-type-preview .emoji {
-    font-size: 2rem;
-}
-
-.theme-type-preview .description {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Custom CSS textarea styling */
-.custom-css-editor {
-    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
-    font-size: 0.85rem;
-    background: rgba(0, 0, 0, 0.3);
-    color: #e0e0e0;
-}
-
-/* More visible gray text */
-.text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Button text alignment */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
 {% endblock %}
 
 {% block content %}

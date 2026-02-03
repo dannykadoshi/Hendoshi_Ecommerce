@@ -4,73 +4,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin_shipping.css' %}">
-<style>
-/* Theme-specific badge colors */
-.badge.bg-active { background-color: #28a745 !important; }
-.badge.bg-inactive { background-color: #6c757d !important; }
-.badge.bg-paused { background-color: #fd7e14 !important; }
-.badge.bg-scheduled { background-color: #17a2b8 !important; }
-.badge.bg-expired { background-color: #dc3545 !important; }
 
-/* More visible gray text */
-.text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Theme type badges */
-.theme-type-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    background: rgba(255, 45, 161, 0.15);
-    color: var(--neon-pink);
-}
-
-/* Priority indicator */
-.priority-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    font-weight: 700;
-    font-size: 0.85rem;
-}
-.priority-badge.high { background: rgba(255, 45, 161, 0.3); color: var(--neon-pink); }
-.priority-badge.medium { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
-.priority-badge.low { background: rgba(108, 117, 125, 0.3); color: #adb5bd; }
-
-/* Animation speed/density display */
-.config-pills {
-    display: flex;
-    gap: 0.35rem;
-    flex-wrap: wrap;
-}
-.config-pill {
-    padding: 0.15rem 0.4rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
-    background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.7);
-}
-.config-pill.strip-enabled {
-    background: rgba(255, 45, 161, 0.2);
-    color: var(--neon-pink);
-}
-
-/* Button text alignment */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
 {% endblock %}
 
 {% block content %}
