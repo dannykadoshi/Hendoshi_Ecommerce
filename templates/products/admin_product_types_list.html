@@ -95,12 +95,13 @@
                                             <i class="fas fa-info-circle"></i> Built-in type
                                         </span>
                                     {% else %}
-                                        <div class="btn-group btn-group-sm admin-action-animated">
-                                            <a href="{% url 'admin_edit_product_type' t.pk %}" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-edit"></i> Edit
+                                        <div class="d-flex gap-1 shipping-admin-actions">
+                                            <a href="{% url 'admin_edit_product_type' t.pk %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit">
+                                                <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteProductType('{{ t.pk }}', '{{ t.name|escapejs }}', '{% url 'admin_delete_product_type' t.pk %}')">
-                                                <i class="fas fa-trash"></i> Delete
+                                            <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDeleteProductType('{{ t.pk }}', '{{ t.name|escapejs }}', '{% url 'admin_delete_product_type' t.pk %}')"
+ title="Delete">
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     {% endif %}
@@ -178,11 +179,11 @@
 
                                         <!-- Action Buttons on Right Side -->
                                         {% if not t.is_static %}
-                                        <div class="btn-group-vertical btn-group-sm ms-2 admin-action-animated" role="group">
-                                            <a href="{% url 'admin_edit_product_type' t.pk %}" class="btn btn-outline-primary btn-sm" title="Edit">
+                                        <div class="d-flex flex-column gap-1 ms-2">
+                                            <a href="{% url 'admin_edit_product_type' t.pk %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteProductType('{{ t.pk }}', '{{ t.name|escapejs }}', '{% url 'admin_delete_product_type' t.pk %}')" title="Delete">
+                                            <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDeleteProductType('{{ t.pk }}', '{{ t.name|escapejs }}', '{% url 'admin_delete_product_type' t.pk %}')" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>

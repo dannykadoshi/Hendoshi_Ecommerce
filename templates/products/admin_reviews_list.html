@@ -144,8 +144,8 @@
                                 <td>{{ review.helpful_count }}</td>
                                 <td>{{ review.created_at|date:"M d, Y" }}</td>
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="viewReviewDetail({{ review.id }})" title="View Full Review">
+                                    <div class="d-flex gap-1 shipping-admin-actions">
+                                        <button type="button" class="btn btn-sm btn-info btn-width-32 btn-height-32" onclick="viewReviewDetail({{ review.id }})" title="View Full Review">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -202,7 +202,7 @@
                                         <small class="text-muted">
                                             {{ review.created_at|date:"M d, Y" }} • {{ review.helpful_count }} helpful
                                         </small>
-                                        <button type="button" class="btn btn-outline-info btn-sm" onclick="viewReviewDetail({{ review.id }})">
+                                        <button type="button" class="btn btn-sm btn-info btn-width-32 btn-height-32" onclick="viewReviewDetail({{ review.id }})" title="View Full Review">
                                             <i class="fas fa-eye"></i> View
                                         </button>
                                     </div>

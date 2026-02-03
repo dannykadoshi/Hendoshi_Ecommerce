@@ -156,14 +156,15 @@
                                     </td>
                                     <td>{{ product.created_at|date:"M d, Y" }}</td>
                                     <td>
-                                        <div class="btn-group shipping-admin-actions" role="group">
-                                            <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-info btn-sm" title="View" target="_blank">
+                                        <div class="d-flex gap-1 min-width-120 shipping-admin-actions">
+                                            <a href="{% url 'product_detail' product.slug %}" class="btn btn-sm btn-info btn-width-32 btn-height-32" title="View" target="_blank">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{% url 'edit_product' product.slug %}" class="btn btn-outline-primary btn-sm" title="Edit">
+                                            <a href="{% url 'edit_product' product.slug %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteProduct('{{ product.pk }}', '{{ product.name|escapejs }}', '{{ product.collection.name|default:"—"|escapejs }}', '{{ product.get_product_type_display|escapejs }}', '{{ product.base_price }}', '{{ product.is_active|yesno:"Active,Inactive"|escapejs }}{% if product.is_archived %} (Archived){% endif %}', '{{ product.variants.count }}', '{{ product.created_at|date:"M d, Y H:i"|escapejs }}', {% if product.main_image %}'{{ product.main_image.url|escapejs }}'{% else %}''{% endif %}, '{% url 'admin_delete_product' product.pk %}')" title="Delete">
+                                            <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDeleteProduct('{{ product.pk }}', '{{ product.name|escapejs }}', '{{ product.collection.name|default:"—"|escapejs }}', '{{ product.get_product_type_display|escapejs }}', '{{ product.base_price }}', '{{ product.is_active|yesno:"Active,Inactive"|escapejs }}{% if product.is_archived %} (Archived){% endif %}', '{{ product.variants.count }}', '{{ product.created_at|date:"M d, Y H:i"|escapejs }}', {% if product.main_image %}'{{ product.main_image.url|escapejs }}'{% else %}''{% endif %}, '{% url 'admin_delete_product' product.pk %}')"
+ title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -248,14 +249,14 @@
                                             </div>
 
                                             <!-- Action Buttons on Right Side -->
-                                            <div class="btn-group-vertical btn-group-sm ms-2" role="group">
-                                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-info btn-sm" title="View" target="_blank">
+                                            <div class="d-flex flex-column gap-1 ms-2">
+                                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-sm btn-info btn-width-32 btn-height-32" title="View" target="_blank">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{% url 'edit_product' product.slug %}" class="btn btn-outline-primary btn-sm" title="Edit">
+                                                <a href="{% url 'edit_product' product.slug %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteProduct('{{ product.pk }}', '{{ product.name|escapejs }}', '{{ product.collection.name|default:"—"|escapejs }}', '{{ product.get_product_type_display|escapejs }}', '{{ product.base_price }}', '{{ product.is_active|yesno:"Active,Inactive"|escapejs }}{% if product.is_archived %} (Archived){% endif %}', '{{ product.variants.count }}', '{{ product.created_at|date:"M d, Y H:i"|escapejs }}', {% if product.main_image %}'{{ product.main_image.url|escapejs }}'{% else %}''{% endif %}, '{% url 'admin_delete_product' product.pk %}')" title="Delete">
+                                                <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDeleteProduct('{{ product.pk }}', '{{ product.name|escapejs }}', '{{ product.collection.name|default:"—"|escapejs }}', '{{ product.get_product_type_display|escapejs }}', '{{ product.base_price }}', '{{ product.is_active|yesno:"Active,Inactive"|escapejs }}{% if product.is_archived %} (Archived){% endif %}', '{{ product.variants.count }}', '{{ product.created_at|date:"M d, Y H:i"|escapejs }}', {% if product.main_image %}'{{ product.main_image.url|escapejs }}'{% else %}''{% endif %}, '{% url 'admin_delete_product' product.pk %}')" title="Delete">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>

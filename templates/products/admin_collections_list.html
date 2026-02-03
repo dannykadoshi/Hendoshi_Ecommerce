@@ -51,12 +51,12 @@
                                 </td>
                                 <td><code class="slug-text">{{ c.slug }}</code></td>
                                 <td>
-                                    <div class="btn-group admin-action-animated" role="group">
-                                        <a href="{% url 'admin_edit_collection' c.pk %}" class="btn btn-outline-primary btn-sm">
-                                            <i class="fas fa-edit"></i> Edit
+                                    <div class="d-flex gap-1 shipping-admin-actions">
+                                        <a href="{% url 'admin_edit_collection' c.pk %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit">
+                                            <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDeleteCollection('{{ c.pk }}', '{{ c.name|escapejs }}', '{% url 'admin_delete_collection' c.pk %}')">
-                                            <i class="fas fa-trash"></i> Delete
+                                        <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDeleteCollection('{{ c.pk }}', '{{ c.name|escapejs }}', '{% url 'admin_delete_collection' c.pk %}')" title="Delete">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
                                 </td>

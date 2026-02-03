@@ -9,19 +9,31 @@
 <form id="csrfForm" class="d-none">{% csrf_token %}</form>
 
 <!-- Custom Modal for Remove Confirmation -->
-<div id="removeVestModal" class="modal fade" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered quick-add-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removeVestModalLabel">Remove from Battle Vest</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div id="removeVestModal" class="modal fade vault-confirm-modal" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h5 class="modal-title vault-modal-title" id="removeVestModalLabel">
+                    <i class="fas fa-heart-broken vault-modal-icon"></i>
+                    Remove from Battle Vest
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center">
-                <p class="mb-0 vest-modal-text">Remove this item from your Battle Vest?</p>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message">Are you sure you want to remove this item from your Battle Vest?</p>
+                </div>
             </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-pink px-4" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-pink px-4" id="confirmRemoveVestBtn">Remove</button>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger vault-modal-btn-confirm" id="confirmRemoveVestBtn">
+                    <i class="fas fa-heart-broken"></i> Remove
+                </button>
             </div>
         </div>
     </div>
