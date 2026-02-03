@@ -146,22 +146,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const masterToggle = document.getElementById('email_notifications_enabled');
-    const optionsSection = document.getElementById('notificationOptions');
-
-    function updateOptionsState() {
-        if (masterToggle.checked) {
-            optionsSection.classList.remove('disabled');
-        } else {
-            optionsSection.classList.add('disabled');
-        }
-    }
-
-    masterToggle.addEventListener('change', updateOptionsState);
-    updateOptionsState();
-});
-</script>
+{% block extra_js %}
+<script src="{% static 'js/notification-preferences.js' %}"></script>
 {% endblock %}
