@@ -74,8 +74,16 @@ def search(request):
     """
     View to handle product search
     """
+    from django.core.paginator import Paginator
     products = Product.objects.filter(is_active=True, is_archived=False)
+    collections = Collection.objects.all()
+    product_types = ProductType.objects.all()
     query = ''
+    selected_collection = None
+    selected_type = None
+    selected_audience = None
+    sort = None
+    direction = None
     
     if 'q' in request.GET:
         query = request.GET['q'].strip()
@@ -89,6 +97,51 @@ def search(request):
             )
             products = products.filter(queries).distinct()
     
+    # Filter by collection
+    if 'collection' in request.GET:
+        selected_collection = request.GET['collection']
+        if selected_collection:
+            products = products.filter(collection__slug=selected_collection)
+    
+    # Filter by product type
+    if 'type' in request.GET:
+        selected_type = request.GET['type']
+        if selected_type:
+            try:
+                product_type = ProductType.objects.get(slug=selected_type)
+                products = products.filter(product_type=product_type)
+            except ProductType.DoesNotExist:
+                products = products.none()
+    
+    # Filter by audience
+    if 'audience' in request.GET:
+        selected_audience = request.GET['audience']
+        if selected_audience:
+            products = products.filter(audience=selected_audience)
+    
+    # Sorting
+    if 'sort' in request.GET:
+        sortkey = request.GET['sort']
+        sort = sortkey
+        
+        if sortkey == 'name':
+            sortkey = 'name'
+        if sortkey == 'price':
+            sortkey = 'base_price'
+        
+        if 'direction' in request.GET:
+            direction = request.GET['direction']
+            if direction == 'desc':
+                sortkey = f'-{sortkey}'
+        
+        products = products.order_by(sortkey)
+    
+    # Pagination
+    per_page = 30
+    paginator = Paginator(products, per_page)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    
     # Get suggestions if no results (similar collections or popular products)
     suggestions = []
     if query and not products.exists():
@@ -96,10 +149,18 @@ def search(request):
         suggestions = Product.objects.filter(is_active=True, is_archived=False).order_by('-id')[:4]
     
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'search_term': query,
         'suggestions': suggestions,
         'product_count': products.count(),
+        'collections': collections,
+        'product_types': product_types,
+        'current_collection': selected_collection,
+        'current_type': selected_type,
+        'current_audience': selected_audience,
+        'sort_by': sort,
+        'direction': direction,
     }
     
     return render(request, 'products/search_results.html', context)
