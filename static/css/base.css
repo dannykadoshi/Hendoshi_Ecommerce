@@ -1,3 +1,23 @@
+/* ================================================
+   HENDOSHI BASE CSS - Global Variables & Styles
+   ================================================
+   
+   This file contains only:
+   - CSS custom properties (:root variables)
+   - Global resets and base styles
+   
+   All specific components are in separate files:
+   - components.css (buttons, forms, modals, alerts)
+   - navigation.css (navbar, menus, dropdowns)
+   - hero-carousel.css (homepage hero section)
+   - products.css (product pages, cards, grids)
+   - cart-checkout.css (cart & checkout flows)
+   - vault-community.css (vault gallery & community)
+   - profile-account.css (user profile & account pages)
+   - admin-pages.css (admin-only styles)
+   ================================================ */
+
+/* CSS Variables - Dark Mode (Default) */
 :root {
     --black: #000000;
     --white: #FFFFFF;
@@ -8,7 +28,7 @@
     --gray: #666666;
 }
 
-/* Light Mode Theme */
+/* CSS Variables - Light Mode */
 :root.light-mode {
     --black: #FFFFFF;
     --white: #000000;
@@ -19,12 +39,14 @@
     --gray: #666666;
 }
 
+/* Global Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Base Body Styles */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background-color: var(--black);
@@ -33,6 +55,3 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
 }
-
-/* Theme Toggle Button */
-.theme-toggle {
