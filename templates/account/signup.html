@@ -36,14 +36,6 @@
                 <form method="post" action="{% url 'account_signup' %}" novalidate id="signupForm">
                     {% csrf_token %}
 
-                    {% if form.errors %}
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            showToast('Please fix the errors below to complete your registration.', 'error');
-                        });
-                    </script>
-                    {% endif %}
-
                     <!-- Username -->
                     <div class="mb-3">
                         <label for="id_username" class="form-label">{{ form.username.label }}</label>
@@ -159,44 +151,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const formInputs = document.querySelectorAll('#signupForm .form-control');
-        
-        formInputs.forEach(input => {
-            // Remove error on input
-            input.addEventListener('input', function() {
-                const errorElement = this.closest('div').querySelector('.form-error-text');
-                if (errorElement) {
-                    errorElement.style.display = 'none';
-                }
-                // Add green border when user starts typing
-                if (this.value.trim() !== '') {
-                    this.classList.add('has-value');
-                } else {
-                    this.classList.remove('has-value');
-                }
-            });
-            
-            // Also handle change for good measure
-            input.addEventListener('change', function() {
-                const errorElement = this.closest('div').querySelector('.form-error-text');
-                if (errorElement && this.value.trim() !== '') {
-                    errorElement.style.display = 'none';
-                }
-                if (this.value.trim() !== '') {
-                    this.classList.add('has-value');
-                } else {
-                    this.classList.remove('has-value');
-                }
-            });
-            
-            // Check if field has initial value (from form re-render after error)
-            if (input.value.trim() !== '') {
-                input.classList.add('has-value');
-            }
-        });
-    });
-</script>
+{% block extra_js %}
+<script src="{% static 'js/page-specific/signup.js' %}"></script>
 {% endblock %}

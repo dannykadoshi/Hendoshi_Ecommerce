@@ -24,16 +24,8 @@
                     <div class="auth-card">
                 <h1 class="auth-title">LOGIN</h1>
                 
-                <form method="post" action="{% url 'account_login' %}">
+                <form method="post" action="{% url 'account_login' %}" {% if form.errors %}data-form-errors="true"{% endif %}>
                     {% csrf_token %}
-
-                    {% if form.errors %}
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            showToast('Invalid username/email or password. Please try again.', 'error');
-                        });
-                    </script>
-                    {% endif %}
 
                     <div class="mb-3">
                         <label for="id_login" class="form-label">Username or Email</label>
@@ -63,4 +55,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/page-specific/login.js' %}"></script>
 {% endblock %}
