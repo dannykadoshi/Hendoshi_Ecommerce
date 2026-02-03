@@ -4,7 +4,7 @@
 {% block extra_title %}New Drops{% endblock %}
 
 {% block content %}
-<div class="vault-page">
+<div class="products-page vault-page">
     <!-- New Drops Hero -->
     <section class="vault-hero">
         <div class="container">
@@ -17,6 +17,77 @@
             </div>
         </div>
     </section>
+
+    <!-- Filters & Sort Section -->
+    <div class="container-fluid">
+        <div class="filters-sort-wrapper filters-right mb-4 mt-3">
+            <button class="btn filters-sort-btn" id="filtersSortBtn">
+                <i class="fas fa-sliders-h"></i> Filters & Sort
+            </button>
+            
+            <!-- Mobile Overlay -->
+            <div class="filters-overlay" id="filtersOverlay"></div>
+            
+            <!-- Filters Dropdown Menu -->
+            <div class="filters-dropdown" id="filtersDropdown">
+                <div class="filters-header">
+                    <h4 class="filters-title">Filters & Sort</h4>
+                    <button class="filters-close-btn" id="filtersCloseBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Filter Tabs -->
+                <div class="filters-tabs">
+                    <button class="filter-tab active" data-tab="sort">
+                        <i class="fas fa-sort"></i> Sort
+                    </button>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="filters-tab-content">
+                    <!-- Sort Tab -->
+                    <div class="filter-tab-pane active" id="sort-tab" data-content="sort">
+                        <div class="filter-options">
+                            <label class="filter-option checkbox-option">
+                                <input type="checkbox" name="sort" value="" {% if not request.GET.sort %}checked{% endif %}>
+                                <i class="fas fa-clock"></i>
+                                <span>Newest First</span>
+                                <div class="checkmark"></div>
+                            </label>
+                            <label class="filter-option checkbox-option">
+                                <input type="checkbox" name="sort" value="price-asc" {% if request.GET.sort == 'price-asc' %}checked{% endif %}>
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Price: Low to High</span>
+                                <div class="checkmark"></div>
+                            </label>
+                            <label class="filter-option checkbox-option">
+                                <input type="checkbox" name="sort" value="price-desc" {% if request.GET.sort == 'price-desc' %}checked{% endif %}>
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Price: High to Low</span>
+                                <div class="checkmark"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Apply Filters Button -->
+                <div class="filters-actions">
+                    <div class="filter-note">
+                        <small>Sort the latest drops</small>
+                    </div>
+                    <div class="filter-buttons">
+                        <button type="button" class="btn btn-pink apply-filters-btn">
+                            <i class="fas fa-filter"></i> Apply Sort
+                        </button>
+                        <button type="button" class="btn btn-pink clear-filters-btn btn-clear-ghost">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container-fluid vault-container">
                 {% if new_drops %}
@@ -70,5 +141,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/page-specific/products-filters.js' %}"></script>
 <script src="{% static 'js/page-specific/quick-add.js' %}"></script>
+<script src="{% static 'js/battle-vest.js' %}"></script>
 {% endblock %}

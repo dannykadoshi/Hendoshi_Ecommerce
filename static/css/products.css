@@ -553,6 +553,20 @@ h2.gradient-title {
     gap: 1.5rem;
 }
 
+/* Prevent grid items from stretching to the height of the tallest item
+   and ensure flex children can shrink properly. Fixes cases where a
+   single tall child forces a very large row height. */
+.products-grid {
+    align-items: start;
+}
+
+/* Allow product cards and their inner flex containers to shrink below
+   content size when necessary (prevents unexpected large heights). */
+.product-card,
+.product-card-inner {
+    min-height: 0;
+}
+
 /* 5 columns for very large but not ultra-wide screens */
 @media (max-width: 1700px) {
     .products-grid {
@@ -664,9 +678,10 @@ h2.gradient-title {
 
 /* Tighten spacing between the hero and product controls/grid on products page
    Scoped to avoid affecting other pages. */
-.products-page .vault-hero {
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
+.products-page .vault-hero,
+.products-page section.vault-hero {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 0.75rem !important;
 }
 
 .products-page .filters-sort-wrapper {
@@ -677,15 +692,20 @@ h2.gradient-title {
 .products-page .vault-container {
     padding-top: 1rem;
     padding-bottom: 2rem;
+    max-width: 1400px !important; /* Constrain width for proper grid layout */
+    margin: 0 auto !important; /* Center the container */
 }
 
 @media (max-width: 991px) {
-    .products-page .vault-hero {
-        margin-bottom: 0.75rem;
-        padding-bottom: 0.5rem;
+    .products-page .vault-hero,
+    .products-page section.vault-hero {
+        margin-bottom: 0.75rem !important;
+        padding-bottom: 0.5rem !important;
     }
     .products-page .vault-container {
         padding-top: 0.75rem;
+        max-width: 100% !important; /* Full width on mobile */
+        margin: 0 !important;
     }
     .products-page .filters-sort-wrapper {
         margin-top: 0.5rem;

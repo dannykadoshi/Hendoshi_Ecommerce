@@ -1,8 +1,6 @@
 {% for product in products %}
 <div class="product-card-wrapper">
     <div class="product-card glassmorphic-card">
-        {% if request.user.is_staff or request.user.is_superuser %}
-        {% endif %}
         <div class="product-card-inner">
             <!-- Battle Vest Button (always same style) -->
             {% if user.is_authenticated %}
@@ -50,11 +48,6 @@
                         </p>
                     {% else %}
                         <p class="product-price">€{{ product.base_price }}</p>
-                    {% endif %}
-                    {% if show_new_drop_date %}
-                        <p class="new-drop-date">
-                            <i class="far fa-calendar"></i> New {{ product.created_at|timesince }} ago
-                        </p>
                     {% endif %}
                 </div>
             </a>

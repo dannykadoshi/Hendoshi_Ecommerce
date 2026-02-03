@@ -103,17 +103,17 @@
                     <!-- Tab Content -->
                     <div class="filters-tab-content">
                         <!-- Collections Tab -->
-                        <div class="filter-tab-pane active" id="collections-tab">
+                        <div class="filter-tab-pane active" id="collections-tab" data-content="collections">
                             <div class="filter-options">
                                 <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="collections" value="" {% if not current_collection %}checked{% endif %}>
+                                    <input type="checkbox" name="collection" value="" {% if not current_collection %}checked{% endif %}>
                                     <i class="fas fa-th-large"></i>
                                     <span>All Products</span>
                                     <div class="checkmark"></div>
                                 </label>
                                 {% for collection in collections %}
                                 <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="collections" value="{{ collection.slug }}" {% if current_collection == collection.slug %}checked{% endif %}>
+                                    <input type="checkbox" name="collection" value="{{ collection.slug }}" {% if current_collection == collection.slug %}checked{% endif %}>
                                     <i class="fas fa-circle"></i>
                                     <span>{{ collection.name }}</span>
                                     <div class="checkmark"></div>
@@ -123,17 +123,17 @@
                         </div>
 
                         <!-- Type Tab -->
-                        <div class="filter-tab-pane" id="type-tab">
+                        <div class="filter-tab-pane" id="type-tab" data-content="type">
                             <div class="filter-options">
                                 <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="types" value="" {% if not current_type %}checked{% endif %}>
+                                    <input type="checkbox" name="type" value="" {% if not current_type %}checked{% endif %}>
                                     <i class="fas fa-th-large"></i>
                                     <span>All Types</span>
                                     <div class="checkmark"></div>
                                 </label>
                                 {% for type in product_types %}
                                 <label class="filter-option checkbox-option">
-                                    <input type="checkbox" name="types" value="{{ type.slug }}" {% if current_type == type.slug %}checked{% endif %}>
+                                    <input type="checkbox" name="type" value="{{ type.slug }}" {% if current_type == type.slug %}checked{% endif %}>
                                     <i class="fas fa-tag"></i>
                                     <span>{{ type.name }}</span>
                                     <div class="checkmark"></div>
@@ -143,7 +143,7 @@
                         </div>
 
                         <!-- Audience Tab -->
-                        <div class="filter-tab-pane" id="audience-tab">
+                        <div class="filter-tab-pane" id="audience-tab" data-content="audience">
                             <div class="filter-options">
                                 <label class="filter-option checkbox-option">
                                     <input type="checkbox" name="audience" value="" {% if not current_audience %}checked{% endif %}>
@@ -179,7 +179,7 @@
                         </div>
 
                         <!-- Sort Tab -->
-                        <div class="filter-tab-pane" id="sort-tab">
+                        <div class="filter-tab-pane" id="sort-tab" data-content="sort">
                             <div class="filter-options">
                                 <label class="filter-option checkbox-option radio-option">
                                     <input type="radio" name="sort" value="" {% if not sort_by %}checked{% endif %}>

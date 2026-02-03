@@ -1621,28 +1621,42 @@
    ================================ */
 
 
-/* Search Results Page */
-.search-results-page {
-    margin-top: 120px;
-    min-height: calc(100vh - 120px);
-    padding: 3rem 0;
+/* Search Results Page - Uses products-page class for consistent layout */
+.search-results-page .vault-container {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    max-width: 1400px !important; /* Constrain width for proper grid layout */
+    margin: 0 auto !important; /* Center the container */
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-    .search-results-page {
-        margin-top: 125px;
+.search-results-container {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    max-width: 1400px; /* Constrain width for proper grid layout */
+    margin: 0 auto; /* Center the container */
+}
+
+.search-results-page .vault-hero,
+.search-results-page section.vault-hero {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+@media (max-width: 991px) {
+    .search-results-page .vault-container {
+        padding-top: 0.75rem;
+        max-width: 100% !important; /* Full width on mobile */
+        margin: 0 !important;
     }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-    .search-results-page {
-        margin-top: 115px;
+    .search-results-container {
+        padding-top: 0.75rem;
+        max-width: 100%; /* Full width on mobile */
+        margin: 0;
     }
-}
-
-@media (max-width: 767px) {
-    .search-results-page {
-        margin-top: 115px;
+    .search-results-page .vault-hero,
+    .search-results-page section.vault-hero {
+        margin-bottom: 0.75rem !important;
+        padding-bottom: 0.5rem !important;
     }
 }
 
@@ -2447,6 +2461,11 @@ body.cart-drawer-open {
 
 .cart-drawer-title-icon {
     animation: pulse 2s infinite;
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    object-fit: contain;
 }
 
 .cart-drawer-related-subtitle {

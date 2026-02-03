@@ -1,0 +1,54 @@
+{% comment %}Per-product quick add modals separated from grid to avoid layout issues{% endcomment %}
+{% for product in products %}
+<div class="modal fade" id="quickAddModal-{{ product.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered quick-add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add {{ product.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% with sizes=product.get_available_sizes colors=product.get_available_colors %}
+                {% with requires_size=product.product_type.requires_size|default:True requires_color=product.product_type.requires_color|default:True %}
+                    <form action="{% url 'add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        {% if requires_size and sizes|length or sizes|length > 1 %}
+                        <div class="mb-3">
+                            <label for="size-select-{{ product.id }}" class="form-label">Size</label>
+                            <select class="form-select" id="size-select-{{ product.id }}" name="size" required>
+                                <option value="">Select Size</option>
+                                {% for size in sizes %}
+                                <option value="{{ size }}">{{ size }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        {% if requires_color and colors|length or colors|length > 1 %}
+                        <div class="mb-3">
+                            <label for="color-select-{{ product.id }}" class="form-label">Color</label>
+                            <select class="form-select" id="color-select-{{ product.id }}" name="color" required>
+                                <option value="">Select Color</option>
+                                {% for color in colors %}
+                                <option value="{{ color }}">{{ color }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="quantity-input-{{ product.id }}" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity-input-{{ product.id }}" name="quantity" value="1" min="1" max="10">
+                        </div>
+
+                        <button type="submit" class="btn btn-pink w-100">
+                            <i class="fas fa-shopping-cart"></i> Add to Bag
+                        </button>
+                    </form>
+                {% endwith %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,30 @@
+{% for product in photo.tagged_products.all %}
+<div class="col-lg-4 col-md-6">
+    <div class="product-card glassmorphic-card">
+        <div class="product-image">
+            {% if product.main_image %}
+            <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+            {% else %}
+            <div class="placeholder-image d-flex align-items-center justify-content-center">
+                <i class="fas fa-image vault-placeholder-icon"></i>
+            </div>
+            {% endif %}
+        </div>
+        <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p class="product-type">{{ product.product_type_display }}</p>
+            <p class="product-price">
+                {% if product.sale_price %}
+                <span class="vault-strike-price">${{ product.base_price }}</span>
+                ${{ product.sale_price }}
+                {% else %}
+                ${{ product.base_price }}
+                {% endif %}
+            </p>
+            <a href="{% url 'product_detail' product.slug %}" class="btn btn-quick-add w-100">
+                View Product
+            </a>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,42 @@
+{% for viewed_product in recently_viewed_products %}
+<div class="recently-viewed-product-item">
+    <div class="product-card">
+            {% if user.is_authenticated %}
+            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ viewed_product.slug }}" title="Add to Battle Vest">
+                <i class="far fa-heart"></i>
+            </button>
+            {% endif %}
+            {% if request.user.is_staff or request.user.is_superuser %}
+            <a href="{% url 'edit_product' viewed_product.slug %}" class="edit-product-icon" title="Edit Product">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+            {% endif %}
+        <a href="{% url 'product_detail' viewed_product.slug %}">
+            <div class="product-image">
+                {% if viewed_product.main_image %}
+                    <img src="{{ viewed_product.main_image.url }}" alt="{{ viewed_product.name }}">
+                {% else %}
+                    <div class="placeholder-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h3>{{ viewed_product.name }}</h3>
+                {% if viewed_product.is_on_sale %}
+                    <div class="product-price">
+                        <span class="original-price">€{{ viewed_product.base_price }}</span>
+                        <span class="sale-price">€{{ viewed_product.current_price }}</span>
+                    </div>
+                {% else %}
+                    <p class="product-price">€{{ viewed_product.base_price }}</p>
+                {% endif %}
+            </div>
+        </a>
+        <!-- Add to Bag Button -->
+        <button class="btn btn-quick-add carousel-add-cart-btn carousel-add-cart-btn-positioned" data-product-id="{{ viewed_product.id }}" data-product-name="{{ viewed_product.name|escapejs }}">
+            <i class="fas fa-shopping-cart"></i> ADD TO BAG
+        </button>
+    </div>
+</div>
+{% endfor %}
