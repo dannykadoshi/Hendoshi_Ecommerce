@@ -115,9 +115,9 @@ def submit_photo(request):
             messages.error(request, 'Only JPG and PNG files are allowed.')
             return redirect('vault:submit_photo')
 
-        # Validate file size (5MB max)
-        if image.size > 5 * 1024 * 1024:
-            messages.error(request, 'File size must be less than 5MB.')
+        # Validate file size (15MB max)
+        if image.size > 15 * 1024 * 1024:
+            messages.error(request, 'File size must be less than 15MB.')
             return redirect('vault:submit_photo')
 
         # Create photo

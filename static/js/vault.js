@@ -6,6 +6,10 @@ function initializeGalleryFilter() {
     const input = document.getElementById('product_filter');
     const hiddenInput = document.getElementById('product_value');
     const dropdown = document.getElementById('product-dropdown');
+    
+    // Only initialize if required elements exist (gallery page)
+    if (!input || !hiddenInput || !dropdown) return;
+    
     const items = dropdown.querySelectorAll('.vault-dropdown-item');
     let selectedIndex = -1;
 
@@ -336,6 +340,10 @@ function initializeSubmitMultiSelect() {
     const selectedTags = document.getElementById('selected_tags');
     const dropdown = document.getElementById('product_dropdown');
     const hiddenInput = document.getElementById('product_ids');
+    
+    // Only initialize if required elements exist (submit photo page)
+    if (!multiSelect || !tagInput || !selectedTags || !dropdown || !hiddenInput) return;
+    
     const items = dropdown.querySelectorAll('.vault-dropdown-item');
 
     let selectedProducts = [];
@@ -476,6 +484,139 @@ function initializeSubmitMultiSelect() {
     window.removeTag = removeTag;
 }
 
+// Submit Photo Upload Zone (Drag & Drop + Preview)
+function initializeSubmitUploadZone() {
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('id_image');
+    const uploadContent = document.querySelector('.vault-upload-content');
+    const uploadPreview = document.getElementById('uploadPreview');
+    const previewImage = document.getElementById('previewImage');
+    const removePreview = document.getElementById('removePreview');
+
+    if (!uploadZone || !fileInput) return;
+
+    // Drag and drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, () => uploadZone.classList.add('dragover'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, () => uploadZone.classList.remove('dragover'), false);
+    });
+
+    uploadZone.addEventListener('drop', function(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            previewFile(files[0]);
+        }
+    }, false);
+
+    // Click to upload
+    uploadZone.addEventListener('click', function(e) {
+        // Don't trigger if clicking remove button
+        if (e.target.id === 'removePreview' || e.target.closest('#removePreview')) {
+            return;
+        }
+        
+        // Don't trigger if preview is visible
+        if (!uploadPreview.classList.contains('d-none')) {
+            return;
+        }
+        
+        fileInput.click();
+    });
+
+    // File input change
+    fileInput.addEventListener('change', function() {
+        if (this.files[0]) {
+            previewFile(this.files[0]);
+        }
+    });
+
+    // Preview functionality
+    function previewFile(file) {
+        if (!previewImage || !uploadPreview) {
+            console.error('Preview elements not found!');
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            
+            // Hide upload content, show preview
+            if (uploadContent) uploadContent.classList.add('d-none');
+            uploadPreview.classList.remove('d-none');
+            
+            // Force Safari to repaint/reflow
+            uploadPreview.style.display = 'none';
+            uploadPreview.offsetHeight; // Trigger reflow
+            uploadPreview.style.display = '';
+        };
+        reader.onerror = function(e) {
+            console.error('FileReader error:', e);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Remove preview
+    if (removePreview) {
+        removePreview.addEventListener('click', function(e) {
+            e.stopPropagation();
+            fileInput.value = '';
+            if (uploadContent) uploadContent.classList.remove('d-none');
+            if (uploadPreview) uploadPreview.classList.add('d-none');
+        });
+    }
+}
+
+// Handle photo submission button click
+window.handlePhotoSubmission = function() {
+    const fileInput = document.getElementById('id_image');
+    const consentCheckbox = document.getElementById('consent');
+    const form = document.getElementById('submit-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (!fileInput.files[0]) {
+        alert('Please select an image to upload.');
+        return;
+    }
+
+    // Check file size (15MB)
+    if (fileInput.files[0].size > 15 * 1024 * 1024) {
+        alert('File size must be less than 15MB.');
+        return;
+    }
+
+    // Check file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(fileInput.files[0].type)) {
+        alert('Only JPG and PNG files are allowed.');
+        return;
+    }
+
+    if (!consentCheckbox.checked) {
+        alert('Please agree to the terms before submitting.');
+        return;
+    }
+
+    // If all validations pass, submit the form
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Launching Your Photo...';
+    form.submit();
+};
+
 // Submit Photo Form Validation
 function initializeSubmitFormValidation() {
     const captionTextarea = document.getElementById('id_caption');
@@ -590,6 +731,9 @@ function initializeModerationBulkSelection() {
     const selectedPhotosInput = document.getElementById('selected-photos');
     const bulkForm = document.querySelector('form[action*="moderate"]');
 
+    // Only initialize if required elements exist
+    if (!selectAllCheckbox || !selectedPhotosInput) return;
+
     function updateSelectedPhotos() {
         const selectedIds = Array.from(photoCheckboxes)
             .filter(checkbox => checkbox.checked)
@@ -626,6 +770,20 @@ function initializeModerationBulkSelection() {
             updateSelectedPhotos();
         });
     }
+}
+
+// Moderation Page Auto-Submit Filter
+function initializeModerationAutoSubmit() {
+    const statusFilter = document.getElementById('status-filter');
+    const filterForm = document.getElementById('status-filter-form');
+    
+    if (!statusFilter || !filterForm) return;
+    
+    // Auto-submit when status changes
+    statusFilter.addEventListener('change', function() {
+        console.log('Status filter changed to:', this.value);
+        filterForm.submit();
+    });
 }
 
 // Initialize vault functionality based on current page
@@ -665,6 +823,10 @@ function initializeFeaturedCarousel() {
     const track = document.getElementById('featured-track');
     const prevBtn = document.getElementById('featured-prev');
     const nextBtn = document.getElementById('featured-next');
+    
+    // Only initialize if required elements exist
+    if (!track || !prevBtn || !nextBtn) return;
+    
     const items = track.children;
     let currentIndex = 0;
     const totalItems = items.length;
@@ -797,6 +959,93 @@ function initializeFeaturedCarousel() {
     });
 }
 
+// Moderation Confirmation Modal Functions
+let currentFormToSubmit = null;
+
+function showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction = false) {
+    // Update modal content
+    document.getElementById('modal-title-text').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-main-icon').className = `fas ${iconClass} vault-modal-main-icon`;
+    document.getElementById('modal-confirm-text').textContent = confirmText;
+    
+    // Update confirm button styling
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    confirmBtn.className = `btn vault-modal-btn-confirm ${confirmClass}`;
+    
+    // Handle rejection reason textarea
+    const rejectionContainer = document.getElementById('rejection-reason-container');
+    const rejectionTextarea = document.getElementById('rejection-reason');
+    
+    if (isRejectAction) {
+        rejectionContainer.classList.remove('d-none');
+        rejectionTextarea.value = ''; // Clear previous value
+        updateRejectionCharCount();
+        
+        // Focus on textarea after modal is shown
+        setTimeout(() => {
+            rejectionTextarea.focus();
+        }, 500);
+    } else {
+        rejectionContainer.classList.add('d-none');
+        rejectionTextarea.value = '';
+    }
+    
+    // Store the form to submit
+    currentFormToSubmit = form;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('vaultConfirmModal'));
+    modal.show();
+}
+
+// Character count for rejection reason
+function updateRejectionCharCount() {
+    const textarea = document.getElementById('rejection-reason');
+    const counter = document.getElementById('rejection-char-count');
+    if (!textarea || !counter) return;
+    
+    const count = textarea.value.length;
+    counter.textContent = count;
+    
+    // Change color based on character count
+    if (count > 450) {
+        counter.style.color = '#dc3545';
+    } else if (count > 400) {
+        counter.style.color = '#ffc107';
+    } else {
+        counter.style.color = '#6c757d';
+    }
+}
+
+// Vault-specific confirmation function - exposed globally for onclick handlers
+window.confirmVaultAction = function(action, photoId, title, message, iconClass, confirmText, confirmClass, isRejectAction = false) {
+    // Find the form for this action - try to find the input first
+    const photoInput = document.querySelector(`form input[name="photo_id"][value="${photoId}"]`);
+    
+    if (!photoInput) {
+        console.error('Could not find photo input for photoId:', photoId);
+        return false;
+    }
+    
+    const form = photoInput.closest('form');
+    
+    if (!form) {
+        console.error('Could not find form for photoId:', photoId);
+        return false;
+    }
+    
+    const actionInput = form.querySelector('input[name="action"]');
+    if (actionInput) {
+        actionInput.value = action;
+    } else {
+        console.error('Could not find action input in form');
+    }
+    
+    showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction);
+    return false; // Prevent default form submission
+};
+
 // Initialize all vault functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeGalleryFilter();
@@ -804,5 +1053,40 @@ document.addEventListener('DOMContentLoaded', function() {
     initializePhotoDetailLikes();
     initializeVoting();
     initializePhotoDetailShare();
-    initializeCarousel();
+    initializeFeaturedCarousel();
+    initializeSubmitMultiSelect();
+    initializeSubmitUploadZone();
+    initializeSubmitFormValidation();
+    initializeModerationBulkSelection();
+    initializeModerationAutoSubmit();
+    
+    // Add event listener for rejection reason textarea if it exists
+    const rejectionTextarea = document.getElementById('rejection-reason');
+    if (rejectionTextarea) {
+        rejectionTextarea.addEventListener('input', updateRejectionCharCount);
+    }
+    
+    // Handle modal confirm button click if it exists
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            if (currentFormToSubmit) {
+                // If this is a rejection, include the rejection reason
+                const rejectionReason = document.getElementById('rejection-reason');
+                if (rejectionReason && rejectionReason.value.trim()) {
+                    const reasonInput = currentFormToSubmit.querySelector('input[name="rejection_reason"]');
+                    if (reasonInput) {
+                        reasonInput.value = rejectionReason.value.trim();
+                    }
+                }
+                currentFormToSubmit.submit();
+            }
+            // Hide modal
+            const modalEl = document.getElementById('vaultConfirmModal');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+            }
+        });
+    }
 });
