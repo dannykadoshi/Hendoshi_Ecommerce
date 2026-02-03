@@ -110,7 +110,7 @@
 }
 
 .bulk-delete-product-info small {
-    color: var(--text-muted);
+    color: var(--off-white);
     font-size: 0.8rem;
 }
 
@@ -261,18 +261,9 @@
     padding: 1rem 1.25rem;
 }
 
-.auth-card .list-group .list-group-item .text-muted {
-    color: rgba(255,255,255,0.6);
-}
-
 .auth-card .list-group .list-group-item .btn-outline-pink,
 .auth-card .list-group .list-group-item .btn-outline-danger {
     background: transparent;
-}
-
-/* Make small-muted text visible on dark admin list items */
-.auth-card .list-group-item .text-muted {
-    color: rgba(255,255,255,0.65) !important;
 }
 
 /* Ensure the create button stands out on admin pages */
@@ -779,10 +770,6 @@ input[type="file"]::-ms-browse:hover {
 
     .card-title strong {
         color: var(--off-white);
-    }
-
-    .text-muted {
-        color: #ff6b6b !important;
     }
 
     .badge {

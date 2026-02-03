@@ -405,7 +405,7 @@ h2.gradient-title {
 .filter-note {
     text-align: center;
     margin-bottom: 1rem;
-    color: var(--text-muted);
+    color: var(--off-white);
     font-size: 0.8rem;
 }
 
@@ -1046,7 +1046,10 @@ h2.gradient-title {
 }
 
 .product-type {
-    color: rgba(255, 255, 255, 0.6);
+    background: linear-gradient(90deg, var(--electric-yellow), var(--neon-pink));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -1058,6 +1061,14 @@ h2.gradient-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* New drops date styling - smaller text */
+.new-drop-date {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    margin-bottom: 0;
 }
 
 /* Push price to the bottom of the product info area so it aligns across cards */
@@ -2385,10 +2396,6 @@ h2.gradient-title {
 
     .card-title strong {
         color: var(--off-white);
-    }
-
-    .text-muted {
-        color: #ff6b6b !important;
     }
 
     .badge {

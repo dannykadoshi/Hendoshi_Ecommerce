@@ -17,11 +17,6 @@
 .badge.bg-scheduled { background-color: #17a2b8 !important; }
 .badge.bg-expired { background-color: #dc3545 !important; }
 
-/* More visible gray text */
-.text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
-}
-
 /* Theme type badges */
 .theme-type-badge {
     display: inline-flex;
@@ -139,11 +134,6 @@
     color: #e0e0e0;
 }
 
-/* More visible gray text */
-.text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
-}
-
 /* Button text alignment */
 .btn {
     display: inline-flex;
@@ -192,11 +182,6 @@
     background: rgba(255, 45, 161, 0.2);
     border-radius: 20px;
     font-size: 0.85rem;
-}
-
-/* More visible gray text */
-.text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
 }
 
 /* Dark themed table for preview */

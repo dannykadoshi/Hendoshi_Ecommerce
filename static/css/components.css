@@ -899,7 +899,7 @@
 
 .vault-modal-product-info-label {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: var(--off-white);
     font-weight: 500;
     padding: 0.25rem 0;
 }
@@ -1025,12 +1025,18 @@
 
 /* High-value discount special styling */
 .discount-banner.high-value {
-    background: linear-gradient(-45deg, #1a0a14 0%, rgba(255,20,147,0.4) 20%, rgba(255,215,0,0.3) 40%, rgba(255,107,53,0.3) 60%, rgba(255,20,147,0.4) 80%, #1a0a14 100%);
+    background: linear-gradient(-45deg,
+            #1a0a14 0%,
+            rgba(255, 20, 147, 0.4) 20%,
+            rgba(255, 215, 0, 0.3) 40%,
+            rgba(255, 107, 53, 0.3) 60%,
+            rgba(255, 20, 147, 0.4) 80%,
+            #1a0a14 100%);
     background-size: 600% 600%;
-    animation: bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-               gradientShiftFast 8s ease-in-out infinite 0.6s,
-               bannerGlowIntense 3s ease-in-out infinite 0.6s;
-    box-shadow: 0 6px 40px rgba(255, 20, 147, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+
+    animation:
+        bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+        gradientShiftFast 8s ease-in-out infinite 0.6s;
 }
 
 /* Hidden state for scroll behavior */
@@ -3835,7 +3841,10 @@ body.cart-drawer-open {
 
 .product-type {
     font-size: 0.85rem;
-    color: var(--electric-yellow);
+    background: linear-gradient(90deg, var(--electric-yellow), var(--neon-pink));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -4478,4 +4487,15 @@ body.cart-drawer-open {
     color: #000;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+}
+
+/* Form Text Utility Classes */
+.form-text {
+    color: var(--text-muted) !important;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
 }

@@ -2938,7 +2938,10 @@ a.btn-pink {
 }
 
 :root.light-mode .product-type {
-    color: #6c757d;
+    background: linear-gradient(90deg, #B8D400, #E71F7F);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 :root.light-mode .product-price {
@@ -3122,14 +3125,6 @@ a.btn-pink {
 
 :root.light-mode .checkout-form .form-control::placeholder {
     color: #8a8a8a;
-}
-
-:root.light-mode .checkout-page .text-muted {
-    color: #222222 !important;
-}
-
-:root.light-mode .checkout-container .text-muted {
-    color: #222222 !important;
 }
 
 /* Light Mode - Shipping Rates Section */
@@ -3411,18 +3406,6 @@ a.btn-pink {
 :root.light-mode .breadcrumb-item a:hover,
 :root.light-mode .cart-item-name a:hover {
     color: #B8D400;
-}
-
-/* Light Mode - Text Colors */
-:root.light-mode .text-muted,
-:root.light-mode .form-help-text {
-    color: #666666 !important;
-}
-
-/* Dark Mode - Text Colors */
-:root.dark-mode .text-muted,
-:root.dark-mode .form-help-text {
-    color: #ff6b6b !important;
 }
 
 /* Light Mode - Footer */
@@ -4005,14 +3988,6 @@ a.btn-pink {
     opacity: 0.95;
 }
 
-.checkout-page .text-muted {
-    color: #ffffff !important;
-}
-
-.checkout-container .text-muted {
-    color: #ffffff !important;
-}
-
 .checkout-form .form-control:focus {
     border-color: var(--neon-pink);
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15);
@@ -4044,10 +4019,6 @@ a.btn-pink {
 .summary-details .summary-name {
     font-size: 1rem;
     margin-bottom: 4px;
-}
-
-.summary-details .text-muted {
-    color: #ffffff;
 }
 
 .summary-price {

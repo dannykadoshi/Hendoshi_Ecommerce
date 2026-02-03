@@ -26,6 +26,7 @@
     --electric-yellow: #CCFF00;
     --off-white: #F5F5F5;
     --gray: #666666;
+    --text-muted: rgba(255, 255, 255, 0.6);
 }
 
 /* CSS Variables - Light Mode */
@@ -37,6 +38,8 @@
     --electric-yellow: #B8D400;
     --off-white: #1A1A1A;
     --gray: #666666;
+    --text-muted: rgba(0, 0, 0, 0.6);
+}
 }
 
 /* Global Reset */

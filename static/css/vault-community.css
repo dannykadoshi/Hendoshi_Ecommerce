@@ -2150,13 +2150,13 @@ datalist option {
 /* Hero Subtitle */
 .page-hero-subtitle {
     font-size: 1.2rem;
-    color: var(--text-muted, #ccc);
+    color: var(--off-white);
     margin-bottom: 0;
 }
 
 /* Hero Stats */
 .page-hero-stat {
-    color: var(--text-muted, #ccc);
+    color: var(--off-white);
     font-size: 1rem;
 }
 
@@ -3439,10 +3439,6 @@ section.vault-hero {
         color: var(--off-white);
     }
 
-    .text-muted {
-        color: #ff6b6b !important;
-    }
-
     .badge {
         color: var(--off-white);
     }
@@ -3602,10 +3598,6 @@ section.vault-hero {
 
     .card-title strong {
         color: var(--off-white);
-    }
-
-    .text-muted {
-        color: #ff6b6b !important;
     }
 
     .badge {
@@ -4172,11 +4164,6 @@ section.vault-hero {
     width: 16px;
 }
 
-.newsletter-management .text-muted {
-    color: #b3b3b3 !important;
-    font-size: 0.9rem;
-}
-
 .newsletter-footer {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
@@ -4185,12 +4172,6 @@ section.vault-hero {
     border-radius: 6px;
     padding: 1rem;
     text-align: center;
-}
-
-.newsletter-footer .text-muted {
-    color: #b3b3b3 !important;
-    font-size: 0.9rem;
-    margin-bottom: 0;
 }
 
 .btn-outline-primary {

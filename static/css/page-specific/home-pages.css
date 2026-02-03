@@ -86,11 +86,17 @@
 .contact-title {
     font-size: 3rem;
     font-weight: 900;
-    text-transform: none;
     letter-spacing: 2px;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+
+    background: linear-gradient(135deg,
+            var(--neon-pink),
+            var(--electric-yellow));
+
+    color: transparent;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
     margin-bottom: 1rem;
     position: relative;
     z-index: 2;
@@ -486,11 +492,6 @@
     margin-right: 0.5rem;
 }
 
-.tracking-form .form-text {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.875rem;
-}
-
 .carriers-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -781,8 +782,7 @@
     font-size: 0.95rem;
     line-height: 1.4;
 }
-</body>
-</html>
+
 .non-returnable-list {
     list-style: none;
     padding: 0;
