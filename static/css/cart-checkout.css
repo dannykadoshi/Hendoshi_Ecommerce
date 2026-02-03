@@ -1362,7 +1362,7 @@ a.btn-pink {
 }
 
 .cart-summary {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1393,7 +1393,7 @@ a.btn-pink {
 }
 
 .cart-item {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border-radius: 15px;
     padding: 1.5rem;
     margin-bottom: 1rem;
@@ -1411,7 +1411,7 @@ a.btn-pink {
 .empty-cart {
     text-align: center;
     padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -1511,7 +1511,7 @@ a.btn-pink {
 }
 
 .checkout-page .panel {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1519,7 +1519,7 @@ a.btn-pink {
 }
 
 .checkout-page .order-summary {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1527,7 +1527,7 @@ a.btn-pink {
 }
 
 .saved-address-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -1564,7 +1564,7 @@ a.btn-pink {
 }
 
 .checkout-page .shipping-rates-section .list-group-item {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--off-white);
     padding: 1rem 1.25rem;
@@ -1617,7 +1617,7 @@ a.btn-pink {
 
 /* Shipping Totals Summary - Dark Theme Styling */
 .checkout-page .shipping-totals-summary {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     color: var(--off-white);
@@ -1634,7 +1634,7 @@ a.btn-pink {
 
 /* Moved from templates/checkout/payment.html */
 .payment-section {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1678,7 +1678,7 @@ a.btn-pink {
 .payment-section h2 i { margin-right: 0.5rem; }
 
 .checkout-sidebar.payment-sidebar {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1727,7 +1727,7 @@ a.btn-pink {
 
 /* Moved from templates/checkout/order_confirmation.html */
 .glassmorphic-panel {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -3823,7 +3823,7 @@ a.btn-pink {
 .form-actions a {
     color: var(--off-white);
     border: 2px solid #555;
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--bg-glass-light);
     font-weight: 700;
     letter-spacing: 0.6px;
     padding: 1rem 2rem;
@@ -4006,7 +4006,7 @@ a.btn-pink {
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
 }
 
 .summary-thumb img {
@@ -4787,7 +4787,7 @@ a.btn-pink {
 .payment-card-item {
     position: relative;
     padding: 1.25rem 1.5rem;
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--bg-glass-light);
     border: 2px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     cursor: pointer;
@@ -5024,7 +5024,7 @@ a.btn-pink {
 }
 
 .table-responsive::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border-radius: 4px;
 }
 
@@ -5207,7 +5207,7 @@ a.btn-pink {
 }
 
 .order-item-card {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--bg-glass-light);
     border: 1px solid rgba(255, 20, 147, 0.1);
     border-radius: 6px;
     padding: 1.5rem;
@@ -5314,7 +5314,7 @@ a.btn-pink {
 }
 
 .address-card {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--bg-glass-light);
     border: 1px solid rgba(255, 20, 147, 0.1);
     border-radius: 6px;
     padding: 1.5rem;
@@ -5344,7 +5344,7 @@ a.btn-pink {
 }
 
 .summary-breakdown {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--bg-glass-light);
     border: 1px solid rgba(255, 20, 147, 0.1);
     border-radius: 6px;
     padding: 1.5rem;

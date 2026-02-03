@@ -855,7 +855,7 @@ input[type="file"]::-ms-browse:hover {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     color: var(--off-white);
 }
 

@@ -2127,7 +2127,7 @@ datalist option {
 
 /* Glassmorphic Hero Section */
 .page-hero {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -2338,7 +2338,7 @@ datalist option {
 }
 
 .shipping-region {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2693,7 +2693,7 @@ datalist option {
 
 /* Vault Hero Section Styling */
 .vault-hero {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -3539,7 +3539,7 @@ section.vault-hero {
 }
 
 .glassmorphic-panel {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -4127,7 +4127,7 @@ section.vault-hero {
 
 /* Newsletter confirmation / management styles (moved from template) */
 .newsletter-benefits {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -4137,7 +4137,7 @@ section.vault-hero {
 }
 
 .newsletter-management {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);

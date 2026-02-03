@@ -258,7 +258,7 @@
 }
 
 .shipping-region {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -343,7 +343,7 @@
 }
 
 .payment-section {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -362,7 +362,7 @@
 }
 
 .checkout-sidebar.payment-sidebar {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);

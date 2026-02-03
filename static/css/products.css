@@ -277,7 +277,7 @@ h2.gradient-title {
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     color: var(--off-white);
@@ -1811,7 +1811,7 @@ h2.gradient-title {
 .product-description {
     line-height: 1.8;
     font-size: 1.1rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1849,7 +1849,7 @@ h2.gradient-title {
 }
 
 .design-story {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2298,7 +2298,7 @@ h2.gradient-title {
 }
 
 .profile-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 20px;
@@ -2481,7 +2481,7 @@ h2.gradient-title {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     color: var(--off-white);
 }
 

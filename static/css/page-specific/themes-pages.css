@@ -75,7 +75,7 @@
 /* ===== ADMIN_THEMES_FORM ===== */
 
 .theme-form-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     padding: 2rem;
@@ -217,7 +217,7 @@
 
 /* Auth card dark styling */
 .auth-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 

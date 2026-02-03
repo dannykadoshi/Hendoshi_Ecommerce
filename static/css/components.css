@@ -2023,7 +2023,7 @@
 
 /* Cart Summary */
 .cart-drawer-summary {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border-radius: 10px;
     padding: 1rem 1.25rem;
     margin-bottom: 1.25rem;
@@ -2059,7 +2059,7 @@
 }
 
 .cart-drawer-discount-form {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border-radius: 10px;
     padding: 1rem 1.25rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2534,7 +2534,7 @@ body.cart-drawer-open {
 .cart-drawer-product-card {
     flex-shrink: 0;
     width: 140px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     overflow: hidden;
@@ -4441,7 +4441,7 @@ body.cart-drawer-open {
 
 /* Glassmorphism Effects - Global Utility */
 .glassmorphic-card {
-    background: rgba(255, 255, 255, 0.03) !important;
+    background: var(--bg-glass-light) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -4457,7 +4457,7 @@ body.cart-drawer-open {
 
 /* Glassmorphic Utility Classes */
 .bg-glass-light {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-glass-light);
 }
 
 .border-glass {
@@ -4498,4 +4498,9 @@ body.cart-drawer-open {
 
 .text-muted {
     color: var(--text-muted) !important;
+}
+
+/* Background Utility Classes */
+.bg-glass-light {
+    background: var(--bg-glass-light) !important;
 }
