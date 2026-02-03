@@ -132,9 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             vestBadges.forEach(badge => {
                                 badge.textContent = String(data.item_count);
                                 if (data.item_count > 0) {
-                                    badge.style.display = 'flex';
+                                    badge.classList.remove('badge-hidden');
                                 } else {
-                                    badge.style.display = 'none';
+                                    badge.classList.add('badge-hidden');
                                 }
                             });
                         }
@@ -179,7 +179,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     cartBadges.forEach(badge => {
                         badge.textContent = data.cart_count;
                         if (data.cart_count > 0) {
-                            badge.style.display = 'flex';
+                            badge.classList.remove('badge-hidden');
+                        } else {
+                            badge.classList.add('badge-hidden');
                         }
                     });
 
@@ -189,19 +191,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         vestBadges.forEach(badge => {
                             badge.textContent = String(data.item_count);
                             if (data.item_count > 0) {
-                                badge.style.display = 'flex';
+                                badge.classList.remove('badge-hidden');
                             } else {
-                                badge.style.display = 'none';
+                                badge.classList.add('badge-hidden');
                             }
                         });
                     }
                     
-                    // Show cart drawer
-                    if (window.showCartDrawer && data.item) {
-                        window.showCartDrawer(data);
-                    } else if (window.showToast) {
-                        window.showToast('Added to cart!', 'success');
-                    }
+                    // Show cart drawer with a small delay to avoid modal conflicts
+                    setTimeout(() => {
+                        if (window.showCartDrawer && data.item) {
+                            window.showCartDrawer(data);
+                        } else if (window.showToast) {
+                            window.showToast('Added to cart!', 'success');
+                        }
+                    }, 300);
                 } else {
                     if (window.showToast) {
                         window.showToast(data.message || 'Could not add to cart', 'error');

@@ -17,12 +17,6 @@
         }
         return cartContainer;
     }
-    
-    // Try to get initial values
-    const container = getCartContainer();
-    if (container) {
-        initialCartCount = parseInt(container.dataset.initialCartCount || '0');
-    }
 
     /**
      * Get CSRF token from cookies
@@ -329,32 +323,23 @@
      * Enable/disable checkout buttons based on cart state
      */
     function syncCheckoutButtons(totalItems) {
+        console.log('syncCheckoutButtons called with totalItems:', totalItems);
         const disabled = totalItems <= 0;
+        console.log('Button should be disabled:', disabled);
         document.querySelectorAll('.checkout-btn').forEach(btn => {
+            console.log('Processing checkout button:', btn);
             if (disabled) {
                 btn.classList.add('disabled');
                 btn.setAttribute('aria-disabled', 'true');
                 btn.setAttribute('tabindex', '-1');
-                // Prevent navigation
-                btn.addEventListener('click', preventCheckout);
+                console.log('Button disabled');
             } else {
                 btn.classList.remove('disabled');
                 btn.setAttribute('aria-disabled', 'false');
                 btn.setAttribute('tabindex', '0');
-                // Remove prevention
-                btn.removeEventListener('click', preventCheckout);
+                console.log('Button enabled');
             }
         });
-    }
-
-    /**
-     * Prevent checkout click handler
-     */
-    function preventCheckout(event) {
-        event.preventDefault();
-        if (typeof showToast === 'function') {
-            showToast('Add items to your cart to proceed to checkout.', 'warning');
-        }
     }
 
     /**
@@ -582,8 +567,32 @@
      * Initialize cart functionality on DOM ready
      */
     document.addEventListener('DOMContentLoaded', function() {
+        // Get initial cart count from data attribute now that DOM is ready
+        const container = getCartContainer();
+        if (container) {
+            initialCartCount = parseInt(container.dataset.initialCartCount || '0');
+            console.log('Initial cart count from data attribute:', initialCartCount);
+        } else {
+            console.log('Cart container not found');
+        }
+        
+        console.log('DOMContentLoaded fired, initialCartCount:', initialCartCount);
         syncCheckoutButtons(initialCartCount);
         syncMobileCheckout(initialCartCount);
+
+        // Add click handler to all checkout buttons to check disabled state
+        document.addEventListener('click', function(e) {
+            const checkoutBtn = e.target.closest('.checkout-btn');
+            if (checkoutBtn && checkoutBtn.classList.contains('disabled')) {
+                console.log('Preventing click on disabled checkout button');
+                e.preventDefault();
+                if (typeof showToast === 'function') {
+                    showToast('Add items to your cart to proceed to checkout.', 'warning');
+                }
+            } else if (checkoutBtn) {
+                console.log('Checkout button clicked and enabled, allowing navigation');
+            }
+        });
 
         // Handle manual input change
         document.querySelectorAll('.qty-input-sm').forEach(input => {

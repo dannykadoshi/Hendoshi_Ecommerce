@@ -362,7 +362,7 @@
                         {% if user.is_authenticated %}
                         <a class="nav-icon battle-vest-icon" href="{% url 'battle_vest' %}" title="Battle Vest">
                             <i class="fas fa-heart"></i>
-                            <span class="vest-count-badge" id="battleVestCount">0</span>
+                            <span class="vest-count-badge badge-hidden" id="battleVestCount">0</span>
                         </a>
                         {% else %}
                         <a class="nav-icon" href="{% url 'account_login' %}" title="Login to access Battle Vest">
@@ -417,7 +417,7 @@
                         {% if user.is_authenticated %}
                         <a class="nav-icon battle-vest-icon" href="{% url 'battle_vest' %}" title="Battle Vest">
                             <i class="fas fa-heart"></i>
-                            <span class="vest-count-badge" id="battleVestCountDesktop">0</span>
+                            <span class="vest-count-badge badge-hidden" id="battleVestCountDesktop">0</span>
                         </a>
                         {% else %}
                         <a class="nav-icon" href="{% url 'account_login' %}" title="Login to access Battle Vest">
