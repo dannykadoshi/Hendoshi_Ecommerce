@@ -173,7 +173,7 @@
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -1895,7 +1895,7 @@
     max-width: 100%;
     height: 100%;
     background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: var(--border-glass);
     z-index: 1000000;
     display: flex;
     flex-direction: column;
@@ -1963,7 +1963,7 @@
     display: flex;
     gap: 1rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: var(--border-glass);
     margin-bottom: 1.5rem;
 }
 
@@ -1974,7 +1974,7 @@
     border-radius: 8px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
 }
 
 .cart-drawer-item-image img {
@@ -2024,8 +2024,8 @@
 /* Cart Summary */
 .cart-drawer-summary {
     background: var(--bg-glass-light);
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
+    var(--border-radius-glass);
+    var(--padding-glass);
     margin-bottom: 1.25rem;
 }
 
@@ -2060,9 +2060,9 @@
 
 .cart-drawer-discount-form {
     background: var(--bg-glass-light);
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    var(--border-radius-glass);
+    var(--padding-glass);
+    border: var(--border-glass);
 }
 
 .cart-drawer-discount-field {
@@ -2146,7 +2146,7 @@
 .cart-drawer-shipping {
     background: linear-gradient(135deg, rgba(57, 255, 20, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
     border: 1px solid rgba(57, 255, 20, 0.15);
-    border-radius: 10px;
+    var(--border-radius-glass);
     padding: 1rem;
 }
 
@@ -2189,7 +2189,7 @@
 /* Cart Drawer Footer */
 .cart-drawer-footer {
     padding: 1.25rem 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: var(--border-glass);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -2417,7 +2417,7 @@ body.cart-drawer-open {
 .cart-drawer-related {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: var(--border-glass);
 }
 
 .cart-drawer-related-header {
@@ -2508,7 +2508,7 @@ body.cart-drawer-open {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--light-gray);
     display: flex;
@@ -2535,8 +2535,8 @@ body.cart-drawer-open {
     flex-shrink: 0;
     width: 140px;
     background: var(--bg-glass-light);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
+    border: var(--border-glass);
+    var(--border-radius-glass);
     overflow: hidden;
     transition: all 0.2s ease;
     cursor: pointer;
@@ -3068,7 +3068,7 @@ body.cart-drawer-open {
 }
 
 .accordion-header:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+    background: linear-gradient(135deg, var(--border-glass-color) 0%, rgba(255, 255, 255, 0.04) 100%);
     transform: translateY(-1px);
 }
 
@@ -4113,7 +4113,7 @@ body.cart-drawer-open {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     border-radius: 15px;
     overflow: visible;
     transition: all 0.3s ease;
@@ -4444,7 +4444,7 @@ body.cart-drawer-open {
     background: var(--bg-glass-light) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: var(--border-glass) !important;
     border-radius: 15px !important;
 }
 
@@ -4461,15 +4461,15 @@ body.cart-drawer-open {
 }
 
 .border-glass {
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
 }
 
 .rounded-glass {
-    border-radius: 10px;
+    var(--border-radius-glass);
 }
 
 .p-glass {
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
 }
 
 /* Button Utility Classes */
@@ -4503,4 +4503,19 @@ body.cart-drawer-open {
 /* Background Utility Classes */
 .bg-glass-light {
     background: var(--bg-glass-light) !important;
+}
+
+/* Border Utility Classes */
+.border-glass {
+    border: var(--border-glass) !important;
+}
+
+/* Border Radius Utility Classes */
+.rounded-glass {
+    border-radius: var(--border-radius-glass) !important;
+}
+
+/* Padding Utility Classes */
+.p-glass {
+    padding: var(--padding-glass) !important;
 }

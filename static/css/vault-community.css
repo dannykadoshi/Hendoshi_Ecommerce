@@ -297,7 +297,7 @@ datalist option {
 }
 
 .vault-info {
-    padding: 1rem 1.25rem 1.25rem;
+    var(--padding-glass) 1.25rem;
 }
 
 .vault-caption {
@@ -735,7 +735,7 @@ datalist option {
 }
 
 .moderation-info {
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
 }
 
 .moderation-caption {
@@ -948,7 +948,7 @@ datalist option {
     border: 2px solid rgba(255, 255, 255, 0.3);
     color: var(--off-white);
     padding: 0.75rem 2rem;
-    border-radius: 10px;
+    var(--border-radius-glass);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -964,7 +964,7 @@ datalist option {
 
 .vault-modal-btn-confirm {
     padding: 0.75rem 2rem;
-    border-radius: 10px;
+    var(--border-radius-glass);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1080,7 +1080,7 @@ datalist option {
 }
 
 .vault-rejection-textarea:focus {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
     border-color: var(--pink);
     box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
     outline: none;
@@ -1589,7 +1589,7 @@ datalist option {
 }
 
 .qualification-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
     border-color: rgba(255, 20, 147, 0.4);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.1);
@@ -2130,7 +2130,7 @@ datalist option {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-glass-color);
     padding: 4rem 0;
     margin-top: -20px;
     margin-bottom: 0;
@@ -2341,7 +2341,7 @@ datalist option {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
     transition: all 0.3s ease;
@@ -2646,7 +2646,7 @@ datalist option {
 
 /* Product Types Page Enhancements */
 .slug-text {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
     color: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
@@ -2696,7 +2696,7 @@ datalist option {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-glass-color);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 1.0rem 0 1.5rem;
     margin-top: 0;
@@ -3055,7 +3055,7 @@ section.vault-hero {
 .vault-upload-preview img {
     max-width: 100%;
     max-height: 300px;
-    border-radius: 10px;
+    var(--border-radius-glass);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -3118,7 +3118,7 @@ section.vault-hero {
 .vault-form-textarea {
     background: #333;
     border: 2px solid #555;
-    border-radius: 10px;
+    var(--border-radius-glass);
     color: #fff;
     padding: 1rem;
     font-size: 1rem;
@@ -3136,7 +3136,7 @@ section.vault-hero {
 .vault-multi-select {
     background: #333;
     border: 2px solid #555;
-    border-radius: 10px;
+    var(--border-radius-glass);
     color: #fff;
     padding: 1rem;
     font-size: 1rem;
@@ -3341,7 +3341,7 @@ section.vault-hero {
     font-size: 0.9rem;
     padding: 1rem;
     background: rgba(255, 20, 147, 0.05);
-    border-radius: 10px;
+    var(--border-radius-glass);
     border: 1px solid rgba(255, 20, 147, 0.2);
 }
 
@@ -3542,7 +3542,7 @@ section.vault-hero {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 1rem;
 }
@@ -4130,7 +4130,7 @@ section.vault-hero {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass-color);
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -4140,7 +4140,7 @@ section.vault-hero {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-glass-color);
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;

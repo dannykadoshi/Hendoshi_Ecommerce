@@ -254,12 +254,12 @@ h2.gradient-title {
 
 .filter-tab-pane::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    var(--border-radius-glass);
 }
 
 .filter-tab-pane::-webkit-scrollbar-thumb {
     background: rgba(255, 20, 147, 0.5);
-    border-radius: 10px;
+    var(--border-radius-glass);
 }
 
 .filter-tab-pane::-webkit-scrollbar-thumb:hover {
@@ -278,7 +278,7 @@ h2.gradient-title {
     gap: 0.75rem;
     padding: 0.75rem 1rem;
     background: var(--bg-glass-light);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     border-radius: 8px;
     color: var(--off-white);
     text-decoration: none;
@@ -442,7 +442,7 @@ h2.gradient-title {
 .btn-clear-ghost {
     background: transparent;
     color: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 .btn-clear-ghost:hover,
@@ -1017,7 +1017,7 @@ h2.gradient-title {
 }
 
 .product-info {
-    padding: 1rem 1.25rem 1.25rem;
+    var(--padding-glass) 1.25rem;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
@@ -1128,7 +1128,7 @@ h2.gradient-title {
 
 .quick-add-modal .modal-header {
     border-bottom: 1px solid rgba(255, 105, 180, 0.2) !important;
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     background: transparent;
 }
 
@@ -1141,7 +1141,7 @@ h2.gradient-title {
 }
 
 .quick-add-modal .modal-body {
-    padding: 1rem 1.25rem 1.5rem;
+    var(--padding-glass) 1.5rem;
 }
 
 .quick-add-modal .form-label {
@@ -1286,7 +1286,7 @@ h2.gradient-title {
 
 .quick-add-modal .modal-footer {
     border-top: 1px solid rgba(255, 105, 180, 0.2) !important;
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     background: transparent;
 }
 
@@ -1814,7 +1814,7 @@ h2.gradient-title {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     border-radius: 15px;
     padding: 1.5rem;
     margin-bottom: 1rem;
@@ -1852,7 +1852,7 @@ h2.gradient-title {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     border-left: 4px solid var(--neon-pink);
     padding: 1.5rem;
     border-radius: 15px;
@@ -2303,7 +2303,7 @@ h2.gradient-title {
     -webkit-backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     margin-bottom: 20px;
     transition: all 0.3s ease;
     position: relative;
@@ -2345,7 +2345,7 @@ h2.gradient-title {
     align-items: center;
     gap: 0.75rem;
     padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: var(--border-glass);
 }
 
 .profile-card h2 i {

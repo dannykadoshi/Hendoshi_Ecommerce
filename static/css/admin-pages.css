@@ -20,7 +20,7 @@
 /* Bulk archive bar styling */
 .bulk-archive-bar {
     background: rgba(255, 255, 255, 0.04);
-    border-radius: 10px;
+    var(--border-radius-glass);
     padding: 0.75rem 1.5rem;
     margin-bottom: 1.5rem;
     gap: 1.2rem;
@@ -258,7 +258,7 @@
     background: rgba(255,255,255,0.02);
     color: var(--off-white);
     border: none;
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
 }
 
 .auth-card .list-group .list-group-item .btn-outline-pink,
@@ -446,7 +446,7 @@ input[type="file"]::-ms-browse:hover {
 
 /* Styles for Create Product - Audience accordion and inputs */
 .accordion#audienceAccordion {
-    border-radius: 10px;
+    var(--border-radius-glass);
 }
 
 .accordion#audienceAccordion .accordion-item {
@@ -476,7 +476,7 @@ input[type="file"]::-ms-browse:hover {
 
 .accordion#audienceAccordion .accordion-body {
     background: rgba(0,0,0,0.12);
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     color: var(--off-white);
 }
 
@@ -514,7 +514,7 @@ input[type="file"]::-ms-browse:hover {
 .accordion#audienceAccordion .variant-toggles label {
     display: inline-block;
     padding: 0.35rem 0.6rem;
-    border-radius: 10px;
+    var(--border-radius-glass);
     background: rgba(255,255,255,0.04);
     color: var(--off-white);
     border: 1px solid rgba(255,255,255,0.03);
@@ -527,7 +527,7 @@ input[type="file"]::-ms-browse:hover {
 
 /* Mirror audience accordion styles for product type copies (hoodies/dresses) */
 .accordion#typeCopiesAccordion {
-    border-radius: 10px;
+    var(--border-radius-glass);
 }
 
 .accordion#typeCopiesAccordion .accordion-item {
@@ -557,7 +557,7 @@ input[type="file"]::-ms-browse:hover {
 
 .accordion#typeCopiesAccordion .accordion-body {
     background: rgba(0,0,0,0.12);
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     color: var(--off-white);
 }
 
@@ -591,7 +591,7 @@ input[type="file"]::-ms-browse:hover {
 .accordion#typeCopiesAccordion .variant-toggles label {
     display: inline-block;
     padding: 0.35rem 0.6rem;
-    border-radius: 10px;
+    var(--border-radius-glass);
     background: rgba(255,255,255,0.04);
     color: var(--off-white);
     border: 1px solid rgba(255,255,255,0.03);

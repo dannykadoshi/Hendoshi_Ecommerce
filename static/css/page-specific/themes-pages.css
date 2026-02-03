@@ -56,7 +56,7 @@
     padding: 0.15rem 0.4rem;
     border-radius: 3px;
     font-size: 0.7rem;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
     color: rgba(255, 255, 255, 0.7);
 }
 .config-pill.strip-enabled {
@@ -76,7 +76,7 @@
 
 .theme-form-card {
     background: var(--bg-glass-light);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
     border-radius: 12px;
     padding: 2rem;
 }
@@ -84,7 +84,7 @@
 .form-section {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: var(--border-glass);
 }
 
 .form-section:last-child {
@@ -218,7 +218,7 @@
 /* Auth card dark styling */
 .auth-card {
     background: var(--bg-glass-light);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--border-glass);
 }
 
 

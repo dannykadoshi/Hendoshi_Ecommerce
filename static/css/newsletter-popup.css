@@ -142,8 +142,8 @@
 
 .newsletter-popup-input {
     width: 100%;
-    padding: 1rem 1.25rem;
-    background: rgba(255, 255, 255, 0.08);
+    var(--padding-glass);
+    background: var(--border-glass-color);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
@@ -238,7 +238,7 @@
 }
 
 .newsletter-popup-btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
     backdrop-filter: blur(10px);
     color: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.2);

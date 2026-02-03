@@ -475,7 +475,7 @@ span.gradient-text-mobile {
     border-color: rgba(255, 20, 147, 0.5) !important;
     box-shadow: 0 0 20px rgba(255, 20, 147, 0.15) !important;
     outline: none !important;
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: var(--border-glass-color) !important;
 }
 
 .search-form .search-btn {
@@ -642,7 +642,7 @@ span.gradient-text-mobile {
 .floating-search-input:focus {
     border-color: rgba(255, 20, 147, 0.5);
     box-shadow: 0 0 20px rgba(255, 20, 147, 0.15);
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--border-glass-color);
 }
 
 .floating-search-btn {
@@ -874,7 +874,7 @@ span.gradient-text-mobile {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     border-bottom: 1px solid rgba(255, 20, 147, 0.2);
     background: rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
@@ -938,10 +938,10 @@ span.gradient-text-mobile {
 .menu-discount-section {
     background: linear-gradient(135deg, rgba(255, 20, 147, 0.15) 0%, rgba(255, 100, 100, 0.1) 100%);
     border: 1px solid rgba(255, 20, 147, 0.3);
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     text-align: center;
     margin: 0.75rem;
-    border-radius: 10px;
+    var(--border-radius-glass);
     position: relative;
     overflow: hidden;
 }
@@ -1187,7 +1187,7 @@ span.gradient-text-mobile {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 1.25rem !important;
+    var(--padding-glass) !important;
     border-bottom: none !important;
     min-height: 52px;
 }
@@ -1225,7 +1225,7 @@ span.gradient-text-mobile {
 }
 
 .menu-item-group .menu-item-header {
-    padding: 1rem 1.25rem; /* Increased padding for better touch */
+    var(--padding-glass); /* Increased padding for better touch */
     margin: 0;
     border: none;
     border-bottom: none;
@@ -1324,7 +1324,7 @@ span.gradient-text-mobile {
     color: rgba(255, 20, 147, 0.6);
     font-size: 0.85rem;
     cursor: pointer;
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     transition: all 0.3s;
     flex-shrink: 0;
     min-width: 44px;
@@ -1372,7 +1372,7 @@ span.gradient-text-mobile {
     background: linear-gradient(90deg, rgba(255, 20, 147, 0.15) 0%, rgba(0, 0, 0, 0.2) 100%);
     border: none;
     color: var(--off-white);
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     text-align: left;
     font-weight: 600;
     cursor: pointer;
@@ -1419,7 +1419,7 @@ span.gradient-text-mobile {
     border: none;
     color: var(--off-white);
     text-decoration: none;
-    padding: 1rem 1.25rem;
+    var(--padding-glass);
     text-align: left;
     cursor: pointer;
     font-weight: 500;

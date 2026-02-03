@@ -37,7 +37,7 @@
     margin-bottom: 2rem;
     padding: 1.5rem;
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 10px;
+    var(--border-radius-glass);
     border-left: 4px solid var(--neon-pink);
 }
 
@@ -54,7 +54,7 @@
 .cookie-category-card {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 20, 147, 0.1);
-    border-radius: 10px;
+    var(--border-radius-glass);
     margin-bottom: 1.5rem;
     overflow: hidden;
 }

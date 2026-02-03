@@ -28,6 +28,10 @@
     --gray: #666666;
     --text-muted: rgba(255, 255, 255, 0.6);
     --bg-glass-light: rgba(255, 255, 255, 0.03);
+    --border-glass-color: rgba(255, 255, 255, 0.08);
+    --border-glass: 1px solid var(--border-glass-color);
+    --border-radius-glass: 10px;
+    --padding-glass: 1rem 1.25rem;
 }
 
 /* CSS Variables - Light Mode */
@@ -41,6 +45,9 @@
     --gray: #666666;
     --text-muted: rgba(0, 0, 0, 0.6);
     --bg-glass-light: rgba(0, 0, 0, 0.03);
+    --border-glass: 1px solid rgba(0, 0, 0, 0.08);
+    --border-radius-glass: 10px;
+    --padding-glass: 1rem 1.25rem;
 }
 }
 
