@@ -3815,11 +3815,11 @@ body.cart-drawer-open {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    height: auto;
+    border-radius: 15px;
+    height: 100%;
     transition: all 0.4s ease;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     margin-bottom: 0;
 }
 
@@ -3827,6 +3827,12 @@ body.cart-drawer-open {
     position: relative;
     z-index: 2;
     display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-products-carousel .product-card a:hover {
+    text-decoration: none;
 }
 
 .related-products-carousel .product-card::before {
@@ -3861,11 +3867,9 @@ body.cart-drawer-open {
 .related-products-carousel .product-image {
     position: relative;
     width: 100%;
-    /* Use 4:5 portrait ratio to match main product cards */
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4/5;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 16px 16px 0 0;
+    border-radius: 15px 15px 0 0;
 }
 
 .related-products-carousel .product-image img {

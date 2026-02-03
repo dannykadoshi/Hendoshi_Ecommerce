@@ -11,31 +11,9 @@
 
 {% if seasonal_theme %}
 <!-- Seasonal Theme: {{ seasonal_theme.name }} -->
-<script>
-    // Add theme-active class to all vault-hero sections
-    document.addEventListener('DOMContentLoaded', function() {
-        const heroes = document.querySelectorAll('.vault-hero');
-        heroes.forEach(function(hero) {
-            hero.classList.add('theme-active');
-            hero.classList.add('theme-speed-{{ seasonal_theme.animation_speed }}');
-            {% if seasonal_theme.is_paused %}
-            hero.classList.add('theme-paused');
-            {% endif %}
-        });
-
-        // Initialize seasonal themes
-        if (typeof SeasonalThemes !== 'undefined') {
-            SeasonalThemes.init({
-                theme: '{{ seasonal_theme.theme_type }}',
-                speed: '{{ seasonal_theme.animation_speed }}',
-                density: '{{ seasonal_theme.particle_density }}',
-                isPaused: {% if seasonal_theme.is_paused %}true{% else %}false{% endif %}
-            });
-        }
-    });
-</script>
-
-{% if seasonal_theme.custom_css %}
-
-{% endif %}
-{% endif %}
+<div data-seasonal-theme="{{ seasonal_theme.theme_type }}"
+     data-seasonal-speed="{{ seasonal_theme.animation_speed }}"
+     data-seasonal-density="{{ seasonal_theme.particle_density }}"
+     data-seasonal-paused="{% if seasonal_theme.is_paused %}true{% else %}false{% endif %}"
+     style="display:none;"></div>
+<script src="{% static 'js/page-specific/theme-animation-layer.js' %}"></script>

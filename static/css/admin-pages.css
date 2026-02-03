@@ -693,9 +693,9 @@ input[type="file"]::-ms-browse:hover {
 /* Edit Product Icon (Admin Only) */
 .edit-product-icon {
     position: absolute;
-    bottom: 10px;
+    bottom: 55px;
     right: 10px;
-    z-index: 12;
+    z-index: 15;
     background: #222;
     color: var(--electric-yellow);
     border-radius: 50%;
@@ -732,7 +732,7 @@ input[type="file"]::-ms-browse:hover {
 /* Mobile: Edit button positioned in bottom right of image */
 @media (max-width: 991px) {
     .edit-product-icon {
-        bottom: 10px;
+        bottom: 55px;
         right: 10px;
     }
 }

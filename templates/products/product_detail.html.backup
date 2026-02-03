@@ -958,16 +958,16 @@
                     {% for related in related_products %}
                     <div class="related-product-item">
                         <div class="product-card">
-                                {% if user.is_authenticated %}
-                                <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ related.slug }}" title="Add to Battle Vest">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                {% endif %}
-                                {% if request.user.is_staff or request.user.is_superuser %}
-                                <a href="{% url 'edit_product' related.slug %}" class="edit-product-icon" title="Edit Product">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                {% endif %}
+                            {% if user.is_authenticated %}
+                            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ related.slug }}" title="Add to Battle Vest">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            {% endif %}
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                            <a href="{% url 'edit_product' related.slug %}" class="edit-product-icon" title="Edit Product">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            {% endif %}
                             <a href="{% url 'product_detail' related.slug %}">
                                 <div class="product-image">
                                     {% if related.main_image %}
@@ -1861,39 +1861,28 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Close modal properly
-                const modalElement = document.getElementById('addToCartCarouselModal');
-                const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if (modalInstance) {
-                    modalInstance.hide();
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById('addToCartCarouselModal')).hide();
+                
+                // Show success message
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
                 }
                 
-                // Remove any lingering backdrops
-                setTimeout(() => {
-                    const backdrops = document.querySelectorAll('.modal-backdrop');
-                    backdrops.forEach(backdrop => backdrop.remove());
-                    document.body.classList.remove('modal-open');
-                    document.body.style.overflow = '';
-                    document.body.style.paddingRight = '';
-                }, 100);
-                
-                // Update cart count first
+                // Update cart count
                 if (typeof updateCartCount === 'function') {
                     updateCartCount(data.cart_count);
                 }
-                
-                // Show cart drawer
-                setTimeout(() => {
-                    if (typeof showCartDrawer === 'function' && data.item) {
-                        showCartDrawer(data);
-                    } else if (typeof showToast === 'function') {
-                        showToast(data.message || 'Added to cart!', 'success');
-                    }
-                }, 200);
             } else {
                 if (typeof showToast === 'function') {
                     showToast(data.message, 'error');
                 }
+            }
+        })
+        .catch(error => {
+            console.error('Error adding to cart from carousel:', error);
+            if (typeof showToast === 'function') {
+                showToast('Failed to add to cart', 'error');
             }
         });
     });
@@ -1934,5 +1923,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/page-specific/product-detailetail.js' %}"></script>
+<script src="{% static 'js/page-specific/product-detail.js' %}"></script>
 {% endblock %}

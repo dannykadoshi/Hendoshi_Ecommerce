@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Track Your Order{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <div class="container-fluid">
+        <!-- Track Your Order Hero -->
+        <section class="vault-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                        <h1 class="vault-hero-title">Track Your Order</h1>
+                        <p class="vault-hero-subtitle">Enter your order details to track your package</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tracking Form Section -->
+        <section class="contact-form-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+            <!-- Tracking Form -->
+            <div class="contact-card mb-5">
+                <h2 class="section-title text-center mb-4">
+                    <i class="fas fa-search-location"></i> Find Your Order
+                </h2>
+                
+                <form method="post" class="tracking-form">
+                    {% csrf_token %}
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="mb-4">
+                        <label for="order_number" class="form-label">
+                            <i class="fas fa-hashtag"></i> Order Number
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg" 
+                            id="order_number" 
+                            name="order_number"
+                            placeholder="e.g., ORD-123456789"
+                            required>
+                        <small class="form-text text-white-95">You can find this in your order confirmation email</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <input 
+                            type="email" 
+                            class="form-control form-control-lg" 
+                            id="email" 
+                            name="email"
+                            placeholder="your@email.com"
+                            required>
+                        <small class="form-text text-white-95">The email used when placing your order</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-pink btn-lg w-100">
+                        <i class="fas fa-shipping-fast"></i> Track My Order
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Shipping Carriers Info -->
+            <div class="contact-card">
+                <h3 class="section-title text-center mb-4">
+                    <i class="fas fa-truck"></i> Our Shipping Partners
+                </h3>
+                
+                <p class="text-center mb-4 text-white-90">
+                    We work with trusted carriers to ensure your order arrives safely and on time.
+                </p>
+                
+                <div class="carriers-grid">
+                    <div class="carrier-item">
+                        <div class="carrier-logo-placeholder" style="background: white; padding: 1rem; border-radius: 8px;">
+                            <svg viewBox="0 0 200 80" style="width: 100%; height: 60px;">
+                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#004B87" font-size="36" font-weight="bold" font-family="Arial">USPS</text>
+                            </svg>
+                        </div>
+                        <p class="carrier-name">USPS</p>
+                        <a href="https://tools.usps.com/go/TrackConfirmAction" target="_blank" class="carrier-link">
+                            Track on USPS <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="carrier-item">
+                        <div class="carrier-logo-placeholder bg-ups">
+                            <svg viewBox="0 0 200 80" class="carrier-logo-svg">
+                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#FFB500" font-size="40" font-weight="bold" font-family="Arial">UPS</text>
+                            </svg>
+                        </div>
+                        <p class="carrier-name">UPS</p>
+                        <a href="https://www.ups.com/track" target="_blank" class="carrier-link">
+                            Track on UPS <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="carrier-item">
+                        <div class="carrier-logo-placeholder" style="background: white; padding: 1rem; border-radius: 8px;">
+                            <svg viewBox="0 0 200 80" style="width: 100%; height: 60px;">
+                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#4D148C" font-size="32" font-weight="bold" font-family="Arial">Fed</text>
+                                <text x="65%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#FF6600" font-size="32" font-weight="bold" font-family="Arial">Ex</text>
+                            </svg>
+                        </div>
+                        <p class="carrier-name">FedEx</p>
+                        <a href="https://www.fedex.com/fedextrack/" target="_blank" class="carrier-link">
+                            Track on FedEx <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="carrier-item">
+                        <div class="carrier-logo-placeholder bg-dhl">
+                            <svg viewBox="0 0 200 80" class="carrier-logo-svg">
+                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#D40511" font-size="40" font-weight="bold" font-family="Arial">DHL</text>
+                            </svg>
+                        </div>
+                        <p class="carrier-name">DHL</p>
+                        <a href="https://www.dhl.com/shipmentTracking" target="_blank" class="carrier-link">
+                            Track on DHL <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tracking Help -->
+            <div class="contact-card mt-4">
+                <h3 class="section-title mb-3">
+                    <i class="fas fa-question-circle"></i> Need Help?
+                </h3>
+                
+                <div class="help-section">
+                    <h5 class="help-title">Where is my tracking number?</h5>
+                    <p class="help-text">
+                        Your tracking number will be sent to your email once your order has been shipped. 
+                        This typically happens within 1-2 business days after placing your order.
+                    </p>
+                </div>
+                
+                <div class="help-section">
+                    <h5 class="help-title">My tracking number isn't working</h5>
+                    <p class="help-text">
+                        New tracking numbers can take 24-48 hours to appear in the carrier's system. 
+                        If your tracking hasn't updated after 48 hours, please contact our support team.
+                    </p>
+                </div>
+                
+                <div class="help-section">
+                    <h5 class="help-title">I can't find my order confirmation email</h5>
+                    <p class="help-text">
+                        Check your spam/junk folder. If you still can't find it, 
+                        <a href="{% url 'contact' %}" class="text-pink">contact us</a> with your order details 
+                        and we'll help you track it down.
+                    </p>
+                </div>
+                
+                <div class="text-center mt-4 pt-3 border-top">
+                    <p class="mb-3"><strong>Still have questions?</strong></p>
+                    <a href="{% url 'contact' %}" class="btn btn-pink">
+                        <i class="fas fa-envelope"></i> Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+        </section>
+    </div>
+</div>
+
+
+{% endblock %}

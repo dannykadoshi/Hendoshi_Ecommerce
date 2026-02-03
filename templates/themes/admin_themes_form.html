@@ -236,9 +236,11 @@
     </div>
 </div>
 
-<script>
-// Theme type descriptions
-const themeDescriptions = {
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/page-specific/admin-theme-form.js' %}"></script>
+{% endblock %}
     'new_years': { emoji: '🎆✨', desc: 'Gold/silver confetti, champagne bubbles, and firework sparkles' },
     'valentines': { emoji: '❤️💕', desc: 'Floating hearts and rose petals with soft pink glow' },
     'st_patricks': { emoji: '☘️🍀', desc: 'Shamrocks, gold coins, and rainbow accents' },
@@ -304,5 +306,5 @@ stripColorScheme.addEventListener('change', toggleCustomGradient);
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/admin-forms.js' %}"></script>
+<script src="{% static 'js/page-specific/admin-theme-form.js' %}"></script>
 {% endblock %}
