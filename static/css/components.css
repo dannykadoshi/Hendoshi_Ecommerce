@@ -1908,18 +1908,20 @@
     width: 420px;
     max-width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
-    border-left: var(--border-glass);
+    background: linear-gradient(135deg, #1a0a1e 0%, #2d1b3d 50%, #1a0a1e 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 2px solid rgba(255, 20, 147, 0.2);
     z-index: 1000000;
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cart-drawer.active {
     transform: translateX(0);
+    box-shadow: -10px 0 60px rgba(255, 20, 147, 0.3), -5px 0 30px rgba(204, 255, 0, 0.1);
 }
 
 /* Cart Drawer Header */
@@ -1928,8 +1930,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.25rem 1.5rem;
-    background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
-    border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(204, 255, 0, 0.05) 100%);
+    border-bottom: 2px solid rgba(255, 20, 147, 0.2);
 }
 
 .cart-drawer-header-content {
@@ -1942,7 +1944,7 @@
 
 .cart-drawer-header-content i {
     font-size: 1.3rem;
-    color: #39ff14;
+    color: var(--neon-pink);
 }
 
 .cart-drawer-close {
@@ -1977,7 +1979,7 @@
     display: flex;
     gap: 1rem;
     padding-bottom: 1.5rem;
-    border-bottom: var(--border-glass);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
     margin-bottom: 1.5rem;
 }
 
@@ -1987,8 +1989,8 @@
     height: 100px;
     border-radius: 8px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    border: var(--border-glass);
+    background: rgba(255, 20, 147, 0.05);
+    border: 1px solid rgba(255, 20, 147, 0.2);
 }
 
 .cart-drawer-item-image img {
@@ -3947,22 +3949,7 @@ body.cart-drawer-open {
     text-decoration: none;
 }
 
-.related-products-carousel .product-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(0, 255, 0, 0.05) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-}
 
-.related-products-carousel .product-card:hover::before {
-    opacity: 1;
-}
 
 .related-products-carousel .product-card:hover {
     margin-top: -8px;
@@ -4142,24 +4129,6 @@ body.cart-drawer-open {
     transition: all 0.3s ease;
     height: 100%;
     position: relative;
-}
-
-.recently-viewed-products-carousel .product-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(255, 105, 180, 0.05) 50%, rgba(255, 255, 0, 0.1) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.recently-viewed-products-carousel .product-card:hover::before {
-    opacity: 1;
 }
 
 .recently-viewed-products-carousel .product-card:hover {
@@ -4393,19 +4362,7 @@ body.cart-drawer-open {
     }
 }
 
-/* Remove hover effects from shop bestsellers and recently viewed cards */
-.related-products-carousel .product-card:hover::before,
-.recently-viewed-products-carousel .product-card:hover::before {
-    opacity: 0 !important;
-}
 
-.related-products-carousel .product-card:hover,
-.recently-viewed-products-carousel .product-card:hover {
-    margin-top: 0 !important;
-    box-shadow: none !important;
-    border-color: rgba(255, 20, 147, 0.3) !important;
-    z-index: auto !important;
-}
 
 /* Privacy Policy Links */
 .privacy-policy-link {
@@ -4565,4 +4522,262 @@ body.cart-drawer-open {
 /* Padding Utility Classes */
 .p-glass {
     padding: var(--padding-glass) !important;
+}
+/* ============================================
+   GLOBAL QUICK ADD MODAL
+   Used across all product pages for consistent add to bag experience
+   ============================================ */
+
+/* Modal Dialog */
+.quick-add-modal-global {
+    max-width: 520px;
+}
+
+/* Modal Content Container - Vault Hero Glassmorphic Styling */
+.quick-add-modal-content {
+    background: linear-gradient(135deg, #1a0a1e 0%, #2d1b3d 50%, #1a0a1e 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 20, 147, 0.3);
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6), 
+        0 0 40px rgba(255, 20, 147, 0.2),
+        inset 0 0 30px rgba(255, 20, 147, 0.05);
+    color: var(--off-white);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated background effect like vault hero */
+.quick-add-modal-content::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 20, 147, 0.1) 0%, transparent 70%);
+    animation: vault-hero-pulse 15s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes vault-hero-pulse {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(10%, 10%) scale(1.1); }
+}
+
+/* Ensure content is above animated background */
+.quick-add-modal-header,
+.quick-add-modal-body {
+    position: relative;
+    z-index: 1;
+}
+
+/* Modal Header */
+.quick-add-modal-header {
+    border-bottom: 2px solid rgba(255, 20, 147, 0.2);
+    padding: 1.5rem 2rem;
+    background: transparent;
+}
+
+.quick-add-modal-title {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow), var(--neon-pink));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: title-gradient-shift 8s ease infinite;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 1px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+@keyframes title-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.quick-add-modal-close {
+    --bs-btn-close-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23FF1493' stroke-linecap='round' stroke-width='2' d='M3 3l10 10M13 3L3 13'/%3E%3C/svg%3E");
+    opacity: 1;
+    filter: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.quick-add-modal-close:hover {
+    opacity: 0.8;
+    transform: rotate(90deg);
+}
+
+/* Modal Body */
+.quick-add-modal-body {
+    padding: 2rem 2.5rem;
+}
+
+/* Form Groups */
+.quick-add-form-group {
+    margin-bottom: 2rem;
+}
+
+.quick-add-form-group:last-of-type {
+    margin-bottom: 1.75rem;
+}
+
+.quick-add-form-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.quick-add-form-label .required-star {
+    color: var(--neon-pink);
+    margin-left: 0.25rem;
+}
+
+/* Size Selector */
+.quick-add-size-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
+.quick-add-size-selector .size-btn {
+    padding: 0.85rem 1.5rem;
+    border: 2px solid rgba(255, 20, 147, 0.4);
+    background: rgba(255, 20, 147, 0.1);
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 65px;
+    height: 52px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.quick-add-size-selector .size-btn:hover {
+    border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
+}
+
+.quick-add-size-selector .size-btn.selected {
+    border-color: var(--neon-pink);
+    background: linear-gradient(135deg, var(--neon-pink), #ff1493);
+    color: #000;
+    box-shadow: 0 0 25px rgba(255, 20, 147, 0.5), 0 6px 20px rgba(255, 20, 147, 0.3);
+    font-weight: 800;
+}
+
+/* Color Selector */
+.quick-add-color-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
+.quick-add-color-selector .color-btn {
+    padding: 0.85rem 1.5rem;
+    border: 2px solid rgba(204, 255, 0, 0.4);
+    background: rgba(204, 255, 0, 0.1);
+    color: var(--off-white);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 95px;
+    height: 52px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.quick-add-color-selector .color-btn:hover {
+    border-color: var(--electric-yellow);
+    background: rgba(204, 255, 0, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(204, 255, 0, 0.3);
+}
+
+.quick-add-color-selector .color-btn.selected {
+    border-color: var(--electric-yellow);
+    background: linear-gradient(135deg, var(--electric-yellow), #ccff00);
+    color: #000;
+    box-shadow: 0 0 25px rgba(204, 255, 0, 0.5), 0 6px 20px rgba(204, 255, 0, 0.3);
+    font-weight: 700;
+}
+
+/* Quantity Wrapper */
+.quick-add-qty-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* Submit Button */
+.quick-add-modal-submit {
+    width: 100%;
+    padding: 1.1rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 12px;
+    margin-top: 0.75rem;
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
+    transition: all 0.3s ease;
+}
+
+.quick-add-modal-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+}
+
+/* Light Mode Overrides */
+:root.light-mode .quick-add-modal-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 245, 245, 0.98) 100%);
+    color: rgba(0, 0, 0, 0.9);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15), 
+        0 0 40px rgba(255, 20, 147, 0.1),
+        inset 0 0 30px rgba(255, 20, 147, 0.02);
+}
+
+:root.light-mode .quick-add-modal-content::before {
+    background: radial-gradient(circle, rgba(255, 20, 147, 0.05) 0%, transparent 70%);
+}
+
+:root.light-mode .quick-add-form-label {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+:root.light-mode .quick-add-size-selector .size-btn,
+:root.light-mode .quick-add-color-selector .color-btn {
+    color: rgba(0, 0, 0, 0.85);
+}
+
+:root.light-mode .quick-add-size-selector .size-btn.selected,
+:root.light-mode .quick-add-color-selector .color-btn.selected {
+    color: #000;
+}
+
+:root.light-mode .quick-add-modal-close {
+    --bs-btn-close-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23E71F7F' stroke-linecap='round' stroke-width='2' d='M3 3l10 10M13 3L3 13'/%3E%3C/svg%3E");
 }

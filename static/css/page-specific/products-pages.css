@@ -167,9 +167,8 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    border: 1px solid;
+    border: 2px solid;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
     color: #fff;
     font-size: 1.1rem;
     cursor: pointer;
@@ -180,7 +179,7 @@
 
 .share-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
 .share-btn:active {
@@ -191,55 +190,72 @@
     font-size: 1.1rem;
 }
 
-/* Platform-specific button styles */
+/* Platform-specific button styles - Always show brand colors */
+
+/* Facebook - Always blue */
 .facebook-btn {
+    background: #1877f2;
     border-color: #1877f2;
-    color: #1877f2;
+    color: #fff;
 }
 
 .facebook-btn:hover {
-    background: #1877f2;
-    color: white;
+    background: #0d65d9;
+    border-color: #0d65d9;
 }
 
+/* Twitter/X - Always black */
 .twitter-btn {
-    border-color: #1da1f2;
-    color: #1da1f2;
+    background: #000;
+    border-color: #333;
+    color: #fff;
 }
 
 .twitter-btn:hover {
-    background: #1da1f2;
-    color: white;
+    background: #333;
+    border-color: #555;
 }
 
+/* Pinterest - Always red */
 .pinterest-btn {
+    background: #e60023;
     border-color: #e60023;
-    color: #e60023;
+    color: #fff;
 }
 
 .pinterest-btn:hover {
-    background: #e60023;
-    color: white;
+    background: #c8001f;
+    border-color: #c8001f;
 }
 
+/* Instagram - Always gradient */
 .instagram-btn {
-    border-color: #e4405f;
-    color: #e4405f;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-color: transparent;
+    color: #fff;
 }
 
 .instagram-btn:hover {
-    background: #e4405f;
-    color: white;
+    background: linear-gradient(45deg, #e08323, #d6582c, #cc1733, #bc1356, #ac0878);
+    box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
 }
 
+/* Copy Link - Pink outline */
 .copy-link-btn {
+    background: transparent;
     border-color: var(--neon-pink);
     color: var(--neon-pink);
 }
 
 .copy-link-btn:hover {
     background: var(--neon-pink);
-    color: white;
+    color: #fff;
+}
+
+.copy-link-btn.copied {
+    background: #28a745;
+    border-color: #28a745;
+    color: #fff;
 }
 
 /* Mobile responsive */
@@ -1192,24 +1208,25 @@
     }
     
     .shared-section {
-        background: rgba(255, 215, 0, 0.1);
-        border: 2px solid #ffd700;
+        background: linear-gradient(135deg, rgba(255, 20, 147, 0.15) 0%, rgba(255, 20, 147, 0.06) 100%);
+        border: 2px solid rgba(255, 20, 147, 0.35);
         border-radius: 12px;
         padding: 25px;
         margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(255, 20, 147, 0.1);
     }
-    
+
     .shared-section h3 {
-        color: #ffd700;
+        color: var(--neon-pink);
         font-weight: 700;
         margin-bottom: 20px;
     }
     
     .auto-fill-badge {
         display: inline-block;
-        background: rgba(255, 215, 0, 0.2);
-        border: 1px solid #ffd700;
-        color: #b8860b;
+        background: rgba(255, 20, 147, 0.15);
+        border: 1px solid rgba(255, 20, 147, 0.3);
+        color: var(--neon-pink);
         padding: 3px 10px;
         border-radius: 12px;
         font-size: 0.75rem;
