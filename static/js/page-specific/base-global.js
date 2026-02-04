@@ -1377,3 +1377,35 @@ window.updateCartCount = function(count) {
         }
     });
 };
+
+// ============================================
+// DATA ATTRIBUTE STYLE HANDLERS
+// (Replaces inline styles for Code Institute compliance)
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Apply background images from data attributes (home page collections)
+    document.querySelectorAll('[data-bg-image]').forEach(el => {
+        const bgImage = el.dataset.bgImage;
+        if (bgImage) {
+            el.style.backgroundImage = `url('${bgImage}')`;
+            el.style.backgroundSize = 'cover';
+            el.style.backgroundPosition = 'center';
+        }
+    });
+
+    // 2. Apply gradients from data attributes (seasonal theme strips)
+    document.querySelectorAll('[data-gradient]').forEach(el => {
+        const gradient = el.dataset.gradient;
+        if (gradient) {
+            el.style.background = gradient;
+        }
+    });
+
+    // 3. Apply progress bar widths from data attributes (product review stats)
+    document.querySelectorAll('.progress-bar[data-width]').forEach(bar => {
+        const width = bar.dataset.width;
+        if (width) {
+            bar.style.width = width + '%';
+        }
+    });
+});

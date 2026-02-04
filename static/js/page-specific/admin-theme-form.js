@@ -53,3 +53,26 @@ if (showStripCheckbox && stripSettingsContainer) {
     showStripCheckbox.addEventListener('change', toggleStripSettings);
     toggleStripSettings();
 }
+
+// Strip Preview Display Toggle
+// Handles showing/hiding the strip preview using CSS class instead of inline style
+const stripPreview = document.getElementById('stripPreview');
+if (stripPreview && stripSettingsContainer) {
+    const observer = new MutationObserver(function() {
+        if (stripSettingsContainer.style.display !== 'none') {
+            stripPreview.classList.remove('strip-preview-hidden');
+        } else {
+            stripPreview.classList.add('strip-preview-hidden');
+        }
+    });
+    
+    if (showStripCheckbox) {
+        showStripCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                stripPreview.classList.remove('strip-preview-hidden');
+            } else {
+                stripPreview.classList.add('strip-preview-hidden');
+            }
+        });
+    }
+}

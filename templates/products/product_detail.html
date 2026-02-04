@@ -575,7 +575,7 @@
                                     <span class="star-label">{{ star_val }} <i class="fas fa-star"></i></span>
                                     <div class="progress flex-grow-1 mx-3">
                                         <div class="progress-bar bg-pink" role="progressbar"
-                                             style="width: {% widthratio count product.get_review_count 100 %}%"
+                                             data-width="{% widthratio count product.get_review_count 100 %}"
                                              aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ product.get_review_count }}"></div>
                                     </div>
                                     <span class="count">{{ count }}</span>

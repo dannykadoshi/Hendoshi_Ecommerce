@@ -140,14 +140,13 @@
         <link rel="stylesheet" href="{% static 'css/navigation.css' %}?v=2.0">
         <!-- Hero Carousel CSS -->
         <link rel="stylesheet" href="{% static 'css/hero-carousel.css' %}?v=1.2">
-        <!-- Products CSS -->
-        <link rel="stylesheet" href="{% static 'css/products.css' %}?v=1.0">
-        <!-- Cart & Checkout CSS -->
-        <link rel="stylesheet" href="{% static 'css/cart-checkout.css' %}?v=1.0">
-        <!-- Vault & Community CSS -->
-        <link rel="stylesheet" href="{% static 'css/vault-community.css' %}?v=1.0">
-        <!-- Profile & Account CSS -->
-        <link rel="stylesheet" href="{% static 'css/profile-account.css' %}?v=1.0">
+        
+        <!-- Feature-Specific CSS (organized by functionality) -->
+        <link rel="stylesheet" href="{% static 'css/features/products.css' %}?v=1.1">
+        <link rel="stylesheet" href="{% static 'css/features/cart-checkout.css' %}?v=1.1">
+        <link rel="stylesheet" href="{% static 'css/features/vault-community.css' %}?v=1.1">
+        <link rel="stylesheet" href="{% static 'css/features/profile-account.css' %}?v=1.1">
+        
         <!-- Admin Pages CSS (only for staff) -->
         {% if user.is_staff %}
         <link rel="stylesheet" href="{% static 'css/admin-pages.css' %}?v=1.0">
@@ -156,9 +155,9 @@
         <!-- Page-Specific CSS (extracted from inline styles for Code Institute compliance) -->
         <link rel="stylesheet" href="{% static 'css/page-specific/home-pages.css' %}?v=1.0">
         <link rel="stylesheet" href="{% static 'css/page-specific/products-pages.css' %}?v=1.0">
-        <link rel="stylesheet" href="{% static 'css/page-specific/checkout-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/checkout-pages.css' %}?v=1.1">
         <link rel="stylesheet" href="{% static 'css/page-specific/profiles-pages.css' %}?v=1.0">
-        <link rel="stylesheet" href="{% static 'css/page-specific/themes-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/page-specific/themes-pages.css' %}?v=1.1">
         <link rel="stylesheet" href="{% static 'css/page-specific/cookies-pages.css' %}?v=1.0">
         <link rel="stylesheet" href="{% static 'css/page-specific/misc-pages.css' %}?v=1.0">
         
@@ -167,8 +166,8 @@
 
         <!-- Seasonal Themes CSS -->
         {% if seasonal_theme %}
-        <link rel="stylesheet" href="{% static 'themes/css/seasonal_themes.css' %}">
-        <link rel="stylesheet" href="{% static 'themes/css/theme_' %}{{ seasonal_theme.theme_type }}.css">
+        <link rel="stylesheet" href="{% static 'css/features/themes/seasonal_themes.css' %}">
+        <link rel="stylesheet" href="{% static 'css/features/themes/theme_' %}{{ seasonal_theme.theme_type }}.css">
         {% endif %}
 
         {% block extra_css %}{% endblock %}
@@ -692,7 +691,7 @@
                     <a href="{% url 'products' %}" class="submenu-item submenu-item-animate"><i class="fas fa-th-large"></i> All Products</a>
                     {% if site_collections %}
                         {% for c in site_collections %}
-                            <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter }};"><i class="fas fa-folder"></i> {{ c.name }}</a>
+                            <a href="{% url 'products' %}?collection={{ c.slug }}" class="submenu-item submenu-item-animate" data-item-index="{{ forloop.counter }}"><i class="fas fa-folder"></i> {{ c.name }}</a>
                         {% endfor %}
                     {% else %}
                         <a href="{% url 'collection_detail' 'skulls-death' %}" class="submenu-item submenu-item-animate"><i class="fas fa-skull"></i> Skulls & Death</a>
@@ -709,7 +708,7 @@
                 <div class="submenu-content">
                     {% if site_product_types %}
                         {% for t in site_product_types %}
-                            <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item submenu-item-animate" style="--item-index: {{ forloop.counter0 }};"><i class="fas fa-tag"></i> {{ t.name }}</a>
+                            <a href="{% url 'products' %}?type={{ t.slug }}" class="submenu-item submenu-item-animate" data-item-index="{{ forloop.counter0 }}"><i class="fas fa-tag"></i> {{ t.name }}</a>
                         {% endfor %}
                     {% else %}
                         <a href="{% url 'products' %}?type=tshirt" class="submenu-item submenu-item-animate"><i class="fas fa-tshirt"></i> T-Shirts</a>
@@ -854,7 +853,7 @@
                 <!-- Free Shipping Progress -->
                 <div class="cart-drawer-shipping" id="cartDrawerShipping">
                     <div class="cart-drawer-shipping-progress">
-                        <div class="cart-drawer-shipping-bar" id="cartDrawerShippingBar" style="width: 0%"></div>
+                        <div class="cart-drawer-shipping-bar" id="cartDrawerShippingBar"></div>
                     </div>
                     <p class="cart-drawer-shipping-text" id="cartDrawerShippingText">
                         <i class="fas fa-truck me-1"></i> Add <span id="cartDrawerShippingRemaining">€50.00</span> more for FREE shipping!
@@ -907,7 +906,7 @@
 
         <!-- Seasonal Theme Message Strip -->
         {% if show_theme_message_strip and theme_strip_messages %}
-        <div id="seasonalMessageStrip" class="seasonal-message-strip speed-{{ theme_strip_speed }}" style="background: {{ theme_strip_gradient }}; display: none;">
+        <div id="seasonalMessageStrip" class="seasonal-message-strip speed-{{ theme_strip_speed }}" data-gradient="{{ theme_strip_gradient }}" style="display: none;">
             <div class="seasonal-message-content">
                 {% for message in theme_strip_messages %}
                 <span class="seasonal-message-text">{{ message }}</span>

@@ -11,7 +11,7 @@ Context variables expected:
 {% endcomment %}
 
 {% if show_theme_message_strip and theme_strip_messages %}
-<div class="seasonal-message-strip speed-{{ theme_strip_speed }}" style="background: {{ theme_strip_gradient }};">
+<div class="seasonal-message-strip speed-{{ theme_strip_speed }}" data-gradient="{{ theme_strip_gradient }}">
     <div class="seasonal-message-content">
         {% for message in theme_strip_messages %}
         <span class="seasonal-message-text">{{ message }}</span>

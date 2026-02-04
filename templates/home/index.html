@@ -251,7 +251,7 @@
                     <div class="collections-track" id="collections-track">
                     {% for collection in collections %}
                     <div class="collection-carousel-item">
-                        <div class="collection-card{% if collection.hero_product and collection.hero_product.main_image %} has-background-image{% endif %}" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'"{% if collection.hero_product and collection.hero_product.main_image %} style="background-image: url('{{ collection.hero_product.main_image.url }}'); background-size: cover; background-position: center;"{% endif %}>
+                        <div class="collection-card{% if collection.hero_product and collection.hero_product.main_image %} has-background-image{% endif %}" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'"{% if collection.hero_product and collection.hero_product.main_image %} data-bg-image="{{ collection.hero_product.main_image.url }}"{% endif %}>
                             <div class="collection-image">
                                 {% if not collection.hero_product or not collection.hero_product.main_image %}
                                 {% if collection.slug == 'skulls-death' %}

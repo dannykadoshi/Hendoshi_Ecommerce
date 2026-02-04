@@ -403,3 +403,241 @@
         left: 1rem;
     }
 }
+
+/* ================================================
+   ACTIVATE ACCOUNT PAGE STYLES
+   Extracted from templates/checkout/activate_account.html
+   ================================================ */
+
+.auth-header {
+    padding: 30px 0;
+}
+
+.auth-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--primary-pink), var(--secondary-yellow));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 45, 161, 0.3);
+}
+
+.form-section {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.text-link-pink {
+    color: var(--primary-pink) !important;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.text-link-pink:hover {
+    color: var(--secondary-yellow) !important;
+    text-decoration: underline;
+}
+
+.page-title {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.alert-info {
+    background-color: rgba(255, 45, 161, 0.1) !important;
+    border-color: var(--primary-pink) !important;
+    color: #e0e0e0 !important;
+}
+
+.alert-info strong {
+    color: var(--primary-pink);
+}
+
+/* ================================================
+   PAYMENT RESULT PAGE STYLES
+   Extracted from templates/checkout/payment_result.html
+   ================================================ */
+
+.next-steps {
+    background: rgba(204, 255, 0, 0.05);
+    border: 1px solid var(--electric-yellow);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.next-steps h5 {
+    color: var(--electric-yellow);
+    margin-bottom: 1rem;
+}
+
+.next-steps ol {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.next-steps li {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.next-steps strong {
+    color: var(--neon-pink);
+}
+
+.next-steps p {
+    margin: 0.5rem 0 0;
+    font-size: 0.95rem;
+    color: var(--off-white);
+}
+
+.error-details {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid #FF4757;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.error-box h5 {
+    color: #FF4757;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    background: rgba(255, 71, 87, 0.05);
+    padding: 1rem;
+    border-left: 3px solid #FF4757;
+    border-radius: 4px;
+    margin: 0;
+    color: var(--off-white);
+    font-size: 0.95rem;
+}
+
+.failure-reasons {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.failure-reasons h5 {
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
+}
+
+.failure-reasons ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.failure-reasons li {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    color: var(--off-white);
+}
+
+.order-info-failed {
+    background: rgba(255, 20, 147, 0.05);
+    border: 1px solid var(--neon-pink);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.order-info-failed p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.action-buttons .btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.alternative-section,
+.support-section {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.alternative-section h6,
+.support-section h6 {
+    color: var(--neon-pink);
+    margin-bottom: 0.75rem;
+}
+
+.alternative-section p,
+.support-section p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--off-white);
+    line-height: 1.6;
+}
+
+.support-section a {
+    color: var(--electric-yellow);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.support-section a:hover {
+    text-decoration: underline;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .result-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .result-icon {
+        font-size: 3rem;
+    }
+
+    .result-title {
+        font-size: 1.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+}

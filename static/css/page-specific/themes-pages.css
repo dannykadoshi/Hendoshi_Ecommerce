@@ -226,3 +226,33 @@
 
 /* Custom CSS for {{ seasonal_theme.name }} */
 {{ seasonal_theme.custom_css|safe }}
+
+/* ================================================
+   THEME STRIP PREVIEW STYLES
+   Extracted from templates/themes/admin_themes_form.html
+   ================================================ */
+
+.strip-preview-hidden {
+    display: none;
+    overflow: hidden;
+}
+
+.strip-preview-content {
+    white-space: nowrap;
+    animation: previewScroll 10s linear infinite;
+}
+
+@keyframes previewScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.preview-message {
+    display: inline-block;
+    padding: 0 2rem;
+    font-weight: 600;
+}
