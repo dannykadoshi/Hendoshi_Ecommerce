@@ -4,11 +4,12 @@ from products.models import Product, Collection
 
 
 class ProductSitemap(Sitemap):
-    changefreq = 'daily'
-    priority = 0.8
+    """Sitemap for all active products"""
+    changefreq = 'weekly'
+    priority = 0.9
 
     def items(self):
-        return Product.objects.filter(is_active=True, is_archived=False)
+        return Product.objects.filter(is_active=True, is_archived=False).select_related('collection')
 
     def lastmod(self, obj):
         return obj.updated_at
@@ -18,8 +19,9 @@ class ProductSitemap(Sitemap):
 
 
 class CollectionSitemap(Sitemap):
-    changefreq = 'daily'
-    priority = 0.6
+    """Sitemap for all collections"""
+    changefreq = 'weekly'
+    priority = 0.7
 
     def items(self):
         return Collection.objects.all()
@@ -29,11 +31,13 @@ class CollectionSitemap(Sitemap):
 
 
 class StaticViewSitemap(Sitemap):
-    changefreq = 'daily'
+    """Sitemap for static pages"""
+    changefreq = 'monthly'
     priority = 1.0
 
     def items(self):
-        return ['home', 'products']
+        return ['home', 'products', 'vault:vault_gallery', 'contact']
 
     def location(self, item):
         return reverse(item)
+

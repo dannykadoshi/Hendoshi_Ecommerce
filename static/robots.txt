@@ -1,5 +1,27 @@
-User-agent: *
-Disallow:
+# robots.txt for HENDOSHI E-commerce Store
+# https://hendoshi-ecommerce.onrender.com
 
-# Point to sitemap
+# Allow all crawlers
+User-agent: *
+
+# Disallow admin and backend pages
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /checkout/payment/
+Disallow: /checkout/create-payment-intent/
+Disallow: /checkout/orders/
+Disallow: /profiles/
+
+# Disallow search and filter pages to prevent duplicate content
+Disallow: /*?sort=
+Disallow: /*?collection=
+Disallow: /*?q=
+
+# Allow important pages
+Allow: /
+Allow: /products/
+Allow: /vault/
+Allow: /contact/
+
+# Sitemap location
 Sitemap: https://hendoshi-ecommerce.onrender.com/sitemap.xml
