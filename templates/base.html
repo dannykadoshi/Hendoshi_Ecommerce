@@ -315,11 +315,12 @@
                            data-bs-toggle="dropdown">The Vault</a>
                         <ul class="dropdown-menu" aria-labelledby="vaultMenu">
                             <li><a class="dropdown-item" href="{% url 'vault:vault_gallery' %}"><i class="fas fa-images"></i> Community Gallery</a></li>
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#" id="hallOfFameMenu" role="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-trophy"></i> Hall of Fame
+                            <li class="vault-submenu-dropdown-wrapper">
+                                <a class="dropdown-item menu-dropdown-item vault-submenu-toggle" href="#">
+                                    <span><i class="fas fa-trophy"></i> Hall of Fame</span>
+                                    <i class="fas fa-angle-right"></i>
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="hallOfFameMenu">
+                                <ul class="dropdown-menu vault-submenu">
                                     <li><a class="dropdown-item" href="{% url 'vault:hall_of_fame_overview' %}"><i class="fas fa-info-circle"></i> What Makes a Legend</a></li>
                                     <li><a class="dropdown-item" href="{% url 'vault:hall_of_fame' %}"><i class="fas fa-star"></i> Legendary Photos</a></li>
                                 </ul>
@@ -904,6 +905,9 @@
             {% block content %}{% endblock %}
         </main>
 
+        <!-- Global Quick Add Modal (used across all product pages) -->
+        {% include 'includes/quick_add_modal.html' %}
+
         <!-- Seasonal Theme Message Strip -->
         {% if show_theme_message_strip and theme_strip_messages %}
         <div id="seasonalMessageStrip" class="seasonal-message-strip speed-{{ theme_strip_speed }}" data-gradient="{{ theme_strip_gradient }}" style="display: none;">
@@ -1020,7 +1024,7 @@
                 
                 <hr>
                 <div class="text-center">
-                    <p class="mb-0">© 2025 HENDOSHI · Wear Your Weird</p>
+                    <p class="mb-0">© 2026 HENDOSHI · Wear Your Weird</p>
                 </div>
             </div>
         </footer>

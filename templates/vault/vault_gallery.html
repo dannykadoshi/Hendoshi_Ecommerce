@@ -79,11 +79,9 @@
                                     </div>
                                 </div>
                                 <div class="vault-featured-info">
-                                    <div class="vault-featured-caption-container">
-                                        {% if photo.caption %}
+                                    {% if photo.caption %}<div class="vault-featured-caption-container">
                                         <p class="vault-featured-caption">{{ photo.caption|truncatechars:40 }}</p>
-                                        {% endif %}
-                                    </div>
+                                    </div>{% endif %}
                                     <div class="vault-featured-user-container">
                                         <p class="vault-featured-user">by {{ photo.user.username }}</p>
                                     </div>
@@ -136,7 +134,7 @@
     <!-- Photo Grid -->
     <div class="row g-4" id="photo-grid">
         {% for photo in photos %}
-        <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="col-6 col-md-4 col-lg-3">
             <div class="vault-card glassmorphic-card">
                 <div class="vault-image-container">
                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-image">
@@ -154,12 +152,14 @@
                                 <i class="fas fa-thumbs-down"></i>
                             </button>
                             {% endif %}
-                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-pink{% endif %} btn-sm vault-like-btn">
-                                <i class="fas fa-heart"></i>
-                            </button>
                             {% endif %}
                         </div>
                     </div>
+                    {% if user.is_authenticated %}
+                    <button onclick="likePhotoFromGallery({{ photo.id }})" class="vault-grid-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    {% endif %}
                 </div>
                 <div class="vault-info">
                     <p class="vault-caption mb-2">{{ photo.caption|truncatechars:50 }}</p>

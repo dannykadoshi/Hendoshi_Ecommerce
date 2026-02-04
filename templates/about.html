@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_title %}About HENDOSHI{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/features/about-page.css' %}">
+{% endblock %}
 {% block content %}
 <div class="vault-page">
 	<div class="container-fluid">
@@ -14,6 +17,50 @@
 						<p class="vault-hero-subtitle">WEAR YOUR WEIRD — No Filler. Just Killer.</p>
 						<div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
 							<a href="{% url 'new_drops' %}" class="btn btn-pink">New Drops</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Stats Section -->
+		<section class="about-stats-section py-5">
+			<div class="container">
+				<div class="row g-4 justify-content-center">
+					<div class="col-6 col-md-3">
+						<div class="about-stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-tshirt"></i>
+							</div>
+							<div class="stat-number">500+</div>
+							<div class="stat-label">Unique Designs</div>
+						</div>
+					</div>
+					<div class="col-6 col-md-3">
+						<div class="about-stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-users"></i>
+							</div>
+							<div class="stat-number">10K+</div>
+							<div class="stat-label">Misfits Worldwide</div>
+						</div>
+					</div>
+					<div class="col-6 col-md-3">
+						<div class="about-stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-leaf"></i>
+							</div>
+							<div class="stat-number">100%</div>
+							<div class="stat-label">On Demand</div>
+						</div>
+					</div>
+					<div class="col-6 col-md-3">
+						<div class="about-stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-star"></i>
+							</div>
+							<div class="stat-number">5-Star</div>
+							<div class="stat-label">Community</div>
 						</div>
 					</div>
 				</div>
@@ -67,6 +114,68 @@
 								<p class="tight">Questions? Collabs? Hate mail? Hit us — <a href="{% url 'contact' %}">Contact Us</a>.</p>
 
 								<p class="small muted">Designed with grit and printed on demand for killer quality. Sizing tips: order true to size, unless you're planning to crowd surf.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Testimonials Section -->
+		<section class="testimonials-section py-5">
+			<div class="container">
+				<h2 class="section-title text-center mb-5">
+					<i class="fas fa-quote-left"></i> What Misfits Say
+				</h2>
+				<div class="row g-4">
+					<div class="col-md-4">
+						<div class="testimonial-card">
+							<div class="testimonial-stars">
+								<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+							</div>
+							<p class="testimonial-text">"Finally found a brand that gets it. The designs are unapologetically weird and I'm here for it. Quality is killer too."</p>
+							<div class="testimonial-author">
+								<div class="author-avatar">
+									<i class="fas fa-skull"></i>
+								</div>
+								<div>
+									<strong>Alex M.</strong>
+									<div class="author-meta">Metalhead & Gym Rat</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="testimonial-card">
+							<div class="testimonial-stars">
+								<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+							</div>
+							<p class="testimonial-text">"HENDOSHI doesn't just make shirts, they make statements. Every piece tells a story that speaks to my chaotic soul."</p>
+							<div class="testimonial-author">
+								<div class="author-avatar">
+									<i class="fas fa-ghost"></i>
+								</div>
+								<div>
+									<strong>Sam K.</strong>
+									<div class="author-meta">Gothic Artist</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="testimonial-card">
+							<div class="testimonial-stars">
+								<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+							</div>
+							<p class="testimonial-text">"No corporate BS, just pure creativity. The Vault community is awesome and the designs always deliver."</p>
+							<div class="testimonial-author">
+								<div class="author-avatar">
+									<i class="fas fa-fire"></i>
+								</div>
+								<div>
+									<strong>Jordan P.</strong>
+									<div class="author-meta">Festival Goer</div>
+								</div>
 							</div>
 						</div>
 					</div>

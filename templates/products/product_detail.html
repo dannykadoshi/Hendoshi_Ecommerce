@@ -738,46 +738,10 @@
     </div>
 </div>
 
-
-
-
-
-
-
-<!-- Add to Cart Modal for Carousel -->
-<div id="addToCartCarouselModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartCarouselModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered quick-add-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addToCartCarouselModalLabel">Add to Cart</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addToCartCarouselForm">
-                    {% csrf_token %}
-                    <input type="hidden" name="product_id" id="carouselProductId">
-                    <div class="mb-3" id="carouselSizeWrapper">
-                        <label class="form-label">Size</label>
-                        <select name="size" id="carouselSizeSelect" class="form-select"></select>
-                    </div>
-                    <div class="mb-3" id="carouselColorWrapper">
-                        <label class="form-label">Color</label>
-                        <select name="color" id="carouselColorSelect" class="form-select"></select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Quantity</label>
-                        <input type="number" name="quantity" id="carouselQuantitySelect" class="form-control" min="1" max="99" value="1" required>
-                    </div>
-                    <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'js/page-specific/product-detail.js' %}?v=20260203"></script>
 <script src="{% static 'js/page-specific/product-detail-main.js' %}?v=20260203"></script>
 <script src="{% static 'js/page-specific/product-reviews.js' %}?v=20260203"></script>
+<script src="{% static 'js/page-specific/quick-add.js' %}?v=20260204"></script>
 {% endblock %}

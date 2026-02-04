@@ -25,10 +25,10 @@
         </div>
     </section>
 
-    <div class="container vault-container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="auth-card">
+    <div class="container-fluid vault-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="auth-card bulk-creation-card">
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">

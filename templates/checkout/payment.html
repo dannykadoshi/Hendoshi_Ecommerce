@@ -56,6 +56,38 @@
         <!-- Main Content -->
         <div class="checkout-content">
             <div class="checkout-main">
+                <!-- Shipping Rate Selector (Prominent) -->
+                <div class="shipping-selector-prominent glassmorphic-card mb-4">
+                    <div class="shipping-selector-header">
+                        <h3><i class="fas fa-shipping-fast"></i> Select Shipping Method</h3>
+                        <p class="text-muted small mb-0">Choose your preferred delivery option</p>
+                    </div>
+                    {% if shipping_rates %}
+                    <div class="shipping-rates-list">
+                        {% for rate in shipping_rates %}
+                        <label class="shipping-rate-option {% if rate.id == selected_shipping_id %}selected{% endif %}">
+                            <input type="radio" name="selected_shipping_payment" value="{{ rate.id }}" {% if rate.id == selected_shipping_id %}checked{% endif %} class="shipping-rate-radio-payment">
+                            <div class="rate-details">
+                                <div class="rate-name">{{ rate.name }}</div>
+                                {% if rate.estimated_delivery %}
+                                <div class="rate-delivery"><i class="fas fa-clock"></i> {{ rate.estimated_delivery }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="rate-price">
+                                {% if rate.free_over and order.subtotal >= rate.free_over %}
+                                <span class="badge bg-success">FREE</span>
+                                {% else %}
+                                €{{ rate.price }}
+                                {% endif %}
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No shipping rates available.</p>
+                    {% endif %}
+                </div>
+
                 <!-- Order Summary (moved above payment) -->
                 <div class="order-summary-card mb-4">
                     <div class="summary-header">
@@ -128,13 +160,8 @@
                         </table>
                     </div>
 
-                    <div class="mt-3 d-flex gap-2">
-                        <button type="button" class="btn btn-pink btn-sm flex-grow-1" data-bs-toggle="modal" data-bs-target="#shippingModal">Select Shipping Rate</button>
-                        <a href="mailto:support@hendoshi.com" class="btn btn-pink btn-sm">Help</a>
-                    </div>
-
                     <div class="mt-3 text-center">
-                        <a href="{% url 'view_cart' %}" class="return-to-cart-link">
+                        <a href="{% url 'view_cart' %}" class="btn btn-pink btn-sm">
                             <i class="fas fa-arrow-left"></i> Return to Cart
                         </a>
                     </div>
@@ -226,10 +253,10 @@
                         </div>
 
                         <div class="form-actions mt-4">
-                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg">
+                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg payment-btn">
                                 <i class="fas fa-arrow-left back-icon"></i>Back to Shipping
                             </a>
-                            <button type="submit" class="btn btn-pink btn-lg" id="submitPayment">
+                            <button type="submit" class="btn btn-cta btn-lg payment-btn" id="submitPayment">
                                 <span class="default-text"><i class="fas fa-lock"></i> Pay €{{ order.total_amount }}</span>
                                 <span class="loading-text d-none">
                                     <span class="spinner-border spinner-border-sm" role="status"></span>

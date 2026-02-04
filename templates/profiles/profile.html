@@ -28,6 +28,48 @@
         </div>
     </section>
 
+    <!-- Profile Stats Section -->
+    <div class="container mt-4 mb-4">
+        <div class="row g-3">
+            <div class="col-md-3 col-6">
+                <div class="glassmorphic-card profile-stat-card text-center">
+                    <div class="profile-stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="profile-stat-value">{{ profile.orders.count|default:"0" }}</div>
+                    <div class="profile-stat-label">Total Orders</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glassmorphic-card profile-stat-card text-center">
+                    <div class="profile-stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="profile-stat-value">{{ addresses.count|default:"0" }}</div>
+                    <div class="profile-stat-label">Saved Addresses</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glassmorphic-card profile-stat-card text-center">
+                    <div class="profile-stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="profile-stat-value">{{ user.date_joined|timesince|truncatewords:2 }}</div>
+                    <div class="profile-stat-label">Member For</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glassmorphic-card profile-stat-card text-center">
+                    <div class="profile-stat-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="profile-stat-value">{{ profile.wishlist_items.count|default:"0" }}</div>
+                    <div class="profile-stat-label">Wishlist Items</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {# djlint:off H025 #}
     <div class="container checkout-container mb-5">
         <div class="checkout-wrapper">

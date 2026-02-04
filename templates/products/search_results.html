@@ -191,37 +191,6 @@
                     {% include 'products/_search_result_cards.html' with products=products %}
                 </div>
 
-                <!-- Unified Quick Add Modal -->
-                <div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered quick-add-modal">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="quickAddModalTitle">Add to Bag</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="quickAddFormUnified">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="product_id" id="quickAddProductId">
-                                    <div class="mb-3" id="quickAddSizeWrapper">
-                                        <label class="form-label">Size</label>
-                                        <select name="size" id="quickAddSizeSelect" class="form-select"></select>
-                                    </div>
-                                    <div class="mb-3" id="quickAddColorWrapper">
-                                        <label class="form-label">Color</label>
-                                        <select name="color" id="quickAddColorSelect" class="form-select"></select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Quantity</label>
-                                        <input type="number" name="quantity" id="quickAddQuantitySelect" class="form-control" min="1" max="99" value="1" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-pink w-100">Add to Bag</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="text-center mt-4" id="infiniteScrollLoader" data-has-next="{{ page_obj.has_next|yesno:'true,false' }}" data-next-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">
                     <div class="spinner-border spinner-border-pink d-none" role="status"></div>
                 </div>

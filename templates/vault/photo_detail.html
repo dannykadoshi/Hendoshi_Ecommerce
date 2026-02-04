@@ -36,93 +36,135 @@
     <div class="container vault-container">
         <div class="row justify-content-center">
             <div class="col-12">
+                <!-- Photo Display with Side Info Panel -->
+                <div class="vault-detail-layout">
+                    <!-- Main Photo Container -->
+                    <div class="vault-detail-photo-wrapper">
+                        <div class="vault-detail-photo-main">
+                            <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image-natural">
 
-            <!-- Photo Display -->
-            <div class="vault-detail-card glassmorphic-card mb-4">
-                <div class="vault-detail-image-container position-relative d-inline-block">
-                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image">
-                    {% if user.is_authenticated and user != photo.user %}
-                    <div class="vault-voting-buttons position-absolute bottom-0 end-0 m-3">
-                        <div class="d-flex gap-2 mb-2">
-                            <button id="upvote-button-{{ photo.id }}" class="btn btn-sm {% if user_upvoted %}btn-success{% else %}btn-outline-success{% endif %}" onclick="votePhoto({{ photo.id }}, 'up')" title="Upvote this photo">
-                                <i class="fas fa-thumbs-up"></i> {{ photo.upvotes.count }}
-                            </button>
-                            <button id="downvote-button-{{ photo.id }}" class="btn btn-sm {% if user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %}" onclick="votePhoto({{ photo.id }}, 'down')" title="Downvote this photo">
-                                <i class="fas fa-thumbs-down"></i> {{ photo.downvotes.count }}
-                            </button>
+                            <!-- Like Count Badge - Top Left -->
+                            <div class="vault-detail-like-badge" id="like-badge-{{ photo.id }}">
+                                <i class="fas fa-heart"></i>
+                                <span>{{ photo.likes.count }}</span>
+                            </div>
+
+                            <!-- Voting buttons overlay - Bottom Left -->
+                            {% if user.is_authenticated and user != photo.user %}
+                            <div class="vault-detail-actions">
+                                <button id="upvote-button-{{ photo.id }}" class="vault-action-btn {% if user_upvoted %}active-up{% endif %}" onclick="votePhoto({{ photo.id }}, 'up')" title="Upvote">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>{{ photo.upvotes.count }}</span>
+                                </button>
+                                <button id="downvote-button-{{ photo.id }}" class="vault-action-btn {% if user_downvoted %}active-down{% endif %}" onclick="votePhoto({{ photo.id }}, 'down')" title="Downvote">
+                                    <i class="fas fa-thumbs-down"></i>
+                                    <span>{{ photo.downvotes.count }}</span>
+                                </button>
+                                <button id="like-button-{{ photo.id }}" class="vault-action-btn vault-like-action {% if liked %}active-like{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            {% elif user.is_authenticated %}
+                            <div class="vault-detail-actions">
+                                <button id="like-button-{{ photo.id }}" class="vault-action-btn vault-like-action {% if liked %}active-like{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                            {% endif %}
+
+                            <!-- Shop This Look - Top Right -->
+                            {% if photo.tagged_products.all %}
+                            <div class="vault-shop-sidebar">
+                                <div class="vault-shop-header">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Shop This Look</span>
+                                </div>
+                                <div class="vault-shop-products">
+                                    {% for product in photo.tagged_products.all %}
+                                    <a href="{% url 'product_detail' product.slug %}" class="vault-shop-product-item">
+                                        <div class="vault-shop-product-image">
+                                            {% if product.main_image %}
+                                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                            {% else %}
+                                            <div class="vault-shop-placeholder">
+                                                <i class="fas fa-image"></i>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="vault-shop-product-info">
+                                            <span class="vault-shop-product-name">{{ product.name }}</span>
+                                            <span class="vault-shop-product-price">
+                                                {% if product.sale_price %}
+                                                <span class="vault-shop-strike">€{{ product.base_price }}</span>
+                                                €{{ product.sale_price }}
+                                                {% else %}
+                                                €{{ product.base_price }}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <i class="fas fa-chevron-right vault-shop-arrow"></i>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
-                        <button id="like-button-{{ photo.id }}" class="btn btn-sm {% if liked %}btn-pink{% else %}btn-pink{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like this photo">
-                            <i class="fas fa-heart"></i> {{ photo.likes.count }}
-                        </button>
                     </div>
-                    {% elif user.is_authenticated %}
-                    <button id="like-button-{{ photo.id }}" class="btn btn-sm position-absolute bottom-0 end-0 m-3 {% if liked %}btn-pink{% else %}btn-pink{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like this photo">
-                        <i class="fas fa-heart"></i> {{ photo.likes.count }}
-                    </button>
-                    {% endif %}
-                </div>
-                <div class="vault-detail-info">
-                    {% if photo.caption %}
-                    <h3 class="vault-detail-caption">{{ photo.caption }}</h3>
-                    {% endif %}
-                    <p class="vault-detail-user">
-                        <i class="fas fa-user"></i> Submitted by {{ photo.user.username }}
-                    </p>
-                    <p class="vault-detail-date">
-                        <i class="fas fa-calendar"></i> {{ photo.created_at|date:"M j, Y" }}
-                    </p>
-                    <div class="mt-3">
-                        <button class="btn btn-pink btn-sm" onclick="sharePhoto()">
-                            <i class="fas fa-share"></i> Share
-                        </button>
+
+                    <!-- Info Sidebar -->
+                    <div class="vault-detail-sidebar">
+                        <div class="vault-detail-sidebar-inner glassmorphic-card">
+                            <!-- Caption Section -->
+                            {% if photo.caption %}
+                            <div class="vault-sidebar-section vault-sidebar-caption-section">
+                                <div class="vault-sidebar-icon">
+                                    <i class="fas fa-quote-left"></i>
+                                </div>
+                                <h3 class="vault-sidebar-caption">{{ photo.caption }}</h3>
+                            </div>
+                            {% endif %}
+
+                            <!-- User Info Section -->
+                            <div class="vault-sidebar-section vault-sidebar-user-section">
+                                <div class="vault-sidebar-user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="vault-sidebar-user-info">
+                                    <span class="vault-sidebar-username">{{ photo.user.username }}</span>
+                                    <span class="vault-sidebar-date">
+                                        <i class="fas fa-calendar-alt"></i> {{ photo.created_at|date:"M j, Y" }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Social Share Section -->
+                            <div class="vault-sidebar-section vault-sidebar-share-section">
+                                <h6 class="vault-sidebar-share-title">
+                                    <i class="fas fa-share-alt"></i> Share this design
+                                </h6>
+                                <div class="vault-sidebar-share-buttons">
+                                    <button class="share-btn native-share-btn" data-platform="native" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="share-btn facebook-btn" data-platform="facebook" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </button>
+                                    <button class="share-btn twitter-btn" data-platform="twitter" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                        <i class="fa-brands fa-x-twitter"></i>
+                                    </button>
+                                    <button class="share-btn pinterest-btn" data-platform="pinterest" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" data-photo-image="{{ request.scheme }}://{{ request.get_host }}{{ photo.image.url }}">
+                                        <i class="fab fa-pinterest-p"></i>
+                                    </button>
+                                    <button class="share-btn instagram-btn" data-platform="instagram" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                        <i class="fab fa-instagram"></i>
+                                    </button>
+                                    <button class="share-btn copy-link-btn" data-platform="copy-link" data-photo-url="{{ request.build_absolute_uri }}">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Tagged Products -->
-            {% if photo.tagged_products.all %}
-            <div class="vault-products-section mt-3">
-                <h4 class="section-title vault-section-title">
-                    <i class="fas fa-shopping-bag"></i> Shop This Look
-                </h4>
-                <div class="row g-3">
-                    {% include 'products/_vault_product_cards.html' with photo=photo %}
-                </div>
-            </div>
-            {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- Share Modal -->
-<div class="modal fade" id="shareModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content vault-modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Share This Photo</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Share Link</label>
-                    <input type="text" class="form-control" id="shareUrl" readonly value="{{ request.build_absolute_uri }}">
-                </div>
-                <div class="d-flex gap-2 flex-wrap justify-content-center">
-                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&text={{ photo.caption|default:'Check out this HENDOSHI look!'|urlencode }}" target="_blank" class="btn btn-sm btn-pink rounded-circle" title="Share on Twitter">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-sm btn-pink rounded-circle" title="Share on Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://pinterest.com/pin/create/button/?url={{ request.build_absolute_uri|urlencode }}&description={{ photo.caption|default:'Check out this HENDOSHI look!'|urlencode }}&media={{ photo.image.url|urlencode }}" target="_blank" class="btn btn-sm btn-pink rounded-circle" title="Share on Pinterest">
-                        <i class="fab fa-pinterest-p"></i>
-                    </a>
-                    <button class="btn btn-sm btn-pink rounded-circle" onclick="copyShareLink()" title="Copy Link">
-                        <i class="fas fa-copy"></i>
-                    </button>
                 </div>
             </div>
         </div>

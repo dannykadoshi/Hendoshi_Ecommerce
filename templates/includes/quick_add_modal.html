@@ -1,0 +1,53 @@
+{% load static %}
+
+<!-- Global Quick Add to Bag Modal -->
+<div class="modal fade" id="quickAddModalUnified" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered quick-add-modal-global">
+        <div class="modal-content quick-add-modal-content">
+            <div class="modal-header quick-add-modal-header">
+                <h5 class="modal-title quick-add-modal-title" id="quickAddModalTitle">Add to Bag</h5>
+                <button type="button" class="btn-close quick-add-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body quick-add-modal-body">
+                <form id="quickAddFormUnified">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" id="quickAddProductId">
+                    
+                    <!-- Size Selection with Buttons -->
+                    <div class="quick-add-form-group" id="quickAddSizeWrapper" style="display: none;">
+                        <label class="quick-add-form-label">Select Size <span class="required-star">*</span></label>
+                        <div class="quick-add-size-selector" id="quickAddSizeButtons"></div>
+                        <input type="hidden" name="size" id="quickAddSizeInput">
+                    </div>
+                    
+                    <!-- Color Selection with Buttons -->
+                    <div class="quick-add-form-group" id="quickAddColorWrapper" style="display: none;">
+                        <label class="quick-add-form-label">Select Color <span class="required-star">*</span></label>
+                        <div class="quick-add-color-selector" id="quickAddColorButtons"></div>
+                        <input type="hidden" name="color" id="quickAddColorInput">
+                    </div>
+                    
+                    <!-- Quantity -->
+                    <div class="quick-add-form-group">
+                        <label class="quick-add-form-label">Quantity</label>
+                        <div class="quick-add-qty-wrapper">
+                            <div class="qty-control">
+                                <button type="button" class="qty-btn quick-add-qty-minus">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" name="quantity" id="quickAddQuantitySelect" class="qty-input" min="1" max="99" value="1" readonly>
+                                <button type="button" class="qty-btn quick-add-qty-plus">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-pink quick-add-modal-submit">
+                        <i class="fas fa-shopping-bag"></i> Add to Bag
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

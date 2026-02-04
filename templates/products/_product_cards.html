@@ -19,7 +19,7 @@
                 <i class="fas fa-pencil-alt"></i>
             </a>
             {% endif %}
-            <a href="{% url 'product_detail' product.slug %}">
+            <a href="{% url 'product_detail' product.slug %}" class="product-card-link">
                 <div class="product-image product-image-relative">
                     {% if product.main_image %}
                         <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
@@ -58,7 +58,7 @@
                     {% endif %}
                 </div>
             </a>
-            <!-- Quick Add overlay -->
+            <!-- Quick Add overlay - outside link to prevent bubbling -->
             <div class="quick-add">
                 <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag">
                     <i class="fas fa-shopping-cart"></i>

@@ -16,13 +16,13 @@
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     <h1 class="vault-hero-title">Hall of Fame</h1>
-                    <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
+                    <p class="vault-hero-subtitle">Every week we handpick the best community photos to feature on our Instagram. Once featured, they earn their eternal spot here. <strong>{{ total_featured }}</strong> legends and counting.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-pink hall-of-fame-btn-mobile">
                             <i class="fas fa-crown"></i> Hall of Fame Overview
                         </a>
                         <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink hall-of-fame-btn-mobile">
-                            <i class="fas fa-arrow-left"></i> Back to Vault
+                            <i class="fas fa-images"></i> Community Gallery
                         </a>
                     </div>
                 </div>
@@ -68,11 +68,22 @@
                         <strong>{{ photo.user.username }}</strong>
                     </div>
 
-                    <div class="hall-of-fame-caption">
-                        {% if photo.caption %}
-                        {{ photo.caption|truncatechars:120 }}
-                        {% endif %}
+                    {% if photo.caption %}
+                    <div class="hall-of-fame-caption-wrapper">
+                        <div class="hall-of-fame-caption" id="caption-{{ photo.id }}">
+                            {{ photo.caption }}
+                        </div>
+                        <span class="hall-of-fame-read-more" onclick="toggleCaption({{ photo.id }})" id="read-more-{{ photo.id }}">
+                            <i class="fas fa-chevron-down"></i> Read More
+                        </span>
                     </div>
+                    {% else %}
+                    <div class="hall-of-fame-caption-wrapper">
+                        <div class="hall-of-fame-caption" id="caption-{{ photo.id }}">
+                            &nbsp;
+                        </div>
+                    </div>
+                    {% endif %}
 
                     <!-- Stats Row -->
                     <div class="hall-of-fame-stats">
@@ -112,15 +123,6 @@
                         </div>
                         {% else %}
                         <div class="hall-of-fame-like-placeholder"></div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Tagged Products -->
-                    <div class="hall-of-fame-products">
-                        {% if photo.tagged_products.all %}
-                        {% for product in photo.tagged_products.all %}
-                        <span class="badge bg-secondary product-badge">{{ product.name }}</span>
-                        {% endfor %}
                         {% endif %}
                     </div>
                 </div>
@@ -177,5 +179,21 @@
     </div>
 </div>
 
+<script>
+function toggleCaption(photoId) {
+    const caption = document.getElementById('caption-' + photoId);
+    const btn = document.getElementById('read-more-' + photoId);
+    
+    if (!caption || !btn) return;
+    
+    if (caption.classList.contains('expanded')) {
+        caption.classList.remove('expanded');
+        btn.innerHTML = '<i class="fas fa-chevron-down"></i> Read More';
+    } else {
+        caption.classList.add('expanded');
+        btn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less';
+    }
+}
+</script>
 
 {% endblock %}

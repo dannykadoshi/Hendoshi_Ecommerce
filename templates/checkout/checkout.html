@@ -65,7 +65,37 @@
     </div>
 
     <div class="row">
-    <div class="col-lg-12">
+    <!-- Left Column: Order Summary (sticky) -->
+    <div class="col-lg-4 order-2 order-lg-1">
+            <div class="checkout-sidebar-summary">
+			<div class="checkout-totals-summary glassmorphic-card p-4">
+				<h5 class="mb-3"><i class="fas fa-calculator"></i> Order Summary</h5>
+					<div class="d-flex justify-content-between mb-2">
+						<div class="text-muted">Subtotal</div>
+						<div id="summary-subtotal">€{{ subtotal }}</div>
+					</div>
+					{% if discount_amount %}
+					<div class="d-flex justify-content-between mb-2">
+						<div class="text-muted">Discount</div>
+						<div class="text-success">-€{{ discount_amount }}</div>
+					</div>
+					{% endif %}
+					<div class="d-flex justify-content-between mb-2 text-muted small">
+						<div>Shipping</div>
+						<div>Selected in next step</div>
+					</div>
+					<hr style="border-color: rgba(255, 105, 180, 0.3);">
+					<div class="d-flex justify-content-between fw-bold">
+						<div>Current Total</div>
+						<div>€{{ total_with_discount }}</div>
+					</div>
+					<p class="small text-muted mt-2 mb-0"><i class="fas fa-info-circle"></i> Final total calculated after selecting shipping</p>
+				</div>
+			</div>
+		</div>
+
+    <!-- Right Column: Shipping Address Form -->
+    <div class="col-lg-8 order-1 order-lg-2">
             <div class="panel">
                 <div class="panel-header d-flex justify-content-between align-items-center">
                     <div>
@@ -248,80 +278,25 @@
                         </div>
                     {% endif %}
 
-                <!-- Shipping Rates Selection -->
-                {% if shipping_rates %}
-                <div class="shipping-rates-section mb-4">
-                    <h5 class="mb-3"><i class="fas fa-shipping-fast"></i> Choose a shipping rate</h5>
-                    <div class="list-group">
-                        {% for rate in shipping_rates %}
-                        <label class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <input type="radio" name="selected_shipping_id" value="{{ rate.id }}" id="shipping_{{ rate.id }}" {% if rate.id == selected_shipping_id %}checked{% endif %} class="form-check-input me-2 shipping-rate-radio">
-                                <strong>{{ rate.name }}</strong>
-                                {% if rate.estimated_delivery %}
-                                    <small class="d-block ms-4 estimated-delivery-text"><i class="fas fa-clock me-1"></i>{{ rate.estimated_delivery }}</small>
-                                {% endif %}
-                                {% if rate.free_over %}
-                                    <small class="text-muted"> • Free over €{{ rate.free_over }}</small>
-                                {% endif %}
-                                {% if standard_id and rate.id == standard_id %}
-                                    <span class="badge bg-pink ms-2">Default</span>
-                                {% endif %}
-                            </div>
-                            <div class="text-end">
-                                {% if rate.free_over and subtotal >= rate.free_over %}
-                                    <span class="text-success">Free</span>
-                                {% else %}
-                                    <span>€{{ rate.price }}</span>
-                                {% endif %}
-                            </div>
-                        </label>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-                <!-- Live totals summary -->
-                <div class="shipping-totals-summary card p-3 mb-4">
-                    <div class="d-flex justify-content-between">
-                        <div>Subtotal</div>
-                        <div id="summary-subtotal">€{{ subtotal }}</div>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div>Shipping</div>
-                        <div id="summary-shipping">€0.00</div>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <div>Discount</div>
-                        <div id="summary-discount">-€{{ discount_amount }}</div>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between fw-bold">
-                        <div>Total</div>
-                        <div id="summary-total">€{{ total_with_discount }}</div>
-                    </div>
-                </div>
-                </form>
-                </div>
+				</form>
+				</div>
 
-                <!-- Keep hidden applied discount inputs inside the checkout form so they submit with shipping -->
-                <input type="hidden" name="applied_discount_code" id="applied_discount_code" value="{% if applied_discount %}{{ applied_discount.code }}{% endif %}">
-                <input type="hidden" name="applied_discount_amount" id="applied_discount_amount" value="{% if applied_discount %}{{ discount_amount }}{% endif %}">
+				<!-- Keep hidden applied discount inputs inside the checkout form so they submit with shipping -->
+				<input type="hidden" name="applied_discount_code" id="applied_discount_code" form="checkoutForm" value="{% if applied_discount %}{{ applied_discount.code }}{% endif %}">
+				<input type="hidden" name="applied_discount_amount" id="applied_discount_amount" form="checkoutForm" value="{% if applied_discount %}{{ discount_amount }}{% endif %}">
 
                 <!-- Action Buttons: Back to Cart + Continue to Payment -->
-                <!-- On mobile (flex-column-reverse), Continue to Payment appears first -->
-                <div class="mt-4 d-flex flex-column-reverse flex-sm-row gap-3 justify-content-center align-items-center">
-                    <a href="{% url 'view_cart' %}" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">
+                <div class="mt-4 d-flex flex-column-reverse flex-sm-row gap-3">
+                    <a href="{% url 'view_cart' %}" class="btn btn-pink w-100 w-sm-auto">
                         <i class="fas fa-arrow-left me-2"></i> Back to Cart
                     </a>
-                    <button type="submit" form="checkoutForm" class="btn btn-pink w-100 w-sm-auto profile-btn-mobile">
+                    <button type="submit" form="checkoutForm" class="btn btn-pink w-100 w-sm-auto">
                         <i class="fas fa-lock me-2"></i> Continue to Payment
                     </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Order summary moved to payment page. Sidebar removed. -->
-    </div>
+			</div>
+		</div>
+	</div>
 </div>
 
 {% endblock %}
