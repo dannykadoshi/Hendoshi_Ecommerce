@@ -162,12 +162,19 @@
     /**
      * Confirm item removal with custom modal
      */
-    window.confirmRemove = function(event, link, productName) {
+    window.confirmRemove = function(event, itemId, productName) {
         event.preventDefault();
+        
+        // Find the link element using the item ID
+        const link = document.querySelector(`a.remove-link[data-item-id="${itemId}"]`);
+        if (!link) {
+            console.error('Remove link not found for item:', itemId);
+            return false;
+        }
         
         // Store the link data for execution
         window.pendingRemovalLink = link;
-        window.pendingRemovalItemId = link.getAttribute('data-item-id');
+        window.pendingRemovalItemId = itemId;
         
         // Show custom confirmation modal
         showConfirmationModal(`Are you sure you want to remove "${productName}" from your cart?`);
@@ -225,7 +232,7 @@
         .then(data => {
             if (data.success) {
                 // Remove cart item from DOM with animation
-                const cartItem = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
+                const cartItem = document.querySelector(`.cart-card[data-item-id="${itemId}"]`);
                 if (cartItem) {
                     cartItem.style.opacity = '0';
                     cartItem.style.transform = 'translateX(-20px)';
@@ -233,7 +240,7 @@
                         cartItem.remove();
                         
                         // Check if cart is now empty
-                        const remainingItems = document.querySelectorAll('.cart-item');
+                        const remainingItems = document.querySelectorAll('.cart-card');
                         if (remainingItems.length === 0) {
                             location.reload();
                         }
@@ -435,13 +442,16 @@
 
                 // Replace the coupon form with applied coupon UI
                 const discountCode = resp.code || resp.discount_code || code;
-                const promoRow = document.querySelector('.promo-row > div');
-                if (promoRow) {
-                    promoRow.innerHTML = `
-                        <div class="applied-coupon mb-2">
-                            <strong>Code:</strong> ${discountCode}
-                            <span class="small text-success ms-2">You saved €<span id="savedAmount">${parseFloat(resp.discount_amount).toFixed(2)}</span></span>
-                            <button type="button" id="removeCouponBtn" class="btn btn-outline-pink btn-sm ms-2">Remove</button>
+                const promoSection = document.querySelector('.summary-promo');
+                if (promoSection) {
+                    promoSection.innerHTML = `
+                        <div class="promo-applied">
+                            <div class="promo-info">
+                                <i class="fas fa-tag"></i>
+                                <span>${discountCode}</span>
+                                <span class="promo-savings">-€<span id="savedAmount">${parseFloat(resp.discount_amount).toFixed(2)}</span></span>
+                            </div>
+                            <button type="button" id="removeCouponBtn" class="promo-remove"><i class="fas fa-times"></i></button>
                         </div>
                     `;
                 }
@@ -531,18 +541,18 @@
                 }
 
                 // Replace applied coupon with form
-                const promoRow = document.querySelector('.promo-row > div');
-                if (promoRow) {
-                    promoRow.innerHTML = `
-                        <form id="couponForm" class="d-flex" onsubmit="return applyCoupon(event)">
+                const promoSection = document.querySelector('.summary-promo');
+                if (promoSection) {
+                    promoSection.innerHTML = `
+                        <form id="couponForm" class="promo-form" onsubmit="return applyCoupon(event)">
                             <input type="hidden" name="csrfmiddlewaretoken" value="${getCookie('csrftoken')}">
-                            <input type="text" id="couponCode" name="discount_code" class="form-control me-2" placeholder="Promo code">
-                            <button type="submit" class="btn btn-pink coupon-apply-btn">
+                            <input type="text" id="couponCode" name="discount_code" placeholder="Promo code">
+                            <button type="submit" class="promo-btn">
                                 <span class="btn-text">Apply</span>
-                                <span class="btn-spinner d-none"><span class="spinner-border spinner-border-sm" role="status"></span></span>
+                                <span class="btn-spinner d-none"><span class="spinner-border spinner-border-sm"></span></span>
                             </button>
                         </form>
-                        <div id="couponMessage" class="small text-muted mt-2"></div>
+                        <div id="couponMessage" class="promo-message"></div>
                     `;
                 }
 
@@ -604,7 +614,8 @@
 
         // Remove coupon button click handler (event delegation)
         document.addEventListener('click', function(e) {
-            if (e.target && e.target.id === 'removeCouponBtn') {
+            // Use closest() to handle clicks on the icon inside the button
+            if (e.target && e.target.closest('#removeCouponBtn')) {
                 handleRemoveCoupon();
             }
         });

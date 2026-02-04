@@ -9,12 +9,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const quickAddForm = document.getElementById('quickAddFormUnified');
     const quickAddProductId = document.getElementById('quickAddProductId');
-    const quickAddSizeSelect = document.getElementById('quickAddSizeSelect');
-    const quickAddColorSelect = document.getElementById('quickAddColorSelect');
+    const quickAddSizeButtons = document.getElementById('quickAddSizeButtons');
+    const quickAddColorButtons = document.getElementById('quickAddColorButtons');
+    const quickAddSizeInput = document.getElementById('quickAddSizeInput');
+    const quickAddColorInput = document.getElementById('quickAddColorInput');
     const quickAddSizeWrapper = document.getElementById('quickAddSizeWrapper');
     const quickAddColorWrapper = document.getElementById('quickAddColorWrapper');
     const quickAddQuantitySelect = document.getElementById('quickAddQuantitySelect');
     const quickAddModalTitle = document.getElementById('quickAddModalTitle');
+
+    // Quantity controls
+    const qtyMinus = document.querySelector('.quick-add-qty-minus');
+    const qtyPlus = document.querySelector('.quick-add-qty-plus');
+    
+    if (qtyMinus) {
+        qtyMinus.addEventListener('click', function() {
+            const input = quickAddQuantitySelect;
+            const currentVal = parseInt(input.value) || 1;
+            if (currentVal > 1) {
+                input.value = currentVal - 1;
+            }
+        });
+    }
+    
+    if (qtyPlus) {
+        qtyPlus.addEventListener('click', function() {
+            const input = quickAddQuantitySelect;
+            const currentVal = parseInt(input.value) || 1;
+            const maxVal = parseInt(input.max) || 99;
+            if (currentVal < maxVal) {
+                input.value = currentVal + 1;
+            }
+        });
+    }
 
     function initProductCardBindings(root) {
         const scope = root || document;
@@ -35,37 +62,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch(`/products/${productId}/variant-options/`)
                     .then(response => response.json())
                     .then(data => {
-                        quickAddSizeSelect.innerHTML = '';
-                        quickAddColorSelect.innerHTML = '';
+                        quickAddSizeButtons.innerHTML = '';
+                        quickAddColorButtons.innerHTML = '';
+                        quickAddSizeInput.value = '';
+                        quickAddColorInput.value = '';
 
                         const uniqueSizes = [...new Set(data.sizes)];
                         const uniqueColors = [...new Set(data.colors)];
 
+                        // Create size buttons
                         if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
                             quickAddSizeWrapper.style.display = 'block';
-                            quickAddSizeSelect.required = true;
                             uniqueSizes.forEach(s => {
-                                quickAddSizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'size-btn';
+                                btn.textContent = s.toUpperCase();
+                                btn.dataset.value = s;
+                                btn.addEventListener('click', function() {
+                                    quickAddSizeButtons.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+                                    this.classList.add('selected');
+                                    quickAddSizeInput.value = s;
+                                });
+                                quickAddSizeButtons.appendChild(btn);
                             });
                         } else {
                             quickAddSizeWrapper.style.display = 'none';
-                            quickAddSizeSelect.required = false;
                             if (uniqueSizes.length === 1) {
-                                quickAddSizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
+                                quickAddSizeInput.value = uniqueSizes[0];
                             }
                         }
 
+                        // Create color buttons
                         if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
                             quickAddColorWrapper.style.display = 'block';
-                            quickAddColorSelect.required = true;
                             uniqueColors.forEach(c => {
-                                quickAddColorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'color-btn';
+                                btn.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+                                btn.dataset.value = c;
+                                btn.dataset.color = c.toLowerCase();
+                                btn.addEventListener('click', function() {
+                                    quickAddColorButtons.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+                                    this.classList.add('selected');
+                                    quickAddColorInput.value = c;
+                                });
+                                quickAddColorButtons.appendChild(btn);
                             });
                         } else {
                             quickAddColorWrapper.style.display = 'none';
-                            quickAddColorSelect.required = false;
                             if (uniqueColors.length === 1) {
-                                quickAddColorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
+                                quickAddColorInput.value = uniqueColors[0];
                             }
                         }
 
@@ -155,8 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
         quickAddForm.onsubmit = function(e) {
             e.preventDefault();
             const productId = quickAddProductId.value;
-            const size = quickAddSizeSelect.value;
-            const color = quickAddColorSelect.value;
+            const size = quickAddSizeInput.value;
+            const color = quickAddColorInput.value;
             const quantity = quickAddQuantitySelect.value;
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 

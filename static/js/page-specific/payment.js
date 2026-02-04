@@ -238,6 +238,75 @@
     }
 
     /**
+     * Initialize prominent shipping selector on payment page
+     */
+    function initProminentShippingSelector() {
+        const radios = document.querySelectorAll('.shipping-rate-radio-payment');
+        if (radios.length === 0) return;
+
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]')?.value;
+        const paymentForm = document.getElementById('paymentForm');
+        const orderNumber = paymentForm?.dataset.orderNumber;
+        
+        if (!orderNumber) {
+            console.warn('Payment: Order number not found');
+            return;
+        }
+
+        const updateUrl = `/checkout/update-shipping/${orderNumber}/`;
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', async function() {
+                const selectedId = this.value;
+                
+                // Remove selected class from all options
+                document.querySelectorAll('.shipping-rate-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Add selected class to current option
+                const parentOption = this.closest('.shipping-rate-option');
+                if (parentOption) {
+                    parentOption.classList.add('selected');
+                }
+
+                // Update shipping on backend
+                try {
+                    const resp = await fetch(updateUrl, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `selected_shipping_id=${encodeURIComponent(selectedId)}`
+                    });
+
+                    if (!resp.ok) {
+                        throw new Error('Failed to update shipping');
+                    }
+
+                    const data = await resp.json();
+                    
+                    // Fetch and update totals
+                    fetchTotals();
+
+                    // Show success message
+                    if (window.showToast) {
+                        window.showToast('Shipping updated', 'success');
+                    }
+
+                } catch (e) {
+                    console.error('Payment: Failed to update shipping', e);
+                    
+                    if (window.showToast) {
+                        window.showToast('Failed to update shipping. Please try again.', 'error');
+                    }
+                }
+            });
+        });
+    }
+
+    /**
      * Initialize polling for cart totals updates
      */
     function initPolling() {
@@ -268,10 +337,12 @@
     function init() {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
+                initProminentShippingSelector();
                 initShippingModal();
                 initPolling();
             });
         } else {
+            initProminentShippingSelector();
             initShippingModal();
             initPolling();
         }

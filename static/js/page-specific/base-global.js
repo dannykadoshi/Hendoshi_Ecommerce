@@ -50,6 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // 2. ADMIN PANEL & MOBILE MENU FUNCTIONALITY
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
+    // Unified function to close all submenus (admin + vault)
+    function closeAllSubmenus() {
+        document.querySelectorAll('.admin-panel-submenu, .vault-submenu').forEach(menu => {
+            menu.classList.remove('show');
+            if (menu.parentElement) menu.parentElement.classList.remove('show');
+        });
+    }
+
     // Admin Panel Dropdown - Click only (submenu opens to the left)
     function closeAllAdminSubmenus() {
         document.querySelectorAll('.admin-panel-submenu').forEach(menu => {
@@ -75,8 +83,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Handle Vault submenu toggle (Hall of Fame)
+    document.querySelectorAll('.vault-submenu-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const wrapper = this.closest('.vault-submenu-dropdown-wrapper');
+            const submenu = wrapper.querySelector('.vault-submenu');
+            // Toggle .show class for submenu
+            const isOpen = submenu.classList.contains('show');
+            closeAllSubmenus();
+            if (!isOpen) {
+                submenu.classList.add('show');
+                wrapper.classList.add('show');
+            }
+        });
+    });
+
     // Prevent submenu from closing when clicking inside it
-    document.querySelectorAll('.admin-panel-submenu').forEach(submenu => {
+    document.querySelectorAll('.admin-panel-submenu, .vault-submenu').forEach(submenu => {
         submenu.addEventListener('click', function(e) {
             if (e.target.tagName === 'A' || e.target.closest('a')) {
                 return;
@@ -87,15 +112,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close submenu when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.admin-panel-dropdown-wrapper')) {
-            closeAllAdminSubmenus();
+        if (!e.target.closest('.admin-panel-dropdown-wrapper') && !e.target.closest('.vault-submenu-dropdown-wrapper')) {
+            closeAllSubmenus();
         }
     });
 
     // Close submenu when parent dropdown closes
-    document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown').forEach(parentDropdown => {
+    document.querySelectorAll('.desktop-icons .dropdown, .mobile-icons .dropdown, .desktop-menu .nav-item.dropdown').forEach(parentDropdown => {
         parentDropdown.addEventListener('hidden.bs.dropdown', function() {
-            closeAllAdminSubmenus();
+            closeAllSubmenus();
         });
     });
 

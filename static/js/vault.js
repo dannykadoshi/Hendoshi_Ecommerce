@@ -143,16 +143,19 @@ function likePhotoUnified(photoId, source) {
             galleryLikesElement.innerHTML = `<i class="fas fa-heart"></i> ${data.likes}`;
         }
 
-        // Update detail view like button (if exists)
+        // Update detail view like badge (if exists)
+        const likeBadge = document.getElementById(`like-badge-${photoId}`);
+        if (likeBadge) {
+            likeBadge.innerHTML = `<i class="fas fa-heart"></i> <span>${data.likes}</span>`;
+        }
+
+        // Update detail view like button styling (if exists)
         const detailButton = document.getElementById(`like-button-${photoId}`);
         if (detailButton) {
-            detailButton.innerHTML = `<i class="fas fa-heart"></i> Like (${data.likes})`;
             if (data.liked) {
-                detailButton.classList.add('btn-pink');
-                detailButton.classList.remove('btn-outline-pink');
+                detailButton.classList.add('active-like');
             } else {
-                detailButton.classList.add('btn-outline-pink');
-                detailButton.classList.remove('btn-pink');
+                detailButton.classList.remove('active-like');
             }
         }
 
@@ -165,6 +168,16 @@ function likePhotoUnified(photoId, source) {
             } else {
                 galleryButton.classList.add('btn-outline-pink');
                 galleryButton.classList.remove('btn-pink');
+            }
+        }
+
+        // Update new vault-grid-like-btn styling (if exists)
+        const gridLikeButton = document.querySelector(`.vault-grid-like-btn[onclick*="${photoId}"]`);
+        if (gridLikeButton) {
+            if (data.liked) {
+                gridLikeButton.classList.add('liked');
+            } else {
+                gridLikeButton.classList.remove('liked');
             }
         }
     })
@@ -253,85 +266,124 @@ function initializeVoting() {
     };
 }
 
-// Share Photo Functionality
+// Social Share Functionality for Vault Photo Detail
 function initializePhotoDetailShare() {
-    window.sharePhoto = function() {
-        const modal = new bootstrap.Modal(document.getElementById('shareModal'));
-        modal.show();
+    var shareButtons = document.querySelectorAll('.vault-sidebar-share-buttons .share-btn');
 
-        // Select the share URL
-        const shareUrlInput = document.getElementById('shareUrl');
-        shareUrlInput.select();
-        shareUrlInput.setSelectionRange(0, 99999);
-    };
-    // Copy share link functionality
-    window.copyShareLink = function() {
-        const shareUrlInput = document.getElementById('shareUrl');
-        const url = shareUrlInput.value;
+    shareButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var platform = this.dataset.platform;
+            var photoCaption = this.dataset.photoCaption || '';
+            var photoUrl = this.dataset.photoUrl || window.location.href;
+            var photoImage = this.dataset.photoImage || '';
 
-        // Try modern clipboard API first
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(url).then(function() {
-                showCopyFeedback('Link copied to clipboard!');
+            switch(platform) {
+                case 'native':
+                    shareNative(photoUrl, photoCaption);
+                    break;
+                case 'facebook':
+                    shareToFacebook(photoUrl, photoCaption);
+                    break;
+                case 'twitter':
+                    shareToTwitter(photoUrl, photoCaption);
+                    break;
+                case 'pinterest':
+                    shareToPinterest(photoUrl, photoCaption, photoImage);
+                    break;
+                case 'instagram':
+                    shareToInstagram(photoUrl, photoCaption);
+                    break;
+                case 'copy-link':
+                    copyToClipboard(photoUrl, this);
+                    break;
+            }
+        });
+    });
+
+    function shareNative(url, caption) {
+        if (navigator.share) {
+            navigator.share({
+                title: 'HENDOSHI Vault Photo',
+                text: caption,
+                url: url
             }).catch(function(err) {
-                console.error('Failed to copy: ', err);
-                fallbackCopyTextToClipboard(url);
+                console.log('Share cancelled or failed');
             });
         } else {
-            // Fallback for older browsers
-            fallbackCopyTextToClipboard(url);
+            copyToClipboard(url, document.querySelector('.copy-link-btn'));
         }
-    };;
+    }
 
-    function fallbackCopyTextToClipboard(text) {
-        const textArea = document.createElement("textarea");
+    function shareToFacebook(url, caption) {
+        var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(caption);
+        window.open(shareUrl, 'facebook-share', 'width=600,height=400');
+    }
+
+    function shareToTwitter(url, caption) {
+        var text = caption + ' ' + url;
+        var shareUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+        window.open(shareUrl, 'twitter-share', 'width=600,height=400');
+    }
+
+    function shareToPinterest(url, caption, image) {
+        var shareUrl = 'https://pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) + '&description=' + encodeURIComponent(caption);
+        if (image) {
+            shareUrl += '&media=' + encodeURIComponent(image);
+        }
+        window.open(shareUrl, 'pinterest-share', 'width=600,height=400');
+    }
+
+    function shareToInstagram(url, caption) {
+        copyToClipboard(url, document.querySelector('.copy-link-btn'));
+        alert('Link copied! Open Instagram and paste in your story or bio.');
+    }
+
+    function copyToClipboard(url, button) {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(function() {
+                showCopySuccess(button);
+            }).catch(function(err) {
+                fallbackCopy(url, button);
+            });
+        } else {
+            fallbackCopy(url, button);
+        }
+    }
+
+    function fallbackCopy(text, button) {
+        var textArea = document.createElement('textarea');
         textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-999999px";
-        textArea.style.top = "-999999px";
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
 
         try {
-            const successful = document.execCommand('copy');
+            var successful = document.execCommand('copy');
             if (successful) {
-                showCopyFeedback('Link copied to clipboard!');
-            } else {
-                showCopyFeedback('Failed to copy link', true);
+                showCopySuccess(button);
             }
         } catch (err) {
-            showCopyFeedback('Failed to copy link', true);
+            console.error('Copy failed:', err);
         }
 
         document.body.removeChild(textArea);
     }
 
-    function showCopyFeedback(message, isError = false) {
-        // Remove any existing feedback
-        const existingFeedback = document.querySelector('.copy-feedback');
-        if (existingFeedback) {
-            existingFeedback.remove();
-        }
+    function showCopySuccess(button) {
+        if (!button) return;
+        var originalIcon = button.innerHTML;
+        button.classList.add('copied');
+        button.innerHTML = '<i class="fas fa-check"></i>';
 
-        // Create feedback element
-        const feedback = document.createElement('div');
-        feedback.className = `copy-feedback alert alert-${isError ? 'danger' : 'success'} alert-dismissible fade show`;
-        feedback.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 250px;';
-        feedback.innerHTML = `
-            <i class="fas fa-${isError ? 'exclamation-triangle' : 'check-circle'}"></i> ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-
-        document.body.appendChild(feedback);
-
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            if (feedback.parentNode) {
-                feedback.remove();
-            }
-        }, 3000);
-    }}
+        setTimeout(function() {
+            button.classList.remove('copied');
+            button.innerHTML = originalIcon;
+        }, 2000);
+    }
+}
 
 // Submit Photo Multi-Select
 function initializeSubmitMultiSelect() {
@@ -795,7 +847,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Photo detail page
-    if (document.getElementById('shareModal')) {
+    if (document.querySelector('.vault-detail-layout')) {
         initializePhotoDetailLikes();
         initializePhotoDetailShare();
         initializePhotoDetailKeyboardNav();
@@ -818,71 +870,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Featured Photos Carousel
+// Featured Photos Carousel - Infinite Scroll
 function initializeFeaturedCarousel() {
     const track = document.getElementById('featured-track');
     const prevBtn = document.getElementById('featured-prev');
     const nextBtn = document.getElementById('featured-next');
-    
+
     // Only initialize if required elements exist
     if (!track || !prevBtn || !nextBtn) return;
-    
-    const items = track.children;
-    let currentIndex = 0;
-    const totalItems = items.length;
-    let itemWidth = 0;
-    let visibleItems = 1;
-    let maxIndex = 0;
 
-    function calculateDimensions() {
-        if (!items.length) return;
+    const originalItems = Array.from(track.children);
+    const totalItems = originalItems.length;
 
-        // Measure the real item width and gap
-        const firstItem = items[0];
-        const itemRect = firstItem.getBoundingClientRect();
-        const computed = getComputedStyle(track);
-        const gap = parseFloat(computed.gap) || 16; // fallback
-        const paddingLeft = parseFloat(computed.paddingLeft) || 0;
-        const paddingRight = parseFloat(computed.paddingRight) || 0;
+    // Clone items for infinite scroll effect
+    originalItems.forEach(item => {
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+    });
 
-        itemWidth = Math.round(itemRect.width + gap);
+    let isPaused = false;
 
-        const availableWidth = track.parentElement.offsetWidth - paddingLeft - paddingRight;
-        visibleItems = Math.max(1, Math.floor(availableWidth / itemWidth) || 1);
-        maxIndex = Math.max(0, totalItems - visibleItems);
+    // Pause animation on hover
+    track.addEventListener('mouseenter', () => {
+        isPaused = true;
+        track.style.animationPlayState = 'paused';
+    });
 
-        // Clamp currentIndex to new max
-        if (currentIndex > maxIndex) currentIndex = maxIndex;
-    }
+    track.addEventListener('mouseleave', () => {
+        isPaused = false;
+        track.style.animationPlayState = 'running';
+    });
 
-    function updateCarousel() {
-        const translateX = -currentIndex * itemWidth;
-        track.style.transform = `translateX(${translateX}px)`;
+    // Manual navigation with buttons - temporarily pause animation and scroll
+    let scrollAmount = 0;
+    const itemWidth = originalItems[0] ? originalItems[0].offsetWidth + 24 : 374; // width + gap (1.5rem = 24px)
 
-        // Update button states
-        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
-        nextBtn.disabled = currentIndex >= maxIndex;
-    }
+    function scrollCarousel(direction) {
+        // Pause the CSS animation
+        track.style.animation = 'none';
 
-    function nextSlide() {
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            updateCarousel();
+        // Get current transform value
+        const currentTransform = getComputedStyle(track).transform;
+        let currentX = 0;
+        if (currentTransform !== 'none') {
+            const matrix = new DOMMatrix(currentTransform);
+            currentX = matrix.m41;
         }
+
+        // Calculate new position
+        const scrollBy = direction === 'next' ? -itemWidth : itemWidth;
+        const newX = currentX + scrollBy;
+
+        // Apply smooth transition
+        track.style.transition = 'transform 0.5s ease';
+        track.style.transform = `translateX(${newX}px)`;
+
+        // Resume animation after transition
+        setTimeout(() => {
+            track.style.transition = 'none';
+            track.style.animation = 'infinite-scroll 80s linear infinite';
+            track.style.animationPlayState = isPaused ? 'paused' : 'running';
+        }, 500);
     }
 
-    function prevSlide() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    }
-
-    // Event listeners
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', () => scrollCarousel('next'));
+    prevBtn.addEventListener('click', () => scrollCarousel('prev'));
 
     // Touch/swipe support for mobile
     let startX = 0;
@@ -891,6 +943,7 @@ function initializeFeaturedCarousel() {
     track.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
         isDragging = true;
+        track.style.animationPlayState = 'paused';
     });
 
     track.addEventListener('touchmove', (e) => {
@@ -899,63 +952,16 @@ function initializeFeaturedCarousel() {
         const diff = startX - currentX;
 
         if (Math.abs(diff) > 50) {
-            if (diff > 0 && currentIndex < maxIndex) {
-                nextSlide();
-            } else if (diff < 0 && currentIndex > 0) {
-                prevSlide();
-            }
+            scrollCarousel(diff > 0 ? 'next' : 'prev');
             isDragging = false;
         }
     });
 
     track.addEventListener('touchend', () => {
         isDragging = false;
-    });
-
-    // Recalculate on window resize to handle responsive item sizes
-    window.addEventListener('resize', () => {
-        calculateDimensions();
-        updateCarousel();
-    });
-
-    // Auto-play functionality (optional)
-    let autoplayInterval = null;
-    function startAutoplay() {
-        if (autoplayInterval) clearInterval(autoplayInterval);
-        autoplayInterval = setInterval(() => {
-            if (currentIndex >= maxIndex) {
-                currentIndex = 0;
-            } else {
-                currentIndex++;
-            }
-            updateCarousel();
-        }, 5000); // Change slide every 5 seconds
-    }
-
-    // Pause autoplay on hover
-    track.parentElement.addEventListener('mouseenter', () => {
-        if (autoplayInterval) clearInterval(autoplayInterval);
-    });
-
-    track.parentElement.addEventListener('mouseleave', () => {
-        startAutoplay();
-    });
-
-    // Initialize dimensions and carousel
-    calculateDimensions();
-    updateCarousel();
-    startAutoplay();
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        const newVisibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth) || 1;
-        const newMaxIndex = Math.max(0, totalItems - newVisibleItems);
-
-        if (currentIndex > newMaxIndex) {
-            currentIndex = newMaxIndex;
+        if (!isPaused) {
+            track.style.animationPlayState = 'running';
         }
-
-        updateCarousel();
     });
 }
 

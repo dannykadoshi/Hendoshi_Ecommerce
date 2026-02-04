@@ -502,7 +502,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     shareToInstagram(productUrl, productName);
                     break;
                 case 'copy-link':
-                    copyToClipboard(productUrl);
+                    copyToClipboard(productUrl, this);
                     break;
             }
         });
@@ -547,20 +547,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Copy to clipboard function
-    function copyToClipboard(text) {
+    function copyToClipboard(text, button) {
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(() => {
+                showCopySuccess(button);
                 showToast('Link copied to clipboard!', 'success');
             }).catch(() => {
-                fallbackCopyToClipboard(text);
+                fallbackCopyToClipboard(text, button);
             });
         } else {
-            fallbackCopyToClipboard(text);
+            fallbackCopyToClipboard(text, button);
         }
     }
 
     // Fallback copy function for older browsers
-    function fallbackCopyToClipboard(text) {
+    function fallbackCopyToClipboard(text, button) {
         const textArea = document.createElement('textarea');
         textArea.value = text;
         textArea.style.position = 'fixed';
@@ -572,12 +573,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             document.execCommand('copy');
+            showCopySuccess(button);
             showToast('Link copied to clipboard!', 'success');
         } catch (err) {
             showToast('Failed to copy link. Please copy manually.', 'error');
         }
 
         document.body.removeChild(textArea);
+    }
+
+    // Show visual feedback on copy button
+    function showCopySuccess(button) {
+        if (!button) return;
+        var originalIcon = button.innerHTML;
+        button.classList.add('copied');
+        button.innerHTML = '<i class="fas fa-check"></i>';
+
+        setTimeout(function() {
+            button.classList.remove('copied');
+            button.innerHTML = originalIcon;
+        }, 2000);
     }
 
     // Mobile Web Share API support
