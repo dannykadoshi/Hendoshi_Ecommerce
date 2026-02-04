@@ -15,8 +15,8 @@ class Command(BaseCommand):
         parser.add_argument(
             '--num-photos',
             type=int,
-            default=5,
-            help='Number of photos to feature (default: 5)'
+            default=6,
+            help='Number of photos to feature (default: 6)'
         )
         parser.add_argument(
             '--weeks',

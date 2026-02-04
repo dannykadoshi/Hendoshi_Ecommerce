@@ -48,11 +48,21 @@ def vault_gallery(request):
         photos = photos.filter(tagged_products__slug=product_filter)
 
     # Get featured photos (separate from main photos query)
+    # First try to get actively featured photos, but fallback to top-rated if none exist
     featured_photos = VaultPhoto.objects.filter(
         status='approved',
         is_featured=True,
         featured_until__gt=timezone.now()
     ).select_related('user').prefetch_related('tagged_products').order_by('-feature_score')[:10]
+    
+    # If no featured photos exist, auto-select top photos by engagement
+    if not featured_photos.exists():
+        from django.db.models import Count
+        featured_photos = VaultPhoto.objects.filter(
+            status='approved'
+        ).annotate(
+            like_count=Count('likes')
+        ).select_related('user').prefetch_related('tagged_products').order_by('-like_count', '-created_at')[:10]
 
     # Annotate featured photos with liked status for authenticated users
     if request.user.is_authenticated:
