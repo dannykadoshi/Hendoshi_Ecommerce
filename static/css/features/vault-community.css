@@ -1,9 +1,6 @@
 /* ===== VAULT STYLES - COMPLETELY REDESIGNED ===== */
 
-/* Vault Container Padding for Navbar */
-.vault-container {
-    padding-top: 100px;
-}
+/* Vault Container padding moved to components.css */
 
 /* ========================================
    MODERN VAULT GALLERY DESIGN
@@ -3938,20 +3935,16 @@
     display: block;
     clear: both;
 }
-
-.vault-container {
-    padding-top: 3rem;
-    padding-bottom: 6rem;
-}
+/* page-container defaults moved to components.css; keep auth-page overrides below */
 
 /* Auth pages: bring the form container closer to the hero */
-.auth-page .vault-container {
+.auth-page .page-container {
     padding-top: 0.5rem;
     padding-bottom: 3rem;
 }
 
 @media (max-width: 768px) {
-    .auth-page .vault-container {
+    .auth-page .page-container {
         padding-top: 0.5rem;
     }
 }

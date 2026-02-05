@@ -16,9 +16,7 @@
     padding-top: 120px;
 }
 
-.vault-container {
-    padding-top: 2rem;
-}
+.page-container styles consolidated to components.css
 
 .collections-title {
     font-size: 3rem;

@@ -54,10 +54,7 @@
     }
 }
 
-.checkout-container {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-}
+
 
 /* On profile pages we use Bootstrap's row/col grid. Prevent the
    checkout-specific two-column CSS grid from constraining the
@@ -369,12 +366,7 @@
     line-height: 1.4;
 }
 
-/* From: templates/checkout/payment.html */
-.checkout-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0 !important;
-}
+/* Checkout spacing centralized in components.css (kept page-specific overrides if needed) */
 
 .checkout-hero-stat {
     color: #ccc;
@@ -386,10 +378,7 @@
     margin-right: 0.5rem;
 }
 
-.checkout-container {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-}
+
 
 .payment-section {
     background: var(--bg-glass-light);

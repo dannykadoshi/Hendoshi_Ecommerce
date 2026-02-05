@@ -1,0 +1,20 @@
+<!-- Progress Indicator include -->
+<div class="progress-container checkout-progress--tight">
+    <div class="progress-bar-wrapper horizontal">
+        {% for step in steps %}
+            <div class="progress-step {% if step.status == 'done' %}completed{% elif step.status == 'current' %}active{% endif %}">
+                <div class="step-circle">
+                    {% if step.status == 'done' %}
+                        <i class="fas fa-check"></i>
+                    {% else %}
+                        {{ forloop.counter }}
+                    {% endif %}
+                </div>
+                <div class="step-label">{{ step.label }}</div>
+            </div>
+            {% if not forloop.last %}
+                <div class="progress-line {% if step.status == 'done' %}completed{% endif %}"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

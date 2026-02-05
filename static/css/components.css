@@ -240,6 +240,14 @@
     z-index: 2;
 }
 
+/* Centralized checkout container spacing
+   Keep only the top padding here to avoid duplicates across
+   feature and page-specific CSS files. Mobile overrides remain
+   in their respective files when necessary. */
+.checkout-container {
+    padding-top: 3rem;
+}
+
 .contact-card a:hover {
     color: #ff6fb5;
     text-decoration: underline;
@@ -1618,11 +1626,40 @@
 
 
 /* Search Results Page - Uses products-page class for consistent layout */
-.search-results-page .vault-container {
+.search-results-page .page-container {
     padding-top: 1rem;
     padding-bottom: 2rem;
     max-width: 1400px !important; /* Constrain width for proper grid layout */
     margin: 0 auto !important; /* Center the container */
+}
+
+/* Canonical page container: centralized settings for page content wrappers */
+.page-container {
+    padding-top: 2rem;
+    padding-bottom: 6rem;
+    --vault-max-width: 1200px;
+}
+
+.page-container > .container,
+.page-container .container {
+    max-width: var(--vault-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.page-container.wide {
+    --vault-max-width: 1400px;
+}
+
+/* Canonical checkout page spacing (centralized) */
+.checkout-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0 !important;
+    margin-bottom: 48px;
+    padding-bottom: 3rem;
 }
 
 .search-results-container {
@@ -1633,7 +1670,7 @@
 }
 
 @media (max-width: 991px) {
-    .search-results-page .vault-container {
+    .search-results-page .page-container {
         padding-top: 0.75rem;
         max-width: 100% !important; /* Full width on mobile */
         margin: 0 !important;
@@ -1846,7 +1883,7 @@
 
 /* Add bottom padding to cart page content to account for sticky bar */
 @media (max-width: 991px) {
-    .cart-page .vault-container {
+    .cart-page .page-container {
         padding-bottom: 80px;
     }
 }

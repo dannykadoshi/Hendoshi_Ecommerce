@@ -623,7 +623,7 @@ h2.gradient-title {
     margin-bottom: 0.5rem;
 }
 
-.products-page .vault-container {
+.products-page .page-container {
     padding-top: 1rem;
     padding-bottom: 2rem;
     /* Allow products page to expand wider on large screens so grid stretches across big monitors */
@@ -633,7 +633,7 @@ h2.gradient-title {
 }
 
 @media (max-width: 991px) {
-    .products-page .vault-container {
+    .products-page .page-container {
         padding-top: 0.75rem;
         max-width: 100% !important; /* Full width on mobile */
         margin: 0 !important;

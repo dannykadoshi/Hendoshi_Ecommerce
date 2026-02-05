@@ -398,6 +398,13 @@
     gap: 1rem;
     margin-top: 1.25rem;
     padding-top: 1rem;
+
+/* Checkout progress spacing helper - tighten vertical gap to hero */
+.checkout-progress--tight {
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem;
+    padding-top: 0;
+}
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -2084,13 +2091,8 @@ a.btn-pink {
     margin-bottom: 2rem;
 }
 
-/* Moved from templates/checkout/checkout.html */
-.checkout-page {
-    min-height: calc(100vh - 120px);
-    padding-top: 120px;
-    margin-top: 0 !important;
-    padding-bottom: 3rem;
-}
+/* Checkout spacing centralized in components.css */
+/* original moved from templates/checkout/checkout.html */
 
 .checkout-hero-stat {
     color: #ccc;
@@ -2102,10 +2104,7 @@ a.btn-pink {
     margin-right: 0.5rem;
 }
 
-.checkout-container {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-}
+
 
 /* Mobile responsive adjustments for checkout containers */
 @media (max-width: 768px) {
@@ -2130,20 +2129,7 @@ a.btn-pink {
         overflow-x: hidden;
     }
     
-    .container-fluid.vault-container {
-        padding-left: 0;
-        padding-right: 0;
-        margin-left: 0;
-        margin-right: 0;
-        overflow-x: hidden;
-        max-width: 100vw;
-    }
-    
-    .vault-container > .container {
-        padding-left: 5px;
-        padding-right: 5px;
-        max-width: 100%;
-    }
+    /* container adjustments for page-container consolidated in components.css; keep checkout-specific layout below */
     
     .checkout-wrapper {
         width: 100%;
@@ -2471,25 +2457,7 @@ a.btn-pink {
 @media (max-width: 600px) { .status-update-fields { flex-direction: column; gap: 1rem; } .status-update-form .btn-pink { width:100%; } .status-log-item { padding:1rem 0.7rem; } }
 
 
-/* Global width control for vault/admin-like pages.
-   Change --vault-max-width to update inner content width across pages
-   that use the `vault-container` wrapper. */
-.vault-container {
-    --vault-max-width: 1200px; /* override this on a per-theme/page basis if needed */
-}
-.vault-container > .container,
-.vault-container .container {
-    max-width: var(--vault-max-width);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-/* Small helper: allow quick global change via a single CSS rule */
-.vault-container.wide {
-    --vault-max-width: 1400px;
-}
+/* page-container helpers consolidated into components.css */
 
 
 .info-group {
@@ -4668,11 +4636,7 @@ a.btn-pink {
     text-align: center;
 }
 
-/* Checkout page */
-.checkout-page {
-    margin-top: 120px;
-    margin-bottom: 48px;
-}
+/* Checkout spacing centralized in components.css */
 
 .checkout-progress {
     display: flex;

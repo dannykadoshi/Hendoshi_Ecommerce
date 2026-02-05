@@ -180,7 +180,7 @@
             overflow-x: hidden;
         }
         
-        .container-fluid.vault-container {
+        .container-fluid.page-container {
             padding-left: 5px;
             padding-right: 5px;
             overflow-x: hidden;
@@ -214,9 +214,7 @@
     }
     
     /* Prevent content being cut off */
-    .checkout-page .checkout-container {
-        padding-bottom: 3rem;
-    }
+    /* padding-bottom moved to page-specific needs removed to centralize spacing */
 
 
 /* ===== ORDER_DETAIL ===== */
