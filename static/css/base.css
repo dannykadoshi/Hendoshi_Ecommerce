@@ -3,9 +3,14 @@
    ================================================
    
    This file contains only:
+/* ================================================
+   HENDOSHI BASE CSS - Global Variables & Styles
+   ================================================
+
+   This file contains only:
    - CSS custom properties (:root variables)
    - Global resets and base styles
-   
+
    All specific components are in separate files:
    - components.css (buttons, forms, modals, alerts)
    - navigation.css (navbar, menus, dropdowns)
@@ -49,6 +54,12 @@
     --border-radius-glass: 10px;
     --padding-glass: 1rem 1.25rem;
 }
+
+/* Prevent iOS and other browsers from resizing text unexpectedly. */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 /* Global Reset */

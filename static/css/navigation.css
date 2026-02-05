@@ -1,10 +1,8 @@
 .navbar {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.85) 100%);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 105, 180, 0.2);
-    padding: 0.6rem 1rem;
-    margin-top: 2.5rem;
+    margin-top: 3rem;
     position: fixed;
     top: 0;
     width: 100%;
@@ -75,12 +73,6 @@
     }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-    .navbar {
-        padding: 0.7rem 1rem;
-    }
-}
-
 :root.light-mode .navbar {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
     border-bottom-color: rgba(231, 31, 127, 0.2);
@@ -97,11 +89,6 @@
 }
 
 /* Desktop: Add padding to lower navbar items within the navbar */
-@media (min-width: 769px) {
-    .navbar-container {
-        padding-top: 0.5rem;
-    }
-}
 
 .navbar-burger {
     display: none;
@@ -451,7 +438,6 @@ span.gradient-text-mobile {
     width: 100%;
     font-size: 0.9rem;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 
 .search-form .search-input::placeholder {
@@ -476,7 +462,6 @@ span.gradient-text-mobile {
 
 /* Prevent wrap and tighten spacing for medium screens */
 @media (min-width: 992px) and (max-width: 1200px) {
-    .navbar { padding: 0.6rem 0.5rem !important; }
     .navbar-container { gap: 0.15rem; }
     .logo-text { font-size: 1.6rem; letter-spacing: 2px; }
     .nav-link { font-size: 0.875rem; padding: 0.4rem 0.4rem !important; margin: 0; white-space: nowrap; }
@@ -611,7 +596,6 @@ span.gradient-text-mobile {
     width: 320px;
     background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 105, 180, 0.25);
     border-radius: 12px;
     padding: 1rem;
@@ -750,7 +734,6 @@ span.gradient-text-mobile {
 .navbar-right .dropdown-menu {
     background: rgba(20, 20, 20, 0.95) !important;
     backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
     border: 1px solid rgba(255, 105, 180, 0.2) !important;
     border-radius: 12px !important;
     margin-top: 12px !important;
@@ -871,7 +854,6 @@ span.gradient-text-mobile {
     height: 100vh;
     background: var(--charcoal);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     z-index: 100000;
     transform: translateX(-100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -950,7 +932,6 @@ span.gradient-text-mobile {
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     z-index: 99999;
     display: none;
     opacity: 0;
@@ -1583,8 +1564,7 @@ body.menu-open {
 
 @media (max-width: 991px) {
     .navbar {
-        padding: 1.4rem 0.25rem 0.5rem 0.25rem;
-        margin-top: 2rem;
+        padding: 0.25rem 0.5rem 0.25rem;
         min-height: 56px;
     }
 
@@ -1642,7 +1622,7 @@ body.menu-open {
     }
 
     .navbar {
-        padding: 1.5rem 0.15rem 0.4rem 0.15rem;
+        padding: 0.6rem 0.15rem 0.4rem 0.15rem;
         min-height: 50px;
     }
 

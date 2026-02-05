@@ -530,7 +530,6 @@
     right: 0;
     background: rgba(26, 26, 26, 0.85);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border-top: 2px solid rgba(255, 20, 147, 0.3);
     padding: 0.75rem 0;
     transform: translateY(100%);
@@ -1089,7 +1088,6 @@
     font-size: 20px;
     font-weight: bold;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     z-index: 1000;
 }
@@ -1116,7 +1114,6 @@
     .card {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border: var(--border-glass);
         border-radius: 12px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -1530,7 +1527,6 @@
     font-size: 20px;
     font-weight: bold;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     z-index: 1000;
 }
@@ -1567,7 +1563,6 @@
 .review-detail-card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 2rem;

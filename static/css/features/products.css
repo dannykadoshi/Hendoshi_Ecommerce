@@ -156,7 +156,6 @@ h2.gradient-title {
     /* Apply same style as navbar dropdown menu */
     background: rgba(20, 20, 20, 0.95) !important;
     backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
     border: 1px solid rgba(255, 105, 180, 0.2) !important;
     min-width: 600px;
     margin-top: 0.5rem;
@@ -970,7 +969,7 @@ h2.gradient-title {
 }
 
 .product-info {
-    var(--padding-glass) 1.25rem;
+    padding: var(--padding-glass) 1.25rem;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
@@ -1313,7 +1312,6 @@ h2.gradient-title {
 .rating-breakdown {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
 }
@@ -1354,7 +1352,6 @@ h2.gradient-title {
 .reviews-filters {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     height: 100%;
@@ -1540,7 +1537,6 @@ h2.gradient-title {
     font-size: 1.1rem;
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: var(--border-glass);
     border-radius: 15px;
     padding: 1.5rem;
@@ -1578,7 +1574,6 @@ h2.gradient-title {
 .design-story {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: var(--border-glass);
     border-left: 4px solid var(--neon-pink);
     padding: 1.5rem;
@@ -1688,7 +1683,6 @@ h2.gradient-title {
     margin-top: 10px !important;
     background: rgba(20, 20, 20, 0.95) !important;
     backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
     border: 1px solid rgba(255, 105, 180, 0.2) !important;
     border-radius: 12px !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1) !important;
@@ -1820,7 +1814,6 @@ h2.gradient-title {
 .auth-card {
     background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 105, 180, 0.2);
     padding: 3rem;
     border-radius: 12px;
@@ -1959,7 +1952,6 @@ h2.gradient-title {
     padding: 4rem 0;
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 20, 147, 0.1);
     overflow: hidden;
 }
@@ -2027,7 +2019,6 @@ h2.gradient-title {
 .profile-card {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 15px;
     border: var(--border-glass);
@@ -2090,7 +2081,6 @@ h2.gradient-title {
 .auth-card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 2rem;
@@ -2102,7 +2092,6 @@ h2.gradient-title {
     .card {
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);

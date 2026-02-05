@@ -4,7 +4,6 @@
 .about-stat-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 16px;
     padding: 2rem 1.5rem;
@@ -72,7 +71,6 @@
 .testimonial-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 16px;
     padding: 2rem;

@@ -33,7 +33,6 @@
 .contact-card {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -65,7 +64,6 @@
     padding: 8rem 0 4rem;
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 20, 147, 0.1);
     overflow: hidden;
     margin-top: 76px;
@@ -117,7 +115,6 @@
 .contact-card {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -151,7 +148,7 @@
     margin: 20px 0;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    var(--border-radius-glass);
+    border-radius: var(--border-radius-glass);
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -237,7 +234,6 @@
 .quick-contact-card {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 1.75rem;
@@ -629,7 +625,6 @@
 .contact-card {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -663,7 +658,6 @@
 .contact-card {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -723,7 +717,6 @@
 .shipping-region {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -851,7 +844,6 @@
 .shipping-additional {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
     padding: 2rem;
@@ -892,7 +884,6 @@
 .shipping-contact {
     background: rgba(255, 20, 147, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 20, 147, 0.2);
     border-radius: 12px;
     padding: 2rem;
@@ -983,7 +974,6 @@
 .contact-card {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -1043,7 +1033,6 @@
 .shipping-region {
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     padding: 2rem;
@@ -1106,7 +1095,6 @@
 .shipping-contact {
     background: rgba(255, 20, 147, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 20, 147, 0.2);
     border-radius: 12px;
     padding: 2rem;

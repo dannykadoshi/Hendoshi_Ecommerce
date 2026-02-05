@@ -225,7 +225,10 @@
 /* ===== THEME_ANIMATION_LAYER ===== */
 
 /* Custom CSS for {{ seasonal_theme.name }} */
-{{ seasonal_theme.custom_css|safe }}
+/* seasonal_theme.custom_css removed from extracted stylesheet.
+    Keep dynamic/custom CSS in templates where it's rendered.
+    Original template expression was:
+    {{ seasonal_theme.custom_css|safe }} */
 
 /* ================================================
    THEME STRIP PREVIEW STYLES

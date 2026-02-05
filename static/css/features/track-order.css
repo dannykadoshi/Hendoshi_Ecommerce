@@ -37,7 +37,6 @@
 .tracking-info-cards .info-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
     padding: 1.5rem;
@@ -102,7 +101,6 @@
 .carrier-item {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
     padding: 1.5rem;
