@@ -1828,3 +1828,205 @@
 .heart-icon-large {
     font-size: 2em;
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .status-select {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #000;
+}
+
+:root.light-mode .status-select:focus,
+:root.light-mode .status-select:hover {
+    background-color: #fff;
+}
+
+:root.light-mode .social-share-section {
+    border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .share-title {
+    color: #000;
+}
+
+:root.light-mode .review-count {
+    color: #555;
+}
+
+:root.light-mode .no-reviews {
+    color: #555;
+}
+
+:root.light-mode .star-rating label {
+    color: #ccc;
+}
+
+:root.light-mode .review-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .reviewer-name {
+    color: #000;
+}
+
+:root.light-mode .review-form {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .review-image-thumb {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .preview-image {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .admin-reply-text {
+    color: #333;
+}
+
+:root.light-mode .sticky-add-to-cart {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+:root.light-mode .sticky-thumb {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .sticky-thumb-placeholder {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+:root.light-mode .sticky-name {
+    color: #000;
+}
+
+:root.light-mode .sticky-price-original {
+    color: #666;
+}
+
+:root.light-mode .sticky-price-regular {
+    color: #000;
+}
+
+:root.light-mode .sticky-select {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #000;
+}
+
+:root.light-mode .image-form-row:hover,
+:root.light-mode .variant-form-row:hover {
+    background-color: rgba(245, 245, 245, 0.95);
+}
+
+:root.light-mode .ql-toolbar.ql-snow {
+    background-color: #f5f5f5;
+}
+
+:root.light-mode .ql-container.ql-snow {
+    background-color: #fff;
+    color: #000;
+}
+
+:root.light-mode .ql-editor {
+    color: #000;
+}
+
+:root.light-mode .ql-editor.ql-blank::before {
+    color: #999;
+}
+
+:root.light-mode .ai-modal-content {
+    background: linear-gradient(135deg, #ffffff, #f5f5f5);
+}
+
+:root.light-mode .variant-toggles li label {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .variant-toggles li label:hover {
+    color: #000;
+}
+
+:root.light-mode .variant-toggles li label:has(input:checked) {
+    color: #000;
+}
+
+:root.light-mode .variant-preview {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .variant-preview-item {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .variant-count {
+    border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .close-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+:root.light-mode .card {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .card-title {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+:root.light-mode .card small {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .bulk-accordion .accordion-item {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+:root.light-mode .bulk-accordion .accordion-body {
+    background: rgba(245, 245, 245, 0.8);
+}
+
+:root.light-mode .progress-indicator {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+:root.light-mode .review-detail-card {
+    background: rgba(0, 0, 0, 0.01);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .review-content {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .moderation-section {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .review-images-section {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .review-image-container {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .admin-reply-form textarea {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+:root.light-mode .existing-variants-section {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(0, 0, 0, 0.1);
+}

@@ -205,8 +205,7 @@
         {% endif %}
         
         <!-- Discount Banner -->
-        <div class="discount-banner{% if discount_banner.is_high_value %} high-value{% endif %}" id="discountBanner"
-             {% if not discount_banner.show_discount_banner %}class="d-none"{% endif %}>
+        <div id="discountBanner" class="discount-banner{% if discount_banner.is_high_value %} high-value{% endif %}{% if not discount_banner.show_discount_banner %} d-none{% endif %}">
 
             <!-- Confetti Canvas (for high-value discounts) -->
             <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
@@ -1071,7 +1070,7 @@
 
         <!-- Seasonal Themes -->
         {% if seasonal_theme %}
-        <script src="{% static 'themes/js/seasonal_themes.js' %}"></script>
+        <script src="{% static 'js/features/themes/seasonal_themes.js' %}"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize seasonal theme animations
@@ -1089,6 +1088,8 @@
                 if (vaultHero) {
                     // Insert the strip right after the page-hero
                     vaultHero.parentNode.insertBefore(messageStrip, vaultHero.nextSibling);
+                    // Mark the hero so CSS can remove bottom spacing when a strip is present
+                    vaultHero.classList.add('has-strip');
                     messageStrip.style.display = 'block';
                 }
             }

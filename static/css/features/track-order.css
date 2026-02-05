@@ -150,8 +150,19 @@
         height: 60px;
         font-size: 2rem;
     }
-    
+
     .carriers-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .tracking-info-cards .info-card {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .carrier-item {
+    background: rgba(0, 0, 0, 0.03);
 }

@@ -378,3 +378,34 @@
         gap: 0.75rem;
     }
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .cookie-settings-card {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .cookie-intro {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .cookie-category-card {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .cookie-toggle-slider {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+:root.light-mode .cookie-consent-banner {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+:root.light-mode .cookie-modal {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+:root.light-mode .cookie-category {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}

@@ -177,3 +177,22 @@
         font-size: 0.95rem;
     }
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .about-stat-card {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .about-stat-card:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+:root.light-mode .testimonials-section {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .testimonial-card {
+    background: rgba(0, 0, 0, 0.03);
+}

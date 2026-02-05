@@ -206,6 +206,23 @@
         inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
+/* When a page-hero has a message strip inserted, remove any bottom gap
+   so the strip sits flush against the hero. The `has-strip` class is
+   added dynamically by base.html when the strip is injected. */
+.page-hero.has-strip {
+    margin-bottom: 0 !important;
+}
+
+.page-hero.has-strip + .seasonal-message-strip {
+    margin-top: 0 !important;
+    padding-top: 0.4rem; /* small padding so text doesn't butt directly to hero */
+}
+
+/* Ensure the strip itself has no external margins that could create gaps */
+.seasonal-message-strip {
+    margin: 0;
+}
+
 /* Gradient border accents */
 .seasonal-message-strip::before,
 .seasonal-message-strip::after {

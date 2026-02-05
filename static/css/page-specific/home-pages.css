@@ -1114,3 +1114,105 @@
         padding: 1rem;
     }
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .contact-card {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .contact-hero {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .size-table {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+:root.light-mode .size-table th,
+:root.light-mode .size-table td {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .size-table tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .size-note {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .quick-contact-card {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .quick-contact-icon {
+    color: #000;
+}
+
+:root.light-mode .quick-contact-card p {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .contact-faq-section {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .faq-card h5 {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+:root.light-mode .faq-card p {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .tracking-form .form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #000;
+}
+
+:root.light-mode .tracking-form .form-control:focus {
+    background: #fff;
+    color: #000;
+}
+
+:root.light-mode .tracking-form .form-control::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+:root.light-mode .tracking-form .form-label {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+:root.light-mode .carrier-item {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .carrier-name {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+:root.light-mode .help-text {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .return-requirement {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .process-step {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .shipping-additional {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .faq-item {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}

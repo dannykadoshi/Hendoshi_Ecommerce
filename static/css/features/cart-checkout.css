@@ -2092,11 +2092,20 @@ main {
     .checkout-container {
         padding-top: 1.5rem;
         padding-bottom: 2rem;
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 8px;
+        padding-right: 8px;
         overflow-x: hidden;
+        max-width: 100%;
+        width: 100%;
     }
-    
+
+    /* Override nested container constraint for payment/checkout pages */
+    .checkout-page .container.checkout-container {
+        max-width: 100%;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
     /* container adjustments for page-container consolidated in components.css; keep checkout-specific layout below */
     
     .checkout-wrapper {
@@ -2124,6 +2133,9 @@ main {
         padding: 0;
         overflow-x: hidden;
     }
+
+     /* Previously used override to keep checkout hero in-flow.
+         Now handled globally by `.page-hero` mobile rules in vault-community.css. */
 }
 
 .checkout-page .panel {
@@ -2268,27 +2280,37 @@ main {
 /* Mobile adjustments for payment section */
 @media (max-width: 768px) {
     .payment-section {
-        padding: 1.5rem 2px;
-        margin: 0 2px;
+        padding: 1.25rem 12px;
+        margin: 0;
         border-radius: 8px;
-        max-width: calc(100% - 2px);
+        max-width: 100%;
+        width: 100%;
         overflow-x: hidden;
         box-sizing: border-box;
     }
-    
+
+    .payment-section .form-section {
+        padding: 1rem 10px;
+        margin: 0;
+    }
+
     .payment-section * {
         max-width: 100%;
         box-sizing: border-box;
     }
-    
+
     .payment-section .row {
         margin-left: 0;
         margin-right: 0;
     }
-    
+
     .payment-section .col-md-6 {
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .payment-section .input-group {
+        width: 100%;
     }
 }
 
@@ -8365,7 +8387,17 @@ input[type="number"] {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .shipping-selector-prominent {
-        padding: 1rem;
+        padding: 1rem 10px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .order-summary-card {
+        padding: 1rem 10px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
     }
 
     .shipping-rate-option {

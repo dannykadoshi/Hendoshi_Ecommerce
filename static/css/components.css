@@ -1021,10 +1021,11 @@
 }
 
 /* Hidden state for scroll behavior */
-.discount-banner.banner-hidden {
-    transform: translateY(-100%) !important;
+body .discount-banner.banner-hidden {
+    transform: translateY(-110%) !important;
     opacity: 0 !important;
-    pointer-events: none !important;
+    pointer-events: none;
+    animation: none !important;
 }
 
 /* Confetti Canvas */
@@ -1311,8 +1312,8 @@
 }
 
 /* Dismiss animation */
-.discount-banner.slide-up {
-    animation: slideUp 0.5s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+body .discount-banner.slide-up {
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
 /* ============================================

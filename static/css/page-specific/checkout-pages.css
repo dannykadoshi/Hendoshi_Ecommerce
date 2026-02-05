@@ -94,6 +94,7 @@
         gap: 0.5rem;
     }
 
+
     .edit-discount-icon {
         color: var(--neon-pink);
         font-size: 0.9rem;
@@ -638,4 +639,82 @@
     .action-buttons .btn {
         width: 100%;
     }
+}
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode #shippingModal .list-group-item {
+    color: #1a1a1a;
+}
+
+:root.light-mode .shipping-free-text {
+    color: #555;
+}
+
+:root.light-mode .order-totals table tr.total-row td {
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+:root.light-mode .return-to-cart-link {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .payment-methods {
+    border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .payment-method-icon {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .tracking-card-empty {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .tracking-update-form {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .tracking-update-field label {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .tracking-update-field .form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #000;
+}
+
+:root.light-mode .tracking-update-field .form-control:focus {
+    background: #fff;
+}
+
+:root.light-mode .tracking-update-field .form-control::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+:root.light-mode .form-check-label {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .form-section {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .page-title {
+    color: #000;
+}
+
+:root.light-mode .alert-info {
+    color: #333;
+}
+
+:root.light-mode .failure-reasons {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+:root.light-mode .alternative-section,
+:root.light-mode .support-section {
+    background: rgba(255, 255, 255, 0.5);
 }

@@ -170,5 +170,16 @@
 </div>
 
 <script src="{% static 'js/features/themes/seasonal_themes.js' %}"></script>
+<!-- Provide theme data via body dataset for the preview scripts -->
+<script>
+    (function(){
+        try {
+            document.body.dataset.themeType = "{{ theme.theme_type }}";
+            document.body.dataset.animSpeed = "{{ theme.animation_speed }}";
+            document.body.dataset.density = "{{ theme.particle_density }}";
+            document.body.dataset.isPaused = "{% if theme.is_paused %}true{% else %}false{% endif %}";
+        } catch (e) { console.warn('Could not set preview theme dataset', e); }
+    })();
+</script>
 <script src="{% static 'js/page-specific/admin-theme-preview.js' %}"></script>
 {% endblock %}

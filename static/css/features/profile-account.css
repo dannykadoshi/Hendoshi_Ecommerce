@@ -625,3 +625,87 @@
 
 /* End Modern Cart Overrides */
 
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .form-section {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .page-title {
+    color: #000;
+}
+
+:root.light-mode .alert-info {
+    color: #333;
+}
+
+:root.light-mode .contact-card {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .return-requirement {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .checkout-hero-stat {
+    color: #555;
+}
+
+:root.light-mode .step-circle {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .security-notice span {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+:root.light-mode .test-card-hint {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #555;
+}
+
+:root.light-mode .item-summary {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+:root.light-mode .total-row {
+    border-top-color: rgba(0, 0, 0, 0.06);
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+:root.light-mode .cart-container,
+:root.light-mode .cart-items-section,
+:root.light-mode .cart-summary,
+:root.light-mode .empty-cart {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+:root.light-mode .cart-item {
+    border-color: rgba(0, 0, 0, 0.04);
+}
+
+:root.light-mode .cart-item:hover {
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-item-image {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+}
+
+:root.light-mode .cart-item-specs {
+    color: #555;
+}
+
+:root.light-mode .qty-input-sm {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+:root.light-mode .btn-remove {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+

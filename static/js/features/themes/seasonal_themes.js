@@ -109,7 +109,7 @@ const SeasonalThemes = {
         // Merge options with defaults
         this.config = { ...this.config, ...options };
 
-        // Find all vault-hero sections
+        // Find all vault-hero or page-hero sections
         this.setupContainers();
 
         // Create particles for each container
@@ -128,7 +128,7 @@ const SeasonalThemes = {
      * Set up animation containers in vault-hero sections
      */
     setupContainers: function() {
-        const heroes = document.querySelectorAll('.vault-hero');
+        const heroes = document.querySelectorAll('.page-hero, .vault-hero');
 
         heroes.forEach((hero, index) => {
             // Add theme-active class if not already present
@@ -234,7 +234,7 @@ const SeasonalThemes = {
     startAnimation: function() {
         this.config.isPaused = false;
 
-        document.querySelectorAll('.vault-hero').forEach(hero => {
+        document.querySelectorAll('.page-hero, .vault-hero').forEach(hero => {
             hero.classList.remove('theme-paused');
         });
 
@@ -249,7 +249,7 @@ const SeasonalThemes = {
     pauseAnimation: function() {
         this.config.isPaused = true;
 
-        document.querySelectorAll('.vault-hero').forEach(hero => {
+        document.querySelectorAll('.page-hero, .vault-hero').forEach(hero => {
             hero.classList.add('theme-paused');
         });
 
@@ -290,7 +290,7 @@ const SeasonalThemes = {
         this.containers = [];
 
         // Remove classes from vault-heroes
-        document.querySelectorAll('.vault-hero').forEach(hero => {
+        document.querySelectorAll('.page-hero, .vault-hero').forEach(hero => {
             hero.classList.remove('theme-active', 'theme-paused');
             hero.classList.remove('theme-speed-slow', 'theme-speed-normal', 'theme-speed-fast');
         });
@@ -325,7 +325,7 @@ const SeasonalThemes = {
             this.init(this.config);
         } else {
             // Just update speed classes
-            document.querySelectorAll('.vault-hero').forEach(hero => {
+            document.querySelectorAll('.page-hero, .vault-hero').forEach(hero => {
                 hero.classList.remove('theme-speed-slow', 'theme-speed-normal', 'theme-speed-fast');
                 hero.classList.add(`theme-speed-${this.config.speed}`);
             });

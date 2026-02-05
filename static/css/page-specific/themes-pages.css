@@ -244,3 +244,43 @@
     padding: 0 2rem;
     font-weight: 600;
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .config-pill {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .custom-css-editor {
+    background: rgba(255, 255, 255, 0.8);
+    color: #1a1a1a;
+}
+
+:root.light-mode .preview-controls {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+:root.light-mode .table {
+    --bs-table-color: #1a1a1a;
+}
+
+:root.light-mode .table th {
+    background: rgba(0, 0, 0, 0.03);
+    color: rgba(0, 0, 0, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .table td {
+    background: rgba(0, 0, 0, 0.01);
+    color: #1a1a1a;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .table tbody tr:hover td {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .theme-type-preview .description {
+    color: rgba(0, 0, 0, 0.7);
+}

@@ -265,13 +265,13 @@
 }
 
 /* Gradient text for special links like Sale */
-.gradient-text {
-    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    color: transparent !important;
-    font-weight: 700 !important;
+.navbar .gradient-text {
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
     position: relative;
 }
 
@@ -285,15 +285,15 @@
 }
 
 /* Light mode gradient text */
-:root.light-mode .gradient-text {
-    color: #E71F7F !important;
-    background: none !important;
+:root.light-mode .navbar .gradient-text {
+    color: #E71F7F;
+    background: none;
 }
 
-:root.light-mode .gradient-text:hover {
-    color: #FFFFFF !important;
-    background: linear-gradient(135deg, #E71F7F, #FF69B4) !important;
-    background-clip: unset !important;
+:root.light-mode .navbar .gradient-text:hover {
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #E71F7F, #FF69B4);
+    background-clip: unset;
 }
 
 /* Mobile gradient text */
@@ -542,6 +542,30 @@ span.gradient-text-mobile {
     border-radius: 50%;
     line-height: 1;
     aspect-ratio: 1 / 1;
+}
+
+/* Override for vest/cart badges that need larger size with gradient */
+.nav-icon .vest-count-badge,
+.nav-icon .cart-count-badge {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    max-width: 18px;
+    top: -8px;
+    right: -8px;
+    font-size: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1 !important;
+}
+
+/* Prevent downstream page styles from shifting the heart badge alignment */
+.navbar .nav-icon .vest-count-badge {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
 }
 
 .desktop-icons {

@@ -1,6 +1,6 @@
 /**
  * Theme Animation Layer Scripts
- * Initializes seasonal theme animations on vault-hero sections
+ * Initializes seasonal theme animations on hero sections
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const isPaused = document.body.dataset.seasonalPaused === 'true';
 
     if (themeType) {
-        const heroes = document.querySelectorAll('.vault-hero');
+        const heroes = document.querySelectorAll('.page-hero, .vault-hero');
         heroes.forEach(function(hero) {
             hero.classList.add('theme-active');
             hero.classList.add('theme-speed-' + animSpeed);

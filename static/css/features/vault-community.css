@@ -23,6 +23,20 @@
     margin-right: calc(-50vw + 50%);
 }
 
+/* Mobile adjustments: ensure `.page-hero` looks consistent across all pages
+   on small screens (matches vault mobile rules). Applies site-wide so
+   pages that don't include `vault-page` still render the hero correctly. */
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 1.5rem 0 1rem;
+        margin-bottom: 1rem;
+        margin-top: -30px;
+        width: auto;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
 .page-hero::before {
     content: '';
     position: absolute;
@@ -342,8 +356,14 @@
     position: relative;
 }
 
+/* Override glassmorphic-card when used on featured cards */
+.vault-featured-card.glassmorphic-card {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 2px solid rgba(255, 20, 147, 0.3) !important;
+}
+
 .vault-featured-card:hover {
-    transform: translateY(-8px) scale(1.03) !important;
+    transform: translateY(-8px) scale(1.03);
     border-color: var(--electric-yellow);
     box-shadow: 
         0 25px 50px rgba(255, 20, 147, 0.5),
@@ -368,7 +388,7 @@
    authoritative `.vault-featured-track` rule below to avoid duplicates. */
 
 .vault-featured-card:hover .vault-featured-image {
-    transform: scale(1.1) !important;
+    transform: scale(1.1);
 }
 
 .vault-featured-overlay {
@@ -388,7 +408,7 @@
 }
 
 .vault-featured-card:hover .vault-featured-overlay {
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 .vault-featured-badge {
@@ -457,11 +477,10 @@
     text-decoration: none;
 }
 
-.vault-featured-vote-btn:hover,
-.vault-featured-like-btn:hover {
-    background: rgba(255, 255, 255, 0.4) !important;
-    transform: scale(1.15) !important;
-    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4) !important;
+.vault-featured-vote-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.15);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
 }
 
 /* Featured carousel like button - positioned like grid like button */
@@ -486,11 +505,11 @@
 }
 
 .vault-featured-like-btn:hover {
-    background: rgba(255, 20, 147, 0.9) !important;
-    border-color: var(--neon-pink) !important;
-    color: var(--off-white) !important;
-    transform: scale(1.1) !important;
-    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5) !important;
+    background: rgba(255, 20, 147, 0.9);
+    border-color: var(--neon-pink);
+    color: var(--off-white);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
 }
 
 .vault-featured-like-btn.liked {
@@ -2270,9 +2289,7 @@
     animation: infinite-scroll 120s linear infinite;
     width: max-content;
     will-change: transform;
-    backface-visibility: hidden;
     transform: translateZ(0);
-    contain: layout;
 }
 
 .vault-featured-track:hover {
