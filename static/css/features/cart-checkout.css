@@ -2134,8 +2134,11 @@ main {
         overflow-x: hidden;
     }
 
-     /* Previously used override to keep checkout hero in-flow.
-         Now handled globally by `.page-hero` mobile rules in vault-community.css. */
+    /* Ensure the page-hero remains in-flow on checkout pages (mobile)
+       so it aligns visually with the rest of the checkout content. */
+    .checkout-page .page-hero {
+        margin-top: 0;
+    }
 }
 
 .checkout-page .panel {
