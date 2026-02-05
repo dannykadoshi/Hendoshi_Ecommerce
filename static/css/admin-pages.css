@@ -105,89 +105,89 @@
    ================================ */
 
 .table-responsive .archived-products-table {
-    color: var(--off-white) !important;
-    margin-bottom: 0 !important;
-    border-collapse: collapse !important;
-    width: 100% !important;
-    background-color: transparent !important;
+    color: var(--off-white);
+    margin-bottom: 0;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: transparent;
 }
 
 .table-responsive .archived-products-table thead {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border-bottom: 2px solid rgba(255, 20, 147, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 20, 147, 0.3);
 }
 
 .table-responsive .archived-products-table thead tr {
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
 .table-responsive .archived-products-table th {
-    color: var(--neon-pink) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    padding: 1rem 1.2rem !important;
-    text-align: left !important;
-    border: none !important;
-    background-color: transparent !important;
-    vertical-align: middle !important;
+    color: var(--neon-pink);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    vertical-align: middle;
 }
 
 .table-responsive .archived-products-table tbody {
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
 .table-responsive .archived-products-table tbody tr {
-    background-color: transparent !important;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
-    transition: all 0.3s ease !important;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
+    transition: all 0.3s ease;
 }
 
 .table-responsive .archived-products-table tbody tr:hover {
-    background-color: rgba(255, 20, 147, 0.08) !important;
+    background-color: rgba(255, 20, 147, 0.08);
 }
 
 .table-responsive .archived-products-table tbody tr:last-child {
-    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
 }
 
 .table-responsive .archived-products-table td {
-    padding: 1rem 1.2rem !important;
-    vertical-align: middle !important;
-    color: var(--off-white) !important;
-    font-size: 0.95rem !important;
-    border: none !important;
-    background-color: transparent !important;
+    padding: 1rem 1.2rem;
+    vertical-align: middle;
+    color: var(--off-white);
+    font-size: 0.95rem;
+    border: none;
+    background-color: transparent;
 }
 
 .table-responsive .archived-products-table td:first-child {
-    font-weight: 600 !important;
+    font-weight: 600;
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm {
-    background-color: #E71F7F !important;
-    color: #fff !important;
-    border: none !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    padding: 0.5rem 1.2rem !important;
-    border-radius: 8px !important;
-    font-size: 1rem !important;
-    transition: all 0.3s !important;
-    box-shadow: 0 2px 8px rgba(255,20,147,0.10) !important;
+    background-color: #E71F7F;
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(255,20,147,0.10);
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm:hover {
-    background-color: var(--electric-yellow) !important;
-    color: var(--black) !important;
-    box-shadow: 0 8px 32px rgba(255,20,147,0.18) !important;
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    box-shadow: 0 8px 32px rgba(255,20,147,0.18);
 }
 
 /* Add extra top margin to archived products table inside archive page */
 .container.archived-products-table-container {
-    margin-top: 140px !important;
+    margin-top: 140px;
 }
 
 /* Move archived products container lower from navbar */
@@ -197,7 +197,7 @@
 
 /* Light mode overrides for archived products table */
 :root.light-mode .table-responsive .archived-products-table th {
-    color: #E71F7F !important;
+    color: #E71F7F;
     background-color: #f5f5f5;
 }
 
@@ -215,7 +215,7 @@
 }
 
 :root.light-mode .table-responsive .archived-products-table td {
-    color: #222222 !important;
+    color: #222222;
 }
 
 /* ================================
@@ -245,7 +245,7 @@
 /* Collection form: make current file link pink and add spacing before change file input
    Only apply to plain anchors (not buttons) so .btn-pink keeps its white text */
 .auth-card .mb-3 a:not(.btn) {
-    color: var(--neon-pink) !important;
+    color: var(--neon-pink);
     display: inline-block;
     margin-bottom: 0.6rem;
 }
@@ -257,41 +257,41 @@
 /* Admin table buttons - checkout CTA look */
 .archived-products-table .btn-outline-pink,
 .auth-card .table .btn-outline-pink {
-    background: linear-gradient(135deg, var(--neon-pink), #ff006e) !important;
-    color: #fff !important;
-    border: 2px solid var(--neon-pink) !important;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45) !important;
-    padding: 0.6rem 1rem !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    transition: all 0.25s ease !important;
+    background: linear-gradient(135deg, var(--neon-pink), #ff006e);
+    color: #fff;
+    border: 2px solid var(--neon-pink);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
+    padding: 0.6rem 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.25s ease;
 }
 
 .archived-products-table .btn-outline-pink:hover,
 .auth-card .table .btn-outline-pink:hover {
-    background: var(--neon-pink) !important;
-    color: #000 !important;
-    transform: translateY(-3px) !important;
-    box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6) !important;
+    background: var(--neon-pink);
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6);
 }
 
 /* Delete buttons use solid red like standard danger CTA */
 .archived-products-table .btn-outline-danger,
 .auth-card .table .btn-outline-danger {
-    background: #dc3545 !important;
-    color: #fff !important;
-    border: 2px solid #b02a37 !important;
-    padding: 0.55rem 0.9rem !important;
-    font-weight: 800 !important;
+    background: #dc3545;
+    color: #fff;
+    border: 2px solid #b02a37;
+    padding: 0.55rem 0.9rem;
+    font-weight: 800;
 }
 
 .archived-products-table .btn-outline-danger:hover,
 .auth-card .table .btn-outline-danger:hover {
-    background: #dc3545 !important;
-    color: #fff !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 24px rgba(220,53,69,0.35) !important;
+    background: #dc3545;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(220,53,69,0.35);
 }
 
 /* ================================
@@ -301,48 +301,48 @@
 /* File Input Button Styling - Cross-browser, force white text and green hover */
 input[type="file"]::-webkit-file-upload-button,
 input[type="file"]::file-selector-button {
-    background: var(--neon-pink) !important;
-    color: #fff !important;
-    border: none !important;
-    padding: 0.35rem 1rem !important;
-    font-size: 0.95rem !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    border-radius: 4px !important;
-    transition: all 0.3s !important;
-    cursor: pointer !important;
-    margin-right: 0.5rem !important;
-    box-shadow: 0 2px 8px rgba(255,20,147,0.10) !important;
+    background: var(--neon-pink);
+    color: #fff;
+    border: none;
+    padding: 0.35rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    box-shadow: 0 2px 8px rgba(255,20,147,0.10);
 }
 
 input[type="file"]:hover::-webkit-file-upload-button,
 input[type="file"]:hover::file-selector-button {
-    background: var(--electric-yellow) !important;
-    color: var(--black) !important;
-    box-shadow: 0 8px 32px rgba(204,255,0,0.18) !important;
+    background: var(--electric-yellow);
+    color: var(--black);
+    box-shadow: 0 8px 32px rgba(204,255,0,0.18);
 }
 
 input[type="file"]::-ms-browse {
-    background: var(--neon-pink) !important;
-    color: #fff !important;
-    border: none !important;
-    padding: 1rem 2.5rem !important;
-    font-size: 1.1rem !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1.5px !important;
-    border-radius: 8px !important;
-    transition: all 0.3s !important;
-    cursor: pointer !important;
-    margin-right: 1rem !important;
-    box-shadow: 0 2px 12px rgba(255,20,147,0.10) !important;
+    background: var(--neon-pink);
+    color: #fff;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    cursor: pointer;
+    margin-right: 1rem;
+    box-shadow: 0 2px 12px rgba(255,20,147,0.10);
 }
 
 input[type="file"]:hover::-ms-browse {
-    background: var(--electric-yellow) !important;
-    color: var(--black) !important;
-    box-shadow: 0 8px 32px rgba(204,255,0,0.18) !important;
+    background: var(--electric-yellow);
+    color: var(--black);
+    box-shadow: 0 8px 32px rgba(204,255,0,0.18);
 }
 
 /* ================================
@@ -725,36 +725,36 @@ input[type="file"]:hover::-ms-browse {
 
 /* Custom text color classes */
 .text-off-white {
-    color: var(--off-white) !important;
+    color: var(--off-white);
 }
 
 .card-label {
-    color: var(--off-white) !important;
+    color: var(--off-white);
     opacity: 0.8;
 }
 
 .text-green {
-    color: #00FF88 !important;
+    color: #00FF88;
 }
 
 .text-red {
-    color: #ff6b6b !important;
+    color: #ff6b6b;
 }
 
 .text-electric-yellow {
-    color: var(--electric-yellow) !important;
+    color: var(--electric-yellow);
 }
 
 .text-gray-888 {
-    color: #888 !important;
+    color: #888;
 }
 
 /* Mobile responsive styles for subscribers management */
 @media (max-width: 768px) {
     /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
     .auth-card {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
 
     /* Reduce column gutters inside the admin area */
@@ -765,28 +765,28 @@ input[type="file"]:hover::-ms-browse {
 
     /* Make each column use minimal side padding so content is wider */
     [class*="col-"] {
-        padding-left: 0.25rem !important;
-        padding-right: 0.25rem !important;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
     }
 
     /* Let content span the full width available within their column */
     .card {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 100% !important;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
     }
 
     .card-body {
-        padding: 0.75rem !important;
+        padding: 0.75rem;
     }
 
     /* Search form responsive */
     .d-flex.gap-2.flex-wrap {
-        gap: 0.5rem !important;
+        gap: 0.5rem;
     }
 
     .d-flex.gap-2.flex-wrap .form-control {
-        min-width: auto !important;
+        min-width: auto;
         flex: 1;
     }
 }
@@ -800,7 +800,7 @@ input[type="file"]:hover::-ms-browse {
    ================================ */
 
 .product-form-container {
-    padding-top: 6rem !important;
+    padding-top: 6rem;
 }
 
 .relative-container {
@@ -934,7 +934,7 @@ input[type="file"]:hover::-ms-browse {
 
 /* Header / nav utility classes to replace inline styles */
 .badge-hidden {
-    display: none !important;
+    display: none;
 }
 
 .admin-panel-dropdown-wrapper {
@@ -981,7 +981,7 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .vault-submenu.show {
-    display: block !important;
+    display: block;
 }
 
 .inline-form {
@@ -1081,24 +1081,24 @@ input[type="file"]:hover::-ms-browse {
 
 :root.light-mode .form-control,
 :root.light-mode .form-select {
-    background-color: white !important;
-    border-color: #ddd !important;
-    color: #111 !important;
+    background-color: white;
+    border-color: #ddd;
+    color: #111;
 }
 
 :root.light-mode .form-control::placeholder,
 :root.light-mode .form-select::placeholder {
-    color: #999 !important;
+    color: #999;
 }
 
 :root.light-mode .form-control:focus,
 :root.light-mode .form-select:focus {
-    border-color: #E71F7F !important;
-    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25) !important;
+    border-color: #E71F7F;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25);
 }
 
 :root.light-mode .helper-text {
-    color: #333 !important;
+    color: #333;
 }
 
 :root.light-mode .form-check-input {
@@ -1107,8 +1107,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .form-check-input:checked {
-    background-color: #E71F7F !important;
-    border-color: #E71F7F !important;
+    background-color: #E71F7F;
+    border-color: #E71F7F;
 }
 
 :root.light-mode .form-check-label {
@@ -1137,8 +1137,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .stock-quantity-input {
-    background-color: white !important;
-    border-color: #E71F7F !important;
+    background-color: white;
+    border-color: #E71F7F;
 }
 
 /* ================================
@@ -1176,7 +1176,7 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .submenu-trigger {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -1194,14 +1194,14 @@ input[type="file"]:hover::-ms-browse {
 /* Light mode Admin Panel text color */
 :root.light-mode .dropdown-menu .admin-panel-dropdown > a.dropdown-item,
 :root.light-mode .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle {
-    color: var(--charcoal) !important;
+    color: var(--charcoal);
 }
 
 /* Admin Panel dropdown toggle hover effect */
 .dropdown-menu .admin-panel-dropdown > a.dropdown-item:hover,
 .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
+    background-color: var(--neon-pink);
+    color: var(--black);
 }
 
 /* Prevent Admin Panel submenu from opening on hover - click only */
@@ -1213,7 +1213,7 @@ input[type="file"]:hover::-ms-browse {
 
     /* Hide submenu by default - only show when .show class is added via JavaScript */
     .dropdown-menu .admin-panel-submenu {
-        display: none !important;
+        display: none;
         position: absolute;
         right: 100%;
         left: auto;
@@ -1226,7 +1226,7 @@ input[type="file"]:hover::-ms-browse {
 
     /* Show submenu when .show class is added */
     .dropdown-menu .admin-panel-submenu.show {
-        display: block !important;
+        display: block;
     }
 }
 
@@ -1652,7 +1652,7 @@ input[type="file"]:hover::-ms-browse {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 0.75rem;
-    border-radius: 10px !important;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -1858,6 +1858,6 @@ input[type="file"]:hover::-ms-browse {
 
     .bulk-accordion .product-preview-badge {
         margin-top: 0.5rem;
-        margin-left: 0 !important;
+        margin-left: 0;
     }
 }

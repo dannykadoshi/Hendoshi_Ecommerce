@@ -401,7 +401,7 @@
 
 /* Checkout progress spacing helper - tighten vertical gap to hero */
 .checkout-progress--tight {
-    margin-top: 0 !important;
+    margin-top: 0;
     margin-bottom: 0.5rem;
     padding-top: 0;
 }
@@ -712,11 +712,11 @@
 
 .quantity-input {
     text-align: center;
-    background-color: var(--charcoal) !important;
-    border: none !important;
-    border-left: 1px solid rgba(255, 20, 147, 0.3) !important;
-    border-right: 1px solid rgba(255, 20, 147, 0.3) !important;
-    color: var(--off-white) !important;
+    background-color: var(--charcoal);
+    border: none;
+    border-left: 1px solid rgba(255, 20, 147, 0.3);
+    border-right: 1px solid rgba(255, 20, 147, 0.3);
+    color: var(--off-white);
     font-size: 1rem;
     font-weight: 700;
     width: 50px;
@@ -803,7 +803,7 @@
 }
 
 .product-dropdown:valid {
-    border-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink);
 }
 
 .product-dropdown.has-selection {
@@ -821,7 +821,7 @@
 input::-webkit-validation-bubble,
 input::-webkit-validation-bubble-arrow,
 input:invalid {
-    box-shadow: none !important;
+    box-shadow: none;
 }
 
 
@@ -889,12 +889,12 @@ input:invalid {
 @media (max-width: 768px) {
     .toast-container-custom {
         /* sit well below the navbar */
-        top: 96px !important;
-        bottom: auto !important;
-        right: 12px !important;
-        left: 12px !important;
-        width: calc(100% - 24px) !important;
-        max-width: none !important;
+        top: 96px;
+        bottom: auto;
+        right: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        max-width: none;
         align-items: center;
     }
 
@@ -1192,13 +1192,13 @@ main {
    variants should use utility classes like .btn-lg or .btn-sm */
 
 .btn-lg {
-    padding: 1.5rem 3rem !important;
-    font-size: 1.3rem !important;
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem;
 }
 
 .btn-sm {
-    padding: 0.5rem 1rem !important;
-    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
 }
 
 /* Philosophy Strip */
@@ -1867,10 +1867,10 @@ main {
 }
 
 .newsletter-form .btn {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 1rem !important;
-    letter-spacing: 1px !important;
-    white-space: nowrap !important;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
 }
 
 .social-icons {
@@ -1890,7 +1890,7 @@ main {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
-    padding-left: 0 !important;
+    padding-left: 0;
 }
 
 .social-icons a:hover {
@@ -1908,9 +1908,9 @@ main {
     }
     
     .newsletter-form .btn {
-        white-space: nowrap !important;
-        font-size: 0.9rem !important;
-        padding: 0.75rem 1rem !important;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
     }
 }
 
@@ -2193,7 +2193,7 @@ main {
     color: var(--off-white);
     padding: var(--padding-glass);
     margin-bottom: 0.5rem;
-    border-radius: 8px !important;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -2234,7 +2234,7 @@ main {
 }
 
 .checkout-page .shipping-rates-section .badge.bg-pink {
-    background-color: var(--neon-pink) !important;
+    background-color: var(--neon-pink);
     color: var(--black);
     font-weight: 600;
 }
@@ -2397,7 +2397,7 @@ main {
 /* Moved from templates/checkout/order_detail.html */
 .status-update-field-full { flex:1 1 100%; min-width:220px; }
 .status-update-form select, .status-update-form textarea { width:100%; min-width:180px; max-width:100%; }
-.status-update-btn { width:150px !important; font-size:1rem !important; padding:0.7rem 1.2rem !important; font-weight:700; border-radius:7px; }
+.status-update-btn { width:150px; font-size:1rem; padding:0.7rem 1.2rem; font-weight:700; border-radius:7px; }
 .status-update-form { display:flex; flex-direction:column; gap:1.5rem; margin-top:1rem; }
 .status-update-fields { display:flex; gap:2rem; flex-wrap:wrap; }
 .status-update-field { flex:1 1 220px; display:flex; flex-direction:column; gap:0.5rem; }
@@ -2454,113 +2454,113 @@ main {
 }
 
 .profile-form-input {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    color: var(--off-white) !important;
-    padding: 10px 12px !important;
-    border-radius: 6px !important;
-    width: 100% !important;
-    transition: all 0.3s !important;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--off-white);
+    padding: 10px 12px;
+    border-radius: 6px;
+    width: 100%;
+    transition: all 0.3s;
 }
 
 .profile-form-input:focus {
-    border-color: var(--neon-pink) !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15) !important;
-    outline: none !important;
-    background: var(--border-glass-color) !important;
-    color: var(--off-white) !important;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.15);
+    outline: none;
+    background: var(--border-glass-color);
+    color: var(--off-white);
 }
 
 .profile-form-input::placeholder {
-    color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .profile-form-input.has-value {
-    border-color: rgba(204, 255, 0, 0.5) !important;
-    background-color: rgba(204, 255, 0, 0.05) !important;
-    box-shadow: 0 0 0 0.1rem rgba(204, 255, 0, 0.1) !important;
+    border-color: rgba(204, 255, 0, 0.5);
+    background-color: rgba(204, 255, 0, 0.05);
+    box-shadow: 0 0 0 0.1rem rgba(204, 255, 0, 0.1);
 }
 
 .table-responsive .order-table {
-    color: var(--off-white) !important;
-    margin-bottom: 0 !important;
-    border-collapse: collapse !important;
-    width: 100% !important;
-    background-color: transparent !important;
+    color: var(--off-white);
+    margin-bottom: 0;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: transparent;
 }
 
 .table-responsive .order-table thead {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    border-bottom: 2px solid rgba(255, 20, 147, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 20, 147, 0.3);
 }
 
 .table-responsive .order-table th {
-    color: var(--neon-pink) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    padding: 1rem 1.2rem !important;
-    text-align: left !important;
-    border: none !important;
-    background-color: transparent !important;
-    vertical-align: middle !important;
+    color: var(--neon-pink);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    vertical-align: middle;
 }
 
 .table-responsive .order-table tbody {
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
 .table-responsive .order-table tbody tr {
-    background-color: transparent !important;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
-    transition: all 0.3s ease !important;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
+    transition: all 0.3s ease;
 }
 
 .table-responsive .order-table tbody tr:hover {
-    background-color: rgba(255, 20, 147, 0.08) !important;
+    background-color: rgba(255, 20, 147, 0.08);
 }
 
 .table-responsive .order-table tbody tr:last-child {
-    border-bottom: 1px solid rgba(255, 20, 147, 0.15) !important;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
 }
 
 .table-responsive .order-table td {
-    padding: 1rem 1.2rem !important;
-    vertical-align: middle !important;
-    color: var(--off-white) !important;
-    font-size: 0.95rem !important;
-    border: none !important;
-    background-color: transparent !important;
+    padding: 1rem 1.2rem;
+    vertical-align: middle;
+    color: var(--off-white);
+    font-size: 0.95rem;
+    border: none;
+    background-color: transparent;
 }
 
 .table-responsive .order-table td:first-child {
-    font-weight: 600 !important;
+    font-weight: 600;
 }
 
 /* Order table link styling */
 .table-responsive .order-link {
-    color: var(--neon-pink) !important;
-    text-decoration: none !important;
-    font-weight: 600 !important;
-    transition: all 0.3s !important;
+    color: var(--neon-pink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
 }
 
 .table-responsive .order-link:hover {
-    color: var(--electric-yellow) !important;
-    text-decoration: underline !important;
-    text-shadow: 0 0 10px rgba(255, 20, 147, 0.5) !important;
+    color: var(--electric-yellow);
+    text-decoration: underline;
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
 }
 
 .table-responsive .badge.bg-pink {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    padding: 0.4rem 0.8rem !important;
-    letter-spacing: 0.5px !important;
-    font-size: 0.75rem !important;
-    display: inline-block !important;
+    background-color: var(--neon-pink);
+    color: var(--black);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+    display: inline-block;
 }
 
 .empty-state {
@@ -2778,8 +2778,8 @@ main {
 }
 
 .badge.bg-pink {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
+    background-color: var(--neon-pink);
+    color: var(--black);
     padding: 0.3rem 0.8rem;
     font-weight: 700;
 }
@@ -2803,7 +2803,7 @@ main {
 
 /* Text Danger (for error icons) */
 .text-danger {
-    color: #dc3545 !important;
+    color: #dc3545;
 }
 
 /* Django Messages / Notifications */
@@ -2816,32 +2816,32 @@ main {
 }
 
 .alert {
-    background: rgba(20, 20, 20, 0.95) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 2px solid var(--neon-pink) !important;
-    color: var(--off-white) !important;
-    border-radius: 8px !important;
-    padding: 1.5rem !important;
-    margin-bottom: 1rem !important;
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3) !important;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--neon-pink);
+    color: var(--off-white);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
     animation: slideIn 0.3s ease-out;
 }
 
 .alert-success {
-    border-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink);
 }
 
 .alert-error,
 .alert-danger {
-    border-color: #dc3545 !important;
+    border-color: #dc3545;
 }
 
 .alert-warning {
-    border-color: var(--electric-yellow) !important;
+    border-color: var(--electric-yellow);
 }
 
 .alert-info {
-    border-color: #17a2b8 !important;
+    border-color: #17a2b8;
 }
 
 .alert strong {
@@ -2853,13 +2853,13 @@ main {
 }
 
 .btn-close {
-    background-color: transparent !important;
-    opacity: 0.8 !important;
-    filter: invert(1) !important;
+    background-color: transparent;
+    opacity: 0.8;
+    filter: invert(1);
 }
 
 .btn-close:hover {
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 @keyframes slideIn {
@@ -2980,7 +2980,7 @@ main {
     }
 
     .error-actions .btn.me-3 {
-        margin-right: 0 !important;
+        margin-right: 0;
     }
 }
 
@@ -3604,25 +3604,25 @@ main {
 
 /* Light Mode - Hero Section */
 :root.light-mode .hero-subtitle {
-    color: #FFFFFF !important;
+    color: #FFFFFF;
 }
 
 /* Light Mode - Buttons & Components */
 :root.light-mode .btn-outline-pink {
-    border-color: var(--neon-pink) !important;
-    color: var(--neon-pink) !important;
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
 }
 
 :root.light-mode .btn-outline-pink:hover {
-    background-color: var(--electric-yellow) !important;
-    border-color: var(--electric-yellow) !important;
-    color: var(--black) !important;
+    background-color: var(--electric-yellow);
+    border-color: var(--electric-yellow);
+    color: var(--black);
 }
 
 :root.light-mode .btn-pink {
-    background-color: var(--neon-pink) !important;
-    border-color: var(--neon-pink) !important;
-    color: white !important;
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: white;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -3631,9 +3631,9 @@ main {
 }
 
 :root.light-mode .btn-pink:hover {
-    background-color: #FF69B4 !important;
-    border-color: #FF69B4 !important;
-    color: white !important;
+    background-color: #FF69B4;
+    border-color: #FF69B4;
+    color: white;
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
 }
@@ -3716,9 +3716,9 @@ main {
 
 /* Light Mode - Forms & Inputs */
 :root.light-mode .search-input {
-    background-color: white !important;
-    border-color: #E71F7F !important;
-    color: #1A1A1A !important;
+    background-color: white;
+    border-color: #E71F7F;
+    color: #1A1A1A;
 }
 
 :root.light-mode .search-input::placeholder {
@@ -3726,9 +3726,9 @@ main {
 }
 
 :root.light-mode .search-input:focus {
-    border-color: #E71F7F !important;
-    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25) !important;
-    background-color: white !important;
+    border-color: #E71F7F;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25);
+    background-color: white;
 }
 
 :root.light-mode .quantity-selector-wrapper {
@@ -3738,8 +3738,8 @@ main {
 
 :root.light-mode .quantity-input,
 :root.light-mode .qty-input-sm {
-    background-color: transparent !important;
-    color: #1A1A1A !important;
+    background-color: transparent;
+    color: #1A1A1A;
 }
 
 /* Light Mode - Borders & Dividers */
@@ -3961,7 +3961,7 @@ main {
 }
 
 :root.light-mode .summary-details .text-muted {
-    color: #666666;
+    color: #666666 !important;
 }
 
 :root.light-mode .summary-totals span,
@@ -4196,29 +4196,29 @@ main {
 }
 
 :root.light-mode .profile-form-input {
-    background: white !important;
-    border-color: #dcdcdc !important;
-    color: #222222 !important;
+    background: white;
+    border-color: #dcdcdc;
+    color: #222222;
 }
 
 :root.light-mode .profile-form-input:focus {
-    border-color: #E71F7F !important;
-    background: #ffffff !important;
-    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.1) !important;
+    border-color: #E71F7F;
+    background: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.1);
 }
 
 :root.light-mode .profile-form-input::placeholder {
-    color: #999999 !important;
+    color: #999999;
 }
 
 :root.light-mode .profile-form-input.has-value {
-    border-color: #88cc00 !important;
-    background: rgba(136, 204, 0, 0.05) !important;
-    box-shadow: 0 0 0 0.1rem rgba(136, 204, 0, 0.15) !important;
+    border-color: #88cc00;
+    background: rgba(136, 204, 0, 0.05);
+    box-shadow: 0 0 0 0.1rem rgba(136, 204, 0, 0.15);
 }
 
 :root.light-mode .table-responsive .order-table th {
-    color: #E71F7F !important;
+    color: #E71F7F;
     background-color: #f5f5f5;
 }
 
@@ -4236,15 +4236,15 @@ main {
 }
 
 :root.light-mode .table-responsive .order-table td {
-    color: #222222 !important;
+    color: #222222;
 }
 
 :root.light-mode .table-responsive .order-link {
-    color: #E71F7F !important;
+    color: #E71F7F;
 }
 
 :root.light-mode .table-responsive .order-link:hover {
-    color: #B8D400 !important;
+    color: #B8D400;
 }
 
 /* Light Mode - Address Book */
@@ -4589,7 +4589,7 @@ main {
 /* Hide Stripe Autofill Link */
 .StripeElement__iframe[title*="Autofill"],
 .autofill-button {
-    display: none !important;
+    display: none;
 }
 
 .checkout-cta .checkout-helper {
@@ -4670,7 +4670,7 @@ main {
 }
 
 .checkout-header .page-title {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1rem;
 }
 
 .panel {
@@ -4869,7 +4869,7 @@ main {
 
 .checkout-helper {
     margin-top: 12px;
-    color: #ffffff !important;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -4921,7 +4921,7 @@ main {
 }
 
 :root.light-mode .checkout-helper {
-    color: #222222 !important;
+    color: #222222;
     text-align: center;
 }
 
@@ -5456,14 +5456,14 @@ main {
     margin-top: 0.25rem;
     accent-color: var(--neon-pink);
     cursor: pointer;
-    background-color: var(--black) !important;
-    border: 2px solid var(--neon-pink) !important;
+    background-color: var(--black);
+    border: 2px solid var(--neon-pink);
     flex-shrink: 0;
 }
 
 .save-payment-method-section .form-check-input:checked {
-    background-color: var(--neon-pink) !important;
-    border-color: var(--neon-pink) !important;
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
 }
 
 .save-payment-method-section .form-check-label {
@@ -5493,7 +5493,7 @@ main {
 
 /* Saved Payment Cards Styling */
 .saved-cards-heading {
-    margin-bottom: 2rem !important;
+    margin-bottom: 2rem;
     margin-top: 0.5rem;
 }
 
@@ -5624,9 +5624,9 @@ main {
 }
 
 :root.light-mode #newCardFormSection .alert {
-    background-color: rgba(231, 31, 127, 0.08) !important;
-    border-color: rgba(231, 31, 127, 0.3) !important;
-    color: #1A1A1A !important;
+    background-color: rgba(231, 31, 127, 0.08);
+    border-color: rgba(231, 31, 127, 0.3);
+    color: #1A1A1A;
 }
 
 /* Pagination Styling */
@@ -5757,8 +5757,8 @@ main {
 }
 
 :root.light-mode .save-payment-method-section .form-check-input:checked {
-    background-color: #E71F7F !important;
-    border-color: #E71F7F !important;
+    background-color: #E71F7F;
+    border-color: #E71F7F;
 }
 
 /* ORDER DETAIL PAGE STYLES */
@@ -5800,7 +5800,7 @@ main {
 .order-detail-info {
     color: var(--gray);
     font-size: 0.85rem;
-    margin: 0 !important;
+    margin: 0;
 }
 
 .order-detail-info i {
@@ -6453,7 +6453,7 @@ main {
 
 /* PRODUCT FORM PAGE STYLES */
 .product-form-container {
-    padding-top: 6rem !important;
+    padding-top: 6rem;
 }
 
 .relative-container {
@@ -6587,7 +6587,7 @@ main {
 
 /* Header / nav utility classes to replace inline styles */
 .badge-hidden {
-    display: none !important;
+    display: none;
 }
 
 .admin-panel-dropdown-wrapper {
@@ -6717,11 +6717,11 @@ main {
 .form-select {
     background-color: var(--black) !important;
     border: 2px solid var(--gray) !important;
-    color: var(--off-white) !important;
-    padding: 0.75rem 1rem !important;
-    border-radius: 6px !important;
-    font-size: 1rem !important;
-    transition: all 0.3s ease !important;
+    color: var(--off-white);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .form-control::placeholder,
@@ -6733,20 +6733,20 @@ main {
 .form-select:focus {
     border-color: var(--neon-pink) !important;
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
-    outline: none !important;
-    background-color: var(--black) !important;
-    color: var(--off-white) !important;
+    outline: none;
+    background-color: var(--black);
+    color: var(--off-white);
 }
 
 .form-control.has-value,
 .form-select.has-value {
     border-color: rgba(204, 255, 0, 0.5) !important;
     background-color: rgba(0, 0, 0, 0.7) !important;
-    box-shadow: 0 0 0 0.15rem rgba(204, 255, 0, 0.1) !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 255, 0, 0.1);
 }
 
 .helper-text {
-    color: #ffffff !important;
+    color: #ffffff;
     font-size: 0.85rem;
     display: block;
     margin-top: 0.5rem;
@@ -6772,8 +6772,8 @@ main {
 }
 
 .form-check-input:checked {
-    background-color: var(--neon-pink) !important;
-    border-color: var(--neon-pink) !important;
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
 }
 
 .form-check-input:focus {
@@ -6792,8 +6792,8 @@ main {
 
 /* File Input Styling */
 .form-control[type="file"] {
-    padding: 0.5rem !important;
-    cursor: pointer !important;
+    padding: 0.5rem;
+    cursor: pointer;
 }
 
 .form-control[type="file"]::file-selector-button {
@@ -6852,25 +6852,25 @@ main {
 
 .variant-form-row .form-control,
 .image-form-row .form-control {
-    background-color: var(--black) !important;
-    border-color: var(--gray) !important;
+    background-color: var(--black);
+    border-color: var(--gray);
 }
 
 .variant-form-row .form-control:focus,
 .image-form-row .form-control:focus {
-    border-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink);
 }
 
 /* Stock Quantity Input Styling */
 .stock-quantity-input {
     text-align: center;
-    background-color: var(--charcoal) !important;
-    border: 2px solid var(--neon-pink) !important;
-    color: var(--off-white) !important;
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    color: var(--off-white);
     font-size: 1.1rem;
     font-weight: 700;
-    padding: 0.5rem !important;
-    border-radius: 4px !important;
+    padding: 0.5rem;
+    border-radius: 4px;
     width: 100%;
     max-width: 150px;
 }
@@ -6888,11 +6888,11 @@ main {
 }
 
 .stock-quantity-input:focus {
-    border-color: var(--neon-pink) !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
-    outline: none !important;
-    background-color: var(--charcoal) !important;
-    color: var(--off-white) !important;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+    outline: none;
+    background-color: var(--charcoal);
+    color: var(--off-white);
 }
 
 /* Formset Management Buttons */
@@ -7051,15 +7051,15 @@ input[type="number"] {
 
 .form-control.is-invalid,
 .form-select.is-invalid {
-    border-color: #ff4444 !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 68, 68, 0.25) !important;
+    border-color: #ff4444;
+    box-shadow: 0 0 0 0.2rem rgba(255, 68, 68, 0.25);
 }
 
 /* Success States */
 .form-control.is-valid,
 .form-select.is-valid {
-    border-color: var(--electric-yellow) !important;
-    box-shadow: 0 0 0 0.2rem rgba(204, 255, 0, 0.25) !important;
+    border-color: var(--electric-yellow);
+    box-shadow: 0 0 0 0.2rem rgba(204, 255, 0, 0.25);
 }
 
 /* Light Mode - Product Form */
@@ -7082,24 +7082,24 @@ input[type="number"] {
 
 :root.light-mode .form-control,
 :root.light-mode .form-select {
-    background-color: white !important;
-    border-color: #ddd !important;
-    color: #111 !important;
+    background-color: white;
+    border-color: #ddd;
+    color: #111;
 }
 
 :root.light-mode .form-control::placeholder,
 :root.light-mode .form-select::placeholder {
-    color: #999 !important;
+    color: #999;
 }
 
 :root.light-mode .form-control:focus,
 :root.light-mode .form-select:focus {
-    border-color: #E71F7F !important;
-    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25) !important;
+    border-color: #E71F7F;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25);
 }
 
 :root.light-mode .helper-text {
-    color: #333 !important;
+    color: #333;
 }
 
 :root.light-mode .form-check-input {
@@ -7108,8 +7108,8 @@ input[type="number"] {
 }
 
 :root.light-mode .form-check-input:checked {
-    background-color: #E71F7F !important;
-    border-color: #E71F7F !important;
+    background-color: #E71F7F;
+    border-color: #E71F7F;
 }
 
 :root.light-mode .form-check-label {
@@ -7138,14 +7138,14 @@ input[type="number"] {
 }
 
 :root.light-mode .stock-quantity-input {
-    background-color: white !important;
-    border-color: #E71F7F !important;
-    color: #111 !important;
+    background-color: white;
+    border-color: #E71F7F;
+    color: #111;
 }
 
 :root.light-mode .stock-quantity-input:focus {
-    border-color: #E71F7F !important;
-    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25) !important;
+    border-color: #E71F7F;
+    box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25);
 }
 
 :root.light-mode .form-actions {
@@ -7185,12 +7185,12 @@ input[type="number"] {
 
 :root.light-mode .form-control.is-invalid,
 :root.light-mode .form-select.is-invalid {
-    border-color: #ff4444 !important;
+    border-color: #ff4444;
 }
 
 :root.light-mode .form-control.is-valid,
 :root.light-mode .form-select.is-valid {
-    border-color: #88cc00 !important;
+    border-color: #88cc00;
 }
 
 /* Light Mode - Delete Confirmation Page */
@@ -7243,12 +7243,12 @@ input[type="number"] {
 }
 
 .alert-success-styled {
-    border: 2px solid var(--electric-yellow) !important;
-    background-color: rgba(204, 255, 0, 0.1) !important;
+    border: 2px solid var(--electric-yellow);
+    background-color: rgba(204, 255, 0, 0.1);
 }
 
 .panel-pink {
-    border: 2px solid var(--neon-pink) !important;
+    border: 2px solid var(--neon-pink);
 }
 
 .verify-email-footer {
@@ -7266,7 +7266,7 @@ input[type="number"] {
 }
 
 .activate-account-container {
-    margin-top: 100px !important;
+    margin-top: 100px;
 }
 
 .order-number-highlight {
@@ -7304,7 +7304,7 @@ input[type="number"] {
 }
 
 .submenu-trigger {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -7398,7 +7398,7 @@ input[type="number"] {
     min-width: 18px;
     width: 18px;
     height: 18px;
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -7812,7 +7812,7 @@ input[type="number"] {
 /* Ensure Battle Vest shows 2 items per row on small mobile screens */
 @media (max-width: 576px) {
     .battle-vest-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
     }
 }
@@ -7951,23 +7951,23 @@ input[type="number"] {
 
 /* Payment Page - Order Summary Totals Table */
 .order-totals {
-    background: transparent !important;
+    background: transparent;
 }
 
 .order-totals table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    background: transparent !important;
+    background: transparent;
 }
 
 .order-totals tbody {
-    background: transparent !important;
+    background: transparent;
 }
 
 .order-totals tbody tr {
     border-bottom: 1px solid rgba(255, 105, 180, 0.15);
-    background: transparent !important;
+    background: transparent;
 }
 
 .order-totals tbody tr:last-child {
@@ -7977,7 +7977,7 @@ input[type="number"] {
 .order-totals td {
     padding: 1rem 0;
     font-size: 1rem;
-    background: transparent !important;
+    background: transparent;
 }
 
 .order-totals .text-muted {
@@ -8105,7 +8105,7 @@ input[type="number"] {
     background: rgba(255, 255, 255, 0.05);
     border: 2px solid var(--neon-pink);
     border-radius: 8px;
-    color: var(--off-white) !important;
+    color: var(--off-white);
     text-decoration: none;
     font-weight: 700;
     transition: all 0.3s ease;
@@ -8116,7 +8116,7 @@ input[type="number"] {
 
 .return-to-cart-btn:hover {
     background: var(--neon-pink);
-    color: var(--black) !important;
+    color: var(--black);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
 }
@@ -8132,7 +8132,7 @@ input[type="number"] {
     background: rgba(255, 255, 255, 0.05);
     border: 2px solid var(--neon-pink);
     border-radius: 8px;
-    color: var(--off-white) !important;
+    color: var(--off-white);
     text-decoration: none;
     font-weight: 700;
     transition: all 0.3s ease;
@@ -8140,18 +8140,18 @@ input[type="number"] {
 
 .return-to-cart-link:hover {
     background: var(--neon-pink);
-    color: var(--black) !important;
+    color: var(--black);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
 }
 
 /* Order Summary Card Enhancements */
 .order-summary-card {
-    background: rgba(255, 255, 255, 0.03) !important;
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 105, 180, 0.3) !important;
-    border-radius: 16px !important;
-    padding: 1.5rem !important;
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
 }
 
 .order-summary-card .summary-header {
@@ -8161,12 +8161,12 @@ input[type="number"] {
 
 /* Payment Section - Remove White Background Issues */
 .payment-section {
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 105, 180, 0.3) !important;
-    border-radius: 16px !important;
-    padding: 2rem !important;
-    margin-bottom: 0 !important;
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 0;
 }
 
 .payment-section h2 {
@@ -8240,15 +8240,15 @@ input[type="number"] {
 }
 
 .payment-form .form-control {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 105, 180, 0.3) !important;
-    color: var(--off-white) !important;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    color: var(--off-white);
 }
 
 .payment-form .form-control:focus {
-    border-color: var(--neon-pink) !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
-    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .payment-form .input-group-text {
@@ -8259,15 +8259,15 @@ input[type="number"] {
 
 /* Stripe Card Element Styling */
 .stripe-card-element {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 105, 180, 0.3) !important;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 105, 180, 0.3);
     border-radius: 8px;
     padding: 1rem;
     transition: all 0.3s ease;
 }
 
 .stripe-card-element:focus-within {
-    border-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink);
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
 }
 
@@ -8321,20 +8321,20 @@ input[type="number"] {
 
 /* Payment Button Sizes - Equal (override global btn sizing) */
 .payment-btn {
-    flex: 1 !important;
+    flex: 1;
     max-width: 50%;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 1.1rem 2rem !important;
-    font-size: 1.15rem !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.1rem 2rem;
+    font-size: 1.15rem;
 }
 
 @media (max-width: 768px) {
     .payment-btn {
         max-width: 100%;
-        padding: 0.95rem 1.25rem !important;
-        font-size: 1rem !important;
+        padding: 0.95rem 1.25rem;
+        font-size: 1rem;
     }
 }
 
@@ -8342,7 +8342,7 @@ input[type="number"] {
 .btn-cta {
     background: linear-gradient(135deg, var(--electric-yellow) 0%, #FFD700 100%);
     border: 2px solid var(--electric-yellow);
-    color: var(--black) !important;
+    color: var(--black);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -8390,7 +8390,7 @@ input[type="number"] {
 
     /* Cart Mobile Ultra Compact Layout */
     .cart-item {
-        display: flex !important;
+        display: flex;
         flex-wrap: wrap;
         gap: 0.3rem;
         padding: 0.5rem;
@@ -8400,8 +8400,8 @@ input[type="number"] {
     }
 
     .cart-item-image {
-        width: 50px !important;
-        height: 50px !important;
+        width: 50px;
+        height: 50px;
         flex-shrink: 0;
         border-radius: 6px;
     }
@@ -8416,8 +8416,8 @@ input[type="number"] {
     .cart-item-details {
         flex: 1;
         min-width: 0;
-        padding: 0 !important;
-        padding-right: 20px !important;
+        padding: 0;
+        padding-right: 20px;
         text-align: left;
         gap: 0;
     }
@@ -8531,8 +8531,8 @@ input[type="number"] {
     }
 
     .cart-summary {
-        position: static !important;
-        top: auto !important;
+        position: static;
+        top: auto;
     }
 }
 

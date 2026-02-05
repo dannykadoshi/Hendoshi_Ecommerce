@@ -81,21 +81,21 @@
 
 /* Specific gradient title styling */
 .gradient-title {
-    font-size: 1.5rem !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 2px !important;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)) !important;
-    background-clip: text !important;
-    color: transparent !important;
-    background-clip: text !important;
-    margin-bottom: 2rem !important;
-    text-align: center !important;
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 /* Extra specific rule for h2 gradient titles */
 h2.gradient-title {
-    font-size: 1.5rem !important;
+    font-size: 1.5rem;
 }
 
 /* Ensure social share has breathing room before footer */
@@ -151,18 +151,18 @@ h2.gradient-title {
     top: 100%;
     right: 0;
     /* Apply same style as navbar dropdown menu */
-    background: rgba(20, 20, 20, 0.95) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 105, 180, 0.2) !important;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 105, 180, 0.2);
     min-width: 600px;
     margin-top: 0.5rem;
     display: none;
     opacity: 0;
     visibility: hidden;
     z-index: 1000;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
     transition: opacity 0.3s, visibility 0.3s;
-    border-radius: 12px !important;
+    border-radius: 12px;
 }
 
 .filters-dropdown.show {
@@ -617,11 +617,11 @@ h2.gradient-title {
         transform: translateY(0);
         display: block;
         /* Apply same style as navbar dropdown menu */
-        background: rgba(20, 20, 20, 0.95) !important;
-        backdrop-filter: blur(20px) !important;
-        border: 1px solid rgba(255, 105, 180, 0.2) !important;
+        background: rgba(20, 20, 20, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 105, 180, 0.2);
         border-bottom: none;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1) !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
     }
     
     .filters-dropdown-content {
@@ -720,15 +720,15 @@ h2.gradient-title {
     padding-bottom: 2rem;
     /* Allow products page to expand wider on large screens so grid stretches across big monitors */
     --vault-max-width: 2560px;
-    max-width: var(--vault-max-width) !important;
-    margin: 0 auto !important; /* Center the container */
+    max-width: var(--vault-max-width);
+    margin: 0 auto; /* Center the container */
 }
 
 @media (max-width: 991px) {
     .products-page .page-container {
         padding-top: 0.75rem;
-        max-width: 100% !important; /* Full width on mobile */
-        margin: 0 !important;
+        max-width: 100%; /* Full width on mobile */
+        margin: 0;
     }
     .products-page .filters-sort-wrapper {
         margin-top: 0.5rem;
@@ -823,16 +823,16 @@ h2.gradient-title {
 
 .mobile-search-box .search-input {
     width: 100%;
-    background-color: var(--charcoal) !important;
-    border: 2px solid var(--neon-pink) !important;
-    color: var(--off-white) !important;
-    padding: 0.6rem 2.5rem 0.6rem 1rem !important;
-    border-radius: 20px !important;
-    font-size: 1rem !important;
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    color: var(--off-white);
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
 }
 
 .mobile-search-box .search-input:focus {
-    border-color: var(--neon-pink) !important;
+    border-color: var(--neon-pink);
     outline: none;
     box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
 }
@@ -1164,8 +1164,8 @@ h2.gradient-title {
     padding-bottom: 5rem;
     margin-top: 90px;
     min-height: 100vh;
-    position: static !important;
-    transform: none !important;
+    position: static;
+    transform: none;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1305,7 +1305,7 @@ h2.gradient-title {
 
     .main-image {
         flex: 1;
-        margin-bottom: 0 !important; /* Remove bottom margin */
+        margin-bottom: 0; /* Remove bottom margin */
     }
 
     .image-thumbnails {
@@ -1435,7 +1435,7 @@ h2.gradient-title {
 }
 
 .progress-bar.bg-pink {
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)) !important;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
 }
 
 .reviews-filters {
@@ -1742,18 +1742,18 @@ h2.gradient-title {
 
 /* User Dropdown Menu */
 .dropdown-menu {
-    background-color: var(--charcoal) !important;
-    border: 2px solid var(--neon-pink) !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin-top: 0 !important;
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    border-radius: 0;
+    padding: 0;
+    margin-top: 0;
     min-width: 200px;
 }
 
 /* Light mode override for user dropdown menu */
 :root.light-mode .dropdown-menu {
-    background-color: white !important;
-    border: 2px solid var(--neon-pink) !important;
+    background-color: white;
+    border: 2px solid var(--neon-pink);
 }
 
 /* Add invisible bridge to prevent dropdown from closing when moving mouse */
@@ -1768,61 +1768,61 @@ h2.gradient-title {
 }
 
 .desktop-menu .dropdown-menu {
-    margin-top: 10px !important;
-    background: rgba(20, 20, 20, 0.95) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 105, 180, 0.2) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1) !important;
-    padding: 0.5rem !important;
+    margin-top: 10px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
+    padding: 0.5rem;
 }
 
 /* Light mode override for desktop menu dropdown */
 :root.light-mode .desktop-menu .dropdown-menu {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(255, 105, 180, 0.3) !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 20, 147, 0.1) !important;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 20, 147, 0.1);
 }
 
 .dropdown-item {
-    color: rgba(255, 255, 255, 0.85) !important;
-    padding: 0.7rem 1rem !important;
-    font-weight: 500 !important;
-    text-transform: none !important;
-    letter-spacing: 0.3px !important;
-    font-size: 0.9rem !important;
-    transition: all 0.3s ease !important;
-    border-bottom: none !important;
-    border-radius: 8px !important;
-    margin-bottom: 2px !important;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.7rem 1rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-bottom: none;
+    border-radius: 8px;
+    margin-bottom: 2px;
 }
 
 .dropdown-item:last-child {
-    border-bottom: none !important;
-    margin-bottom: 0 !important;
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-    background: rgba(255, 20, 147, 0.15) !important;
-    color: var(--neon-pink) !important;
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--neon-pink);
 }
 
 /* Light mode overrides for dropdown items */
 :root.light-mode .dropdown-item {
-    color: rgba(0, 0, 0, 0.85) !important;
+    color: rgba(0, 0, 0, 0.85);
 }
 
 :root.light-mode .dropdown-item:hover,
 :root.light-mode .dropdown-item:focus {
-    background: rgba(255, 20, 147, 0.15) !important;
-    color: var(--neon-pink) !important;
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--neon-pink);
 }
 
 .dropdown-divider {
-    border-color: rgba(255, 105, 180, 0.2) !important;
-    margin: 0.5rem 0 !important;
-    opacity: 1 !important;
+    border-color: rgba(255, 105, 180, 0.2);
+    margin: 0.5rem 0;
+    opacity: 1;
 }
 
 /* Mobile Menu Styles */
@@ -1831,11 +1831,11 @@ h2.gradient-title {
 }
 
 .mobile-section-header .nav-link {
-    color: var(--neon-pink) !important;
-    font-weight: 700 !important;
-    font-size: 0.85rem !important;
-    letter-spacing: 2px !important;
-    padding: 1rem 1.5rem 0.5rem !important;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    padding: 1rem 1.5rem 0.5rem;
     border-top: 1px solid rgba(255, 20, 147, 0.3);
     margin-top: 0.5rem;
 }
@@ -1846,9 +1846,9 @@ h2.gradient-title {
 }
 
 .mobile-submenu-item {
-    font-size: 0.95rem !important;
-    padding-left: 2rem !important;
-    font-weight: 500 !important;
+    font-size: 0.95rem;
+    padding-left: 2rem;
+    font-weight: 500;
 }
 
 .mobile-submenu-item:hover {
@@ -1949,28 +1949,28 @@ h2.gradient-title {
 }
 
 .auth-form-input {
-    background-color: var(--black) !important;
-    border: 2px solid var(--gray) !important;
-    color: var(--off-white) !important;
-    padding: 0.8rem !important;
-    border-radius: 4px !important;
+    background-color: var(--black);
+    border: 2px solid var(--gray);
+    color: var(--off-white);
+    padding: 0.8rem;
+    border-radius: 4px;
 }
 
 .auth-form-input.has-value {
-    border-color: rgba(204, 255, 0, 0.5) !important;
-    background: rgba(0, 0, 0, 0.5) !important;
+    border-color: rgba(204, 255, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .auth-form-input:focus {
-    border-color: var(--neon-pink) !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
-    outline: none !important;
-    background-color: var(--black) !important;
-    color: var(--off-white) !important;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+    outline: none;
+    background-color: var(--black);
+    color: var(--off-white);
 }
 
 .auth-form-input::placeholder {
-    color: var(--gray) !important;
+    color: var(--gray);
 }
 
 .auth-link {
@@ -1991,17 +1991,17 @@ h2.gradient-title {
 }
 
 .form-check-input {
-    background-color: var(--black) !important;
-    border: 2px solid var(--gray) !important;
+    background-color: var(--black);
+    border: 2px solid var(--gray);
 }
 
 .form-check-input:checked {
-    background-color: var(--neon-pink) !important;
-    border-color: var(--neon-pink) !important;
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
 }
 
 .form-check-input:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
 }
 
 .form-label {
@@ -2160,7 +2160,7 @@ h2.gradient-title {
 
 /* Center profile-card headings when a page requests it (e.g. newsletter unsubscribe) */
 .newsletter-unsubscribe .profile-card h2 {
-    justify-content: center !important;
+    justify-content: center;
     text-align: center;
 }
 
@@ -2310,36 +2310,36 @@ h2.gradient-title {
 
 /* Custom text color classes */
 .text-off-white {
-    color: var(--off-white) !important;
+    color: var(--off-white);
 }
 
 .card-label {
-    color: var(--off-white) !important;
+    color: var(--off-white);
     opacity: 0.8;
 }
 
 .text-green {
-    color: #00FF88 !important;
+    color: #00FF88;
 }
 
 .text-red {
-    color: #ff6b6b !important;
+    color: #ff6b6b;
 }
 
 .text-electric-yellow {
-    color: var(--electric-yellow) !important;
+    color: var(--electric-yellow);
 }
 
 .text-gray-888 {
-    color: #888 !important;
+    color: #888;
 }
 
 /* Mobile responsive styles for subscribers management */
 @media (max-width: 768px) {
     /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
     .auth-card {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
 
     /* Reduce column gutters inside the admin area */
@@ -2350,28 +2350,28 @@ h2.gradient-title {
 
     /* Make each column use minimal side padding so content is wider */
     [class*="col-"] {
-        padding-left: 0.25rem !important;
-        padding-right: 0.25rem !important;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
     }
 
     /* Let content span the full width available within their column */
     .card {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 100% !important;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
     }
 
     .card-body {
-        padding: 0.75rem !important;
+        padding: 0.75rem;
     }
 
     /* Search form responsive */
     .d-flex.gap-2.flex-wrap {
-        gap: 0.5rem !important;
+        gap: 0.5rem;
     }
 
     .d-flex.gap-2.flex-wrap .form-control {
-        min-width: auto !important;
+        min-width: auto;
         flex: 1;
     }
 

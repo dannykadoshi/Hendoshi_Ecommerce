@@ -137,10 +137,12 @@ function likePhotoUnified(photoId, source) {
     })
     .then(response => response.json())
     .then(data => {
-        // Update likes count in gallery view (if exists)
-        const galleryLikesElement = document.getElementById(`likes-${photoId}`);
-        if (galleryLikesElement) {
-            galleryLikesElement.innerHTML = `<i class="fas fa-heart"></i> ${data.likes}`;
+        // Update likes count elements in gallery/featured views (if exist)
+        const galleryLikesElements = document.querySelectorAll(`[data-likes-for="${photoId}"]`);
+        if (galleryLikesElements && galleryLikesElements.length) {
+            galleryLikesElements.forEach(el => {
+                el.innerHTML = `<i class="fas fa-heart"></i> ${data.likes}`;
+            });
         }
 
         // Update detail view like badge (if exists)
@@ -159,26 +161,16 @@ function likePhotoUnified(photoId, source) {
             }
         }
 
-        // Update gallery like button styling (if exists)
-        const galleryButton = document.querySelector(`button[onclick*="${photoId}"]`);
-        if (galleryButton && galleryButton.classList.contains('vault-like-btn')) {
-            if (data.liked) {
-                galleryButton.classList.add('btn-pink');
-                galleryButton.classList.remove('btn-outline-pink');
-            } else {
-                galleryButton.classList.add('btn-outline-pink');
-                galleryButton.classList.remove('btn-pink');
-            }
-        }
-
-        // Update new vault-grid-like-btn styling (if exists)
-        const gridLikeButton = document.querySelector(`.vault-grid-like-btn[onclick*="${photoId}"]`);
-        if (gridLikeButton) {
-            if (data.liked) {
-                gridLikeButton.classList.add('liked');
-            } else {
-                gridLikeButton.classList.remove('liked');
-            }
+        // Update all like buttons (including cloned carousel items) by data attribute
+        const likeButtons = document.querySelectorAll(`button[data-photo-id="${photoId}"]`);
+        if (likeButtons && likeButtons.length) {
+            likeButtons.forEach(btn => {
+                if (data.liked) {
+                    btn.classList.add('liked');
+                } else {
+                    btn.classList.remove('liked');
+                }
+            });
         }
     })
     .catch(error => console.error('Error liking photo:', error));
@@ -906,8 +898,8 @@ function initializeFeaturedCarousel() {
     const itemWidth = originalItems[0] ? originalItems[0].offsetWidth + 24 : 374; // width + gap (1.5rem = 24px)
 
     function scrollCarousel(direction) {
-        // Pause the CSS animation
-        track.style.animation = 'none';
+        // Pause the CSS animation (don't remove animation object)
+        track.style.animationPlayState = 'paused';
 
         // Get current transform value
         const currentTransform = getComputedStyle(track).transform;
@@ -928,7 +920,6 @@ function initializeFeaturedCarousel() {
         // Resume animation after transition
         setTimeout(() => {
             track.style.transition = 'none';
-            track.style.animation = 'infinite-scroll 80s linear infinite';
             track.style.animationPlayState = isPaused ? 'paused' : 'running';
         }, 500);
     }
@@ -1094,5 +1085,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (modal) modal.hide();
             }
         });
+    }
+
+    // Make navbar solid without changing global glassmorphism utilities
+    try {
+        const navbarEl = document.querySelector('.navbar');
+        if (navbarEl) navbarEl.classList.add('solid-navbar');
+    } catch (e) {
+        // defensive: do nothing if DOM structure differs
     }
 });

@@ -33,13 +33,13 @@
     }
     
     #shippingModal .list-group-item.active {
-        background-color: rgba(255, 20, 147, 0.15) !important;
-        border-color: rgba(255, 20, 147, 0.3) !important;
-        color: var(--off-white) !important;
+        background-color: rgba(255, 20, 147, 0.15);
+        border-color: rgba(255, 20, 147, 0.3);
+        color: var(--off-white);
     }
     
     #shippingModal .list-group-item.active:hover {
-        background-color: rgba(255, 20, 147, 0.2) !important;
+        background-color: rgba(255, 20, 147, 0.2);
     }
     
     #shippingModal .form-check-input:checked {
@@ -49,7 +49,7 @@
     
     /* Make free shipping text more visible */
     #shippingModal .shipping-free-text {
-        color: #cccccc !important;
+        color: #cccccc;
         font-weight: 500;
     }
     
@@ -222,7 +222,7 @@
 /* Tracking Card Enhancements */
 .tracking-card {
     background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 20, 147, 0.02));
-    border: 2px solid rgba(255, 20, 147, 0.2) !important;
+    border: 2px solid rgba(255, 20, 147, 0.2);
 }
 
 .tracking-card-empty {
@@ -432,14 +432,14 @@
 }
 
 .text-link-pink {
-    color: var(--primary-pink) !important;
+    color: var(--primary-pink);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .text-link-pink:hover {
-    color: var(--secondary-yellow) !important;
+    color: var(--secondary-yellow);
     text-decoration: underline;
 }
 
@@ -450,9 +450,9 @@
 }
 
 .alert-info {
-    background-color: rgba(255, 45, 161, 0.1) !important;
-    border-color: var(--primary-pink) !important;
-    color: #e0e0e0 !important;
+    background-color: rgba(255, 45, 161, 0.1);
+    border-color: var(--primary-pink);
+    color: #e0e0e0;
 }
 
 .alert-info strong {

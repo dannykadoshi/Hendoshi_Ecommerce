@@ -410,8 +410,8 @@
     }
 
     .hero-logo {
-        max-width: 155px !important;
-        width: auto !important;
+        max-width: 155px;
+        width: auto;
     }
 
     /* Vinyl Record button - even smaller on mobile */

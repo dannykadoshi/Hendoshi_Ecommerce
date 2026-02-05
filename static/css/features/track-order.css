@@ -3,17 +3,17 @@
 .tracking-form-card {
     position: relative;
     overflow: hidden;
-    max-width: none !important;
+    max-width: none;
 }
 
 .tracking-info-cards,
 .carriers-card {
-    max-width: none !important;
+    max-width: none;
 }
 
 /* Override global contact-card width restriction for track order */
 .contact-form-section .tracking-form-card.contact-card {
-    max-width: none !important;
+    max-width: none;
 }
 
 .tracking-form-header {

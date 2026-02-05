@@ -205,15 +205,15 @@
     }
 
     .contact-card {
-        padding: 1rem 0.5rem !important;
+        padding: 1rem 0.5rem;
     }
 
     .shipping-content {
-        padding: 0.5rem !important;
+        padding: 0.5rem;
     }
 
     .shipping-region {
-        padding: 1rem 0.5rem !important;
+        padding: 1rem 0.5rem;
     }
 }
 
@@ -391,17 +391,17 @@
 /* Override full-width styles for contact page - keep some padding from edges */
 @media (max-width: 768px) {
     .contact-page .contact-card {
-        width: auto !important;
-        max-width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        border-radius: 12px !important;
-        padding: 1.5rem 1rem !important;
+        width: auto;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 12px;
+        padding: 1.5rem 1rem;
     }
 
     .contact-page .container {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     .contact-info-card {
@@ -416,15 +416,15 @@
 
 @media (max-width: 768px) {
     .contact-card {
-        padding: 1rem 0.5rem !important;
+        padding: 1rem 0.5rem;
     }
 
     .shipping-content {
-        padding: 0.5rem !important;
+        padding: 0.5rem;
     }
 
     .shipping-region {
-        padding: 1rem 0.5rem !important;
+        padding: 1rem 0.5rem;
     }
 }
 
@@ -557,20 +557,20 @@
 
 .btn-outline-pink {
     border: 2px solid var(--neon-pink);
-    color: #000 !important;
+    color: #000;
     background: transparent;
     padding: 0.75rem 2rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 .btn-outline-pink:hover {
     background: var(--neon-pink);
-    color: #000 !important;
+    color: #000;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 @media (max-width: 991px) {

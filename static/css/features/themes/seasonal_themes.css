@@ -48,21 +48,21 @@
 
 /* Speed modifiers */
 .theme-speed-slow .theme-particle {
-    animation-duration: 10s !important;
+    animation-duration: 10s;
 }
 
 .theme-speed-normal .theme-particle {
-    animation-duration: 6s !important;
+    animation-duration: 6s;
 }
 
 .theme-speed-fast .theme-particle {
-    animation-duration: 3s !important;
+    animation-duration: 3s;
 }
 
 /* Paused state */
 .theme-paused .theme-animation-layer,
 .theme-paused .theme-particle {
-    animation-play-state: paused !important;
+    animation-play-state: paused;
 }
 
 /* Base animations */
@@ -326,8 +326,8 @@
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
     .theme-particle {
-        animation: none !important;
-        opacity: 0.3 !important;
+        animation: none;
+        opacity: 0.3;
     }
 
     .theme-animation-layer {
@@ -335,6 +335,6 @@
     }
 
     .seasonal-message-content {
-        animation: none !important;
+        animation: none;
     }
 }

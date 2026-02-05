@@ -11,11 +11,11 @@
 /* ===== ADMIN_THEMES_LIST ===== */
 
 /* Theme-specific badge colors */
-.badge.bg-active { background-color: #28a745 !important; }
-.badge.bg-inactive { background-color: #6c757d !important; }
-.badge.bg-paused { background-color: #fd7e14 !important; }
-.badge.bg-scheduled { background-color: #17a2b8 !important; }
-.badge.bg-expired { background-color: #dc3545 !important; }
+.badge.bg-active { background-color: #28a745; }
+.badge.bg-inactive { background-color: #6c757d; }
+.badge.bg-paused { background-color: #fd7e14; }
+.badge.bg-scheduled { background-color: #17a2b8; }
+.badge.bg-expired { background-color: #dc3545; }
 
 /* Theme type badges */
 .theme-type-badge {

@@ -71,12 +71,10 @@
                                                 <i class="fas fa-thumbs-down"></i>
                                             </button>
                                             {% endif %}
-                                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-pink{% endif %} btn-sm vault-featured-like-btn">
-                                                <i class="fas fa-heart"></i>
-                                            </button>
                                             {% endif %}
                                         </div>
                                     </div>
+                                    {% comment %} like button moved out of image container into card container below {% endcomment %}
                                 </div>
                                 <div class="vault-featured-info">
                                     {% if photo.caption %}<div class="vault-featured-caption-container">
@@ -86,11 +84,16 @@
                                         <p class="vault-featured-user">by {{ photo.user.username }}</p>
                                     </div>
                                     <div class="vault-featured-likes-container">
-                                        <p class="vault-featured-likes" id="featured-likes-{{ photo.id }}">
+                                        <p class="vault-featured-likes" id="likes-{{ photo.id }}" data-likes-for="{{ photo.id }}">
                                             <i class="fas fa-heart"></i> {{ photo.likes.count }}
                                         </p>
                                     </div>
                                 </div>
+                                {% if user.is_authenticated %}
+                                <button data-photo-id="{{ photo.id }}" onclick="likePhotoFromGallery({{ photo.id }}); return false;" class="vault-grid-like-btn vault-featured-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo" type="button">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
@@ -156,17 +159,21 @@
                         </div>
                     </div>
                     {% if user.is_authenticated %}
-                    <button onclick="likePhotoFromGallery({{ photo.id }})" class="vault-grid-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo">
-                        <i class="fas fa-heart"></i>
-                    </button>
+                    {% comment %} moved like button out of image container into card-level for consistent placement {% endcomment %}
                     {% endif %}
                 </div>
+                {% if user.is_authenticated %}
+                <button data-photo-id="{{ photo.id }}" onclick="likePhotoFromGallery({{ photo.id }}); return false;" class="vault-grid-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo" type="button">
+                    <i class="fas fa-heart"></i>
+                </button>
+                {% endif %}
+
                 <div class="vault-info">
                     <p class="vault-caption mb-2">{{ photo.caption|truncatechars:50 }}</p>
                     <p class="vault-user mb-1">
                         by {{ photo.user.username }}
                     </p>
-                    <p class="vault-likes mb-0" id="likes-{{ photo.id }}">
+                    <p class="vault-likes mb-0" id="likes-{{ photo.id }}" data-likes-for="{{ photo.id }}">
                         <i class="fas fa-heart"></i> {{ photo.likes.count }}
                     </p>
                 </div>
