@@ -46,9 +46,8 @@
     z-index: 2;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow), var(--neon-pink));
     background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     animation: vault-gradient-shift 8s ease infinite;
     font-size: 4rem;
     font-weight: 900;
@@ -309,9 +308,8 @@
     font-weight: 900;
     background: linear-gradient(135deg, var(--electric-yellow), var(--neon-pink), var(--electric-yellow));
     background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     animation: vault-gradient-shift 6s ease infinite;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -755,11 +753,7 @@
     border-color: var(--neon-pink);
 }
 
-.btn-pink:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
+.btn-pink:disabled { /* moved to components.css */ }
 
 .close-btn {
     position: absolute;
@@ -3283,9 +3277,8 @@
     font-weight: bold;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
 }
 
 /* Hero Subtitle */
@@ -3607,12 +3600,7 @@
     margin-bottom: 1.5rem;
 }
 
-.shipping-contact .btn-pink {
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+/* .shipping-contact .btn-pink moved to components.css for canonical styling */
 
 /* Mobile responsiveness for shipping page */
 @media (max-width: 768px) {
@@ -3837,9 +3825,8 @@
     font-weight: bold;
     margin-bottom: 0.5rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
 }
 
 .pug-skull-branding {
@@ -4075,12 +4062,10 @@
 .vault-submit-title {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--off-white);
     margin-bottom: 0.75rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
 }
 
 .vault-submit-description {
@@ -5033,8 +5018,7 @@
     flex-wrap: wrap;
 }
 
-.btn-delete-product,
-.delete-button-group .btn-pink {
+.btn-delete-product {
     background-color: var(--neon-pink);
     color: #FFFFFF;
     border: 2px solid var(--neon-pink);
@@ -5051,8 +5035,7 @@
     text-align: center;
 }
 
-.btn-delete-product:hover,
-.delete-button-group .btn-pink:hover {
+.btn-delete-product:hover {
     background-color: var(--electric-yellow);
     color: var(--black);
     transform: translateY(-3px);
@@ -5094,14 +5077,12 @@
     background: rgba(255, 20, 147, 0.08);
 }
 
-:root.light-mode .btn-delete-product,
-:root.light-mode .delete-button-group .btn-pink {
+:root.light-mode .btn-delete-product {
     background-color: var(--neon-pink);
     color: white;
 }
 
-:root.light-mode .btn-delete-product:hover,
-:root.light-mode .delete-button-group .btn-pink:hover {
+:root.light-mode .btn-delete-product:hover {
     background-color: var(--electric-yellow);
     color: var(--black);
 }

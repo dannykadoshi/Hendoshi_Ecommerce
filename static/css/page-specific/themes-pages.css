@@ -134,14 +134,6 @@
     color: #e0e0e0;
 }
 
-/* Button text alignment */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
 /* ===== ADMIN_THEMES_PREVIEW ===== */
 
 /* Preview controls wrapper */
@@ -206,13 +198,6 @@
 
 .table tbody tr:hover td {
     background: rgba(255, 255, 255, 0.05);
-}
-
-/* Button text alignment */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* Auth card dark styling */

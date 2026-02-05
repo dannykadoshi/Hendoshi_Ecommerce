@@ -167,6 +167,11 @@
     transform: translateX(26px);
 }
 
+.cookie-toggle input:disabled + .cookie-toggle-slider {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
     .cookie-settings-card .card-header,
     .cookie-settings-card .card-body {
@@ -326,58 +331,6 @@
     margin: 0;
     font-size: 0.9rem;
     line-height: 1.4;
-}
-
-.cookie-toggle {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-    flex-shrink: 0;
-    margin-top: 0.25rem;
-}
-
-.cookie-toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.cookie-toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 24px;
-    transition: 0.3s;
-}
-
-.cookie-toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background: var(--off-white);
-    border-radius: 50%;
-    transition: 0.3s;
-}
-
-.cookie-toggle input:checked + .cookie-toggle-slider {
-    background: var(--neon-pink);
-}
-
-.cookie-toggle input:checked + .cookie-toggle-slider:before {
-    transform: translateX(26px);
-}
-
-.cookie-toggle input:disabled + .cookie-toggle-slider {
-    opacity: 0.5;
-    cursor: not-allowed;
 }
 
 .cookie-modal-footer {

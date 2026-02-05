@@ -107,9 +107,8 @@
     font-size: 2.5rem;
     font-weight: 900;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     margin-bottom: 1.5rem;
     letter-spacing: 3px;
     filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));

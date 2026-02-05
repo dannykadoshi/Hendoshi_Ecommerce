@@ -10,15 +10,7 @@
 
 /* ===== SIZE_GUIDE ===== */
 
-.shipping-contact .btn-pink {
-    color: #000 !important;
-    text-decoration: none !important;
-}
-
-.shipping-contact .btn-pink:hover {
-    color: #000 !important;
-    text-decoration: none !important;
-}
+/* .shipping-contact .btn-pink moved to components.css for canonical styling */
 
 .contact-page {
     min-height: 100vh;
@@ -92,8 +84,6 @@
 
     color: transparent;
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 
     margin-bottom: 1rem;
     position: relative;
@@ -422,15 +412,7 @@
 
 /* ===== SHIPPING ===== */
 
-.shipping-contact .btn-pink {
-    color: #000 !important;
-    text-decoration: none !important;
-}
-
-.shipping-contact .btn-pink:hover {
-    color: #000 !important;
-    text-decoration: none !important;
-}
+/* .shipping-contact .btn-pink moved to components.css for canonical styling */
 
 @media (max-width: 768px) {
     .contact-card {
@@ -449,15 +431,8 @@
 
 /* ===== TRACK_ORDER ===== */
 
-.btn-pink {
-    color: #000 !important;
-    text-decoration: none !important;
-}
-
-.btn-pink:hover {
-    color: #000 !important;
-    text-decoration: none !important;
-}
+.btn-pink { /* moved to components.css for canonical styling */ }
+.btn-pink:hover { /* moved to components.css */ }
 
 .tracking-form .form-control {
     background: rgba(0, 0, 0, 0.3);
@@ -897,19 +872,8 @@
     margin-bottom: 1.5rem;
 }
 
-.shipping-contact .btn-pink {
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #000 !important;
-    text-decoration: none !important;
-}
-
-.shipping-contact .btn-pink:hover {
-    color: #000 !important;
-    text-decoration: none !important;
-}
+.shipping-contact .btn-pink { /* moved to components.css for canonical styling */ }
+.shipping-contact .btn-pink:hover { /* moved to components.css */ }
 
 /* Mobile responsiveness for returns page */
 @media (max-width: 768px) {
@@ -1108,12 +1072,7 @@
     margin-bottom: 1.5rem;
 }
 
-.shipping-contact .btn-pink {
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+.shipping-contact .btn-pink { /* moved to components.css for canonical styling */ }
 
 /* Mobile responsiveness for FAQ page */
 @media (max-width: 768px) {

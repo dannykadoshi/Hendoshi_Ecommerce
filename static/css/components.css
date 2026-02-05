@@ -30,8 +30,7 @@
     letter-spacing: 2px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: transparent;
     margin-bottom: 1rem;
     position: relative;
     z-index: 2;
@@ -100,12 +99,6 @@
     line-height: 1.6;
     margin-top: 1rem;
 }
-.about-vibrant .two-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
 .muted-hr {
     border: none;
     height: 1px;
@@ -135,16 +128,6 @@
     min-width: 160px;
     text-align: center;
 }
-.about-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-.about-card {
-    padding: 1rem;
-    border-radius: 12px;
-}
 .about-vibrant h3 {
     color: var(--neon-pink);
     font-weight: 700;
@@ -159,10 +142,6 @@
 }
 .tight { margin-top: 1rem; }
 .small.muted { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
-
-@media (max-width: 768px) {
-    .about-vibrant .two-columns { grid-template-columns: 1fr; }
-}
 
 /* Layout fixes for symmetric About page */
 .contact-card {
@@ -969,10 +948,6 @@
     color: var(--neon-pink) !important;
 }
 
-:root.light-mode .theme-toggle:hover {
-    color: #FF69B4 !important;
-}
-
 .theme-toggle.light-mode-active {
     color: var(--neon-pink) !important;
 }
@@ -1181,8 +1156,7 @@
     background: linear-gradient(45deg, #FF1493, #FFD700, #FFA500, #FF1493);
     background-size: 300% 300%;
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: transparent;
     font-weight: 800;
     letter-spacing: 0.5px;
     animation: textGlow 8s ease-in-out infinite, gradientShift 12s ease-in-out infinite;
@@ -1282,8 +1256,6 @@
 :root.light-mode .discount-banner .discount-code-text {
     color: #000000;
     background: none;
-    -webkit-background-clip: unset;
-    -webkit-text-fill-color: unset;
     background-clip: unset;
 }
 
@@ -1694,9 +1666,7 @@
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: transparent;
 }
 
 .search-query {
@@ -3408,19 +3378,8 @@ body.cart-drawer-open {
     text-align: center !important;
     background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, var(--neon-pink) 100%);
     background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: gradientShift 3s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-    0%, 100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
 }
 
 /* Product Description Spacing */
@@ -3676,17 +3635,6 @@ body.cart-drawer-open {
     }
 }
 
-@media (max-width: 768px) {
-    .size-color-row {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .size-color-item {
-        min-width: unset;
-    }
-}
-
 /* Mobile Optimizations */
 @media (max-width: 768px) {
     /* Accordion Mobile Improvements */
@@ -3736,7 +3684,6 @@ body.cart-drawer-open {
     /* Size Chart Mobile */
     .size-chart-container {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
     }
     
     .size-chart {
@@ -3909,8 +3856,7 @@ body.cart-drawer-open {
     font-size: 0.85rem;
     background: linear-gradient(90deg, var(--electric-yellow), var(--neon-pink));
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: transparent;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -4502,19 +4448,34 @@ body.cart-drawer-open {
 
 /* Button Utility Classes */
 .btn-pink {
-    background: var(--neon-pink);
-    border: 2px solid var(--neon-pink);
-    color: #000;
-    font-weight: 700;
-    transition: all 0.3s ease;
+    color: #000 !important;
+    background-color: var(--neon-pink) !important;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    border: 2px solid var(--neon-pink) !important;
+}
+
+.btn-pink {
+    padding: 1rem 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-pink:hover {
-    background: var(--electric-yellow);
-    border-color: var(--electric-yellow);
-    color: #000;
+    background-color: var(--electric-yellow) !important;
+    border-color: var(--electric-yellow) !important;
+    color: #000 !important;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+}
+
+.btn-pink:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* Form Text Utility Classes */
@@ -4619,9 +4580,8 @@ body.cart-drawer-open {
 .quick-add-modal-title {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow), var(--neon-pink));
     background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     animation: title-gradient-shift 8s ease infinite;
     font-weight: 800;
     font-size: 1rem;

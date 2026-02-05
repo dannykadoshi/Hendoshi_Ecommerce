@@ -157,30 +157,6 @@
     opacity: 0.3;
 }
 
-/* From: templates/account/verified_email_required.html */
-/* (same styles as verification_sent.html) */
-.verify-email-content p {
-    color: var(--off-white);
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-.verify-email-content .alert {
-    background-color: rgba(30, 144, 255, 0.1);
-    border: 2px solid rgba(30, 144, 255, 0.3);
-    color: var(--off-white);
-    margin-top: 1.5rem;
-}
-
-.verify-email-content .alert-info {
-    border-color: rgba(30, 144, 255, 0.3);
-}
-
-.verify-email-content hr {
-    border-color: var(--gray);
-    opacity: 0.3;
-}
-
 /* From: templates/checkout/activate_account.html */
 .auth-header {
     padding: 30px 0;
@@ -516,22 +492,8 @@
     }
 }
 
-.form-actions a.btn-pink {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
-    border: none !important;
-    text-decoration: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.form-actions a.btn-pink:hover {
-    background-color: var(--electric-yellow) !important;
-    color: var(--black) !important;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
-}
+.form-actions a.btn-pink { /* moved to components.css for canonical styling */ }
+.form-actions a.btn-pink:hover { /* moved to components.css */ }
 
 .item-summary {
     display: flex;

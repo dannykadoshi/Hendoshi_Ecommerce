@@ -27,9 +27,8 @@
 
 .theme-particle.st_patricks.rainbow {
     background: linear-gradient(135deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     animation-name: rainbowShimmer;
 }
 

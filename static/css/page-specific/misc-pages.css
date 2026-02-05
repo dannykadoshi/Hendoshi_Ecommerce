@@ -5,10 +5,7 @@
    Templates: about.html, product_types.html, collections.html, new_drops.html
    ================================================ */
 
-.about-buttons .btn-pink {
-    color: #000 !important;
-    text-decoration: none !important;
-}
+/* .about-buttons .btn-pink moved to components.css for canonical styling */
 
 /* Vault Page Hero Styles */
 .vault-page {
@@ -23,9 +20,8 @@
     font-weight: bold;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
 }
 
 .collections-subtitle {

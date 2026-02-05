@@ -259,6 +259,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     font-weight: 700;
     position: relative;
 }
@@ -268,30 +269,25 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
 }
 
 /* Light mode gradient text */
 :root.light-mode .gradient-text {
     color: #E71F7F !important;
-    -webkit-text-fill-color: #E71F7F !important;
     background: none !important;
 }
 
 :root.light-mode .gradient-text:hover {
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
     background: linear-gradient(135deg, #E71F7F, #FF69B4) !important;
-    -webkit-background-clip: unset !important;
     background-clip: unset !important;
-    -webkit-text-fill-color: #FFFFFF !important;
 }
 
 /* Mobile gradient text */
 span.gradient-text-mobile {
     background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
     color: transparent !important;
     font-weight: 700 !important;
@@ -587,6 +583,16 @@ span.gradient-text-mobile {
 
 :root.light-mode .desktop-search-container .search-toggle:hover {
     color: var(--electric-yellow);
+}
+
+/* Ensure all navbar icon buttons use the same light-mode color so a single
+   override won't leave one icon black. This keeps `nav-icon` consistent. */
+:root.light-mode .nav-icon {
+    color: var(--neon-pink) !important;
+}
+
+:root.light-mode .nav-icon:hover {
+    color: var(--electric-yellow) !important;
 }
 
 .floating-search-box {

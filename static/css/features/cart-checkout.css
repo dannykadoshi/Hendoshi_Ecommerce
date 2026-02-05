@@ -169,7 +169,7 @@
 
 .qty-input::-webkit-outer-spin-button,
 .qty-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
     margin: 0;
 }
 
@@ -727,7 +727,7 @@
 /* Remove number spinner arrows */
 .quantity-input::-webkit-outer-spin-button,
 .quantity-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
     margin: 0;
 }
 
@@ -1188,34 +1188,8 @@ main {
     padding-top: 0;
 }
 
-/* Buttons */
-.btn-pink {
-    background-color: var(--neon-pink);
-    color: #FFFFFF;
-    border: none;
-    padding: 1rem 3rem;
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s;
-    display: inline-block;
-    text-decoration: none;
-}
-
-.btn-pink:hover {
-    background-color: var(--electric-yellow);
-    color: var(--black);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
-}
-
-a.btn-pink {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
+/* Buttons: .btn-pink moved to components.css for canonical styling; any size-specific
+   variants should use utility classes like .btn-lg or .btn-sm */
 
 .btn-lg {
     padding: 1.5rem 3rem !important;
@@ -1322,9 +1296,7 @@ a.btn-pink {
     display: inline-block;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: transparent;
 }
 
 .section-title::after {
@@ -1427,9 +1399,7 @@ a.btn-pink {
 .features-hero .section-title {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: transparent;
     font-size: 2.5rem;
     font-weight: 900;
     text-transform: uppercase;
@@ -1594,9 +1564,7 @@ a.btn-pink {
 .collections-hero .section-title {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: transparent;
     font-size: 2.5rem;
     font-weight: 900;
     text-transform: uppercase;
@@ -2406,8 +2374,7 @@ a.btn-pink {
 }
 .glassmorphic-item { background: rgba(255,255,255,0.03); border-radius:8px; padding:1.5rem; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.05); transition:all .3s ease; }
 .glassmorphic-item:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,105,180,0.2); }
-.confirmation-buttons .btn-pink { background-color:var(--neon-pink) !important; color:var(--black) !important; border:none !important; text-decoration:none !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; transition: all .3s ease !important; }
-.confirmation-buttons .btn-pink:hover { background-color:var(--electric-yellow) !important; color:var(--black) !important; transform: translateY(-3px); box-shadow:0 10px 30px rgba(255,20,147,0.5); }
+/* .confirmation-buttons .btn-pink moved to components.css for canonical styling */
 
 /* Moved from templates/checkout/payment_result.html */
 .payment-result-container { display:flex; justify-content:center; align-items:center; min-height: calc(100vh - 200px); }
@@ -2418,7 +2385,7 @@ a.btn-pink {
 .result-icon { font-size:4rem; margin-bottom:1.5rem; animation:scaleIn 0.6s ease-out; }
 .result-icon.success { color:var(--electric-yellow); }
 .result-icon.failure { color:#FF4757; }
-.result-title { font-size:2rem; font-weight:900; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:2px; background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.result-title { font-size:2rem; font-weight:900; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:2px; background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)); background-clip:text; color:transparent; }
 .result-subtitle { font-size:1.1rem; color:var(--off-white); margin-bottom:2rem; }
 .confirmation-details { background: rgba(255,20,147,0.05); border:1px solid var(--neon-pink); border-radius:12px; padding:1.5rem; margin:2rem 0; text-align:left; }
 .detail-row { display:flex; justify-content:space-between; padding:0.75rem 0; border-bottom:1px solid rgba(255,20,147,0.2); }
@@ -2437,7 +2404,7 @@ a.btn-pink {
 .status-update-form label { color:var(--neon-pink); font-weight:700; margin-bottom:0.25rem; letter-spacing:0.5px; }
 .status-update-form textarea, .status-update-form select { background:var(--charcoal); color:var(--off-white); border:1.5px solid var(--neon-pink); border-radius:6px; padding:0.75rem 1rem; font-size:1rem; margin-bottom:0.25rem; }
 .status-update-form textarea:focus, .status-update-form select:focus { outline:2px solid var(--neon-pink); }
-.status-update-form .btn-pink { width:220px; align-self:flex-start; font-size:1.1rem; font-weight:700; }
+.status-update-form .btn-pink { /* moved to components.css; size/width adjustments should use utility classes */ }
 .status-log-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:1.25rem; }
 .status-log-item { background: rgba(255,255,255,0.03); border:1.5px solid rgba(255,20,147,0.15); border-radius:7px; padding:1.1rem 1.5rem 0.9rem 1.5rem; color:var(--off-white); font-size:1.05rem; box-shadow:0 2px 8px 0 rgba(255,20,147,0.04); }
 .status-log-row { display:flex; align-items:center; gap:0.7rem; flex-wrap:wrap; font-size:1.08rem; }
@@ -2454,7 +2421,7 @@ a.btn-pink {
 .status-log-by { color:var(--gray); font-weight:600; }
 .status-log-admin-name { color:var(--neon-pink); font-weight:700; }
 .status-log-note { color:#b3b3b3; font-size:0.97em; margin-top:0.5em; margin-left:0.2em; font-style:italic; border-left:3px solid var(--neon-pink); padding-left:0.8em; }
-@media (max-width: 600px) { .status-update-fields { flex-direction: column; gap: 1rem; } .status-update-form .btn-pink { width:100%; } .status-log-item { padding:1rem 0.7rem; } }
+@media (max-width: 600px) { .status-update-fields { flex-direction: column; gap: 1rem; } /* .status-update-form .btn-pink width handled by layout utilities */ .status-log-item { padding:1rem 0.7rem; } }
 
 
 /* page-container helpers consolidated into components.css */
@@ -2943,9 +2910,8 @@ a.btn-pink {
     font-size: 8rem;
     font-weight: 900;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     letter-spacing: 5px;
     margin-bottom: 0;
     line-height: 1;
@@ -3049,9 +3015,8 @@ a.btn-pink {
     text-transform: uppercase;
     letter-spacing: 2px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
 }
 
 /* Cart Items Section */
@@ -3245,7 +3210,7 @@ a.btn-pink {
 
 .qty-input-sm::-webkit-outer-spin-button,
 .qty-input-sm::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
     margin: 0;
 }
 

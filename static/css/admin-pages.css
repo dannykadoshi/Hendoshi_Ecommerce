@@ -27,27 +27,7 @@
     border: 1px solid rgba(255, 20, 147, 0.10);
 }
 
-.bulk-archive-bar .btn-pink {
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.85rem;
-    background-color: var(--neon-pink);
-    color: #FFFFFF;
-    border: none;
-    min-width: auto;
-    width: auto;
-}
-
-.bulk-archive-bar .btn-pink:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
-    background-color: var(--electric-yellow);
-    color: var(--black);
-}
+/* .bulk-archive-bar .btn-pink moved to components.css for canonical styling */
 
 .bulk-archive-bar .btn-outline-danger {
     padding: 0.5rem 1rem;
@@ -68,7 +48,6 @@
     background: #dc3545;
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
     box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
 }
 
@@ -187,8 +166,8 @@
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm {
-    background-color: var(--neon-pink) !important;
-    color: var(--black) !important;
+    background-color: #E71F7F !important;
+    color: #fff !important;
     border: none !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
@@ -239,11 +218,6 @@
     color: #222222 !important;
 }
 
-.table-responsive .archived-products-table .btn-success.btn-sm {
-    background-color: #E71F7F !important;
-    color: #fff !important;
-}
-
 /* ================================
    ADMIN CRUD LIST STYLING
    ================================ */
@@ -266,12 +240,7 @@
     background: transparent;
 }
 
-/* Ensure the create button stands out on admin pages */
-.auth-card .text-end .btn-pink {
-    padding: 1rem 1.5rem;
-    font-weight: 900;
-    font-size: 1rem;
-}
+/* .auth-card .text-end .btn-pink moved to components.css for canonical styling */
 
 /* Collection form: make current file link pink and add spacing before change file input
    Only apply to plain anchors (not buttons) so .btn-pink keeps its white text */
@@ -391,53 +360,6 @@ input[type="file"]:hover::-ms-browse {
     background: var(--electric-yellow) !important;
     color: var(--black) !important;
     box-shadow: 0 8px 32px rgba(204,255,0,0.18) !important;
-}
-
-/* File Input Button Styling */
-input[type="file"]::-webkit-file-upload-button,
-input[type="file"]::file-selector-button {
-    background: var(--neon-pink);
-    color: #fff;
-    border: none;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
-    margin-right: 1rem;
-    box-shadow: 0 2px 12px rgba(255,20,147,0.10);
-}
-
-input[type="file"]::-webkit-file-upload-button:hover,
-input[type="file"]::file-selector-button:hover {
-    background: var(--electric-yellow);
-    color: var(--black);
-    box-shadow: 0 8px 32px rgba(204,255,0,0.18);
-}
-
-input[type="file"]::-ms-browse {
-    background: var(--neon-pink);
-    color: #fff;
-    border: none;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
-    margin-right: 1rem;
-    box-shadow: 0 2px 12px rgba(255,20,147,0.10);
-}
-
-input[type="file"]::-ms-browse:hover {
-    background: var(--electric-yellow);
-    color: var(--black);
-    box-shadow: 0 8px 32px rgba(204,255,0,0.18);
 }
 
 /* ================================
@@ -1744,10 +1666,7 @@ input[type="file"]::-ms-browse:hover {
     color: var(--electric-yellow);
 }
 
-.quick-actions .btn-pink {
-    padding: 0.4rem 0.75rem;
-    font-size: 0.8rem;
-}
+/* .quick-actions .btn-pink moved to components.css for canonical styling */
 
 /* Progress Indicator (Step 2) */
 .progress-indicator {
@@ -1866,9 +1785,6 @@ input[type="file"]::-ms-browse:hover {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
-}
-
-.bulk-accordion .product-preview-badge {
     background: rgba(255, 193, 7, 0.2);
     color: #ffc107;
 }
@@ -2014,10 +1930,6 @@ input[type="file"]::-ms-browse:hover {
     .quick-actions {
         flex-direction: column;
         align-items: flex-start;
-    }
-
-    .quick-actions .btn-pink {
-        width: 100%;
     }
 
     .bulk-accordion .accordion-button {
