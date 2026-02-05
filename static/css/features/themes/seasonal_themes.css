@@ -4,7 +4,7 @@
  */
 
 /* Theme-active vault hero container */
-.vault-hero.theme-active {
+.page-hero.theme-active {
     overflow: hidden;
     position: relative;
 }
@@ -22,15 +22,15 @@
 }
 
 /* Ensure text content stays above animations */
-.vault-hero.theme-active .container {
+.page-hero.theme-active .container {
     position: relative;
     z-index: 2;
 }
 
-.vault-hero.theme-active .vault-hero-title,
-.vault-hero.theme-active .vault-hero-subtitle,
-.vault-hero.theme-active .pug-skull-branding,
-.vault-hero.theme-active .btn {
+.page-hero.theme-active .page-hero-title,
+.page-hero.theme-active .page-hero-subtitle,
+.page-hero.theme-active .pug-skull-branding,
+.page-hero.theme-active .btn {
     position: relative;
     z-index: 2;
 }
@@ -192,7 +192,7 @@
 
 /* ============================================
    SEASONAL MESSAGE STRIP
-   Scrolling celebration banner below vault-hero
+   Scrolling celebration banner below page-hero
    ============================================ */
 
 .seasonal-message-strip {

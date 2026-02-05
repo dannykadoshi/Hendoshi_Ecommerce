@@ -19,7 +19,16 @@ def about(request):
     """
     About page describing the brand and community
     """
-    return render(request, 'about.html')
+    # Show real product count for the About page stats
+    try:
+        product_count = Product.objects.filter(is_active=True, is_archived=False).count()
+    except Exception:
+        product_count = 0
+
+    context = {
+        'product_count': product_count,
+    }
+    return render(request, 'about.html', context)
 
 
 def collections(request):

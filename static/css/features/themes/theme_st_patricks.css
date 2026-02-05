@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="st_patricks"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="st_patricks"] {
+.page-hero.theme-active[data-theme="st_patricks"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="st_patricks"] {
     background: radial-gradient(ellipse at bottom, rgba(0, 128, 0, 0.08) 0%, transparent 60%);
 }
 

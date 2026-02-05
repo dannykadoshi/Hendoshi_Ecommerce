@@ -1082,12 +1082,12 @@
                 isPaused: {{ seasonal_theme.is_paused|yesno:"true,false" }}
             });
 
-            // Position the message strip after the first vault-hero
+            // Position the message strip after the first page-hero
             const messageStrip = document.getElementById('seasonalMessageStrip');
             if (messageStrip) {
-                const vaultHero = document.querySelector('.vault-hero');
+                const vaultHero = document.querySelector('.page-hero');
                 if (vaultHero) {
-                    // Insert the strip right after the vault-hero
+                    // Insert the strip right after the page-hero
                     vaultHero.parentNode.insertBefore(messageStrip, vaultHero.nextSibling);
                     messageStrip.style.display = 'block';
                 }

@@ -4,17 +4,20 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/features/about-page.css' %}">
 {% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/utils/count-up.js' %}" defer></script>
+{% endblock %}
 {% block content %}
 <div class="vault-page">
 	<div class="container-fluid">
 		<!-- Standard Site Hero (products/new drops/vault style) -->
-		<section class="vault-hero">
+		<section class="page-hero">
 			<div class="container">
 				<div class="row">
 					<div class="col-12 text-center">
 						<img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-						<h1 class="vault-hero-title">About HENDOSHI</h1>
-						<p class="vault-hero-subtitle">WEAR YOUR WEIRD — No Filler. Just Killer.</p>
+						<h1 class="page-hero-title">About HENDOSHI</h1>
+						<p class="page-hero-subtitle">WEAR YOUR WEIRD — No Filler. Just Killer.</p>
 						<div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
 							<a href="{% url 'new_drops' %}" class="btn btn-pink">New Drops</a>
 						</div>
@@ -32,7 +35,7 @@
 							<div class="stat-icon">
 								<i class="fas fa-tshirt"></i>
 							</div>
-							<div class="stat-number">500+</div>
+							<div class="stat-number">{{ product_count }}</div>
 							<div class="stat-label">Unique Designs</div>
 						</div>
 					</div>

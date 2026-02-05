@@ -11,13 +11,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Product Types Management Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Product Types</h1>
-                    <p class="vault-hero-subtitle">Manage product categories and types. Static types are built-in, while custom types can be created and modified.</p>
+                    <h1 class="page-hero-title">Product Types</h1>
+                    <p class="page-hero-subtitle">Manage product categories and types. Static types are built-in, while custom types can be created and modified.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
                         <a href="{% url 'admin_list_products' %}" class="btn btn-pink"><i class="fas fa-arrow-left me-2"></i>Back</a>
                         <a href="{% url 'admin_create_product_type' %}" class="btn btn-pink">Create Product Type</a>

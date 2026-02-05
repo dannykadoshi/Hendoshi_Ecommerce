@@ -98,7 +98,7 @@ class SeasonalThemeForm(forms.ModelForm):
             'end_date': 'Leave blank for no end date.',
             'custom_css': 'Add custom CSS to override or extend the default theme styles.',
             # Message Strip help texts
-            'show_message_strip': 'Display a scrolling message strip below the vault-hero section.',
+            'show_message_strip': 'Display a scrolling message strip below the page-hero section.',
             'strip_messages': 'Enter messages separated by | (pipe). Each message will be separated by a skull icon.',
             'strip_color_scheme': 'Choose auto-matching theme colors, the default pink-yellow, or set a custom gradient.',
             'strip_custom_gradient': 'Only used when Color Scheme is "Custom Gradient".',

@@ -11,13 +11,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Edit Product Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Edit Product</h1>
-                    <p class="vault-hero-subtitle">Modify "{{ product.name }}" details. Update pricing, images, descriptions, and product specifications.</p>
+                    <h1 class="page-hero-title">Edit Product</h1>
+                    <p class="page-hero-subtitle">Modify "{{ product.name }}" details. Update pricing, images, descriptions, and product specifications.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
                         <a href="{% url 'admin_list_products' %}" class="btn btn-pink"><i class="fas fa-arrow-left me-2"></i>Back</a>
                         <a href="{% url 'product_detail' product.slug %}" class="btn btn-pink">View Product</a>

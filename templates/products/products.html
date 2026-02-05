@@ -43,12 +43,12 @@
 {% block content %}
     <div class="products-page">
         <!-- Products Hero -->
-        <section class="vault-hero">
+        <section class="page-hero">
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
                         <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                        <h1 class="vault-hero-title">
+                        <h1 class="page-hero-title">
                             {% if current_collection %}
                                 {% for collection in collections %}
                                     {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
@@ -63,7 +63,24 @@
                                 All Products
                             {% endif %}
                         </h1>
-                        <p class="vault-hero-subtitle">{{ products.count }} product{{ products.count|pluralize }} found</p>
+                        <p class="page-hero-subtitle"><strong>{{ product_count }}</strong> product{{ product_count|pluralize }} found</p>
+                        <p class="page-hero-subtitle">
+                            {% if current_collection %}
+                                Unique designs inspired by metal culture. Curated for the fearless.
+                            {% elif current_audience == 'men' %}
+                                Bold statement pieces for those who refuse to blend in.
+                            {% elif current_audience == 'women' %}
+                                Fierce styles that command attention. Own your darkness.
+                            {% elif current_audience == 'kids' %}
+                                Raising the next generation of rebels. Mini metal, maximum attitude.
+                            {% elif current_audience == 'unisex' %}
+                                No labels, just legendary designs. Style without boundaries.
+                            {% elif current_type %}
+                                Explore our {{ current_type|lower }} collection. Every piece tells a story.
+                            {% else %}
+                                The complete HENDOSHI arsenal. From skulls to gym gear, no filler—just killer designs.
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -268,4 +285,5 @@
 {% block extra_js %}
 <script src="{% static 'js/page-specific/products-filters.js' %}"></script>
 <script src="{% static 'js/page-specific/quick-add.js' %}"></script>
+<script src="{% static 'js/page-specific/products-infinite-scroll.js' %}"></script>
 {% endblock %}

@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="fourth_july"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="fourth_july"] {
+.page-hero.theme-active[data-theme="fourth_july"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="fourth_july"] {
     background: radial-gradient(ellipse at top, rgba(0, 0, 139, 0.08) 0%, transparent 50%);
 }
 

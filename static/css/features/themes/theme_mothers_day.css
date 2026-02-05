@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="mothers_day"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="mothers_day"] {
+.page-hero.theme-active[data-theme="mothers_day"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="mothers_day"] {
     background: radial-gradient(ellipse at top, rgba(230, 190, 230, 0.1) 0%, transparent 50%);
 }
 

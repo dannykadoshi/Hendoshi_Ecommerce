@@ -10,14 +10,24 @@
    ======================================== */
 
 /* Vault Hero - Gradient Background with Animation */
-.vault-hero {
+.page-hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #1a0a1e 0%, #2d1b3d 50%, #1a0a1e 100%);
+    background: var(--bg-glass-light);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-glass-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     z-index: 10;
+    margin-top: -40px;
+    margin-bottom: 1.5rem;
+    padding: 3rem 0 1.5rem;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
 }
 
-.vault-hero::before {
+.page-hero::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -25,17 +35,17 @@
     width: 200%;
     height: 200%;
     background: radial-gradient(circle, rgba(255, 20, 147, 0.1) 0%, transparent 70%);
-    animation: vault-hero-pulse 15s ease-in-out infinite;
+    animation: page-hero-pulse 15s ease-in-out infinite;
     z-index: 0;
     pointer-events: none;
 }
 
-@keyframes vault-hero-pulse {
+@keyframes page-hero-pulse {
     0%, 100% { transform: translate(0, 0) scale(1); }
     50% { transform: translate(10%, 10%) scale(1.1); }
 }
 
-.vault-hero-title {
+.page-hero-title {
     position: relative;
     z-index: 2;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow), var(--neon-pink));
@@ -56,7 +66,7 @@
     50% { background-position: 100% 50%; }
 }
 
-.vault-hero-subtitle {
+.page-hero-subtitle {
     position: relative;
     z-index: 2;
     font-size: 1.3rem;
@@ -68,7 +78,7 @@
 /* Modern Masonry Grid Layout */
 .vault-card {
     position: relative;
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.05) 0%, rgba(204, 255, 0, 0.02) 100%);
+    background: rgba(20, 20, 20, 0.95);
     border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 20px;
     overflow: hidden;
@@ -107,7 +117,7 @@
     width: 100%;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(26, 10, 30, 0.9), rgba(45, 27, 61, 0.9));
+    background: rgba(20, 20, 20, 0.95);
 }
 
 .vault-image {
@@ -172,7 +182,7 @@
 
 .vault-info {
     padding: 1.5rem;
-    background: linear-gradient(180deg, rgba(26, 10, 30, 0.8), rgba(26, 10, 30, 0.95));
+    background: rgba(20, 20, 20, 0.95);
     position: relative;
     z-index: 1;
     display: flex;
@@ -189,6 +199,7 @@
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -230,7 +241,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: rgba(26, 10, 30, 0.85);
+    background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 20, 147, 0.4);
@@ -347,7 +358,7 @@
 }
 
 .vault-featured-card {
-    background: linear-gradient(135deg, rgba(26, 10, 30, 0.9), rgba(45, 27, 61, 0.9));
+    background: rgba(20, 20, 20, 0.95);
     border: 2px solid rgba(255, 20, 147, 0.3);
     border-radius: 20px;
     overflow: hidden;
@@ -449,7 +460,7 @@
 
 .vault-featured-info {
     padding: 1.5rem;
-    background: rgba(26, 10, 30, 0.95);
+    background: rgba(20, 20, 20, 0.95);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -526,7 +537,7 @@
 }
 
 .vault-filter-select {
-    background: linear-gradient(135deg, rgba(26, 10, 30, 0.9), rgba(45, 27, 61, 0.8)) !important;
+    background: rgba(20, 20, 20, 0.95) !important;
     border: 2px solid rgba(255, 20, 147, 0.3) !important;
     color: var(--off-white) !important;
     width: auto;
@@ -538,7 +549,7 @@
 }
 
 .vault-filter-select:focus {
-    background: linear-gradient(135deg, rgba(45, 27, 61, 0.95), rgba(26, 10, 30, 0.95)) !important;
+    background: rgba(20, 20, 20, 0.95) !important;
     border-color: var(--neon-pink) !important;
     box-shadow: 0 0 30px rgba(255, 20, 147, 0.4) !important;
     transform: translateY(-2px);
@@ -550,7 +561,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, rgba(26, 10, 30, 0.98), rgba(45, 27, 61, 0.98));
+    background: rgba(20, 20, 20, 0.95);
     border: 2px solid rgba(255, 20, 147, 0.3);
     border-top: none;
     border-radius: 0 0 15px 15px;
@@ -707,7 +718,7 @@
     background-color: rgba(0, 0, 0, 0.5) !important;
     border: 2px solid rgba(255, 20, 147, 0.2) !important;
     color: var(--off-white) !important;
-    width: 100%
+    width: 100%;
 }
 
 .vault-form-select {
@@ -910,7 +921,7 @@
 .vault-detail-sidebar-inner {
     padding: 1.5rem;
     border-radius: 16px;
-    background: rgba(26, 10, 30, 0.8);
+    background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1121,7 +1132,7 @@
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    background: rgba(26, 10, 30, 0.85);
+    background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -1160,7 +1171,7 @@
     top: 16px;
     right: 16px;
     width: 220px;
-    background: rgba(26, 10, 30, 0.92);
+    background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 12px;
@@ -1366,7 +1377,7 @@
    ======================================== */
 
 .vault-products-section {
-    background: rgba(26, 10, 30, 0.5);
+    background: rgba(20, 20, 20, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 2rem;
@@ -1413,7 +1424,7 @@
    ======================================== */
 
 .vault-product-card {
-    background: linear-gradient(135deg, rgba(26, 10, 30, 0.9), rgba(45, 27, 61, 0.9));
+    background: rgba(20, 20, 20, 0.95);
     border: 2px solid rgba(255, 20, 147, 0.3);
     border-radius: 20px;
     overflow: hidden;
@@ -1453,7 +1464,7 @@
     width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(26, 10, 30, 0.8));
+    background: rgba(20, 20, 20, 0.95);
 }
 
 .vault-product-image img {
@@ -1472,7 +1483,7 @@
 .vault-product-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 10, 30, 0.9));
+    background: rgba(20, 20, 20, 0.95);
 }
 
 .vault-placeholder-icon {
@@ -1528,7 +1539,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(180deg, rgba(26, 10, 30, 0.8), rgba(26, 10, 30, 0.95));
+    background: rgba(20, 20, 20, 0.95);
 }
 
 .vault-product-name {
@@ -1539,6 +1550,7 @@
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -1703,7 +1715,7 @@
 }
 
 .moderation-info {
-    var(--padding-glass);
+    padding: var(--padding-glass);
 }
 
 .moderation-caption {
@@ -1916,7 +1928,7 @@
     border: 2px solid rgba(255, 255, 255, 0.3);
     color: var(--off-white);
     padding: 0.75rem 2rem;
-    var(--border-radius-glass);
+    border-radius: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1932,7 +1944,7 @@
 
 .vault-modal-btn-confirm {
     padding: 0.75rem 2rem;
-    var(--border-radius-glass);
+    border-radius: var(--border-radius-glass);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -2668,15 +2680,12 @@
    ======================================== */
 
 .hall-of-fame-card {
-    background: linear-gradient(135deg, rgba(26, 10, 30, 0.95), rgba(45, 27, 61, 0.95));
+    background: rgba(20, 20, 20, 0.95);
     border: 3px solid transparent;
     background-clip: padding-box;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 
-        0 20px 60px rgba(255, 215, 0, 0.3),
-        0 0 40px rgba(255, 20, 147, 0.2);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     position: relative;
     height: 100%;
     display: flex;
@@ -2690,11 +2699,11 @@
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(135deg, #FFD700, var(--neon-pink), var(--electric-yellow), #FFD700);
-    background-size: 300% 300%;
+    /* disable animated border glow for a more subtle card appearance */
+    background: transparent;
     border-radius: 24px;
     z-index: -1;
-    animation: hall-border-glow 6s ease infinite;
+    pointer-events: none;
 }
 
 @keyframes hall-border-glow {
@@ -2704,10 +2713,6 @@
 
 .hall-of-fame-card:hover {
     transform: translateY(-5px) scale(1.01);
-    box-shadow:
-        0 15px 40px rgba(255, 215, 0, 0.4),
-        0 0 40px rgba(255, 20, 147, 0.3),
-        inset 0 0 20px rgba(255, 215, 0, 0.1);
 }
 
 .hall-of-fame-header {
@@ -2783,7 +2788,7 @@
     position: relative;
     height: 400px;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 10, 30, 0.9));
+    background: rgba(20, 20, 20, 0.95);
 }
 
 .hall-of-fame-photo {
@@ -2818,31 +2823,37 @@
 }
 
 .hall-of-fame-view-btn {
-    background: linear-gradient(135deg, #FFD700, var(--electric-yellow));
     color: var(--black);
-    padding: 1rem 2rem;
-    border-radius: 30px;
+    font-size: 3rem;
     text-decoration: none;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    transform: scale(0.8);
+}
+
+.hall-of-fame-card:hover .hall-of-fame-view-btn {
+    transform: scale(1) rotate(360deg);
 }
 
 .hall-of-fame-view-btn:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+    background: rgba(255, 255, 255, 0.4);
+    border-color: var(--off-white);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
     text-decoration: none;
     color: var(--black);
-    background: linear-gradient(135deg, var(--electric-yellow), #FFD700);
 }
 
 .hall-of-fame-info {
     padding: 2rem;
-    background: linear-gradient(180deg, rgba(26, 10, 30, 0.8), rgba(26, 10, 30, 0.95));
+    background: rgba(20, 20, 20, 0.95);
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -2871,6 +2882,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     position: relative;
     min-height: 4.8rem;
@@ -2879,6 +2891,7 @@
 .hall-of-fame-caption.expanded {
     height: auto;
     -webkit-line-clamp: unset;
+    line-clamp: unset;
 }
 
 .hall-of-fame-read-more {
@@ -3276,16 +3289,6 @@
 }
 
 /* Glassmorphic Hero Section */
-.page-hero {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-glass-color);
-    padding: 4rem 0;
-    margin-top: -20px;
-    margin-bottom: 0;
-}
-
 /* Hero Title with Gradient */
 .page-hero-title {
     font-size: 3rem;
@@ -3339,7 +3342,9 @@
         font-size: 2.5rem;
     }
     .page-hero {
-        padding: 3rem 0;
+        padding: 1.5rem 0 1rem;
+        margin-bottom: 1rem;
+        margin-top: -30px;
     }
 }
 
@@ -3842,30 +3847,9 @@
 }
 
 /* Vault Hero Section Styling */
-.vault-hero {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-glass-color);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 1.0rem 0 1.5rem;
-    margin-top: 0;
-    margin-bottom: 3rem;
-    position: relative;
-    z-index: 1;
-    min-height: 220px;
-}
 
-@media (max-width: 768px) {
-    .vault-hero {
-        padding: 0.5rem 0 0.75rem;
-        min-height: 140px;
-        margin-bottom: 1.5rem;
-        margin-top: 0;
-    }
-}
 
-.vault-hero-title {
+.page-hero-title {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -3890,7 +3874,7 @@
     filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.5));
 }
 
-.vault-hero-subtitle {
+.page-hero-subtitle {
     color: var(--off-white);
     font-size: 1.2rem;
     font-weight: 300;
@@ -3900,13 +3884,13 @@
 }
 
 /* Vault Hero Subtitle Stats Highlighting */
-.vault-hero-subtitle strong {
+.page-hero-subtitle strong {
     color: var(--neon-pink);
     font-weight: 700;
 }
 
 /* Vault Hero Stats Row - for pages with multiple stats like cart */
-.vault-hero-stats {
+.page-hero-stats {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3915,21 +3899,21 @@
     flex-wrap: wrap;
 }
 
-.vault-hero-stats .stat-item {
+.page-hero-stats .stat-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 
-.vault-hero-stats .stat-value {
+.page-hero-stats .stat-value {
     font-size: 1.75rem;
     font-weight: 800;
     color: var(--neon-pink);
     line-height: 1.2;
 }
 
-.vault-hero-stats .stat-label {
+.page-hero-stats .stat-label {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
     text-transform: uppercase;
@@ -3937,22 +3921,22 @@
     font-weight: 500;
 }
 
-.vault-hero-stats .stat-divider {
+.page-hero-stats .stat-divider {
     width: 1px;
     height: 40px;
     background: rgba(255, 255, 255, 0.2);
 }
 
 @media (max-width: 768px) {
-    .vault-hero-stats .stat-value {
+    .page-hero-stats .stat-value {
         font-size: 1.4rem;
     }
 
-    .vault-hero-stats .stat-label {
+    .page-hero-stats .stat-label {
         font-size: 0.7rem;
     }
 
-    .vault-hero-stats .stat-divider {
+    .page-hero-stats .stat-divider {
         height: 30px;
     }
 }
@@ -3987,17 +3971,17 @@
 }
 
 @media (max-width: 768px) {
-    .vault-hero-title {
+    .page-hero-title {
         font-size: 2.5rem;
     }
     
-    .vault-hero .d-flex {
+    .page-hero .d-flex {
         flex-direction: column;
         align-items: center;
         gap: 1rem !important;
     }
     
-    .vault-hero .btn {
+    .page-hero .btn {
         width: 100%;
         max-width: 280px;
         padding: 0.75rem 1.5rem;
@@ -4006,15 +3990,15 @@
 }
 
 @media (max-width: 576px) {
-    .vault-hero-title {
+    .page-hero-title {
         font-size: 2rem;
     }
     
-    .vault-hero-subtitle {
+    .page-hero-subtitle {
         font-size: 1rem;
     }
     
-    .vault-hero .btn {
+    .page-hero .btn {
         max-width: 250px;
         padding: 0.625rem 1.25rem;
         font-size: 0.85rem;
@@ -4022,70 +4006,6 @@
     
     .pug-skull-branding {
         width: 60px;
-    }
-}
-
-/* Global: consistent spacing under any vault-hero instance
-   Increased slightly to give a bit more breathing room under heroes. */
-.vault-hero {
-    margin-bottom: 2.5rem; /* was 1.5rem */
-    padding-bottom: 1.25rem; /* was 0.75rem */
-}
-
-.vault-hero + .container,
-.vault-hero + .container-fluid,
-.vault-hero + .vault-container,
-.vault-hero + .page-content {
-    margin-top: 1rem; /* was 0.5rem */
-    padding-top: 0;
-}
-
-@media (max-width: 991px) {
-    .vault-hero {
-        margin-bottom: 1.5rem; /* was 1rem */
-        padding-bottom: 0.75rem; /* was 0.5rem */
-    }
-    .vault-hero + .container,
-    .vault-hero + .container-fluid,
-    .vault-hero + .vault-container,
-    .vault-hero + .page-content {
-        margin-top: 0.75rem; /* was 0.5rem */
-    }
-}
-
-/* Coverage for pages where non-container elements (modals, comments)
-   appear between the hero and the main content. Use general sibling
-   selectors and slightly higher specificity to avoid accidental overrides. */
-section.vault-hero {
-    margin-bottom: 0.1rem !important;
-    padding-bottom: 1.25rem !important;
-}
-
-/* General sibling targets: contact pages, battle vest, and sections */
-.vault-hero ~ .contact-form-section,
-.vault-hero ~ .contact-page,
-.vault-hero ~ .battle-vest-container,
-.vault-hero ~ .battle-vest-grid,
-.vault-hero ~ .container,
-.vault-hero ~ .container-fluid,
-.vault-hero ~ .vault-container,
-.vault-hero ~ section,
-.vault-hero ~ .page-content {
-    margin-top: 1rem !important;
-    padding-top: 0 !important;
-}
-
-@media (max-width: 991px) {
-    section.vault-hero {
-        margin-bottom: 0.1rem !important;
-        padding-bottom: 0.75rem !important;
-    }
-    .vault-hero ~ .contact-form-section,
-    .vault-hero ~ .container,
-    .vault-hero ~ .container-fluid,
-    .vault-hero ~ .vault-container,
-    .vault-hero ~ section {
-        margin-top: 0.75rem !important;
     }
 }
 

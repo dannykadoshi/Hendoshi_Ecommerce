@@ -10,13 +10,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Collections Management Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Collections</h1>
-                    <p class="vault-hero-subtitle">Organize your products into collections for better categorization and customer experience.</p>
+                    <h1 class="page-hero-title">Collections</h1>
+                    <p class="page-hero-subtitle">Organize your products into collections for better categorization and customer experience.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
                         <a href="{% url 'admin_list_products' %}" class="btn btn-pink"><i class="fas fa-arrow-left me-2"></i>Back</a>
                         <a href="{% url 'admin_create_collection' %}" class="btn btn-pink">Create Collection</a>

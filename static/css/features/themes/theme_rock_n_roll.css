@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="rock_n_roll"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="rock_n_roll"] {
+.page-hero.theme-active[data-theme="rock_n_roll"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="rock_n_roll"] {
     background: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.1) 0%, transparent 60%);
 }
 

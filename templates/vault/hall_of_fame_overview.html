@@ -6,13 +6,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Hall of Fame Overview Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Hall of Fame</h1>
-                    <p class="vault-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
+                    <h1 class="page-hero-title">Hall of Fame</h1>
+                    <p class="page-hero-subtitle">Celebrating the legendary photos that have been featured in The Vault. <strong>{{ total_featured }}</strong> photos have earned their place in HENDOSHI history.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-pink hall-of-fame-overview-btn-mobile">
                             <i class="fas fa-images"></i> Browse Gallery

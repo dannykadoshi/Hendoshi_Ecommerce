@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="fathers_day"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="fathers_day"] {
+.page-hero.theme-active[data-theme="fathers_day"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="fathers_day"] {
     background: linear-gradient(180deg, rgba(25, 25, 112, 0.05) 0%, transparent 50%);
 }
 

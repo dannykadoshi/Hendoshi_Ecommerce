@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="new_years"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="new_years"] {
+.page-hero.theme-active[data-theme="new_years"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="new_years"] {
     background: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
 }
 

@@ -10,13 +10,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Hall of Fame Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Hall of Fame</h1>
-                    <p class="vault-hero-subtitle">Every week we handpick the best community photos to feature on our Instagram. Once featured, they earn their eternal spot here. <strong>{{ total_featured }}</strong> legends and counting.</p>
+                    <h1 class="page-hero-title">Hall of Fame</h1>
+                    <p class="page-hero-subtitle">Every week we handpick the best community photos to feature on our Instagram. Once featured, they earn their eternal spot here. <strong>{{ total_featured }}</strong> legends and counting.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:hall_of_fame_overview' %}" class="btn btn-pink hall-of-fame-btn-mobile">
                             <i class="fas fa-crown"></i> Hall of Fame Overview
@@ -57,7 +57,7 @@
                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="hall-of-fame-photo">
                     <div class="hall-of-fame-photo-overlay">
                         <a href="{% url 'vault:photo_detail' photo.id %}" class="hall-of-fame-view-btn">
-                            <i class="fas fa-eye"></i> View Details
+                            <i class="fas fa-eye"></i>
                         </a>
                     </div>
                 </div>

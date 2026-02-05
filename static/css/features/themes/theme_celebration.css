@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="celebration"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="celebration"] {
+.page-hero.theme-active[data-theme="celebration"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="celebration"] {
     background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
 }
 

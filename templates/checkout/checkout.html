@@ -8,13 +8,13 @@
 {% block content %}
 <div class="checkout-page">
     <!-- Checkout Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Shipping Address</h1>
-                    <p class="vault-hero-subtitle">Enter your shipping details to continue</p>
+                    <h1 class="page-hero-title">Shipping Address</h1>
+                    <p class="page-hero-subtitle">Enter your shipping details to continue</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">
                         <span class="checkout-hero-stat">
                             <i class="fas fa-shopping-bag"></i> {{ cart.get_total_items }} Item{{ cart.get_total_items|pluralize }}

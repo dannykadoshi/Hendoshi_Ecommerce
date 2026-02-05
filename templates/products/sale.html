@@ -43,12 +43,12 @@
 {% block content %}
     <div class="products-page">
         <!-- Products Hero -->
-        <section class="vault-hero">
+        <section class="page-hero">
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
                         <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                        <h1 class="vault-hero-title">
+                        <h1 class="page-hero-title">
                             {% if current_collection %}
                                 {% for collection in collections %}
                                     {% if collection.slug == current_collection %}{{ collection.name }}{% endif %}
@@ -61,7 +61,8 @@
                                 🔥 SALE - Up to 50% Off
                             {% endif %}
                         </h1>
-                        <p class="vault-hero-subtitle">{{ products.count }} product{{ products.count|pluralize }} found</p>
+                        <p class="page-hero-subtitle"><strong>{{ product_count }}</strong> product{{ product_count|pluralize }} on sale</p>
+                        <p class="page-hero-subtitle">Limited time only. Grab your favorite pieces before they're gone. Metal attitude, discount prices.</p>
                     </div>
                 </div>
             </div>
@@ -266,4 +267,5 @@
 <script src="{% static 'js/page-specific/products-filters.js' %}"></script>
 <script src="{% static 'js/page-specific/quick-add.js' %}"></script>
 <script src="{% static 'js/battle-vest.js' %}"></script>
+<script src="{% static 'js/page-specific/products-infinite-scroll.js' %}"></script>
 {% endblock %}

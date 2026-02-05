@@ -11,14 +11,14 @@
 {% block content %}
 <div class="vault-page">
     <!-- Preview Hero with Theme Animation -->
-    <section class="vault-hero theme-active theme-speed-{{ theme.animation_speed }}{% if theme.is_paused %} theme-paused{% endif %}" id="previewHero">
+    <section class="page-hero theme-active theme-speed-{{ theme.animation_speed }}{% if theme.is_paused %} theme-paused{% endif %}" id="previewHero">
         <div class="theme-animation-layer" id="themeAnimationLayer"></div>
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">{{ theme.name }}</h1>
-                    <p class="vault-hero-subtitle">This is a preview of how the "{{ theme.get_theme_type_display }}" theme will appear on your store.</p>
+                    <h1 class="page-hero-title">{{ theme.name }}</h1>
+                    <p class="page-hero-subtitle">This is a preview of how the "{{ theme.get_theme_type_display }}" theme will appear on your store.</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
 
                     <h4 class="mb-3"><i class="fas fa-eye me-2"></i>Theme Preview</h4>
                     <p class="text-muted mb-4">
-                        The animation above shows how this theme will appear in the vault-hero sections across your site.
+                        The animation above shows how this theme will appear in the page-hero sections across your site.
                         The particles animate behind the text content to ensure readability.
                     </p>
 

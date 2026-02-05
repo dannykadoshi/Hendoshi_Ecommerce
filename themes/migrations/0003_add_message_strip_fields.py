@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='seasonaltheme',
             name='show_message_strip',
-            field=models.BooleanField(default=False, help_text='Display a scrolling message strip below the vault-hero'),
+            field=models.BooleanField(default=False, help_text='Display a scrolling message strip below the page-hero'),
         ),
         migrations.AddField(
             model_name='seasonaltheme',

@@ -7,13 +7,16 @@
 
 {% block content %}
 <div class="products-page search-results-page">
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">{% if search_term %}Search Results for "{{ search_term }}"{% else %}Search Products{% endif %}</h1>
-                    <p class="vault-hero-subtitle">{% if search_term %}{{ products.count }} product{{ products.count|pluralize }} found{% else %}Enter a search term to find products{% endif %}</p>
+                    <h1 class="page-hero-title">{% if search_term %}Search Results for "{{ search_term }}"{% else %}Search Products{% endif %}</h1>
+                    <p class="page-hero-subtitle">{% if search_term %}<strong>{{ product_count }}</strong> product{{ product_count|pluralize }} found{% else %}Enter a search term to find products{% endif %}</p>
+                    {% if search_term and product_count > 0 %}
+                    <p class="page-hero-subtitle">Discover the pieces that match your vibe. Refined rebellion awaits.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -211,4 +214,5 @@
 <script src="{% static 'js/page-specific/products-filters.js' %}"></script>
 <script src="{% static 'js/page-specific/quick-add.js' %}"></script>
 <script src="{% static 'js/battle-vest.js' %}"></script>
+<script src="{% static 'js/page-specific/products-infinite-scroll.js' %}"></script>
 {% endblock %}

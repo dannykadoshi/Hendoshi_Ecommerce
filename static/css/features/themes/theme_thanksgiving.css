@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="thanksgiving"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="thanksgiving"] {
+.page-hero.theme-active[data-theme="thanksgiving"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="thanksgiving"] {
     background: linear-gradient(180deg, rgba(205, 133, 63, 0.08) 0%, transparent 60%);
 }
 

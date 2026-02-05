@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="christmas"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="christmas"] {
+.page-hero.theme-active[data-theme="christmas"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="christmas"] {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
 }
 

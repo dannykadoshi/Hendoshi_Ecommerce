@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class SeasonalTheme(models.Model):
     """
-    Seasonal theme configuration for vault-hero animations.
+    Seasonal theme configuration for page-hero animations.
     Supports multiple themes with priority-based activation.
     """
     THEME_TYPE_CHOICES = [
@@ -99,7 +99,7 @@ class SeasonalTheme(models.Model):
     # Message Strip Configuration
     show_message_strip = models.BooleanField(
         default=False,
-        help_text="Display a scrolling message strip below the vault-hero"
+        help_text="Display a scrolling message strip below the page-hero"
     )
     strip_messages = models.TextField(
         blank=True,

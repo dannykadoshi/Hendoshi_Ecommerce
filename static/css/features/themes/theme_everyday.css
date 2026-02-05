@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="everyday"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="everyday"] {
+.page-hero.theme-active[data-theme="everyday"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="everyday"] {
     background: radial-gradient(ellipse at bottom, rgba(75, 0, 130, 0.1) 0%, transparent 60%);
 }
 

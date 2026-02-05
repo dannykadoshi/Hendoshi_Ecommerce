@@ -7,21 +7,21 @@
 {% block content %}
 <div class="vault-page">
     <!-- Newsletter Confirmation Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     {% if success %}
-                        <h1 class="vault-hero-title">Subscription Confirmed</h1>
-                        <p class="vault-hero-subtitle">Welcome to the HENDOSHI family! Your newsletter subscription has been confirmed and you're all set to receive exclusive offers and updates.</p>
+                        <h1 class="page-hero-title">Subscription Confirmed</h1>
+                        <p class="page-hero-subtitle">Welcome to the HENDOSHI family! Your newsletter subscription has been confirmed and you're all set to receive exclusive offers and updates.</p>
                         <div class="d-flex justify-content-center gap-3 mt-4">
                             <a href="{% url 'home' %}" class="btn btn-pink">Start Shopping</a>
                             <a href="{% url 'new_drops' %}" class="btn btn-pink">View New Drops</a>
                         </div>
                     {% else %}
-                        <h1 class="vault-hero-title">Confirmation Failed</h1>
-                        <p class="vault-hero-subtitle">We encountered an issue with your newsletter confirmation. Please check the link or try subscribing again.</p>
+                        <h1 class="page-hero-title">Confirmation Failed</h1>
+                        <p class="page-hero-subtitle">We encountered an issue with your newsletter confirmation. Please check the link or try subscribing again.</p>
                         <div class="d-flex justify-content-center gap-3 mt-4">
                             <a href="{% url 'home' %}" class="btn btn-pink">Return Home</a>
                             <a href="mailto:support@hendoshi.com" class="btn btn-pink">Contact Support</a>

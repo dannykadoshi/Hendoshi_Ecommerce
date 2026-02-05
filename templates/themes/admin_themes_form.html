@@ -10,13 +10,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Form Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">{{ title }}</h1>
-                    <p class="vault-hero-subtitle">Configure the seasonal theme settings and animation properties.</p>
+                    <h1 class="page-hero-title">{{ title }}</h1>
+                    <p class="page-hero-subtitle">Configure the seasonal theme settings and animation properties.</p>
                 </div>
             </div>
         </div>
@@ -150,7 +150,7 @@
                                             {{ form.show_message_strip.label }}
                                         </label>
                                     </div>
-                                    <small class="text-muted d-block mb-3">Display a scrolling message strip below the vault-hero section with skull separators.</small>
+                                    <small class="text-muted d-block mb-3">Display a scrolling message strip below the page-hero section with skull separators.</small>
                                 </div>
                                 <div class="col-12" id="stripSettingsContainer">
                                     <label class="form-label">{{ form.strip_messages.label }}</label>

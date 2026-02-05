@@ -8,13 +8,13 @@
 {% block content %}
 <div class="vault-page">
     <!-- Order Details Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Order Details</h1>
-                    <p class="vault-hero-subtitle">View complete order information, customer details, and order status for Order #{{ order.order_number }}.</p>
+                    <h1 class="page-hero-title">Order Details</h1>
+                    <p class="page-hero-subtitle">View complete order information, customer details, and order status for Order #{{ order.order_number }}.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
                         {% if order_source == 'admin' %}
                             <a href="{% url 'admin_orders_list' %}" class="btn btn-pink">

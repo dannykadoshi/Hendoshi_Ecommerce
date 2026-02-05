@@ -4,8 +4,8 @@
  */
 
 /* Theme-specific background overlay */
-.vault-hero.theme-active[data-theme="valentines"]::before,
-.vault-hero.theme-active .theme-animation-layer[data-theme="valentines"] {
+.page-hero.theme-active[data-theme="valentines"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="valentines"] {
     background: radial-gradient(ellipse at center, rgba(255, 20, 147, 0.08) 0%, transparent 60%);
 }
 

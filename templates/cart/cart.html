@@ -8,18 +8,18 @@
 {% block content %}
 <div class="vault-page cart-page">
     <!-- Cart Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">Your Cart</h1>
+                    <h1 class="page-hero-title">Your Cart</h1>
                     {% if cart_items %}
-                    <p class="vault-hero-subtitle">
+                    <p class="page-hero-subtitle">
                         <strong>{{ cart.get_total_items }}</strong> item{{ cart.get_total_items|pluralize }} · <strong>€{{ subtotal|floatformat:2 }}</strong> subtotal
                     </p>
                     {% else %}
-                    <p class="vault-hero-subtitle">Your cart is waiting to be filled</p>
+                    <p class="page-hero-subtitle">Your cart is waiting to be filled</p>
                     {% endif %}
                 </div>
             </div>

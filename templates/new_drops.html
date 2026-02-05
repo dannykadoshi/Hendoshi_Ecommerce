@@ -10,13 +10,14 @@
 {% block content %}
 <div class="products-page vault-page">
     <!-- New Drops Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">New Drops</h1>
-                    <p class="vault-hero-subtitle">Check out our latest metal masterpieces</p>
+                    <h1 class="page-hero-title">New Drops</h1>
+                    <p class="page-hero-subtitle"><strong>{{ total_count }}</strong> fresh design{{ total_count|pluralize }} just dropped</p>
+                    <p class="page-hero-subtitle">First to wear it, first to own it. Fresh metal masterpieces straight from our twisted minds.</p>
                 </div>
             </div>
         </div>

@@ -285,6 +285,7 @@ def all_products(request):
     context = {
         'products': page_obj,
         'page_obj': page_obj,
+        'product_count': products.count(),
         'collections': collections,
         'product_types': product_types,
         'search_term': query,
@@ -388,6 +389,7 @@ def sale_products(request):
     context = {
         'products': page_obj,
         'page_obj': page_obj,
+        'product_count': products.count(),
         'collections': collections,
         'product_types': product_types,
         'search_term': query,
@@ -833,6 +835,7 @@ def audience_hub(request, audience_slug):
         'current_sorting': f'{sort}_{direction}',
         'current_audience': audience_slug,
         'audience_hub': True,
+        'product_count': products.count(),
     }
 
     return render(request, 'products/products.html', context)

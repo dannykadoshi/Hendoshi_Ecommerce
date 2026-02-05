@@ -598,6 +598,7 @@
     line-height: 1.2;
     display: -webkit-box;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -1489,13 +1490,13 @@
 
 /* Mobile optimization for hero buttons */
 @media (max-width: 768px) {
-    .vault-hero .d-flex {
+    .page-hero .d-flex {
         flex-direction: column;
         align-items: center;
         gap: 1rem !important;
     }
     
-    .vault-hero .btn {
+    .page-hero .btn {
         width: 100%;
         max-width: 280px;
         padding: 0.75rem 1.5rem;
@@ -1504,7 +1505,7 @@
 }
 
 @media (max-width: 576px) {
-    .vault-hero .btn {
+    .page-hero .btn {
         max-width: 250px;
         padding: 0.625rem 1.25rem;
         font-size: 0.85rem;

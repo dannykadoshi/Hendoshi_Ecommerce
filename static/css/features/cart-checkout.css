@@ -82,6 +82,7 @@
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -566,6 +567,7 @@
     .cart-card-name {
         font-size: 0.8rem;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
     }
 
     .cart-card-variant {
@@ -7722,6 +7724,7 @@ input[type="number"] {
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2; /* support up to 2 lines */
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     max-height: calc(1.3em * 2);

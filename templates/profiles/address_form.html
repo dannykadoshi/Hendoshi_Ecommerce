@@ -6,13 +6,13 @@
 {% block content %}
 <div class="profile-page">
     <!-- Address Form Hero -->
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">{{ action }} Address</h1>
-                    <p class="vault-hero-subtitle">{% if action == 'Add' %}Add a new shipping address{% else %}Update your address details{% endif %}</p>
+                    <h1 class="page-hero-title">{{ action }} Address</h1>
+                    <p class="page-hero-subtitle">{% if action == 'Add' %}Add a new shipping address{% else %}Update your address details{% endif %}</p>
                 </div>
             </div>
         </div>

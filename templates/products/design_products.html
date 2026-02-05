@@ -7,13 +7,14 @@
 
 {% block content %}
 <div class="products-page">
-    <section class="vault-hero">
+    <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="vault-hero-title">{{ design_name }}</h1>
-                    <p class="vault-hero-subtitle">All Available Products</p>
+                    <h1 class="page-hero-title">{{ design_name }}</h1>
+                    <p class="page-hero-subtitle"><strong>{{ total_products }}</strong> product{{ total_products|pluralize }} available</p>
+                    <p class="page-hero-subtitle">One legendary design across multiple styles. Rock it your way.</p>
                 </div>
             </div>
         </div>
@@ -42,4 +43,5 @@
 
 {% block extra_js %}
 <script src="{% static 'js/page-specific/quick-add.js' %}"></script>
+<script src="{% static 'js/page-specific/products-infinite-scroll.js' %}"></script>
 {% endblock %}
