@@ -358,11 +358,6 @@
     font-weight: 600;
 }
 
-.verified-badge {
-    font-size: 0.8rem;
-    color: #28a745;
-}
-
 .review-rating i {
     color: var(--neon-pink);
     font-size: 0.9rem;
@@ -370,18 +365,6 @@
 
 .review-rating i.text-muted {
     color: #444 !important;
-}
-
-.review-title {
-    color: var(--neon-pink);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.review-text {
-    color: #ccc;
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
 }
 
 .review-footer {
@@ -1329,7 +1312,7 @@
     margin-bottom: 2rem;
 }
 
-.review-header {
+.review-detail-card .review-header {
     border-bottom: 1px solid rgba(255, 20, 147, 0.3);
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
@@ -1369,6 +1352,7 @@
     color: var(--off-white);
     line-height: 1.6;
     font-size: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .review-actions {
@@ -1549,11 +1533,6 @@
     border-color: var(--neon-pink);
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 45, 161, 0.25);
-}
-
-/* Improved visibility for muted text */
-.text-muted {
-    color: #b0b0b0 !important;
 }
 
 .review-detail-card em.text-muted {

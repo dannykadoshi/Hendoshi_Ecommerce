@@ -520,8 +520,8 @@
 }
 
 .total-row {
-    border-top: 2px solid var(--neon-pink);
-    border-bottom: 2px solid var(--neon-pink);
+    border-top: 1px solid rgba(255,255,255,0.06) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
 }
@@ -622,9 +622,6 @@
     .cart-item-actions { grid-area: actions; margin-top:0.5rem; }
     .checkout-cta .checkout-btn { width:100%; }
 }
-
-/* Reduce pink intensity in summary totals */
-.total-row { border-top: 1px solid rgba(255,255,255,0.06) !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; }
 
 /* End Modern Cart Overrides */
 

@@ -254,28 +254,7 @@
     margin-top: 0.6rem;
 }
 
-/* Ensure action buttons inside admin tables/lists have readable white text */
-.archived-products-table .btn-outline-pink,
-.archived-products-table .btn-outline-danger,
-.auth-card .table .btn-outline-pink,
-.auth-card .table .btn-outline-danger {
-    color: #fff !important;
-    border-color: rgba(231,31,127,0.9) !important;
-}
-
-.archived-products-table .btn-outline-pink:hover,
-.auth-card .table .btn-outline-pink:hover {
-    background: var(--neon-pink) !important;
-    color: #000 !important;
-}
-
-.archived-products-table .btn-outline-danger:hover,
-.auth-card .table .btn-outline-danger:hover {
-    background: #dc3545 !important;
-    color: #fff !important;
-}
-
-/* Make admin table buttons match checkout CTA look */
+/* Admin table buttons - checkout CTA look */
 .archived-products-table .btn-outline-pink,
 .auth-card .table .btn-outline-pink {
     background: linear-gradient(135deg, var(--neon-pink), #ff006e) !important;
@@ -291,6 +270,8 @@
 
 .archived-products-table .btn-outline-pink:hover,
 .auth-card .table .btn-outline-pink:hover {
+    background: var(--neon-pink) !important;
+    color: #000 !important;
     transform: translateY(-3px) !important;
     box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6) !important;
 }
@@ -307,6 +288,8 @@
 
 .archived-products-table .btn-outline-danger:hover,
 .auth-card .table .btn-outline-danger:hover {
+    background: #dc3545 !important;
+    color: #fff !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 24px rgba(220,53,69,0.35) !important;
 }
@@ -366,92 +349,13 @@ input[type="file"]:hover::-ms-browse {
    PRODUCT EDIT/CREATE FORMS
    ================================ */
 
-/* Styles for Create Product - Audience accordion and inputs */
-.accordion#audienceAccordion {
-    border-radius: var(--border-radius-glass);
-}
-
-.accordion#audienceAccordion .accordion-item {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.03);
-    margin-bottom: 0.6rem;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.accordion#audienceAccordion .accordion-button {
-    padding: 0.9rem 1.1rem;
-    font-weight: 700;
-    color: var(--off-white);
-    background: rgba(0,0,0,0.25);
-    border: none;
-}
-
-.accordion#audienceAccordion .accordion-button::after {
-    filter: brightness(0.9) invert(1);
-}
-
-.accordion#audienceAccordion .accordion-button:not(.collapsed) {
-    box-shadow: none;
-    background: rgba(255,255,255,0.03);
-}
-
-.accordion#audienceAccordion .accordion-body {
-    background: rgba(0,0,0,0.12);
-    padding: var(--padding-glass);
-    color: var(--off-white);
-}
-
-.accordion#audienceAccordion .form-check {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 1rem;
-}
-
-.accordion#audienceAccordion .form-check-label {
-    font-weight: 700;
-}
-
-.accordion#audienceAccordion input[type="file"] {
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    border-radius: 6px;
-    padding: 0.55rem 0.6rem;
-}
-
-.accordion#audienceAccordion .variant-toggles ul {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 0.25rem 0 0;
-    list-style: none;
-}
-
-.accordion#audienceAccordion .variant-toggles li {
-    margin: 0;
-}
-
-.accordion#audienceAccordion .variant-toggles label {
-    display: inline-block;
-    padding: 0.35rem 0.6rem;
-    border-radius: var(--border-radius-glass);
-    background: rgba(255,255,255,0.04);
-    color: var(--off-white);
-    border: 1px solid rgba(255,255,255,0.03);
-    font-size: 0.95rem;
-}
-
-.accordion#audienceAccordion .variant-toggles input[type="checkbox"] {
-    margin-right: 0.5rem;
-}
-
-/* Mirror audience accordion styles for product type copies (hoodies/dresses) */
+/* Styles for Create Product - Audience & Type Copies accordions */
+.accordion#audienceAccordion,
 .accordion#typeCopiesAccordion {
     border-radius: var(--border-radius-glass);
 }
 
+.accordion#audienceAccordion .accordion-item,
 .accordion#typeCopiesAccordion .accordion-item {
     background: transparent;
     border: 1px solid rgba(255,255,255,0.03);
@@ -460,6 +364,7 @@ input[type="file"]:hover::-ms-browse {
     overflow: hidden;
 }
 
+.accordion#audienceAccordion .accordion-button,
 .accordion#typeCopiesAccordion .accordion-button {
     padding: 0.9rem 1.1rem;
     font-weight: 700;
@@ -468,21 +373,25 @@ input[type="file"]:hover::-ms-browse {
     border: none;
 }
 
+.accordion#audienceAccordion .accordion-button::after,
 .accordion#typeCopiesAccordion .accordion-button::after {
     filter: brightness(0.9) invert(1);
 }
 
+.accordion#audienceAccordion .accordion-button:not(.collapsed),
 .accordion#typeCopiesAccordion .accordion-button:not(.collapsed) {
     box-shadow: none;
     background: rgba(255,255,255,0.03);
 }
 
+.accordion#audienceAccordion .accordion-body,
 .accordion#typeCopiesAccordion .accordion-body {
     background: rgba(0,0,0,0.12);
     padding: var(--padding-glass);
     color: var(--off-white);
 }
 
+.accordion#audienceAccordion .form-check,
 .accordion#typeCopiesAccordion .form-check {
     display: flex;
     align-items: center;
@@ -490,10 +399,12 @@ input[type="file"]:hover::-ms-browse {
     margin-bottom: 1rem;
 }
 
+.accordion#audienceAccordion .form-check-label,
 .accordion#typeCopiesAccordion .form-check-label {
     font-weight: 700;
 }
 
+.accordion#audienceAccordion input[type="file"],
 .accordion#typeCopiesAccordion input[type="file"] {
     background: rgba(0,0,0,0.85);
     color: #fff;
@@ -501,6 +412,7 @@ input[type="file"]:hover::-ms-browse {
     padding: 0.55rem 0.6rem;
 }
 
+.accordion#audienceAccordion .variant-toggles ul,
 .accordion#typeCopiesAccordion .variant-toggles ul {
     display: flex;
     gap: 0.5rem;
@@ -510,6 +422,12 @@ input[type="file"]:hover::-ms-browse {
     list-style: none;
 }
 
+.accordion#audienceAccordion .variant-toggles li,
+.accordion#typeCopiesAccordion .variant-toggles li {
+    margin: 0;
+}
+
+.accordion#audienceAccordion .variant-toggles label,
 .accordion#typeCopiesAccordion .variant-toggles label {
     display: inline-block;
     padding: 0.35rem 0.6rem;
@@ -520,10 +438,17 @@ input[type="file"]:hover::-ms-browse {
     font-size: 0.95rem;
 }
 
+.accordion#audienceAccordion .variant-toggles input[type="checkbox"],
+.accordion#typeCopiesAccordion .variant-toggles input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
 /* Make accordion more compact on desktop */
 @media (min-width: 992px) {
-    .accordion#audienceAccordion .accordion-button { padding: 0.7rem 1rem; }
-    .accordion#audienceAccordion .accordion-body { padding: 0.85rem 1rem; }
+    .accordion#audienceAccordion .accordion-button,
+    .accordion#typeCopiesAccordion .accordion-button { padding: 0.7rem 1rem; }
+    .accordion#audienceAccordion .accordion-body,
+    .accordion#typeCopiesAccordion .accordion-body { padding: 0.85rem 1rem; }
 }
 
 /* Product Edit Form Button Group Spacing */
@@ -548,8 +473,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .btn-delete-product {
-    background-color: var(--neon-pink);
-    color: #fff;
+    background-color: rgba(220, 53, 69, 0.7);
+    color: white;
     border: none;
     padding: 1rem 3rem;
     font-size: 1.2rem;
@@ -560,7 +485,7 @@ input[type="file"]:hover::-ms-browse {
     transition: all 0.3s;
     display: inline-block;
     text-decoration: none;
-    margin-top: 2rem;
+    margin-top: 1rem;
     box-shadow: 0 4px 24px rgba(255,20,147,0.10);
 }
 
@@ -1075,12 +1000,6 @@ input[type="file"]:hover::-ms-browse {
 
 .delete-label {
     color: var(--neon-pink);
-}
-
-.btn-delete-product {
-    background-color: rgba(220, 53, 69, 0.7);
-    color: white;
-    margin-top: 1rem;
 }
 
 /* Delete Confirmation Page Styles */
