@@ -4,12 +4,69 @@
    CART PAGE REDESIGN - Clean & Compact
    ============================================ */
 
-/* Cart Main Container */
-.cart-main {
-    padding: 2rem 0 6rem;
+/* Cart Page Layout - Two columns with summary outside container */
+.cart-page-layout {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
-/* Cart Layout - Desktop 2 columns */
+.cart-page-layout .cart-container {
+    flex: 1;
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.cart-summary-section {
+    flex: 0 0 380px;
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+}
+
+/* Mobile: Stack layout */
+@media (max-width: 991px) {
+    .cart-page-layout {
+        flex-direction: column;
+        padding: 0;
+        gap: 0.1rem;
+    }
+
+    .cart-page-layout .cart-container {
+        padding: 0 0.5rem;
+    }
+
+    .cart-summary-section {
+        flex: none;
+        width: 100%;
+        position: static;
+        padding: 0 0.5rem;
+    }
+
+    .cart-summary-section .cart-summary {
+        padding: 0;
+    }
+
+    .cart-summary-section .cart-summary-inner {
+        border-radius: 10px;
+        padding: 1rem;
+    }
+}
+
+/* Cart Main Container */
+.cart-main {
+    padding: 2rem 0 1rem;
+}
+
+/* Override for cart page layout - reduced bottom spacing */
+.cart-page-layout .cart-main {
+    padding-bottom: 1rem;
+}
+
+/* Cart Layout - Desktop 2 columns (legacy - kept for backward compatibility) */
 .cart-layout {
     display: grid;
     grid-template-columns: 1fr 380px;
@@ -450,7 +507,7 @@
     margin: 0 0 1.5rem;
 }
 
-/* Mobile Checkout Bar */
+/* Mobile Checkout Bar - Single row layout */
 .cart-mobile-bar {
     display: none;
     position: fixed;
@@ -458,43 +515,41 @@
     left: 0;
     right: 0;
     padding: 0.75rem 1rem;
-    background: rgba(20, 10, 25, 0.95);
+    background: rgba(20, 10, 25, 0.98);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 20, 147, 0.3);
     z-index: 1000;
-}
-
-.cart-mobile-bar > div {
-    display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 600px;
-    margin: 0 auto;
+    gap: 1rem;
 }
 
 .mobile-bar-total {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .mobile-bar-label {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
+    font-weight: 600;
 }
 
 .mobile-bar-value {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--neon-pink);
 }
 
 .mobile-bar-btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.6rem 1.25rem;
     background: var(--neon-pink);
     border-radius: 8px;
     color: #fff;
     font-weight: 700;
+    flex-shrink: 0;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -537,7 +592,7 @@
     }
 
     .cart-mobile-bar {
-        display: block;
+        display: flex;
     }
 
     .cart-main {
@@ -3082,7 +3137,7 @@ main {
 .cart-page {
     margin-top: 120px;
     min-height: calc(100vh - 120px);
-    padding: 3rem 0;
+    padding: 3rem 0 1rem;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -3674,7 +3729,12 @@ main {
     }
 
     .cart-summary {
-        padding: 1.5rem;
+        padding: 0;
+    }
+
+    .cart-summary-inner {
+        border-radius: 10px;
+        padding: 1rem;
     }
 
     .summary-title {
@@ -3688,6 +3748,11 @@ main {
 
     .continue-shopping {
         padding-top: 1rem;
+    }
+
+    /* Ensure Continue Shopping button sits above fixed footer on mobile (reduced) */
+    .cart-summary .text-center {
+        margin-bottom: 1.5rem !important;
     }
 }
 

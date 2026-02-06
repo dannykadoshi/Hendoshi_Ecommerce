@@ -26,10 +26,10 @@
         </div>
     </section>
 
-    <div class="container cart-container cart-main" data-initial-cart-count="{{ cart.get_total_items|default:0 }}" data-apply-discount-url="{% url 'apply_discount_code' %}" data-remove-discount-url="{% url 'remove_discount_code' %}">
-        {% if cart_items %}
-        <div class="cart-layout">
-            <!-- Cart Items -->
+    {% if cart_items %}
+    <div class="cart-page-layout" data-initial-cart-count="{{ cart.get_total_items|default:0 }}" data-apply-discount-url="{% url 'apply_discount_code' %}" data-remove-discount-url="{% url 'remove_discount_code' %}">
+        <!-- Cart Items Container -->
+        <div class="container cart-container cart-main">
             <div class="cart-items">
                 {% for item in cart_items %}
                 <div class="cart-card" data-item-id="{{ item.id }}">
@@ -71,8 +71,10 @@
                 </div>
                 {% endfor %}
             </div>
+        </div>
 
-            <!-- Order Summary -->
+        <!-- Order Summary - Outside Container -->
+        <div class="cart-summary-section">
             <div class="cart-summary">
                 <div class="cart-summary-inner">
                     <h2 class="summary-title">Order Summary</h2>
@@ -142,8 +144,10 @@
                 </div>
             </div>
         </div>
-        {% else %}
-        <!-- Empty Cart -->
+    </div>
+    {% else %}
+    <!-- Empty Cart -->
+    <div class="container cart-container cart-main">
         <div class="cart-empty">
             <div class="cart-empty-icon">
                 <i class="fas fa-shopping-bag"></i>
@@ -154,8 +158,8 @@
                 <i class="fas fa-shopping-bag"></i> Start Shopping
             </a>
         </div>
-        {% endif %}
     </div>
+    {% endif %}
 </div>
 
 <!-- Confirmation Modal -->

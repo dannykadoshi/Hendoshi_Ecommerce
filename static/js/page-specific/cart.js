@@ -13,7 +13,8 @@
     // Helper to get cart container (may not exist immediately)
     function getCartContainer() {
         if (!cartContainer) {
-            cartContainer = document.querySelector('.cart-container');
+            // Try cart-page-layout first (new structure), then fall back to cart-container
+            cartContainer = document.querySelector('.cart-page-layout') || document.querySelector('.cart-container');
         }
         return cartContainer;
     }
