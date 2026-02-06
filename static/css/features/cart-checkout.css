@@ -251,11 +251,9 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
 }
 
 .summary-calc {
-    color: rgba(255, 255, 255, 0.4);
     font-size: 0.85rem;
 }
 
@@ -2429,7 +2427,6 @@ main {
 .status-update-form label { color:var(--neon-pink); font-weight:700; margin-bottom:0.25rem; letter-spacing:0.5px; }
 .status-update-form textarea, .status-update-form select { background:var(--charcoal); color:var(--off-white); border:1.5px solid var(--neon-pink); border-radius:6px; padding:0.75rem 1rem; font-size:1rem; margin-bottom:0.25rem; }
 .status-update-form textarea:focus, .status-update-form select:focus { outline:2px solid var(--neon-pink); }
-.status-update-form .btn-pink { /* moved to components.css; size/width adjustments should use utility classes */ }
 .status-log-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:1.25rem; }
 .status-log-item { background: rgba(255,255,255,0.03); border:1.5px solid rgba(255,20,147,0.15); border-radius:7px; padding:1.1rem 1.5rem 0.9rem 1.5rem; color:var(--off-white); font-size:1.05rem; box-shadow:0 2px 8px 0 rgba(255,20,147,0.04); }
 .status-log-row { display:flex; align-items:center; gap:0.7rem; flex-wrap:wrap; font-size:1.08rem; }
@@ -3652,7 +3649,7 @@ main {
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.3s;
-    padding: 1rem 3rem;
+    padding: 0.5rem 0.5rem;
 }
 
 :root.light-mode .btn-pink:hover {
@@ -4139,11 +4136,84 @@ main {
     box-shadow: 0 16px 36px rgba(255, 45, 161, 0.45);
 }
 
-/* Light Mode - Links */
-:root.light-mode a {
-    color: #E71F7F;
+/* Light Mode - Cart Card Variant & Price Text */
+:root.light-mode .cart-card-variant {
+    color: rgba(0, 0, 0, 0.6);
 }
 
+:root.light-mode .variant-dot {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+:root.light-mode .cart-card-price {
+    color: #222;
+}
+
+:root.light-mode .total-label {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+:root.light-mode .subtotal-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .summary-row {
+    color: #222;
+}
+
+:root.light-mode .summary-value {
+    color: #222;
+}
+
+:root.light-mode .trust-item {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+:root.light-mode .summary-trust {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .cart-summary {
+    background-color: #fafafa;
+    border-color: var(--neon-pink);
+}
+
+:root.light-mode .summary-totals .subtotal {
+    color: #222;
+}
+
+:root.light-mode .summary-label {
+    color: #333;
+}
+
+:root.light-mode .shipping-cost,
+:root.light-mode .tax-cost {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* Payment Page - Back to Shipping Button */
+:root.light-mode .payment-btn.btn-pink {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: #fff;
+    font-weight: 800;
+    padding: 0.5rem 2rem;
+}
+
+:root.light-mode .payment-btn.btn-pink:hover {
+    background-color: #ff69b4;
+    border-color: #ff69b4;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    :root.light-mode .payment-btn.btn-pink {
+        padding: 0.95rem 1.25rem;
+        font-size: 1rem;
+    }
+}
+
+/* Light Mode - Links */
 :root.light-mode a:hover {
     color: #B8D400;
 }
@@ -4193,6 +4263,82 @@ main {
     color: #E71F7F;
     background: rgba(231, 31, 127, 0.1);
     border-color: rgba(231, 31, 127, 0.3);
+}
+
+/* Light Mode - Payment Icons */
+:root.light-mode .payment-icon {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .payment-icon:hover {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .footer-payment-methods .payment-label {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Light Mode - Order Totals Table */
+:root.light-mode .order-totals td {
+    color: #222;
+}
+
+:root.light-mode .order-totals .text-muted {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .order-totals tbody tr td.text-muted {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .order-totals .total-row td {
+    color: #222;
+}
+
+:root.light-mode .order-totals .total-amount {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .order-totals tbody tr {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .order-totals tbody tr:last-child {
+    border-bottom-color: var(--neon-pink);
+}
+
+/* Light Mode - Order Summary Card Text */
+:root.light-mode .order-summary-card .summary-sub {
+    color: #333;
+}
+
+:root.light-mode .order-item .meta .title {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .order-item .meta .meta-sub {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .order-item .price {
+    color: #222;
+}
+
+:root.light-mode .summary-totals .row .label {
+    color: #333;
+}
+
+:root.light-mode .summary-totals .row .value {
+    color: #222;
+}
+
+:root.light-mode .summary-total-amount {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 20, 147, 0.15);
+}
+
+:root.light-mode .summary-total-amount .amount {
+    color: var(--neon-pink);
 }
 
 /* Light Mode - Profile Page */
@@ -4568,7 +4714,8 @@ main {
 }
 
 /* Checkout Payment Page - Form Actions */
-.form-actions a {
+.form-actions a,
+.payment-btn {
     color: var(--off-white);
     border: 2px solid #555;
     background-color: var(--bg-glass-light);
@@ -4579,9 +4726,15 @@ main {
     transition: all 0.25s ease;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     text-decoration: none;
+    min-width: 180px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
-.form-actions a:hover {
+.form-actions a:hover,
+.payment-btn:hover {
     background-color: var(--border-glass-color);
     border-color: var(--neon-pink);
     color: var(--neon-pink);
@@ -4589,25 +4742,29 @@ main {
     box-shadow: 0 10px 24px rgba(255, 20, 147, 0.25);
 }
 
-.form-actions a:active {
+.form-actions a:active,
+.payment-btn:active {
     transform: translateY(0);
     box-shadow: 0 6px 16px rgba(255, 20, 147, 0.2);
 }
 
-:root.light-mode .form-actions a {
+:root.light-mode .form-actions a,
+:root.light-mode .payment-btn {
     border-color: #ddd;
     color: #222;
     background-color: rgba(0, 0, 0, 0.02);
 }
 
-:root.light-mode .form-actions a:hover {
+:root.light-mode .form-actions a:hover,
+:root.light-mode .payment-btn:hover {
     background-color: #f5f5f5;
     border-color: var(--neon-pink);
     color: var(--neon-pink);
     box-shadow: 0 10px 22px rgba(255, 20, 147, 0.22);
 }
 
-:root.light-mode .form-actions a:active {
+:root.light-mode .form-actions a:active,
+:root.light-mode .payment-btn:active {
     box-shadow: 0 6px 16px rgba(255, 20, 147, 0.15);
 }
 
@@ -5657,7 +5814,7 @@ main {
 /* Pagination Styling */
 .pagination {
     gap: 0.25rem;
-    margin-bottom: 0;
+    padding-top: 2rem;
 }
 
 .pagination .page-item {

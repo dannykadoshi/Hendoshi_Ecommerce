@@ -1861,3 +1861,201 @@ input[type="file"]:hover::-ms-browse {
         margin-left: 0;
     }
 }
+
+/* ================================
+   BULK PRODUCT CREATION - LIGHT MODE
+   ================================ */
+
+:root.light-mode .info-box {
+    background: rgba(255, 20, 147, 0.05);
+    color: #222;
+}
+
+:root.light-mode .category-title {
+    color: #222;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .product-type-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .product-type-card:hover {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+:root.light-mode .product-type-card .name {
+    color: #222;
+}
+
+:root.light-mode .product-type-card .category {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+:root.light-mode .audience-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .audience-card:hover {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+:root.light-mode .audience-card .name {
+    color: #222;
+}
+
+:root.light-mode .selection-summary {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+:root.light-mode .bulk-accordion .accordion-item {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .bulk-accordion .accordion-button {
+    color: #222;
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .bulk-accordion .accordion-button::after {
+    filter: none;
+}
+
+:root.light-mode .bulk-accordion .accordion-button:not(.collapsed) {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+:root.light-mode .bulk-accordion .accordion-body {
+    background: rgba(0, 0, 0, 0.01);
+    color: #222;
+}
+
+:root.light-mode .bulk-accordion .product-title {
+    color: #222;
+}
+
+:root.light-mode .bulk-accordion .variant-toggles label {
+    background: rgba(0, 0, 0, 0.03);
+    color: #222;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .bulk-accordion .variant-toggles label:hover {
+    background: rgba(255, 20, 147, 0.05);
+}
+
+:root.light-mode .bulk-delete-product-info strong {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .bulk-delete-product-info small {
+    color: #333;
+}
+
+:root.light-mode .bulk-actions-card {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:root.light-mode .auth-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .auth-card .list-group .list-group-item {
+    background: rgba(0, 0, 0, 0.01);
+    color: #222;
+}
+
+/* Selection Summary Light Mode */
+:root.light-mode .selection-count {
+    color: #222;
+}
+
+:root.light-mode .selection-count span {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .summary-details-text {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* Explanatory Text Light Mode */
+:root.light-mode .explanatory-text {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .explanatory-text code {
+    background: rgba(255, 20, 147, 0.1);
+    color: #d63384;
+}
+
+/* Shared Section Light Mode */
+:root.light-mode .shared-section {
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.08) 0%, rgba(255, 20, 147, 0.03) 100%);
+}
+
+/* Quick Actions Light Mode */
+:root.light-mode .quick-actions {
+    background: rgba(255, 20, 147, 0.03);
+}
+
+:root.light-mode .quick-actions strong {
+    color: #222;
+}
+
+/* Progress Indicator Light Mode */
+:root.light-mode .progress-indicator {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Admin Action Buttons Light Mode - Better color selection */
+:root.light-mode .btn-outline-info {
+    color: #0d6efd;
+    border-color: #0d6efd;
+    background: transparent;
+}
+
+:root.light-mode .btn-outline-info:hover {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+:root.light-mode .btn-outline-info i {
+    color: inherit;
+}
+
+:root.light-mode .btn-outline-primary {
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    background: transparent;
+}
+
+:root.light-mode .btn-outline-primary:hover {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: #fff;
+}
+
+:root.light-mode .btn-outline-primary i {
+    color: inherit;
+}
+
+/* Edit button - softer pink styling */
+:root.light-mode .auth-card .table .btn-outline-pink,
+:root.light-mode .archived-products-table .btn-outline-pink {
+    background: rgba(255, 20, 147, 0.1);
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    box-shadow: none;
+}
+
+:root.light-mode .auth-card .table .btn-outline-pink:hover,
+:root.light-mode .archived-products-table .btn-outline-pink:hover {
+    background: var(--neon-pink);
+    color: #fff;
+}

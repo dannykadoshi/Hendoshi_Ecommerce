@@ -1040,58 +1040,10 @@ window.confirmVaultAction = function(action, photoId, title, message, iconClass,
     }
     
     showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction);
-    return false; // Prevent default form submission
-};
+        return false; // Prevent default form submission
+    };
 
-// Initialize all vault functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeGalleryFilter();
-    initializeGalleryLikes();
-    initializePhotoDetailLikes();
-    initializeVoting();
-    initializePhotoDetailShare();
-    initializeFeaturedCarousel();
-    initializeSubmitMultiSelect();
-    initializeSubmitUploadZone();
-    initializeSubmitFormValidation();
-    initializeModerationBulkSelection();
-    initializeModerationAutoSubmit();
-    
-    // Add event listener for rejection reason textarea if it exists
-    const rejectionTextarea = document.getElementById('rejection-reason');
-    if (rejectionTextarea) {
-        rejectionTextarea.addEventListener('input', updateRejectionCharCount);
-    }
-    
-    // Handle modal confirm button click if it exists
-    const confirmBtn = document.getElementById('modal-confirm-btn');
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', function() {
-            if (currentFormToSubmit) {
-                // If this is a rejection, include the rejection reason
-                const rejectionReason = document.getElementById('rejection-reason');
-                if (rejectionReason && rejectionReason.value.trim()) {
-                    const reasonInput = currentFormToSubmit.querySelector('input[name="rejection_reason"]');
-                    if (reasonInput) {
-                        reasonInput.value = rejectionReason.value.trim();
-                    }
-                }
-                currentFormToSubmit.submit();
-            }
-            // Hide modal
-            const modalEl = document.getElementById('vaultConfirmModal');
-            if (modalEl) {
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) modal.hide();
-            }
-        });
-    }
-
-    // Make navbar solid without changing global glassmorphism utilities
-    try {
-        const navbarEl = document.querySelector('.navbar');
-        if (navbarEl) navbarEl.classList.add('solid-navbar');
-    } catch (e) {
-        // defensive: do nothing if DOM structure differs
-    }
-});
+    /*
+     * Duplicate DOMContentLoaded block removed.
+     * Initialization is handled earlier in this file (single entrypoint retained).
+     */

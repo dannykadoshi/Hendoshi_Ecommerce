@@ -85,9 +85,14 @@
 }
 
 :root.light-mode .navbar {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%) !important;
     border-bottom-color: rgba(231, 31, 127, 0.2);
     box-shadow: 0 4px 30px rgba(231, 31, 127, 0.1);
+}
+
+/* Override Bootstrap's navbar-dark class in light mode */
+:root.light-mode .navbar.navbar-dark {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%) !important;
 }
 
 .navbar-container {
@@ -284,16 +289,23 @@
     filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
 }
 
-/* Light mode gradient text */
+/* Light mode gradient text - keep same gradient as dark mode */
 :root.light-mode .navbar .gradient-text {
-    color: #E71F7F;
-    background: none;
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
 }
 
 :root.light-mode .navbar .gradient-text:hover {
-    color: #FFFFFF;
-    background: linear-gradient(135deg, #E71F7F, #FF69B4);
-    background-clip: unset;
+    background: linear-gradient(135deg, var(--electric-yellow) 0%, var(--neon-pink) 50%, #ff4757 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
 }
 
 /* Mobile gradient text */

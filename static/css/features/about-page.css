@@ -196,3 +196,27 @@
 :root.light-mode .testimonial-card {
     background: rgba(0, 0, 0, 0.03);
 }
+
+:root.light-mode .stat-number {
+    color: #222;
+}
+
+:root.light-mode .stat-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .section-title {
+    color: #222;
+}
+
+:root.light-mode .testimonial-text {
+    color: #333;
+}
+
+:root.light-mode .testimonial-author strong {
+    color: #222;
+}
+
+:root.light-mode .author-meta {
+    color: rgba(0, 0, 0, 0.6);
+}

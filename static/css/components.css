@@ -145,6 +145,9 @@
 .tight { margin-top: 1rem; }
 .small.muted { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
 
+/* Canonical .page-hero rules are defined in
+   static/css/features/vault-community.css — keep overrides out of components.css */
+
 /* Layout fixes for symmetric About page */
 .contact-card {
     margin: 0 auto;
@@ -777,6 +780,40 @@
 :root.light-mode .delete-confirm-modal .modal-body,
 :root.light-mode .delete-message {
     color: #333;
+}
+
+/* Policy Pages Light Mode (Privacy, Terms, Returns, etc.) */
+:root.light-mode .contact-card p {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .contact-card ul {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .contact-card strong {
+    color: #222;
+}
+
+:root.light-mode .about-vibrant .lead {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .small.muted {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .contact-info-card {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .contact-info-card h5 {
+    color: #222;
+}
+
+:root.light-mode .contact-info-card p {
+    color: rgba(0, 0, 0, 0.7);
 }
 
 /* Universal Vault Modal Styles - Pink Glassmorphism */
@@ -4420,6 +4457,18 @@ body.cart-drawer-open {
     box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 
+/* Light mode glassmorphic card */
+:root.light-mode .glassmorphic-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(255, 20, 147, 0.15) !important;
+}
+
+:root.light-mode .glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-color: rgba(255, 20, 147, 0.3) !important;
+    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.2);
+}
+
 /* Glassmorphic Utility Classes */
 .bg-glass-light {
     background: var(--bg-glass-light);
@@ -4459,7 +4508,7 @@ body.cart-drawer-open {
     letter-spacing: 2px;
     transition: all 0.3s;
     border: 2px solid var(--neon-pink);
-    padding: 1rem 3rem;
+    padding: 0.5rem 0.5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;

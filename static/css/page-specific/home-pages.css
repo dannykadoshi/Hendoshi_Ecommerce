@@ -1216,3 +1216,61 @@
 :root.light-mode .faq-item {
     border-bottom-color: rgba(0, 0, 0, 0.1);
 }
+
+:root.light-mode .faq-answer {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* Shipping, Returns, Size Guide, FAQ - Light Mode Text */
+:root.light-mode .shipping-heading {
+    color: #222;
+}
+
+:root.light-mode .shipping-description {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .region-title {
+    color: #222;
+}
+
+:root.light-mode .step-title {
+    color: #222;
+}
+
+:root.light-mode .step-detail {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .requirement-detail {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .additional-heading {
+    color: #222;
+}
+
+:root.light-mode .additional-list li {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .non-returnable-list li {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .contact-text {
+    color: #222;
+}
+
+:root.light-mode .size-table td {
+    color: #222;
+}
+
+:root.light-mode .size-table th {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .shipping-region {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+}

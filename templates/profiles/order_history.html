@@ -29,7 +29,7 @@
     </section>
 
     {# djlint:off H025 #}
-    <div class="container checkout-container mb-5">
+    <div class="container-fluid page-container admin-products-container mt-n3 mb-5">
         <div class="checkout-wrapper">
         
         <div class="checkout-content checkout-content-spaced">
@@ -91,43 +91,77 @@
                         
                         <!-- Pagination -->
                         {% if orders.has_other_pages %}
-                            <nav aria-label="Order history pagination" class="mt-4">
-                                <ul class="pagination justify-content-center">
+                            <nav aria-label="Order history pagination">
+                                <ul class="pagination justify-content-end mb-0">
                                     {% if orders.has_previous %}
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=1{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">
-                                                <i class="fas fa-angle-double-left"></i>
-                                            </a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page={{ orders.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">
-                                                <i class="fas fa-angle-left"></i>
-                                            </a>
+                                            <a class="page-link" href="?page={{ orders.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">Previous</a>
                                         </li>
                                     {% endif %}
-                                    
-                                    {% for num in orders.paginator.page_range %}
-                                        {% if orders.number == num %}
-                                            <li class="page-item active">
-                                                <a class="page-link" href="?page={{ num }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ num }}</a>
-                                            </li>
-                                        {% else %}
-                                            <li class="page-item">
-                                                <a class="page-link" href="?page={{ num }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ num }}</a>
-                                            </li>
+
+                                    {% with total=orders.paginator.num_pages current=orders.number %}
+                                        {% if current > 4 %}
+                                            <li class="page-item"><a class="page-link" href="?page=1{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">1</a></li>
+                                            <li class="page-item disabled"><span class="page-link">…</span></li>
                                         {% endif %}
-                                    {% endfor %}
-                                    
+
+                                        {# Explicit window: current-2, current-1, current, current+1, current+2 #}
+                                        {% with p=current|add:"-2" %}
+                                            {% if p > 0 and p <= total %}
+                                                {% if p == current %}
+                                                    <li class="page-item active"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% else %}
+                                                    <li class="page-item"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
+
+                                        {% with p=current|add:"-1" %}
+                                            {% if p > 0 and p <= total %}
+                                                {% if p == current %}
+                                                    <li class="page-item active"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% else %}
+                                                    <li class="page-item"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
+
+                                        {% comment %} current page {% endcomment %}
+                                        {% with p=current %}
+                                            {% if p > 0 and p <= total %}
+                                                <li class="page-item active"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                            {% endif %}
+                                        {% endwith %}
+
+                                        {% with p=current|add:"1" %}
+                                            {% if p > 0 and p <= total %}
+                                                {% if p == current %}
+                                                    <li class="page-item active"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% else %}
+                                                    <li class="page-item"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
+
+                                        {% with p=current|add:"2" %}
+                                            {% if p > 0 and p <= total %}
+                                                {% if p == current %}
+                                                    <li class="page-item active"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% else %}
+                                                    <li class="page-item"><a class="page-link" href="?page={{ p }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ p }}</a></li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
+
+                                        {% if current < total|add:-3 %}
+                                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                                            <li class="page-item"><a class="page-link" href="?page={{ total }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">{{ total }}</a></li>
+                                        {% endif %}
+                                    {% endwith %}
+
                                     {% if orders.has_next %}
                                         <li class="page-item">
-                                            <a class="page-link" href="?page={{ orders.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">
-                                                <i class="fas fa-angle-right"></i>
-                                            </a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page={{ orders.paginator.num_pages }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">
-                                                <i class="fas fa-angle-double-right"></i>
-                                            </a>
+                                            <a class="page-link" href="?page={{ orders.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">Next</a>
                                         </li>
                                     {% endif %}
                                 </ul>

@@ -2398,3 +2398,124 @@ h2.gradient-title {
 }
 
 /* Moved from templates/cart/cart.html */
+
+/* ================================================
+   LIGHT MODE OVERRIDES - Products Page
+   ================================================ */
+
+/* Product card text */
+:root.light-mode .product-info h3 {
+    color: #222;
+}
+
+:root.light-mode .product-card:hover .product-info h3 {
+    color: var(--neon-pink);
+}
+
+/* Discounted price - make visible in light mode */
+:root.light-mode .product-price .original-price {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .product-price .sale-price {
+    color: var(--neon-pink);
+}
+
+/* Product collection text */
+:root.light-mode .product-collection {
+    color: #666;
+}
+
+/* Product type gradient - keep visible */
+:root.light-mode .product-type {
+    background: linear-gradient(90deg, #d9b000, var(--neon-pink));
+    background-clip: text;
+    color: transparent;
+}
+
+/* Filters dropdown for light mode */
+:root.light-mode .filters-dropdown {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(255, 20, 147, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 20, 147, 0.1);
+}
+
+:root.light-mode .filters-dropdown.show {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+:root.light-mode .filters-title {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-tab {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+:root.light-mode .filter-tab.active {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-tab:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .filter-option {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+:root.light-mode .filter-option:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .filter-option.active {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-column h3 {
+    color: var(--neon-pink);
+    border-bottom-color: rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .filter-column ul li a {
+    color: #333;
+}
+
+:root.light-mode .filter-column ul li a:hover,
+:root.light-mode .filter-column ul li a.active {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-note {
+    color: #555;
+}
+
+:root.light-mode .checkbox-option .checkmark {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+:root.light-mode .checkbox-option:hover .checkmark {
+    border-color: rgba(255, 20, 147, 0.5);
+    background: rgba(255, 20, 147, 0.05);
+}
+
+/* Product card */
+:root.light-mode .product-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 20, 147, 0.15);
+}
+
+:root.light-mode .product-card:hover {
+    border-color: var(--neon-pink);
+}

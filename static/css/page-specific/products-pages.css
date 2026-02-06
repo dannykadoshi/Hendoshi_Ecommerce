@@ -1259,11 +1259,7 @@
 
 /* ===== ADMIN_CREATE_COLLECTION ===== */
 
-/* Vault Page Hero Styles */
-.vault-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
+/* .vault-page moved to vault-community.css for single canonical definition */
 
 /* Mobile optimization for hero buttons */
 @media (max-width: 768px) {

@@ -7,11 +7,7 @@
 
 /* .about-buttons .btn-pink moved to components.css for canonical styling */
 
-/* Vault Page Hero Styles */
-.vault-page {
-    min-height: 100vh;
-    padding-top: 120px;
-}
+/* .vault-page moved to vault-community.css for single canonical definition */
 
 .page-container styles consolidated to components.css
 

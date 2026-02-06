@@ -62,6 +62,7 @@
     
     .order-totals table td {
         padding: 0.25rem 0;
+        color: var(--off-white);
     }
     
     .order-totals table td:first-child {
@@ -84,6 +85,15 @@
     .order-totals table tr.total-row td:last-child {
         font-size: 1.1rem;
         color: var(--electric-yellow);
+    }
+    
+    /* Light Mode - Ensure text visibility */
+    :root.light-mode .order-totals table td {
+        color: #222;
+    }
+    
+    :root.light-mode .order-totals table td.text-muted {
+        color: rgba(0, 0, 0, 0.6);
     }
     
     /* Style discount amount cell with inline edit icon */
