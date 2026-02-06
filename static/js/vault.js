@@ -1,15 +1,26 @@
 // HENDOSHI Vault JavaScript
 // Contains all vault-specific functionality
 
+// Analytics tracking for vault interactions
+function trackVaultEvent(action, details = {}) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'vault_interaction', {
+            action: action,
+            page_location: window.location.pathname,
+            ...details
+        });
+    }
+}
+
 // Gallery Filter Dropdown
 function initializeGalleryFilter() {
     const input = document.getElementById('product_filter');
     const hiddenInput = document.getElementById('product_value');
     const dropdown = document.getElementById('product-dropdown');
-    
+
     // Only initialize if required elements exist (gallery page)
     if (!input || !hiddenInput || !dropdown) return;
-    
+
     const items = dropdown.querySelectorAll('.vault-dropdown-item');
     let selectedIndex = -1;
 
@@ -52,13 +63,26 @@ function initializeGalleryFilter() {
     }
 
     function selectItem(item) {
-        input.value = item.textContent;
-        hiddenInput.value = item.dataset.value;
+        const productSlug = item.dataset.value;
+        const productName = item.textContent;
+
+        input.value = productName;
+        hiddenInput.value = productSlug;
         hideDropdown();
+
+        // Track filter application
+        trackVaultEvent('filter_applied', {
+            product_slug: productSlug,
+            product_name: productName,
+            filter_type: 'dropdown'
+        });
     }
 
     // Input event listeners
-    input.addEventListener('focus', showDropdown);
+    input.addEventListener('focus', function() {
+        showDropdown();
+        trackVaultEvent('filter_opened', { filter_type: 'dropdown' });
+    });
     input.addEventListener('input', filterItems);
 
     input.addEventListener('keydown', function(e) {
@@ -107,6 +131,24 @@ function initializeGalleryFilter() {
         if (!input.contains(e.target) && !dropdown.contains(e.target)) {
             hideDropdown();
         }
+    });
+}
+
+// Initialize product chip interactions
+function initializeProductChips() {
+    const chips = document.querySelectorAll('.vault-product-chip');
+    chips.forEach(chip => {
+        chip.addEventListener('click', function(e) {
+            // Let the link work normally, but track the event
+            const productSlug = this.getAttribute('href').split('=')[1];
+            const productName = this.textContent.split(' (')[0]; // Remove count from name
+
+            trackVaultEvent('chip_clicked', {
+                product_slug: productSlug,
+                product_name: productName,
+                filter_type: 'chip'
+            });
+        });
     });
 }
 
@@ -835,6 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gallery page
     if (document.getElementById('product_filter')) {
         initializeGalleryFilter();
+        initializeProductChips();
         initializeGalleryLikes();
     }
 

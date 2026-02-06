@@ -95,11 +95,21 @@ def vault_gallery(request):
     # Get all products for filter dropdown
     all_products = Product.objects.filter(is_archived=False).order_by('name')
 
+    # Get products with photo counts for chips (top products with most photos)
+    from django.db.models import Count
+    products_with_counts = Product.objects.filter(
+        is_archived=False,
+        vault_photos__status='approved'
+    ).annotate(
+        photo_count=Count('vault_photos')
+    ).order_by('-photo_count')[:8]  # Top 8 products
+
     context = {
         'photos': page_obj,
         'page_obj': page_obj,
         'product_filter': product_filter,
         'all_products': all_products,
+        'products_with_counts': products_with_counts,
         'featured_photos': featured_photos,
     }
     return render(request, 'vault/vault_gallery.html', context)

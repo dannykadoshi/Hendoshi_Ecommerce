@@ -32,7 +32,7 @@
         </div>
     </section>
 
-    <div class="container page-container">
+    <div class="container-fluid page-container">
 
     <!-- Featured Photos Carousel -->
     {% if featured_photos %}
@@ -53,7 +53,7 @@
                         <div class="vault-featured-item">
                             <div class="vault-featured-card glassmorphic-card">
                                 <div class="vault-featured-image-container">
-                                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-featured-image">
+                                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-featured-image" loading="lazy">
                                     <div class="vault-featured-overlay">
                                         <div class="vault-featured-badge">
                                             <i class="fas fa-star"></i> FEATURED
@@ -99,48 +99,75 @@
                         {% endfor %}
                     </div>
 
-                    <button class="vault-carousel-btn vault-carousel-prev" id="featured-prev">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="vault-carousel-btn vault-carousel-next" id="featured-next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
                 </div>
             </div>
     {% endif %}
 
     <!-- Filters -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-center">
-                <form method="get" class="d-flex gap-2 align-items-center">
-                    <label for="product_filter" class="vault-filter-label">Filter by Product:</label>
-                    <div class="position-relative">
-                        <input type="text" id="product_filter" class="form-control vault-filter-select" placeholder="Type to search products..." autocomplete="off">
-                        <input type="hidden" name="product" id="product_value">
-                        <div id="product-dropdown" class="vault-dropdown">
-                            <div class="vault-dropdown-item" data-value="">All Photos</div>
-                            {% for product in all_products %}
-                            <div class="vault-dropdown-item" data-value="{{ product.slug }}">{{ product.name }}</div>
+    <div class="vault-filters-section mb-4">
+        <div class="container">
+            <!-- Main Filter -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <form method="get" class="vault-filter-form d-flex gap-2 align-items-center">
+                            <label for="product_filter" class="vault-filter-label">Filter by Product:</label>
+                            <div class="position-relative vault-filter-container">
+                                <input type="text"
+                                       id="product_filter"
+                                       class="form-control vault-filter-select"
+                                       placeholder="Filter by product (optional)"
+                                       autocomplete="off"
+                                       aria-label="Filter vault photos by product">
+                                <input type="hidden" name="product" id="product_value">
+                                <div id="product-dropdown" class="vault-dropdown" role="listbox">
+                                    <div class="vault-dropdown-item" data-value="" role="option">All Photos</div>
+                                    {% for product in all_products %}
+                                    <div class="vault-dropdown-item" data-value="{{ product.slug }}" role="option">{{ product.name }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-pink btn-sm vault-filter-btn">Filter</button>
+                            {% if product_filter %}
+                            <a href="{% url 'vault:vault_gallery' %}" class="btn btn-clear-ghost vault-clear-btn" onclick="trackVaultEvent('filter_cleared')">
+                                <i class="fas fa-times"></i> Clear
+                            </a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Chips -->
+            {% if products_with_counts %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="vault-product-chips">
+                        <div class="vault-chips-label">Popular products:</div>
+                        <div class="vault-chips-container">
+                            {% for product in products_with_counts %}
+                            <a href="?product={{ product.slug }}"
+                               class="vault-product-chip {% if product_filter == product.slug %}active{% endif %}"
+                               onclick="trackVaultEvent('chip_clicked', { product_slug: '{{ product.slug }}', product_name: '{{ product.name }}' })">
+                                {{ product.name }} <span class="chip-count">({{ product.photo_count }})</span>
+                            </a>
                             {% endfor %}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-pink btn-sm">Filter</button>
-                    {% if product_filter %}
-                    <a href="{% url 'vault:vault_gallery' %}" class="btn btn-clear-ghost">Clear</a>
-                    {% endif %}
-                </form>
+                </div>
             </div>
+            {% endif %}
         </div>
     </div>
 
     <!-- Photo Grid -->
-    <div class="row g-4" id="photo-grid">
-        {% for photo in photos %}
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="vault-card glassmorphic-card">
+    <div class="vault-grid-wrapper">
+        <div class="vault-grid" id="photo-grid">
+            {% for photo in photos %}
+            <div class="vault-card-wrapper">
+                <div class="vault-card glassmorphic-card">
                 <div class="vault-image-container">
-                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-image">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-image" loading="lazy">
                     <div class="vault-overlay">
                         <div class="d-flex justify-content-center align-items-center gap-2">
                             <a href="{% url 'vault:photo_detail' photo.id %}" class="vault-overlay-link">
@@ -180,7 +207,7 @@
             </div>
         </div>
         {% empty %}
-        <div class="col-12 text-center">
+        <div class="vault-empty-wrapper">
             <p class="vault-empty">No photos yet. Be the first to submit!</p>
             {% if user.is_authenticated %}
             <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink">Submit Your Photo</a>
@@ -190,6 +217,7 @@
         </div>
         {% endfor %}
     </div>
+</div>
 
     <!-- Pagination -->
     {% if page_obj.has_other_pages %}
