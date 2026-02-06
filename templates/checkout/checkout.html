@@ -28,15 +28,11 @@
         </div>
     </section>
 
-    {# djlint:off H025 #}
-    <div class="container-fluid page-container mt-2 mb-5">
-        <div class="container checkout-container">
-            <div class="checkout-wrapper">
-            {# djlint:on #}
-            {% include 'includes/checkout-progress.html' %}
+    <div class="checkout-page-layout">
+        {% include 'includes/checkout-progress.html' %}
 
         <!-- Main Content -->
-        <div class="checkout-content">
+        <div class="checkout-main-content">
 
     <div class="checkout-header d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -271,13 +267,15 @@
                     <a href="{% url 'view_cart' %}" class="btn btn-pink w-100 w-sm-auto">
                         <i class="fas fa-arrow-left me-2"></i> Back to Cart
                     </a>
-                    <button type="submit" form="checkoutForm" class="btn btn-pink w-100 w-sm-auto">
+                    <button type="submit" form="checkoutForm" class="btn btn-pink btn-cta w-100 w-sm-auto">
                         <i class="fas fa-lock me-2"></i> Continue to Payment
                     </button>
                 </div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

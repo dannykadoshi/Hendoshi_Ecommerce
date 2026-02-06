@@ -4503,15 +4503,19 @@ body.cart-drawer-open {
 .btn.btn-pink {
     color: #000;
     background-color: var(--neon-pink);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s;
     border: 2px solid var(--neon-pink);
-    padding: 0.5rem 0.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
+    min-width: 180px;
 }
 
 .btn-pink:hover,
@@ -4519,8 +4523,8 @@ body.cart-drawer-open {
     background-color: var(--electric-yellow);
     border-color: var(--electric-yellow);
     color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(204, 255, 0, 0.25);
 }
 
 .btn-pink:disabled,
@@ -4528,6 +4532,54 @@ body.cart-drawer-open {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+:root.light-mode .btn-pink,
+:root.light-mode .btn.btn-pink {
+    color: #fff;
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    padding: 0.95rem 1.25rem;
+}
+
+:root.light-mode .btn-pink:hover,
+:root.light-mode .btn.btn-pink:hover {
+    background-color: var(--electric-yellow);
+    border-color: var(--electric-yellow);
+    color: #000;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(204, 255, 0, 0.25);
+}
+
+:root.light-mode .btn-pink:active,
+:root.light-mode .btn.btn-pink:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px rgba(255, 20, 147, 0.15);
+}
+
+/* Override btn-pink styles when combined with btn-cta */
+.btn-pink.btn-cta {
+    background: linear-gradient(135deg, var(--electric-yellow) 0%, #FFD700 100%) !important;
+    border: 2px solid var(--electric-yellow) !important;
+    color: var(--black) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.5) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-pink.btn-cta:hover {
+    background: linear-gradient(135deg, #FFD700 0%, var(--electric-yellow) 100%) !important;
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.8) !important;
+    transform: translateY(-2px) !important;
+    border-color: #FFD700 !important;
+}
+
+.btn-pink.btn-cta:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.6) !important;
 }
 
 /* Form Text Utility Classes */
@@ -4839,4 +4891,14 @@ body.cart-drawer-open {
 
 :root.light-mode .quick-add-modal-close {
     --bs-btn-close-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23E71F7F' stroke-linecap='round' stroke-width='2' d='M3 3l10 10M13 3L3 13'/%3E%3C/svg%3E");
+}
+
+/* Mobile overrides for btn-pink */
+@media (max-width: 768px) {
+    .btn-pink,
+    .btn.btn-pink {
+        padding: 0.95rem 1.25rem;
+        font-size: 1rem;
+        min-width: 160px;
+    }
 }

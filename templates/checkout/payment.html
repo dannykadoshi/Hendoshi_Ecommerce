@@ -29,14 +29,13 @@
         </div>
     </section>
 
-    <div class="container-fluid page-container mt-2 mb-5">
-        <div class="container checkout-container">
-            <div class="checkout-wrapper">
-            {% include 'includes/checkout-progress.html' %}
+    <div class="checkout-page-layout">
+        {% include 'includes/checkout-progress.html' %}
 
-        <!-- Main Content -->
-        <div class="checkout-content">
-            <div class="checkout-main">
+        <!-- Main Content - Two Column Grid -->
+        <div class="checkout-two-column">
+            <!-- Left Column: Shipping + Payment -->
+            <div class="checkout-left-column">
                 <!-- Shipping Rate Selector (Prominent) -->
                 <div class="shipping-selector-prominent glassmorphic-card mb-4">
                     <div class="shipping-selector-header">
@@ -67,85 +66,6 @@
                     {% else %}
                     <p class="text-muted">No shipping rates available.</p>
                     {% endif %}
-                </div>
-
-                <!-- Order Summary (moved above payment) -->
-                <div class="order-summary-card mb-4">
-                    <div class="summary-header">
-                        <div>
-                            <strong>Order</strong>
-                            <div class="small text-muted">#{{ order.order_number }}</div>
-                        </div>
-                        <div class="text-end">
-                            <span id="summary-item-count" class="badge bg-dark">{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
-                        </div>
-                    </div>
-
-                    <details open>
-                        <summary class="d-flex justify-content-between align-items-center">
-                            <div class="small text-muted">Items</div>
-                            <div class="toggle-icon">▶</div>
-                        </summary>
-                        <div class="items-list mt-2">
-                            {% for item in order.items.all %}
-                                <div class="item-summary">
-                                    <div class="item-details">
-                                        <strong>{{ item.product.name }}</strong>
-                                        <small class="d-block text-muted">Size: {{ item.size }}, {{ item.color }} • Qty {{ item.quantity }}</small>
-                                    </div>
-                                    <div class="item-price">€{{ item.price|floatformat:2 }}</div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </details>
-
-                    <div class="order-totals mt-3">
-                        <table>
-                            <tbody>
-                                <tr>
-                                            <td class="text-muted">Subtotal</td>
-                                            <td id="summary-subtotal">€{{ order.subtotal|floatformat:2 }}</td>
-                                        </tr>
-                                <tr id="shipping-row">
-                                    <td class="text-muted">Shipping</td>
-                                    <td id="summary-shipping-amount">
-                                        {% if order.shipping_cost %}
-                                            €{{ order.shipping_cost|floatformat:2 }}
-                                        {% else %}
-                                            <span class="text-success fw-bold">FREE</span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% if order.tax_amount %}
-                                <tr>
-                                    <td class="text-muted">Tax</td>
-                                    <td>€{{ order.tax_amount|floatformat:2 }}</td>
-                                </tr>
-                                {% endif %}
-                                {% if order.discount_amount %}
-                                <tr id="discount-row">
-                                    <td class="text-muted discount-label-cell">
-                                        Discount{% if order.discount_code %} (<span id="summary-discount-code">{{ order.discount_code.code }}</span>){% endif %}
-                                        <a href="{% url 'view_cart' %}" class="edit-discount-icon" aria-label="Edit discount" title="Edit discount">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td id="summary-discount-value" class="text-success">-€{{ order.discount_amount|floatformat:2 }}</td>
-                                </tr>
-                                {% endif %}
-                                <tr class="total-row">
-                                    <td><strong>Total</strong></td>
-                                    <td><strong id="summary-total-amount" class="total-amount">€{{ order.total_amount|floatformat:2 }}</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="mt-3 text-center">
-                        <a href="{% url 'view_cart' %}" class="btn btn-pink btn-sm">
-                            <i class="fas fa-arrow-left"></i> Return to Cart
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Payment Section -->
@@ -232,34 +152,114 @@
                             <i class="fab fa-cc-apple-pay payment-method-icon"></i>
                             <i class="fab fa-google-pay payment-method-icon"></i>
                         </div>
-
-                        <div class="form-actions mt-4">
-                            <a href="{% url 'checkout' %}" class="btn btn-pink btn-lg payment-btn">
-                                <i class="fas fa-arrow-left back-icon"></i>Back to Shipping
-                            </a>
-                            <button type="submit" class="btn btn-cta btn-lg payment-btn" id="submitPayment">
-                                <span class="default-text"><i class="fas fa-lock"></i> Pay €{{ order.total_amount }}</span>
-                                <span class="loading-text d-none">
-                                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                                    Processing...
-                                </span>
-                            </button>
-                        </div>
                     </form>
 
                     <div id="paymentLoading" class="payment-loading-overlay d-none" aria-hidden="true">
                         <div class="spinner-border text-light" role="status"></div>
                         <p class="mt-3 mb-0">Confirming payment…</p>
                     </div>
+
+                    <!-- Action Buttons moved to bottom of payment-section -->
+                    <div class="mt-4 d-flex flex-column-reverse flex-sm-row gap-3">
+                        <a href="{% url 'checkout' %}" class="btn btn-pink w-100 w-sm-auto">
+                            <i class="fas fa-arrow-left me-2"></i> Back to Shipping
+                        </a>
+                        <button type="submit" form="paymentForm" class="btn btn-pink btn-cta w-100 w-sm-auto" id="submitPayment">
+                            <span class="default-text"><i class="fas fa-lock me-2"></i> Pay <span class="pay-amount">€{{ order.total_amount }}</span></span>
+                            <span class="loading-text d-none">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                                Processing...
+                            </span>
+                        </button>
+                    </div>
                 </section>
             </div>
 
-            <!-- Sidebar removed (order summary displayed above payment for clarity) -->
-        </div>
-    </div>
+            <!-- Right Column: Order Summary (Sticky) -->
+            <div class="checkout-right-column">
+                <div class="order-summary-card">
+                    <div class="summary-header">
+                        <div>
+                            <strong>Order</strong>
+                            <div class="small text-muted">#{{ order.order_number }}</div>
+                        </div>
+                        <div class="text-end">
+                            <span id="summary-item-count" class="badge bg-dark">{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
+                        </div>
+                    </div>
 
+                    <details class="order-items-details">
+                        <summary class="d-flex justify-content-between align-items-center">
+                            <div class="small text-muted">View Items ({{ order.items.count }})</div>
+                            <div class="toggle-icon">▶</div>
+                        </summary>
+                        <div class="items-list mt-2">
+                            {% for item in order.items.all %}
+                                <div class="item-summary">
+                                    <div class="item-details">
+                                        <strong>{{ item.product.name }}</strong>
+                                        <small class="d-block text-muted">Size: {{ item.size }}, {{ item.color }} • Qty {{ item.quantity }}</small>
+                                    </div>
+                                    <div class="item-price">€{{ item.price|floatformat:2 }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+
+                    <div class="order-totals mt-3">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Subtotal</td>
+                                    <td id="summary-subtotal">€{{ order.subtotal|floatformat:2 }}</td>
+                                </tr>
+                                <tr id="shipping-row">
+                                    <td class="text-muted">Shipping</td>
+                                    <td id="summary-shipping-amount">
+                                        {% if order.shipping_cost %}
+                                            €{{ order.shipping_cost|floatformat:2 }}
+                                        {% else %}
+                                            <span class="text-success fw-bold">FREE</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% if order.tax_amount %}
+                                <tr>
+                                    <td class="text-muted">Tax</td>
+                                    <td>€{{ order.tax_amount|floatformat:2 }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if order.discount_amount %}
+                                <tr id="discount-row">
+                                    <td class="text-muted discount-label-cell">
+                                        Discount{% if order.discount_code %} (<span id="summary-discount-code">{{ order.discount_code.code }}</span>){% endif %}
+                                        <a href="{% url 'view_cart' %}" class="edit-discount-icon" aria-label="Edit discount" title="Edit discount">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td id="summary-discount-value" class="text-success">-€{{ order.discount_amount|floatformat:2 }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr class="total-row">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong id="summary-total-amount" class="total-amount">€{{ order.total_amount|floatformat:2 }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Return to Cart - Desktop only -->
+                    <div class="mt-3 text-center d-none d-lg-block">
+                        <a href="{% url 'view_cart' %}" class="btn btn-pink btn-sm">
+                            <i class="fas fa-arrow-left"></i> Return to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Return to Cart removed: button kept for desktop only -->
     </div>
-</div>
 </div>
 
 {% endblock %}

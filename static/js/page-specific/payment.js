@@ -77,13 +77,18 @@
                 totalEl.textContent = formatMoney(data.cart_total);
             }
 
-            // Update pay button amount if present
+            // Update pay button amount if present (keep icon/text structure)
             const submitBtn = document.getElementById('submitPayment');
             if (submitBtn) {
-                const defaultText = submitBtn.querySelector('.default-text');
-                if (defaultText) {
-                    // Preserve other markup, replace amount after last space
-                    defaultText.textContent = 'Pay ' + formatMoney(data.cart_total);
+                const payAmount = submitBtn.querySelector('.pay-amount');
+                if (payAmount) {
+                    payAmount.textContent = formatMoney(data.cart_total);
+                } else {
+                    // fallback for older markup
+                    const defaultText = submitBtn.querySelector('.default-text');
+                    if (defaultText) {
+                        defaultText.textContent = 'Pay ' + formatMoney(data.cart_total);
+                    }
                 }
             }
 
