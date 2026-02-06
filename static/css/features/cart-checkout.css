@@ -2585,6 +2585,78 @@ main {
     display: inline-block;
 }
 
+/* Mobile Order History Cards */
+.clickable-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 12px;
+}
+
+.clickable-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 20, 147, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.15);
+}
+
+.clickable-card .card-body {
+    padding: 1rem;
+}
+
+.clickable-card .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.clickable-card .card-label {
+    color: var(--off-white);
+    opacity: 0.7;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clickable-card .text-green {
+    color: #00FF88;
+}
+
+.clickable-card .order-link {
+    color: var(--neon-pink);
+    font-weight: 600;
+}
+
+.clickable-card .badge.bg-pink {
+    background-color: var(--neon-pink);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+}
+
+/* Light mode for mobile order cards */
+:root.light-mode .clickable-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(231, 31, 127, 0.15);
+}
+
+:root.light-mode .clickable-card:hover {
+    border-color: rgba(231, 31, 127, 0.3);
+    box-shadow: 0 8px 25px rgba(231, 31, 127, 0.1);
+}
+
+:root.light-mode .clickable-card .card-label {
+    color: #666666;
+}
+
+:root.light-mode .clickable-card .text-green {
+    color: #00994D;
+}
+
+:root.light-mode .clickable-card .order-link {
+    color: #E71F7F;
+}
+
 .empty-state {
     text-align: center;
     padding: 3rem 0;

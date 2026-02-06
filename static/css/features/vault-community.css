@@ -319,13 +319,7 @@
     margin: 0;
 }
 
-.vault-featured-track {
-    display: flex;
-    gap: 1.5rem;
-    overflow: hidden;
-    scroll-behavior: smooth;
-    padding: 1rem 0;
-}
+/* .vault-featured-track styles defined below in carousel section */
 
 .vault-featured-item {
     flex: 0 0 280px;
@@ -2435,6 +2429,11 @@
     color: #E1306C;
 }
 
+.vault-featured-carousel-container {
+    position: relative;
+    overflow: visible;
+}
+
 .vault-featured-carousel {
     position: relative;
     overflow: hidden;
@@ -2445,22 +2444,15 @@
 .vault-featured-track {
     display: flex;
     gap: 1.5rem;
-    padding: 1rem 0;
-    animation: infinite-scroll 120s linear infinite;
+    padding: 1rem 60px 1rem 0;
     width: max-content;
     will-change: transform;
     transform: translateZ(0);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.vault-featured-track:hover {
-    animation-play-state: paused;
-}
-
-/* infinite-scroll keyframe moved to static/css/animations.css */
-
-/* Carousel controls and responsive styles follow below */
-
-.vault-carousel-btn {
+/* Carousel navigation buttons */
+.vault-featured-carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -2476,18 +2468,18 @@
     z-index: 10;
 }
 
-.vault-carousel-btn:hover {
+.vault-featured-carousel-btn:hover {
     background: #ff1493;
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
 }
 
-.vault-carousel-prev {
-    left: 20px;
+.vault-featured-carousel-prev {
+    left: 10px;
 }
 
-.vault-carousel-next {
-    right: 20px;
+.vault-featured-carousel-next {
+    right: 10px;
 }
 
 /* Responsive adjustments */
@@ -2498,10 +2490,10 @@
     }
 
     .vault-featured-track {
-        padding: 1rem 0;
+        padding: 1rem 50px 1rem 0;
     }
 
-    .vault-carousel-btn {
+    .vault-featured-carousel-btn {
         width: 40px;
         height: 40px;
     }
@@ -2563,8 +2555,7 @@
 @media (max-width: 768px) {
     .vault-featured-track {
         gap: 1.5rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding: 1rem 50px 1rem 1rem;
     }
 
     .vault-featured-item {
@@ -3206,7 +3197,7 @@
 .collections-track {
     display: flex;
     gap: 1.5rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 0 60px 0 0; /* Remove left padding, keep right padding for navigation */
 }
 

@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Featured Photos Carousel - Infinite Scroll
+// Featured Photos Carousel - Transform-based like Collections Carousel
 function initializeFeaturedCarousel() {
     const track = document.getElementById('featured-track');
     const prevBtn = document.getElementById('featured-prev');
@@ -914,61 +914,84 @@ function initializeFeaturedCarousel() {
     // Only initialize if required elements exist
     if (!track || !prevBtn || !nextBtn) return;
 
-    const originalItems = Array.from(track.children);
-    const totalItems = originalItems.length;
+    const featuredItems = track.children;
+    const totalItems = featuredItems.length;
 
-    // Clone items for infinite scroll effect
-    originalItems.forEach(item => {
-        const clone = item.cloneNode(true);
-        track.appendChild(clone);
-    });
+    // Calculate item width dynamically
+    const itemWidth = featuredItems[0] ? featuredItems[0].offsetWidth + 24 : 374; // width + gap (1.5rem = 24px)
 
-    let isPaused = false;
+    let currentIndex = 0;
+    // Show max 3 visible items, always scrollable
+    const visibleItems = Math.min(3, totalItems);
+    const maxIndex = Math.max(0, totalItems - visibleItems);
 
-    // Pause animation on hover
-    track.addEventListener('mouseenter', () => {
-        isPaused = true;
-        track.style.animationPlayState = 'paused';
-    });
+    function updateFeaturedCarousel() {
+        const translateX = -currentIndex * itemWidth;
+        track.style.transform = `translateX(${translateX}px)`;
 
-    track.addEventListener('mouseleave', () => {
-        isPaused = false;
-        track.style.animationPlayState = 'running';
-    });
-
-    // Manual navigation with buttons - temporarily pause animation and scroll
-    let scrollAmount = 0;
-    const itemWidth = originalItems[0] ? originalItems[0].offsetWidth + 24 : 374; // width + gap (1.5rem = 24px)
-
-    function scrollCarousel(direction) {
-        // Pause the CSS animation (don't remove animation object)
-        track.style.animationPlayState = 'paused';
-
-        // Get current transform value
-        const currentTransform = getComputedStyle(track).transform;
-        let currentX = 0;
-        if (currentTransform !== 'none') {
-            const matrix = new DOMMatrix(currentTransform);
-            currentX = matrix.m41;
-        }
-
-        // Calculate new position
-        const scrollBy = direction === 'next' ? -itemWidth : itemWidth;
-        const newX = currentX + scrollBy;
-
-        // Apply smooth transition
-        track.style.transition = 'transform 0.5s ease';
-        track.style.transform = `translateX(${newX}px)`;
-
-        // Resume animation after transition
-        setTimeout(() => {
-            track.style.transition = 'none';
-            track.style.animationPlayState = isPaused ? 'paused' : 'running';
-        }, 500);
+        // Update button states - always enabled for looping
+        prevBtn.style.opacity = '1';
+        prevBtn.disabled = false;
+        nextBtn.style.opacity = '1';
+        nextBtn.disabled = false;
     }
 
-    nextBtn.addEventListener('click', () => scrollCarousel('next'));
-    prevBtn.addEventListener('click', () => scrollCarousel('prev'));
+    function nextFeaturedSlide() {
+        currentIndex++;
+        if (currentIndex > maxIndex) {
+            currentIndex = 0; // Loop back to start
+        }
+        updateFeaturedCarousel();
+    }
+
+    function prevFeaturedSlide() {
+        currentIndex--;
+        if (currentIndex < 0) {
+            currentIndex = maxIndex; // Loop to end
+        }
+        updateFeaturedCarousel();
+    }
+
+    // Event listeners for click
+    nextBtn.addEventListener('click', () => {
+        nextFeaturedSlide();
+        resetAutoPlay(); // Reset timer on manual interaction
+    });
+    prevBtn.addEventListener('click', () => {
+        prevFeaturedSlide();
+        resetAutoPlay(); // Reset timer on manual interaction
+    });
+
+    // Auto-play functionality
+    let autoPlayInterval;
+    const autoPlayDelay = 4000; // Auto-advance every 4 seconds
+
+    function startAutoPlay() {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = setInterval(nextFeaturedSlide, autoPlayDelay);
+    }
+
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
+
+    function resetAutoPlay() {
+        stopAutoPlay();
+        startAutoPlay();
+    }
+
+    // Pause auto-play on hover over carousel container
+    const carouselContainer = track.closest('.vault-featured-carousel');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+        carouselContainer.addEventListener('mouseleave', startAutoPlay);
+    }
+
+    // Clear interval when page unloads
+    window.addEventListener('beforeunload', stopAutoPlay);
+
+    // Start auto-play
+    startAutoPlay();
 
     // Touch/swipe support for mobile
     let startX = 0;
@@ -977,7 +1000,7 @@ function initializeFeaturedCarousel() {
     track.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
         isDragging = true;
-        track.style.animationPlayState = 'paused';
+        stopAutoPlay(); // Pause auto-play during touch
     });
 
     track.addEventListener('touchmove', (e) => {
@@ -986,16 +1009,35 @@ function initializeFeaturedCarousel() {
         const diff = startX - currentX;
 
         if (Math.abs(diff) > 50) {
-            scrollCarousel(diff > 0 ? 'next' : 'prev');
+            if (diff > 0) {
+                nextFeaturedSlide();
+            } else {
+                prevFeaturedSlide();
+            }
             isDragging = false;
         }
     });
 
     track.addEventListener('touchend', () => {
         isDragging = false;
-        if (!isPaused) {
-            track.style.animationPlayState = 'running';
+        resetAutoPlay(); // Resume auto-play after touch
+    });
+
+    // Initialize carousel
+    updateFeaturedCarousel();
+
+    // Update on window resize
+    window.addEventListener('resize', () => {
+        // Recalculate visible items on resize
+        const newVisibleItems = Math.min(3, totalItems);
+        const newMaxIndex = Math.max(0, totalItems - newVisibleItems);
+
+        // Adjust current index if it's now out of bounds
+        if (currentIndex > newMaxIndex) {
+            currentIndex = newMaxIndex;
         }
+
+        updateFeaturedCarousel();
     });
 }
 

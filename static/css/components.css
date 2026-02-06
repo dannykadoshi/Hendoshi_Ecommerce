@@ -3939,8 +3939,8 @@ body.cart-drawer-open {
 .related-products-track {
     display: flex;
     gap: 1.5rem;
-    transition: transform 0.3s ease;
-    padding: 0 60px 0 0; /* Remove left padding, keep right padding for navigation */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 15px 60px 0 0; /* Top padding for hover lift, right padding for last card */
     touch-action: pan-y; /* Allow vertical scrolling, horizontal swipes for carousel */
     overflow-x: auto; /* Allow manual horizontal scrolling */
     scrollbar-width: none; /* Hide scrollbar in Firefox */
@@ -4118,14 +4118,13 @@ body.cart-drawer-open {
 .recently-viewed-products-carousel {
     position: relative;
     overflow: hidden;
-    padding: 0 60px 0 0; /* Remove left padding, keep right padding for navigation */
 }
 
 .recently-viewed-products-track {
     display: flex;
     gap: 1.5rem;
-    transition: transform 0.5s ease;
-    padding: 0; /* Remove padding since carousel container handles it */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 15px 60px 0 0; /* Top padding for hover lift, right padding for last card */
     touch-action: pan-y; /* Allow vertical scrolling, horizontal swipes for carousel */
     overflow-x: auto; /* Allow manual horizontal scrolling */
     scrollbar-width: none; /* Hide scrollbar in Firefox */
@@ -4160,6 +4159,11 @@ body.cart-drawer-open {
     box-shadow: 0 15px 35px rgba(255, 20, 147, 0.2);
     border-color: rgba(255, 20, 147, 0.3);
     z-index: 1000;
+}
+
+/* Allow cards to lift above carousel bounds */
+.recently-viewed-products-carousel:has(.product-card:hover) {
+    overflow: visible;
 }
 
 .recently-viewed-products-carousel .product-image {
@@ -4241,12 +4245,8 @@ body.cart-drawer-open {
 
 /* Mobile responsiveness for recently viewed products carousel */
 @media (max-width: 768px) {
-    .recently-viewed-products-carousel {
-        padding: 0 50px 0 0;
-    }
-    
     .recently-viewed-products-track {
-        padding: 0;
+        padding: 15px 50px 0 0; /* Keep top padding for hover lift */
         gap: 1rem; /* Reduce gap on mobile */
     }
     
@@ -4298,7 +4298,7 @@ body.cart-drawer-open {
 /* Mobile responsiveness for related products carousel */
 @media (max-width: 768px) {
     .related-products-track {
-        padding: 0 50px 0 0;
+        padding: 15px 50px 0 0; /* Keep top padding for hover lift */
         gap: 1rem; /* Reduce gap on mobile */
     }
     
