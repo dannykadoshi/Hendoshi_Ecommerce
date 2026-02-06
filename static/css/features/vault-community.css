@@ -12,7 +12,6 @@
     overflow: hidden;
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-glass-color);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     z-index: 10;
     margin-top: -40px;
@@ -21,6 +20,74 @@
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
+    
+    /* Default banner for all page-hero sections */
+    background-image: url('/static/images/page-hero-banners/all-page-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #0a0a0a;
+    min-height: 350px;
+    border-bottom: none;
+}
+
+/* Specific audience banners using data attributes */
+.page-hero[data-banner="female"] {
+    background-image: url('/static/images/page-hero-banners/female-banner.jpg');
+}
+
+.page-hero[data-banner="male"] {
+    background-image: url('/static/images/page-hero-banners/male-banner.jpg');
+}
+
+.page-hero[data-banner="unisex"] {
+    background-image: url('/static/images/page-hero-banners/unissex-banner.jpg');
+}
+
+/* Pages that explicitly don't want a banner */
+.page-hero.no-banner {
+    background-image: none;
+    background-color: transparent;
+    min-height: auto;
+}
+
+/* Background banner image (when present) - kept for backwards compatibility */
+.page-hero.has-banner {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 350px;
+    background-color: #0a0a0a;
+    border-bottom: none;
+}
+
+.page-hero.has-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Default overlay for all page-hero sections */
+.page-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.page-hero.no-banner::after {
+    display: none;
 }
 
 .page-hero::before {
@@ -34,6 +101,10 @@
     animation: page-hero-pulse 15s ease-in-out infinite;
     z-index: 0;
     pointer-events: none;
+}
+
+.page-hero.has-banner::before {
+    opacity: 0.5;
 }
 
 /* page-hero-pulse moved to static/css/animations.css */
@@ -63,6 +134,15 @@
     color: rgba(255, 255, 255, 0.9);
     font-weight: 300;
     letter-spacing: 1px;
+}
+
+/* Ensure all interactive elements in page-hero are above overlay */
+.page-hero .btn,
+.page-hero a,
+.page-hero button,
+.page-hero .pug-skull-branding {
+    position: relative;
+    z-index: 2;
 }
 
 /* Modern Masonry Grid Layout */
@@ -3456,28 +3536,66 @@
         margin-bottom: 1rem;
         margin-top: -30px;
     }
+    .page-hero.has-banner {
+        min-height: 250px;
+        background-size: cover;
+        background-position: center;
+    }
 }
 
 @media (max-width: 576px) {
     .page-hero-title {
         font-size: 2rem;
     }
+    .page-hero.has-banner {
+        min-height: 200px;
+    }
 }
 
 /* Light mode adjustments */
 :root.light-mode .page-hero {
-    background: rgba(255, 255, 255, 0.98);
+    background-color: #0a0a0a;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+:root.light-mode .page-hero.no-banner {
+    background: rgba(255, 255, 255, 0.98);
+    background-image: none;
+}
+
+:root.light-mode .page-hero.has-banner {
+    background-color: #0a0a0a;
+    background-size: cover;
+    background-position: center;
+    border-bottom: none;
+}
+
+:root.light-mode .page-hero::after {
+    background: rgba(0, 0, 0, 0.65);
+    bottom: -5px;
+}
+
+:root.light-mode .page-hero.has-banner::after {
+    background: rgba(0, 0, 0, 0.65);
+    bottom: -5px;
 }
 
 :root.light-mode .page-hero::before {
     background: radial-gradient(circle, rgba(255, 20, 147, 0.05) 0%, transparent 70%);
 }
 
+:root.light-mode .page-hero.has-banner::before {
+    opacity: 0.5;
+}
+
 :root.light-mode .page-hero-subtitle,
 :root.light-mode .page-hero-stat {
-    color: #666;
+    color: #f5f5f5;
+}
+
+:root.light-mode .page-hero.has-banner .page-hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Social Share Buttons */
