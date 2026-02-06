@@ -2735,12 +2735,12 @@ main {
 }
 
 .table-responsive .order-table thead {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid rgba(204, 255, 0, 0.3);
 }
 
 .table-responsive .order-table th {
-    color: var(--neon-pink);
+    color: var(--electric-yellow);
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.8rem;
@@ -2758,16 +2758,16 @@ main {
 
 .table-responsive .order-table tbody tr {
     background-color: transparent;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     transition: all 0.3s ease;
 }
 
 .table-responsive .order-table tbody tr:hover {
-    background-color: rgba(255, 20, 147, 0.08);
+    background-color: rgba(204, 255, 0, 0.05);
 }
 
 .table-responsive .order-table tbody tr:last-child {
-    border-bottom: 1px solid rgba(255, 20, 147, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .table-responsive .order-table td {
@@ -2785,16 +2785,16 @@ main {
 
 /* Order table link styling */
 .table-responsive .order-link {
-    color: var(--neon-pink);
+    color: var(--electric-yellow);
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s;
 }
 
 .table-responsive .order-link:hover {
-    color: var(--electric-yellow);
+    color: var(--neon-pink);
     text-decoration: underline;
-    text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+    text-shadow: 0 0 10px rgba(204, 255, 0, 0.4);
 }
 
 .table-responsive .badge.bg-pink {
@@ -2813,14 +2813,14 @@ main {
     cursor: pointer;
     transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 20, 147, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
 }
 
 .clickable-card:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 20, 147, 0.4);
-    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.15);
+    border-color: rgba(204, 255, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(204, 255, 0, 0.1);
 }
 
 .clickable-card .card-body {
@@ -2845,7 +2845,7 @@ main {
 }
 
 .clickable-card .order-link {
-    color: var(--neon-pink);
+    color: var(--electric-yellow);
     font-weight: 600;
 }
 
@@ -2857,15 +2857,144 @@ main {
     padding: 0.3rem 0.6rem;
 }
 
+/* ========================================
+   ORDER STATUS BADGES - Color Coded
+   ======================================== */
+
+/* Base status badge styling */
+.badge.status-badge {
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Pending - Amber/Orange */
+.badge.status-pending {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #000;
+}
+
+/* Processing - Blue */
+.badge.status-processing {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+}
+
+/* Shipped - Purple */
+.badge.status-shipped {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: #fff;
+}
+
+/* Out for Delivery - Cyan */
+.badge.status-out_for_delivery {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: #000;
+}
+
+/* Delivered - Green */
+.badge.status-delivered {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #000;
+}
+
+/* Cancelled - Red */
+.badge.status-cancelled {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+}
+
+/* Refunded - Gray */
+.badge.status-refunded {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: #fff;
+}
+
+/* Payment Failed - Dark Red */
+.badge.status-payment_failed {
+    background: linear-gradient(135deg, #991b1b, #7f1d1d);
+    color: #fff;
+}
+
+/* Status Value Text Colors (for order detail page) */
+.status-value.status-pending {
+    color: #f59e0b;
+}
+
+.status-value.status-processing {
+    color: #3b82f6;
+}
+
+.status-value.status-shipped {
+    color: #8b5cf6;
+}
+
+.status-value.status-out_for_delivery {
+    color: #06b6d4;
+}
+
+.status-value.status-delivered {
+    color: #22c55e;
+}
+
+.status-value.status-cancelled {
+    color: #ef4444;
+}
+
+.status-value.status-refunded {
+    color: #6b7280;
+}
+
+.status-value.status-payment_failed {
+    color: #dc2626;
+}
+
+/* ========================================
+   INVOICE DOWNLOAD BUTTON
+   ======================================== */
+.btn-invoice-download {
+    background: transparent;
+    border: 1.5px solid #6b7280;
+    color: #9ca3af;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-invoice-download:hover {
+    background: rgba(107, 114, 128, 0.15);
+    border-color: #9ca3af;
+    color: #d1d5db;
+}
+
+.btn-invoice-download i {
+    font-size: 0.9rem;
+}
+
+:root.light-mode .btn-invoice-download {
+    border-color: #9ca3af;
+    color: #6b7280;
+}
+
+:root.light-mode .btn-invoice-download:hover {
+    background: rgba(107, 114, 128, 0.1);
+    border-color: #6b7280;
+    color: #4b5563;
+}
+
 /* Light mode for mobile order cards */
 :root.light-mode .clickable-card {
     background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(231, 31, 127, 0.15);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .clickable-card:hover {
-    border-color: rgba(231, 31, 127, 0.3);
-    box-shadow: 0 8px 25px rgba(231, 31, 127, 0.1);
+    border-color: rgba(184, 212, 0, 0.5);
+    box-shadow: 0 8px 25px rgba(184, 212, 0, 0.15);
 }
 
 :root.light-mode .clickable-card .card-label {
@@ -2877,7 +3006,7 @@ main {
 }
 
 :root.light-mode .clickable-card .order-link {
-    color: #E71F7F;
+    color: #9ca300;
 }
 
 .empty-state {
@@ -5836,7 +5965,9 @@ main {
 
 /* Progress Container */
 .progress-container {
-    padding-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    padding-top: 0;
+    margin-top: -1rem;
 }
 
 .progress-container.with-top-padding {
@@ -8700,6 +8831,14 @@ input[type="number"] {
     border: 1px solid rgba(255, 105, 180, 0.3);
     border-radius: 16px;
     padding: 1.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.order-summary-card .order-totals table {
+    width: 100%;
+    table-layout: fixed;
 }
 
 .order-summary-card .summary-header {
@@ -8707,14 +8846,19 @@ input[type="number"] {
     border-bottom: 1px solid rgba(255, 105, 180, 0.2);
 }
 
-/* Payment Section - Remove White Background Issues */
+/* Payment Section - Match Shipping Selector Styling */
 .payment-section {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 105, 180, 0.3);
+    border: 2px solid var(--neon-pink);
     border-radius: 16px;
     padding: 2rem;
     margin-bottom: 0;
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.2);
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 .payment-section h2 {
@@ -8812,11 +8956,37 @@ input[type="number"] {
     border-radius: 8px;
     padding: 1rem;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .stripe-card-element:focus-within {
     border-color: var(--neon-pink);
     box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+}
+
+/* Ensure payment section stays below navbar when scrolling */
+.payment-section,
+.payment-section * {
+    z-index: auto;
+}
+
+.payment-section .form-section {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stripe Link Autofill - ensure it stays below navbar */
+.stripe-card-element iframe,
+.stripe-card-element iframe[name*="__privateStripeFrame"],
+.__PrivateStripeElement iframe {
+    z-index: 1 !important;
+}
+
+/* Stripe Link popup/dropdown - keep below navbar */
+body > div[class*="__PrivateStripeElement"],
+body > iframe[name*="__privateStripeFrame"] {
+    z-index: 1000 !important;
 }
 
 /* Security Notice */
@@ -8931,14 +9101,13 @@ input[type="number"] {
         padding: 0.25rem;
     }
 
-    /* Seamless mobile layout - no gaps between containers */
+    /* Mobile layout - spaced containers */
     .shipping-selector-prominent {
         padding: 0.75rem;
-        margin: 0;
+        margin-bottom: 0.75rem;
         width: 100%;
         max-width: 100%;
-        border-radius: 0;
-        border-top: none;
+        border-radius: 12px;
     }
 
     .shipping-selector-header {
@@ -8956,20 +9125,18 @@ input[type="number"] {
 
     .order-summary-card {
         padding: 1rem 0.75rem;
-        margin: 0;
+        margin-bottom: 0.75rem;
         width: 100%;
         max-width: 100%;
-        border-radius: 10px 10px 0 0;
-        border-bottom: none;
+        border-radius: 12px;
     }
 
     .payment-section {
         padding: 0.5rem;
-        margin: 0;
+        margin-bottom: 0.75rem;
         width: 100%;
         max-width: 100%;
-        border-radius: 0 0 10px 10px;
-        border-top: none;
+        border-radius: 12px;
     }
 
     .payment-section h2 {
@@ -9052,19 +9219,31 @@ input[type="number"] {
     }
 
     .security-notice {
-        padding: 0.25rem;
-        font-size: 0.75rem;
-        margin: 0.25rem 0;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.7rem;
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        line-height: 1.3;
+    }
+
+    .security-notice i {
+        font-size: 0.9rem;
+        margin-right: 0;
+        flex-shrink: 0;
     }
 
     .payment-methods {
-        padding: 0.25rem 0;
-        gap: 0.5rem;
+        padding: 0.5rem 0;
+        gap: 0.75rem;
         margin: 0.5rem 0;
+        border-top: 1px solid rgba(255, 105, 180, 0.2);
+        padding-top: 0.75rem;
     }
 
     .payment-method-icon {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
 
     .test-card-hint {
@@ -9290,6 +9469,262 @@ input[type="number"] {
     .cart-summary {
         position: static;
         top: auto;
+    }
+}
+
+/* ========================================
+   REDUCED FOOTER SPACING
+   ======================================== */
+
+/* Reduce spacing before footer on checkout/cart/payment pages */
+.checkout-page,
+.cart-page,
+.vault-page.cart-page {
+    padding-bottom: 0.5rem;
+}
+
+.checkout-page .container-fluid.page-container {
+    margin-bottom: 0.5rem;
+}
+
+.checkout-page .checkout-page-layout,
+.cart-page .cart-page-layout {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Cart page specific - reduce bottom spacing */
+.vault-page.cart-page .cart-page-layout {
+    margin-bottom: 0;
+    padding-bottom: 0.5rem;
+}
+
+.cart-summary-section {
+    margin-bottom: 0;
+}
+
+.cart-summary-section .cart-summary {
+    margin-bottom: 0;
+}
+
+/* ========================================
+   CONFIRMATION PAGE - COMPACT STYLING
+   ======================================== */
+
+/* Reduce panel padding on confirmation page */
+.checkout-page .panel.glassmorphic-panel {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.checkout-page .panel-header {
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.checkout-page .panel-title {
+    font-size: 1.1rem;
+}
+
+/* Compact order number display */
+.checkout-page .order-number-display {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.checkout-page .order-number-display .number {
+    font-size: 1.25rem;
+}
+
+/* Compact order items */
+.checkout-page .order-items-list {
+    gap: 0.75rem;
+}
+
+.checkout-page .order-item {
+    padding: 0.75rem;
+}
+
+.checkout-page .item-image {
+    width: 60px;
+    height: 60px;
+}
+
+.checkout-page .item-name {
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.checkout-page .item-specs {
+    font-size: 0.8rem;
+}
+
+/* Compact shipping address */
+.checkout-page .shipping-address-display p {
+    margin-bottom: 0.25rem;
+}
+
+/* Compact next steps */
+.checkout-page .next-steps {
+    gap: 0.75rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.checkout-page .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+}
+
+.checkout-page .step-content p {
+    font-size: 0.85rem;
+}
+
+/* Compact confirmation buttons */
+.checkout-page .confirmation-buttons {
+    gap: 0.5rem;
+}
+
+.checkout-page .confirmation-buttons .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Compact summary totals */
+.checkout-page .summary-totals {
+    padding: 0.75rem 1rem;
+}
+
+.checkout-page .summary-divider {
+    margin: 0.75rem 0;
+}
+
+/* Mobile confirmation page - even more compact */
+@media (max-width: 768px) {
+    .checkout-page .panel.glassmorphic-panel {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .checkout-page .panel-header {
+        padding-bottom: 0.4rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .checkout-page .panel-title {
+        font-size: 0.95rem;
+    }
+
+    .checkout-page .order-number-display {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .checkout-page .order-number-display .label {
+        font-size: 0.8rem;
+    }
+
+    .checkout-page .order-number-display .number {
+        font-size: 1rem;
+    }
+
+    /* Compact order items list */
+    .checkout-page .order-items-list {
+        gap: 0.4rem;
+    }
+
+    .checkout-page .order-item {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .checkout-page .item-image {
+        width: 45px;
+        height: 45px;
+    }
+
+    .checkout-page .item-name {
+        font-size: 0.85rem;
+        margin-bottom: 0.15rem;
+    }
+
+    .checkout-page .item-specs {
+        font-size: 0.75rem;
+    }
+
+    .checkout-page .item-price .unit-price {
+        font-size: 0.75rem;
+    }
+
+    .checkout-page .item-price .total-price {
+        font-size: 0.95rem;
+    }
+
+    /* Compact shipping address */
+    .checkout-page .shipping-address-display {
+        padding: 0.5rem;
+    }
+
+    .checkout-page .shipping-address-display p {
+        margin-bottom: 0.15rem;
+        font-size: 0.85rem;
+    }
+
+    /* Compact next steps */
+    .checkout-page .next-steps {
+        padding: 0.6rem;
+        margin: 0.5rem 0;
+        gap: 0.5rem;
+    }
+
+    .checkout-page .step {
+        gap: 0.5rem;
+    }
+
+    .checkout-page .step-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .checkout-page .step-content strong {
+        font-size: 0.85rem;
+        margin-bottom: 0.1rem;
+    }
+
+    .checkout-page .step-content p {
+        font-size: 0.75rem;
+        margin: 0;
+    }
+
+    /* Compact summary */
+    .checkout-page .summary-totals {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .checkout-page .summary-totals .d-flex {
+        margin-bottom: 0.25rem !important;
+        font-size: 0.9rem;
+    }
+
+    .checkout-page .summary-divider {
+        margin: 0.5rem 0;
+    }
+
+    .checkout-page .order-status-badge {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    /* Compact buttons */
+    .checkout-page .confirmation-buttons {
+        margin-top: 0.75rem !important;
+    }
+
+    .checkout-page .confirmation-buttons .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
     }
 }
 

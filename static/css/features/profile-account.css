@@ -176,6 +176,72 @@
     box-shadow: 0 8px 20px rgba(255, 45, 161, 0.3);
 }
 
+/* Auth Icon Wrapper - for icon inside circle */
+.auth-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #000;
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.35);
+}
+
+/* Auth Card Title */
+.auth-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--off-white);
+    margin-bottom: 0.5rem;
+}
+
+/* Auth Message */
+.auth-message {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Ghost Outline Button */
+.btn-outline-ghost {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--off-white);
+}
+
+/* Light mode auth styles */
+:root.light-mode .auth-card-title {
+    color: #222;
+}
+
+:root.light-mode .auth-message {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+:root.light-mode .btn-outline-ghost {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .btn-outline-ghost:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.35);
+    color: #222;
+}
+
 .form-section {
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.05);

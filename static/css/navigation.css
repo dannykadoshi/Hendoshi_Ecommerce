@@ -904,6 +904,7 @@ span.gradient-text-mobile {
     width: 100%;
     max-width: 320px;
     height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height for mobile */
     background: var(--charcoal);
     backdrop-filter: blur(20px);
     z-index: 100000;
@@ -913,8 +914,8 @@ span.gradient-text-mobile {
     border-right: 1px solid rgba(255, 105, 180, 0.2);
     box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
     padding-top: 0;
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: hidden; /* Let content-wrapper handle scrolling */
     flex-direction: column;
 }
 
@@ -1091,6 +1092,7 @@ span.gradient-text-mobile {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    min-height: 0; /* Allow shrinking for flex layout */
 }
 
 .menu-main,
@@ -1164,6 +1166,21 @@ span.gradient-text-mobile {
     align-items: center;
     justify-content: center;
     white-space: nowrap;
+}
+
+/* Compact icon-only admin filter/export buttons */
+.admin-filter-btn {
+    padding: 0;
+    width: 40px;
+    min-width: 0;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-filter-btn i {
+    font-size: 0.95rem;
+    line-height: 1;
 }
 
 /* Newsletter Form Validation */
@@ -1566,10 +1583,9 @@ body.menu-open {
 
 /* Mobile Menu Footer with Social Links */
 .menu-footer {
-    margin-top: auto;
     padding: 1.5rem 1.25rem;
     border-top: 1px solid rgba(255, 20, 147, 0.2);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
 }
 

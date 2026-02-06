@@ -41,16 +41,17 @@
 .page-hero-title {
     position: relative;
     z-index: 2;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow), var(--neon-pink));
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
     background-size: 200% 200%;
+    -webkit-background-clip: text;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
     color: transparent;
     animation: vault-gradient-shift 8s ease infinite;
     font-size: 4rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
 }
 
 /* vault-gradient-shift moved to static/css/animations.css */

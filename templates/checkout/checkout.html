@@ -49,12 +49,12 @@
 				<h5 class="mb-3"><i class="fas fa-calculator"></i> Order Summary</h5>
 					<div class="d-flex justify-content-between mb-2">
 						<div class="text-muted">Subtotal</div>
-						<div id="summary-subtotal">€{{ subtotal }}</div>
+						<div id="summary-subtotal">€{{ subtotal|floatformat:2 }}</div>
 					</div>
 					{% if discount_amount %}
 					<div class="d-flex justify-content-between mb-2">
 						<div class="text-muted">Discount</div>
-						<div class="text-success">-€{{ discount_amount }}</div>
+						<div class="text-success">-€{{ discount_amount|floatformat:2 }}</div>
 					</div>
 					{% endif %}
 					<div class="d-flex justify-content-between mb-2 text-muted small">
@@ -64,7 +64,7 @@
 					<hr style="border-color: rgba(255, 105, 180, 0.3);">
 					<div class="d-flex justify-content-between fw-bold">
 						<div>Current Total</div>
-						<div>€{{ total_with_discount }}</div>
+						<div>€{{ total_with_discount|floatformat:2 }}</div>
 					</div>
 					<p class="small text-muted mt-2 mb-0"><i class="fas fa-info-circle"></i> Final total calculated after selecting shipping</p>
 				</div>
@@ -265,7 +265,7 @@
                 <!-- Action Buttons: Back to Cart + Continue to Payment -->
                 <div class="mt-4 d-flex flex-column-reverse flex-sm-row gap-3">
                     <a href="{% url 'view_cart' %}" class="btn btn-pink w-100 w-sm-auto">
-                        <i class="fas fa-arrow-left me-2"></i> Back to Cart
+                        <i class="fas fa-shopping-cart me-2"></i> Back to Cart
                     </a>
                     <button type="submit" form="checkoutForm" class="btn btn-pink btn-cta w-100 w-sm-auto">
                         <i class="fas fa-lock me-2"></i> Continue to Payment

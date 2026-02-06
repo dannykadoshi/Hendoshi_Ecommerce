@@ -29,7 +29,7 @@
     </section>
 
     {# djlint:off H025 #}
-        <div class="container-fluid page-container mt-2 mb-5">
+        <div class="container-fluid page-container mt-2 mb-2">
         <div class="container checkout-container">
             <div class="checkout-wrapper">
             {# djlint:on #}
@@ -173,13 +173,13 @@
                 </div>
             </div>
 
-            <!-- CTA Buttons -->
-            <div class="confirmation-buttons">
-                <a href="{% url 'products' %}" class="btn btn-pink btn-lg w-100 mb-2">
-                    <i class="fas fa-shopping-bag"></i> Continue Shopping
+            <!-- CTA Buttons (use canonical checkout/payment pink CTA styling) -->
+            <div class="confirmation-buttons mt-4 d-flex flex-column-reverse flex-sm-row gap-3">
+                <a href="{% url 'products' %}" class="btn btn-pink btn-cta w-100 w-sm-auto">
+                    <i class="fas fa-shopping-bag me-2"></i> Continue Shopping
                 </a>
-                <a href="{% url 'home' %}" class="btn btn-pink btn-lg w-100 mb-2">
-                    <i class="fas fa-home"></i> Back to Home
+                <a href="{% url 'home' %}" class="btn btn-pink w-100 w-sm-auto">
+                    <i class="fas fa-home me-2"></i> Back to Home
                 </a>
             </div>
         </div>

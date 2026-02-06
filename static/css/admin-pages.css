@@ -250,6 +250,25 @@
     margin-bottom: 0.6rem;
 }
 
+/* Ensure compact admin filter/export buttons render correctly in admin pages
+   This rule is intentionally placed in admin-pages.css (loaded after navigation.css)
+   and uses a more specific selector to override other admin rules like .w-100. */
+.auth-card .admin-filter-btn,
+.admin-products-container .admin-filter-btn {
+    padding: 0;
+    width: 40px;
+    min-width: 0;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.auth-card .admin-filter-btn i,
+.admin-products-container .admin-filter-btn i {
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
 .auth-card .mb-3 input[type="file"] {
     margin-top: 0.6rem;
 }

@@ -23,10 +23,14 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <div class="auth-card">
-                <h1 class="auth-title">LOGIN</h1>
-                
-                <form method="post" action="{% url 'account_login' %}" {% if form.errors %}data-form-errors="true"{% endif %}>
+                    <div class="auth-card text-center">
+                        <div class="auth-icon-wrapper">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                        <h2 class="auth-card-title">Welcome Back</h2>
+                        <p class="auth-message">Sign in to continue your journey</p>
+
+                        <form method="post" action="{% url 'account_login' %}" {% if form.errors %}data-form-errors="true"{% endif %} class="text-start">
                     {% csrf_token %}
 
                     <div class="mb-3">

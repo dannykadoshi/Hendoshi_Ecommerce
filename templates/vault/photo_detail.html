@@ -15,7 +15,7 @@
                     <p class="page-hero-subtitle">{{ photo.caption|default:"Vault Photo" }}</p>
                     <div class="d-flex justify-content-center gap-2 gap-md-3 mt-4 flex-wrap">
                         <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink">
-                            <i class="fas fa-arrow-left"></i> Back to Gallery
+                            <i class="fas fa-images"></i> Back to Gallery
                         </a>
                         {% if prev_photo %}
                         <a href="{% url 'vault:photo_detail' prev_photo.id %}" class="btn btn-pink" title="Previous Photo">
