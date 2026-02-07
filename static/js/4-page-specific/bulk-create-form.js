@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - BULK CREATE FORM
+   ================================================
+   
+   Purpose: JavaScript functionality for bulk create form
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Bulk Create Form - Auto-fill, Progress Tracking, Image Preview, AI Generation
 // Styled alert modal functions
 function showStyledAlert(message) {

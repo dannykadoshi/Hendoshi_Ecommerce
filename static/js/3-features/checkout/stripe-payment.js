@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - STRIPE PAYMENT
+   ================================================
+   
+   Purpose: JavaScript functionality for stripe payment
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Stripe payment flow for Hendoshi checkout
 console.log('JS loaded');
 

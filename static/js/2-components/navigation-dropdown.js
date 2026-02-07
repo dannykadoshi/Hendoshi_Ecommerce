@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - NAVIGATION DROPDOWN
+   ================================================
+   
+   Purpose: JavaScript functionality for navigation dropdown
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Dropdown hover behavior for desktop
 document.addEventListener('DOMContentLoaded', function() {
     // Phase 3: Add --item-index CSS variables to animated menu items

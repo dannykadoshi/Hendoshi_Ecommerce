@@ -1,6 +1,19 @@
-/* ============================================
-   HERO SECTION - Full Width Immersive Layout
-   ============================================ */
+/* ================================================
+   HENDOSHI - SECTIONS - HERO HOMEPAGE
+   ================================================
+   
+   Purpose: Homepage hero section with full-width carousel layout
+   
+   Contains:
+   - Full-width hero carousel
+   - Background image management
+   - Hero content overlay
+   - Responsive hero layouts
+   
+   Dependencies: variables.css, animations.css
+   Load Order: Load after foundation and components
+   ================================================ */
+
 .hero {
     margin-top: 76px;
     min-height: 86vh;

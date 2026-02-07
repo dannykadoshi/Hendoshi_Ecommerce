@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - UTILS
+   ================================================
+   
+   Purpose: JavaScript functionality for utils
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Auto-dismiss messages after 4 seconds (exclude guide alerts)
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {

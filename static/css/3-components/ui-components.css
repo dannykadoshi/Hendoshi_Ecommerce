@@ -1,7 +1,19 @@
-/* ================================
-   Navigation CSS moved to navigation.css
-   ================================ */
-
+/* ================================================
+   HENDOSHI - COMPONENTS - UI COMPONENTS
+   ================================================
+   
+   Purpose: Reusable UI components and patterns used throughout the site
+   
+   Contains:
+   - Page containers and layouts
+   - Search results styling
+   - Checkout page structure
+   - Canonical component patterns
+   - Responsive utilities
+   
+   Dependencies: variables.css, reset.css, typography.css
+   Load Order: Load after foundation and layout files
+   ================================================ */
 
 /* Search Results Page - Uses products-page class for consistent layout */
 .search-results-page .page-container {

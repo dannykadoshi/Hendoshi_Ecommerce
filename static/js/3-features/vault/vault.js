@@ -1,3 +1,22 @@
+/* ================================================
+   HENDOSHI - VAULT FUNCTIONALITY
+   ================================================
+   
+   Purpose: Core JavaScript for vault photo gallery including filtering,
+            voting, liking, and photo submission functionality.
+   
+   Contains:
+   - Gallery filter dropdown logic
+   - Photo voting system (upvote/downvote)
+   - Photo liking/unliking functionality
+   - Featured photo interactions
+   - Product filter chip management
+   - Hall of Fame vote/like handling
+   
+   Dependencies: Requires vault-hall-of-fame.js for Hall of Fame specific events
+   Load Order: Before vault-hall-of-fame.js, after core utilities
+   ================================================ */
+
 // HENDOSHI Vault JavaScript
 // Contains all vault-specific functionality
 
@@ -179,6 +198,8 @@ function likePhotoUnified(photoId, source) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log('Like response:', data);
+        
         // Update likes count elements in gallery/featured views (if exist)
         const galleryLikesElements = document.querySelectorAll(`[data-likes-for="${photoId}"]`);
         if (galleryLikesElements && galleryLikesElements.length) {
@@ -203,7 +224,7 @@ function likePhotoUnified(photoId, source) {
             }
         }
 
-        // Update all like buttons (including cloned carousel items) by data attribute
+        // Update all like buttons by data-photo-id attribute
         const likeButtons = document.querySelectorAll(`button[data-photo-id="${photoId}"]`);
         if (likeButtons && likeButtons.length) {
             likeButtons.forEach(btn => {
@@ -214,6 +235,26 @@ function likePhotoUnified(photoId, source) {
                 }
             });
         }
+        
+        // Update Hall of Fame like buttons (data-action="like-photo")
+        const hallLikeButtons = document.querySelectorAll(`button[data-action="like-photo"][data-photo-id="${photoId}"]`);
+        if (hallLikeButtons && hallLikeButtons.length) {
+            hallLikeButtons.forEach(btn => {
+                // Keep the heart icon and just update the count
+                btn.innerHTML = `<i class="fas fa-heart"></i> ${data.likes}`;
+                
+                // Update button style based on liked status
+                if (data.liked) {
+                    btn.classList.add('liked');
+                    btn.classList.remove('btn-pink');
+                    btn.classList.add('btn-success');
+                } else {
+                    btn.classList.remove('liked');
+                    btn.classList.add('btn-pink');
+                    btn.classList.remove('btn-success');
+                }
+            });
+        }
     })
     .catch(error => console.error('Error liking photo:', error));
 }
@@ -221,6 +262,7 @@ function likePhotoUnified(photoId, source) {
 // Voting Functionality
 function initializeVoting() {
     window.votePhoto = function(photoId, voteType) {
+        console.log('votePhoto called:', photoId, voteType);
         const url = `/vault/photo/${photoId}/vote/${voteType}/`;
         fetch(url, {
             method: 'POST',
@@ -231,6 +273,7 @@ function initializeVoting() {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Vote response:', data);
             if (data.error) {
                 alert(data.error);
                 return;
@@ -265,28 +308,48 @@ function initializeVoting() {
                 }
             }
 
-            // Update gallery buttons (found by onclick attribute) - only update classes, not innerHTML since they don't show counts
-            const allButtons = document.querySelectorAll(`button[onclick*="${photoId}"]`);
-            allButtons.forEach(button => {
-                const onclickAttr = button.getAttribute('onclick');
-                if (onclickAttr.includes(`votePhoto(${photoId}, 'up')`)) {
-                    // This is an upvote button
-                    if (data.user_vote === 'up') {
-                        button.classList.add('btn-success');
-                        button.classList.remove('btn-outline-success');
-                    } else {
-                        button.classList.add('btn-outline-success');
-                        button.classList.remove('btn-success');
-                    }
-                } else if (onclickAttr.includes(`votePhoto(${photoId}, 'down')`)) {
-                    // This is a downvote button
-                    if (data.user_vote === 'down') {
-                        button.classList.add('btn-danger');
-                        button.classList.remove('btn-outline-danger');
-                    } else {
-                        button.classList.add('btn-outline-danger');
-                        button.classList.remove('btn-danger');
-                    }
+            // Update Hall of Fame gallery buttons (data-action="vote")
+            const allUpvoteButtons = document.querySelectorAll(`button[data-action="vote"][data-photo-id="${photoId}"][data-vote-type="up"]`);
+            allUpvoteButtons.forEach(button => {
+                if (data.user_vote === 'up') {
+                    button.classList.add('btn-success');
+                    button.classList.remove('btn-outline-success');
+                } else {
+                    button.classList.add('btn-outline-success');
+                    button.classList.remove('btn-success');
+                }
+            });
+
+            const allDownvoteButtons = document.querySelectorAll(`button[data-action="vote"][data-photo-id="${photoId}"][data-vote-type="down"]`);
+            allDownvoteButtons.forEach(button => {
+                if (data.user_vote === 'down') {
+                    button.classList.add('btn-danger');
+                    button.classList.remove('btn-outline-danger');
+                } else {
+                    button.classList.add('btn-outline-danger');
+                    button.classList.remove('btn-danger');
+                }
+            });
+
+            // Update stats row counts dynamically
+            const statsUpvotes = document.querySelectorAll(`.stat-item .fa-thumbs-up + span`);
+            statsUpvotes.forEach(span => {
+                if (span.closest('.hall-of-fame-card')?.querySelector(`[data-photo-id="${photoId}"]`)) {
+                    span.textContent = data.upvotes;
+                }
+            });
+            
+            const statsDownvotes = document.querySelectorAll(`.stat-item .fa-thumbs-down + span`);
+            statsDownvotes.forEach(span => {
+                if (span.closest('.hall-of-fame-card')?.querySelector(`[data-photo-id="${photoId}"]`)) {
+                    span.textContent = data.downvotes;
+                }
+            });
+            
+            const statsScore = document.querySelectorAll(`.stat-item .fa-chart-line + span`);
+            statsScore.forEach(span => {
+                if (span.closest('.hall-of-fame-card')?.querySelector(`[data-photo-id="${photoId}"]`)) {
+                    span.textContent = data.vote_score;
                 }
             });
 
@@ -874,16 +937,19 @@ function initializeModerationAutoSubmit() {
 
 // Initialize vault functionality based on current page
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize voting and likes globally
+    initializeVoting();
+    initializeGalleryLikes();
+    initializePhotoDetailLikes();
+
     // Gallery page
     if (document.getElementById('product_filter')) {
         initializeGalleryFilter();
         initializeProductChips();
-        initializeGalleryLikes();
     }
 
     // Photo detail page
     if (document.querySelector('.vault-detail-layout')) {
-        initializePhotoDetailLikes();
         initializePhotoDetailShare();
         initializePhotoDetailKeyboardNav();
     }
@@ -894,8 +960,13 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeSubmitFormValidation();
     }
 
+    // Submit photo upload zone
+    if (document.getElementById('uploadZone')) {
+        initializeSubmitUploadZone();
+    }
+
     // Moderation page
-    if (document.getElementById('select-all')) {
+    if (document.querySelector('.moderation-card') || document.getElementById('select-all')) {
         initializeModerationBulkSelection();
     }
 
@@ -1100,6 +1171,34 @@ function updateRejectionCharCount() {
     }
 }
 
+// Handle modal confirm button click
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            if (currentFormToSubmit) {
+                // If rejection action, add rejection reason to form
+                const rejectionTextarea = document.getElementById('rejection-reason');
+                const rejectionContainer = document.getElementById('rejection-reason-container');
+                if (rejectionTextarea && !rejectionContainer.classList.contains('d-none')) {
+                    const reasonInput = currentFormToSubmit.querySelector('input[name="rejection_reason"]');
+                    if (reasonInput) {
+                        reasonInput.value = rejectionTextarea.value;
+                    }
+                }
+                // Submit the form
+                currentFormToSubmit.submit();
+            }
+        });
+    }
+
+    // Character count update for rejection reason
+    const rejectionTextarea = document.getElementById('rejection-reason');
+    if (rejectionTextarea) {
+        rejectionTextarea.addEventListener('input', updateRejectionCharCount);
+    }
+});
+
 // Vault-specific confirmation function - exposed globally for onclick handlers
 window.confirmVaultAction = function(action, photoId, title, message, iconClass, confirmText, confirmClass, isRejectAction = false) {
     // Find the form for this action - try to find the input first
@@ -1127,6 +1226,24 @@ window.confirmVaultAction = function(action, photoId, title, message, iconClass,
     showVaultConfirmModal(title, message, iconClass, confirmText, confirmClass, form, isRejectAction);
         return false; // Prevent default form submission
     };
+
+// Event delegation for vault moderate buttons with data attributes
+document.addEventListener('click', function(e) {
+    const vaultBtn = e.target.closest('[data-vault-action]');
+    if (vaultBtn) {
+        e.preventDefault();
+        const action = vaultBtn.dataset.vaultAction;
+        const photoId = vaultBtn.dataset.photoId;
+        const title = vaultBtn.dataset.title;
+        const message = vaultBtn.dataset.message;
+        const iconClass = vaultBtn.dataset.icon;
+        const confirmText = vaultBtn.dataset.confirmText;
+        const confirmClass = vaultBtn.dataset.confirmClass;
+        const isRejectAction = vaultBtn.dataset.isReject === 'true';
+        
+        window.confirmVaultAction(action, photoId, title, message, iconClass, confirmText, confirmClass, isRejectAction);
+    }
+});
 
     /*
      * Duplicate DOMContentLoaded block removed.

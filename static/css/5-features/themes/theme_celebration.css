@@ -1,7 +1,18 @@
-/**
- * Celebration Theme (Confetti)
- * Colorful falling confetti with spinning and floating animations
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME CELEBRATION
+   ================================================
+   
+   Purpose: General celebration confetti theme styling
+   
+   Contains:
+   - Colorful confetti fall animations
+   - Spinning particle effects
+   - Multi-color festive backgrounds
+   - Drop shadow glow effects
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="celebration"]::before,

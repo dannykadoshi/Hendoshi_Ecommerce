@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - NEWSLETTER VALIDATION
+   ================================================
+   
+   Purpose: JavaScript functionality for newsletter validation
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Newsletter Form Validation
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('newsletterForm');

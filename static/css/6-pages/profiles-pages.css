@@ -1,11 +1,17 @@
 /* ================================================
-   PROFILES PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - PROFILES
    ================================================
    
-   Extracted from inline <style> blocks for Code Institute compliance.
-   These styles were previously embedded in HTML templates.
+   Purpose: User profile pages styling
    
-   Templates processed: 1
+   Contains:
+   - Invoice page layout
+   - Order history displays
+   - Profile settings forms
+   - Account management interface
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
    ================================================ */
 
 /* ===== INVOICE ===== */

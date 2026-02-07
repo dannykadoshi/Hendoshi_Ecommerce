@@ -1,7 +1,18 @@
-/**
- * Father's Day Theme
- * Subtle geometric shapes with navy/gray tones - understated elegance
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME FATHERS DAY
+   ================================================
+   
+   Purpose: Father's Day theme styling
+   
+   Contains:
+   - Subtle geometric shape particles
+   - Navy and gray tone backgrounds
+   - Understated drift animations
+   - Elegant masculine aesthetic
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="fathers_day"]::before,

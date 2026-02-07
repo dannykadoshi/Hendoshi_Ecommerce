@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - THEME TOGGLE
+   ================================================
+   
+   Purpose: JavaScript functionality for theme toggle
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Theme Toggle Functionality
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');

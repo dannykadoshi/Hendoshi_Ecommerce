@@ -1,4 +1,18 @@
-/* Track Order Page Enhancements */
+/* ================================================
+   HENDOSHI - CART - TRACK ORDER
+   ================================================
+   
+   Purpose: Order tracking page styling and status displays
+   
+   Contains:
+   - Tracking form card
+   - Carrier information displays
+   - Tracking status indicators
+   - Contact card overrides
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
+   ================================================ */
 
 .tracking-form-card {
     position: relative;

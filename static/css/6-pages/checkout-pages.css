@@ -1,11 +1,17 @@
 /* ================================================
-   CHECKOUT PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - CHECKOUT
    ================================================
    
-   Extracted from inline <style> blocks for Code Institute compliance.
-   These styles were previously embedded in HTML templates.
+   Purpose: Checkout and payment page specific styling
    
-   Templates processed: 2
+   Contains:
+   - Payment page overrides
+   - Shipping modal styling
+   - List group customizations
+   - Checkout flow enhancements
+   
+   Dependencies: variables.css, checkout.css, ui-components.css
+   Load Order: Load after checkout feature styles
    ================================================ */
 
 /* ===== PAYMENT ===== */

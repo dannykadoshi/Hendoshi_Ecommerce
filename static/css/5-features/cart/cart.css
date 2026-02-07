@@ -1,8 +1,19 @@
-/* Cart & Add to Cart Styling */
-
-/* ============================================
-   CART PAGE REDESIGN - Clean & Compact
-   ============================================ */
+/* ================================================
+   HENDOSHI - CART - CART
+   ================================================
+   
+   Purpose: Shopping cart page styling and add to cart functionality
+   
+   Contains:
+   - Cart page layout (two-column design)
+   - Cart item cards
+   - Add to cart buttons and modals
+   - Cart summary components
+   - Quantity controls
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
+   ================================================ */
 
 /* Cart Page Layout - Two columns with summary outside container */
 .cart-page-layout {
@@ -3496,5 +3507,3 @@ main {
     height: 100%;
     object-fit: cover;
 }
-
-.placeholder-image-cart {

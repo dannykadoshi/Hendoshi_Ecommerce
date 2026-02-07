@@ -1,7 +1,18 @@
-/**
- * Every Day (Gothic Metal) Theme
- * Skulls, flames, bats, and dark gothic vibes - matches HENDOSHI branding
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME EVERYDAY
+   ================================================
+   
+   Purpose: Every Day (Gothic Metal) theme styling
+   
+   Contains:
+   - Skulls, flames, bats particles
+   - Dark gothic background overlays
+   - Gothic-themed animations
+   - HENDOSHI brand aesthetic
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="everyday"]::before,

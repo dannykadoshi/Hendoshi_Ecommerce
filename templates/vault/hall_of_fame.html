@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
+{# ================================================
+   HENDOSHI - VAULT - HALL OF FAME
+   ================================================
+   
+   Purpose: Template for vault - hall of fame
+   
+   Template Type: Django Template
+   Extends: Varies by template
+   Includes: Varies by template
+   
+   Context Variables: Varies by template
+   ================================================ #}
 
 {% block extra_title %}Hall of Fame - Past Featured Photos{% endblock %}
 
@@ -73,7 +85,7 @@
                         <div class="hall-of-fame-caption" id="caption-{{ photo.id }}">
                             {{ photo.caption }}
                         </div>
-                        <span class="hall-of-fame-read-more" onclick="toggleCaption({{ photo.id }})" id="read-more-{{ photo.id }}">
+                        <span class="hall-of-fame-read-more" data-action="toggle-caption" data-photo-id="{{ photo.id }}" id="read-more-{{ photo.id }}">
                             <i class="fas fa-chevron-down"></i> Read More
                         </span>
                     </div>
@@ -110,14 +122,14 @@
                         {% if user.is_authenticated %}
                         <div class="d-flex gap-2 justify-content-center">
                             {% if user != photo.user %}
-                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} hall-of-fame-vote-btn" title="Upvote this photo">
+                            <button data-action="vote" data-photo-id="{{ photo.id }}" data-vote-type="up" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} hall-of-fame-vote-btn" title="Upvote this photo">
                                 <i class="fas fa-thumbs-up"></i>
                             </button>
-                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} hall-of-fame-vote-btn" title="Downvote this photo">
+                            <button data-action="vote" data-photo-id="{{ photo.id }}" data-vote-type="down" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} hall-of-fame-vote-btn" title="Downvote this photo">
                                 <i class="fas fa-thumbs-down"></i>
                             </button>
                             {% endif %}
-                            <button onclick="likePhotoFromGallery({{ photo.id }})" class="btn {% if photo.is_liked %}btn-pink{% else %}btn-pink{% endif %} btn-sm hall-of-fame-like-btn">
+                            <button data-action="like-photo" data-photo-id="{{ photo.id }}" class="btn {% if photo.is_liked %}btn-success{% else %}btn-pink{% endif %} btn-sm hall-of-fame-like-btn">
                                 <i class="fas fa-heart"></i> {{ photo.likes.count }}
                             </button>
                         </div>
@@ -179,21 +191,9 @@
     </div>
 </div>
 
-<script>
-function toggleCaption(photoId) {
-    const caption = document.getElementById('caption-' + photoId);
-    const btn = document.getElementById('read-more-' + photoId);
-    
-    if (!caption || !btn) return;
-    
-    if (caption.classList.contains('expanded')) {
-        caption.classList.remove('expanded');
-        btn.innerHTML = '<i class="fas fa-chevron-down"></i> Read More';
-    } else {
-        caption.classList.add('expanded');
-        btn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less';
-    }
-}
-</script>
+{% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'js/3-features/vault/vault.js' %}"></script>
+<script src="{% static 'js/3-features/vault/vault-hall-of-fame.js' %}"></script>
 {% endblock %}

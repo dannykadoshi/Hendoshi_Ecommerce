@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
+{# ================================================
+   HENDOSHI - PRODUCTS - EDIT PRODUCT
+   ================================================
+   
+   Purpose: Template for products - edit product
+   
+   Template Type: Django Template
+   Extends: Varies by template
+   Includes: Varies by template
+   
+   Context Variables: Varies by template
+   ================================================ #}
 
 {% block title %}Edit {{ product.name }} - HENDOSHI{% endblock %}
 
@@ -72,7 +84,7 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ product_form.description.id_for_label }}" class="form-label mb-0">Description *</label>
-                                <button type="button" id="generateDescriptionBtn" class="btn btn-sm btn-ai">
+                                <button type="button" id="generateDescriptionBtn" data-generate-desc-url="{% url 'generate_product_description' %}" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
@@ -89,7 +101,7 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ product_form.meta_description.id_for_label }}" class="form-label mb-0">SEO Meta Description (Optional)</label>
-                                <button type="button" id="generateMetaBtn" class="btn btn-sm btn-ai">
+                                <button type="button" id="generateMetaBtn" data-generate-meta-url="{% url 'generate_seo_meta' %}" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
@@ -394,7 +406,7 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ design_form.title.id_for_label }}" class="form-label mb-0">Title</label>
-                                <button type="button" id="generateStoryTitleBtn" class="btn btn-sm btn-ai">
+                                <button type="button" id="generateStoryTitleBtn" data-generate-story-url="{% url 'generate_design_story' %}" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
@@ -408,7 +420,7 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="{{ design_form.story.id_for_label }}" class="form-label mb-0">Story</label>
-                                <button type="button" id="generateStoryContentBtn" class="btn btn-sm btn-ai">
+                                <button type="button" id="generateStoryContentBtn" data-generate-story-url="{% url 'generate_design_story' %}" class="btn btn-sm btn-ai">
                                     <i class="fas fa-magic"></i> Generate with AI
                                 </button>
                             </div>
@@ -447,25 +459,6 @@
                         </div>
                     <!-- Quill JS -->
                     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-                    <script>
-                    // Pass URLs to external JS via data attributes
-                    const generateMetaBtn = document.getElementById('generateMetaBtn');
-                    if (generateMetaBtn) {
-                        generateMetaBtn.dataset.generateMetaUrl = "{% url 'generate_seo_meta' %}";
-                    }
-                    const generateStoryTitleBtn = document.getElementById('generateStoryTitleBtn');
-                    if (generateStoryTitleBtn) {
-                        generateStoryTitleBtn.dataset.generateStoryUrl = "{% url 'generate_design_story' %}";
-                    }
-                    const generateStoryContentBtn = document.getElementById('generateStoryContentBtn');
-                    if (generateStoryContentBtn) {
-                        generateStoryContentBtn.dataset.generateStoryUrl = "{% url 'generate_design_story' %}";
-                    }
-                    const generateDescriptionBtn = document.getElementById('generateDescriptionBtn');
-                    if (generateDescriptionBtn) {
-                        generateDescriptionBtn.dataset.generateDescUrl = "{% url 'generate_product_description' %}";
-                    }
-                    </script>
                     <script src="{% static 'js/4-page-specific/edit-product-quill.js' %}"></script>
                     <script src="{% static 'js/4-page-specific/edit-product-forms.js' %}"></script>
                     </div>
@@ -590,8 +583,6 @@
         </div>
     </div>
 </div>
-
-
 
 </div>
 

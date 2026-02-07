@@ -1,6 +1,18 @@
-/* ============================================
-   THEME TOGGLE BUTTON - Enhanced with 5 Improvements
-   ============================================ */
+/* ================================================
+   HENDOSHI - COMPONENTS - DISCOUNT BANNER
+   ================================================
+   
+   Purpose: Discount banner and theme toggle button styling
+   
+   Contains:
+   - Theme toggle button
+   - Discount banner components
+   - Interactive hover effects
+   - Theme switching UI elements
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files
+   ================================================ */
 
 .theme-toggle:hover {
     color: var(--neon-pink);

@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - ADMIN THEME
+   ================================================
+   
+   Purpose: Styles for admin theme
+   
+   Contains:
+   - Layout and component styles
+   - Responsive design
+   - Theme integration
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files
+   ================================================ */
+
 :root {
     --neon-pink: #FF1493;
     --electric-yellow: #CCFF00;
@@ -101,4 +116,14 @@ input, textarea, select {
 
 .btn-height-32 {
     height: 32px;
+}
+
+/* Mobile: Allow buttons with longer text to fit properly */
+@media (max-width: 767px) {
+    .btn-width-80 {
+        width: auto;
+        min-width: 80px;
+        max-width: 100%;
+        white-space: nowrap;
+    }
 }

@@ -1,11 +1,18 @@
 /* ================================================
-   HOME PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - HOME
    ================================================
    
-   Extracted from inline <style> blocks for Code Institute compliance.
-   These styles were previously embedded in HTML templates.
+   Purpose: Home page specific styling and components
    
-   Templates processed: 6
+   Contains:
+   - Size guide modal
+   - Contact page layout
+   - Track order form
+   - Landing page sections
+   - Home hero sections
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
    ================================================ */
 
 /* ===== SIZE_GUIDE ===== */
@@ -431,8 +438,7 @@
 
 /* ===== TRACK_ORDER ===== */
 
-.btn-pink { /* moved to components.css for canonical styling */ }
-.btn-pink:hover { /* moved to components.css */ }
+/* .btn-pink moved to components.css for canonical styling */
 
 .tracking-form .form-control {
     background: rgba(0, 0, 0, 0.3);
@@ -872,9 +878,6 @@
     margin-bottom: 1.5rem;
 }
 
-.shipping-contact .btn-pink { /* moved to components.css for canonical styling */ }
-.shipping-contact .btn-pink:hover { /* moved to components.css */ }
-
 /* Mobile responsiveness for returns page */
 @media (max-width: 768px) {
     .shipping-content {
@@ -1071,8 +1074,6 @@
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
 }
-
-.shipping-contact .btn-pink { /* moved to components.css for canonical styling */ }
 
 /* Mobile responsiveness for FAQ page */
 @media (max-width: 768px) {

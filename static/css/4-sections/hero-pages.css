@@ -22,9 +22,9 @@
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    margin-top: -40px;
-    margin-bottom: 1.5rem;
-    padding: 3rem 0 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 1.5rem 0 2rem; /* Reduced from 3rem to 1.5rem for tighter spacing */
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
@@ -135,11 +135,15 @@
 .page-hero-title {
     position: relative;
     z-index: 2;
-    color: rgba(255, 255, 255, 0.95);
     font-size: 4rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 3px;
+    /* Global gradient for all page-hero titles */
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .page-hero-subtitle {
@@ -168,4 +172,37 @@
 .page-hero .checkout-hero-stat {
     position: relative;
     z-index: 2;
+}
+
+/* Mobile button stacking */
+@media (max-width: 768px) {
+    .page-hero .d-flex {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+    
+    /* Exception: Keep stats/badges inline */
+    .page-hero .d-flex:has(.checkout-hero-stat) {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 1rem !important;
+    }
+    
+    .page-hero .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .checkout-hero-stat {
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    
+    .page-hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .page-hero-subtitle {
+        font-size: 1.1rem;
+    }
 }

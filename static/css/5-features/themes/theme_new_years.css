@@ -1,7 +1,18 @@
-/**
- * New Years Theme
- * Gold/silver confetti, champagne bubbles, and firework sparkles
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME NEW YEARS
+   ================================================
+   
+   Purpose: New Year's Eve celebration theme styling
+   
+   Contains:
+   - Gold and silver confetti animations
+   - Champagne bubble effects
+   - Firework sparkle particles
+   - Celebratory backgrounds
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="new_years"]::before,

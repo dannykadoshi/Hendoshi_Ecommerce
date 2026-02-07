@@ -16,8 +16,9 @@
 }
 
 /* Canonical page container: centralized settings for page content wrappers */
+/* Universal spacing from page-hero sections */
 .page-container {
-    margin-top: 90px;
+    margin-top: 2rem;
     padding: 2rem 0;
 }
 

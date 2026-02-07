@@ -1,5 +1,17 @@
 /* ================================================
-   ERROR PAGES CSS (404, 500, etc.)
+   HENDOSHI - PAGES - ERROR
+   ================================================
+   
+   Purpose: Error page styling (404, 500, etc.)
+   
+   Contains:
+   - Error page layouts
+   - Animated backgrounds
+   - Error code displays
+   - Navigation helpers
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files
    ================================================ */
 
 .error-page {

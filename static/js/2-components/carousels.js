@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - CAROUSELS
+   ================================================
+   
+   Purpose: JavaScript functionality for carousels
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Collections Carousel
 document.addEventListener('DOMContentLoaded', function() {
     const collectionsTrack = document.getElementById('collections-track');

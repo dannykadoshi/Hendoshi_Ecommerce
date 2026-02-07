@@ -1,7 +1,18 @@
-/**
- * Rock'N'Roll Day Theme
- * Guitar picks, lightning bolts, and musical notes with electric vibes
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME ROCK N ROLL
+   ================================================
+   
+   Purpose: Rock'N'Roll Day theme styling
+   
+   Contains:
+   - Guitar picks, lightning bolts particles
+   - Musical note animations
+   - Electric purple background effects
+   - Rock-themed particle animations
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="rock_n_roll"]::before,

@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - EDIT PRODUCT FORMS
+   ================================================
+   
+   Purpose: JavaScript functionality for edit product forms
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Edit Product - Form Input Handlers, File Previews, Image Formset, Variant Status
 document.addEventListener('DOMContentLoaded', function() {
     // Get ALL form inputs including formset fields

@@ -100,6 +100,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Close vault and admin submenus when mouse leaves the wrapper
+    document.querySelectorAll('.vault-submenu-dropdown-wrapper, .admin-panel-dropdown-wrapper').forEach(wrapper => {
+        wrapper.addEventListener('mouseleave', function() {
+            const submenu = this.querySelector('.admin-panel-submenu, .vault-submenu');
+            if (submenu && submenu.classList.contains('show')) {
+                closeAllSubmenus();
+            }
+        });
+    });
+
     // Prevent submenu from closing when clicking inside it
     document.querySelectorAll('.admin-panel-submenu, .vault-submenu').forEach(submenu => {
         submenu.addEventListener('click', function(e) {

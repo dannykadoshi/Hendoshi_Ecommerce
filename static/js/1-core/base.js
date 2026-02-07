@@ -20,3 +20,22 @@
 
 // Reserved for global initialization if needed
 console.log('HENDOSHI Base JS loaded');
+
+// Conditional logo navigation
+// If user is on home page, clicking logo goes to products
+// If user is on any other page, clicking logo goes to home
+document.addEventListener('DOMContentLoaded', function() {
+    const logoLink = document.querySelector('.navbar-brand');
+    if (logoLink) {
+        logoLink.addEventListener('click', function(e) {
+            const currentPath = window.location.pathname;
+            
+            // Check if we're on the home page
+            if (currentPath === '/' || currentPath === '/home/') {
+                e.preventDefault();
+                window.location.href = '/products/';
+            }
+            // For all other pages, default behavior (go to home) works fine
+        });
+    }
+});

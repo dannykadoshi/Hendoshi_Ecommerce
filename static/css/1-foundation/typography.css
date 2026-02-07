@@ -10,6 +10,7 @@
 /* Base typography is inherited from body in reset.css */
 /* Font stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif */
 
+
 /* Text Color Utilities */
 .text-white-95 { 
     color: rgba(255, 255, 255, 0.95); 
@@ -19,5 +20,3 @@
 .text-white-90 { 
     color: rgba(255, 255, 255, 0.9); 
 }
-
-/* Additional text utilities can be added here as needed */

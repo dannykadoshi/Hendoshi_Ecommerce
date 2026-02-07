@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
+{# ================================================
+   HENDOSHI - THEMES - ADMIN THEMES PREVIEW
+   ================================================
+   
+   Purpose: Template for themes - admin themes preview
+   
+   Template Type: Django Template
+   Extends: Varies by template
+   Includes: Varies by template
+   
+   Context Variables: Varies by template
+   ================================================ #}
+
 {% block extra_title %}Preview: {{ theme.name }}{% endblock %}
+
+{% block body_attrs %}data-theme-type="{{ theme.theme_type }}" data-anim-speed="{{ theme.animation_speed }}" data-density="{{ theme.particle_density }}" data-is-paused="{% if theme.is_paused %}true{% else %}false{% endif %}"{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/features/themes/seasonal_themes.css' %}">
@@ -169,17 +184,6 @@
     </div>
 </div>
 
-<script src="{% static 'js/features/themes/seasonal_themes.js' %}"></script>
-<!-- Provide theme data via body dataset for the preview scripts -->
-<script>
-    (function(){
-        try {
-            document.body.dataset.themeType = "{{ theme.theme_type }}";
-            document.body.dataset.animSpeed = "{{ theme.animation_speed }}";
-            document.body.dataset.density = "{{ theme.particle_density }}";
-            document.body.dataset.isPaused = "{% if theme.is_paused %}true{% else %}false{% endif %}";
-        } catch (e) { console.warn('Could not set preview theme dataset', e); }
-    })();
-</script>
+<script src="{% static 'js/3-features/themes/seasonal_themes.js' %}"></script>
 <script src="{% static 'js/4-page-specific/admin-theme-preview.js' %}"></script>
 {% endblock %}

@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - PROFILE ACCOUNT
+   ================================================
+   
+   Purpose: Styles for profile account
+   
+   Contains:
+   - Layout and component styles
+   - Responsive design
+   - Theme integration
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files
+   ================================================ */
+
 .profile-page {
     min-height: 100vh;
     padding-top: 120px;
@@ -558,8 +573,7 @@
     }
 }
 
-.form-actions a.btn-pink { /* moved to components.css for canonical styling */ }
-.form-actions a.btn-pink:hover { /* moved to components.css */ }
+/* .form-actions a.btn-pink moved to components.css for canonical styling */
 
 .item-summary {
     display: flex;

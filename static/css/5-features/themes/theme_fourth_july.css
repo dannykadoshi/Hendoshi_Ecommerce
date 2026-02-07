@@ -1,7 +1,18 @@
-/**
- * 4th of July Theme
- * Fireworks, stars, and red/white/blue particles
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME FOURTH JULY
+   ================================================
+   
+   Purpose: 4th of July independence day theme styling
+   
+   Contains:
+   - Firework burst animations
+   - Star particle effects
+   - Red, white, and blue color scheme
+   - Patriotic-themed backgrounds
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="fourth_july"]::before,

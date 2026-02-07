@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - BULK SELECT TYPES
+   ================================================
+   
+   Purpose: JavaScript functionality for bulk select types
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Bulk Select Types - Product Type & Audience Selection, Total Calculation
 // Styled alert modal functions
 function showStyledAlert(message) {

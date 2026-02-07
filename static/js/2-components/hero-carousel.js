@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - HERO CAROUSEL
+   ================================================
+   
+   Purpose: JavaScript functionality for hero carousel
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Hero background carousel with navigation dots
 document.addEventListener('DOMContentLoaded', function() {
     const slides = document.querySelectorAll('.carousel-slide');

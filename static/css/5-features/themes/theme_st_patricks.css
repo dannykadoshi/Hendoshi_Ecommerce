@@ -1,7 +1,18 @@
-/**
- * Saint Patrick's Day Theme
- * Shamrocks, gold coins, and rainbow accents
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME ST PATRICKS
+   ================================================
+   
+   Purpose: Saint Patrick's Day theme styling
+   
+   Contains:
+   - Shamrock particle animations
+   - Gold coin decorations
+   - Rainbow accent effects
+   - Irish-themed backgrounds
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="st_patricks"]::before,

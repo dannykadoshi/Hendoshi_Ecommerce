@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
+{# ================================================
+   HENDOSHI - CHECKOUT - ORDER DETAIL
+   ================================================
+   
+   Purpose: Template for checkout - order detail
+   
+   Template Type: Django Template
+   Extends: Varies by template
+   Includes: Varies by template
+   
+   Context Variables: Varies by template
+   ================================================ #}
 
 {% block title %}Order {{ order.order_number }} - Hendoshi Store{% endblock %}
 
@@ -323,8 +335,6 @@
             </div>
             </div> <!-- end profile-card -->
         {% endblock %}
-
-
 
 {% block extra_js %}
 <script src="{% static 'js/3-features/contact/order-detail.js' %}"></script>

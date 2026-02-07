@@ -1,11 +1,17 @@
 /* ================================================
-   COOKIES PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - COOKIES
    ================================================
    
-   Extracted from inline <style> blocks for Code Institute compliance.
-   These styles were previously embedded in HTML templates.
+   Purpose: Cookie settings and preferences page styling
    
-   Templates processed: 2
+   Contains:
+   - Cookie settings cards
+   - Preference toggles
+   - Cookie policy display
+   - Settings form layouts
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
    ================================================ */
 
 /* ===== COOKIE_SETTINGS ===== */

@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - CREATE PRODUCT MODE
+   ================================================
+   
+   Purpose: JavaScript functionality for create product mode
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Creation Mode Toggle - Single vs Bulk
 document.addEventListener('DOMContentLoaded', function() {
     const singleModeBtn = document.getElementById('singleModeBtn');

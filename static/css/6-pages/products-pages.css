@@ -1,11 +1,18 @@
 /* ================================================
-   PRODUCTS PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - PRODUCTS
    ================================================
    
-   Extracted from inline <style> blocks for Code Institute compliance.
-   These styles were previously embedded in HTML templates.
+   Purpose: Product page specific styling and layouts
    
-   Templates processed: 10
+   Contains:
+   - Admin reviews list
+   - Product detail pages
+   - Product listing pages
+   - Size selector components
+   - Review displays
+   
+   Dependencies: variables.css, product-components.css
+   Load Order: Load after product feature styles
    ================================================ */
 
 /* ===== ADMIN_REVIEWS_LIST ===== */

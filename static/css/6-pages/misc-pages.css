@@ -1,8 +1,17 @@
 /* ================================================
-   MISC PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - MISC
    ================================================
-   Extracted from root-level templates for Code Institute compliance
-   Templates: about.html, product_types.html, collections.html, new_drops.html
+   
+   Purpose: Miscellaneous page specific styling
+   
+   Contains:
+   - Collections title styling
+   - Product type pages
+   - New drops displays
+   - General page utilities
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
    ================================================ */
 
 /* .about-buttons .btn-pink moved to components.css for canonical styling */

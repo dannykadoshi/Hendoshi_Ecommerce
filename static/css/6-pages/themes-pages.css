@@ -1,11 +1,17 @@
 /* ================================================
-   THEMES PAGES - Extracted Inline Styles
+   HENDOSHI - PAGES - THEMES
    ================================================
    
-   Extracted from inline <style> blocks for Code Institute compliance.
-   These styles were previously embedded in HTML templates.
+   Purpose: Theme management page styling
    
-   Templates processed: 4
+   Contains:
+   - Theme list displays
+   - Badge colors for theme status
+   - Theme type indicators
+   - Theme management admin interface
+   
+   Dependencies: variables.css, admin-ui-components.css
+   Load Order: Load after foundation and admin components
    ================================================ */
 
 /* ===== ADMIN_THEMES_LIST ===== */

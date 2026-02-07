@@ -1,7 +1,18 @@
-/**
- * Valentines Day Theme
- * Floating hearts and rose petals with soft pink glow
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME VALENTINES
+   ================================================
+   
+   Purpose: Valentine's Day theme styling
+   
+   Contains:
+   - Floating heart animations
+   - Rose petal particles
+   - Soft pink glow effects
+   - Romantic-themed overlays
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="valentines"]::before,

@@ -1,4 +1,19 @@
-/* Products Page Styles */
+/* ================================================
+   HENDOSHI - PRODUCTS - PRODUCT LIST
+   ================================================
+   
+   Purpose: Product listing and grid layout styling
+   
+   Contains:
+   - Product grid layouts
+   - Product card styling
+   - Filter and sort controls
+   - Responsive product displays
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
+   ================================================ */
+
 .products-page {
     padding-top: 120px;
     margin-top: 0;
@@ -837,6 +852,15 @@ h2.gradient-title {
     transform: scale(1.05);
     box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
     color: #000;
+}
+
+/* Mobile: Make add to cart button bigger */
+@media (max-width: 768px) {
+    .btn-quick-add {
+        padding: 0.75rem 2rem;
+        font-size: 0.95rem;
+        font-weight: 800;
+    }
 }
 
 /* Mobile menu search box */

@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - NAVBAR
+   ================================================
+   
+   Purpose: Styles for navbar
+   
+   Contains:
+   - Layout and component styles
+   - Responsive design
+   - Theme integration
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files
+   ================================================ */
+
 .navbar {
     background: #000000;
     border-bottom: 1px solid rgba(255, 105, 180, 0.2);

@@ -1,4 +1,19 @@
-/* Sale hero - reusable across pages */
+/* ================================================
+   HENDOSHI - COMPONENTS - PAGE STYLES
+   ================================================
+   
+   Purpose: Reusable page-level components and hero sections
+   
+   Contains:
+   - Sale hero sections
+   - Page banners and headers
+   - Promotional elements
+   - Cross-page reusable components
+   
+   Dependencies: variables.css, typography.css
+   Load Order: Load after foundation files, before page-specific files
+   ================================================ */
+
 .sale-hero {
     position: relative;
     padding: 8rem 0 4rem;

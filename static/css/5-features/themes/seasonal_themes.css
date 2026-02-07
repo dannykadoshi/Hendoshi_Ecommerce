@@ -1,7 +1,18 @@
-/**
- * Seasonal Themes - Base Styles
- * Core animation layer and particle system styles
- */
+/* ================================================
+   HENDOSHI - THEMES - SEASONAL THEMES
+   ================================================
+   
+   Purpose: Base seasonal theme system with animation layers
+   
+   Contains:
+   - Theme animation layer structure
+   - Particle system base styles
+   - Theme-active hero containers
+   - Core theme mechanics
+   
+   Dependencies: variables.css, animations.css
+   Load Order: Load before individual theme files
+   ================================================ */
 
 /* Theme-active vault hero container */
 .page-hero.theme-active {
@@ -9,14 +20,14 @@
     position: relative;
 }
 
-/* Animation layer - sits behind content */
+/* Animation layer - sits above overlay but behind content */
 .theme-animation-layer {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 10;
     pointer-events: none;
     overflow: hidden;
 }
@@ -24,7 +35,7 @@
 /* Ensure text content stays above animations */
 .page-hero.theme-active .container {
     position: relative;
-    z-index: 2;
+    z-index: 20;
 }
 
 .page-hero.theme-active .page-hero-title,

@@ -1,7 +1,18 @@
-/**
- * Thanksgiving Theme
- * Autumn leaves and warm harvest colors - gentle falling animation
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME THANKSGIVING
+   ================================================
+   
+   Purpose: Thanksgiving holiday theme styling
+   
+   Contains:
+   - Autumn leaf falling animations
+   - Warm harvest color scheme
+   - Gentle fall particle effects
+   - Fall-themed backgrounds
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="thanksgiving"]::before,

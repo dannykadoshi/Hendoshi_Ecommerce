@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - EDIT PRODUCT QUILL
+   ================================================
+   
+   Purpose: JavaScript functionality for edit product quill
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Edit Product - Quill Editor Initialization and AI Generation for Meta/Story/Description
 // Helper to read Django CSRF cookie
 function getCookie(name) {

@@ -1,5 +1,18 @@
-/* Global animations consolidated from feature CSS (vault, hall-of-fame)
-   Canonical source: Hall of Fame settings preferred where applicable */
+/* ================================================
+   HENDOSHI - COMPONENTS - ANIMATIONS
+   ================================================
+   
+   Purpose: Global CSS animations and keyframes for interactive elements
+   
+   Contains:
+   - Hero animations (pulse, gradient-shift)
+   - Vault animations (heartbeat, modal-pulse)
+   - Product animations (discount-pulse, pulse-heart)
+   - UI animations (slideDown, fadeIn, infinite-scroll)
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files, before feature files
+   ================================================ */
 
 @keyframes page-hero-pulse {
     0%, 100% { transform: translate(0, 0) scale(1); }

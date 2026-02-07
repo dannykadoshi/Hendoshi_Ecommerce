@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
+{# ================================================
+   HENDOSHI - VAULT - MODERATE PHOTOS
+   ================================================
+   
+   Purpose: Template for vault - moderate photos
+   
+   Template Type: Django Template
+   Extends: Varies by template
+   Includes: Varies by template
+   
+   Context Variables: Varies by template
+   ================================================ #}
 
 {% block extra_title %}Moderate Vault Photos{% endblock %}
 
@@ -157,7 +169,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="approve">
-                                <button type="button" class="btn btn-success btn-sm me-2" onclick="confirmVaultAction('approve', '{{ photo.id }}', 'Approve Photo', 'Are you sure you want to approve this photo? It will be visible in the public gallery.', 'fa-check-circle', 'Approve', 'btn-success')">
+                                <button type="button" class="btn btn-success btn-sm me-2" data-vault-action="approve" data-photo-id="{{ photo.id }}" data-title="Approve Photo" data-message="Are you sure you want to approve this photo? It will be visible in the public gallery." data-icon="fa-check-circle" data-confirm-text="Approve" data-confirm-class="btn-success">
                                     <i class="fas fa-check"></i> Approve
                                 </button>
                             </form>
@@ -166,7 +178,7 @@
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="reject">
                                 <input type="hidden" name="rejection_reason" value="">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('reject', '{{ photo.id }}', 'Reject Photo', 'Are you sure you want to reject this photo? The user will be notified.', 'fa-times-circle', 'Reject', 'btn-danger', true)">
+                                <button type="button" class="btn btn-danger btn-sm" data-vault-action="reject" data-photo-id="{{ photo.id }}" data-title="Reject Photo" data-message="Are you sure you want to reject this photo? The user will be notified." data-icon="fa-times-circle" data-confirm-text="Reject" data-confirm-class="btn-danger" data-is-reject="true">
                                     <i class="fas fa-times"></i> Reject
                                 </button>
                             </form>
@@ -175,7 +187,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="archive">
-                                <button type="button" class="btn btn-warning btn-sm me-2" onclick="confirmVaultAction('archive', '{{ photo.id }}', 'Archive Photo', 'Are you sure you want to archive this photo? It will be hidden from the public gallery but can be restored later.', 'fa-archive', 'Archive', 'btn-warning')">
+                                <button type="button" class="btn btn-warning btn-sm me-2" data-vault-action="archive" data-photo-id="{{ photo.id }}" data-title="Archive Photo" data-message="Are you sure you want to archive this photo? It will be hidden from the public gallery but can be restored later." data-icon="fa-archive" data-confirm-text="Archive" data-confirm-class="btn-warning">
                                     <i class="fas fa-archive"></i> Archive
                                 </button>
                             </form>
@@ -183,7 +195,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="delete">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('delete', '{{ photo.id }}', 'Delete Photo', 'Are you sure you want to permanently delete this photo? This action cannot be undone!', 'fa-trash', 'Delete Forever', 'btn-danger')">
+                                <button type="button" class="btn btn-danger btn-sm" data-vault-action="delete" data-photo-id="{{ photo.id }}" data-title="Delete Photo" data-message="Are you sure you want to permanently delete this photo? This action cannot be undone!" data-icon="fa-trash" data-confirm-text="Delete Forever" data-confirm-class="btn-danger">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>
@@ -192,7 +204,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="approve">
-                                <button type="button" class="btn btn-success btn-sm me-2" onclick="confirmVaultAction('approve', '{{ photo.id }}', 'Approve Photo', 'Are you sure you want to approve this previously rejected photo?', 'fa-check-circle', 'Approve', 'btn-success')">
+                                <button type="button" class="btn btn-success btn-sm me-2" data-vault-action="approve" data-photo-id="{{ photo.id }}" data-title="Approve Photo" data-message="Are you sure you want to approve this previously rejected photo?" data-icon="fa-check-circle" data-confirm-text="Approve" data-confirm-class="btn-success">
                                     <i class="fas fa-check"></i> Approve
                                 </button>
                             </form>
@@ -200,7 +212,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="delete">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('delete', '{{ photo.id }}', 'Delete Photo', 'Are you sure you want to permanently delete this rejected photo? This action cannot be undone!', 'fa-trash', 'Delete Forever', 'btn-danger')">
+                                <button type="button" class="btn btn-danger btn-sm" data-vault-action="delete" data-photo-id="{{ photo.id }}" data-title="Delete Photo" data-message="Are you sure you want to permanently delete this rejected photo? This action cannot be undone!" data-icon="fa-trash" data-confirm-text="Delete Forever" data-confirm-class="btn-danger">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>
@@ -209,7 +221,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="approve">
-                                <button type="button" class="btn btn-success btn-sm me-2" onclick="confirmVaultAction('approve', '{{ photo.id }}', 'Restore Photo', 'Are you sure you want to restore this archived photo to the public gallery?', 'fa-undo', 'Restore', 'btn-success')">
+                                <button type="button" class="btn btn-success btn-sm me-2" data-vault-action="approve" data-photo-id="{{ photo.id }}" data-title="Restore Photo" data-message="Are you sure you want to restore this archived photo to the public gallery?" data-icon="fa-undo" data-confirm-text="Restore" data-confirm-class="btn-success">
                                     <i class="fas fa-undo"></i> Restore
                                 </button>
                             </form>
@@ -217,7 +229,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
                                 <input type="hidden" name="action" value="delete">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmVaultAction('delete', '{{ photo.id }}', 'Delete Photo', 'Are you sure you want to permanently delete this archived photo? This action cannot be undone!', 'fa-trash', 'Delete Forever', 'btn-danger')">
+                                <button type="button" class="btn btn-danger btn-sm" data-vault-action="delete" data-photo-id="{{ photo.id }}" data-title="Delete Photo" data-message="Are you sure you want to permanently delete this archived photo? This action cannot be undone!" data-icon="fa-trash" data-confirm-text="Delete Forever" data-confirm-class="btn-danger">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>

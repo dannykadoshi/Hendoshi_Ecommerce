@@ -1,7 +1,18 @@
-/**
- * Mother's Day Theme
- * Delicate flower petals and butterflies with soft lavender tones
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME MOTHERS DAY
+   ================================================
+   
+   Purpose: Mother's Day theme styling
+   
+   Contains:
+   - Delicate flower petal animations
+   - Butterfly particle effects
+   - Soft lavender backgrounds
+   - Gentle floating animations
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="mothers_day"]::before,

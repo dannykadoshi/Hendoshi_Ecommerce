@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - CREATE PRODUCT
+   ================================================
+   
+   Purpose: JavaScript functionality for create product
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Create Product Page - Form Input Handlers, Image Formset, Variant Preview
 document.addEventListener('DOMContentLoaded', function() {
     // Function to check if input has value

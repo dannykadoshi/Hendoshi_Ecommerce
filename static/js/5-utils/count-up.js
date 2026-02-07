@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - COUNT UP
+   ================================================
+   
+   Purpose: JavaScript functionality for count up
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Small count-up utility for about page stats
 (function(){
     function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }

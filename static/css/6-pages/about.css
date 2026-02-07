@@ -1,4 +1,18 @@
-/* About Page Enhancements */
+/* ================================================
+   HENDOSHI - PAGES - ABOUT
+   ================================================
+   
+   Purpose: About page specific styling and enhancements
+   
+   Contains:
+   - Stats section cards
+   - About page layout
+   - Team/company information displays
+   - Interactive stat cards
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
+   ================================================ */
 
 /* Stats Section */
 .about-stat-card {

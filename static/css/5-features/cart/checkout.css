@@ -1,3 +1,25 @@
+/* ================================================
+   HENDOSHI - CHECKOUT & CART STYLES
+   ================================================
+   
+   Purpose: Complete checkout experience styling including cart display,
+            order summary, payment forms, shipping rates, and mobile
+            responsive layouts. Handles Stripe payment integration UI.
+   
+   Contains:
+   - Cart item cards and layout
+   - Quantity controls
+   - Order summary sidebar
+   - Stripe payment element styling  
+   - Checkout progress indicators
+   - Mobile cart optimization
+   - Light mode theme overrides
+   
+   Dependencies: Requires Stripe.js for payment processing
+   Load Order: After components, within features section
+   ================================================ */
+
+.placeholder-image-cart {
     width: 100%;
     height: 100%;
     display: flex;
@@ -2066,6 +2088,7 @@
 
     .checkout-progress {
         flex-wrap: wrap;
+        margin-top: 100px;
     }
 
     .form-control,
@@ -2422,7 +2445,6 @@
 /* Progress Container */
 .progress-container {
     padding-bottom: 1.5rem;
-    padding-top: 0;
     margin-top: -1rem;
 }
 

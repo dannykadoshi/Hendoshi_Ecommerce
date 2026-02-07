@@ -1,17 +1,23 @@
-/**
- * HENDOSHI - Admin Pages Stylesheet
- * 
- * This file contains all CSS for administrative pages including:
- * - Product admin (list, create, edit, bulk operations)
- * - Order management
- * - Shipping rules
- * - Discount codes
- * - Theme management
- * - Review moderation
- * - Collection management
- * - Newsletter subscribers
- * - Archived products
- */
+/* ================================================
+   HENDOSHI - ADMIN - ADMIN PAGES
+   ================================================
+   
+   Purpose: Administrative interface styling for all admin pages
+   
+   Contains:
+   - Product admin (list, create, edit, bulk operations)
+   - Order management
+   - Shipping rules
+   - Discount codes
+   - Theme management
+   - Review moderation
+   - Collection management
+   - Newsletter subscribers
+   - Archived products
+   
+   Dependencies: variables.css, admin-theme.css
+   Load Order: Load after foundation and admin-theme
+   ================================================ */
 
 /* ================================
    BULK OPERATIONS & ARCHIVE BAR

@@ -1,7 +1,18 @@
-/**
- * Christmas Theme
- * Snowflakes, ornaments, and twinkling lights
- */
+/* ================================================
+   HENDOSHI - THEMES - THEME CHRISTMAS
+   ================================================
+   
+   Purpose: Christmas holiday theme styling
+   
+   Contains:
+   - Snowflake particle animations
+   - Christmas ornament decorations
+   - Twinkling light effects
+   - Winter-themed backgrounds
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
 
 /* Theme-specific background overlay */
 .page-hero.theme-active[data-theme="christmas"]::before,

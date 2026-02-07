@@ -8,11 +8,18 @@ def custom_404(request, exception):
     """
     Custom 404 error page
     """
-    return render(request, '404.html', status=404)
+    return render(request, 'errors/404.html', status=404)
+
+
+def custom_500(request):
+    """
+    Custom 500 error page
+    """
+    return render(request, 'errors/500.html', status=500)
 
 
 def privacy(request):
-    return render(request, 'privacy.html')
+    return render(request, 'pages/privacy.html')
 
 
 def about(request):
@@ -28,7 +35,7 @@ def about(request):
     context = {
         'product_count': product_count,
     }
-    return render(request, 'about.html', context)
+    return render(request, 'pages/about.html', context)
 
 
 def collections(request):
@@ -63,7 +70,7 @@ def collections(request):
     context = {
         'collections': collections_data,
     }
-    return render(request, 'collections.html', context)
+    return render(request, 'pages/collections.html', context)
 
 
 def product_types(request):
@@ -99,7 +106,7 @@ def product_types(request):
     context = {
         'product_types': product_types_data,
     }
-    return render(request, 'product_types.html', context)
+    return render(request, 'pages/product_types.html', context)
 
 
 def new_drops(request):
@@ -131,4 +138,4 @@ def new_drops(request):
         'new_drops': recent_products,
         'total_count': recent_products.count(),
     }
-    return render(request, 'new_drops.html', context)
+    return render(request, 'pages/new_drops.html', context)

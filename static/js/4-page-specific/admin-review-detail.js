@@ -1,3 +1,18 @@
+/* ================================================
+   HENDOSHI - ADMIN REVIEW DETAIL
+   ================================================
+   
+   Purpose: JavaScript functionality for admin review detail
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
+
 // Admin Review Detail - Review Status Update, Admin Reply, Image Deletion
 const reviewDetailCard = document.querySelector('.review-detail-card');
 const reviewId = reviewDetailCard ? reviewDetailCard.dataset.reviewId : null;

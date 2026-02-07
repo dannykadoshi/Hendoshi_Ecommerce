@@ -1,4 +1,19 @@
-/* Newsletter Popup Modal */
+/* ================================================
+   HENDOSHI - SECTIONS - NEWSLETTER POPUP
+   ================================================
+   
+   Purpose: Newsletter subscription modal and popup styling
+   
+   Contains:
+   - Modal backdrop and overlay
+   - Newsletter form styling
+   - Popup animations
+   - Modal responsiveness
+   
+   Dependencies: variables.css, animations.css
+   Load Order: Load after components
+   ================================================ */
+
 .newsletter-popup-backdrop {
     display: none;
     position: fixed;

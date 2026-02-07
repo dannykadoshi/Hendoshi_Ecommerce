@@ -39,3 +39,4 @@ urlpatterns = [
 
 # Custom error handlers
 handler404 = views.custom_404
+handler500 = views.custom_500

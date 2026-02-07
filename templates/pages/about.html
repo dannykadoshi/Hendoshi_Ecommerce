@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+{# ================================================
+   HENDOSHI - PAGES - ABOUT
+   ================================================
+   
+   Purpose: Template for pages - about
+   
+   Template Type: Django Template
+   Extends: Varies by template
+   Includes: Varies by template
+   
+   Context Variables: Varies by template
+   ================================================ #}
+
 {% block extra_title %}About HENDOSHI{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/features/about-page.css' %}">
+<link rel="stylesheet" href="{% static 'css/6-pages/about.css' %}">
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/utils/count-up.js' %}" defer></script>
+<script src="{% static 'js/5-utils/count-up.js' %}" defer></script>
 {% endblock %}
 {% block content %}
 <div class="vault-page">
