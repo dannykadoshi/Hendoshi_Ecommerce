@@ -1171,8 +1171,8 @@
     /* Increase top padding to clear the fixed navbar and any banner */
     padding-top: 112px;
     overflow: visible;
-    /* Prevent horizontal overflow coming from full-bleed children */
-    overflow-x: hidden;
+    /* Prevent horizontal overflow using clip (allows sticky positioning unlike hidden) */
+    overflow-x: clip;
     position: static;
 }
 
@@ -1182,7 +1182,7 @@
         /* slightly larger offset so hero sits below the navbar */
         padding-top: 100px;
         /* Ensure no horizontal scroll on small screens */
-        overflow-x: hidden;
+        overflow-x: clip;
     }
 
     /* On mobile, reset the full-bleed margins/width used for desktop so

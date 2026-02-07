@@ -45,6 +45,7 @@
     </section>
 
     {% if cart_items %}
+    <div class="container-fluid page-container">
     <div class="cart-page-layout" data-initial-cart-count="{{ cart.get_total_items|default:0 }}" data-apply-discount-url="{% url 'apply_discount_code' %}" data-remove-discount-url="{% url 'remove_discount_code' %}">
         <!-- Cart Items Container -->
         <div class="container cart-container cart-main">

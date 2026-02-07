@@ -90,6 +90,7 @@
     position: sticky;
     top: 140px;
     align-self: flex-start;
+    margin-top: 0; /* Ensure it aligns with top of left column */
 }
 
 .carriers-sidebar .carriers-grid {

@@ -18,12 +18,7 @@
 /* ===== SIZE_GUIDE ===== */
 
 /* .shipping-contact .btn-pink moved to components.css for canonical styling */
-
-.contact-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0;
-}
+/* .contact-page styling moved to containers.css for centralized layout management */
 
 .contact-form-section {
     background: var(--dark-bg);

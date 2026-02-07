@@ -40,6 +40,7 @@
         </div>
     </section>
 
+    <div class="container-fluid page-container">
     <div class="checkout-page-layout">
         {% include 'includes/checkout-progress.html' %}
 
@@ -54,8 +55,8 @@
     </div>
 
     <div class="row">
-    <!-- Left Column: Order Summary (sticky) -->
-    <div class="col-lg-4 order-2 order-lg-1">
+    <!-- Left Column: Order Summary (sticky) - Shows FIRST on mobile -->
+    <div class="col-lg-4 order-1">
             <div class="checkout-sidebar-summary">
 			<div class="checkout-totals-summary glassmorphic-card p-4">
 				<h5 class="mb-3"><i class="fas fa-calculator"></i> Order Summary</h5>
@@ -83,8 +84,8 @@
 			</div>
 		</div>
 
-    <!-- Right Column: Shipping Address Form -->
-    <div class="col-lg-8 order-1 order-lg-2">
+    <!-- Right Column: Shipping Address Form - Shows SECOND on mobile -->
+    <div class="col-lg-8 order-2">
             <div class="panel">
                 <div class="panel-header d-flex justify-content-between align-items-center">
                     <div>
@@ -288,6 +289,8 @@
     </div>
         </div>
     </div>
+    </div>
+    <!-- /page-container -->
 </div>
 
 {% endblock %}

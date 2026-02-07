@@ -18,121 +18,123 @@
 {% block meta_keywords %}track order, order tracking, HENDOSHI delivery, shipment status, where is my order{% endblock %}
 {% block extra_title %}Track Your Order{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/features/track-order.css' %}">
+<link rel="stylesheet" href="{% static 'css/5-features/cart/track-order.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="contact-page">
-    <div class="container-fluid">
-        <!-- Track Your Order Hero -->
-        <section class="page-hero">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                        <h1 class="page-hero-title">Track Your Order</h1>
-                        <p class="page-hero-subtitle">Enter your order details to track your package</p>
-                    </div>
+    <!-- Track Your Order Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="page-hero-title">Track Your Order</h1>
+                    <p class="page-hero-subtitle">Enter your order details to track your package</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Tracking Form Section -->
-        <section class="contact-form-section py-5">
+    <!-- Tracking Form Section -->
+    <div class="container-fluid page-container">
+        <section class="contact-form-section">
             <div class="container">
                 <div class="row justify-content-center">
+                    <!-- Left Column: Tracking Form -->
                     <div class="col-lg-8">
-            <!-- Tracking Form -->
-			<div class="contact-card tracking-form-card mb-5">
-				<div class="tracking-form-header text-center mb-4">
-					<div class="tracking-icon-large">
-						<i class="fas fa-search-location"></i>
-					</div>
-					<h2 class="section-title mb-2">Find Your Order</h2>
-					<p class="text-muted">Enter your details below to track your package in real-time</p>
-				</div>
-                    {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <!-- Tracking Form -->
+                        <div class="contact-card tracking-form-card mb-4">
+                            <div class="tracking-form-header text-center mb-4">
+                                <div class="tracking-icon-large">
+                                    <i class="fas fa-search-location"></i>
+                                </div>
+                                <h2 class="section-title mb-2">Find Your Order</h2>
+                                <p class="text-muted">Enter your details below to track your package in real-time</p>
+                            </div>
+                            {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                            
+                            <form method="post" action="{% url 'track_order' %}" class="tracking-form">
+                                {% csrf_token %}
+                                <div class="mb-4">
+                                    <label for="order_number" class="form-label">
+                                        <i class="fas fa-hashtag"></i> Order Number
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control form-control-lg" 
+                                        id="order_number" 
+                                        name="order_number"
+                                        placeholder="e.g., ORD-123456789"
+                                        required>
+                                    <small class="form-text text-white-95">You can find this in your order confirmation email</small>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope"></i> Email Address
+                                    </label>
+                                    <input 
+                                        type="email" 
+                                        class="form-control form-control-lg" 
+                                        id="email" 
+                                        name="email"
+                                        placeholder="your@email.com"
+                                        required>
+                                    <small class="form-text text-white-95">The email used when placing your order</small>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-pink btn-lg w-100">
+                                    <i class="fas fa-shipping-fast"></i> Track My Order
+                                </button>
+                            </form>
                         </div>
-                        {% endfor %}
-                    {% endif %}
-                    
-                    <div class="mb-4">
-                        <label for="order_number" class="form-label">
-                            <i class="fas fa-hashtag"></i> Order Number
-                        </label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-lg" 
-                            id="order_number" 
-                            name="order_number"
-                            placeholder="e.g., ORD-123456789"
-                            required>
-                        <small class="form-text text-white-95">You can find this in your order confirmation email</small>
+                        
+                        <!-- Quick Track Info -->
+                        <div class="contact-card tracking-info-cards mb-4">
+                            <h3 class="section-title text-center mb-4">
+                                <i class="fas fa-info-circle"></i> Tracking Information
+                            </h3>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="info-card">
+                                        <div class="info-icon">
+                                            <i class="fas fa-envelope-open-text"></i>
+                                        </div>
+                                        <h5>Check Your Email</h5>
+                                        <p class="small text-muted">Your tracking number was sent to your email when your order shipped</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="info-card">
+                                        <div class="info-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <h5>Processing Time</h5>
+                                        <p class="small text-muted">Orders typically ship within 2-5 business days after placement</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="info-card">
+                                        <div class="info-icon">
+                                            <i class="fas fa-headset"></i>
+                                        </div>
+                                        <h5>Need Help?</h5>
+                                        <p class="small text-muted">Contact our support team if you have questions about your order</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="mb-4">
-                        <label for="email" class="form-label">
-                            <i class="fas fa-envelope"></i> Email Address
-                        </label>
-                        <input 
-                            type="email" 
-                            class="form-control form-control-lg" 
-                            id="email" 
-                            name="email"
-                            placeholder="your@email.com"
-                            required>
-                        <small class="form-text text-white-95">The email used when placing your order</small>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-pink btn-lg w-100">
-                        <i class="fas fa-shipping-fast"></i> Track My Order
-                    </button>
-                </form>
-            </div>
-            
-			<!-- Quick Track Info -->
-			<div class="contact-card tracking-info-cards mb-5">
-				<h3 class="section-title text-center mb-4">
-					<i class="fas fa-info-circle"></i> Tracking Information
-				</h3>
-				<div class="row g-3">
-					<div class="col-md-4">
-						<div class="info-card">
-							<div class="info-icon">
-								<i class="fas fa-envelope-open-text"></i>
-							</div>
-							<h5>Check Your Email</h5>
-							<p class="small text-muted">Your tracking number was sent to your email when your order shipped</p>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="info-card">
-							<div class="info-icon">
-								<i class="fas fa-clock"></i>
-							</div>
-							<h5>Processing Time</h5>
-							<p class="small text-muted">Orders typically ship within 2-5 business days after placement</p>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="info-card">
-							<div class="info-icon">
-								<i class="fas fa-headset"></i>
-							</div>
-							<h5>Need Help?</h5>
-							<p class="small text-muted">Contact our support team if you have questions about your order</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			</div>
-                    
-                    <!-- Shipping Carriers Sidebar (Desktop) -->
+                    <!-- Shipping Carriers Sidebar (Desktop) - Right Column -->
                     <div class="col-lg-4 d-none d-lg-block">
                         <div class="contact-card carriers-card carriers-sidebar">
                             <h3 class="section-title text-center mb-3">

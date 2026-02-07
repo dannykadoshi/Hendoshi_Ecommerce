@@ -17,13 +17,14 @@
 
 /* Canonical page container: centralized settings for page content wrappers */
 /* Universal spacing from page-hero sections */
-.page-container {
-    margin-top: 2rem;
-    padding: 2rem 0;
-}
 
 .checkout-page {
     padding-top: 120px;
+    padding-bottom: 3rem;
+}
+
+.contact-page {
+    padding-top: 112px;
     padding-bottom: 3rem;
 }
 

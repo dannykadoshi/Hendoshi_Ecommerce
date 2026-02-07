@@ -30,6 +30,11 @@
     --vault-max-width: 1200px;
 }
 
+/* Cart page needs no top padding to allow proper sticky behavior */
+.cart-page .page-container {
+    padding-top: 0;
+}
+
 .page-container > .container,
 .page-container .container {
     max-width: var(--vault-max-width);
@@ -48,8 +53,12 @@
     min-height: 100vh;
     padding-top: 120px;
     margin-top: 0;
-    margin-bottom: 48px;
     padding-bottom: 3rem;
+}
+
+/* Checkout pages need reduced page-container bottom padding to avoid excessive footer spacing */
+.checkout-page .page-container {
+    padding-bottom: 2rem;
 }
 
 .search-results-container {

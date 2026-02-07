@@ -372,7 +372,6 @@
 
     .cart-summary {
         position: static;
-        margin-top: 2rem;
     }
 }
 
@@ -2445,7 +2444,6 @@
 /* Progress Container */
 .progress-container {
     padding-bottom: 1.5rem;
-    margin-top: -1rem;
 }
 
 .progress-container.with-top-padding {
@@ -5083,7 +5081,18 @@ input[type="number"] {
 @media (max-width: 991px) {
     .checkout-sidebar-summary {
         position: static;
-        margin-top: 2rem;
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+    
+    /* Order summary appears first on mobile, so add separator */
+    .checkout-totals-summary {
+        border-bottom: 3px solid var(--neon-pink);
+    }
+    
+    /* Add subtle animation for better UX */
+    .checkout-totals-summary h5 {
+        font-size: 1.1rem;
     }
 }
 
@@ -5959,10 +5968,6 @@ body > iframe[name*="__privateStripeFrame"] {
 .cart-page,
 .vault-page.cart-page {
     padding-bottom: 0.5rem;
-}
-
-.checkout-page .container-fluid.page-container {
-    margin-bottom: 0.5rem;
 }
 
 .checkout-page .checkout-page-layout,
