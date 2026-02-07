@@ -1,0 +1,171 @@
+/* ================================================
+   HENDOSHI - PAGE HERO BANNERS (Global)
+   ================================================
+   
+   Global .page-hero styles used across ALL pages (except homepage).
+   This includes audience-specific banners and layout.
+   
+   Note: Homepage hero carousel is in 4-sections/hero-homepage.css
+   
+   Load Order: After components, before features
+   ================================================ */
+
+/* ========================================
+   GLOBAL PAGE HERO BANNER
+   ======================================== */
+
+/* Base page hero - used on products, vault, checkout, profile, etc. */
+.page-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-glass-light);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    margin-top: -40px;
+    margin-bottom: 1.5rem;
+    padding: 3rem 0 1rem;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    
+    /* Default banner for all page-hero sections */
+    background-image: url('/static/images/page-hero-banners/all-page-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #0a0a0a;
+    min-height: 280px;
+    border-bottom: none;
+}
+
+/* ========================================
+   AUDIENCE-SPECIFIC BANNERS
+   ======================================== */
+
+/* Specific audience banners using data attributes */
+.page-hero[data-banner="female"] {
+    background-image: url('/static/images/page-hero-banners/female-banner.jpg');
+}
+
+.page-hero[data-banner="male"] {
+    background-image: url('/static/images/page-hero-banners/male-banner.jpg');
+}
+
+.page-hero[data-banner="unisex"] {
+    background-image: url('/static/images/page-hero-banners/unissex-banner.jpg');
+}
+
+/* ========================================
+   BANNER VARIANTS
+   ======================================== */
+
+/* Pages that explicitly don't want a banner */
+.page-hero.no-banner {
+    background-image: none;
+    background-color: transparent;
+    min-height: auto;
+}
+
+/* Background banner image (when present) - kept for backwards compatibility */
+.page-hero.has-banner {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 280px;
+    background-color: #0a0a0a;
+    border-bottom: none;
+}
+
+.page-hero.has-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ========================================
+   OVERLAYS & EFFECTS
+   ======================================== */
+
+/* Default overlay for all page-hero sections */
+.page-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.page-hero.no-banner::after {
+    display: none;
+}
+
+/* Animated gradient background */
+.page-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 20, 147, 0.1) 0%, transparent 70%);
+    animation: page-hero-pulse 15s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.page-hero.has-banner::before {
+    opacity: 0.5;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+.page-hero-title {
+    position: relative;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.page-hero-subtitle {
+    position: relative;
+    z-index: 2;
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   Z-INDEX STACKING
+   ======================================== */
+
+/* Ensure all interactive elements in page-hero are above overlay */
+.page-hero .btn,
+.page-hero a,
+.page-hero button,
+.page-hero .pug-skull-branding,
+.page-hero .container,
+.page-hero .row,
+.page-hero .col-12,
+.page-hero .page-hero-title,
+.page-hero .page-hero-subtitle,
+.page-hero .checkout-hero-stat {
+    position: relative;
+    z-index: 2;
+}

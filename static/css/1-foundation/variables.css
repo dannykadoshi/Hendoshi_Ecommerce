@@ -1,0 +1,63 @@
+/* ================================================
+   HENDOSHI - CSS VARIABLES & CUSTOM PROPERTIES
+   ================================================
+   
+   This file contains all CSS custom properties used throughout the site.
+   Variables are organized by category for easy maintenance.
+   
+   Load Order: FIRST (before any other CSS)
+   ================================================ */
+
+/* ===================================
+   DARK MODE (Default)
+   =================================== */
+:root {
+    /* Brand Colors */
+    --neon-pink: #FF1493;
+    --electric-yellow: #CCFF00;
+    
+    /* Base Colors */
+    --black: #000000;
+    --white: #FFFFFF;
+    --charcoal: #1A1A1A;
+    --off-white: #F5F5F5;
+    --gray: #666666;
+    
+    /* Text Colors */
+    --text-muted: rgba(255, 255, 255, 0.6);
+    
+    /* Glassmorphism */
+    --bg-glass-light: rgba(255, 255, 255, 0.03);
+    --border-glass-color: rgba(255, 255, 255, 0.08);
+    --border-glass: 1px solid var(--border-glass-color);
+    --border-radius-glass: 10px;
+    --padding-glass: 1rem 1.25rem;
+}
+
+/* ===================================
+   LIGHT MODE
+   =================================== */
+:root.light-mode {
+    /* Inverted Base Colors */
+    --black: #FFFFFF;
+    --white: #000000;
+    --charcoal: #F5F5F5;
+    --off-white: #1A1A1A;
+    
+    /* Adjusted Brand Colors for Light Mode */
+    --neon-pink: #E71F7F;
+    --electric-yellow: #B8D400;
+    
+    /* Gray unchanged */
+    --gray: #666666;
+    
+    /* Text Colors */
+    --text-muted: rgba(0, 0, 0, 0.6);
+    
+    /* Glassmorphism - Light Mode */
+    --bg-glass-light: rgba(0, 0, 0, 0.03);
+    --border-glass-color: rgba(0, 0, 0, 0.08);
+    --border-glass: 1px solid var(--border-glass-color);
+    --border-radius-glass: 10px;
+    --padding-glass: 1rem 1.25rem;
+}

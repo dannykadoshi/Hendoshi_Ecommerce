@@ -131,43 +131,63 @@
         <!-- Font Awesome -->
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-        <!-- Custom CSS -->
-        <!-- Base CSS with Variables -->
-        <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.9">
-        <!-- Components CSS -->
-        <link rel="stylesheet" href="{% static 'css/components.css' %}?v=1.0">
-        <!-- Navigation CSS -->
-        <link rel="stylesheet" href="{% static 'css/navigation.css' %}?v=2.0">
-        <!-- Hero Carousel CSS -->
-        <link rel="stylesheet" href="{% static 'css/hero-carousel.css' %}?v=1.2">
         
-        <!-- Feature-Specific CSS (organized by functionality) -->
-        <link rel="stylesheet" href="{% static 'css/features/products.css' %}?v=1.1">
-        <link rel="stylesheet" href="{% static 'css/features/cart-checkout.css' %}?v=1.1">
-        <link rel="stylesheet" href="{% static 'css/features/vault-community.css' %}?v=1.1">
-        <link rel="stylesheet" href="{% static 'css/features/profile-account.css' %}?v=1.1">
+        <!-- ================================================
+             HENDOSHI CSS ARCHITECTURE (Reorganized Feb 2026)
+             Numbered folders enforce load order & cascade
+             See static/css/README.md for documentation
+             ================================================ -->
         
-        <!-- Admin Pages CSS (only for staff) -->
+        <!-- 1. FOUNDATION - Variables, Resets, Typography -->
+        <link rel="stylesheet" href="{% static 'css/1-foundation/variables.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/1-foundation/reset.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/1-foundation/typography.css' %}?v=3.0">
+        
+        <!-- 2. LAYOUT - Containers, Navigation -->
+        <link rel="stylesheet" href="{% static 'css/2-layout/containers.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/2-layout/navbar.css' %}?v=3.0">
+        
+        <!-- 3. COMPONENTS - Reusable UI Elements (SPLIT INTO 3 FILES) -->
+        <link rel="stylesheet" href="{% static 'css/3-components/animations.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/3-components/page-styles.css' %}?v=4.0">
+        <link rel="stylesheet" href="{% static 'css/3-components/discount-banner.css' %}?v=4.0">
+        <link rel="stylesheet" href="{% static 'css/3-components/ui-components.css' %}?v=4.0">
+        
+        <!-- 4. SECTIONS - Page Sections (used across multiple pages) -->
+        <link rel="stylesheet" href="{% static 'css/4-sections/hero-homepage.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/4-sections/hero-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/4-sections/newsletter-popup.css' %}?v=3.0">
+        
+        <!-- 5. FEATURES - Business Logic Modules -->
+        <link rel="stylesheet" href="{% static 'css/5-features/products/product-list.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/cart/cart.css' %}?v=4.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/cart/checkout.css' %}?v=4.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/cart/track-order.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/vault/vault-grid.css' %}?v=4.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/vault/vault-modals.css' %}?v=4.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/profiles/profile-account.css' %}?v=3.0">
+        
+        <!-- Admin Features (only for staff) -->
         {% if user.is_staff %}
-        <link rel="stylesheet" href="{% static 'css/admin-pages.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/admin/admin-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/admin/admin-theme.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/admin/admin-shipping.css' %}?v=3.0">
         {% endif %}
         
-        <!-- Page-Specific CSS (extracted from inline styles for Code Institute compliance) -->
-        <link rel="stylesheet" href="{% static 'css/page-specific/home-pages.css' %}?v=1.0">
-        <link rel="stylesheet" href="{% static 'css/page-specific/products-pages.css' %}?v=1.0">
-        <link rel="stylesheet" href="{% static 'css/page-specific/checkout-pages.css' %}?v=1.1">
-        <link rel="stylesheet" href="{% static 'css/page-specific/profiles-pages.css' %}?v=1.0">
-        <link rel="stylesheet" href="{% static 'css/page-specific/themes-pages.css' %}?v=1.1">
-        <link rel="stylesheet" href="{% static 'css/page-specific/cookies-pages.css' %}?v=1.0">
-        <link rel="stylesheet" href="{% static 'css/page-specific/misc-pages.css' %}?v=1.0">
-        
-        <!-- Newsletter Popup CSS -->
-        <link rel="stylesheet" href="{% static 'css/newsletter-popup.css' %}">
+        <!-- 6. PAGES - Page-Specific Overrides -->
+        <link rel="stylesheet" href="{% static 'css/6-pages/home-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/products-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/checkout-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/profiles-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/themes-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/cookies-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/misc-pages.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/6-pages/about.css' %}?v=3.0">
 
-        <!-- Seasonal Themes CSS -->
+        <!-- 7. SEASONAL THEMES (Dynamic, Loaded Last) -->
         {% if seasonal_theme %}
-        <link rel="stylesheet" href="{% static 'css/features/themes/seasonal_themes.css' %}">
-        <link rel="stylesheet" href="{% static 'css/features/themes/theme_' %}{{ seasonal_theme.theme_type }}.css">
+        <link rel="stylesheet" href="{% static 'css/5-features/themes/seasonal_themes.css' %}?v=3.0">
+        <link rel="stylesheet" href="{% static 'css/5-features/themes/theme_' %}{{ seasonal_theme.theme_type }}.css?v=3.0">
         {% endif %}
 
         {% block extra_css %}{% endblock %}
@@ -1030,17 +1050,17 @@
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         
-        <!-- Custom Modular JS -->
-        <script src="{% static 'js/base.js' %}"></script>
-        <script src="{% static 'js/theme-toggle.js' %}"></script>
-        <script src="{% static 'js/navigation-dropdown.js' %}"></script>
-        <script src="{% static 'js/utils.js' %}"></script>
-        <script src="{% static 'js/hero-carousel.js' %}"></script>
-        <script src="{% static 'js/newsletter-validation.js' %}"></script>
-        <script src="{% static 'js/carousels.js' %}"></script>
+        <!-- Custom Modular JS (Reorganized) -->
+        <script src="{% static 'js/1-core/base.js' %}"></script>
+        <script src="{% static 'js/1-core/utils.js' %}"></script>
+        <script src="{% static 'js/2-components/theme-toggle.js' %}"></script>
+        <script src="{% static 'js/2-components/navigation-dropdown.js' %}"></script>
+        <script src="{% static 'js/2-components/hero-carousel.js' %}"></script>
+        <script src="{% static 'js/2-components/newsletter-validation.js' %}"></script>
+        <script src="{% static 'js/2-components/carousels.js' %}"></script>
         
         <!-- Base Global Functions (Toast, Cart Drawer, Mobile Menu, etc.) -->
-        <script src="{% static 'js/page-specific/base-global.js' %}"></script>
+        <script src="{% static 'js/4-page-specific/base-global.js' %}"></script>
 
         <!-- Initialize authenticated user features if logged in -->
         {% if user.is_authenticated %}
@@ -1070,7 +1090,7 @@
 
         <!-- Seasonal Themes -->
         {% if seasonal_theme %}
-        <script src="{% static 'js/features/themes/seasonal_themes.js' %}"></script>
+        <script src="{% static 'js/3-features/themes/seasonal_themes.js' %}"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize seasonal theme animations
@@ -1105,7 +1125,7 @@
         </button>
 
         <!-- Newsletter Popup Script -->
-        <script src="{% static 'js/newsletter-popup.js' %}"></script>
+        <script src="{% static 'js/2-components/newsletter-popup.js' %}"></script>
 
         <!-- Cookie Consent Banner -->
         {% include 'cookies/cookie_consent.html' %}

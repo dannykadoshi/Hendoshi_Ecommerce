@@ -1,0 +1,964 @@
+/* Sale hero - reusable across pages */
+.sale-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    overflow: hidden;
+    /* Lift the hero below sticky navbar */
+    margin-top: 120px;
+    padding-top: calc(8rem + 10px);
+}
+
+.sale-hero::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.06) 0%, rgba(255, 140, 0, 0.03) 30%, transparent 60%);
+     pointer-events: none;
+     z-index: 1;
+}
+
+.sale-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: none;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.sale-subtitle {
+     font-size: 1.2rem;
+     color: var(--off-white);
+     opacity: 0.95;
+     position: relative;
+     z-index: 2;
+}
+
+.sale-badge {
+     display: inline-block;
+     margin-top: 1rem;
+     padding: 0.5rem 0.9rem;
+     background: linear-gradient(90deg, rgba(255,20,147,0.95), rgba(255,140,0,0.95));
+     color: #fff;
+     border-radius: 999px;
+     font-weight: 800;
+     letter-spacing: 1px;
+     box-shadow: 0 8px 30px rgba(255,20,147,0.12);
+     position: relative;
+     z-index: 2;
+}
+
+/* Contact/Close button used on shipping, contact, returns, about pages */
+.contact-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.contact-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: scale(1.1);
+}
+
+/* Toast positioning moved from inline styles in templates */
+.toast[data-message="true"] { position: relative; }
+
+/* About page specific accents */
+.about-vibrant .accent-title {
+    font-size: 2rem;
+    color: var(--neon-pink);
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.about-vibrant .lead {
+    color: var(--off-white);
+    opacity: 0.95;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+.muted-hr {
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.04);
+    margin: 2rem 0;
+}
+.about-quote {
+    font-style: italic;
+    color: var(--electric-yellow);
+    font-weight: 700;
+    margin: 2rem 0;
+    padding: 1rem;
+    border-left: 4px solid var(--neon-pink);
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+}
+
+.about-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 0 1rem;
+}
+
+.about-buttons .btn {
+    min-width: 160px;
+    text-align: center;
+}
+.about-vibrant h3 {
+    color: var(--neon-pink);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+.about-card h4 {
+    margin-bottom: 0.75rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.tight { margin-top: 1rem; }
+.small.muted { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+/* Canonical .page-hero rules are defined in
+   static/css/features/vault-community.css — keep overrides out of components.css */
+
+/* Layout fixes for symmetric About page */
+.contact-card {
+    margin: 0 auto;
+    max-width: 1200px; /* Constrain width on large screens for better readability */
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    border: var(--border-glass);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Policy Pages Specific Styling (Privacy, Terms, etc.) */
+.contact-card h2 {
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.contact-card h2:first-of-type {
+    margin-top: 1rem;
+    border-top: none;
+    padding-top: 0;
+}
+
+.contact-card p {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-card p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-card ul {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-card ul li {
+    margin-bottom: 0.75rem;
+}
+
+.contact-card ul li:last-child {
+    margin-bottom: 0;
+}
+
+.contact-card strong {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+}
+
+.contact-card a {
+    color: var(--neon-pink);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+/* Centralized checkout container spacing
+   Keep only the top padding here to avoid duplicates across
+   feature and page-specific CSS files. Mobile overrides remain
+   in their respective files when necessary. */
+.checkout-container {
+    padding-top: 3rem;
+}
+
+.contact-card a:hover {
+    color: #ff6fb5;
+    text-decoration: underline;
+}
+
+/* Mobile Responsive Styles for Policy Pages */
+@media (max-width: 991px) {
+    .contact-card {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .contact-card h2 {
+        font-size: 1.35rem;
+        margin-top: 2rem;
+        margin-bottom: 0.85rem;
+    }
+
+    .contact-card p,
+    .contact-card ul {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-page {
+        padding-top: 100px;
+    }
+
+    .contact-card {
+        padding: 1.5rem 1.25rem;
+        border-radius: 0;
+    }
+
+    .contact-card h2 {
+        font-size: 1.25rem;
+        margin-top: 1.75rem;
+        margin-bottom: 0.75rem;
+        padding-top: 0.75rem;
+    }
+
+    .contact-card h2:first-of-type {
+        margin-top: 0.75rem;
+    }
+
+    .contact-card p {
+        font-size: 0.9rem;
+        line-height: 1.65;
+        margin-bottom: 1rem;
+    }
+
+    .contact-card ul {
+        font-size: 0.9rem;
+        line-height: 1.65;
+        margin-bottom: 1.25rem;
+        padding-left: 1.25rem;
+    }
+
+    .contact-card ul li {
+        margin-bottom: 0.65rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-page {
+        padding-top: 90px;
+    }
+
+    .contact-card {
+        padding: 1.25rem 1rem;
+    }
+
+    .contact-card h2 {
+        font-size: 1.15rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.65rem;
+        padding-top: 0.65rem;
+    }
+
+    .contact-card h2:first-of-type {
+        margin-top: 0.5rem;
+    }
+
+    .contact-card p {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        margin-bottom: 0.9rem;
+    }
+
+    .contact-card ul {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        padding-left: 1rem;
+    }
+
+    .contact-card ul li {
+        margin-bottom: 0.55rem;
+    }
+
+    /* Improve link tap targets on mobile */
+    .contact-card a {
+        display: inline-block;
+        padding: 2px 0;
+        min-height: 44px;
+        line-height: 1.6;
+    }
+}
+
+/* Contact Page Specific Styles */
+.form-hint {
+    color: #aaa;
+}
+
+.contact-form .form-label {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form .form-label i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.contact-form .required {
+    color: var(--neon-pink);
+}
+
+.contact-form .optional {
+    color: #888;
+    font-weight: normal;
+    font-size: 0.85rem;
+}
+
+.contact-form .form-control,
+.contact-form .form-select {
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form .form-control:focus,
+.contact-form .form-select:focus {
+    background: rgba(20, 20, 20, 0.95);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 2px rgba(255, 0, 102, 0.2);
+    color: #fff;
+    outline: none;
+}
+
+.contact-form .form-control::placeholder {
+    color: #666;
+}
+
+.contact-form .form-select option {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.contact-form textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.char-counter {
+    font-size: 0.8rem;
+    color: #b0b0b0;
+}
+
+.char-counter.warning {
+    color: var(--electric-yellow);
+}
+
+.char-counter.danger {
+    color: var(--neon-pink);
+}
+
+.contact-info-card {
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.contact-info-card h5 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.contact-info-card h5 i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+}
+
+.contact-info-card p {
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-link:hover {
+    color: var(--electric-yellow);
+}
+
+/* Responsive adjustments for contact page */
+@media (max-width: 768px) {
+    .contact-hero {
+        padding: 3rem 0;
+    }
+
+    .contact-title {
+        font-size: 2.5rem;
+    }
+
+    .contact-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .contact-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-hero {
+        padding: 2.5rem 0;
+    }
+
+    .contact-title {
+        font-size: 2rem;
+    }
+
+    .contact-subtitle {
+        font-size: 1rem;
+    }
+
+    .contact-card {
+        padding: 1.25rem;
+    }
+}
+
+/* Audience badges */
+.badge-audience {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #111;
+    margin-left: 0.5rem;
+}
+.badge-audience.badge-men { background: linear-gradient(90deg,#2b8cff,#1e6fe5); color: #fff; }
+.badge-audience.badge-women { background: linear-gradient(90deg,#ff6fb5,#ff3a8d); color: #fff; }
+.badge-audience.badge-kids { background: linear-gradient(90deg,#ffd166,#ffb84d); color: #111; }
+.badge-audience.badge-unisex { background: linear-gradient(90deg,#9be7c4,#5cc4a2); color: #111; }
+
+.audience-badge { display:inline-block; margin-left:0.5rem; padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.85rem; }
+
+/* Audience switcher button hover/focus colors to match badge gradients */
+.audience-switcher .btn.badge-men:hover,
+.audience-switcher .btn.badge-men:focus {
+    background: linear-gradient(90deg,#2b8cff,#1e6fe5);
+    border-color: transparent;
+    color: #fff;
+}
+.audience-switcher .btn.badge-women:hover,
+.audience-switcher .btn.badge-women:focus {
+    background: linear-gradient(90deg,#ff6fb5,#ff3a8d);
+    border-color: transparent;
+    color: #fff;
+}
+.audience-switcher .btn.badge-kids:hover,
+.audience-switcher .btn.badge-kids:focus {
+    background: linear-gradient(90deg,#ffd166,#ffb84d);
+    border-color: transparent;
+    color: #111;
+}
+.audience-switcher .btn.badge-unisex:hover,
+.audience-switcher .btn.badge-unisex:focus {
+    background: linear-gradient(90deg,#9be7c4,#5cc4a2);
+    border-color: transparent;
+    color: #111;
+}
+
+/* Slight transition for smooth hover */
+.audience-switcher .btn {
+    transition: background 220ms ease, color 220ms ease, transform 120ms ease;
+}
+.audience-switcher .btn:active { transform: translateY(1px); }
+
+/* Product type switcher colors (for "View this design in:") */
+.audience-switcher .btn.badge-product-type:hover,
+.audience-switcher .btn.badge-product-type:focus {
+    background: linear-gradient(90deg,#9b59d0,#7b3fa5);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* All Products button styling */
+.audience-switcher .btn.badge-all-products:hover,
+.audience-switcher .btn.badge-all-products:focus {
+    background: linear-gradient(90deg,#ff1493,#ff6b35);
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Make contact-type pages' inner cards full-bleed on small screens
+   so shipping, returns, size guide, FAQ, and contact pages use
+   the full viewport width (minus small internal padding). */
+@media (max-width: 768px) {
+    .contact-page .contact-card,
+    .contact-form-section .contact-card {
+        /* full width for shipping and size guide pages */
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        border-radius: 0;
+        /* Keep comfortable horizontal padding for readability */
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    /* remove outer container padding for full width */
+    .contact-page .container,
+    .contact-form-section .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-page .contact-card,
+    .contact-form-section .contact-card {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+.contact-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    margin-top: 0;
+}
+
+.contact-form-section {
+    background: var(--dark-bg);
+}
+
+.profile-card {
+    padding: 2rem;
+}
+
+.about-vibrant .two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    align-items: start;
+}
+.about-vibrant .two-columns > div {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+    justify-items: center;
+    margin-bottom: 2rem;
+}
+.about-card {
+    padding: 1rem;
+    border-radius: 12px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-vibrant h3 i, .about-card h4 i {
+    color: var(--neon-pink);
+    margin-right: 0.5rem;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .contact-card { padding: 1.5rem 0.25rem; }
+    .profile-card { padding: 1.5rem 0.25rem; }
+    .about-vibrant .two-columns { grid-template-columns: 1fr; }
+    .about-buttons { 
+        justify-content: center; 
+        padding: 0;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .about-buttons .btn {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+/* Delete Confirmation Modal */
+.delete-confirm-modal {
+    background-color: var(--charcoal);
+    border: 2px solid #dc3545;
+    border-radius: 15px;
+    color: var(--off-white);
+}
+
+.delete-confirm-modal .modal-header {
+    background: rgba(220, 53, 69, 0.15);
+    border-bottom: 2px solid #dc3545;
+    padding: 1.25rem 1.5rem;
+}
+
+.delete-confirm-modal .modal-title {
+    color: #dc3545;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+}
+
+.delete-confirm-modal .modal-title i {
+    margin-right: 0.5rem;
+}
+
+.delete-confirm-modal .modal-body {
+    padding: 2rem;
+}
+
+.delete-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(220, 53, 69, 0.15);
+    border: 3px solid #dc3545;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    animation: pulse-danger 2s infinite;
+}
+
+.delete-icon-wrapper i {
+    font-size: 2rem;
+    color: #dc3545;
+}
+
+@keyframes pulse-danger {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+    }
+}
+
+.delete-message {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--off-white);
+}
+
+.delete-message strong {
+    color: #dc3545;
+    font-size: 1.3rem;
+}
+
+.delete-warning {
+    color: #dc3545;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.delete-warning i {
+    margin-right: 0.5rem;
+}
+
+.delete-confirm-modal .modal-footer {
+    border-top: 1px solid rgba(220, 53, 69, 0.3);
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+}
+
+.delete-confirm-modal .btn-outline-secondary {
+    background: transparent;
+    border: 2px solid var(--gray);
+    color: var(--off-white);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.delete-confirm-modal .btn-outline-secondary:hover {
+    background: var(--gray);
+    color: var(--black);
+}
+
+.delete-confirm-modal .btn-danger {
+    background: #dc3545;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.delete-confirm-modal .btn-danger:hover {
+    background: #c82333;
+    box-shadow: 0 5px 20px rgba(220, 53, 69, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Light mode for delete modal */
+:root.light-mode .delete-confirm-modal {
+    background-color: #fff;
+}
+
+:root.light-mode .delete-confirm-modal .modal-body,
+:root.light-mode .delete-message {
+    color: #333;
+}
+
+/* Policy Pages Light Mode (Privacy, Terms, Returns, etc.) */
+:root.light-mode .contact-card p {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .contact-card ul {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .contact-card strong {
+    color: #222;
+}
+
+:root.light-mode .about-vibrant .lead {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root.light-mode .small.muted {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .contact-info-card {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root.light-mode .contact-info-card h5 {
+    color: #222;
+}
+
+:root.light-mode .contact-info-card p {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* Universal Vault Modal Styles - Pink Glassmorphism */
+.vault-confirm-modal .modal-content {
+    background: rgba(255, 20, 147, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 12px;
+    color: var(--off-white);
+    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.15);
+}
+
+.vault-modal-header {
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+    padding: 1.5rem;
+}
+
+.vault-modal-title {
+    color: var(--neon-pink);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.vault-modal-icon {
+    color: var(--neon-pink);
+}
+
+.vault-modal-body {
+    padding: 1rem 1.5rem;
+}
+
+.vault-modal-message-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.vault-modal-icon-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+.vault-modal-main-icon {
+    font-size: 2.5rem;
+    color: #ff6b6b;
+}
+
+.vault-modal-message {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+.vault-modal-product-details {
+    background: rgba(255, 20, 147, 0.05);
+    border: 1px solid rgba(255, 20, 147, 0.15);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.vault-modal-product-title {
+    color: var(--electric-yellow);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.vault-modal-product-info {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+
+.vault-modal-image-column {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 0.5rem;
+}
+
+.vault-modal-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.vault-modal-info-column:first-of-type {
+    border-right: 1px solid rgba(255, 20, 147, 0.2);
+    padding-right: 1rem;
+}
+
+.vault-modal-info-column:last-of-type {
+    padding-left: 1rem;
+}
+
+.vault-modal-product-image {
+    max-width: 80px;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 20, 147, 0.2);
+}
+
+.vault-modal-product-info-label {
+    font-size: 0.85rem;
+    color: var(--off-white);
+    font-weight: 500;
+    padding: 0.25rem 0;
+}
+
+.vault-modal-product-info-value {
+    font-size: 0.9rem;
+    color: var(--off-white);
+    font-weight: 500;
+    padding: 0.25rem 0;
+    text-align: left;
+}
+
+.vault-modal-footer {
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.vault-modal-btn-cancel {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--off-white);
+}
+
+.vault-modal-btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--off-white);
+}
+
+.vault-modal-btn-confirm {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.vault-modal-btn-confirm:hover {
+    background-color: #ff4757;
+    border-color: #ff4757;
+}
+
