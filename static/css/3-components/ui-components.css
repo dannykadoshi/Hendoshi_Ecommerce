@@ -2830,29 +2830,29 @@ body.cart-drawer-open {
 }
 
 /* Glassmorphism Effects - Global Utility */
-.glassmorphic-card {
-    background: var(--bg-glass-light) !important;
+body .glassmorphic-card {
+    background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
-    border: var(--border-glass) !important;
+    border: var(--border-glass);
     border-radius: 15px;
 }
 
-.glassmorphic-card:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 105, 180, 0.3) !important;
+body .glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 105, 180, 0.3);
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(255, 20, 147, 0.4);
 }
 
 /* Light mode glassmorphic card */
-:root.light-mode .glassmorphic-card {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border-color: rgba(255, 20, 147, 0.15) !important;
+:root.light-mode body .glassmorphic-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 20, 147, 0.15);
 }
 
-:root.light-mode .glassmorphic-card:hover {
-    background: rgba(255, 255, 255, 0.98) !important;
-    border-color: rgba(255, 20, 147, 0.3) !important;
+:root.light-mode body .glassmorphic-card:hover {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(255, 20, 147, 0.3);
     box-shadow: 0 15px 35px rgba(255, 20, 147, 0.2);
 }
 
@@ -2946,37 +2946,37 @@ body.cart-drawer-open {
 }
 
 /* Override btn-pink styles when combined with btn-cta */
-.btn-pink.btn-cta {
-    background: linear-gradient(135deg, var(--electric-yellow) 0%, #FFD700 100%) !important;
-    border: 2px solid var(--electric-yellow) !important;
-    color: var(--black) !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    box-shadow: 0 0 20px rgba(255, 255, 0, 0.5) !important;
-    transition: all 0.3s ease !important;
+body .btn-pink.btn-cta {
+    background: linear-gradient(135deg, var(--electric-yellow) 0%, #FFD700 100%);
+    border: 2px solid var(--electric-yellow);
+    color: var(--black);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+    transition: all 0.3s ease;
 }
 
-.btn-pink.btn-cta:hover {
-    background: linear-gradient(135deg, #FFD700 0%, var(--electric-yellow) 100%) !important;
-    box-shadow: 0 0 30px rgba(255, 255, 0, 0.8) !important;
-    transform: translateY(-2px) !important;
-    border-color: #FFD700 !important;
+body .btn-pink.btn-cta:hover {
+    background: linear-gradient(135deg, #FFD700 0%, var(--electric-yellow) 100%);
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+    transform: translateY(-2px);
+    border-color: #FFD700;
 }
 
-.btn-pink.btn-cta:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 0 15px rgba(255, 255, 0, 0.6) !important;
+body .btn-pink.btn-cta:active {
+    transform: translateY(0);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
 }
 
 /* Form Text Utility Classes */
 .form-text {
-    color: var(--text-muted);
+    color: var(--text-muted) !important;
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
 
-.text-muted {
+body .text-muted {
     color: var(--text-muted) !important;
 }
 

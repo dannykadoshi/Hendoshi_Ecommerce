@@ -48,7 +48,7 @@
    ============================================ */
 
 /* Main Banner Container */
-.discount-banner {
+body .discount-banner {
     background: linear-gradient(-45deg, var(--charcoal) 0%, rgba(255,20,147,0.3) 25%, rgba(255,215,0,0.2) 50%, var(--charcoal) 100%);
     background-size: 400% 400%;
     color: var(--off-white);
@@ -61,15 +61,15 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: 0 !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 100% !important;
-    box-sizing: border-box !important;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    box-sizing: border-box;
     z-index: 99999;
     animation: bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
                gradientShift 12s ease-in-out infinite 0.6s,
@@ -103,10 +103,10 @@
 
 /* Hidden state for scroll behavior */
 body .discount-banner.banner-hidden {
-    transform: translateY(-110%) !important;
-    opacity: 0 !important;
+    transform: translateY(-110%);
+    opacity: 0;
     pointer-events: none;
-    animation: none !important;
+    animation: none;
 }
 
 /* Confetti Canvas */
@@ -121,28 +121,28 @@ body .discount-banner.banner-hidden {
 }
 
 /* Banner Content Wrapper */
-.discount-banner-content {
+body .discount-banner-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100%;
+    max-width: 100%;
     position: relative;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* Scrolling Message Container */
-.discount-message-container {
+body .discount-message-container {
     overflow: hidden;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 100% !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
     position: relative;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .discount-message-scroll {
@@ -525,37 +525,37 @@ body .discount-banner.slide-up {
         justify-content: center;
         align-items: center;
         z-index: 99998;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 100% !important;
-        left: 0 !important;
-        right: 0 !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        left: 0;
+        right: 0;
+        margin: 0;
+        box-sizing: border-box;
     }
 
     /* Banner content - full width on mobile */
-    .discount-banner-content {
+    body .discount-banner-content {
         display: flex;
         flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
         gap: 0.3rem;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
     }
 
     /* Scrolling Message Container - Mobile */
-    .discount-message-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
+    body .discount-message-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
         flex: none;
     }
 

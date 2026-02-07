@@ -220,12 +220,12 @@
 /* When a page-hero has a message strip inserted, remove any bottom gap
    so the strip sits flush against the hero. The `has-strip` class is
    added dynamically by base.html when the strip is injected. */
-.page-hero.has-strip {
-    margin-bottom: 0 !important;
+body .page-hero.has-strip {
+    margin-bottom: 0;
 }
 
-.page-hero.has-strip + .seasonal-message-strip {
-    margin-top: 0 !important;
+body .page-hero.has-strip + .seasonal-message-strip {
+    margin-top: 0;
     padding-top: 0.4rem; /* small padding so text doesn't butt directly to hero */
 }
 

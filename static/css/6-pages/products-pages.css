@@ -136,11 +136,11 @@
 }
 
 /* Improved visibility for muted text */
-.text-muted {
+body .text-muted {
     color: #b0b0b0 !important;
 }
 
-.card .text-muted {
+body .card .text-muted {
     color: #aaa !important;
 }
 
@@ -370,8 +370,8 @@
     font-size: 0.9rem;
 }
 
-.review-rating i.text-muted {
-    color: #444 !important;
+body .review-rating i.text-muted {
+    color: #444;
 }
 
 .review-footer {
@@ -380,10 +380,10 @@
     align-items: center;
 }
 
-.review-footer .text-muted,
-.review-card .text-muted,
-.admin-reply .text-muted {
-    color: #aaa !important;
+body .review-footer .text-muted,
+body .review-card .text-muted,
+body .admin-reply .text-muted {
+    color: #aaa;
 }
 
 .helpful-btn {
@@ -1066,8 +1066,8 @@
         color: rgba(255, 255, 255, 0.9);
     }
 
-    .card .text-muted {
-        color: rgba(255, 255, 255, 0.6) !important;
+    body .card .text-muted {
+        color: rgba(255, 255, 255, 0.6);
     }
 
     .card small {
@@ -1516,13 +1516,13 @@
     box-shadow: 0 0 0 2px rgba(255, 45, 161, 0.25);
 }
 
-.review-detail-card em.text-muted {
-    color: #b0b0b0 !important;
+body .review-detail-card em.text-muted {
+    color: #b0b0b0;
     font-style: italic;
 }
 
-.admin-reply-section small.text-muted {
-    color: #b0b0b0 !important;
+body .admin-reply-section small.text-muted {
+    color: #b0b0b0;
 }
 
 

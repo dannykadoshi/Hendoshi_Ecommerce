@@ -289,9 +289,9 @@
 }
 
 /* Override glassmorphic-card when used on featured cards */
-.vault-featured-card.glassmorphic-card {
-    background: rgba(20, 20, 20, 0.95) !important;
-    border: 2px solid rgba(255, 20, 147, 0.3) !important;
+body .vault-featured-card.glassmorphic-card {
+    background: rgba(20, 20, 20, 0.95);
+    border: 2px solid rgba(255, 20, 147, 0.3);
 }
 
 .vault-featured-card:hover {

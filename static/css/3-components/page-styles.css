@@ -156,7 +156,7 @@
     font-size: 1.1rem;
 }
 .tight { margin-top: 1rem; }
-.small.muted { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+.small.muted { color: rgba(255,255,255,0.6) !important; font-size: 0.9rem; }
 
 /* Canonical .page-hero rules are defined in
    static/css/features/vault-community.css — keep overrides out of components.css */

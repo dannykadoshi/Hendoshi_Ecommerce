@@ -1636,9 +1636,11 @@ h2.gradient-title {
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: transparent;
-    background-clip: text;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)) !important;
+    color: transparent !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
 }
 
 .product-meta {
@@ -1737,7 +1739,7 @@ h2.gradient-title {
     position: relative;
     z-index: 2;
     margin: 0;
-    color: var(--off-white);
+    color: var(--off-white) !important;
 }
 
 .design-story {

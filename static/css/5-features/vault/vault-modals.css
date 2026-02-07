@@ -2721,9 +2721,9 @@
     border-color: rgba(255, 20, 147, 0.2);
 }
 
-:root.light-mode .vault-featured-card.glassmorphic-card {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border-color: rgba(255, 20, 147, 0.2) !important;
+:root.light-mode body .vault-featured-card.glassmorphic-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 20, 147, 0.2);
 }
 
 :root.light-mode .vault-featured-card:hover {
