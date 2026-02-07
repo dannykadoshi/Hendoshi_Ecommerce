@@ -27,7 +27,7 @@
 }
 
 .theme-particle.fathers_day.tie {
-    color: #1E3A5F;
+    color: #1e3a5f;
     text-shadow: 0 0 10px rgba(30, 58, 95, 0.4);
 }
 
@@ -37,7 +37,7 @@
 }
 
 .theme-particle.fathers_day.star {
-    color: #4169E1;
+    color: #4169e1;
     text-shadow: 0 0 12px rgba(65, 105, 225, 0.5);
     animation-name: starTwinkle;
 }
@@ -63,7 +63,8 @@
 }
 
 @keyframes starTwinkle {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(0.8);
         opacity: 0;
     }
@@ -91,9 +92,9 @@
 }
 
 .theme-particle.fathers_day.silver {
-    color: #C0C0C0;
+    color: #c0c0c0;
 }
 
 .theme-particle.fathers_day.charcoal {
-    color: #36454F;
+    color: #36454f;
 }

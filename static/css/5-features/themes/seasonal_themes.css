@@ -135,7 +135,8 @@
 }
 
 @keyframes themeSway {
-    0%, 100% {
+    0%,
+    100% {
         transform: translateX(0) rotate(0deg);
     }
     25% {
@@ -147,7 +148,8 @@
 }
 
 @keyframes themeSparkle {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0.3;
         transform: scale(1);
     }
@@ -158,7 +160,8 @@
 }
 
 @keyframes themePulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
         filter: brightness(1);
     }
@@ -237,7 +240,7 @@ body .page-hero.has-strip + .seasonal-message-strip {
 /* Gradient border accents */
 .seasonal-message-strip::before,
 .seasonal-message-strip::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     right: 0;
@@ -294,8 +297,8 @@ body .page-hero.has-strip + .seasonal-message-strip {
 
 /* Skull separator */
 .seasonal-message-text::after {
-    content: '\f54c';
-    font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free';
+    content: "\f54c";
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 1.4rem;
     margin-left: 1.5rem;
@@ -305,12 +308,17 @@ body .page-hero.has-strip + .seasonal-message-strip {
 }
 
 @keyframes seasonalStripScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 @keyframes skullPulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
         opacity: 0.7;
     }

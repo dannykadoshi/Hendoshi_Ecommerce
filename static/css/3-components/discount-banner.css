@@ -36,7 +36,7 @@
 }
 
 .theme-toggle.light-mode-active:hover {
-    color: #FF69B4;
+    color: #ff69b4;
 }
 
 :root.light-mode .theme-toggle:hover {
@@ -49,7 +49,13 @@
 
 /* Main Banner Container */
 body .discount-banner {
-    background: linear-gradient(-45deg, var(--charcoal) 0%, rgba(255,20,147,0.3) 25%, rgba(255,215,0,0.2) 50%, var(--charcoal) 100%);
+    background: linear-gradient(
+        -45deg,
+        var(--charcoal) 0%,
+        rgba(255, 20, 147, 0.3) 25%,
+        rgba(255, 215, 0, 0.2) 50%,
+        var(--charcoal) 100%
+    );
     background-size: 400% 400%;
     color: var(--off-white);
     text-align: center;
@@ -71,12 +77,14 @@ body .discount-banner {
     min-width: 100%;
     box-sizing: border-box;
     z-index: 99999;
-    animation: bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-               gradientShift 12s ease-in-out infinite 0.6s,
-               bannerGlow 15s ease-in-out infinite 0.6s;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.4s ease,
-                opacity 0.3s ease;
+    animation:
+        bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+        gradientShift 12s ease-in-out infinite 0.6s,
+        bannerGlow 15s ease-in-out infinite 0.6s;
+    transition:
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.4s ease,
+        opacity 0.3s ease;
     cursor: default;
     pointer-events: auto;
     backdrop-filter: none;
@@ -87,13 +95,15 @@ body .discount-banner {
 
 /* High-value discount special styling */
 .discount-banner.high-value {
-    background: linear-gradient(-45deg,
-            #1a0a14 0%,
-            rgba(255, 20, 147, 0.4) 20%,
-            rgba(255, 215, 0, 0.3) 40%,
-            rgba(255, 107, 53, 0.3) 60%,
-            rgba(255, 20, 147, 0.4) 80%,
-            #1a0a14 100%);
+    background: linear-gradient(
+        -45deg,
+        #1a0a14 0%,
+        rgba(255, 20, 147, 0.4) 20%,
+        rgba(255, 215, 0, 0.3) 40%,
+        rgba(255, 107, 53, 0.3) 60%,
+        rgba(255, 20, 147, 0.4) 80%,
+        #1a0a14 100%
+    );
     background-size: 600% 600%;
 
     animation:
@@ -190,23 +200,23 @@ body .discount-message-container {
 }
 
 .discount-button.shop-now {
-    background: linear-gradient(45deg, #E71F7F, #FF69B4);
+    background: linear-gradient(45deg, #e71f7f, #ff69b4);
     color: white;
 }
 
 .discount-button.shop-now:hover {
-    background: linear-gradient(45deg, #FF1493, #FF8BC4);
+    background: linear-gradient(45deg, #ff1493, #ff8bc4);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(231, 31, 127, 0.4);
 }
 
 .discount-button.sale {
-    background: linear-gradient(45deg, #B8D400, #D4E157);
+    background: linear-gradient(45deg, #b8d400, #d4e157);
     color: #000000;
 }
 
 .discount-button.sale:hover {
-    background: linear-gradient(45deg, #C6E226, #E0EE6E);
+    background: linear-gradient(45deg, #c6e226, #e0ee6e);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(184, 212, 0, 0.4);
 }
@@ -218,15 +228,18 @@ body .discount-message-container {
 /* Banner Hover Effect */
 .discount-banner:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 35px rgba(255, 20, 147, 0.25),
-                0 0 20px rgba(255, 215, 0, 0.15),
-                0 0 30px rgba(255, 105, 180, 0.1);
+    box-shadow:
+        0 8px 35px rgba(255, 20, 147, 0.25),
+        0 0 20px rgba(255, 215, 0, 0.15),
+        0 0 30px rgba(255, 105, 180, 0.1);
 }
 
 /* Gift Icon */
 .discount-banner #discountIcon {
     color: var(--neon-pink);
-    animation: iconSparkle 15s ease-in-out infinite, iconBounce 2s ease-in-out infinite;
+    animation:
+        iconSparkle 15s ease-in-out infinite,
+        iconBounce 2s ease-in-out infinite;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-size: 1rem;
 }
@@ -237,13 +250,15 @@ body .discount-message-container {
 
 /* Discount Code Text - Clickable */
 .discount-banner .discount-code-text {
-    background: linear-gradient(45deg, #FF1493, #FFD700, #FFA500, #FF1493);
+    background: linear-gradient(45deg, #ff1493, #ffd700, #ffa500, #ff1493);
     background-size: 300% 300%;
     background-clip: text;
     color: transparent;
     font-weight: 800;
     letter-spacing: 0.5px;
-    animation: textGlow 8s ease-in-out infinite, gradientShift 12s ease-in-out infinite;
+    animation:
+        textGlow 8s ease-in-out infinite,
+        gradientShift 12s ease-in-out infinite;
     cursor: pointer;
     padding: 0.15rem 0.5rem;
     border-radius: 4px;
@@ -253,7 +268,7 @@ body .discount-message-container {
 }
 
 .discount-banner .discount-code-text::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: rgba(255, 255, 255, 0.1);
@@ -295,7 +310,7 @@ body .discount-message-container {
 }
 
 .copy-tooltip::before {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -312,7 +327,9 @@ body .discount-message-container {
 
 /* Message Transition */
 .discount-message-container {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .discount-message-container.fade-out {
@@ -322,19 +339,33 @@ body .discount-message-container {
 
 /* Light mode styles */
 :root.light-mode .discount-banner {
-    background: linear-gradient(-45deg, #F5F5F5 0%, rgba(255,20,147,0.15) 30%, rgba(255,215,0,0.15) 60%, #F5F5F5 100%);
+    background: linear-gradient(
+        -45deg,
+        #f5f5f5 0%,
+        rgba(255, 20, 147, 0.15) 30%,
+        rgba(255, 215, 0, 0.15) 60%,
+        #f5f5f5 100%
+    );
     background-size: 400% 400%;
-    border-bottom-color: rgba(0,0,0,0.12);
+    border-bottom-color: rgba(0, 0, 0, 0.12);
     color: #000000;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
 }
 
 :root.light-mode .discount-banner.high-value {
-    background: linear-gradient(-45deg, #fff0f5 0%, rgba(255,20,147,0.2) 20%, rgba(255,215,0,0.2) 40%, rgba(255,107,53,0.15) 60%, rgba(255,20,147,0.2) 80%, #fff0f5 100%);
+    background: linear-gradient(
+        -45deg,
+        #fff0f5 0%,
+        rgba(255, 20, 147, 0.2) 20%,
+        rgba(255, 215, 0, 0.2) 40%,
+        rgba(255, 107, 53, 0.15) 60%,
+        rgba(255, 20, 147, 0.2) 80%,
+        #fff0f5 100%
+    );
 }
 
 :root.light-mode .discount-banner #discountIcon {
-    color: #E71F7F;
+    color: #e71f7f;
 }
 
 :root.light-mode .discount-banner .discount-code-text {
@@ -344,7 +375,7 @@ body .discount-message-container {
 }
 
 :root.light-mode .discount-button.shop-now {
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 :root.light-mode .discount-button.sale {
@@ -419,68 +450,126 @@ body .discount-banner.slide-up {
 
 /* Gradient shift */
 @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Faster gradient for high-value */
 @keyframes gradientShiftFast {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Banner glow */
 @keyframes bannerGlow {
-    0%, 100% {
+    0%,
+    100% {
         box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
     }
     50% {
-        box-shadow: 0 6px 35px rgba(255, 20, 147, 0.15), 0 0 15px rgba(255, 105, 180, 0.05);
+        box-shadow:
+            0 6px 35px rgba(255, 20, 147, 0.15),
+            0 0 15px rgba(255, 105, 180, 0.05);
     }
 }
 
 /* Intense glow for high-value */
 @keyframes bannerGlowIntense {
-    0%, 100% {
-        box-shadow: 0 6px 40px rgba(255, 20, 147, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+    0%,
+    100% {
+        box-shadow:
+            0 6px 40px rgba(255, 20, 147, 0.4),
+            0 0 20px rgba(255, 215, 0, 0.2);
     }
     50% {
-        box-shadow: 0 8px 50px rgba(255, 20, 147, 0.6), 0 0 30px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 105, 180, 0.2);
+        box-shadow:
+            0 8px 50px rgba(255, 20, 147, 0.6),
+            0 0 30px rgba(255, 215, 0, 0.4),
+            0 0 40px rgba(255, 105, 180, 0.2);
     }
 }
 
 /* Icon sparkle */
 @keyframes iconSparkle {
-    0%, 100% { color: #FF1493; transform: scale(1); filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.5)); }
-    25% { color: #FFD700; transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)); }
-    50% { color: #FFA500; transform: scale(1); filter: drop-shadow(0 0 3px rgba(255, 165, 0, 0.5)); }
-    75% { color: #FFD700; transform: scale(1.05); filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5)); }
+    0%,
+    100% {
+        color: #ff1493;
+        transform: scale(1);
+        filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.5));
+    }
+    25% {
+        color: #ffd700;
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
+    50% {
+        color: #ffa500;
+        transform: scale(1);
+        filter: drop-shadow(0 0 3px rgba(255, 165, 0, 0.5));
+    }
+    75% {
+        color: #ffd700;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+    }
 }
 
 /* Icon bounce */
 @keyframes iconBounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-2px) scale(1.05); }
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-2px) scale(1.05);
+    }
 }
 
 /* Text glow */
 @keyframes textGlow {
-    0%, 100% { filter: brightness(1) drop-shadow(0 0 2px rgba(255, 20, 147, 0.3)); }
-    50% { filter: brightness(1.1) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)); }
+    0%,
+    100% {
+        filter: brightness(1) drop-shadow(0 0 2px rgba(255, 20, 147, 0.3));
+    }
+    50% {
+        filter: brightness(1.1) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
 }
 
 /* Countdown pulse */
 @keyframes countdownPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
 }
 
 /* Countdown urgent */
 @keyframes countdownUrgent {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 /* Slide up dismiss */
@@ -509,8 +598,12 @@ body .discount-banner.slide-up {
 
 /* Discount message scroll */
 @keyframes discountMessageScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /* Mobile Responsive - Discount Banner */
@@ -675,4 +768,3 @@ body .discount-banner.slide-up {
         font-size: 0.6rem;
     }
 }
-

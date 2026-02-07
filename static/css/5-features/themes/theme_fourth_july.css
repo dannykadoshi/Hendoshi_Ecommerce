@@ -94,7 +94,8 @@
 }
 
 @keyframes patrioticSparkle {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(0.5) rotate(0deg);
         opacity: 0;
     }
@@ -116,16 +117,16 @@
 
 /* Patriotic colors */
 .theme-particle.fourth_july.red {
-    color: #B22234;
+    color: #b22234;
     text-shadow: 0 0 15px rgba(178, 34, 52, 0.8);
 }
 
 .theme-particle.fourth_july.white {
-    color: #FFFFFF;
+    color: #ffffff;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
 .theme-particle.fourth_july.blue {
-    color: #3C3B6E;
+    color: #3c3b6e;
     text-shadow: 0 0 15px rgba(60, 59, 110, 0.8);
 }

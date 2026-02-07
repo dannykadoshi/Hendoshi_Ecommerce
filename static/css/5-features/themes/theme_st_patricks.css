@@ -26,18 +26,27 @@
 }
 
 .theme-particle.st_patricks.shamrock {
-    color: #228B22;
+    color: #228b22;
     text-shadow: 0 0 15px rgba(34, 139, 34, 0.6);
 }
 
 .theme-particle.st_patricks.gold {
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
     animation-name: goldCoinSpin;
 }
 
 .theme-particle.st_patricks.rainbow {
-    background: linear-gradient(135deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3);
+    background: linear-gradient(
+        135deg,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0000ff,
+        #4b0082,
+        #9400d3
+    );
     background-clip: text;
     color: transparent;
     animation-name: rainbowShimmer;
@@ -122,7 +131,7 @@
 
 /* Clover variations */
 .theme-particle.st_patricks.light-green {
-    color: #32CD32;
+    color: #32cd32;
 }
 
 .theme-particle.st_patricks.dark-green {

@@ -30,7 +30,7 @@
     padding: 0.75rem 1.5rem;
     margin-bottom: 1.5rem;
     gap: 1.2rem;
-    border: 1px solid rgba(255, 20, 147, 0.10);
+    border: 1px solid rgba(255, 20, 147, 0.1);
 }
 
 /* .bulk-archive-bar .btn-pink moved to components.css for canonical styling */
@@ -172,7 +172,7 @@
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm {
-    background-color: #E71F7F;
+    background-color: #e71f7f;
     color: #fff;
     border: none;
     font-weight: 700;
@@ -182,13 +182,13 @@
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(255,20,147,0.10);
+    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.1);
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm:hover {
     background-color: var(--electric-yellow);
     color: var(--black);
-    box-shadow: 0 8px 32px rgba(255,20,147,0.18);
+    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.18);
 }
 
 /* Add extra top margin to archived products table inside archive page */
@@ -203,7 +203,7 @@
 
 /* Light mode overrides for archived products table */
 :root.light-mode .table-responsive .archived-products-table th {
-    color: #E71F7F;
+    color: #e71f7f;
     background-color: #f5f5f5;
 }
 
@@ -235,7 +235,7 @@
 }
 
 .auth-card .list-group .list-group-item {
-    background: rgba(255,255,255,0.02);
+    background: rgba(255, 255, 255, 0.02);
     color: var(--off-white);
     border: none;
     padding: var(--padding-glass);
@@ -316,7 +316,7 @@
     background: #dc3545;
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(220,53,69,0.35);
+    box-shadow: 0 8px 24px rgba(220, 53, 69, 0.35);
 }
 
 /* ================================
@@ -338,14 +338,14 @@ input[type="file"]::file-selector-button {
     transition: all 0.3s;
     cursor: pointer;
     margin-right: 0.5rem;
-    box-shadow: 0 2px 8px rgba(255,20,147,0.10);
+    box-shadow: 0 2px 8px rgba(255, 20, 147, 0.1);
 }
 
 input[type="file"]:hover::-webkit-file-upload-button,
 input[type="file"]:hover::file-selector-button {
     background: var(--electric-yellow);
     color: var(--black);
-    box-shadow: 0 8px 32px rgba(204,255,0,0.18);
+    box-shadow: 0 8px 32px rgba(204, 255, 0, 0.18);
 }
 
 input[type="file"]::-ms-browse {
@@ -361,13 +361,13 @@ input[type="file"]::-ms-browse {
     transition: all 0.3s;
     cursor: pointer;
     margin-right: 1rem;
-    box-shadow: 0 2px 12px rgba(255,20,147,0.10);
+    box-shadow: 0 2px 12px rgba(255, 20, 147, 0.1);
 }
 
 input[type="file"]:hover::-ms-browse {
     background: var(--electric-yellow);
     color: var(--black);
-    box-shadow: 0 8px 32px rgba(204,255,0,0.18);
+    box-shadow: 0 8px 32px rgba(204, 255, 0, 0.18);
 }
 
 /* ================================
@@ -383,7 +383,7 @@ input[type="file"]:hover::-ms-browse {
 .accordion#audienceAccordion .accordion-item,
 .accordion#typeCopiesAccordion .accordion-item {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.03);
     margin-bottom: 0.6rem;
     border-radius: 8px;
     overflow: hidden;
@@ -394,7 +394,7 @@ input[type="file"]:hover::-ms-browse {
     padding: 0.9rem 1.1rem;
     font-weight: 700;
     color: var(--off-white);
-    background: rgba(0,0,0,0.25);
+    background: rgba(0, 0, 0, 0.25);
     border: none;
 }
 
@@ -406,12 +406,12 @@ input[type="file"]:hover::-ms-browse {
 .accordion#audienceAccordion .accordion-button:not(.collapsed),
 .accordion#typeCopiesAccordion .accordion-button:not(.collapsed) {
     box-shadow: none;
-    background: rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .accordion#audienceAccordion .accordion-body,
 .accordion#typeCopiesAccordion .accordion-body {
-    background: rgba(0,0,0,0.12);
+    background: rgba(0, 0, 0, 0.12);
     padding: var(--padding-glass);
     color: var(--off-white);
 }
@@ -431,7 +431,7 @@ input[type="file"]:hover::-ms-browse {
 
 .accordion#audienceAccordion input[type="file"],
 .accordion#typeCopiesAccordion input[type="file"] {
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     color: #fff;
     border-radius: 6px;
     padding: 0.55rem 0.6rem;
@@ -457,9 +457,9 @@ input[type="file"]:hover::-ms-browse {
     display: inline-block;
     padding: 0.35rem 0.6rem;
     border-radius: var(--border-radius-glass);
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
     color: var(--off-white);
-    border: 1px solid rgba(255,255,255,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.03);
     font-size: 0.95rem;
 }
 
@@ -471,9 +471,13 @@ input[type="file"]:hover::-ms-browse {
 /* Make accordion more compact on desktop */
 @media (min-width: 992px) {
     .accordion#audienceAccordion .accordion-button,
-    .accordion#typeCopiesAccordion .accordion-button { padding: 0.7rem 1rem; }
+    .accordion#typeCopiesAccordion .accordion-button {
+        padding: 0.7rem 1rem;
+    }
     .accordion#audienceAccordion .accordion-body,
-    .accordion#typeCopiesAccordion .accordion-body { padding: 0.85rem 1rem; }
+    .accordion#typeCopiesAccordion .accordion-body {
+        padding: 0.85rem 1rem;
+    }
 }
 
 /* Product Edit Form Button Group Spacing */
@@ -511,13 +515,14 @@ input[type="file"]:hover::-ms-browse {
     display: inline-block;
     text-decoration: none;
     margin-top: 1rem;
-    box-shadow: 0 4px 24px rgba(255,20,147,0.10);
+    box-shadow: 0 4px 24px rgba(255, 20, 147, 0.1);
 }
 
-.btn-delete-product:hover, .btn-delete-product:focus {
+.btn-delete-product:hover,
+.btn-delete-product:focus {
     background-color: var(--electric-yellow);
     color: var(--black);
-    box-shadow: 0 8px 32px rgba(255,20,147,0.18);
+    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.18);
     outline: none;
 }
 
@@ -567,18 +572,22 @@ input[type="file"]:hover::-ms-browse {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition:
+        background 0.2s,
+        color 0.2s,
+        box-shadow 0.2s;
     font-size: 1rem;
     opacity: 0.92;
     border: none;
     text-decoration: none;
 }
 
-.edit-product-icon:hover, .edit-product-icon:focus {
+.edit-product-icon:hover,
+.edit-product-icon:focus {
     background: var(--electric-yellow);
     color: #000;
-    box-shadow: 0 4px 16px rgba(255,20,147,0.18);
+    box-shadow: 0 4px 16px rgba(255, 20, 147, 0.18);
     opacity: 1;
     outline: none;
 }
@@ -759,7 +768,7 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .text-green {
-    color: #00FF88;
+    color: #00ff88;
 }
 
 .text-red {
@@ -816,9 +825,15 @@ input[type="file"]:hover::-ms-browse {
     }
 }
 
-.status-log-admin { margin-left:0.5em; font-weight:600; }
+.status-log-admin {
+    margin-left: 0.5em;
+    font-weight: 600;
+}
 
-.status-log-admin-name { color:var(--neon-pink); font-weight:700; }
+.status-log-admin-name {
+    color: var(--neon-pink);
+    font-weight: 700;
+}
 
 /* ================================
    PRODUCT FORM PAGE STYLES
@@ -859,24 +874,33 @@ input[type="file"]:hover::-ms-browse {
     line-height: 1;
     border: none;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(255,20,147,0.12), inset 0 -2px 0 rgba(0,0,0,0.12);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+    box-shadow:
+        0 6px 18px rgba(255, 20, 147, 0.12),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        opacity 0.12s ease;
 }
 
 .btn.btn-ai:hover,
 .btn-ai:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(255,20,147,0.16), inset 0 -2px 0 rgba(0,0,0,0.08);
+    box-shadow:
+        0 10px 22px rgba(255, 20, 147, 0.16),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.08);
 }
 
 .btn.btn-ai:active,
 .btn-ai:active {
     transform: translateY(0);
-    box-shadow: 0 6px 12px rgba(255,20,147,0.12), inset 0 -1px 0 rgba(0,0,0,0.06);
+    box-shadow:
+        0 6px 12px rgba(255, 20, 147, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06);
 }
 
 .btn-ai:focus {
-    outline: 3px solid rgba(255,20,147,0.12);
+    outline: 3px solid rgba(255, 20, 147, 0.12);
     outline-offset: 2px;
 }
 
@@ -1093,11 +1117,11 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .section-heading {
-    color: #E71F7F;
+    color: #e71f7f;
 }
 
 :root.light-mode .section-heading i {
-    color: #E71F7F;
+    color: #e71f7f;
 }
 
 :root.light-mode .form-label {
@@ -1118,7 +1142,7 @@ input[type="file"]:hover::-ms-browse {
 
 :root.light-mode .form-control:focus,
 :root.light-mode .form-select:focus {
-    border-color: #E71F7F;
+    border-color: #e71f7f;
     box-shadow: 0 0 0 0.2rem rgba(231, 31, 127, 0.25);
 }
 
@@ -1132,8 +1156,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .form-check-input:checked {
-    background-color: #E71F7F;
-    border-color: #E71F7F;
+    background-color: #e71f7f;
+    border-color: #e71f7f;
 }
 
 :root.light-mode .form-check-label {
@@ -1141,12 +1165,12 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .form-control[type="file"]::file-selector-button {
-    background-color: #E71F7F;
+    background-color: #e71f7f;
     color: white;
 }
 
 :root.light-mode .form-control[type="file"]::file-selector-button:hover {
-    background-color: #B8D400;
+    background-color: #b8d400;
 }
 
 :root.light-mode .variant-form-row,
@@ -1157,13 +1181,13 @@ input[type="file"]:hover::-ms-browse {
 
 :root.light-mode .variant-form-row:hover,
 :root.light-mode .image-form-row:hover {
-    border-color: #E71F7F;
+    border-color: #e71f7f;
     background-color: rgba(231, 31, 127, 0.08);
 }
 
 :root.light-mode .stock-quantity-input {
     background-color: white;
-    border-color: #E71F7F;
+    border-color: #e71f7f;
 }
 
 /* ================================

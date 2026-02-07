@@ -28,9 +28,9 @@
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    
+
     /* Default banner for all page-hero sections */
-    background-image: url('/static/images/page-hero-banners/all-page-banner.jpg');
+    background-image: url("/static/images/page-hero-banners/all-page-banner.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -45,15 +45,15 @@
 
 /* Specific audience banners using data attributes */
 .page-hero[data-banner="female"] {
-    background-image: url('/static/images/page-hero-banners/female-banner.jpg');
+    background-image: url("/static/images/page-hero-banners/female-banner.jpg");
 }
 
 .page-hero[data-banner="male"] {
-    background-image: url('/static/images/page-hero-banners/male-banner.jpg');
+    background-image: url("/static/images/page-hero-banners/male-banner.jpg");
 }
 
 .page-hero[data-banner="unisex"] {
-    background-image: url('/static/images/page-hero-banners/unissex-banner.jpg');
+    background-image: url("/static/images/page-hero-banners/unissex-banner.jpg");
 }
 
 /* ========================================
@@ -78,7 +78,7 @@
 }
 
 .page-hero.has-banner::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -95,7 +95,7 @@
 
 /* Default overlay for all page-hero sections */
 .page-hero::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -112,7 +112,7 @@
 
 /* Animated gradient background */
 .page-hero::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50%;
     left: -50%;
@@ -180,28 +180,28 @@
         flex-direction: column;
         gap: 0.75rem;
     }
-    
+
     /* Exception: Keep stats/badges inline */
     body .page-hero .d-flex:has(.checkout-hero-stat) {
         flex-direction: row;
         flex-wrap: nowrap;
         gap: 1rem;
     }
-    
+
     .page-hero .btn {
         width: 100%;
         max-width: 300px;
     }
-    
+
     .checkout-hero-stat {
         font-size: 0.85rem;
         white-space: nowrap;
     }
-    
+
     .page-hero-title {
         font-size: 2.5rem;
     }
-    
+
     .page-hero-subtitle {
         font-size: 1.1rem;
     }

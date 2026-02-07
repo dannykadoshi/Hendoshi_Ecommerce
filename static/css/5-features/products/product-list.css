@@ -118,7 +118,6 @@ h2.gradient-title {
     margin-bottom: 3.5rem;
 }
 
-
 .products-header h1 {
     font-size: 2.5rem;
     font-weight: 900;
@@ -175,8 +174,12 @@ h2.gradient-title {
     opacity: 0;
     visibility: hidden;
     z-index: 1000;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
-    transition: opacity 0.3s, visibility 0.3s;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
+    transition:
+        opacity 0.3s,
+        visibility 0.3s;
     border-radius: 12px;
 }
 
@@ -361,7 +364,7 @@ h2.gradient-title {
 
 .checkbox-option input[type="checkbox"]:checked ~ .checkmark::after,
 .checkbox-option input[type="radio"]:checked ~ .checkmark::after {
-    content: '';
+    content: "";
     position: absolute;
     display: block;
     left: 6px;
@@ -394,7 +397,7 @@ h2.gradient-title {
 }
 
 .radio-option input[type="radio"]:checked ~ .checkmark::after {
-    content: '';
+    content: "";
     position: absolute;
     display: block;
     left: 50%;
@@ -508,7 +511,10 @@ h2.gradient-title {
     background: transparent;
     color: rgba(255, 255, 255, 0.78);
     border: var(--border-glass);
-    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    transition:
+        background-color 150ms ease,
+        color 150ms ease,
+        border-color 150ms ease;
 }
 .btn-clear-ghost:hover,
 .btn-clear-ghost:focus {
@@ -529,7 +535,9 @@ h2.gradient-title {
     z-index: 999;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+    transition:
+        opacity 0.3s,
+        visibility 0.3s;
 }
 
 .filters-overlay.show {
@@ -659,12 +667,12 @@ h2.gradient-title {
     .products-page {
         padding-top: 120px;
     }
-    
+
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
     }
-    
+
     .filters-dropdown {
         position: fixed;
         left: 0;
@@ -676,12 +684,15 @@ h2.gradient-title {
         max-height: 70vh;
         overflow-y: auto;
         transform: translateY(100%);
-        transition: transform 0.3s ease, opacity 0.3s, visibility 0.3s;
+        transition:
+            transform 0.3s ease,
+            opacity 0.3s,
+            visibility 0.3s;
         border-radius: 20px 20px 0 0;
         border-bottom: none;
         z-index: 1001;
     }
-    
+
     .filters-dropdown.show {
         transform: translateY(0);
         display: block;
@@ -690,9 +701,11 @@ h2.gradient-title {
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 105, 180, 0.2);
         border-bottom: none;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(255, 20, 147, 0.1);
     }
-    
+
     .filters-dropdown-content {
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -709,29 +722,29 @@ h2.gradient-title {
         border-bottom: 1px solid rgba(255, 105, 180, 0.2);
         margin-bottom: 1rem;
     }
-    
+
     .filters-title {
         color: var(--neon-pink);
         font-size: 1.2rem;
         font-weight: 600;
         margin: 0;
     }
-    
+
     .products-header-section {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .filters-sort-wrapper {
         width: 100%;
     }
-    
+
     .filters-sort-btn {
         width: 100%;
         justify-content: center;
         padding: 0.5rem 1rem;
     }
-    
+
     .products-header h1 {
         font-size: 2rem;
     }
@@ -773,7 +786,7 @@ h2.gradient-title {
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .products-header h1 {
         font-size: 1.8rem;
     }
@@ -870,7 +883,9 @@ h2.gradient-title {
     padding: 0;
     border-bottom: 1px solid rgba(255, 20, 147, 0.2);
     border-top: 1px solid rgba(255, 20, 147, 0.2);
-    transition: max-height 0.3s ease, padding 0.3s ease;
+    transition:
+        max-height 0.3s ease,
+        padding 0.3s ease;
     margin-bottom: 0;
     position: relative;
     z-index: 10;
@@ -985,7 +1000,9 @@ h2.gradient-title {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.4s ease, transform 0.3s ease;
+    transition:
+        opacity 0.4s ease,
+        transform 0.3s ease;
 }
 
 .product-img-main {
@@ -1063,7 +1080,7 @@ h2.gradient-title {
     z-index: 20;
     pointer-events: none;
     border-radius: 3px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Absolute positioning in product images */
@@ -1363,7 +1380,9 @@ h2.gradient-title {
     border-radius: 4px;
     overflow: hidden;
     cursor: pointer;
-    transition: border-color 0.3s, transform 0.2s;
+    transition:
+        border-color 0.3s,
+        transform 0.2s;
 }
 
 .thumbnail:hover {
@@ -1678,13 +1697,14 @@ h2.gradient-title {
     align-items: baseline;
     font-size: 1.25rem; /* slightly larger for grid and simple listings */
 }
-.product-card .product-price { /* explicit grid/card override */
+.product-card .product-price {
+    /* explicit grid/card override */
     font-size: 1.25rem;
     font-weight: 700;
 }
 .product-price .original-price {
     text-decoration: line-through;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
     font-weight: 600;
     font-size: 1.05rem;
     opacity: 0.95;
@@ -1723,14 +1743,15 @@ h2.gradient-title {
 }
 
 .product-description::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
     pointer-events: none;
     z-index: 1;
 }
@@ -1754,7 +1775,7 @@ h2.gradient-title {
 }
 
 .design-story::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -1780,7 +1801,7 @@ h2.gradient-title {
 
 .btn-outline-pink {
     background-color: var(--neon-pink);
-    color: #FFFFFF;
+    color: #ffffff;
     border: none;
     padding: 0.75rem 2rem;
     font-size: 1rem;
@@ -1813,11 +1834,11 @@ h2.gradient-title {
         position: static;
         margin-bottom: 2rem;
     }
-    
+
     .products-header h1 {
         font-size: 2rem;
     }
-    
+
     .product-title {
         font-size: 1.8rem;
     }
@@ -1841,7 +1862,7 @@ h2.gradient-title {
 
 /* Add invisible bridge to prevent dropdown from closing when moving mouse */
 .desktop-menu .nav-item.dropdown .dropdown-menu::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -15px;
     left: 0;
@@ -1856,7 +1877,9 @@ h2.gradient-title {
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
     padding: 0.5rem;
 }
 
@@ -1864,7 +1887,9 @@ h2.gradient-title {
 :root.light-mode .desktop-menu .dropdown-menu {
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(255, 105, 180, 0.3);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 20, 147, 0.1);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(255, 20, 147, 0.1);
 }
 
 .dropdown-item {
@@ -1946,10 +1971,10 @@ h2.gradient-title {
         margin-top: 0.5rem;
         padding: 1rem 0;
     }
-    
+
     :root.light-mode .navbar-collapse {
-        background-color: #F5F5F5;
-        border-color: #E71F7F;
+        background-color: #f5f5f5;
+        border-color: #e71f7f;
     }
 }
 
@@ -1959,7 +1984,7 @@ h2.gradient-title {
 }
 
 .user-authenticated .nav-link::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -5px;
     left: 50%;
@@ -1989,7 +2014,9 @@ h2.gradient-title {
     border: 1px solid rgba(255, 105, 180, 0.2);
     padding: 3rem;
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
 }
 
 .btn-close-auth {
@@ -2129,7 +2156,7 @@ h2.gradient-title {
 }
 
 .profile-hero::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -2166,11 +2193,11 @@ h2.gradient-title {
     .profile-hero {
         padding: 3rem 0;
     }
-    
+
     .profile-hero-title {
         font-size: 2.5rem;
     }
-    
+
     .profile-hero-subtitle {
         font-size: 1.1rem;
     }
@@ -2201,14 +2228,15 @@ h2.gradient-title {
 }
 
 .profile-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
     pointer-events: none;
     z-index: 1;
 }
@@ -2403,7 +2431,7 @@ h2.gradient-title {
 }
 
 .text-green {
-    color: #00FF88;
+    color: #00ff88;
 }
 
 .text-red {
@@ -2521,7 +2549,9 @@ h2.gradient-title {
 :root.light-mode .filters-dropdown {
     background: rgba(255, 255, 255, 0.98);
     border-color: rgba(255, 20, 147, 0.3);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 20, 147, 0.1);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 0 20px rgba(255, 20, 147, 0.1);
 }
 
 :root.light-mode .filters-dropdown.show {

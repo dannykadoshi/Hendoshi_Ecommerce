@@ -62,7 +62,8 @@
 }
 
 @keyframes newYearsSparkle {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(0.5);
         opacity: 0;
     }
@@ -108,13 +109,13 @@
 
 /* Gold particles */
 .theme-particle.new_years.gold {
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
 
 /* Silver particles */
 .theme-particle.new_years.silver {
-    color: #C0C0C0;
+    color: #c0c0c0;
     text-shadow: 0 0 15px rgba(192, 192, 192, 0.8);
 }
 

@@ -26,24 +26,24 @@
 }
 
 .theme-particle.rock_n_roll.guitar {
-    color: #8B0000;
+    color: #8b0000;
     text-shadow: 0 0 15px rgba(139, 0, 0, 0.7);
 }
 
 .theme-particle.rock_n_roll.lightning {
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 25px rgba(255, 215, 0, 1);
     animation-name: lightningFlash;
 }
 
 .theme-particle.rock_n_roll.note {
-    color: #9400D3;
+    color: #9400d3;
     text-shadow: 0 0 15px rgba(148, 0, 211, 0.6);
     animation-name: noteFloat;
 }
 
 .theme-particle.rock_n_roll.skull {
-    color: #2F2F2F;
+    color: #2f2f2f;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
@@ -74,7 +74,8 @@
 }
 
 @keyframes lightningFlash {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0;
         transform: scale(0.5);
     }
@@ -138,16 +139,16 @@
 
 /* Electric colors */
 .theme-particle.rock_n_roll.electric-purple {
-    color: #BF00FF;
+    color: #bf00ff;
     text-shadow: 0 0 20px rgba(191, 0, 255, 0.8);
 }
 
 .theme-particle.rock_n_roll.hot-pink {
-    color: #FF1493;
+    color: #ff1493;
     text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
 }
 
 .theme-particle.rock_n_roll.neon-blue {
-    color: #00FFFF;
+    color: #00ffff;
     text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
 }

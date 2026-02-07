@@ -180,26 +180,26 @@
 
 /* Confetti colors - matching discount banner palette */
 .theme-particle.celebration.confetti-pink {
-    color: #FF1493;
+    color: #ff1493;
     text-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
 }
 
 .theme-particle.celebration.confetti-gold {
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
 
 .theme-particle.celebration.confetti-cyan {
-    color: #00CED1;
+    color: #00ced1;
     text-shadow: 0 0 15px rgba(0, 206, 209, 0.8);
 }
 
 .theme-particle.celebration.confetti-purple {
-    color: #9400D3;
+    color: #9400d3;
     text-shadow: 0 0 15px rgba(148, 0, 211, 0.8);
 }
 
 .theme-particle.celebration.confetti-orange {
-    color: #FF6B35;
+    color: #ff6b35;
     text-shadow: 0 0 15px rgba(255, 107, 53, 0.8);
 }

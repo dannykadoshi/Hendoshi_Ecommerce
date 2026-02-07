@@ -30,12 +30,12 @@
 }
 
 .theme-particle.thanksgiving.wheat {
-    color: #DAA520;
+    color: #daa520;
     text-shadow: 0 0 10px rgba(218, 165, 32, 0.4);
 }
 
 .theme-particle.thanksgiving.acorn {
-    color: #8B4513;
+    color: #8b4513;
     animation-name: acornDrop;
 }
 
@@ -99,21 +99,21 @@
 
 /* Autumn colors */
 .theme-particle.thanksgiving.orange {
-    color: #FF8C00;
+    color: #ff8c00;
 }
 
 .theme-particle.thanksgiving.red {
-    color: #CD5C5C;
+    color: #cd5c5c;
 }
 
 .theme-particle.thanksgiving.gold {
-    color: #FFD700;
+    color: #ffd700;
 }
 
 .theme-particle.thanksgiving.brown {
-    color: #8B4513;
+    color: #8b4513;
 }
 
 .theme-particle.thanksgiving.yellow {
-    color: #F0E68C;
+    color: #f0e68c;
 }

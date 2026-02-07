@@ -55,7 +55,7 @@
     .products-container {
         max-width: 100%;
     }
-    
+
     .checkout-container {
         max-width: 100%;
     }
@@ -66,19 +66,33 @@
    =================================== */
 
 /* Display utilities (Bootstrap provides d-none, d-block, d-flex with responsive variants) */
-.d-inline { display: inline; }
-.d-inline-block { display: inline-block; }
+.d-inline {
+    display: inline;
+}
+.d-inline-block {
+    display: inline-block;
+}
 
 /* Width utilities */
-.w-100 { width: 100%; }
-.w-auto { width: auto; }
+.w-100 {
+    width: 100%;
+}
+.w-auto {
+    width: auto;
+}
 
 /* Cursor utilities */
-.cursor-pointer { cursor: pointer; }
+.cursor-pointer {
+    cursor: pointer;
+}
 
 /* Visibility (alias for d-none/d-block) */
-.hidden { display: none; }
-.visible { display: block; }
+.hidden {
+    display: none;
+}
+.visible {
+    display: block;
+}
 
 /* Carrier logo placeholders (track order page) */
 .carrier-logo-placeholder {
@@ -86,9 +100,15 @@
     border-radius: 8px;
 }
 
-.carrier-logo-placeholder.bg-white { background: white; }
-.carrier-logo-placeholder.bg-ups { background: #351C15; }
-.carrier-logo-placeholder.bg-dhl { background: #FFCC00; }
+.carrier-logo-placeholder.bg-white {
+    background: white;
+}
+.carrier-logo-placeholder.bg-ups {
+    background: #351c15;
+}
+.carrier-logo-placeholder.bg-dhl {
+    background: #ffcc00;
+}
 
 .carrier-logo-svg {
     width: 100%;

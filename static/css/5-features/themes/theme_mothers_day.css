@@ -26,7 +26,7 @@
 }
 
 .theme-particle.mothers_day.flower {
-    color: #FFB6C1;
+    color: #ffb6c1;
     text-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
 }
 
@@ -35,7 +35,7 @@
 }
 
 .theme-particle.mothers_day.lavender {
-    color: #E6E6FA;
+    color: #e6e6fa;
     text-shadow: 0 0 12px rgba(230, 230, 250, 0.6);
 }
 
@@ -99,13 +99,13 @@
 
 /* Color variations */
 .theme-particle.mothers_day.pink {
-    color: #FF69B4;
+    color: #ff69b4;
 }
 
 .theme-particle.mothers_day.purple {
-    color: #DDA0DD;
+    color: #dda0dd;
 }
 
 .theme-particle.mothers_day.rose {
-    color: #FF007F;
+    color: #ff007f;
 }

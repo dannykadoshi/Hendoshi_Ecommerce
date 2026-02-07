@@ -27,15 +27,20 @@
 }
 
 .sale-hero::before {
-     content: '';
-     position: absolute;
-     top: 0;
-     left: 0;
-     right: 0;
-     bottom: 0;
-     background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.06) 0%, rgba(255, 140, 0, 0.03) 30%, transparent 60%);
-     pointer-events: none;
-     z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 30% 70%,
+        rgba(255, 20, 147, 0.06) 0%,
+        rgba(255, 140, 0, 0.03) 30%,
+        transparent 60%
+    );
+    pointer-events: none;
+    z-index: 1;
 }
 
 .sale-title {
@@ -52,25 +57,25 @@
 }
 
 .sale-subtitle {
-     font-size: 1.2rem;
-     color: var(--off-white);
-     opacity: 0.95;
-     position: relative;
-     z-index: 2;
+    font-size: 1.2rem;
+    color: var(--off-white);
+    opacity: 0.95;
+    position: relative;
+    z-index: 2;
 }
 
 .sale-badge {
-     display: inline-block;
-     margin-top: 1rem;
-     padding: 0.5rem 0.9rem;
-     background: linear-gradient(90deg, rgba(255,20,147,0.95), rgba(255,140,0,0.95));
-     color: #fff;
-     border-radius: 999px;
-     font-weight: 800;
-     letter-spacing: 1px;
-     box-shadow: 0 8px 30px rgba(255,20,147,0.12);
-     position: relative;
-     z-index: 2;
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 0.9rem;
+    background: linear-gradient(90deg, rgba(255, 20, 147, 0.95), rgba(255, 140, 0, 0.95));
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 30px rgba(255, 20, 147, 0.12);
+    position: relative;
+    z-index: 2;
 }
 
 /* Contact/Close button used on shipping, contact, returns, about pages */
@@ -85,7 +90,9 @@
     cursor: pointer;
     padding: 0.5rem;
     line-height: 1;
-    transition: color 0.3s, transform 0.2s;
+    transition:
+        color 0.3s,
+        transform 0.2s;
     z-index: 10;
 }
 
@@ -95,7 +102,9 @@
 }
 
 /* Toast positioning moved from inline styles in templates */
-.toast[data-message="true"] { position: relative; }
+.toast[data-message="true"] {
+    position: relative;
+}
 
 /* About page specific accents */
 .about-vibrant .accent-title {
@@ -117,7 +126,7 @@
 .muted-hr {
     border: none;
     height: 1px;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
     margin: 2rem 0;
 }
 .about-quote {
@@ -127,7 +136,7 @@
     margin: 2rem 0;
     padding: 1rem;
     border-left: 4px solid var(--neon-pink);
-    background: rgba(255,255,255,0.02);
+    background: rgba(255, 255, 255, 0.02);
     border-radius: 8px;
 }
 
@@ -155,8 +164,13 @@
     font-weight: 700;
     font-size: 1.1rem;
 }
-.tight { margin-top: 1rem; }
-.small.muted { color: rgba(255,255,255,0.6) !important; font-size: 0.9rem; }
+.tight {
+    margin-top: 1rem;
+}
+.small.muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.9rem;
+}
 
 /* Canonical .page-hero rules are defined in
    static/css/features/vault-community.css — keep overrides out of components.css */
@@ -387,7 +401,9 @@
     color: #fff;
     padding: 0.75rem 1rem;
     border-radius: 8px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition:
+        border-color 0.3s,
+        box-shadow 0.3s;
 }
 
 .contact-form .form-control:focus,
@@ -513,49 +529,73 @@
     color: #111;
     margin-left: 0.5rem;
 }
-.badge-audience.badge-men { background: linear-gradient(90deg,#2b8cff,#1e6fe5); color: #fff; }
-.badge-audience.badge-women { background: linear-gradient(90deg,#ff6fb5,#ff3a8d); color: #fff; }
-.badge-audience.badge-kids { background: linear-gradient(90deg,#ffd166,#ffb84d); color: #111; }
-.badge-audience.badge-unisex { background: linear-gradient(90deg,#9be7c4,#5cc4a2); color: #111; }
+.badge-audience.badge-men {
+    background: linear-gradient(90deg, #2b8cff, #1e6fe5);
+    color: #fff;
+}
+.badge-audience.badge-women {
+    background: linear-gradient(90deg, #ff6fb5, #ff3a8d);
+    color: #fff;
+}
+.badge-audience.badge-kids {
+    background: linear-gradient(90deg, #ffd166, #ffb84d);
+    color: #111;
+}
+.badge-audience.badge-unisex {
+    background: linear-gradient(90deg, #9be7c4, #5cc4a2);
+    color: #111;
+}
 
-.audience-badge { display:inline-block; margin-left:0.5rem; padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.85rem; }
+.audience-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
 
 /* Audience switcher button hover/focus colors to match badge gradients */
 .audience-switcher .btn.badge-men:hover,
 .audience-switcher .btn.badge-men:focus {
-    background: linear-gradient(90deg,#2b8cff,#1e6fe5);
+    background: linear-gradient(90deg, #2b8cff, #1e6fe5);
     border-color: transparent;
     color: #fff;
 }
 .audience-switcher .btn.badge-women:hover,
 .audience-switcher .btn.badge-women:focus {
-    background: linear-gradient(90deg,#ff6fb5,#ff3a8d);
+    background: linear-gradient(90deg, #ff6fb5, #ff3a8d);
     border-color: transparent;
     color: #fff;
 }
 .audience-switcher .btn.badge-kids:hover,
 .audience-switcher .btn.badge-kids:focus {
-    background: linear-gradient(90deg,#ffd166,#ffb84d);
+    background: linear-gradient(90deg, #ffd166, #ffb84d);
     border-color: transparent;
     color: #111;
 }
 .audience-switcher .btn.badge-unisex:hover,
 .audience-switcher .btn.badge-unisex:focus {
-    background: linear-gradient(90deg,#9be7c4,#5cc4a2);
+    background: linear-gradient(90deg, #9be7c4, #5cc4a2);
     border-color: transparent;
     color: #111;
 }
 
 /* Slight transition for smooth hover */
 .audience-switcher .btn {
-    transition: background 220ms ease, color 220ms ease, transform 120ms ease;
+    transition:
+        background 220ms ease,
+        color 220ms ease,
+        transform 120ms ease;
 }
-.audience-switcher .btn:active { transform: translateY(1px); }
+.audience-switcher .btn:active {
+    transform: translateY(1px);
+}
 
 /* Product type switcher colors (for "View this design in:") */
 .audience-switcher .btn.badge-product-type:hover,
 .audience-switcher .btn.badge-product-type:focus {
-    background: linear-gradient(90deg,#9b59d0,#7b3fa5);
+    background: linear-gradient(90deg, #9b59d0, #7b3fa5);
     border-color: transparent;
     color: #fff;
 }
@@ -563,7 +603,7 @@
 /* All Products button styling */
 .audience-switcher .btn.badge-all-products:hover,
 .audience-switcher .btn.badge-all-products:focus {
-    background: linear-gradient(90deg,#ff1493,#ff6b35);
+    background: linear-gradient(90deg, #ff1493, #ff6b35);
     border-color: transparent;
     color: #fff;
     font-weight: 600;
@@ -647,18 +687,25 @@
     justify-content: center;
 }
 
-.about-vibrant h3 i, .about-card h4 i {
+.about-vibrant h3 i,
+.about-card h4 i {
     color: var(--neon-pink);
     margin-right: 0.5rem;
     font-size: 1.1em;
 }
 
 @media (max-width: 768px) {
-    .contact-card { padding: 1.5rem 0.25rem; }
-    .profile-card { padding: 1.5rem 0.25rem; }
-    .about-vibrant .two-columns { grid-template-columns: 1fr; }
-    .about-buttons { 
-        justify-content: center; 
+    .contact-card {
+        padding: 1.5rem 0.25rem;
+    }
+    .profile-card {
+        padding: 1.5rem 0.25rem;
+    }
+    .about-vibrant .two-columns {
+        grid-template-columns: 1fr;
+    }
+    .about-buttons {
+        justify-content: center;
         padding: 0;
         flex-direction: column;
         gap: 0.75rem;
@@ -718,7 +765,8 @@
 }
 
 @keyframes pulse-danger {
-    0%, 100% {
+    0%,
+    100% {
         box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4);
     }
     50% {
@@ -976,4 +1024,3 @@
     background-color: #ff4757;
     border-color: #ff4757;
 }
-

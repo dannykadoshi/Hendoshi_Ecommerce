@@ -21,7 +21,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.15s ease-in-out, box-shadow 0.12s ease-in-out;
+    transition:
+        transform 0.15s ease-in-out,
+        box-shadow 0.12s ease-in-out;
 }
 
 /* subtle hover animation (lift) */
@@ -31,7 +33,9 @@
 
 /* Animation-only hook for other admin action groups (keeps colours and sizing intact) */
 .admin-action-animated .btn {
-    transition: transform 0.15s ease-in-out, box-shadow 0.12s ease-in-out;
+    transition:
+        transform 0.15s ease-in-out,
+        box-shadow 0.12s ease-in-out;
 }
 .admin-action-animated .btn:hover {
     transform: translateY(-3px);
@@ -46,5 +50,9 @@
 
 /* responsive tweak: allow more compact layout on very small screens */
 @media (max-width: 576px) {
-    .shipping-admin-actions .btn { width: 28px; min-width: 28px; height: 28px; }
+    .shipping-admin-actions .btn {
+        width: 28px;
+        min-width: 28px;
+        height: 28px;
+    }
 }

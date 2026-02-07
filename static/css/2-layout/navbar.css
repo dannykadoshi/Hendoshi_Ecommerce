@@ -48,18 +48,20 @@
 }
 
 .navbar::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+        90deg,
         transparent 0%,
         rgba(255, 20, 147, 0.5) 20%,
         var(--neon-pink) 50%,
         rgba(255, 20, 147, 0.5) 80%,
-        transparent 100%);
+        transparent 100%
+    );
 }
 
 /* Optionally make the navbar solid without changing global glassmorphism.
@@ -99,14 +101,22 @@ body .navbar.solid-navbar {
 }
 
 :root.light-mode .navbar {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.9) 100%
+    );
     border-bottom-color: rgba(231, 31, 127, 0.2);
     box-shadow: 0 4px 30px rgba(231, 31, 127, 0.1);
 }
 
 /* Override Bootstrap's navbar-dark class in light mode */
 :root.light-mode .navbar.navbar-dark {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.9) 100%
+    );
 }
 
 .navbar-container {
@@ -155,7 +165,7 @@ body .navbar.solid-navbar {
     .navbar-burger {
         display: flex;
     }
-    
+
     body .desktop-menu {
         display: none;
     }
@@ -249,13 +259,15 @@ body .navbar.solid-navbar {
 .desktop-menu .nav-item.dropdown.show > .nav-link,
 .desktop-menu .nav-link.nav-link-blue-focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(38, 121, 255, 0.18), 0 4px 10px rgba(38, 121, 255, 0.06);
+    box-shadow:
+        0 0 0 3px rgba(38, 121, 255, 0.18),
+        0 4px 10px rgba(38, 121, 255, 0.06);
     border-radius: 8px;
 }
 
 /* Animated underline effect */
 .desktop-menu .nav-link::before {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 4px;
     left: 50%;
@@ -285,7 +297,12 @@ body .navbar.solid-navbar {
 
 /* Gradient text for special links like Sale */
 .navbar .gradient-text {
-    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    background: linear-gradient(
+        135deg,
+        var(--neon-pink) 0%,
+        var(--electric-yellow) 50%,
+        #ff6b6b 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -296,7 +313,12 @@ body .navbar.solid-navbar {
 
 .navbar .nav-link.gradient-text:hover,
 .navbar .gradient-text:hover {
-    background: linear-gradient(135deg, var(--electric-yellow) 0%, var(--neon-pink) 50%, #ff4757 100%);
+    background: linear-gradient(
+        135deg,
+        var(--electric-yellow) 0%,
+        var(--neon-pink) 50%,
+        #ff4757 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -306,7 +328,12 @@ body .navbar.solid-navbar {
 
 /* Light mode gradient text - keep same gradient as dark mode */
 :root.light-mode .navbar .gradient-text {
-    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    background: linear-gradient(
+        135deg,
+        var(--neon-pink) 0%,
+        var(--electric-yellow) 50%,
+        #ff6b6b 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -315,7 +342,12 @@ body .navbar.solid-navbar {
 }
 
 :root.light-mode .navbar .gradient-text:hover {
-    background: linear-gradient(135deg, var(--electric-yellow) 0%, var(--neon-pink) 50%, #ff4757 100%);
+    background: linear-gradient(
+        135deg,
+        var(--electric-yellow) 0%,
+        var(--neon-pink) 50%,
+        #ff4757 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -325,7 +357,12 @@ body .navbar.solid-navbar {
 
 /* Mobile gradient text */
 span.gradient-text-mobile {
-    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    background: linear-gradient(
+        135deg,
+        var(--neon-pink) 0%,
+        var(--electric-yellow) 50%,
+        #ff6b6b 100%
+    );
     background-clip: text;
     color: transparent;
     font-weight: 700;
@@ -333,7 +370,12 @@ span.gradient-text-mobile {
 
 /* Footer gradient text */
 .gradient-text-footer {
-    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
+    background: linear-gradient(
+        135deg,
+        var(--neon-pink) 0%,
+        var(--electric-yellow) 50%,
+        #ff6b6b 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -341,7 +383,12 @@ span.gradient-text-mobile {
 }
 
 .gradient-text-footer:hover {
-    background: linear-gradient(135deg, var(--electric-yellow) 0%, var(--neon-pink) 50%, #ff4757 100%);
+    background: linear-gradient(
+        135deg,
+        var(--electric-yellow) 0%,
+        var(--neon-pink) 50%,
+        #ff4757 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -386,9 +433,15 @@ span.gradient-text-mobile {
 
 /* Add subtle animation to logo */
 @keyframes logo-shimmer {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .navbar-brand:hover .logo-text {
@@ -409,7 +462,9 @@ span.gradient-text-mobile {
     text-shadow: none;
     /* start with no transform but allow smooth transform transitions on hover */
     transform: none;
-    transition: transform 180ms ease, filter 180ms ease;
+    transition:
+        transform 180ms ease,
+        filter 180ms ease;
     animation: none;
     background-size: auto;
     background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 100%);
@@ -443,12 +498,12 @@ span.gradient-text-mobile {
     .search-form {
         display: none;
     }
-    
+
     .search-form.mobile-icon {
         display: flex;
         width: auto;
     }
-    
+
     body .mobile-search-box .search-form {
         display: flex;
         width: 100%;
@@ -493,27 +548,64 @@ span.gradient-text-mobile {
     opacity: 0.8;
 }
 
-
 /* Prevent wrap and tighten spacing for medium screens */
 @media (min-width: 992px) and (max-width: 1200px) {
-    .navbar-container { gap: 0.15rem; }
-    .logo-text { font-size: 1.6rem; letter-spacing: 2px; }
-    .navbar .nav-link { font-size: 0.875rem; padding: 0.4rem 0.4rem; margin: 0; white-space: nowrap; }
-    .search-form { width: 150px; }
-    .navbar .search-input { font-size: 0.85rem; padding: 0.3rem 1.8rem 0.3rem 0.6rem; }
-    .desktop-icons { gap: 0.3rem; }
-    .nav-icon { font-size: 0.95rem; }
-    .navbar-right { gap: 0.4rem; }
+    .navbar-container {
+        gap: 0.15rem;
+    }
+    .logo-text {
+        font-size: 1.6rem;
+        letter-spacing: 2px;
+    }
+    .navbar .nav-link {
+        font-size: 0.875rem;
+        padding: 0.4rem 0.4rem;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .search-form {
+        width: 150px;
+    }
+    .navbar .search-input {
+        font-size: 0.85rem;
+        padding: 0.3rem 1.8rem 0.3rem 0.6rem;
+    }
+    .desktop-icons {
+        gap: 0.3rem;
+    }
+    .nav-icon {
+        font-size: 0.95rem;
+    }
+    .navbar-right {
+        gap: 0.4rem;
+    }
 }
 
 @media (min-width: 1201px) and (max-width: 1400px) {
-    .navbar-container { gap: 0.3rem; }
-    .logo-text { font-size: 1.7rem; letter-spacing: 2.5px; }
-    .navbar .nav-link { font-size: 0.875rem; padding: 0.45rem 0.45rem; margin: 0; }
-    .search-form { width: 170px; }
-    .desktop-icons { gap: 0.4rem; }
-    .nav-icon { font-size: 1rem; }
-    .navbar-right { gap: 0.5rem; }
+    .navbar-container {
+        gap: 0.3rem;
+    }
+    .logo-text {
+        font-size: 1.7rem;
+        letter-spacing: 2.5px;
+    }
+    .navbar .nav-link {
+        font-size: 0.875rem;
+        padding: 0.45rem 0.45rem;
+        margin: 0;
+    }
+    .search-form {
+        width: 170px;
+    }
+    .desktop-icons {
+        gap: 0.4rem;
+    }
+    .nav-icon {
+        font-size: 1rem;
+    }
+    .navbar-right {
+        gap: 0.5rem;
+    }
 }
 .navbar .search-form .search-input:focus {
     border-color: rgba(255, 20, 147, 0.5);
@@ -667,7 +759,9 @@ span.gradient-text-mobile {
     border: 1px solid rgba(255, 105, 180, 0.25);
     border-radius: 12px;
     padding: 1rem;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 20, 147, 0.15);
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(255, 20, 147, 0.15);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px) scale(0.95);
@@ -676,7 +770,7 @@ span.gradient-text-mobile {
 }
 
 .floating-search-box::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -8px;
     right: 12px;
@@ -745,7 +839,9 @@ span.gradient-text-mobile {
 :root.light-mode .floating-search-box {
     background: rgba(255, 255, 255, 0.98);
     border-color: rgba(255, 20, 147, 0.2);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 20, 147, 0.1);
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.15),
+        0 0 30px rgba(255, 20, 147, 0.1);
 }
 
 :root.light-mode .floating-search-box::before {
@@ -810,13 +906,15 @@ span.gradient-text-mobile {
     left: auto;
     transform: none;
     inset: auto 0px auto auto;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 20, 147, 0.1);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
     padding: 0.5rem;
 }
 
 /* Add invisible bridge for navbar-right dropdowns */
 .navbar-right .dropdown-menu::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -15px;
     left: 0;
@@ -824,7 +922,6 @@ span.gradient-text-mobile {
     height: 15px;
     background: transparent;
 }
-
 
 .navbar-right .dropdown-item,
 .navbar-right .menu-dropdown-item {
@@ -1024,7 +1121,7 @@ span.gradient-text-mobile {
 }
 
 .menu-discount-section::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
@@ -1035,8 +1132,13 @@ span.gradient-text-mobile {
 }
 
 @keyframes discountShine {
-    0% { left: -100%; }
-    50%, 100% { left: 100%; }
+    0% {
+        left: -100%;
+    }
+    50%,
+    100% {
+        left: 100%;
+    }
 }
 
 .menu-discount-section .discount-text {
@@ -1126,7 +1228,7 @@ span.gradient-text-mobile {
 
 :root.light-mode .menu-main,
 :root.light-mode .menu-submenu {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
 }
 
 .menu-submenu {
@@ -1361,7 +1463,7 @@ span.gradient-text-mobile {
 }
 
 .menu-item-sale::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
@@ -1372,8 +1474,13 @@ span.gradient-text-mobile {
 }
 
 @keyframes saleShimmer {
-    0% { left: -100%; }
-    50%, 100% { left: 100%; }
+    0% {
+        left: -100%;
+    }
+    50%,
+    100% {
+        left: 100%;
+    }
 }
 
 .menu-item-sale:hover {
@@ -1386,8 +1493,13 @@ span.gradient-text-mobile {
 }
 
 @keyframes salePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
 }
 
 .menu-item-sale .sale-text {
@@ -1714,4 +1826,3 @@ body.menu-open {
         min-height: 36px;
     }
 }
-

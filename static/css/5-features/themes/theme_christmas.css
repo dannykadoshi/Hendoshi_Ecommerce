@@ -26,8 +26,10 @@
 }
 
 .theme-particle.christmas.snowflake {
-    color: #FFFFFF;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(200, 220, 255, 0.5);
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(200, 220, 255, 0.5);
 }
 
 .theme-particle.christmas.ornament {
@@ -39,7 +41,7 @@
 }
 
 .theme-particle.christmas.star {
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
     animation-name: starGlow;
 }
@@ -101,7 +103,8 @@
 }
 
 @keyframes christmasLight {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0.3;
         filter: brightness(0.8);
     }
@@ -120,7 +123,8 @@
 }
 
 @keyframes starGlow {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1) rotate(0deg);
         filter: brightness(1);
     }
@@ -140,21 +144,21 @@
 
 /* Christmas colors */
 .theme-particle.christmas.red {
-    color: #C41E3A;
+    color: #c41e3a;
     text-shadow: 0 0 15px rgba(196, 30, 58, 0.7);
 }
 
 .theme-particle.christmas.green {
-    color: #228B22;
+    color: #228b22;
     text-shadow: 0 0 15px rgba(34, 139, 34, 0.7);
 }
 
 .theme-particle.christmas.gold {
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
 }
 
 .theme-particle.christmas.silver {
-    color: #C0C0C0;
+    color: #c0c0c0;
     text-shadow: 0 0 15px rgba(192, 192, 192, 0.7);
 }

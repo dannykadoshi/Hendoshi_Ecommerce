@@ -14,10 +14,10 @@
    ================================================ */
 
 :root {
-    --neon-pink: #FF1493;
-    --electric-yellow: #CCFF00;
-    --charcoal: #1A1A1A;
-    --off-white: #F5F5F5;
+    --neon-pink: #ff1493;
+    --electric-yellow: #ccff00;
+    --charcoal: #1a1a1a;
+    --off-white: #f5f5f5;
 }
 
 /* Basic admin theme overrides to match the site */
@@ -27,56 +27,80 @@ html body {
 }
 
 /* Header / branding */
-#header, .header, .branding {
-    background: linear-gradient(90deg, rgba(26,26,26,0.98), rgba(26,26,26,0.98));
-    border-bottom: 2px solid rgba(255,20,147,0.12);
+#header,
+.header,
+.branding {
+    background: linear-gradient(90deg, rgba(26, 26, 26, 0.98), rgba(26, 26, 26, 0.98));
+    border-bottom: 2px solid rgba(255, 20, 147, 0.12);
 }
 
-#header h1, .branding a, .module h2 {
+#header h1,
+.branding a,
+.module h2 {
     color: var(--neon-pink);
 }
 
-a, .breadcrumbs a {
+a,
+.breadcrumbs a {
     color: var(--neon-pink);
 }
 
 /* Buttons */
-input[type="submit"], .button, .submit-row .deletelink {
+input[type="submit"],
+.button,
+.submit-row .deletelink {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: #000;
     border: none;
-    box-shadow: 0 6px 20px rgba(255,20,147,0.12);
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.12);
 }
 
 /* Match site AI button appearance for Unfold widgets */
-.unfold .btn-ai, .btn-ai {
+.unfold .btn-ai,
+.btn-ai {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: #000;
-    box-shadow: 0 6px 18px rgba(255,20,147,0.12), inset 0 -2px 0 rgba(0,0,0,0.12);
+    box-shadow:
+        0 6px 18px rgba(255, 20, 147, 0.12),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.12);
 }
 
 /* Form labels and fieldsets */
-label, .form-row label {
+label,
+.form-row label {
     color: var(--off-white);
     font-weight: 700;
 }
 
-.module caption, .module h2 {
+.module caption,
+.module h2 {
     color: var(--neon-pink);
 }
 
 /* Improve form inputs contrast on dark background */
-input, textarea, select {
+input,
+textarea,
+select {
     background: #222;
     color: var(--off-white);
-    border: 1px solid rgba(255,20,147,0.08);
+    border: 1px solid rgba(255, 20, 147, 0.08);
 }
 
 /* Small helper: prefer specificity and avoid proliferation */
 @media (prefers-color-scheme: light) {
-    html body { background-color: #fff; color: #111; }
-    #header, .branding { background: #fff; border-bottom-color: #E71F7F; }
-    #header h1, .branding a { color: #E71F7F; }
+    html body {
+        background-color: #fff;
+        color: #111;
+    }
+    #header,
+    .branding {
+        background: #fff;
+        border-bottom-color: #e71f7f;
+    }
+    #header h1,
+    .branding a {
+        color: #e71f7f;
+    }
 }
 
 /* Admin filter form styling */

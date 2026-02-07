@@ -26,8 +26,10 @@
 }
 
 .theme-particle.everyday.skull {
-    color: #2F2F2F;
-    text-shadow: 0 0 10px rgba(139, 0, 0, 0.5), 0 0 20px rgba(75, 0, 130, 0.3);
+    color: #2f2f2f;
+    text-shadow:
+        0 0 10px rgba(139, 0, 0, 0.5),
+        0 0 20px rgba(75, 0, 130, 0.3);
 }
 
 .theme-particle.everyday.bat {
@@ -37,19 +39,21 @@
 }
 
 .theme-particle.everyday.flame {
-    color: #8B0000;
-    text-shadow: 0 0 20px rgba(255, 69, 0, 0.8), 0 0 30px rgba(255, 140, 0, 0.5);
+    color: #8b0000;
+    text-shadow:
+        0 0 20px rgba(255, 69, 0, 0.8),
+        0 0 30px rgba(255, 140, 0, 0.5);
     animation-name: flameFlicker;
 }
 
 .theme-particle.everyday.lightning {
-    color: #9400D3;
+    color: #9400d3;
     text-shadow: 0 0 25px rgba(148, 0, 211, 1);
     animation-name: purpleLightning;
 }
 
 .theme-particle.everyday.pentagram {
-    color: #8B0000;
+    color: #8b0000;
     text-shadow: 0 0 15px rgba(139, 0, 0, 0.8);
     animation-name: pentagramRotate;
 }
@@ -108,7 +112,8 @@
 }
 
 @keyframes flameFlicker {
-    0%, 100% {
+    0%,
+    100% {
         transform: translateY(100%) scale(0.8);
         opacity: 0;
         filter: brightness(1);
@@ -143,7 +148,8 @@
 }
 
 @keyframes purpleLightning {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0;
         transform: scale(0.5);
     }
@@ -204,17 +210,17 @@
 
 /* Gothic colors */
 .theme-particle.everyday.blood-red {
-    color: #8B0000;
+    color: #8b0000;
     text-shadow: 0 0 15px rgba(139, 0, 0, 0.8);
 }
 
 .theme-particle.everyday.dark-purple {
-    color: #4B0082;
+    color: #4b0082;
     text-shadow: 0 0 15px rgba(75, 0, 130, 0.8);
 }
 
 .theme-particle.everyday.neon-pink {
-    color: #FF1493;
+    color: #ff1493;
     text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
 }
 

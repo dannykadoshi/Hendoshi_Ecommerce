@@ -17,11 +17,21 @@
 /* ===== ADMIN_THEMES_LIST ===== */
 
 /* Theme-specific badge colors */
-.badge.bg-active { background-color: #28a745; }
-.badge.bg-inactive { background-color: #6c757d; }
-.badge.bg-paused { background-color: #fd7e14; }
-.badge.bg-scheduled { background-color: #17a2b8; }
-.badge.bg-expired { background-color: #dc3545; }
+.badge.bg-active {
+    background-color: #28a745;
+}
+.badge.bg-inactive {
+    background-color: #6c757d;
+}
+.badge.bg-paused {
+    background-color: #fd7e14;
+}
+.badge.bg-scheduled {
+    background-color: #17a2b8;
+}
+.badge.bg-expired {
+    background-color: #dc3545;
+}
 
 /* Theme type badges */
 .theme-type-badge {
@@ -48,9 +58,18 @@
     font-weight: 700;
     font-size: 0.85rem;
 }
-.priority-badge.high { background: rgba(255, 45, 161, 0.3); color: var(--neon-pink); }
-.priority-badge.medium { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
-.priority-badge.low { background: rgba(108, 117, 125, 0.3); color: #adb5bd; }
+.priority-badge.high {
+    background: rgba(255, 45, 161, 0.3);
+    color: var(--neon-pink);
+}
+.priority-badge.medium {
+    background: rgba(255, 193, 7, 0.3);
+    color: #ffc107;
+}
+.priority-badge.low {
+    background: rgba(108, 117, 125, 0.3);
+    color: #adb5bd;
+}
 
 /* Animation speed/density display */
 .config-pills {
@@ -76,7 +95,6 @@
     align-items: center;
     justify-content: center;
 }
-
 
 /* ===== ADMIN_THEMES_FORM ===== */
 
@@ -134,7 +152,7 @@
 
 /* Custom CSS textarea styling */
 .custom-css-editor {
-    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-family: "Fira Code", "Monaco", "Consolas", monospace;
     font-size: 0.85rem;
     background: rgba(0, 0, 0, 0.3);
     color: #e0e0e0;
@@ -211,7 +229,6 @@
     background: var(--bg-glass-light);
     border: var(--border-glass);
 }
-
 
 /* ===== THEME_ANIMATION_LAYER ===== */
 

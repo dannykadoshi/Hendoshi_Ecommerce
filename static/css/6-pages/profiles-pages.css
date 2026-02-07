@@ -16,112 +16,111 @@
 
 /* ===== INVOICE ===== */
 
-        .invoice-page {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            color: #333;
-        }
-        .invoice-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #E71F7F;
-        }
-        .invoice-header h1 {
-            color: #E71F7F;
-            margin: 0;
-            font-size: 28px;
-        }
-        .invoice-header img {
-            max-width: 220px;
-            height: auto;
-            margin-bottom: 12px;
-        }
-        .invoice-title {
-            font-size: 26px;
-            font-weight: 800;
-            font-family: "Arial Black", Arial, Helvetica, sans-serif;
-            text-transform: uppercase;
-            color: #333;
-            letter-spacing: 1.2px;
-            margin-top: 18px; /* Move title lower for separation */
-        }
+.invoice-page {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    color: #333;
+}
+.invoice-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e71f7f;
+}
+.invoice-header h1 {
+    color: #e71f7f;
+    margin: 0;
+    font-size: 28px;
+}
+.invoice-header img {
+    max-width: 220px;
+    height: auto;
+    margin-bottom: 12px;
+}
+.invoice-title {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: "Arial Black", Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    color: #333;
+    letter-spacing: 1.2px;
+    margin-top: 18px; /* Move title lower for separation */
+}
 
-        /* Totals styling */
-        .totals-table {
-            width: 300px;
-            margin-left: auto;
-        }
-        .totals-table .total-row td {
-            background-color: rgba(231, 31, 127, 0.08);
-            border-top: 2px solid #E71F7F;
-            border-bottom: 2px solid #E71F7F;
-        }
-        .totals-table .total-row td:first-child {
-            text-transform: uppercase;
-            color: #E71F7F;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-        .totals-table .total-row td:last-child {
-            font-weight: 800;
-        }
-        .invoice-details {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-        .invoice-details-right {
-            text-align: right;
-        }
-        .section {
-            margin-bottom: 30px;
-        }
-        .section h2 {
-            color: #E71F7F;
-            font-size: 18px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th {
-            background-color: #E71F7F;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        .totals-table {
-            width: 300px;
-            margin-left: auto;
-        }
-        .totals-table td {
-            text-align: right;
-        }
-        .total-row {
-            font-weight: bold;
-            font-size: 18px;
-            background-color: #f5f5f5;
-        }
-        .footer {
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-        }
-        @media print {
-            .invoice-page {
-                margin: 0;
-                padding: 20px;
-            }
-        }
-    
+/* Totals styling */
+.totals-table {
+    width: 300px;
+    margin-left: auto;
+}
+.totals-table .total-row td {
+    background-color: rgba(231, 31, 127, 0.08);
+    border-top: 2px solid #e71f7f;
+    border-bottom: 2px solid #e71f7f;
+}
+.totals-table .total-row td:first-child {
+    text-transform: uppercase;
+    color: #e71f7f;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.totals-table .total-row td:last-child {
+    font-weight: 800;
+}
+.invoice-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.invoice-details-right {
+    text-align: right;
+}
+.section {
+    margin-bottom: 30px;
+}
+.section h2 {
+    color: #e71f7f;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th {
+    background-color: #e71f7f;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ddd;
+}
+.totals-table {
+    width: 300px;
+    margin-left: auto;
+}
+.totals-table td {
+    text-align: right;
+}
+.total-row {
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #f5f5f5;
+}
+.footer {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+@media print {
+    .invoice-page {
+        margin: 0;
+        padding: 20px;
+    }
+}

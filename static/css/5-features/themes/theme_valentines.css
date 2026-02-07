@@ -26,13 +26,13 @@
 }
 
 .theme-particle.valentines.heart {
-    color: #FF1493;
+    color: #ff1493;
     text-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
     animation-name: heartFloat;
 }
 
 .theme-particle.valentines.petal {
-    color: #FFB6C1;
+    color: #ffb6c1;
     animation-name: petalDrift;
 }
 
@@ -118,23 +118,26 @@
 
 /* Pink heart */
 .theme-particle.valentines.pink {
-    color: #FF69B4;
+    color: #ff69b4;
     text-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
 }
 
 /* Red heart */
 .theme-particle.valentines.red {
-    color: #DC143C;
+    color: #dc143c;
     text-shadow: 0 0 15px rgba(220, 20, 60, 0.7);
 }
 
 /* Soft pulse on hearts */
 .theme-particle.valentines.heart {
-    animation: heartFloat 8s ease-in-out infinite, heartPulse 1.5s ease-in-out infinite;
+    animation:
+        heartFloat 8s ease-in-out infinite,
+        heartPulse 1.5s ease-in-out infinite;
 }
 
 @keyframes heartPulse {
-    0%, 100% {
+    0%,
+    100% {
         filter: brightness(1);
     }
     50% {
