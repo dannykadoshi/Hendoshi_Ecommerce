@@ -16,7 +16,7 @@
     z-index: 10;
     margin-top: -40px;
     margin-bottom: 1.5rem;
-    padding: 3rem 0 1.5rem;
+    padding: 3rem 0 1rem;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
@@ -27,7 +27,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-color: #0a0a0a;
-    min-height: 350px;
+    min-height: 280px;
     border-bottom: none;
 }
 
@@ -56,7 +56,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 350px;
+    min-height: 280px;
     background-color: #0a0a0a;
     border-bottom: none;
 }
@@ -112,13 +112,7 @@
 .page-hero-title {
     position: relative;
     z-index: 2;
-    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 50%, #ff6b6b 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: vault-gradient-shift 8s ease infinite;
+    color: rgba(255, 255, 255, 0.95);
     font-size: 4rem;
     font-weight: 900;
     text-transform: uppercase;
@@ -140,7 +134,13 @@
 .page-hero .btn,
 .page-hero a,
 .page-hero button,
-.page-hero .pug-skull-branding {
+.page-hero .pug-skull-branding,
+.page-hero .container,
+.page-hero .row,
+.page-hero .col-12,
+.page-hero .page-hero-title,
+.page-hero .page-hero-subtitle,
+.page-hero .checkout-hero-stat {
     position: relative;
     z-index: 2;
 }
@@ -934,17 +934,6 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .vault-filters-section {
-        padding: 1.5rem 0.75rem;
-        margin: 0 0.5rem;
-    }
-
-    .vault-filter-form {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-    }
-
     .vault-filter-container {
         min-width: auto;
         width: 100%;
@@ -3480,14 +3469,12 @@
 }
 
 /* Glassmorphic Hero Section */
-/* Hero Title with Gradient */
+/* Hero Title with white text */
 .page-hero-title {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    background-clip: text;
-    color: transparent;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /* Hero Subtitle */
@@ -3532,12 +3519,12 @@
         font-size: 2.5rem;
     }
     .page-hero {
-        padding: 1.5rem 0 1rem;
+        padding: 1.5rem 0 0.5rem;
         margin-bottom: 1rem;
         margin-top: -30px;
     }
     .page-hero.has-banner {
-        min-height: 250px;
+        min-height: 200px;
         background-size: cover;
         background-position: center;
     }
@@ -3548,7 +3535,7 @@
         font-size: 2rem;
     }
     .page-hero.has-banner {
-        min-height: 200px;
+        min-height: 160px;
     }
 }
 
@@ -4076,9 +4063,7 @@
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    background-clip: text;
-    color: transparent;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .pug-skull-branding {
@@ -4176,7 +4161,8 @@
 @media (max-width: 768px) {
     .vault-page, .products-page {
         /* Increase offset on mobile so content clears the fixed navbar/banner */
-        padding-top: 120px;
+        /* slightly larger offset so hero sits below the navbar */
+        padding-top: 100px;
         /* Ensure no horizontal scroll on small screens */
         overflow-x: hidden;
     }
@@ -4227,6 +4213,17 @@
         padding: 0.75rem 1.5rem;
         font-size: 0.9rem;
     }
+
+    /* Adjust hero spacing on mobile so it sits lower under navbar */
+    .page-hero {
+        padding-top: 1.8rem;
+        padding-bottom: 0.9rem;
+        min-height: 200px;
+    }
+
+    .page-hero .col-12 {
+        padding-top: 0.25rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -4246,6 +4243,39 @@
     
     .pug-skull-branding {
         width: 60px;
+    }
+
+    /* Slightly more breathing room under navbar for very small screens */
+    .page-hero {
+        padding-top: 1.2rem;
+        padding-bottom: 0.8rem;
+        min-height: 160px;
+    }
+
+    .page-hero .col-12 {
+        padding-top: 0.25rem;
+    }
+
+    /* Keep checkout/hero stats on a single line on very small screens */
+    .page-hero .d-flex {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .checkout-hero-stat {
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.95rem;
+    }
+
+    .page-hero .checkout-hero-stat i {
+        margin-right: 0.35rem;
+        font-size: 1.05rem;
     }
 }
 

@@ -419,6 +419,8 @@
     }
 }
 
+/* Checkout page now uses the global hero rules from features/vault-community.css */
+
 /* ================================================
    ACTIVATE ACCOUNT PAGE STYLES
    Extracted from templates/checkout/activate_account.html

@@ -1261,29 +1261,7 @@
 
 /* .vault-page moved to vault-community.css for single canonical definition */
 
-/* Mobile optimization for hero buttons */
-@media (max-width: 768px) {
-    .page-hero .d-flex {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .page-hero .btn {
-        width: 100%;
-        max-width: 280px;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .page-hero .btn {
-        max-width: 250px;
-        padding: 0.625rem 1.25rem;
-        font-size: 0.85rem;
-    }
-}
+/* Page-hero uses global styles from features/vault-community.css */
 
 @media (max-width: 768px) {
     .auth-card form .d-flex {

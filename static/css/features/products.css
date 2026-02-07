@@ -1946,7 +1946,8 @@ h2.gradient-title {
 
 /* Authentication Pages */
 .auth-page {
-    padding-top: 150px;
+    /* Match the global vault/page spacing so heroes behave identically */
+    padding-top: 112px;
     padding-bottom: 5rem;
     min-height: 100vh;
 }

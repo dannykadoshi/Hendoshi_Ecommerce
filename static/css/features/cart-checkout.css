@@ -2037,16 +2037,9 @@ main {
 }
 
 /* Cart Page Hero Styles */
-.cart-page {
-    min-height: 100vh !important;
-    padding-top: 120px !important;
-    margin-top: 0 !important;
-    padding-bottom: 0 !important;
-}
+/* Cart page now uses products-page class - removed duplicate styling */
 
-.cart-container {
-    padding-top: 2rem;
-}
+/* Cart container spacing now handled by products-page layout */
 
 .cart-container .row {
     align-items: flex-start;
@@ -3430,30 +3423,9 @@ main {
     }
 }
 
-/* CART PAGE STYLES */
-.cart-page {
-    margin-top: 120px;
-    min-height: calc(100vh - 120px);
-    padding: 3rem 0 1rem;
-}
+/* CART PAGE STYLES - removed duplicate cart-page rules */
 
-@media (min-width: 768px) and (max-width: 991px) {
-    .cart-page {
-        margin-top: 125px;
-    }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-    .cart-page {
-        margin-top: 115px;
-    }
-}
-
-@media (max-width: 767px) {
-    .cart-page {
-        margin-top: 115px;
-    }
-}
+/* Removed cart-page media query rules - now uses products-page */
 
 .page-title {
     font-size: 2.5rem;
@@ -3473,9 +3445,7 @@ main {
     padding: 2rem;
 }
 
-.cart-page .row {
-    align-items: flex-start;
-}
+/* Removed .cart-page .row rule - cart page now uses products-page */
 
 .cart-header {
     padding-bottom: 1.5rem;
@@ -3885,18 +3855,7 @@ main {
 }
 
 @media (max-width: 768px) {
-    .cart-page {
-        margin-top: 80px;
-        padding: 1rem 0;
-    }
-
-    .page-title {
-        font-size: 1.8rem;
-    }
-
-    .cart-items-section {
-        padding: 0.4rem;
-    }
+    /* Removed cart-page mobile rules - now uses products-page */
 
     /* Ultra Compact Mobile Cart Layout */
     .cart-item {
@@ -4230,10 +4189,7 @@ main {
     color: #1A1A1A;
 }
 
-/* Light Mode - Cart Page */
-:root.light-mode .cart-page {
-    background-color: #FFFFFF;
-}
+/* Removed cart-page light mode rule - now uses products-page light mode */
 
 :root.light-mode .cart-items-section {
     background-color: rgba(231, 31, 127, 0.05);
@@ -9493,11 +9449,7 @@ body > iframe[name*="__privateStripeFrame"] {
     padding-bottom: 0.5rem;
 }
 
-/* Cart page specific - reduce bottom spacing */
-.vault-page.cart-page .cart-page-layout {
-    margin-bottom: 0;
-    padding-bottom: 0.5rem;
-}
+/* Removed vault-page.cart-page rules - cart page now uses products-page */
 
 .cart-summary-section {
     margin-bottom: 0;
