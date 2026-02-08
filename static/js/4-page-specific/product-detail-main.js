@@ -412,6 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update both mobile and desktop count badges
         const mobileBadge = document.getElementById('battleVestCount');
         const desktopBadge = document.getElementById('battleVestCountDesktop');
+        const productDetailBadge = document.getElementById('battleVestCountProductDetail');
 
         if (mobileBadge) {
             mobileBadge.textContent = count;
@@ -421,6 +422,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (desktopBadge) {
             desktopBadge.textContent = count;
             desktopBadge.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+
+        if (productDetailBadge) {
+            productDetailBadge.textContent = count;
+            productDetailBadge.style.display = count > 0 ? 'inline-block' : 'none';
         }
     }
 

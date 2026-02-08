@@ -287,7 +287,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function openAddToCartCarouselModal(productId, productName) {
         carouselProductId = productId;
         carouselProductName = productName;
-        document.getElementById('carouselProductId').value = productId;
+
+        const carouselProductIdElement = document.getElementById('carouselProductId');
+        if (carouselProductIdElement) {
+            carouselProductIdElement.value = productId;
+        }
+
         // Fetch available sizes/colors via AJAX
         fetch(`/products/${productId}/variant-options/`)
             .then(response => response.json())
@@ -296,6 +301,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const colorSelect = document.getElementById('carouselColorSelect');
                 const sizeWrapper = document.getElementById('carouselSizeWrapper');
                 const colorWrapper = document.getElementById('carouselColorWrapper');
+
+                if (!sizeSelect || !colorSelect || !sizeWrapper || !colorWrapper) {
+                    return; // Exit if carousel elements don't exist
+                }
 
                 // Deduplicate sizes and colors
                 const uniqueSizes = [...new Set(data.sizes)];
@@ -372,56 +381,59 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle form submission for carousel add to cart
-    document.getElementById('addToCartCarouselForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    const carouselForm = document.getElementById('addToCartCarouselForm');
+    if (carouselForm) {
+        carouselForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        const formData = new FormData(this);
+            const formData = new FormData(this);
 
-        fetch('/cart/add/' + carouselProductId + '/', {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Close modal properly
-                const modalElement = document.getElementById('addToCartCarouselModal');
-                const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if (modalInstance) {
-                    modalInstance.hide();
-                }
-
-                // Remove any lingering backdrops
-                setTimeout(() => {
-                    const backdrops = document.querySelectorAll('.modal-backdrop');
-                    backdrops.forEach(backdrop => backdrop.remove());
-                    document.body.classList.remove('modal-open');
-                    document.body.style.overflow = '';
-                    document.body.style.paddingRight = '';
-                }, 100);
-
-                // Update cart count first
-                if (typeof updateCartCount === 'function') {
-                    updateCartCount(data.cart_count);
-                }
-
-                // Show cart drawer
-                setTimeout(() => {
-                    if (typeof showCartDrawer === 'function' && data.item) {
-                        showCartDrawer(data);
-                    } else if (typeof showToast === 'function') {
-                        showToast(data.message || 'Added to cart!', 'success');
+            fetch('/cart/add/' + carouselProductId + '/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close modal properly
+                    const modalElement = document.getElementById('addToCartCarouselModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) {
+                        modalInstance.hide();
                     }
-                }, 200);
-            } else {
-                if (typeof showToast === 'function') {
-                    showToast(data.message, 'error');
+
+                    // Remove any lingering backdrops
+                    setTimeout(() => {
+                        const backdrops = document.querySelectorAll('.modal-backdrop');
+                        backdrops.forEach(backdrop => backdrop.remove());
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                        document.body.style.paddingRight = '';
+                    }, 100);
+
+                    // Update cart count first
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount(data.cart_count);
+                    }
+
+                    // Show cart drawer
+                    setTimeout(() => {
+                        if (typeof showCartDrawer === 'function' && data.item) {
+                            showCartDrawer(data);
+                        } else if (typeof showToast === 'function') {
+                            showToast(data.message || 'Added to cart!', 'success');
+                        }
+                    }, 200);
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast(data.message, 'error');
+                    }
                 }
-            }
+            });
         });
-    });
+    }
 });
