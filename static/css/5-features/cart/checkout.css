@@ -4741,9 +4741,16 @@ body .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
 
 /* Battle Vest Page */
 .battle-vest-page {
-    padding: 120px 0 4rem;
+    padding: 112px 0 4rem;
     min-height: 100vh;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
+}
+
+/* Mobile: Reduce battle vest page padding to match other pages */
+@media (max-width: 768px) {
+    .battle-vest-page {
+        padding: 100px 0 2rem;
+    }
 }
 
 .battle-vest-header {
@@ -6366,4 +6373,37 @@ body > iframe[name*="__privateStripeFrame"] {
         padding: 0.5rem 0.75rem;
         font-size: 0.85rem;
     }
+}
+
+/* Fix muted text colors in checkout */
+.checkout-totals-summary .text-muted {
+    color: #fff !important;
+}
+
+.checkout-totals-summary .d-flex.justify-content-between.fw-bold div:first-child {
+    color: #fff;
+}
+
+.checkout-totals-summary .d-flex.justify-content-between.fw-bold div:last-child {
+    color: var(--neon-pink);
+}
+
+/* Fix text-muted in checkout main content (payment section) */
+.checkout-main-content .text-muted {
+    color: #fff !important;
+}
+
+/* Style order summary amounts */
+.checkout-totals-summary #summary-subtotal,
+.checkout-totals-summary #summary-discount,
+.checkout-totals-summary #summary-shipping,
+.checkout-totals-summary #summary-tax,
+.checkout-totals-summary #summary-total {
+    color: var(--neon-pink);
+    font-weight: 700;
+}
+
+/* Fix all text-muted in checkout page */
+.checkout-page .text-muted {
+    color: #fff !important;
 }

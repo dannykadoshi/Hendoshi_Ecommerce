@@ -168,7 +168,7 @@
     margin-top: 1rem;
 }
 .small.muted {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 0.9rem;
 }
 
@@ -255,9 +255,6 @@
    Keep only the top padding here to avoid duplicates across
    feature and page-specific CSS files. Mobile overrides remain
    in their respective files when necessary. */
-.checkout-container {
-    padding-top: 3rem;
-}
 
 .contact-card a:hover {
     color: #ff6fb5;
@@ -642,11 +639,7 @@
     }
 }
 
-.contact-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0;
-}
+/* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
     background: var(--dark-bg);

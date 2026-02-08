@@ -66,7 +66,10 @@
                             <div class="vault-featured-item">
                                 <div class="vault-featured-card glassmorphic-card">
                                     <div class="vault-featured-image-container">
-                                        <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-featured-image" loading="lazy">
+                                        <img src="{{ photo.image.url }}" 
+                                             alt="{{ photo.caption|default:'HENDOSHI photo' }}" 
+                                             class="vault-featured-image" 
+                                             loading="lazy">
                                         <div class="vault-featured-overlay">
                                             <div class="vault-featured-badge">
                                                 <i class="fas fa-star"></i> FEATURED
@@ -187,7 +190,10 @@
             <div class="vault-card-wrapper">
                 <div class="vault-card glassmorphic-card">
                 <div class="vault-image-container">
-                    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-image" loading="lazy">
+                    <img src="{{ photo.image.url }}" 
+                         alt="{{ photo.caption|default:'HENDOSHI photo' }}" 
+                         class="vault-image" 
+                         loading="lazy">
                     <div class="vault-overlay">
                         <div class="d-flex justify-content-center align-items-center gap-2">
                             <a href="{% url 'vault:photo_detail' photo.id %}" class="vault-overlay-link">

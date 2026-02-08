@@ -15,7 +15,7 @@
 
 .profile-page {
     min-height: 100vh;
-    padding-top: 120px;
+    padding-top: 112px;
 }
 
 /* Profile Stats Cards */
@@ -52,16 +52,23 @@
 }
 
 @media (max-width: 768px) {
+    .profile-page {
+        padding-top: 100px;
+    }
+
     .profile-stat-card {
         padding: 1rem 0.75rem;
+        margin-bottom: 0.75rem;
     }
 
     .profile-stat-icon {
         font-size: 1.5rem;
+        margin-bottom: 0.5rem;
     }
 
     .profile-stat-value {
         font-size: 1.5rem;
+        margin-bottom: 0.35rem;
     }
 
     .profile-stat-label {
@@ -290,11 +297,7 @@
 }
 
 /* From: templates/home/returns.html */
-.contact-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0;
-}
+/* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
     background: var(--dark-bg);
@@ -828,7 +831,7 @@
 }
 
 :root.light-mode .checkout-hero-stat {
-    color: #555;
+    color: #fff;
 }
 
 :root.light-mode .step-circle {

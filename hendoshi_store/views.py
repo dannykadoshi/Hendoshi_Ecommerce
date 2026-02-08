@@ -111,19 +111,19 @@ def product_types(request):
 
 def new_drops(request):
     """
-    Display new products in a card layout
+    Display new products in a card layout with filters
     """
-    # Get the most recent products (last 30 days or last 50 products, whichever is smaller)
     from django.utils import timezone
     from datetime import timedelta
+    from products.models import Collection, ProductType
     
-    # Get products from the last 30 days
+    # Get the most recent products (last 30 days or last 50 products, whichever is smaller)
     thirty_days_ago = timezone.now() - timedelta(days=30)
     recent_products = Product.objects.filter(
         is_active=True, 
         is_archived=False,
         created_at__gte=thirty_days_ago
-    ).order_by('-created_at')[:50]  # Limit to 50 most recent
+    )
     
     # If we have fewer than 20 recent products, get more from the last 60 days
     if recent_products.count() < 20:
@@ -132,10 +132,69 @@ def new_drops(request):
             is_active=True, 
             is_archived=False,
             created_at__gte=sixty_days_ago
-        ).order_by('-created_at')[:50]
+        )
+    
+    # Get filter parameters
+    current_collection = request.GET.get('collection', '')
+    current_type = request.GET.get('type', '')
+    current_audience = request.GET.get('audience', '')
+    sort_param = request.GET.get('sort', '')
+    
+    # Apply filters
+    if current_collection:
+        recent_products = recent_products.filter(collection__slug=current_collection)
+    
+    if current_type:
+        try:
+            product_type = ProductType.objects.get(slug=current_type)
+            recent_products = recent_products.filter(product_type=product_type)
+        except ProductType.DoesNotExist:
+            pass
+    
+    if current_audience:
+        recent_products = recent_products.filter(audience=current_audience)
+    
+    # Apply sorting
+    sort_by = None
+    direction = None
+    if sort_param:
+        if sort_param == 'price_asc':
+            recent_products = recent_products.order_by('base_price')
+            sort_by = 'price'
+            direction = 'asc'
+        elif sort_param == 'price_desc':
+            recent_products = recent_products.order_by('-base_price')
+            sort_by = 'price'
+            direction = 'desc'
+        elif sort_param == 'name_asc':
+            recent_products = recent_products.order_by('name')
+            sort_by = 'name'
+            direction = 'asc'
+        elif sort_param == 'name_desc':
+            recent_products = recent_products.order_by('-name')
+            sort_by = 'name'
+            direction = 'desc'
+        else:
+            recent_products = recent_products.order_by('-created_at')
+    else:
+        recent_products = recent_products.order_by('-created_at')
+    
+    # Limit to 50 most recent
+    recent_products = recent_products[:50]
+    
+    # Get all collections and product types for filter dropdown
+    collections = Collection.objects.all()
+    product_types = ProductType.objects.all()
     
     context = {
         'new_drops': recent_products,
         'total_count': recent_products.count(),
+        'collections': collections,
+        'product_types': product_types,
+        'current_collection': current_collection,
+        'current_type': current_type,
+        'current_audience': current_audience,
+        'sort_by': sort_by,
+        'direction': direction,
     }
     return render(request, 'pages/new_drops.html', context)

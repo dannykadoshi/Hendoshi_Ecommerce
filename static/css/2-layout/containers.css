@@ -16,17 +16,9 @@
 }
 
 /* Canonical page container: centralized settings for page content wrappers */
-/* Universal spacing from page-hero sections */
+/* Page wrapper padding moved to vault-modals.css for single source of truth */
 
-.checkout-page {
-    padding-top: 120px;
-    padding-bottom: 3rem;
-}
-
-.contact-page {
-    padding-top: 112px;
-    padding-bottom: 3rem;
-}
+/* Checkout/contact specific bottom padding */
 
 /* Mobile Edge-to-Edge Containers */
 @media (max-width: 768px) {
@@ -53,10 +45,6 @@
 @media (max-width: 768px) {
     .search-results-container,
     .products-container {
-        max-width: 100%;
-    }
-
-    .checkout-container {
         max-width: 100%;
     }
 }

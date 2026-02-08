@@ -137,11 +137,11 @@
 
 /* Improved visibility for muted text */
 body .text-muted {
-    color: #b0b0b0 !important;
+    color: #b0b0b0;
 }
 
 body .card .text-muted {
-    color: #aaa !important;
+    color: #aaa;
 }
 
 /* ===== PRODUCT_DETAIL ===== */
@@ -398,6 +398,14 @@ body .admin-reply .text-muted {
 .review-form {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.review-form h4 {
+    color: #fff;
+}
+
+:root.light-mode .review-form h4 {
+    color: #000;
 }
 
 /* Review Images */

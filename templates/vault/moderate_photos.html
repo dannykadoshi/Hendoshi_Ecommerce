@@ -301,8 +301,6 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/3-features/vault/vault.js' %}"></script>
+    <!-- Load vault moderation JS after modal HTML so Bootstrap is available -->
+    <script src="{% static 'js/3-features/vault/vault.js' %}"></script>
 {% endblock %}

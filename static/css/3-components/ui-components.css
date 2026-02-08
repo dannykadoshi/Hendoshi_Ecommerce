@@ -48,13 +48,7 @@
     --vault-max-width: 1400px;
 }
 
-/* Canonical checkout page spacing (centralized) */
-.checkout-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0;
-    padding-bottom: 3rem;
-}
+/* Checkout page padding moved to vault-modals.css for consistency */
 
 /* Checkout pages need reduced page-container bottom padding to avoid excessive footer spacing */
 .checkout-page .page-container {
@@ -2886,7 +2880,7 @@ body.cart-drawer-open {
 
     /* Space between hero section and product content */
     .products-page .container {
-        padding-top: 2rem;
+        padding-top: 0rem;
     }
 }
 
@@ -2904,7 +2898,7 @@ body.cart-drawer-open {
     }
 
     .products-page .container {
-        padding-top: 1.5rem;
+        padding-top: 0rem;
     }
 }
 
@@ -3105,13 +3099,13 @@ body .btn-pink.btn-cta:active {
 
 /* Form Text Utility Classes */
 .form-text {
-    color: var(--text-muted) !important;
+    color: var(--text-muted);
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
 
 body .text-muted {
-    color: var(--text-muted) !important;
+    color: var(--text-muted);
 }
 
 .text-light-gray {

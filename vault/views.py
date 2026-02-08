@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -348,10 +349,15 @@ def moderate_photos(request):
                 photo.delete()
                 messages.success(request, f'Photo by {photo.user.username} permanently deleted.')
 
-        return redirect('vault:moderate_photos')
+        # Redirect back to the referring page (preserve filters/search),
+        # falling back to the moderate_photos view if referrer is not set.
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            return redirect(referer)
+        return redirect(reverse('vault:moderate_photos'))
 
     # Filter options
-    status_filter = request.GET.get('status', 'pending')
+    status_filter = request.GET.get('status', 'all')
     search_query = request.GET.get('search', '').strip()
 
     if status_filter == 'all':
@@ -429,7 +435,10 @@ def approve_photo(request, photo_id):
         return JsonResponse({'success': True, 'status': 'approved'})
     else:
         messages.success(request, f'Photo by {photo.user.username} has been approved.')
-        return redirect('vault:moderate_photos')
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            return redirect(referer)
+        return redirect(reverse('vault:moderate_photos'))
 
 
 @login_required
@@ -448,7 +457,10 @@ def reject_photo(request, photo_id):
         return JsonResponse({'success': True, 'status': 'rejected'})
     else:
         messages.success(request, f'Photo by {photo.user.username} has been rejected.')
-        return redirect('vault:moderate_photos')
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            return redirect(referer)
+        return redirect(reverse('vault:moderate_photos'))
 
 
 @login_required

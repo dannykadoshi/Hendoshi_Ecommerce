@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from products.models import Product
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 
 
 class VaultPhoto(models.Model):
@@ -41,3 +45,50 @@ class VaultPhoto(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.caption or 'No caption'} ({self.status})"
+    
+    def save(self, *args, **kwargs):
+        """Compress image on upload"""
+        if self.image and hasattr(self.image, 'file'):
+            self.image = self.compress_image(self.image)
+        super().save(*args, **kwargs)
+    
+    @staticmethod
+    def compress_image(image, max_width=1920, quality=85):
+        """Compress and resize uploaded images for better performance"""
+        try:
+            img = Image.open(image)
+            
+            # Convert RGBA/P to RGB if needed
+            if img.mode in ('RGBA', 'P', 'LA'):
+                # Create white background
+                background = Image.new('RGB', img.size, (255, 255, 255))
+                if img.mode == 'P':
+                    img = img.convert('RGBA')
+                background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+                img = background
+            elif img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            # Resize if too large
+            if img.width > max_width or img.height > max_width:
+                img.thumbnail((max_width, max_width), Image.Resampling.LANCZOS)
+            
+            # Save compressed
+            output = BytesIO()
+            img.save(output, format='JPEG', quality=quality, optimize=True)
+            output.seek(0)
+            
+            # Get original filename
+            name = image.name.split('.')[0] if hasattr(image, 'name') else 'vault_photo'
+            
+            return InMemoryUploadedFile(
+                output, 'ImageField',
+                f"{name}.jpg",
+                'image/jpeg',
+                sys.getsizeof(output),
+                None
+            )
+        except Exception as e:
+            # If compression fails, return original
+            print(f"Image compression failed: {e}")
+            return image

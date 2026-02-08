@@ -64,6 +64,27 @@
     font-weight: 600;
 }
 
+@media (max-width: 768px) {
+    .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+    }
+
+    .about-stat-card {
+        padding: 1.5rem 1rem;
+        min-height: 160px;
+    }
+}
+
 /* Testimonials Section */
 .testimonials-section {
     background: rgba(0, 0, 0, 0.2);

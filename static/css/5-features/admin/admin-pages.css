@@ -1285,6 +1285,30 @@ input[type="file"]:hover::-ms-browse {
     border: 2px solid var(--neon-pink);
 }
 
+/* Ensure consistent padding and alignment for all items in admin panel submenu */
+.admin-panel-submenu .dropdown-item {
+    padding: 0.375rem 1.5rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Fix alignment and spacing for dropdown-submenu in admin panel */
+.admin-panel-submenu .dropdown-submenu {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-panel-submenu .dropdown-submenu .dropdown-item {
+    padding: 0.375rem 1.5rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
 /* Profile submenu styles */
 .profile-submenu {
     position: absolute;
@@ -1644,6 +1668,7 @@ input[type="file"]:hover::-ms-browse {
     padding: 1.5rem;
     position: sticky;
     top: 140px;
+    color: #fff;
 }
 
 .progress-indicator h5 {
@@ -1677,7 +1702,7 @@ input[type="file"]:hover::-ms-browse {
 #progressList .progress-item {
     padding: 0.5rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--off-white);
+    color: #fff;
     font-size: 0.85rem;
     display: flex;
     align-items: center;
@@ -2059,6 +2084,11 @@ input[type="file"]:hover::-ms-browse {
 :root.light-mode .progress-indicator {
     background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.08);
+    color: #000;
+}
+
+:root.light-mode #progressList .progress-item {
+    color: #000;
 }
 
 /* Admin Action Buttons Light Mode - Better color selection */

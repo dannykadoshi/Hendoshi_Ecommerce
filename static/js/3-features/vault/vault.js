@@ -11,20 +11,23 @@
    - Photo liking/unliking functionality
    - Featured photo interactions
    - Product filter chip management
+// Debug: indicate vault.js loaded
+if (typeof console !== 'undefined' && console.info) {
+    console.info('[vault.js] loaded');
+}
    - Hall of Fame vote/like handling
    
    Dependencies: Requires vault-hall-of-fame.js for Hall of Fame specific events
+    console.debug('[vault.js] confirmVaultAction called', { action, photoId });
    Load Order: Before vault-hall-of-fame.js, after core utilities
    ================================================ */
 
-// HENDOSHI Vault JavaScript
-// Contains all vault-specific functionality
+    // Contains all vault-specific functionality
 
 // Analytics tracking for vault interactions
 function trackVaultEvent(action, details = {}) {
     if (typeof gtag !== 'undefined') {
         gtag('event', 'vault_interaction', {
-            action: action,
             page_location: window.location.pathname,
             ...details
         });
@@ -46,6 +49,7 @@ function initializeGalleryFilter() {
     // Initialize with current filter if any
     const productFilter = '{{ product_filter }}';
     if (productFilter) {
+        console.debug('[vault.js] vault button clicked', { action, photoId });
         const currentItem = Array.from(items).find(item => item.dataset.value === productFilter);
         if (currentItem) {
             input.value = currentItem.textContent;
@@ -925,14 +929,35 @@ function initializeModerationBulkSelection() {
 function initializeModerationAutoSubmit() {
     const statusFilter = document.getElementById('status-filter');
     const filterForm = document.getElementById('status-filter-form');
+    const searchInput = document.getElementById('search-input');
     
-    if (!statusFilter || !filterForm) return;
+    console.log('initializeModerationAutoSubmit called');
+    console.log('statusFilter element:', statusFilter);
+    console.log('filterForm element:', filterForm);
+    console.log('searchInput element:', searchInput);
+    
+    if (!statusFilter || !filterForm) {
+        console.log('Missing elements, returning');
+        return;
+    }
     
     // Auto-submit when status changes
     statusFilter.addEventListener('change', function() {
         console.log('Status filter changed to:', this.value);
+        console.log('Submitting form');
         filterForm.submit();
     });
+    
+    // Auto-submit when search changes (debounced)
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                console.log('Search input changed, submitting form');
+                filterForm.submit();
+            }, 500);
+        });
+    }
 }
 
 // Initialize vault functionality based on current page
@@ -966,7 +991,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Moderation page
+    if (document.getElementById('status-filter')) {
+        console.log('Moderation page detected, initializing auto-submit');
+        initializeModerationAutoSubmit();
+    }
     if (document.querySelector('.moderation-card') || document.getElementById('select-all')) {
+        console.log('Moderation page with photos detected, initializing bulk selection');
         initializeModerationBulkSelection();
     }
 

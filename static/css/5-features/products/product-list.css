@@ -14,28 +14,7 @@
    Load Order: Load after foundation and components
    ================================================ */
 
-.products-page {
-    padding-top: 120px;
-    margin-top: 0;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-    .products-page {
-        padding-top: 125px;
-    }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-    .products-page {
-        padding-top: 115px;
-    }
-}
-
-@media (max-width: 767px) {
-    .products-page {
-        padding-top: 115px;
-    }
-}
+/* Products page padding removed - now handled by vault-modals.css for consistency */
 
 /* Products Header Section */
 .products-header-section {
@@ -49,26 +28,13 @@
 }
 
 /* Product Detail Hero -------------------------------------------------- */
-/* keep proportions consistent with global .page-hero */
+/* Inherits from global .page-hero in hero-pages.css */
 .product-hero {
-    /* inherit the global page-hero appearance while allowing small tweaks */
+    /* Only override specific properties, inherit all global page-hero styles */
     min-height: 200px;
-    padding: 2rem 0 0.5rem;
     margin-bottom: 2.5rem;
 }
-.product-hero .page-hero-title {
-    font-size: 3rem; /* match global page-hero-title */
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-.product-hero .page-hero-subtitle {
-    color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
+/* Removed duplicate .page-hero-title and .page-hero-subtitle - using global styles from hero-pages.css */
 
 /* Related / You Might Also Like ---------------------------------------- */
 .related-products {
@@ -664,9 +630,7 @@ h2.gradient-title {
 
 /* 2 columns for tablets and mobile - includes filter dropdown mobile positioning */
 @media (max-width: 991px) {
-    .products-page {
-        padding-top: 120px;
-    }
+    /* products-page padding-top removed - handled by vault-modals.css canonical wrapper */
 
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1655,11 +1619,11 @@ h2.gradient-title {
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow)) !important;
-    color: transparent !important;
-    background-clip: text !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .product-meta {
@@ -1760,7 +1724,7 @@ h2.gradient-title {
     position: relative;
     z-index: 2;
     margin: 0;
-    color: var(--off-white) !important;
+    color: var(--off-white);
 }
 
 .design-story {
@@ -1995,13 +1959,8 @@ h2.gradient-title {
     border-radius: 50%;
 }
 
-/* Authentication Pages */
-.auth-page {
-    /* Match the global vault/page spacing so heroes behave identically */
-    padding-top: 112px;
-    padding-bottom: 5rem;
-    min-height: 100vh;
-}
+/* Authentication Pages - padding removed, handled by vault-modals.css */
+/* Auth pages can use vault-page class for consistent spacing */
 
 .connections-subtitle {
     color: var(--neon-pink);
@@ -2081,7 +2040,7 @@ h2.gradient-title {
 }
 
 .auth-form-input::placeholder {
-    color: var(--gray);
+    color: #fff;
 }
 
 .auth-link {
@@ -2121,29 +2080,7 @@ h2.gradient-title {
     margin-bottom: 0.5rem;
 }
 
-/* Profile Page */
-.profile-page {
-    padding-top: 120px;
-    padding-bottom: 5rem;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-    .profile-page {
-        padding-top: 125px;
-    }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-    .profile-page {
-        padding-top: 115px;
-    }
-}
-
-@media (max-width: 767px) {
-    .profile-page {
-        padding-top: 115px;
-    }
-}
+/* Profile Page - padding removed, handled by profile-account.css */
 
 /* Profile Hero Section */
 .profile-hero {

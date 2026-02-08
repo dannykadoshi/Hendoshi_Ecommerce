@@ -584,11 +584,7 @@
 
 /* ===== RETURNS ===== */
 
-.contact-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0;
-}
+/* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
     background: var(--dark-bg);
@@ -922,11 +918,7 @@
 
 /* ===== FAQ ===== */
 
-.contact-page {
-    min-height: 100vh;
-    padding-top: 120px;
-    margin-top: 0;
-}
+/* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
     background: var(--dark-bg);
@@ -1050,7 +1042,7 @@
 }
 
 .faq-answer {
-    color: var(--gray);
+    color: #b0b0b0;
     font-size: 0.95rem;
     line-height: 1.6;
 }
