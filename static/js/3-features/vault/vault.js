@@ -16,9 +16,8 @@ if (typeof console !== 'undefined' && console.info) {
     console.info('[vault.js] loaded');
 }
    - Hall of Fame vote/like handling
-   
+
    Dependencies: Requires vault-hall-of-fame.js for Hall of Fame specific events
-    console.debug('[vault.js] confirmVaultAction called', { action, photoId });
    Load Order: Before vault-hall-of-fame.js, after core utilities
    ================================================ */
 
@@ -49,7 +48,6 @@ function initializeGalleryFilter() {
     // Initialize with current filter if any
     const productFilter = '{{ product_filter }}';
     if (productFilter) {
-        console.debug('[vault.js] vault button clicked', { action, photoId });
         const currentItem = Array.from(items).find(item => item.dataset.value === productFilter);
         if (currentItem) {
             input.value = currentItem.textContent;
