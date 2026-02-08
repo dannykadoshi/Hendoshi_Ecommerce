@@ -21,145 +21,146 @@
 /* .contact-page styling moved to containers.css for centralized layout management */
 
 .contact-form-section {
-    background: var(--dark-bg);
+    background: var(--charcoal);
 }
 
 .contact-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    position: relative;
+    padding: 2rem;
+    overflow: hidden;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-close-btn {
+    z-index: 10;
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
     line-height: 1;
+    cursor: pointer;
     transition:
         color 0.3s,
         transform 0.2s;
-    z-index: 10;
 }
 
 .contact-close-btn:hover {
-    color: var(--electric-yellow);
     transform: scale(1.1);
+    color: var(--electric-yellow);
 }
 .contact-hero {
     position: relative;
-    padding: 8rem 0 4rem;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
-    overflow: hidden;
     margin-top: 76px;
+    padding: 8rem 0 4rem;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-hero::before {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
+    content: "";
     pointer-events: none;
-    z-index: 1;
 }
 
 .contact-title {
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: 2px;
+    margin-bottom: 1rem;
 
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-
-    color: transparent;
     background-clip: text;
 
-    margin-bottom: 1rem;
-    position: relative;
+    color: transparent;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 2px;
+}
+
+.contact-title,
+.contact-subtitle {
     z-index: 2;
+    position: relative;
 }
 
 .contact-subtitle {
-    font-size: 1.2rem;
     color: var(--off-white);
+    font-size: 1.2rem;
     opacity: 0.9;
-    position: relative;
-    z-index: 2;
 }
 
 .contact-form-section {
-    background: var(--dark-bg);
+    background: var(--charcoal);
 }
 
 .contact-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    position: relative;
+    padding: 2rem;
+    overflow: hidden;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-close-btn {
+    z-index: 10;
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
     line-height: 1;
+    cursor: pointer;
     transition:
         color 0.3s,
         transform 0.2s;
-    z-index: 10;
 }
 
 .contact-close-btn:hover {
-    color: var(--electric-yellow);
     transform: scale(1.1);
+    color: var(--electric-yellow);
 }
 
 .size-table {
     width: 100%;
-    border-collapse: collapse;
     margin: 20px 0;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius-glass);
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-glass);
+    border-collapse: collapse;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .size-table th,
 .size-table td {
     padding: 10px 12px;
-    text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
 }
 
 .size-table th {
     background: rgba(255, 20, 147, 0.1);
     color: #ff1493;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .size-table tr:nth-child(even) {
@@ -171,10 +172,10 @@
 }
 
 .size-note {
-    font-size: 0.9rem;
+    margin-top: 10px;
     color: rgba(255, 255, 255, 0.8);
     font-style: italic;
-    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
 .table-responsive {
@@ -225,11 +226,11 @@
 
 /* Quick Contact Cards */
 .quick-contact-card {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    padding: 1.75rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    padding: 1.75rem;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -241,74 +242,74 @@
 }
 
 .quick-contact-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    color: white;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
     box-shadow: 0 5px 20px rgba(255, 20, 147, 0.3);
+    color: white;
+    font-size: 2rem;
 }
 
 .quick-contact-card h4 {
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    font-weight: 700;
     margin-bottom: 0.75rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.25rem;
 }
 
 .quick-contact-card p {
-    color: rgba(255, 255, 255, 0.8);
     margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 1rem;
 }
 
 .response-time {
     display: inline-block;
     padding: 0.35rem 1rem;
-    background: rgba(255, 20, 147, 0.1);
     border: 1px solid rgba(255, 20, 147, 0.3);
     border-radius: 20px;
+    background: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
-    font-size: 0.85rem;
     font-weight: 500;
+    font-size: 0.85rem;
 }
 
 .social-link-btn {
     display: inline-block;
+    margin-top: 0.5rem;
     padding: 0.5rem 1.5rem;
+    border-radius: 25px;
     background: var(--neon-pink);
     color: white;
-    border-radius: 25px;
-    text-decoration: none;
     font-weight: 600;
+    text-decoration: none;
     transition: all 0.3s ease;
-    margin-top: 0.5rem;
 }
 
 .social-link-btn:hover {
-    background: #ff6fb5;
     transform: scale(1.05);
+    background: #ff6fb5;
     color: white;
 }
 
 /* FAQ Section */
 .contact-faq-section {
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 20px;
     padding: 3rem 2rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-faq-section h3 {
-    color: var(--neon-pink);
-    font-size: 2rem;
-    font-weight: 700;
     margin-bottom: 2rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 2rem;
 }
 
 .contact-faq-section h3 i {
@@ -316,41 +317,41 @@
 }
 
 .faq-card {
-    background: var(--bg-glass-light);
+    height: 100%;
+    padding: 1.5rem;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 1.5rem;
+    background: var(--bg-glass-light);
     transition: all 0.3s ease;
-    height: 100%;
 }
 
 .faq-card:hover {
-    border-color: rgba(255, 20, 147, 0.3);
     transform: translateX(5px);
+    border-color: rgba(255, 20, 147, 0.3);
 }
 
 .faq-card h5 {
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1.1rem;
-    font-weight: 600;
     margin-bottom: 0.75rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .faq-card h5 i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
+    color: var(--neon-pink);
 }
 
 .faq-card p {
-    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
 }
 
 .faq-card a {
     color: var(--neon-pink);
-    text-decoration: none;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .faq-card a:hover {
@@ -364,8 +365,8 @@
 /* Mobile Responsiveness */
 @media (max-width: 991px) {
     .contact-form-section .container-fluid {
-        padding-left: 15px;
         padding-right: 15px;
+        padding-left: 15px;
     }
 
     .contact-faq-section {
@@ -387,34 +388,23 @@
     .contact-faq-section h3 {
         font-size: 1.5rem;
     }
-}
-
-/* Override full-width styles for contact page - keep some padding from edges */
-@media (max-width: 768px) {
     .contact-page .contact-card {
         width: auto;
         max-width: 100%;
-        margin-left: 0;
         margin-right: 0;
-        border-radius: 12px;
+        margin-left: 0;
         padding: 1.5rem 1rem;
+        border-radius: 12px;
     }
 
     .contact-page .container {
-        padding-left: 15px;
         padding-right: 15px;
+        padding-left: 15px;
     }
 
     .contact-info-card {
         padding: 1rem;
     }
-}
-
-/* ===== SHIPPING ===== */
-
-/* .shipping-contact .btn-pink moved to components.css for canonical styling */
-
-@media (max-width: 768px) {
     .contact-card {
         padding: 1rem 0.5rem;
     }
@@ -428,20 +418,31 @@
     }
 }
 
+/* Override full-width styles for contact page - keep some padding from edges */
+@media (max-width: 768px) {
+}
+
+/* ===== SHIPPING ===== */
+
+/* .shipping-contact .btn-pink moved to components.css for canonical styling */
+
+@media (max-width: 768px) {
+}
+
 /* ===== TRACK_ORDER ===== */
 
 /* .btn-pink moved to components.css for canonical styling */
 
 .tracking-form .form-control {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
     padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
 }
 
 .tracking-form .form-control:focus {
-    background: rgba(0, 0, 0, 0.5);
     border-color: var(--neon-pink);
+    background: rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.1);
     color: white;
 }
@@ -451,29 +452,29 @@
 }
 
 .tracking-form .form-label {
+    margin-bottom: 0.5rem;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
-    margin-bottom: 0.5rem;
 }
 
 .tracking-form .form-label i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
+    color: var(--neon-pink);
 }
 
 .carriers-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
     margin-top: 2rem;
+    gap: 1.5rem;
 }
 
 .carrier-item {
-    text-align: center;
     padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
     border: 1px solid var(--border-glass-color);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    text-align: center;
     transition: all 0.3s ease;
 }
 
@@ -493,28 +494,28 @@
 }
 
 .carrier-name {
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
     font-size: 1.1rem;
 }
 
 .carrier-link {
-    color: var(--neon-pink);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
     display: inline-block;
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .carrier-link:hover {
-    color: #ff6fb5;
     transform: translateX(5px);
+    color: #ff6fb5;
 }
 
 .carrier-link i {
-    font-size: 0.8rem;
     margin-left: 0.25rem;
+    font-size: 0.8rem;
 }
 
 .help-section {
@@ -524,28 +525,28 @@
 }
 
 .help-section:last-of-type {
-    border-bottom: none;
-    padding-bottom: 0;
     margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .help-title {
-    color: var(--neon-pink);
-    font-size: 1rem;
-    font-weight: 600;
     margin-bottom: 0.75rem;
+    color: var(--neon-pink);
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .help-text {
+    margin-bottom: 0;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
-    margin-bottom: 0;
 }
 
 .text-pink {
     color: var(--neon-pink);
-    text-decoration: none;
     font-weight: 600;
+    text-decoration: none;
 }
 
 .text-pink:hover {
@@ -554,20 +555,20 @@
 }
 
 .btn-outline-pink {
-    border: 2px solid var(--neon-pink);
-    color: #000;
-    background: transparent;
     padding: 0.75rem 2rem;
+    border: 2px solid var(--neon-pink);
+    background: transparent;
+    color: #000;
     font-weight: 600;
-    transition: all 0.3s ease;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .btn-outline-pink:hover {
-    background: var(--neon-pink);
-    color: #000;
     transform: translateY(-2px);
+    background: var(--neon-pink);
     box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
+    color: #000;
     text-decoration: none;
 }
 
@@ -587,74 +588,74 @@
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
-    background: var(--dark-bg);
+    background: var(--charcoal);
 }
 
 .contact-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    position: relative;
+    padding: 2rem;
+    overflow: hidden;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-close-btn {
+    z-index: 10;
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
     line-height: 1;
+    cursor: pointer;
     transition:
         color 0.3s,
         transform 0.2s;
-    z-index: 10;
 }
 
 .contact-close-btn:hover {
-    color: var(--electric-yellow);
     transform: scale(1.1);
+    color: var(--electric-yellow);
 }
 .contact-form-section {
-    background: var(--dark-bg);
+    background: var(--charcoal);
 }
 
 .contact-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    position: relative;
+    padding: 2rem;
+    overflow: hidden;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-close-btn {
+    z-index: 10;
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
     line-height: 1;
+    cursor: pointer;
     transition:
         color 0.3s,
         transform 0.2s;
-    z-index: 10;
 }
 
 .contact-close-btn:hover {
-    color: var(--electric-yellow);
     transform: scale(1.1);
+    color: var(--electric-yellow);
 }
 
 .shipping-content {
@@ -666,20 +667,20 @@
 }
 
 .shipping-heading {
-    color: var(--off-white);
-    font-size: 2rem;
-    font-weight: 700;
     margin-bottom: 1rem;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 2rem;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .shipping-description {
+    max-width: 600px;
+    margin: 0 auto;
     color: var(--gray);
     font-size: 1.1rem;
     line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .shipping-regions {
@@ -687,13 +688,13 @@
 }
 
 .shipping-region {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+    padding: 2rem;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
     transition: all 0.3s ease;
-    margin-bottom: 2rem;
 }
 
 .shipping-region:hover {
@@ -708,28 +709,28 @@
 }
 
 .region-icon {
-    font-size: 2rem;
-    color: var(--neon-pink);
     margin-right: 1rem;
+    color: var(--neon-pink);
+    font-size: 2rem;
 }
 
 .region-title {
-    color: var(--off-white);
-    font-size: 1.5rem;
-    font-weight: 700;
     margin: 0;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.5rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .return-requirement {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem 0;
     gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .return-requirement:last-child {
@@ -749,33 +750,33 @@
 }
 
 .non-returnable-list {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .non-returnable-list li {
-    color: var(--gray);
+    position: relative;
     margin-bottom: 0.75rem;
     padding-left: 1.5rem;
-    position: relative;
+    color: var(--gray);
     line-height: 1.5;
 }
 
 .non-returnable-list li::before {
+    position: absolute;
+    left: 0;
     content: "×";
     color: var(--neon-pink);
     font-weight: bold;
-    position: absolute;
-    left: 0;
 }
 
 .process-step {
     display: flex;
     align-items: flex-start;
     padding: 1.5rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .process-step:last-child {
@@ -783,17 +784,17 @@
 }
 
 .step-number {
-    background: var(--neon-pink);
-    color: var(--black);
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--neon-pink);
+    color: var(--black);
     font-weight: 700;
     font-size: 1rem;
-    flex-shrink: 0;
 }
 
 .step-content {
@@ -801,10 +802,10 @@
 }
 
 .step-title {
+    margin-bottom: 0.25rem;
     color: var(--off-white);
     font-weight: 600;
     font-size: 1.1rem;
-    margin-bottom: 0.25rem;
 }
 
 .step-detail {
@@ -814,59 +815,59 @@
 }
 
 .shipping-additional {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
+    margin-top: 3rem;
+    padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
-    padding: 2rem;
-    margin-top: 3rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .additional-heading {
-    color: var(--off-white);
-    font-size: 1.5rem;
-    font-weight: 700;
     margin-bottom: 1.5rem;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.5rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .additional-list {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .additional-list li {
-    color: var(--gray);
+    position: relative;
     margin-bottom: 1rem;
     padding-left: 1.5rem;
-    position: relative;
+    color: var(--gray);
     line-height: 1.6;
 }
 
 .additional-list li::before {
+    position: absolute;
+    left: 0;
     content: "•";
     color: var(--neon-pink);
     font-weight: bold;
-    position: absolute;
-    left: 0;
 }
 
 .shipping-contact {
-    background: rgba(255, 20, 147, 0.1);
-    backdrop-filter: blur(10px);
+    margin-top: 3rem;
+    padding: 2rem;
     border: 1px solid rgba(255, 20, 147, 0.2);
     border-radius: 12px;
-    padding: 2rem;
-    margin-top: 3rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 20, 147, 0.1);
     text-align: center;
 }
 
 .contact-text {
+    margin-bottom: 1.5rem;
     color: var(--off-white);
     font-size: 1.1rem;
-    margin-bottom: 1.5rem;
 }
 
 /* Mobile responsiveness for returns page */
@@ -881,8 +882,8 @@
 
     .region-header {
         flex-direction: column;
-        text-align: center;
         gap: 0.5rem;
+        text-align: center;
     }
 
     .region-icon {
@@ -891,8 +892,8 @@
 
     .process-step {
         flex-direction: column;
-        text-align: center;
         gap: 0.75rem;
+        text-align: center;
     }
 
     .step-number {
@@ -907,10 +908,7 @@
         max-width: none;
     }
 
-    .shipping-region {
-        padding: 1rem;
-    }
-
+    .shipping-region,
     .shipping-content {
         padding: 1rem;
     }
@@ -921,39 +919,39 @@
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
-    background: var(--dark-bg);
+    background: var(--charcoal);
 }
 
 .contact-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    position: relative;
+    padding: 2rem;
+    overflow: hidden;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .contact-close-btn {
+    z-index: 10;
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
     line-height: 1;
+    cursor: pointer;
     transition:
         color 0.3s,
         transform 0.2s;
-    z-index: 10;
 }
 
 .contact-close-btn:hover {
-    color: var(--electric-yellow);
     transform: scale(1.1);
+    color: var(--electric-yellow);
 }
 
 .shipping-content {
@@ -965,20 +963,20 @@
 }
 
 .shipping-heading {
-    color: var(--off-white);
-    font-size: 2rem;
-    font-weight: 700;
     margin-bottom: 1rem;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 2rem;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .shipping-description {
+    max-width: 600px;
+    margin: 0 auto;
     color: var(--gray);
     font-size: 1.1rem;
     line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .shipping-regions {
@@ -986,13 +984,13 @@
 }
 
 .shipping-region {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+    padding: 2rem;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
     transition: all 0.3s ease;
-    margin-bottom: 2rem;
 }
 
 .shipping-region:hover {
@@ -1007,18 +1005,18 @@
 }
 
 .region-icon {
-    font-size: 2rem;
-    color: var(--neon-pink);
     margin-right: 1rem;
+    color: var(--neon-pink);
+    font-size: 2rem;
 }
 
 .region-title {
-    color: var(--off-white);
-    font-size: 1.5rem;
-    font-weight: 700;
     margin: 0;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.5rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .faq-item {
@@ -1028,16 +1026,16 @@
 }
 
 .faq-item:last-child {
-    border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;
+    border-bottom: none;
 }
 
 .faq-question {
+    margin-bottom: 0.75rem;
     color: var(--neon-pink);
     font-weight: 600;
     font-size: 1.1rem;
-    margin-bottom: 0.75rem;
     line-height: 1.4;
 }
 
@@ -1048,19 +1046,19 @@
 }
 
 .shipping-contact {
-    background: rgba(255, 20, 147, 0.1);
-    backdrop-filter: blur(10px);
+    margin-top: 3rem;
+    padding: 2rem;
     border: 1px solid rgba(255, 20, 147, 0.2);
     border-radius: 12px;
-    padding: 2rem;
-    margin-top: 3rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 20, 147, 0.1);
     text-align: center;
 }
 
 .contact-text {
+    margin-bottom: 1.5rem;
     color: var(--off-white);
     font-size: 1.1rem;
-    margin-bottom: 1.5rem;
 }
 
 /* Mobile responsiveness for FAQ page */
@@ -1075,8 +1073,8 @@
 
     .region-header {
         flex-direction: column;
-        text-align: center;
         gap: 0.5rem;
+        text-align: center;
     }
 
     .region-icon {
@@ -1095,10 +1093,7 @@
         max-width: none;
     }
 
-    .shipping-region {
-        padding: 1rem;
-    }
-
+    .shipping-region,
     .shipping-content {
         padding: 1rem;
     }
@@ -1107,17 +1102,15 @@
 /* ================================================
    LIGHT MODE OVERRIDES
    ================================================ */
-:root.light-mode .contact-card {
-    background: rgba(0, 0, 0, 0.03);
-}
 
+:root.light-mode .contact-card,
 :root.light-mode .contact-hero {
     background: rgba(0, 0, 0, 0.03);
 }
 
 :root.light-mode .size-table {
-    background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 :root.light-mode .size-table th,
@@ -1146,8 +1139,8 @@
 }
 
 :root.light-mode .contact-faq-section {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .faq-card h5 {
@@ -1159,8 +1152,8 @@
 }
 
 :root.light-mode .tracking-form .form-control {
-    background: rgba(255, 255, 255, 0.9);
     border-color: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     color: #000;
 }
 
@@ -1189,17 +1182,14 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
-:root.light-mode .return-requirement {
-    border-bottom-color: rgba(0, 0, 0, 0.1);
-}
-
+:root.light-mode .return-requirement,
 :root.light-mode .process-step {
     border-bottom-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .shipping-additional {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .faq-item {
@@ -1219,18 +1209,12 @@
     color: rgba(0, 0, 0, 0.7);
 }
 
-:root.light-mode .region-title {
-    color: #222;
-}
-
+:root.light-mode .region-title,
 :root.light-mode .step-title {
     color: #222;
 }
 
-:root.light-mode .step-detail {
-    color: rgba(0, 0, 0, 0.7);
-}
-
+:root.light-mode .step-detail,
 :root.light-mode .requirement-detail {
     color: rgba(0, 0, 0, 0.7);
 }
@@ -1239,18 +1223,12 @@
     color: #222;
 }
 
-:root.light-mode .additional-list li {
-    color: rgba(0, 0, 0, 0.7);
-}
-
+:root.light-mode .additional-list li,
 :root.light-mode .non-returnable-list li {
     color: rgba(0, 0, 0, 0.7);
 }
 
-:root.light-mode .contact-text {
-    color: #222;
-}
-
+:root.light-mode .contact-text,
 :root.light-mode .size-table td {
     color: #222;
 }
@@ -1260,6 +1238,6 @@
 }
 
 :root.light-mode .shipping-region {
-    background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.03);
 }

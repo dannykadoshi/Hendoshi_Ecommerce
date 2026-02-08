@@ -16,89 +16,91 @@
 
 .sale-hero {
     position: relative;
-    padding: 8rem 0 4rem;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
-    overflow: hidden;
     /* Lift the hero below sticky navbar */
     margin-top: 120px;
+    padding: 8rem 0 4rem;
     padding-top: calc(8rem + 10px);
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .sale-hero::before {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background: radial-gradient(
         circle at 30% 70%,
         rgba(255, 20, 147, 0.06) 0%,
         rgba(255, 140, 0, 0.03) 30%,
         transparent 60%
     );
+    content: "";
     pointer-events: none;
-    z-index: 1;
 }
 
 .sale-title {
-    font-size: 3rem;
-    font-weight: 900;
-    text-transform: none;
-    letter-spacing: 2px;
+    margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
     color: transparent;
-    margin-bottom: 1rem;
-    position: relative;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    text-transform: none;
+}
+
+.sale-title,
+.sale-subtitle {
     z-index: 2;
+    position: relative;
 }
 
 .sale-subtitle {
-    font-size: 1.2rem;
     color: var(--off-white);
+    font-size: 1.2rem;
     opacity: 0.95;
-    position: relative;
-    z-index: 2;
 }
 
 .sale-badge {
     display: inline-block;
+    z-index: 2;
+    position: relative;
     margin-top: 1rem;
     padding: 0.5rem 0.9rem;
-    background: linear-gradient(90deg, rgba(255, 20, 147, 0.95), rgba(255, 140, 0, 0.95));
-    color: #fff;
     border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255, 20, 147, 0.95), rgba(255, 140, 0, 0.95));
+    box-shadow: 0 8px 30px rgba(255, 20, 147, 0.12);
+    color: #fff;
     font-weight: 800;
     letter-spacing: 1px;
-    box-shadow: 0 8px 30px rgba(255, 20, 147, 0.12);
-    position: relative;
-    z-index: 2;
 }
 
 /* Contact/Close button used on shipping, contact, returns, about pages */
 .contact-close-btn {
+    z-index: 10;
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
     line-height: 1;
+    cursor: pointer;
     transition:
         color 0.3s,
         transform 0.2s;
-    z-index: 10;
 }
 
 .contact-close-btn:hover {
-    color: var(--electric-yellow);
     transform: scale(1.1);
+    color: var(--electric-yellow);
 }
 
 /* Toast positioning moved from inline styles in templates */
@@ -108,44 +110,44 @@
 
 /* About page specific accents */
 .about-vibrant .accent-title {
-    font-size: 2rem;
+    margin-bottom: 1rem;
     color: var(--neon-pink);
     font-weight: 900;
+    font-size: 2rem;
     letter-spacing: 1px;
-    margin-bottom: 1rem;
     text-align: center;
 }
 .about-vibrant .lead {
-    color: var(--off-white);
-    opacity: 0.95;
+    margin-top: 1rem;
     margin-bottom: 3rem;
+    color: var(--off-white);
     font-size: 1.1rem;
     line-height: 1.6;
-    margin-top: 1rem;
+    opacity: 0.95;
 }
 .muted-hr {
-    border: none;
     height: 1px;
-    background: rgba(255, 255, 255, 0.04);
     margin: 2rem 0;
+    border: none;
+    background: rgba(255, 255, 255, 0.04);
 }
 .about-quote {
-    font-style: italic;
-    color: var(--electric-yellow);
-    font-weight: 700;
     margin: 2rem 0;
     padding: 1rem;
     border-left: 4px solid var(--neon-pink);
-    background: rgba(255, 255, 255, 0.02);
     border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--electric-yellow);
+    font-style: italic;
+    font-weight: 700;
 }
 
 .about-buttons {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
     margin: 1.5rem 0;
     padding: 0 1rem;
+    gap: 1rem;
 }
 
 .about-buttons .btn {
@@ -153,15 +155,16 @@
     text-align: center;
 }
 .about-vibrant h3 {
-    color: var(--neon-pink);
-    font-weight: 700;
     margin-bottom: 1rem;
     font-size: 1.25rem;
 }
+.about-vibrant h3,
 .about-card h4 {
-    margin-bottom: 0.75rem;
     color: var(--neon-pink);
     font-weight: 700;
+}
+.about-card h4 {
+    margin-bottom: 0.75rem;
     font-size: 1.1rem;
 }
 .tight {
@@ -177,43 +180,43 @@
 
 /* Layout fixes for symmetric About page */
 .contact-card {
-    margin: 0 auto;
+    position: relative;
     max-width: 1200px; /* Constrain width on large screens for better readability */
+    margin: 0 auto;
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    overflow: hidden;
     border: var(--border-glass);
     border-radius: 12px;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 /* Policy Pages Specific Styling (Privacy, Terms, etc.) */
 .contact-card h2 {
-    color: var(--neon-pink);
-    font-size: 1.5rem;
-    font-weight: 700;
+    z-index: 2;
+    position: relative;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 2;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.5rem;
 }
 
 .contact-card h2:first-of-type {
     margin-top: 1rem;
-    border-top: none;
     padding-top: 0;
+    border-top: none;
 }
 
 .contact-card p {
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.8;
-    margin-bottom: 1.25rem;
-    font-size: 1rem;
-    position: relative;
     z-index: 2;
+    position: relative;
+    margin-bottom: 1.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    line-height: 1.8;
 }
 
 .contact-card p:last-child {
@@ -221,12 +224,12 @@
 }
 
 .contact-card ul {
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.8;
+    z-index: 2;
+    position: relative;
     margin-bottom: 1.5rem;
     padding-left: 1.5rem;
-    position: relative;
-    z-index: 2;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
 }
 
 .contact-card ul li {
@@ -243,12 +246,12 @@
 }
 
 .contact-card a {
-    color: var(--neon-pink);
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    position: relative;
     z-index: 2;
+    position: relative;
+    color: var(--neon-pink);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 /* Centralized checkout container spacing
@@ -268,9 +271,9 @@
     }
 
     .contact-card h2 {
-        font-size: 1.35rem;
         margin-top: 2rem;
         margin-bottom: 0.85rem;
+        font-size: 1.35rem;
     }
 
     .contact-card p,
@@ -291,10 +294,10 @@
     }
 
     .contact-card h2 {
-        font-size: 1.25rem;
         margin-top: 1.75rem;
         margin-bottom: 0.75rem;
         padding-top: 0.75rem;
+        font-size: 1.25rem;
     }
 
     .contact-card h2:first-of-type {
@@ -302,14 +305,16 @@
     }
 
     .contact-card p {
-        font-size: 0.9rem;
-        line-height: 1.65;
         margin-bottom: 1rem;
     }
 
+    .contact-card p,
     .contact-card ul {
         font-size: 0.9rem;
         line-height: 1.65;
+    }
+
+    .contact-card ul {
         margin-bottom: 1.25rem;
         padding-left: 1.25rem;
     }
@@ -329,10 +334,10 @@
     }
 
     .contact-card h2 {
-        font-size: 1.15rem;
         margin-top: 1.5rem;
         margin-bottom: 0.65rem;
         padding-top: 0.65rem;
+        font-size: 1.15rem;
     }
 
     .contact-card h2:first-of-type {
@@ -340,14 +345,16 @@
     }
 
     .contact-card p {
-        font-size: 0.875rem;
-        line-height: 1.6;
         margin-bottom: 0.9rem;
     }
 
+    .contact-card p,
     .contact-card ul {
         font-size: 0.875rem;
         line-height: 1.6;
+    }
+
+    .contact-card ul {
         margin-bottom: 1rem;
         padding-left: 1rem;
     }
@@ -359,8 +366,8 @@
     /* Improve link tap targets on mobile */
     .contact-card a {
         display: inline-block;
-        padding: 2px 0;
         min-height: 44px;
+        padding: 2px 0;
         line-height: 1.6;
     }
 }
@@ -371,16 +378,16 @@
 }
 
 .contact-form .form-label {
+    margin-bottom: 0.5rem;
     color: #fff;
     font-weight: 500;
-    margin-bottom: 0.5rem;
 }
 
 .contact-form .form-label i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
 }
 
+.contact-form .form-label i,
 .contact-form .required {
     color: var(--neon-pink);
 }
@@ -393,11 +400,11 @@
 
 .contact-form .form-control,
 .contact-form .form-select {
-    background: rgba(20, 20, 20, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
     padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
+    background: rgba(20, 20, 20, 0.9);
+    color: #fff;
     transition:
         border-color 0.3s,
         box-shadow 0.3s;
@@ -405,11 +412,11 @@
 
 .contact-form .form-control:focus,
 .contact-form .form-select:focus {
-    background: rgba(20, 20, 20, 0.95);
     border-color: var(--neon-pink);
+    outline: none;
+    background: rgba(20, 20, 20, 0.95);
     box-shadow: 0 0 0 2px rgba(255, 0, 102, 0.2);
     color: #fff;
-    outline: none;
 }
 
 .contact-form .form-control::placeholder {
@@ -422,13 +429,13 @@
 }
 
 .contact-form textarea.form-control {
-    resize: vertical;
     min-height: 120px;
+    resize: vertical;
 }
 
 .char-counter {
-    font-size: 0.8rem;
     color: #b0b0b0;
+    font-size: 0.8rem;
 }
 
 .char-counter.warning {
@@ -440,27 +447,27 @@
 }
 
 .contact-info-card {
-    background: rgba(30, 30, 30, 0.6);
+    padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
-    padding: 1.5rem;
+    background: rgba(30, 30, 30, 0.6);
     text-align: center;
 }
 
 .contact-info-card h5 {
-    color: #fff;
     margin-bottom: 1rem;
+    color: #fff;
 }
 
 .contact-info-card h5 i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
+    color: var(--neon-pink);
 }
 
 .contact-info-card p {
+    margin-bottom: 0;
     color: #aaa;
     font-size: 0.95rem;
-    margin-bottom: 0;
 }
 
 .social-links {
@@ -519,12 +526,12 @@
 /* Audience badges */
 .badge-audience {
     display: inline-block;
+    margin-left: 0.5rem;
     padding: 0.25rem 0.5rem;
     border-radius: 999px;
+    color: #111;
     font-weight: 700;
     font-size: 0.75rem;
-    color: #111;
-    margin-left: 0.5rem;
 }
 .badge-audience.badge-men {
     background: linear-gradient(90deg, #2b8cff, #1e6fe5);
@@ -555,26 +562,26 @@
 /* Audience switcher button hover/focus colors to match badge gradients */
 .audience-switcher .btn.badge-men:hover,
 .audience-switcher .btn.badge-men:focus {
-    background: linear-gradient(90deg, #2b8cff, #1e6fe5);
     border-color: transparent;
+    background: linear-gradient(90deg, #2b8cff, #1e6fe5);
     color: #fff;
 }
 .audience-switcher .btn.badge-women:hover,
 .audience-switcher .btn.badge-women:focus {
-    background: linear-gradient(90deg, #ff6fb5, #ff3a8d);
     border-color: transparent;
+    background: linear-gradient(90deg, #ff6fb5, #ff3a8d);
     color: #fff;
 }
 .audience-switcher .btn.badge-kids:hover,
 .audience-switcher .btn.badge-kids:focus {
-    background: linear-gradient(90deg, #ffd166, #ffb84d);
     border-color: transparent;
+    background: linear-gradient(90deg, #ffd166, #ffb84d);
     color: #111;
 }
 .audience-switcher .btn.badge-unisex:hover,
 .audience-switcher .btn.badge-unisex:focus {
-    background: linear-gradient(90deg, #9be7c4, #5cc4a2);
     border-color: transparent;
+    background: linear-gradient(90deg, #9be7c4, #5cc4a2);
     color: #111;
 }
 
@@ -592,16 +599,16 @@
 /* Product type switcher colors (for "View this design in:") */
 .audience-switcher .btn.badge-product-type:hover,
 .audience-switcher .btn.badge-product-type:focus {
-    background: linear-gradient(90deg, #9b59d0, #7b3fa5);
     border-color: transparent;
+    background: linear-gradient(90deg, #9b59d0, #7b3fa5);
     color: #fff;
 }
 
 /* All Products button styling */
 .audience-switcher .btn.badge-all-products:hover,
 .audience-switcher .btn.badge-all-products:focus {
-    background: linear-gradient(90deg, #ff1493, #ff6b35);
     border-color: transparent;
+    background: linear-gradient(90deg, #ff1493, #ff6b35);
     color: #fff;
     font-weight: 600;
 }
@@ -615,34 +622,34 @@
         /* full width for shipping and size guide pages */
         width: 100vw;
         max-width: 100vw;
-        margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
-        border-radius: 0;
+        margin-left: calc(50% - 50vw);
+        padding-right: 1.5rem;
         /* Keep comfortable horizontal padding for readability */
         padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        border-radius: 0;
     }
 
     /* remove outer container padding for full width */
     .contact-page .container,
     .contact-form-section .container {
-        padding-left: 0;
         padding-right: 0;
+        padding-left: 0;
     }
 }
 
 @media (max-width: 576px) {
     .contact-page .contact-card,
     .contact-form-section .contact-card {
-        padding-left: 1.25rem;
         padding-right: 1.25rem;
+        padding-left: 1.25rem;
     }
 }
 
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
 .contact-form-section {
-    background: var(--dark-bg);
+    background: var(--charcoal);
 }
 
 .profile-card {
@@ -652,13 +659,13 @@
 .about-vibrant .two-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
     align-items: start;
+    margin-bottom: 2rem;
+    gap: 2rem;
 }
 .about-vibrant .two-columns > div {
-    flex: 1 1 0;
     display: flex;
+    flex: 1 1 0;
     flex-direction: column;
     justify-content: flex-start;
 }
@@ -666,31 +673,29 @@
 .about-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
     align-items: start;
     justify-items: center;
     margin-bottom: 2rem;
+    gap: 1.5rem;
 }
 .about-card {
-    padding: 1rem;
-    border-radius: 12px;
-    min-height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 110px;
+    padding: 1rem;
+    border-radius: 12px;
 }
 
 .about-vibrant h3 i,
 .about-card h4 i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
+    color: var(--neon-pink);
     font-size: 1.1em;
 }
 
 @media (max-width: 768px) {
-    .contact-card {
-        padding: 1.5rem 0.25rem;
-    }
+    .contact-card,
     .profile-card {
         padding: 1.5rem 0.25rem;
     }
@@ -698,9 +703,9 @@
         grid-template-columns: 1fr;
     }
     .about-buttons {
+        flex-direction: column;
         justify-content: center;
         padding: 0;
-        flex-direction: column;
         gap: 0.75rem;
     }
     .about-buttons .btn {
@@ -711,24 +716,24 @@
 
 /* Delete Confirmation Modal */
 .delete-confirm-modal {
-    background-color: var(--charcoal);
     border: 2px solid #dc3545;
     border-radius: 15px;
+    background-color: var(--charcoal);
     color: var(--off-white);
 }
 
 .delete-confirm-modal .modal-header {
-    background: rgba(220, 53, 69, 0.15);
-    border-bottom: 2px solid #dc3545;
     padding: 1.25rem 1.5rem;
+    border-bottom: 2px solid #dc3545;
+    background: rgba(220, 53, 69, 0.15);
 }
 
 .delete-confirm-modal .modal-title {
     color: #dc3545;
     font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .delete-confirm-modal .modal-title i {
@@ -740,21 +745,21 @@
 }
 
 .delete-icon-wrapper {
-    width: 80px;
-    height: 80px;
-    background: rgba(220, 53, 69, 0.15);
-    border: 3px solid #dc3545;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 80px;
+    height: 80px;
     margin: 0 auto 1.5rem;
+    border: 3px solid #dc3545;
+    border-radius: 50%;
+    background: rgba(220, 53, 69, 0.15);
     animation: pulse-danger 2s infinite;
 }
 
 .delete-icon-wrapper i {
-    font-size: 2rem;
     color: #dc3545;
+    font-size: 2rem;
 }
 
 @keyframes pulse-danger {
@@ -768,9 +773,9 @@
 }
 
 .delete-message {
-    font-size: 1.1rem;
     margin-bottom: 0.75rem;
     color: var(--off-white);
+    font-size: 1.1rem;
 }
 
 .delete-message strong {
@@ -779,10 +784,10 @@
 }
 
 .delete-warning {
+    margin-bottom: 0;
     color: #dc3545;
     font-weight: 600;
     font-size: 0.95rem;
-    margin-bottom: 0;
 }
 
 .delete-warning i {
@@ -790,18 +795,18 @@
 }
 
 .delete-confirm-modal .modal-footer {
-    border-top: 1px solid rgba(220, 53, 69, 0.3);
     padding: 1rem 1.5rem;
     gap: 1rem;
+    border-top: 1px solid rgba(220, 53, 69, 0.3);
 }
 
 .delete-confirm-modal .btn-outline-secondary {
-    background: transparent;
+    padding: 0.6rem 1.5rem;
     border: 2px solid var(--gray);
+    border-radius: 8px;
+    background: transparent;
     color: var(--off-white);
     font-weight: 600;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
@@ -811,19 +816,19 @@
 }
 
 .delete-confirm-modal .btn-danger {
-    background: #dc3545;
+    padding: 0.6rem 1.5rem;
     border: none;
+    border-radius: 8px;
+    background: #dc3545;
     color: #fff;
     font-weight: 700;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
 .delete-confirm-modal .btn-danger:hover {
+    transform: translateY(-2px);
     background: #c82333;
     box-shadow: 0 5px 20px rgba(220, 53, 69, 0.5);
-    transform: translateY(-2px);
 }
 
 /* Light mode for delete modal */
@@ -837,10 +842,8 @@
 }
 
 /* Policy Pages Light Mode (Privacy, Terms, Returns, etc.) */
-:root.light-mode .contact-card p {
-    color: rgba(0, 0, 0, 0.8);
-}
 
+:root.light-mode .contact-card p,
 :root.light-mode .contact-card ul {
     color: rgba(0, 0, 0, 0.8);
 }
@@ -858,8 +861,8 @@
 }
 
 :root.light-mode .contact-info-card {
-    background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.03);
 }
 
 :root.light-mode .contact-info-card h5 {
@@ -872,27 +875,27 @@
 
 /* Universal Vault Modal Styles - Pink Glassmorphism */
 .vault-confirm-modal .modal-content {
-    background: rgba(255, 20, 147, 0.08);
-    backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 20, 147, 0.2);
     border-radius: 12px;
-    color: var(--off-white);
+    backdrop-filter: blur(15px);
+    background: rgba(255, 20, 147, 0.08);
     box-shadow: 0 8px 32px rgba(255, 20, 147, 0.15);
+    color: var(--off-white);
 }
 
 .vault-modal-header {
-    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
     padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
 }
 
 .vault-modal-title {
-    color: var(--neon-pink);
-    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-weight: 600;
 }
 
+.vault-modal-title,
 .vault-modal-icon {
     color: var(--neon-pink);
 }
@@ -902,8 +905,8 @@
 }
 
 .vault-modal-message-wrapper {
-    text-align: center;
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 .vault-modal-icon-wrapper {
@@ -911,44 +914,44 @@
 }
 
 .vault-modal-main-icon {
-    font-size: 2.5rem;
     color: #ff6b6b;
+    font-size: 2.5rem;
 }
 
 .vault-modal-message {
+    margin-bottom: 0;
     font-size: 1rem;
     line-height: 1.4;
-    margin-bottom: 0;
 }
 
 .vault-modal-product-details {
-    background: rgba(255, 20, 147, 0.05);
+    margin-top: 1rem;
+    padding: 1rem;
     border: 1px solid rgba(255, 20, 147, 0.15);
     border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
+    background: rgba(255, 20, 147, 0.05);
 }
 
 .vault-modal-product-title {
-    color: var(--electric-yellow);
-    font-size: 1.2rem;
-    font-weight: 600;
     margin-bottom: 0.75rem;
+    color: var(--electric-yellow);
+    font-weight: 600;
+    font-size: 1.2rem;
     text-align: center;
 }
 
 .vault-modal-product-info {
     display: grid;
     grid-template-columns: auto 1fr 1fr;
-    gap: 1rem;
     align-items: start;
     margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 .vault-modal-image-column {
     display: flex;
-    justify-content: center;
     align-items: flex-start;
+    justify-content: center;
     padding-top: 0.5rem;
 }
 
@@ -959,8 +962,8 @@
 }
 
 .vault-modal-info-column:first-of-type {
-    border-right: 1px solid rgba(255, 20, 147, 0.2);
     padding-right: 1rem;
+    border-right: 1px solid rgba(255, 20, 147, 0.2);
 }
 
 .vault-modal-info-column:last-of-type {
@@ -970,31 +973,32 @@
 .vault-modal-product-image {
     max-width: 80px;
     height: auto;
-    border-radius: 6px;
     border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 6px;
 }
 
 .vault-modal-product-info-label {
     font-size: 0.85rem;
+}
+
+.vault-modal-product-info-label,
+.vault-modal-product-info-value {
+    padding: 0.25rem 0;
     color: var(--off-white);
     font-weight: 500;
-    padding: 0.25rem 0;
 }
 
 .vault-modal-product-info-value {
     font-size: 0.9rem;
-    color: var(--off-white);
-    font-weight: 500;
-    padding: 0.25rem 0;
     text-align: left;
 }
 
 .vault-modal-footer {
-    border-top: 1px solid rgba(255, 20, 147, 0.2);
-    padding: 1.5rem;
     display: flex;
     justify-content: flex-end;
+    padding: 1.5rem;
     gap: 1rem;
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
 }
 
 .vault-modal-btn-cancel {
@@ -1003,17 +1007,17 @@
 }
 
 .vault-modal-btn-cancel:hover {
-    background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
     color: var(--off-white);
 }
 
 .vault-modal-btn-confirm {
-    background-color: #ff6b6b;
     border-color: #ff6b6b;
+    background-color: #ff6b6b;
 }
 
 .vault-modal-btn-confirm:hover {
-    background-color: #ff4757;
     border-color: #ff4757;
+    background-color: #ff4757;
 }

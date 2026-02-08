@@ -14,13 +14,13 @@
    ================================================ */
 
 .shipping-admin-actions .btn {
-    width: 32px; /* square buttons: width == height */
-    height: 32px; /* square buttons */
-    min-width: 32px;
-    padding: 0; /* no horizontal padding for icon-only square buttons */
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 32px; /* square buttons: width == height */
+    min-width: 32px;
+    height: 32px; /* square buttons */
+    padding: 0; /* no horizontal padding for icon-only square buttons */
     transition:
         transform 0.15s ease-in-out,
         box-shadow 0.12s ease-in-out;
@@ -46,6 +46,11 @@
 /* ensure icon-only buttons look centered */
 .shipping-admin-actions .btn i {
     line-height: 1;
+}
+
+/* Dark mode text-muted visibility improvements */
+.text-muted {
+    color: #cccccc !important; /* Lighter gray for better visibility in dark mode */
 }
 
 /* responsive tweak: allow more compact layout on very small screens */

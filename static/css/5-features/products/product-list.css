@@ -19,11 +19,11 @@
 /* Products Header Section */
 .products-header-section {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    margin-bottom: 1rem;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
     gap: 0.75rem;
 }
 
@@ -49,32 +49,29 @@
 .related-products .related-title,
 .related-products-carousel-container h2 {
     font-size: 2.5rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    background-clip: text;
-    color: transparent;
-    background-clip: text;
-    margin-bottom: 2rem;
-    text-align: center;
 }
 
 /* Specific gradient title styling */
+.related-products .section-title,
+.you-might-also-like-title,
+.related-products h2,
+.related-products h3,
+.related-products .related-title,
+.related-products-carousel-container h2,
 .gradient-title {
-    font-size: 1.5rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    margin-bottom: 2rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    color: transparent;
     background-clip: text;
-    margin-bottom: 2rem;
+    color: transparent;
+    font-weight: 900;
+    letter-spacing: 2px;
     text-align: center;
+    text-transform: uppercase;
 }
 
 /* Extra specific rule for h2 gradient titles */
+.gradient-title,
 h2.gradient-title {
     font-size: 1.5rem;
 }
@@ -85,15 +82,15 @@ h2.gradient-title {
 }
 
 .products-header h1 {
-    font-size: 2.5rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
     margin-bottom: 0.5rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
-    color: transparent;
     background-clip: text;
+    color: transparent;
+    font-weight: 900;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .product-count {
@@ -107,18 +104,18 @@ h2.gradient-title {
 }
 
 .filters-sort-btn {
-    background-color: transparent;
-    border: 2px solid var(--neon-pink);
-    color: var(--neon-pink);
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s;
-    cursor: pointer;
     display: flex;
     align-items: center;
+    padding: 0.5rem 1rem;
     gap: 0.5rem;
+    border: 2px solid var(--neon-pink);
+    background-color: transparent;
+    color: var(--neon-pink);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 .filters-sort-btn:hover {
@@ -127,90 +124,90 @@ h2.gradient-title {
 }
 
 .filters-dropdown {
+    display: none;
+    visibility: hidden;
+    z-index: 1000;
     position: absolute;
     top: 100%;
     right: 0;
-    /* Apply same style as navbar dropdown menu */
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 105, 180, 0.2);
     min-width: 600px;
     margin-top: 0.5rem;
-    display: none;
-    opacity: 0;
-    visibility: hidden;
-    z-index: 1000;
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(20px);
+    /* Apply same style as navbar dropdown menu */
+    background: rgba(20, 20, 20, 0.95);
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.4),
         0 0 20px rgba(255, 20, 147, 0.1);
+    opacity: 0;
     transition:
         opacity 0.3s,
         visibility 0.3s;
-    border-radius: 12px;
 }
 
 .filters-dropdown.show {
     display: block;
-    opacity: 1;
     visibility: visible;
+    opacity: 1;
 }
 
 /* Tabbed Filter Interface - Applied to both desktop and mobile */
 .filters-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
     padding: 1rem 1.5rem 0.5rem;
     border-bottom: 1px solid rgba(255, 105, 180, 0.2);
-    margin-bottom: 1rem;
 }
 
 .filters-title {
-    color: var(--neon-pink);
-    font-size: 1.2rem;
-    font-weight: 600;
     margin: 0;
+    color: var(--neon-pink);
+    font-weight: 600;
+    font-size: 1.2rem;
 }
 
 .filters-tabs {
     display: flex;
+    margin-bottom: 1rem;
     padding: 0 1.5rem;
     gap: 0.5rem;
-    margin-bottom: 1rem;
 }
 
 .filter-tab {
+    display: flex;
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 105, 180, 0.2);
-    color: var(--off-white);
+    flex-direction: column;
+    align-items: center;
     padding: 0.75rem 0.5rem;
+    gap: 0.25rem;
+    border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 8px;
-    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--off-white);
     font-weight: 500;
+    font-size: 0.85rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
 }
 
 .filter-tab i {
-    font-size: 1rem;
     margin-bottom: 0.25rem;
+    font-size: 1rem;
 }
 
 .filter-tab.active {
-    background: rgba(255, 20, 147, 0.1);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
 }
 
 .filter-tab:hover {
-    background: rgba(255, 20, 147, 0.05);
     border-color: rgba(255, 105, 180, 0.4);
+    background: rgba(255, 20, 147, 0.05);
 }
 
 .filters-tab-content {
@@ -220,8 +217,8 @@ h2.gradient-title {
 .filter-tab-pane {
     display: none;
     max-height: 400px;
-    overflow-y: auto;
     padding-right: 0.5rem;
+    overflow-y: auto;
 }
 
 .filter-tab-pane.active {
@@ -233,13 +230,13 @@ h2.gradient-title {
 }
 
 .filter-tab-pane::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .filter-tab-pane::-webkit-scrollbar-thumb {
-    background: rgba(255, 20, 147, 0.5);
     border-radius: 8px;
+    background: rgba(255, 20, 147, 0.5);
 }
 
 .filter-tab-pane::-webkit-scrollbar-thumb:hover {
@@ -254,39 +251,39 @@ h2.gradient-title {
 
 .filter-option {
     display: flex;
+    position: relative;
     align-items: center;
-    gap: 0.75rem;
     padding: 0.75rem 1rem;
-    background: var(--bg-glass-light);
+    gap: 0.75rem;
     border: var(--border-glass);
     border-radius: 8px;
+    background: var(--bg-glass-light);
     color: var(--off-white);
     text-decoration: none;
     transition: all 0.3s ease;
-    position: relative;
 }
 
 .filter-option:hover {
-    background: rgba(255, 20, 147, 0.05);
-    border-color: rgba(255, 105, 180, 0.3);
     transform: translateY(-1px);
+    border-color: rgba(255, 105, 180, 0.3);
+    background: rgba(255, 20, 147, 0.05);
 }
 
 .filter-option.active {
-    background: rgba(255, 20, 147, 0.1);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
 }
 
 .filter-option i:first-child {
-    color: var(--neon-pink);
     width: 20px;
+    color: var(--neon-pink);
     text-align: center;
 }
 
 .filter-option i.fa-check {
-    color: var(--electric-yellow);
     margin-left: auto;
+    color: var(--electric-yellow);
 }
 
 .filter-option span {
@@ -296,50 +293,50 @@ h2.gradient-title {
 
 /* Checkbox styling for multi-select filters */
 .checkbox-option {
-    cursor: pointer;
     position: relative;
+    cursor: pointer;
 }
 
 .checkbox-option input[type="checkbox"],
 .checkbox-option input[type="radio"] {
     position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
     width: 0;
+    height: 0;
+    cursor: pointer;
+    opacity: 0;
 }
 
 .checkbox-option .checkmark {
     position: absolute;
-    right: 1rem;
     top: 50%;
-    transform: translateY(-50%);
-    height: 20px;
+    right: 1rem;
     width: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    height: 20px;
+    transform: translateY(-50%);
     border: 2px solid rgba(255, 105, 180, 0.3);
     border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
 }
 
 .checkbox-option input[type="checkbox"]:checked ~ .checkmark,
 .checkbox-option input[type="radio"]:checked ~ .checkmark {
-    background: var(--neon-pink);
     border-color: var(--neon-pink);
+    background: var(--neon-pink);
 }
 
 .checkbox-option input[type="checkbox"]:checked ~ .checkmark::after,
 .checkbox-option input[type="radio"]:checked ~ .checkmark::after {
-    content: "";
-    position: absolute;
     display: block;
-    left: 6px;
+    position: absolute;
     top: 2px;
+    left: 6px;
     width: 6px;
     height: 10px;
+    transform: rotate(45deg);
     border: solid white;
     border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    content: "";
 }
 
 .checkbox-option:hover .checkmark {
@@ -363,17 +360,17 @@ h2.gradient-title {
 }
 
 .radio-option input[type="radio"]:checked ~ .checkmark::after {
-    content: "";
-    position: absolute;
     display: block;
-    left: 50%;
+    position: absolute;
     top: 50%;
-    transform: translate(-50%, -50%);
+    left: 50%;
     width: 8px;
     height: 8px;
+    transform: translate(-50%, -50%);
+    border: none;
     border-radius: 50%;
     background: white;
-    border: none;
+    content: "";
 }
 
 /* Filter Actions */
@@ -383,29 +380,29 @@ h2.gradient-title {
 }
 
 .filter-note {
-    text-align: center;
     margin-bottom: 1rem;
     color: var(--off-white);
     font-size: 0.8rem;
+    text-align: center;
 }
 
 .filter-buttons {
     display: flex;
-    gap: 0.75rem;
     justify-content: center;
+    gap: 0.75rem;
 }
 
 /* Mobile: Make filter actions sticky at bottom of filter panel */
 @media (max-width: 991px) {
     .filters-actions {
+        z-index: 10;
         position: sticky;
         bottom: 0;
-        background: rgba(20, 20, 20, 0.98);
-        backdrop-filter: blur(10px);
         margin: 0 -1.5rem;
         padding: 1rem 1.5rem 1.5rem;
         border-top: 1px solid rgba(255, 105, 180, 0.3);
-        z-index: 10;
+        backdrop-filter: blur(10px);
+        background: rgba(20, 20, 20, 0.98);
     }
 
     :root.light-mode .filters-actions {
@@ -426,22 +423,22 @@ h2.gradient-title {
 .clear-filters-btn {
     flex: 1;
     padding: 0.75rem 1rem;
-    font-weight: 600;
     border-radius: 8px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-weight: 600;
     font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
 }
 
 /* Mobile: Compact filter buttons */
 @media (max-width: 991px) {
     .filters-actions .btn.apply-filters-btn,
     .filters-actions .btn.clear-filters-btn {
+        min-height: auto;
         padding: 0.45rem 0.6rem;
         font-size: 0.75rem;
         letter-spacing: 0.2px;
-        min-height: auto;
     }
 
     .filter-buttons {
@@ -467,16 +464,16 @@ h2.gradient-title {
 }
 
 .clear-filters-btn:hover {
-    background: rgba(255, 20, 147, 0.1);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
 }
 
 /* Neutral ghost Clear button used across the site */
 .btn-clear-ghost {
+    border: var(--border-glass);
     background: transparent;
     color: rgba(255, 255, 255, 0.78);
-    border: var(--border-glass);
     transition:
         background-color 150ms ease,
         color 150ms ease,
@@ -484,52 +481,52 @@ h2.gradient-title {
 }
 .btn-clear-ghost:hover,
 .btn-clear-ghost:focus {
+    border-color: rgba(255, 45, 122, 0.18);
     background: rgba(255, 45, 122, 0.06);
     color: #ff2d7a;
-    border-color: rgba(255, 45, 122, 0.18);
     text-decoration: none;
 }
 
 /* Mobile Filter Overlay */
 .filters-overlay {
+    visibility: hidden;
+    z-index: 999;
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 999;
     opacity: 0;
-    visibility: hidden;
     transition:
         opacity 0.3s,
         visibility 0.3s;
 }
 
 .filters-overlay.show {
-    opacity: 1;
     visibility: visible;
+    opacity: 1;
 }
 
 /* Mobile Filter Close Button */
 .filters-close-btn {
+    display: none;
+    z-index: 10;
     position: absolute;
     top: 0.25rem;
     right: 1rem;
-    background: transparent;
+    padding: 0.5rem;
     border: none;
+    background: transparent;
     color: var(--neon-pink);
     font-size: 1.5rem;
     cursor: pointer;
-    padding: 0.5rem;
-    z-index: 10;
     transition: all 0.3s;
-    display: none;
 }
 
 .filters-close-btn:hover {
-    color: var(--electric-yellow);
     transform: rotate(90deg);
+    color: var(--electric-yellow);
 }
 
 @media (max-width: 991px) {
@@ -541,25 +538,25 @@ h2.gradient-title {
 .filters-dropdown-content {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
     padding: 2rem;
+    gap: 2rem;
 }
 
 .filter-column h3 {
-    color: var(--neon-pink);
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.3);
     padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.3);
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .filter-column ul {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .filter-column ul li {
@@ -567,18 +564,18 @@ h2.gradient-title {
 }
 
 .filter-column ul li a {
-    color: var(--off-white);
-    text-decoration: none;
-    transition: all 0.3s;
     display: block;
     padding: 0.3rem 0;
+    color: var(--off-white);
     font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s;
 }
 
 .filter-column ul li a:hover,
 .filter-column ul li a.active {
-    color: var(--neon-pink);
     padding-left: 0.5rem;
+    color: var(--neon-pink);
 }
 
 /* Products Grid - Responsive: 6 -> 5 -> 4 -> 2 (mobile) */
@@ -589,15 +586,13 @@ h2.gradient-title {
 .products-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    align-items: start;
     gap: 1.5rem;
 }
 
 /* Prevent grid items from stretching to the height of the tallest item
    and ensure flex children can shrink properly. Fixes cases where a
    single tall child forces a very large row height. */
-.products-grid {
-    align-items: start;
-}
 
 /* Allow product cards and their inner flex containers to shrink below
    content size when necessary (prevents unexpected large heights). */
@@ -638,33 +633,33 @@ h2.gradient-title {
     }
 
     .filters-dropdown {
+        z-index: 1001;
         position: fixed;
-        left: 0;
+        top: auto;
         right: 0;
         bottom: 0;
-        top: auto;
+        left: 0;
         min-width: 100%;
-        margin-top: 0;
         max-height: 70vh;
+        margin-top: 0;
         overflow-y: auto;
         transform: translateY(100%);
+        border-bottom: none;
+        border-radius: 20px 20px 0 0;
         transition:
             transform 0.3s ease,
             opacity 0.3s,
             visibility 0.3s;
-        border-radius: 20px 20px 0 0;
-        border-bottom: none;
-        z-index: 1001;
     }
 
     .filters-dropdown.show {
-        transform: translateY(0);
         display: block;
-        /* Apply same style as navbar dropdown menu */
-        background: rgba(20, 20, 20, 0.95);
-        backdrop-filter: blur(20px);
+        transform: translateY(0);
         border: 1px solid rgba(255, 105, 180, 0.2);
         border-bottom: none;
+        backdrop-filter: blur(20px);
+        /* Apply same style as navbar dropdown menu */
+        background: rgba(20, 20, 20, 0.95);
         box-shadow:
             0 10px 40px rgba(0, 0, 0, 0.4),
             0 0 20px rgba(255, 20, 147, 0.1);
@@ -672,26 +667,26 @@ h2.gradient-title {
 
     .filters-dropdown-content {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
         padding: 1.5rem;
         padding-top: 3rem;
+        gap: 1.5rem;
     }
 
     /* New Mobile Filter Design */
     .filters-header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
         padding: 1rem 1.5rem 0.5rem;
         border-bottom: 1px solid rgba(255, 105, 180, 0.2);
-        margin-bottom: 1rem;
     }
 
     .filters-title {
-        color: var(--neon-pink);
-        font-size: 1.2rem;
-        font-weight: 600;
         margin: 0;
+        color: var(--neon-pink);
+        font-weight: 600;
+        font-size: 1.2rem;
     }
 
     .products-header-section {
@@ -699,12 +694,12 @@ h2.gradient-title {
         align-items: flex-start;
     }
 
-    .filters-sort-wrapper {
+    .filters-sort-wrapper,
+    .filters-sort-btn {
         width: 100%;
     }
 
     .filters-sort-btn {
-        width: 100%;
         justify-content: center;
         padding: 0.5rem 1rem;
     }
@@ -718,9 +713,9 @@ h2.gradient-title {
 @media (max-width: 768px) {
     .products-grid {
         gap: 0.75rem;
-        width: 100%;
     }
 
+    .products-grid,
     .products-grid .product-card,
     .products-grid .product-card-inner {
         width: 100%;
@@ -734,9 +729,9 @@ h2.gradient-title {
     }
 
     .filters-sort-wrapper {
-        width: auto;
         display: flex;
         justify-content: flex-end;
+        width: auto;
     }
 
     .filters-sort-btn {
@@ -772,9 +767,9 @@ h2.gradient-title {
 
 @media (max-width: 991px) {
     .products-page .page-container {
-        padding-top: 0.75rem;
         max-width: 100%; /* Full width on mobile */
         margin: 0;
+        padding-top: 0.75rem;
     }
     .products-page .filters-sort-wrapper {
         margin-top: 0.5rem;
@@ -787,42 +782,42 @@ h2.gradient-title {
 
 /* Quick Add overlay bar */
 .quick-add {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    width: auto;
-    background: transparent;
-    padding: 0;
-    opacity: 0;
-    transition: all 0.3s ease;
     z-index: 10;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    opacity: 0;
     pointer-events: all;
+    transition: all 0.3s ease;
 }
 
 .product-card:hover .quick-add {
-    opacity: 1;
     bottom: 20px;
+    opacity: 1;
 }
 
 @media (max-width: 991px) {
     .quick-add {
-        opacity: 1;
         bottom: 15px;
+        opacity: 1;
     }
 }
 
 .btn-quick-add {
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    border: none;
-    color: #000;
     padding: 0.6rem 1.5rem;
+    border: none;
     border-radius: 25px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: #000;
     font-weight: 700;
-    text-transform: uppercase;
     font-size: 0.85rem;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+    text-transform: uppercase;
     white-space: nowrap;
+    transition: all 0.3s ease;
 }
 
 .btn-quick-add:hover {
@@ -835,29 +830,29 @@ h2.gradient-title {
 @media (max-width: 768px) {
     .btn-quick-add {
         padding: 0.75rem 2rem;
-        font-size: 0.95rem;
         font-weight: 800;
+        font-size: 0.95rem;
     }
 }
 
 /* Mobile menu search box */
 .mobile-search-box {
+    display: flex;
+    z-index: 10;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     max-height: 0;
-    overflow: hidden;
+    margin-bottom: 0;
     padding: 0;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+    overflow: hidden;
     border-top: 1px solid rgba(255, 20, 147, 0.2);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+    background-color: var(--black);
     transition:
         max-height 0.3s ease,
         padding 0.3s ease;
-    margin-bottom: 0;
-    position: relative;
-    z-index: 10;
-    background-color: var(--black);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
 }
 
 .mobile-search-box.show {
@@ -872,19 +867,19 @@ h2.gradient-title {
 }
 
 .mobile-search-box .search-wrapper {
-    position: relative;
     display: flex;
+    position: relative;
     align-items: center;
     width: 100%;
 }
 
 .mobile-search-box .search-input {
     width: 100%;
-    background-color: var(--charcoal);
-    border: 2px solid var(--neon-pink);
-    color: var(--off-white);
     padding: 0.6rem 2.5rem 0.6rem 1rem;
+    border: 2px solid var(--neon-pink);
     border-radius: 20px;
+    background-color: var(--charcoal);
+    color: var(--off-white);
     font-size: 1rem;
 }
 
@@ -899,63 +894,63 @@ h2.gradient-title {
 }
 
 .mobile-search-box .search-btn {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--neon-pink);
-    padding: 0.5rem;
-    cursor: pointer;
     z-index: 5;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    padding: 0.5rem;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: var(--neon-pink);
     font-size: 1.1rem;
+    cursor: pointer;
 }
 
 /* Product Cards */
 .product-card {
-    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+    height: 100%;
+    overflow: hidden;
     border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 15px;
-    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
     transition: all 0.3s ease;
-    height: 100%;
-    position: relative;
 }
 
 /* Ensure product cards are equal-height and contents align so prices sit on the same baseline
    regardless of title length. Using flexbox makes the image sit above and the info
    fill the remaining space; the price is pushed to the bottom with margin-top:auto. */
-.product-card {
+
+.product-card,
+.product-card-inner {
     display: flex;
     flex-direction: column;
 }
 
 .product-card-inner {
-    display: flex;
-    flex-direction: column;
     flex: 1 1 auto;
 }
 
 .product-card:hover {
-    border-color: var(--neon-pink);
-    margin-top: -5px;
-    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
     z-index: 1000;
+    margin-top: -5px;
+    border-color: var(--neon-pink);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
 }
 
 .product-card a {
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
 }
 
 .product-image {
     position: relative;
-    width: 100%;
     /* Use 4:5 portrait ratio so a single AI-generated image works well
        across desktop and mobile. Keeps consistent card heights while
        providing more vertical room for product photos. */
     aspect-ratio: 4 / 5;
+    width: 100%;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
 }
@@ -970,16 +965,16 @@ h2.gradient-title {
 }
 
 .product-img-main {
-    position: relative;
     z-index: 1;
+    position: relative;
 }
 
 .product-img-hover {
+    z-index: 2;
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0;
-    z-index: 2;
 }
 
 /* Desktop hover effect */
@@ -1009,41 +1004,36 @@ h2.gradient-title {
 }
 
 .placeholder-image {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
     color: var(--gray);
 }
 
 .badge-featured {
-    display: inline-block;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: var(--black);
-    padding: 0.25rem 0.6rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+}
+
+.badge-featured,
+.badge-sale {
+    display: inline-block;
     z-index: 20;
-    pointer-events: none;
+    padding: 0.25rem 0.6rem;
     border-radius: 3px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    pointer-events: none;
 }
 
 .badge-sale {
-    display: inline-block;
     background: linear-gradient(135deg, #ff0000, #ff1493);
     color: #fff;
-    padding: 0.25rem 0.6rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    z-index: 20;
-    pointer-events: none;
-    border-radius: 3px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -1052,10 +1042,10 @@ h2.gradient-title {
 .product-image .badge-sale,
 .main-image .badge-featured,
 .main-image .badge-sale {
+    z-index: 20;
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 20;
 }
 
 /* Move second badge below first when both are present */
@@ -1068,39 +1058,39 @@ h2.gradient-title {
 
 /* Product Card Battle Vest Button */
 .product-vest-btn {
-    /* positioning removed - now handled by .product-vest-btn-positioned class */
-    background: rgba(255, 20, 147, 0.2);
-    border: 2px solid var(--neon-pink);
-    color: var(--neon-pink);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
     display: flex;
+    z-index: 11;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 11;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--neon-pink);
+    border-radius: 50%;
+    /* positioning removed - now handled by .product-vest-btn-positioned class */
+    background: rgba(255, 20, 147, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: var(--neon-pink);
     font-size: 1.1rem;
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .product-vest-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
     background: rgba(255, 20, 147, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
 }
 
 .product-vest-btn.in-vest {
-    background: rgba(0, 0, 0, 0.7);
     border-color: var(--neon-pink);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .product-vest-btn.in-vest:hover {
     transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
     background: rgba(255, 20, 147, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
 }
 
 .product-vest-btn i {
@@ -1114,35 +1104,33 @@ h2.gradient-title {
 /* Gradient fill only for heart icon when in vest */
 .product-vest-btn.in-vest i {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: transparent;
     background-clip: text;
+    color: transparent;
 }
 
 .product-info {
-    padding: var(--padding-glass) 1.25rem;
     display: flex;
-    flex-direction: column;
     flex: 1 1 auto;
+    flex-direction: column;
+    padding: var(--padding-glass) 1.25rem;
 }
 
-.product-info h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--off-white);
-    transition: color 0.3s ease;
-    line-height: 1.3;
-}
-
-/* Clamp product title to two lines so product-type below it sits consistently */
 .product-info h3 {
     display: -webkit-box;
+    margin-bottom: 0.5rem;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    transition: color 0.3s ease;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
-    overflow: hidden;
     min-height: calc(2 * 1.3em);
+    overflow: hidden;
 }
+
+/* Clamp product title to two lines so product-type below it sits consistently */
 
 .product-card:hover .product-info h3 {
     color: var(--neon-pink);
@@ -1151,29 +1139,27 @@ h2.gradient-title {
 .product-type {
     background: linear-gradient(90deg, var(--electric-yellow), var(--neon-pink));
     -webkit-background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: transparent;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
     margin-bottom: 0.5rem;
+    overflow: hidden;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 /* Ensure product type occupies a single line and doesn't shift layout */
-.product-type {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 /* New drops date styling - smaller text */
 .new-drop-date {
-    font-size: 0.65rem;
-    color: var(--text-muted);
     margin-top: 0.25rem;
     margin-bottom: 0;
+    color: var(--text-muted);
+    font-size: 0.65rem;
 }
 
 /* Push price to the bottom of the product info area so it aligns across cards */
@@ -1182,29 +1168,29 @@ h2.gradient-title {
 }
 
 .product-collection {
+    margin-bottom: 0.75rem;
     color: var(--gray);
     font-size: 0.9rem;
-    margin-bottom: 0.75rem;
 }
 
 .product-collection i {
-    color: var(--neon-pink);
     margin-right: 0.25rem;
+    color: var(--neon-pink);
 }
 
 .product-price {
-    color: var(--neon-pink);
-    font-size: 1.2rem;
-    font-weight: 700;
     margin-top: 0.25rem;
     margin-bottom: 0;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
 .original-price {
-    text-decoration: line-through;
+    margin-bottom: 0.25rem;
     color: #888;
     font-size: 0.9rem;
-    margin-bottom: 0.25rem;
+    text-decoration: line-through;
 }
 
 .sale-price {
@@ -1222,11 +1208,11 @@ h2.gradient-title {
 
 /* Product Detail Page */
 .product-detail-page {
+    position: static;
+    min-height: 100vh;
+    margin-top: 90px;
     padding-top: 3rem;
     padding-bottom: 5rem;
-    margin-top: 90px;
-    min-height: 100vh;
-    position: static;
     transform: none;
 }
 
@@ -1249,8 +1235,8 @@ h2.gradient-title {
 }
 
 .breadcrumb {
-    background-color: transparent;
     padding: 0;
+    background-color: transparent;
 }
 
 .breadcrumb-item a {
@@ -1262,19 +1248,16 @@ h2.gradient-title {
     color: var(--neon-pink);
 }
 
-.breadcrumb-item.active {
-    color: var(--gray);
-}
-
+.breadcrumb-item.active,
 .breadcrumb-item + .breadcrumb-item::before {
     color: var(--gray);
 }
 
 .main-image {
+    position: relative;
+    overflow: hidden;
     border: 3px solid var(--neon-pink);
     border-radius: 8px;
-    overflow: hidden;
-    position: relative;
 }
 
 .main-image img {
@@ -1284,11 +1267,12 @@ h2.gradient-title {
 }
 
 .main-image .main-img-primary {
-    position: relative;
     z-index: 1;
+    position: relative;
 }
 
 .main-image .main-img-hover {
+    z-index: 2;
     position: absolute;
     top: 0;
     left: 0;
@@ -1296,7 +1280,6 @@ h2.gradient-title {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    z-index: 2;
 }
 
 /* Desktop hover effect for main image */
@@ -1322,27 +1305,27 @@ h2.gradient-title {
 }
 
 .placeholder-image-large {
-    aspect-ratio: 1;
-    background-color: var(--charcoal);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 1;
+    background-color: var(--charcoal);
     color: var(--gray);
 }
 
 .image-thumbnails {
     display: flex;
-    gap: 0.75rem;
     flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 .thumbnail {
     width: 80px;
     height: 80px;
+    overflow: hidden;
     border: 2px solid var(--gray);
     border-radius: 4px;
-    overflow: hidden;
     cursor: pointer;
     transition:
         border-color 0.3s,
@@ -1350,21 +1333,21 @@ h2.gradient-title {
 }
 
 .thumbnail:hover {
-    border-color: var(--neon-pink);
     transform: scale(1.05);
+    border-color: var(--neon-pink);
 }
 
 .thumbnail.active {
-    border-color: var(--neon-pink);
     border-width: 3px;
+    border-color: var(--neon-pink);
 }
 
 /* Mobile Killstar-style layout - thumbnails on side */
 @media (max-width: 768px) {
     .product-images {
         display: flex;
-        gap: 1rem;
         align-items: flex-start;
+        gap: 1rem;
     }
 
     .main-image {
@@ -1374,11 +1357,11 @@ h2.gradient-title {
 
     .image-thumbnails {
         display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        width: 80px;
         flex-shrink: 0;
+        flex-direction: column;
         flex-wrap: nowrap; /* Prevent wrapping */
+        width: 80px;
+        gap: 0.75rem;
     }
 
     .thumbnail {
@@ -1392,12 +1375,12 @@ h2.gradient-title {
         gap: 0.75rem;
     }
 
-    .image-thumbnails {
+    .image-thumbnails,
+    .thumbnail {
         width: 70px;
     }
 
     .thumbnail {
-        width: 70px;
         height: 70px;
     }
 }
@@ -1414,21 +1397,16 @@ h2.gradient-title {
 }
 
 .brand-name .brand-text {
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: transparent;
     background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.product-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
+.product-rating,
 .rating-summary,
 .no-reviews {
     display: flex;
@@ -1442,8 +1420,8 @@ h2.gradient-title {
 }
 
 .stars i {
-    font-size: 1rem;
     color: var(--gray);
+    font-size: 1rem;
 }
 
 .stars i.filled,
@@ -1452,8 +1430,8 @@ h2.gradient-title {
 }
 
 .rating-count {
-    font-size: 0.9rem;
     color: var(--off-white);
+    font-size: 0.9rem;
     opacity: 0.8;
 }
 
@@ -1463,16 +1441,16 @@ h2.gradient-title {
 }
 
 .rating-breakdown {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .rating-breakdown h5 {
+    margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 600;
-    margin-bottom: 1rem;
 }
 
 .rating-row {
@@ -1487,15 +1465,15 @@ h2.gradient-title {
 
 .rating-row .count {
     min-width: 20px;
-    text-align: right;
     color: var(--off-white);
+    text-align: right;
     opacity: 0.8;
 }
 
 .progress {
     height: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .progress-bar.bg-pink {
@@ -1503,24 +1481,24 @@ h2.gradient-title {
 }
 
 .reviews-filters {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    height: 100%;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    height: 100%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .reviews-filters h5 {
+    margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 600;
-    margin-bottom: 1rem;
 }
 
 .search-reviews .form-control {
-    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--off-white);
     border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--off-white);
 }
 
 .search-reviews .form-control::placeholder {
@@ -1528,30 +1506,30 @@ h2.gradient-title {
 }
 
 .search-reviews .form-control:focus {
-    background: rgba(255, 255, 255, 0.15);
     border-color: var(--neon-pink);
-    color: var(--off-white);
+    background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+    color: var(--off-white);
 }
 
 .filter-rating .form-label {
+    margin-bottom: 0.5rem;
     color: var(--off-white);
     font-weight: 500;
-    margin-bottom: 0.5rem;
 }
 
 .filter-rating .form-select {
-    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--off-white);
     border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--off-white);
 }
 
 .filter-rating .form-select:focus {
-    background: rgba(255, 255, 255, 0.15);
     border-color: var(--neon-pink);
-    color: var(--off-white);
+    background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+    color: var(--off-white);
 }
 
 .popular-topics {
@@ -1561,11 +1539,11 @@ h2.gradient-title {
 }
 
 .topic-tag {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--off-white);
     padding: 0.375rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--off-white);
     font-size: 0.875rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1573,35 +1551,35 @@ h2.gradient-title {
 
 .topic-tag:hover,
 .topic-tag.active {
-    background: var(--neon-pink);
     border-color: var(--neon-pink);
+    background: var(--neon-pink);
     color: var(--black);
 }
 
 /* Carousel Heart Buttons */
 .battle-vest-btn-carousel {
+    display: flex;
+    z-index: 10;
     position: absolute;
     top: 10px;
     right: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    display: flex;
     align-items: center;
     justify-content: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
     color: var(--off-white);
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 10;
 }
 
 .battle-vest-btn-carousel:hover {
-    background: var(--neon-pink);
-    border-color: var(--neon-pink);
-    color: var(--black);
     transform: scale(1.1);
+    border-color: var(--neon-pink);
+    background: var(--neon-pink);
+    color: var(--black);
 }
 
 .battle-vest-btn-carousel .heart-icon {
@@ -1614,14 +1592,14 @@ h2.gradient-title {
 }
 
 .product-title {
-    font-size: 2.5rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: transparent;
     background-clip: text;
+    color: transparent;
+    font-weight: 900;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -1633,14 +1611,14 @@ h2.gradient-title {
 
 .collection-badge,
 .type-badge {
-    background-color: var(--charcoal);
-    color: var(--off-white);
     padding: 0.3rem 1rem;
     border-radius: 20px;
-    font-size: 0.9rem;
+    background-color: var(--charcoal);
+    color: var(--off-white);
     font-weight: 600;
-    text-transform: uppercase;
+    font-size: 0.9rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .collection-badge {
@@ -1648,29 +1626,29 @@ h2.gradient-title {
 }
 
 .product-detail-page .product-price {
-    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
     color: var(--neon-pink);
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
 }
 
 /* Ensure original and sale prices sit inline and are styled consistently */
 .product-price {
     display: inline-flex;
-    gap: 0.75rem;
     align-items: baseline;
+    gap: 0.75rem;
     font-size: 1.25rem; /* slightly larger for grid and simple listings */
 }
 .product-card .product-price {
+    font-weight: 700;
     /* explicit grid/card override */
     font-size: 1.25rem;
-    font-weight: 700;
 }
 .product-price .original-price {
-    text-decoration: line-through;
     color: rgba(255, 255, 255, 0.75);
     font-weight: 600;
     font-size: 1.05rem;
+    text-decoration: line-through;
     opacity: 0.95;
 }
 .product-price .sale-price {
@@ -1688,103 +1666,103 @@ h2.gradient-title {
 }
 
 .product-description {
-    line-height: 1.8;
-    font-size: 1.1rem;
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    position: relative;
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    overflow: hidden;
     border: var(--border-glass);
     border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
 }
 
 .product-description .section-title {
     display: block;
-    text-align: center;
     margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .product-description::before {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background:
         radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
+    content: "";
     pointer-events: none;
-    z-index: 1;
 }
 
 .product-description p {
-    position: relative;
     z-index: 2;
+    position: relative;
     margin: 0;
     color: var(--off-white);
 }
 
 .design-story {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    position: relative;
+    padding: 1.5rem;
+    overflow: hidden;
     border: var(--border-glass);
     border-left: 4px solid var(--neon-pink);
-    padding: 1.5rem;
     border-radius: 15px;
-    position: relative;
-    overflow: hidden;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
 }
 
 .design-story::before {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background: radial-gradient(circle at 30% 40%, rgba(255, 20, 147, 0.08) 0%, transparent 60%);
+    content: "";
     pointer-events: none;
-    z-index: 1;
 }
 
 .design-story .story-title,
 .design-story .story-text,
 .design-story .story-author {
-    position: relative;
     z-index: 2;
+    position: relative;
 }
 
 .design-story h3 {
-    font-size: 1.3rem;
     margin-bottom: 1rem;
     color: var(--neon-pink);
+    font-size: 1.3rem;
 }
 
 .btn-outline-pink {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
     background-color: var(--neon-pink);
     color: #ffffff;
-    border: none;
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
     font-weight: 700;
-    text-transform: uppercase;
+    font-size: 1rem;
     letter-spacing: 1px;
-    transition: all 0.3s;
-    display: inline-block;
     text-decoration: none;
-    border-radius: 8px;
+    text-transform: uppercase;
+    transition: all 0.3s;
 }
 
 .btn-outline-pink:hover,
 .btn-check:checked + .btn-outline-pink {
-    background-color: var(--electric-yellow);
-    color: var(--black);
-    border: none;
     transform: translateY(-3px);
+    border: none;
+    background-color: var(--electric-yellow);
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+    color: var(--black);
 }
 
 /* No Products */
@@ -1810,68 +1788,68 @@ h2.gradient-title {
 
 /* User Dropdown Menu */
 .dropdown-menu {
-    background-color: var(--charcoal);
+    min-width: 200px;
+    margin-top: 0;
+    padding: 0;
     border: 2px solid var(--neon-pink);
     border-radius: 0;
-    padding: 0;
-    margin-top: 0;
-    min-width: 200px;
+    background-color: var(--charcoal);
 }
 
 /* Light mode override for user dropdown menu */
 :root.light-mode .dropdown-menu {
-    background-color: white;
     border: 2px solid var(--neon-pink);
+    background-color: white;
 }
 
 /* Add invisible bridge to prevent dropdown from closing when moving mouse */
 .desktop-menu .nav-item.dropdown .dropdown-menu::before {
-    content: "";
     position: absolute;
     top: -15px;
-    left: 0;
     right: 0;
+    left: 0;
     height: 15px;
     background: transparent;
+    content: "";
 }
 
 .desktop-menu .dropdown-menu {
     margin-top: 10px;
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(20px);
+    padding: 0.5rem;
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
+    backdrop-filter: blur(20px);
+    background: rgba(20, 20, 20, 0.95);
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.4),
         0 0 20px rgba(255, 20, 147, 0.1);
-    padding: 0.5rem;
 }
 
 /* Light mode override for desktop menu dropdown */
 :root.light-mode .desktop-menu .dropdown-menu {
-    background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(255, 105, 180, 0.3);
+    background: rgba(255, 255, 255, 0.95);
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.1),
         0 0 20px rgba(255, 20, 147, 0.1);
 }
 
 .dropdown-item {
-    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2px;
     padding: 0.7rem 1rem;
-    font-weight: 500;
-    text-transform: none;
-    letter-spacing: 0.3px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
     border-bottom: none;
     border-radius: 8px;
-    margin-bottom: 2px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    text-transform: none;
+    transition: all 0.3s ease;
 }
 
 .dropdown-item:last-child {
-    border-bottom: none;
     margin-bottom: 0;
+    border-bottom: none;
 }
 
 .dropdown-item:hover,
@@ -1892,8 +1870,8 @@ h2.gradient-title {
 }
 
 .dropdown-divider {
-    border-color: rgba(255, 105, 180, 0.2);
     margin: 0.5rem 0;
+    border-color: rgba(255, 105, 180, 0.2);
     opacity: 1;
 }
 
@@ -1903,24 +1881,24 @@ h2.gradient-title {
 }
 
 .mobile-section-header .nav-link {
+    margin-top: 0.5rem;
+    padding: 1rem 1.5rem 0.5rem;
+    border-top: 1px solid rgba(255, 20, 147, 0.3);
     color: var(--neon-pink);
     font-weight: 700;
     font-size: 0.85rem;
     letter-spacing: 2px;
-    padding: 1rem 1.5rem 0.5rem;
-    border-top: 1px solid rgba(255, 20, 147, 0.3);
-    margin-top: 0.5rem;
 }
 
 .mobile-section-header:first-child .nav-link {
-    border-top: none;
     margin-top: 0;
+    border-top: none;
 }
 
 .mobile-submenu-item {
-    font-size: 0.95rem;
     padding-left: 2rem;
     font-weight: 500;
+    font-size: 0.95rem;
 }
 
 .mobile-submenu-item:hover {
@@ -1929,16 +1907,16 @@ h2.gradient-title {
 
 @media (max-width: 991px) {
     .navbar-collapse {
-        background-color: var(--charcoal);
-        border: 2px solid var(--neon-pink);
-        border-top: none;
         margin-top: 0.5rem;
         padding: 1rem 0;
+        border: 2px solid var(--neon-pink);
+        border-top: none;
+        background-color: var(--charcoal);
     }
 
     :root.light-mode .navbar-collapse {
-        background-color: #f5f5f5;
         border-color: #e71f7f;
+        background-color: #f5f5f5;
     }
 }
 
@@ -1948,15 +1926,15 @@ h2.gradient-title {
 }
 
 .user-authenticated .nav-link::after {
-    content: "";
     position: absolute;
     bottom: -5px;
     left: 50%;
-    transform: translateX(-50%);
     width: 6px;
     height: 6px;
-    background: var(--neon-pink);
+    transform: translateX(-50%);
     border-radius: 50%;
+    background: var(--neon-pink);
+    content: "";
 }
 
 /* Authentication Pages - padding removed, handled by vault-modals.css */
@@ -1968,62 +1946,62 @@ h2.gradient-title {
 }
 
 .auth-card {
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 105, 180, 0.2);
     padding: 3rem;
+    border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
+    backdrop-filter: blur(20px);
+    background: rgba(20, 20, 20, 0.95);
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.4),
         0 0 20px rgba(255, 20, 147, 0.1);
 }
 
 .btn-close-auth {
+    display: flex;
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    color: var(--neon-pink);
-    font-size: 1.5rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: flex;
     align-items: center;
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
     background-color: rgba(255, 20, 147, 0.1);
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .btn-close-auth:hover {
-    color: white;
-    background-color: var(--neon-pink);
     transform: rotate(90deg);
+    background-color: var(--neon-pink);
+    color: white;
 }
 
 .auth-title {
-    text-align: center;
     margin-bottom: 2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 3px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-align: center;
+    text-transform: uppercase;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .auth-icon {
-    color: var(--neon-pink);
     margin-bottom: 2rem;
+    color: var(--neon-pink);
 }
 
 .auth-form-input {
-    background-color: var(--black);
-    border: 2px solid var(--gray);
-    color: var(--off-white);
     padding: 0.8rem;
+    border: 2px solid var(--gray);
     border-radius: 4px;
+    background-color: var(--black);
+    color: var(--off-white);
 }
 
 .auth-form-input.has-value {
@@ -2033,9 +2011,9 @@ h2.gradient-title {
 
 .auth-form-input:focus {
     border-color: var(--neon-pink);
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
     outline: none;
     background-color: var(--black);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
     color: var(--off-white);
 }
 
@@ -2061,13 +2039,13 @@ h2.gradient-title {
 }
 
 .form-check-input {
-    background-color: var(--black);
     border: 2px solid var(--gray);
+    background-color: var(--black);
 }
 
 .form-check-input:checked {
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
 }
 
 .form-check-input:focus {
@@ -2075,9 +2053,9 @@ h2.gradient-title {
 }
 
 .form-label {
+    margin-bottom: 0.5rem;
     color: var(--off-white);
     font-weight: 600;
-    margin-bottom: 0.5rem;
 }
 
 /* Profile Page - padding removed, handled by profile-account.css */
@@ -2086,44 +2064,44 @@ h2.gradient-title {
 .profile-hero {
     position: relative;
     padding: 4rem 0;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
     overflow: hidden;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .profile-hero::before {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
+    content: "";
     pointer-events: none;
-    z-index: 1;
 }
 
 .profile-hero-title {
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: 2px;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 2px;
     -webkit-background-clip: text;
+    z-index: 2;
+    position: relative;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
-    position: relative;
-    z-index: 2;
 }
 
 .profile-hero-subtitle {
-    font-size: 1.2rem;
-    color: var(--off-white);
-    opacity: 0.9;
+    z-index: 2;
     position: relative;
     background-clip: text;
-    z-index: 2;
+    color: var(--off-white);
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 @media (max-width: 768px) {
@@ -2141,68 +2119,68 @@ h2.gradient-title {
 }
 
 .page-title {
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 3px;
     margin-top: 2rem;
     margin-bottom: 2rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .profile-card {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 15px;
-    border: var(--border-glass);
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
     position: relative;
+    margin-bottom: 20px;
+    padding: 20px;
     overflow: hidden;
+    border: var(--border-glass);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
+    transition: all 0.3s ease;
 }
 
 .profile-card::before {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background:
         radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
+    content: "";
     pointer-events: none;
-    z-index: 1;
 }
 
 .profile-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 105, 180, 0.3);
     transform: translateY(-2px);
+    border-color: rgba(255, 105, 180, 0.3);
+    background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 25px rgba(255, 20, 147, 0.2);
 }
 
 .profile-card > * {
-    position: relative;
     z-index: 2;
+    position: relative;
 }
 
 .profile-card h2 {
-    color: var(--neon-pink);
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 12px;
+    gap: 0.75rem;
     border-bottom: var(--border-glass);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
 }
 
+.profile-card h2,
 .profile-card h2 i {
     color: var(--neon-pink);
 }
@@ -2216,24 +2194,24 @@ h2.gradient-title {
 /* Newsletter subscribers admin styles moved from template */
 /* Glassmorphism auth-card styles */
 .auth-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
+    padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 2rem;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile Card Styles */
 @media (max-width: 768px) {
     .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
+        margin-bottom: 0.75rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         color: var(--off-white);
-        margin-bottom: 0.75rem;
     }
 
     .card-body {
@@ -2241,16 +2219,13 @@ h2.gradient-title {
     }
 
     .card-title {
+        margin-bottom: 0.5rem;
         font-size: 1rem;
         line-height: 1.3;
-        color: var(--off-white);
-        margin-bottom: 0.5rem;
     }
 
-    .card-title strong {
-        color: var(--off-white);
-    }
-
+    .card-title,
+    .card-title strong,
     .badge {
         color: var(--off-white);
     }
@@ -2281,67 +2256,67 @@ h2.gradient-title {
 
     /* Match desktop button colors */
     .btn-outline-info {
-        color: #0dcaf0;
         border-color: #0dcaf0;
         background: transparent;
+        color: #0dcaf0;
     }
 
     .btn-outline-info:hover {
-        color: #000;
-        background-color: #0dcaf0;
         border-color: #0dcaf0;
+        background-color: #0dcaf0;
+        color: #000;
     }
 
     .btn-outline-primary {
-        color: #0d6efd;
         border-color: #0d6efd;
         background: transparent;
+        color: #0d6efd;
     }
 
     .btn-outline-primary:hover {
-        color: #fff;
-        background-color: #0d6efd;
         border-color: #0d6efd;
+        background-color: #0d6efd;
+        color: #fff;
     }
 
     .btn-outline-success {
-        color: #198754;
         border-color: #198754;
         background: transparent;
+        color: #198754;
     }
 
     .btn-outline-success:hover {
-        color: #fff;
-        background-color: #198754;
         border-color: #198754;
+        background-color: #198754;
+        color: #fff;
     }
 
     .btn-outline-danger {
-        color: #dc3545;
         border-color: #dc3545;
         background: transparent;
+        color: #dc3545;
     }
 
     .btn-outline-danger:hover {
-        color: #fff;
-        background-color: #dc3545;
         border-color: #dc3545;
+        background-color: #dc3545;
+        color: #fff;
     }
 }
 
 /* Mobile card styles for subscribers */
 .subscriber-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: var(--bg-glass-light);
     color: var(--off-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .subscriber-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-color: var(--neon-pink);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .subscriber-card .card-body {
@@ -2358,12 +2333,13 @@ h2.gradient-title {
 }
 
 /* Custom text color classes */
-.text-off-white {
+
+.text-off-white,
+.card-label {
     color: var(--off-white);
 }
 
 .card-label {
-    color: var(--off-white);
     opacity: 0.8;
 }
 
@@ -2387,8 +2363,8 @@ h2.gradient-title {
 @media (max-width: 768px) {
     /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
     .auth-card {
-        padding-left: 0.5rem;
         padding-right: 0.5rem;
+        padding-left: 0.5rem;
     }
 
     /* Reduce column gutters inside the admin area */
@@ -2399,15 +2375,15 @@ h2.gradient-title {
 
     /* Make each column use minimal side padding so content is wider */
     [class*="col-"] {
-        padding-left: 0.25rem;
         padding-right: 0.25rem;
+        padding-left: 0.25rem;
     }
 
     /* Let content span the full width available within their column */
     .card {
-        margin-left: 0;
-        margin-right: 0;
         width: 100%;
+        margin-right: 0;
+        margin-left: 0;
     }
 
     .card-body {
@@ -2420,8 +2396,8 @@ h2.gradient-title {
     }
 
     .d-flex.gap-2.flex-wrap .form-control {
-        min-width: auto;
         flex: 1;
+        min-width: auto;
     }
 
     .d-flex.gap-2.flex-wrap .btn {
@@ -2442,8 +2418,8 @@ h2.gradient-title {
 
 /* Search card utility moved from inline template style */
 .search-card {
-    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Moved from templates/cart/cart.html */
@@ -2484,13 +2460,13 @@ h2.gradient-title {
 
 /* Filters dropdown for light mode */
 :root.light-mode .filters-dropdown {
-    background: rgba(255, 255, 255, 0.98);
     border-color: rgba(255, 20, 147, 0.3);
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.15),
         0 0 20px rgba(255, 20, 147, 0.1);
 }
 
+:root.light-mode .filters-dropdown,
 :root.light-mode .filters-dropdown.show {
     background: rgba(255, 255, 255, 0.98);
 }
@@ -2500,42 +2476,42 @@ h2.gradient-title {
 }
 
 :root.light-mode .filter-tab {
-    background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.03);
     color: #333;
 }
 
 :root.light-mode .filter-tab.active {
-    background: rgba(255, 20, 147, 0.1);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
 }
 
 :root.light-mode .filter-tab:hover {
-    background: rgba(255, 20, 147, 0.05);
     border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 20, 147, 0.05);
 }
 
 :root.light-mode .filter-option {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
     color: #333;
 }
 
 :root.light-mode .filter-option:hover {
-    background: rgba(255, 20, 147, 0.05);
     border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 20, 147, 0.05);
 }
 
 :root.light-mode .filter-option.active {
-    background: rgba(255, 20, 147, 0.1);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
 }
 
 :root.light-mode .filter-column h3 {
-    color: var(--neon-pink);
     border-bottom-color: rgba(255, 20, 147, 0.2);
+    color: var(--neon-pink);
 }
 
 :root.light-mode .filter-column ul li a {
@@ -2552,8 +2528,8 @@ h2.gradient-title {
 }
 
 :root.light-mode .checkbox-option .checkmark {
-    background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 :root.light-mode .checkbox-option:hover .checkmark {
@@ -2563,8 +2539,8 @@ h2.gradient-title {
 
 /* Product card */
 :root.light-mode .product-card {
-    background: rgba(255, 255, 255, 0.8);
     border-color: rgba(255, 20, 147, 0.15);
+    background: rgba(255, 255, 255, 0.8);
 }
 
 :root.light-mode .product-card:hover {

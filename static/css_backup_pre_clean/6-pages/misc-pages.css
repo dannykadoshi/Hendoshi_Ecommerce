@@ -1,0 +1,65 @@
+/* ================================================
+   HENDOSHI - PAGES - MISC
+   ================================================
+   
+   Purpose: Miscellaneous page specific styling
+   
+   Contains:
+   - Collections title styling
+   - Product type pages
+   - New drops displays
+   - General page utilities
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
+   ================================================ */
+
+/* .about-buttons .btn-pink moved to components.css for canonical styling */
+
+/* .vault-page moved to vault-community.css for single canonical definition */
+
+.page-container styles consolidated to components.css .collections-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    color: transparent;
+}
+
+.collections-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.placeholder-image i {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .collections-title {
+        font-size: 2rem;
+    }
+}
+
+/* ================================================
+   LIGHT MODE OVERRIDES
+   ================================================ */
+:root.light-mode .collections-subtitle {
+    color: #555;
+}
+
+:root.light-mode .placeholder-image {
+    color: rgba(0, 0, 0, 0.3);
+}

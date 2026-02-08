@@ -58,8 +58,8 @@
         opacity: 0;
     }
     10% {
-        opacity: 0.8;
         transform: translateY(5%) rotate(-10deg) scale(1);
+        opacity: 0.8;
     }
     25% {
         transform: translateY(25%) rotate(15deg) translateX(-20px);
@@ -108,12 +108,12 @@
 @keyframes rainbowShimmer {
     0% {
         transform: translateY(100%) scale(0.3);
-        opacity: 0;
         filter: hue-rotate(0deg);
+        opacity: 0;
     }
     10% {
-        opacity: 0.9;
         transform: translateY(90%) scale(1);
+        opacity: 0.9;
     }
     50% {
         transform: translateY(40%) scale(1.1);
@@ -124,8 +124,8 @@
     }
     100% {
         transform: translateY(-10%) scale(0.8);
-        opacity: 0;
         filter: hue-rotate(360deg);
+        opacity: 0;
     }
 }
 

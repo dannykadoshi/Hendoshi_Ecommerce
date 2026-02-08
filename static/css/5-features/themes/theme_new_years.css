@@ -22,8 +22,8 @@
 
 /* New Years particle animations */
 .theme-particle.new_years {
-    animation-name: newYearsFall;
     text-shadow: 0 0 10px currentColor;
+    animation-name: newYearsFall;
 }
 
 .theme-particle.new_years.sparkle {
@@ -40,8 +40,8 @@
         opacity: 0;
     }
     5% {
-        opacity: 1;
         transform: translateY(0) rotate(15deg) scale(1);
+        opacity: 1;
     }
     25% {
         transform: translateY(25%) rotate(-10deg) translateX(20px);
@@ -69,8 +69,8 @@
     }
     20% {
         transform: scale(1.2);
-        opacity: 1;
         filter: brightness(1.5);
+        opacity: 1;
     }
     40% {
         transform: scale(0.8);
@@ -78,8 +78,8 @@
     }
     60% {
         transform: scale(1);
-        opacity: 1;
         filter: brightness(1.3);
+        opacity: 1;
     }
     80% {
         transform: scale(0.9);
@@ -90,8 +90,8 @@
 @keyframes newYearsBurst {
     0% {
         transform: scale(0) rotate(0deg);
-        opacity: 1;
         filter: brightness(2);
+        opacity: 1;
     }
     30% {
         transform: scale(1.5) rotate(90deg);

@@ -1,0 +1,146 @@
+/* ================================================
+   HENDOSHI - THEMES - THEME NEW YEARS
+   ================================================
+   
+   Purpose: New Year's Eve celebration theme styling
+   
+   Contains:
+   - Gold and silver confetti animations
+   - Champagne bubble effects
+   - Firework sparkle particles
+   - Celebratory backgrounds
+   
+   Dependencies: variables.css, seasonal_themes.css
+   Load Order: Load after seasonal_themes.css
+   ================================================ */
+
+/* Theme-specific background overlay */
+.page-hero.theme-active[data-theme="new_years"]::before,
+.page-hero.theme-active .theme-animation-layer[data-theme="new_years"] {
+    background: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+}
+
+/* New Years particle animations */
+.theme-particle.new_years {
+    animation-name: newYearsFall;
+    text-shadow: 0 0 10px currentColor;
+}
+
+.theme-particle.new_years.sparkle {
+    animation-name: newYearsSparkle;
+}
+
+.theme-particle.new_years.burst {
+    animation-name: newYearsBurst;
+}
+
+@keyframes newYearsFall {
+    0% {
+        transform: translateY(-20px) rotate(0deg) scale(0);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+        transform: translateY(0) rotate(15deg) scale(1);
+    }
+    25% {
+        transform: translateY(25%) rotate(-10deg) translateX(20px);
+    }
+    50% {
+        transform: translateY(50%) rotate(20deg) translateX(-15px);
+    }
+    75% {
+        transform: translateY(75%) rotate(-15deg) translateX(10px);
+    }
+    95% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(120%) rotate(360deg) translateX(-5px);
+        opacity: 0;
+    }
+}
+
+@keyframes newYearsSparkle {
+    0%,
+    100% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(1.2);
+        opacity: 1;
+        filter: brightness(1.5);
+    }
+    40% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+    60% {
+        transform: scale(1);
+        opacity: 1;
+        filter: brightness(1.3);
+    }
+    80% {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+}
+
+@keyframes newYearsBurst {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+        filter: brightness(2);
+    }
+    30% {
+        transform: scale(1.5) rotate(90deg);
+        opacity: 0.9;
+    }
+    60% {
+        transform: scale(1) rotate(180deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0.3) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Gold particles */
+.theme-particle.new_years.gold {
+    color: #ffd700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+/* Silver particles */
+.theme-particle.new_years.silver {
+    color: #c0c0c0;
+    text-shadow: 0 0 15px rgba(192, 192, 192, 0.8);
+}
+
+/* Champagne bubbles */
+.theme-particle.new_years.bubble {
+    color: rgba(255, 248, 220, 0.9);
+    animation-name: champagneBubble;
+}
+
+@keyframes champagneBubble {
+    0% {
+        transform: translateY(100%) scale(0.3);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(40%) translateX(10px) scale(0.8);
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-20%) translateX(-5px) scale(1);
+        opacity: 0;
+    }
+}

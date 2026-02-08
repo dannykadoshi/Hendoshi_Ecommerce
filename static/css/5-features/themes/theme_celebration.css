@@ -22,10 +22,10 @@
 
 /* Celebration particle animations */
 .theme-particle.celebration {
-    animation-name: confettiFall;
     filter: drop-shadow(0 0 8px currentColor);
 }
 
+.theme-particle.celebration,
 .theme-particle.celebration.confetti {
     animation-name: confettiFall;
 }

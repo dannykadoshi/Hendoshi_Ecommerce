@@ -16,45 +16,45 @@
 
 /* Theme-active vault hero container */
 .page-hero.theme-active {
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
 }
 
 /* Animation layer - sits above overlay but behind content */
 .theme-animation-layer {
+    z-index: 10;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    z-index: 10;
-    pointer-events: none;
+    left: 0;
     overflow: hidden;
+    pointer-events: none;
 }
 
 /* Ensure text content stays above animations */
 .page-hero.theme-active .container {
-    position: relative;
     z-index: 20;
+    position: relative;
 }
 
 .page-hero.theme-active .page-hero-title,
 .page-hero.theme-active .page-hero-subtitle,
 .page-hero.theme-active .pug-skull-branding,
 .page-hero.theme-active .btn {
-    position: relative;
     z-index: 2;
+    position: relative;
 }
 
 /* Base particle styles */
 .theme-particle {
     position: absolute;
-    pointer-events: none;
-    will-change: transform, opacity;
-    user-select: none;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     animation-fill-mode: both;
+    pointer-events: none;
+    will-change: transform, opacity;
+    user-select: none;
 }
 
 /* Speed modifiers */
@@ -150,12 +150,12 @@
 @keyframes themeSparkle {
     0%,
     100% {
-        opacity: 0.3;
         transform: scale(1);
+        opacity: 0.3;
     }
     50% {
-        opacity: 1;
         transform: scale(1.2);
+        opacity: 1;
     }
 }
 
@@ -210,10 +210,10 @@
    ============================================ */
 
 .seasonal-message-strip {
-    padding: 0.5rem 0;
-    overflow: hidden;
     position: relative;
     margin-top: 0;
+    padding: 0.5rem 0;
+    overflow: hidden;
     box-shadow:
         0 0 30px rgba(255, 20, 147, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
@@ -240,11 +240,11 @@ body .page-hero.has-strip + .seasonal-message-strip {
 /* Gradient border accents */
 .seasonal-message-strip::before,
 .seasonal-message-strip::after {
-    content: "";
     position: absolute;
-    left: 0;
     right: 0;
+    left: 0;
     height: 3px;
+    content: "";
 }
 
 .seasonal-message-strip::before {
@@ -260,8 +260,8 @@ body .page-hero.has-strip + .seasonal-message-strip {
 .seasonal-message-content {
     display: flex;
     align-items: center;
-    animation: seasonalStripScroll 25s linear infinite;
     white-space: nowrap;
+    animation: seasonalStripScroll 25s linear infinite;
 }
 
 /* Speed variations */
@@ -283,28 +283,28 @@ body .page-hero.has-strip + .seasonal-message-strip {
 }
 
 .seasonal-message-text {
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--black);
     margin: 0 1rem;
-    text-transform: uppercase;
+    color: var(--black);
+    font-weight: 900;
+    font-size: 1.8rem;
     letter-spacing: 4px;
     text-shadow:
         0 2px 4px rgba(255, 255, 255, 0.3),
         0 0 20px rgba(255, 255, 255, 0.1);
+    text-transform: uppercase;
     transition: transform 0.3s ease;
 }
 
 /* Skull separator */
 .seasonal-message-text::after {
+    display: inline-block;
+    margin-left: 1.5rem;
     content: "\f54c";
-    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 1.4rem;
-    margin-left: 1.5rem;
-    opacity: 0.7;
-    display: inline-block;
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
     animation: skullPulse 2s ease-in-out infinite;
+    opacity: 0.7;
 }
 
 @keyframes seasonalStripScroll {
@@ -331,14 +331,14 @@ body .page-hero.has-strip + .seasonal-message-strip {
 /* Responsive adjustments for message strip */
 @media (max-width: 768px) {
     .seasonal-message-text {
+        margin: 0 0.75rem;
         font-size: 1.3rem;
         letter-spacing: 2px;
-        margin: 0 0.75rem;
     }
 
     .seasonal-message-text::after {
-        font-size: 1.1rem;
         margin-left: 1rem;
+        font-size: 1.1rem;
     }
 
     .seasonal-message-strip {
@@ -348,14 +348,14 @@ body .page-hero.has-strip + .seasonal-message-strip {
 
 @media (max-width: 480px) {
     .seasonal-message-text {
+        margin: 0 0.5rem;
         font-size: 1rem;
         letter-spacing: 1px;
-        margin: 0 0.5rem;
     }
 
     .seasonal-message-text::after {
-        font-size: 0.9rem;
         margin-left: 0.75rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -363,9 +363,9 @@ body .page-hero.has-strip + .seasonal-message-strip {
 @media (prefers-reduced-motion: reduce) {
     .theme-particle {
         animation: none;
-        opacity: 0.3;
     }
 
+    .theme-particle,
     .theme-animation-layer {
         opacity: 0.3;
     }

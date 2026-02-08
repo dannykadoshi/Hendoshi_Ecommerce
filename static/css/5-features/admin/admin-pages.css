@@ -19,47 +19,52 @@
    Load Order: Load after foundation and admin-theme
    ================================================ */
 
+/* Dark mode text-muted visibility improvements */
+.text-muted {
+    color: #cccccc !important; /* Lighter gray for better visibility in dark mode */
+}
+
 /* ================================
    BULK OPERATIONS & ARCHIVE BAR
    ================================ */
 
 /* Bulk archive bar styling */
 .bulk-archive-bar {
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: var(--border-radius-glass);
-    padding: 0.75rem 1.5rem;
     margin-bottom: 1.5rem;
+    padding: 0.75rem 1.5rem;
     gap: 1.2rem;
     border: 1px solid rgba(255, 20, 147, 0.1);
+    border-radius: var(--border-radius-glass);
+    background: rgba(255, 255, 255, 0.04);
 }
 
 /* .bulk-archive-bar .btn-pink moved to components.css for canonical styling */
 
 .bulk-archive-bar .btn-outline-danger {
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.85rem;
-    background: transparent;
-    border: 2px solid #dc3545;
-    color: #dc3545;
-    min-width: auto;
     width: auto;
+    min-width: auto;
+    padding: 0.5rem 1rem;
+    border: 2px solid #dc3545;
+    border-radius: 8px;
+    background: transparent;
+    color: #dc3545;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
 }
 
 .bulk-archive-bar .btn-outline-danger:hover {
-    background: #dc3545;
-    color: #fff;
     transform: translateY(-2px);
+    background: #dc3545;
     box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+    color: #fff;
 }
 
 .bulk-archive-bar .btn-outline-danger:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .bulk-archive-bar label {
@@ -70,18 +75,18 @@
 
 .bulk-delete-product-list {
     max-height: 300px;
+    padding: 0.5rem;
     overflow-y: auto;
     border: 1px solid rgba(255, 20, 147, 0.15);
     border-radius: 6px;
-    padding: 0.5rem;
     background: rgba(255, 20, 147, 0.03);
 }
 
 .bulk-delete-product-item {
-    padding: 0.75rem;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
     display: flex;
     align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
 }
 
 .bulk-delete-product-item:last-child {
@@ -89,9 +94,9 @@
 }
 
 .bulk-delete-product-info strong {
-    color: var(--electric-yellow);
     display: block;
     margin-bottom: 0.25rem;
+    color: var(--electric-yellow);
 }
 
 .bulk-delete-product-info small {
@@ -100,10 +105,10 @@
 }
 
 .bulk-actions-card {
-    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem;
     border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 15px;
-    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 /* ================================
@@ -111,16 +116,16 @@
    ================================ */
 
 .table-responsive .archived-products-table {
-    color: var(--off-white);
+    width: 100%;
     margin-bottom: 0;
     border-collapse: collapse;
-    width: 100%;
     background-color: transparent;
+    color: var(--off-white);
 }
 
 .table-responsive .archived-products-table thead {
-    background-color: rgba(0, 0, 0, 0.3);
     border-bottom: 2px solid rgba(255, 20, 147, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .table-responsive .archived-products-table thead tr {
@@ -128,15 +133,15 @@
 }
 
 .table-responsive .archived-products-table th {
-    color: var(--neon-pink);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.8rem;
-    font-weight: 700;
     padding: 1rem 1.2rem;
-    text-align: left;
     border: none;
     background-color: transparent;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-align: left;
+    text-transform: uppercase;
     vertical-align: middle;
 }
 
@@ -145,8 +150,8 @@
 }
 
 .table-responsive .archived-products-table tbody tr {
-    background-color: transparent;
     border-bottom: 1px solid rgba(255, 20, 147, 0.15);
+    background-color: transparent;
     transition: all 0.3s ease;
 }
 
@@ -160,11 +165,11 @@
 
 .table-responsive .archived-products-table td {
     padding: 1rem 1.2rem;
-    vertical-align: middle;
-    color: var(--off-white);
-    font-size: 0.95rem;
     border: none;
     background-color: transparent;
+    color: var(--off-white);
+    font-size: 0.95rem;
+    vertical-align: middle;
 }
 
 .table-responsive .archived-products-table td:first-child {
@@ -172,23 +177,23 @@
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm {
-    background-color: #e71f7f;
-    color: #fff;
-    border: none;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     padding: 0.5rem 1.2rem;
+    border: none;
     border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s;
+    background-color: #e71f7f;
     box-shadow: 0 2px 8px rgba(255, 20, 147, 0.1);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
 }
 
 .table-responsive .archived-products-table .btn-success.btn-sm:hover {
     background-color: var(--electric-yellow);
-    color: var(--black);
     box-shadow: 0 8px 32px rgba(255, 20, 147, 0.18);
+    color: var(--black);
 }
 
 /* Add extra top margin to archived products table inside archive page */
@@ -203,13 +208,13 @@
 
 /* Light mode overrides for archived products table */
 :root.light-mode .table-responsive .archived-products-table th {
-    color: #e71f7f;
     background-color: #f5f5f5;
+    color: #e71f7f;
 }
 
 :root.light-mode .table-responsive .archived-products-table thead {
-    background-color: #f9f9f9;
     border-bottom-color: rgba(231, 31, 127, 0.2);
+    background-color: #f9f9f9;
 }
 
 :root.light-mode .table-responsive .archived-products-table tbody tr {
@@ -230,15 +235,15 @@
 
 /* Admin CRUD list styling to match dark layout (remove white boxes) */
 .auth-card .list-group {
-    background: transparent;
     border: none;
+    background: transparent;
 }
 
 .auth-card .list-group .list-group-item {
+    padding: var(--padding-glass);
+    border: none;
     background: rgba(255, 255, 255, 0.02);
     color: var(--off-white);
-    border: none;
-    padding: var(--padding-glass);
 }
 
 .auth-card .list-group .list-group-item .btn-outline-pink,
@@ -251,9 +256,9 @@
 /* Collection form: make current file link pink and add spacing before change file input
    Only apply to plain anchors (not buttons) so .btn-pink keeps its white text */
 .auth-card .mb-3 a:not(.btn) {
-    color: var(--neon-pink);
     display: inline-block;
     margin-bottom: 0.6rem;
+    color: var(--neon-pink);
 }
 
 /* Ensure compact admin filter/export buttons render correctly in admin pages
@@ -261,13 +266,13 @@
    and uses a more specific selector to override other admin rules like .w-100. */
 .auth-card .admin-filter-btn,
 .admin-products-container .admin-filter-btn {
-    padding: 0;
-    width: 40px;
-    min-width: 0;
-    height: 38px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 40px;
+    min-width: 0;
+    height: 38px;
+    padding: 0;
 }
 .auth-card .admin-filter-btn i,
 .admin-products-container .admin-filter-btn i {
@@ -282,41 +287,41 @@
 /* Admin table buttons - checkout CTA look */
 .archived-products-table .btn-outline-pink,
 .auth-card .table .btn-outline-pink {
-    background: linear-gradient(135deg, var(--neon-pink), #ff006e) !important;
-    color: #fff !important;
-    border: 2px solid var(--neon-pink) !important;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45) !important;
     padding: 0.6rem 1rem !important;
+    border: 2px solid var(--neon-pink) !important;
+    background: linear-gradient(135deg, var(--neon-pink), #ff006e) !important;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45) !important;
+    color: #fff !important;
     font-weight: 800 !important;
-    text-transform: uppercase !important;
     letter-spacing: 1px !important;
+    text-transform: uppercase !important;
     transition: all 0.25s ease !important;
 }
 
 .archived-products-table .btn-outline-pink:hover,
 .auth-card .table .btn-outline-pink:hover {
-    background: var(--neon-pink);
-    color: #000;
     transform: translateY(-3px);
+    background: var(--neon-pink);
     box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6);
+    color: #000;
 }
 
 /* Delete buttons use solid red like standard danger CTA */
 .archived-products-table .btn-outline-danger,
 .auth-card .table .btn-outline-danger {
+    padding: 0.55rem 0.9rem;
+    border: 2px solid #b02a37;
     background: #dc3545;
     color: #fff;
-    border: 2px solid #b02a37;
-    padding: 0.55rem 0.9rem;
     font-weight: 800;
 }
 
 .archived-products-table .btn-outline-danger:hover,
 .auth-card .table .btn-outline-danger:hover {
-    background: #dc3545;
-    color: #fff;
     transform: translateY(-2px);
+    background: #dc3545;
     box-shadow: 0 8px 24px rgba(220, 53, 69, 0.35);
+    color: #fff;
 }
 
 /* ================================
@@ -326,48 +331,48 @@
 /* File Input Button Styling - Cross-browser, force white text and green hover */
 input[type="file"]::-webkit-file-upload-button,
 input[type="file"]::file-selector-button {
-    background: var(--neon-pink);
-    color: #fff;
-    border: none;
-    padding: 0.35rem 1rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 4px;
-    transition: all 0.3s;
-    cursor: pointer;
     margin-right: 0.5rem;
+    padding: 0.35rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background: var(--neon-pink);
     box-shadow: 0 2px 8px rgba(255, 20, 147, 0.1);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 input[type="file"]:hover::-webkit-file-upload-button,
 input[type="file"]:hover::file-selector-button {
     background: var(--electric-yellow);
-    color: var(--black);
     box-shadow: 0 8px 32px rgba(204, 255, 0, 0.18);
+    color: var(--black);
 }
 
 input[type="file"]::-ms-browse {
-    background: var(--neon-pink);
-    color: #fff;
-    border: none;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
     margin-right: 1rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--neon-pink);
     box-shadow: 0 2px 12px rgba(255, 20, 147, 0.1);
+    color: #fff;
+    font-weight: 900;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 input[type="file"]:hover::-ms-browse {
     background: var(--electric-yellow);
-    color: var(--black);
     box-shadow: 0 8px 32px rgba(204, 255, 0, 0.18);
+    color: var(--black);
 }
 
 /* ================================
@@ -382,20 +387,20 @@ input[type="file"]:hover::-ms-browse {
 
 .accordion#audienceAccordion .accordion-item,
 .accordion#typeCopiesAccordion .accordion-item {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.03);
     margin-bottom: 0.6rem;
-    border-radius: 8px;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    background: transparent;
 }
 
 .accordion#audienceAccordion .accordion-button,
 .accordion#typeCopiesAccordion .accordion-button {
     padding: 0.9rem 1.1rem;
-    font-weight: 700;
-    color: var(--off-white);
-    background: rgba(0, 0, 0, 0.25);
     border: none;
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--off-white);
+    font-weight: 700;
 }
 
 .accordion#audienceAccordion .accordion-button::after,
@@ -405,14 +410,14 @@ input[type="file"]:hover::-ms-browse {
 
 .accordion#audienceAccordion .accordion-button:not(.collapsed),
 .accordion#typeCopiesAccordion .accordion-button:not(.collapsed) {
-    box-shadow: none;
     background: rgba(255, 255, 255, 0.03);
+    box-shadow: none;
 }
 
 .accordion#audienceAccordion .accordion-body,
 .accordion#typeCopiesAccordion .accordion-body {
-    background: rgba(0, 0, 0, 0.12);
     padding: var(--padding-glass);
+    background: rgba(0, 0, 0, 0.12);
     color: var(--off-white);
 }
 
@@ -420,8 +425,8 @@ input[type="file"]:hover::-ms-browse {
 .accordion#typeCopiesAccordion .form-check {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
     margin-bottom: 1rem;
+    gap: 0.8rem;
 }
 
 .accordion#audienceAccordion .form-check-label,
@@ -431,19 +436,19 @@ input[type="file"]:hover::-ms-browse {
 
 .accordion#audienceAccordion input[type="file"],
 .accordion#typeCopiesAccordion input[type="file"] {
+    padding: 0.55rem 0.6rem;
+    border-radius: 6px;
     background: rgba(0, 0, 0, 0.85);
     color: #fff;
-    border-radius: 6px;
-    padding: 0.55rem 0.6rem;
 }
 
 .accordion#audienceAccordion .variant-toggles ul,
 .accordion#typeCopiesAccordion .variant-toggles ul {
     display: flex;
-    gap: 0.5rem;
     flex-wrap: wrap;
-    padding: 0;
     margin: 0.25rem 0 0;
+    padding: 0;
+    gap: 0.5rem;
     list-style: none;
 }
 
@@ -456,10 +461,10 @@ input[type="file"]:hover::-ms-browse {
 .accordion#typeCopiesAccordion .variant-toggles label {
     display: inline-block;
     padding: 0.35rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
     border-radius: var(--border-radius-glass);
     background: rgba(255, 255, 255, 0.04);
     color: var(--off-white);
-    border: 1px solid rgba(255, 255, 255, 0.03);
     font-size: 0.95rem;
 }
 
@@ -484,16 +489,16 @@ input[type="file"]:hover::-ms-browse {
 .product-edit-btn-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
     justify-content: center;
     margin-bottom: 0;
+    gap: 2rem;
 }
 
 @media (max-width: 768px) {
     .product-edit-btn-group {
         flex-direction: column;
-        gap: 1.5rem;
         align-items: stretch;
+        gap: 1.5rem;
     }
     .product-edit-btn-group .btn {
         width: 100%;
@@ -502,56 +507,56 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .btn-delete-product {
-    background-color: rgba(220, 53, 69, 0.7);
-    color: white;
-    border: none;
-    padding: 1rem 3rem;
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border-radius: 14px;
-    transition: all 0.3s;
     display: inline-block;
-    text-decoration: none;
     margin-top: 1rem;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 14px;
+    background-color: rgba(220, 53, 69, 0.7);
     box-shadow: 0 4px 24px rgba(255, 20, 147, 0.1);
+    color: white;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
 }
 
 .btn-delete-product:hover,
 .btn-delete-product:focus {
-    background-color: var(--electric-yellow);
-    color: var(--black);
-    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.18);
     outline: none;
+    background-color: var(--electric-yellow);
+    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.18);
+    color: var(--black);
 }
 
 /* Close button used for dynamically added formset rows (pink X) */
 .btn-close-formset {
+    display: flex;
+    z-index: 10;
     position: absolute;
     top: 10px;
     right: 10px;
-    background: transparent;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
     border: none;
+    border-radius: 50%;
+    background: transparent;
     color: #ff1493;
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
     transition: all 0.2s;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-close-formset:hover {
+    transform: scale(1.1);
     background: rgba(255, 20, 147, 0.2);
     color: #ff69b4;
-    transform: scale(1.1);
 }
 
 /* ================================
@@ -560,36 +565,36 @@ input[type="file"]:hover::-ms-browse {
 
 /* Edit Product Icon (Admin Only) */
 .edit-product-icon {
-    position: absolute;
-    bottom: 55px;
-    right: 10px;
-    z-index: 15;
-    background: #222 !important;
-    color: var(--electric-yellow) !important;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
     display: flex;
+    z-index: 15;
+    position: absolute;
+    right: 10px;
+    bottom: 55px;
     align-items: center;
     justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: #222 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    color: var(--electric-yellow) !important;
+    font-size: 1rem;
+    text-decoration: none;
+    opacity: 0.92;
     transition:
         background 0.2s,
         color 0.2s,
         box-shadow 0.2s;
-    font-size: 1rem;
-    opacity: 0.92;
-    border: none;
-    text-decoration: none;
 }
 
 .edit-product-icon:hover,
 .edit-product-icon:focus {
-    background: var(--electric-yellow);
-    color: #000;
-    box-shadow: 0 4px 16px rgba(255, 20, 147, 0.18);
-    opacity: 1;
     outline: none;
+    background: var(--electric-yellow);
+    box-shadow: 0 4px 16px rgba(255, 20, 147, 0.18);
+    color: #000;
+    opacity: 1;
 }
 
 /* Edit icon in product detail - non-absolute positioning */
@@ -604,8 +609,8 @@ input[type="file"]:hover::-ms-browse {
 /* Mobile: Edit button positioned in bottom right of image */
 @media (max-width: 991px) {
     .edit-product-icon {
-        bottom: 55px;
         right: 10px;
+        bottom: 55px;
     }
 }
 
@@ -616,24 +621,24 @@ input[type="file"]:hover::-ms-browse {
 /* Newsletter subscribers admin styles moved from template */
 /* Glassmorphism auth-card styles */
 .auth-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
+    padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 2rem;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile Card Styles */
 @media (max-width: 768px) {
     .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
+        margin-bottom: 0.75rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         color: var(--off-white);
-        margin-bottom: 0.75rem;
     }
 
     .card-body {
@@ -641,16 +646,13 @@ input[type="file"]:hover::-ms-browse {
     }
 
     .card-title {
+        margin-bottom: 0.5rem;
         font-size: 1rem;
         line-height: 1.3;
-        color: var(--off-white);
-        margin-bottom: 0.5rem;
     }
 
-    .card-title strong {
-        color: var(--off-white);
-    }
-
+    .card-title,
+    .card-title strong,
     .badge {
         color: var(--off-white);
     }
@@ -681,67 +683,67 @@ input[type="file"]:hover::-ms-browse {
 
     /* Match desktop button colors */
     .btn-outline-info {
-        color: #0dcaf0;
         border-color: #0dcaf0;
         background: transparent;
+        color: #0dcaf0;
     }
 
     .btn-outline-info:hover {
-        color: #000;
-        background-color: #0dcaf0;
         border-color: #0dcaf0;
+        background-color: #0dcaf0;
+        color: #000;
     }
 
     .btn-outline-primary {
-        color: #0d6efd;
         border-color: #0d6efd;
         background: transparent;
+        color: #0d6efd;
     }
 
     .btn-outline-primary:hover {
-        color: #fff;
-        background-color: #0d6efd;
         border-color: #0d6efd;
+        background-color: #0d6efd;
+        color: #fff;
     }
 
     .btn-outline-success {
-        color: #198754;
         border-color: #198754;
         background: transparent;
+        color: #198754;
     }
 
     .btn-outline-success:hover {
-        color: #fff;
-        background-color: #198754;
         border-color: #198754;
+        background-color: #198754;
+        color: #fff;
     }
 
     .btn-outline-danger {
-        color: #dc3545;
         border-color: #dc3545;
         background: transparent;
+        color: #dc3545;
     }
 
     .btn-outline-danger:hover {
-        color: #fff;
-        background-color: #dc3545;
         border-color: #dc3545;
+        background-color: #dc3545;
+        color: #fff;
     }
 }
 
 /* Mobile card styles for subscribers */
 .subscriber-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: var(--bg-glass-light);
     color: var(--off-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .subscriber-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-color: var(--neon-pink);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .subscriber-card .card-body {
@@ -758,12 +760,13 @@ input[type="file"]:hover::-ms-browse {
 }
 
 /* Custom text color classes */
-.text-off-white {
+
+.text-off-white,
+.card-label {
     color: var(--off-white);
 }
 
 .card-label {
-    color: var(--off-white);
     opacity: 0.8;
 }
 
@@ -787,8 +790,8 @@ input[type="file"]:hover::-ms-browse {
 @media (max-width: 768px) {
     /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
     .auth-card {
-        padding-left: 0.5rem;
         padding-right: 0.5rem;
+        padding-left: 0.5rem;
     }
 
     /* Reduce column gutters inside the admin area */
@@ -799,15 +802,15 @@ input[type="file"]:hover::-ms-browse {
 
     /* Make each column use minimal side padding so content is wider */
     [class*="col-"] {
-        padding-left: 0.25rem;
         padding-right: 0.25rem;
+        padding-left: 0.25rem;
     }
 
     /* Let content span the full width available within their column */
     .card {
-        margin-left: 0;
-        margin-right: 0;
         width: 100%;
+        margin-right: 0;
+        margin-left: 0;
     }
 
     .card-body {
@@ -820,8 +823,8 @@ input[type="file"]:hover::-ms-browse {
     }
 
     .d-flex.gap-2.flex-wrap .form-control {
-        min-width: auto;
         flex: 1;
+        min-width: auto;
     }
 }
 
@@ -853,8 +856,8 @@ input[type="file"]:hover::-ms-browse {
 
 .image-preview-current {
     max-width: 200px;
-    border-radius: 4px;
     border: 1px solid var(--neon-pink);
+    border-radius: 4px;
 }
 
 /* Utilities for product edit template (moved from inline styles) */
@@ -864,19 +867,19 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .btn-ai {
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: #000;
-    font-weight: 600;
     display: inline-block;
     padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1;
     border: none;
-    cursor: pointer;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     box-shadow:
         0 6px 18px rgba(255, 20, 147, 0.12),
         inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+    color: #000;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
     transition:
         transform 0.12s ease,
         box-shadow 0.12s ease,
@@ -916,14 +919,14 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .clear-file-x {
-    display: none;
-    cursor: pointer;
     margin-left: 8px;
-    font-size: 1.3em;
     color: #e74c3c;
+    font-size: 1.3em;
+    cursor: pointer;
     user-select: none;
 }
 
+.clear-file-x,
 .formset-hidden {
     display: none;
 }
@@ -933,16 +936,16 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .story-preview-box {
-    background: #181818;
-    border-radius: 8px;
     min-height: 60px;
-    color: #fff;
     border: 1px solid #333;
+    border-radius: 8px;
+    background: #181818;
+    color: #fff;
 }
 
 .loading-spinner-center {
-    text-align: center;
     padding: 40px;
+    text-align: center;
 }
 
 .spinner-border-pink {
@@ -955,25 +958,25 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .modal-helper-text {
-    color: #aaa;
     margin-bottom: 20px;
+    color: #aaa;
     font-size: 14px;
 }
 
 .error-container {
     display: none;
+    padding: 20px;
     color: #ff6b6b;
     text-align: center;
-    padding: 20px;
 }
 
 /* Description input styling (moved from inline) */
 .desc-input {
-    background: #0a0a0a;
-    border: 2px solid var(--electric-yellow);
-    color: #fff;
     padding: 15px;
+    border: 2px solid var(--electric-yellow);
     border-radius: 8px;
+    background: #0a0a0a;
+    color: #fff;
     font-size: 15px;
 }
 
@@ -997,12 +1000,12 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .admin-panel-submenu {
+    display: none;
+    z-index: 1051;
     position: absolute;
     top: 0;
     left: 100%;
     min-width: 200px;
-    display: none;
-    z-index: 1051;
 }
 
 /* Vault submenu styles - same as admin panel */
@@ -1017,16 +1020,16 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .vault-submenu {
+    display: none;
+    z-index: 1051;
     position: absolute;
     top: 0;
     left: 100%;
     min-width: 200px;
-    display: none;
-    z-index: 1051;
-    background: var(--charcoal);
+    padding: 0.5rem 0;
     border: 2px solid rgba(255, 20, 147, 0.3);
     border-radius: 8px;
-    padding: 0.5rem 0;
+    background: var(--charcoal);
 }
 
 .vault-submenu.show {
@@ -1043,20 +1046,19 @@ input[type="file"]:hover::-ms-browse {
 
 .btn-delete-product:disabled,
 .btn-delete-product[disabled] {
-    opacity: 0.6;
     cursor: not-allowed;
-}
-
-.delete-label {
-    color: var(--neon-pink);
+    opacity: 0.6;
 }
 
 /* Delete Confirmation Page Styles */
+.delete-label,
 .delete-icon {
-    font-size: 4rem;
     color: var(--neon-pink);
-    margin-bottom: 1.5rem;
+}
+.delete-icon {
     display: block;
+    margin-bottom: 1.5rem;
+    font-size: 4rem;
 }
 
 .delete-name {
@@ -1064,11 +1066,11 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .btn-delete {
+    margin-right: 1rem;
+    padding: 0.75rem 2rem;
     background-color: #dc3545;
     color: white;
     font-weight: 700;
-    padding: 0.75rem 2rem;
-    margin-right: 1rem;
 }
 
 .btn-delete:hover {
@@ -1077,49 +1079,46 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .btn-cancel-delete {
-    color: var(--neon-pink);
-    border-color: var(--neon-pink);
-    font-weight: 700;
     padding: 0.75rem 2rem;
+    border-color: var(--neon-pink);
     background-color: transparent;
+    color: var(--neon-pink);
+    font-weight: 700;
 }
 
 .btn-cancel-delete:hover {
+    border-color: var(--neon-pink);
     background-color: var(--neon-pink);
     color: var(--black);
-    border-color: var(--neon-pink);
 }
 
 .form-section {
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(15px);
+    margin-bottom: 2rem;
+    padding: 2rem;
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    backdrop-filter: blur(15px);
+    background: rgba(20, 20, 20, 0.95);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .section-heading {
+    display: flex;
+    margin-bottom: 1.5rem;
     color: var(--neon-pink);
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    display: flex;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 /* Light Mode - Product Form */
 :root.light-mode .form-section {
-    background-color: white;
     border-color: rgba(231, 31, 127, 0.2);
+    background-color: white;
 }
 
-:root.light-mode .section-heading {
-    color: #e71f7f;
-}
-
+:root.light-mode .section-heading,
 :root.light-mode .section-heading i {
     color: #e71f7f;
 }
@@ -1130,8 +1129,8 @@ input[type="file"]:hover::-ms-browse {
 
 :root.light-mode .form-control,
 :root.light-mode .form-select {
-    background-color: white;
     border-color: #ddd;
+    background-color: white;
     color: #111;
 }
 
@@ -1151,13 +1150,13 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .form-check-input {
-    background-color: white;
     border-color: #ddd;
+    background-color: white;
 }
 
 :root.light-mode .form-check-input:checked {
-    background-color: #e71f7f;
     border-color: #e71f7f;
+    background-color: #e71f7f;
 }
 
 :root.light-mode .form-check-label {
@@ -1175,8 +1174,8 @@ input[type="file"]:hover::-ms-browse {
 
 :root.light-mode .variant-form-row,
 :root.light-mode .image-form-row {
-    background-color: rgba(231, 31, 127, 0.05);
     border-color: rgba(231, 31, 127, 0.2);
+    background-color: rgba(231, 31, 127, 0.05);
 }
 
 :root.light-mode .variant-form-row:hover,
@@ -1186,8 +1185,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .stock-quantity-input {
-    background-color: white;
     border-color: #e71f7f;
+    background-color: white;
 }
 
 /* ================================
@@ -1212,16 +1211,16 @@ input[type="file"]:hover::-ms-browse {
 }
 
 /* Ensure the pseudo chevron sits at the far right */
-.dropdown-menu .dropdown-item.dropdown-toggle::after,
-.dropdown-submenu .dropdown-toggle::after {
-    margin-left: auto;
-}
 
 /* Mobile Menu Submenu Arrow */
+.dropdown-menu .dropdown-item.dropdown-toggle::after,
+.dropdown-submenu .dropdown-toggle::after,
 .submenu-arrow {
     margin-left: auto;
-    font-size: 1.2rem;
+}
+.submenu-arrow {
     color: var(--neon-pink);
+    font-size: 1.2rem;
 }
 
 .submenu-trigger {
@@ -1229,8 +1228,8 @@ input[type="file"]:hover::-ms-browse {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    background: none;
     border: none;
+    background: none;
     cursor: pointer;
 }
 
@@ -1263,14 +1262,14 @@ input[type="file"]:hover::-ms-browse {
     /* Hide submenu by default - only show when .show class is added via JavaScript */
     .dropdown-menu .admin-panel-submenu {
         display: none;
+        z-index: 1050;
         position: absolute;
+        top: 0;
         right: 100%;
         left: auto;
-        top: 0;
-        margin-left: 0;
-        margin-top: 0;
-        z-index: 1050;
         min-width: 200px;
+        margin-top: 0;
+        margin-left: 0;
     }
 
     /* Show submenu when .show class is added */
@@ -1281,17 +1280,17 @@ input[type="file"]:hover::-ms-browse {
 
 /* Light mode Admin Panel submenu */
 :root.light-mode .dropdown-menu .admin-panel-submenu {
-    background-color: white;
     border: 2px solid var(--neon-pink);
+    background-color: white;
 }
 
 /* Ensure consistent padding and alignment for all items in admin panel submenu */
 .admin-panel-submenu .dropdown-item {
-    padding: 0.375rem 1.5rem;
-    margin: 0;
     display: flex;
     align-items: center;
     width: 100%;
+    margin: 0;
+    padding: 0.375rem 1.5rem;
 }
 
 /* Fix alignment and spacing for dropdown-submenu in admin panel */
@@ -1302,21 +1301,21 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .admin-panel-submenu .dropdown-submenu .dropdown-item {
-    padding: 0.375rem 1.5rem;
-    margin: 0;
     display: flex;
     align-items: center;
     width: 100%;
+    margin: 0;
+    padding: 0.375rem 1.5rem;
 }
 
 /* Profile submenu styles */
 .profile-submenu {
+    display: none;
+    z-index: 1051;
     position: absolute;
     top: 0;
     left: 100%;
     min-width: 200px;
-    display: none;
-    z-index: 1051;
 }
 
 /* ================================
@@ -1324,23 +1323,23 @@ input[type="file"]:hover::-ms-browse {
    ================================ */
 
 .moderation-card {
-    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
     border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 15px;
-    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
     transition: all 0.3s ease;
 }
 
 .moderation-card:hover {
-    border-color: var(--neon-pink);
     transform: translateY(-2px);
+    border-color: var(--neon-pink);
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
 }
 
 .moderation-image-container {
     position: relative;
-    width: 100%;
     aspect-ratio: 1;
+    width: 100%;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
 }
@@ -1356,10 +1355,10 @@ input[type="file"]:hover::-ms-browse {
     top: 10px;
     right: 10px;
     padding: 0.25rem 0.6rem;
-    font-size: 0.7rem;
     font-weight: 700;
-    text-transform: uppercase;
+    font-size: 0.7rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 /* ================================
@@ -1371,8 +1370,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .product-tags-container .form-check-input:checked {
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
 }
 
 /* ================================
@@ -1381,35 +1380,34 @@ input[type="file"]:hover::-ms-browse {
 
 /* Info Box */
 .info-box {
-    background: rgba(255, 20, 147, 0.08);
+    margin-bottom: 2rem;
+    padding: 1.25rem 1.5rem;
     border: 1px solid rgba(255, 20, 147, 0.25);
     border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 2rem;
+    background: rgba(255, 20, 147, 0.08);
     color: var(--off-white);
     font-size: 0.95rem;
     line-height: 1.6;
 }
 
 .info-box i {
-    color: var(--neon-pink);
     margin-right: 0.75rem;
     font-size: 1.1rem;
 }
 
-.info-box strong {
-    color: var(--neon-pink);
-}
-
 /* Section Titles */
+.info-box i,
+.info-box strong,
 .section-title {
     color: var(--neon-pink);
-    font-weight: 700;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+}
+.section-title {
     display: flex;
     align-items: center;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .section-title i {
@@ -1422,12 +1420,12 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .category-title {
-    color: var(--off-white);
-    font-size: 1.1rem;
-    font-weight: 600;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--off-white);
+    font-weight: 600;
+    font-size: 1.1rem;
     text-transform: capitalize;
 }
 
@@ -1439,33 +1437,30 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .product-type-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1.25rem 1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 1.25rem 1rem;
     gap: 0.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .product-type-card:hover {
+    transform: translateY(-2px);
     border-color: var(--neon-pink);
     background: rgba(255, 20, 147, 0.08);
-    transform: translateY(-2px);
 }
 
 .product-type-card input[type="checkbox"] {
     display: none;
 }
 
-.product-type-card input[type="checkbox"]:checked + .icon {
-    color: var(--electric-yellow);
-}
-
+.product-type-card input[type="checkbox"]:checked + .icon,
 .product-type-card input[type="checkbox"]:checked ~ .name {
     color: var(--electric-yellow);
 }
@@ -1478,23 +1473,23 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .product-type-card .icon {
-    font-size: 2rem;
     color: var(--neon-pink);
+    font-size: 2rem;
     transition: color 0.3s ease;
 }
 
 .product-type-card .name {
-    font-weight: 600;
     color: var(--off-white);
+    font-weight: 600;
     font-size: 0.9rem;
     transition: color 0.3s ease;
 }
 
 .product-type-card .category {
-    font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.5);
-    text-transform: uppercase;
+    font-size: 0.75rem;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 /* Audience Options */
@@ -1505,14 +1500,14 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .audience-card {
-    background: rgba(255, 255, 255, 0.03);
+    min-width: 140px;
+    padding: 1rem 1.5rem;
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 140px;
-    text-align: center;
 }
 
 .audience-card:hover {
@@ -1532,12 +1527,12 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .audience-card .name {
-    font-weight: 600;
-    color: var(--off-white);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    color: var(--off-white);
+    font-weight: 600;
 }
 
 .audience-card .name i {
@@ -1555,17 +1550,17 @@ input[type="file"]:hover::-ms-browse {
 
 /* Selection Summary */
 .selection-summary {
-    background: rgba(255, 20, 147, 0.08);
+    margin-top: 2rem;
+    padding: 1.5rem;
     border: 1px solid rgba(255, 20, 147, 0.3);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin-top: 2rem;
+    background: rgba(255, 20, 147, 0.08);
 }
 
 .selection-summary h4 {
+    margin-bottom: 1rem;
     color: var(--neon-pink);
     font-weight: 700;
-    margin-bottom: 1rem;
     font-size: 1.1rem;
 }
 
@@ -1574,9 +1569,9 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .selection-count {
-    font-size: 1.1rem;
-    color: var(--off-white);
     margin-bottom: 0.75rem;
+    color: var(--off-white);
+    font-size: 1.1rem;
 }
 
 .selection-count strong {
@@ -1590,12 +1585,11 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .summary-details-text {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
     line-height: 1.6;
 }
 
 /* Explanatory Text */
+.summary-details-text,
 .explanatory-text {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
@@ -1606,30 +1600,30 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .explanatory-text code {
-    background: rgba(255, 20, 147, 0.15);
-    color: var(--electric-yellow);
     padding: 0.15rem 0.4rem;
     border-radius: 4px;
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--electric-yellow);
     font-size: 0.85rem;
 }
 
 /* Shared Section (Step 2) */
 .shared-section {
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.15) 0%, rgba(255, 20, 147, 0.06) 100%);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
     border: 2px solid rgba(255, 20, 147, 0.35);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.15) 0%, rgba(255, 20, 147, 0.06) 100%);
     box-shadow: 0 4px 20px rgba(255, 20, 147, 0.1);
 }
 
 .shared-section h3 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
     color: var(--neon-pink);
     font-weight: 700;
     font-size: 1.2rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
 }
 
 .shared-section h3 i {
@@ -1638,20 +1632,20 @@ input[type="file"]:hover::-ms-browse {
 
 /* Quick Actions */
 .quick-actions {
-    background: rgba(255, 20, 147, 0.05);
-    border: 1px solid rgba(255, 20, 147, 0.2);
-    border-radius: 12px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 2rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
     gap: 0.75rem;
+    border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 20, 147, 0.05);
 }
 
 .quick-actions strong {
-    color: var(--off-white);
     margin-right: 0.5rem;
+    color: var(--off-white);
 }
 
 .quick-actions strong i {
@@ -1662,22 +1656,22 @@ input[type="file"]:hover::-ms-browse {
 
 /* Progress Indicator (Step 2) */
 .progress-indicator {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1.5rem;
     position: sticky;
     top: 140px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
     color: #fff;
 }
 
 .progress-indicator h5 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
     color: var(--neon-pink);
     font-weight: 700;
     font-size: 1rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
 }
 
 .progress-indicator h5 i {
@@ -1685,8 +1679,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .progress-indicator hr {
-    border-color: rgba(255, 255, 255, 0.1);
     margin: 1rem 0;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .progress-indicator #progressPercent {
@@ -1700,19 +1694,16 @@ input[type="file"]:hover::-ms-browse {
 }
 
 #progressList .progress-item {
+    display: flex;
+    align-items: center;
     padding: 0.5rem 0;
+    gap: 0.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     color: #fff;
     font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
 }
 
-#progressList .progress-item.complete {
-    color: #28a745;
-}
-
+#progressList .progress-item.complete,
 #progressList .progress-item.complete i {
     color: #28a745;
 }
@@ -1723,25 +1714,25 @@ input[type="file"]:hover::-ms-browse {
 
 /* Bulk Accordion Styling */
 .bulk-accordion .accordion-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 0.75rem;
-    border-radius: 10px;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .bulk-accordion .accordion-button {
+    padding: 1rem 1.25rem;
+    border: none;
     background: rgba(0, 0, 0, 0.3);
     color: var(--off-white);
     font-weight: 600;
-    padding: 1rem 1.25rem;
-    border: none;
 }
 
 .bulk-accordion .accordion-button:not(.collapsed) {
     background: rgba(255, 20, 147, 0.1);
-    color: var(--neon-pink);
     box-shadow: none;
+    color: var(--neon-pink);
 }
 
 .bulk-accordion .accordion-button::after {
@@ -1753,18 +1744,18 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .bulk-accordion .accordion-body {
-    background: rgba(0, 0, 0, 0.2);
     padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
     color: var(--off-white);
 }
 
 .bulk-accordion .product-number {
-    background: var(--neon-pink);
-    color: #fff;
     padding: 0.25rem 0.6rem;
     border-radius: 6px;
-    font-size: 0.8rem;
+    background: var(--neon-pink);
+    color: #fff;
     font-weight: 700;
+    font-size: 0.8rem;
 }
 
 .bulk-accordion .product-title {
@@ -1772,14 +1763,14 @@ input[type="file"]:hover::-ms-browse {
 }
 
 .bulk-accordion .product-preview-badge {
-    font-size: 0.75rem;
     padding: 0.25rem 0.6rem;
     border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
     background: rgba(255, 193, 7, 0.2);
     color: #ffc107;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .bulk-accordion .product-preview-badge.complete {
@@ -1789,24 +1780,24 @@ input[type="file"]:hover::-ms-browse {
 
 /* Auto-fill Badge */
 .auto-fill-badge {
-    background: rgba(255, 20, 147, 0.15);
-    color: var(--neon-pink);
-    font-size: 0.7rem;
+    margin-left: 0.5rem;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
-    margin-left: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--neon-pink);
     font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 /* Variant Toggles in Bulk Form */
 .bulk-accordion .variant-toggles ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    gap: 0.5rem;
     list-style: none;
 }
 
@@ -1817,11 +1808,11 @@ input[type="file"]:hover::-ms-browse {
 .bulk-accordion .variant-toggles label {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
     padding: 0.4rem 0.75rem;
-    background: rgba(255, 255, 255, 0.05);
+    gap: 0.4rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
     color: var(--off-white);
     font-size: 0.85rem;
     cursor: pointer;
@@ -1835,19 +1826,19 @@ input[type="file"]:hover::-ms-browse {
 
 .bulk-accordion .variant-toggles input[type="checkbox"]:checked + label,
 .bulk-accordion .variant-toggles label:has(input:checked) {
-    background: rgba(255, 20, 147, 0.2);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.2);
     color: var(--electric-yellow);
 }
 
 /* Image Preview in Bulk Form */
 .bulk-accordion .image-preview {
+    display: none;
     max-width: 150px;
     max-height: 150px;
-    border-radius: 8px;
     margin-top: 0.75rem;
-    display: none;
     border: 2px solid var(--neon-pink);
+    border-radius: 8px;
 }
 
 .bulk-accordion .image-preview.show {
@@ -1869,16 +1860,16 @@ input[type="file"]:hover::-ms-browse {
 
 /* Helper Text */
 .helper-text {
+    margin-top: 0.35rem;
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.8rem;
-    margin-top: 0.35rem;
 }
 
 /* Form Error Text */
 .form-error-text {
+    margin-top: 0.35rem;
     color: #dc3545;
     font-size: 0.85rem;
-    margin-top: 0.35rem;
 }
 
 /* Mobile Responsive for Bulk Creation */
@@ -1916,8 +1907,8 @@ input[type="file"]:hover::-ms-browse {
     }
 
     .audience-card {
-        padding: 0.75rem 1rem;
         min-width: 120px;
+        padding: 0.75rem 1rem;
     }
 
     .quick-actions {
@@ -1926,8 +1917,8 @@ input[type="file"]:hover::-ms-browse {
     }
 
     .bulk-accordion .accordion-button {
-        padding: 0.75rem 1rem;
         flex-wrap: wrap;
+        padding: 0.75rem 1rem;
     }
 
     .bulk-accordion .product-preview-badge {
@@ -1946,13 +1937,13 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .category-title {
-    color: #222;
     border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: #222;
 }
 
 :root.light-mode .product-type-card {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .product-type-card:hover {
@@ -1968,8 +1959,8 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .audience-card {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .audience-card:hover {
@@ -1985,13 +1976,13 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .bulk-accordion .accordion-item {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .bulk-accordion .accordion-button {
-    color: #222;
     background: rgba(0, 0, 0, 0.03);
+    color: #222;
 }
 
 :root.light-mode .bulk-accordion .accordion-button::after {
@@ -2012,9 +2003,9 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .bulk-accordion .variant-toggles label {
+    border-color: rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0.03);
     color: #222;
-    border-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .bulk-accordion .variant-toggles label:hover {
@@ -2029,12 +2020,12 @@ input[type="file"]:hover::-ms-browse {
     color: #333;
 }
 
-:root.light-mode .bulk-actions-card {
+:root.light-mode .bulk-actions-card,
+:root.light-mode .auth-card {
     background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .auth-card {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -2052,11 +2043,8 @@ input[type="file"]:hover::-ms-browse {
     color: var(--neon-pink);
 }
 
-:root.light-mode .summary-details-text {
-    color: rgba(0, 0, 0, 0.7);
-}
-
 /* Explanatory Text Light Mode */
+:root.light-mode .summary-details-text,
 :root.light-mode .explanatory-text {
     color: rgba(0, 0, 0, 0.7);
 }
@@ -2082,8 +2070,8 @@ input[type="file"]:hover::-ms-browse {
 
 /* Progress Indicator Light Mode */
 :root.light-mode .progress-indicator {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.02);
     color: #000;
 }
 
@@ -2093,14 +2081,14 @@ input[type="file"]:hover::-ms-browse {
 
 /* Admin Action Buttons Light Mode - Better color selection */
 :root.light-mode .btn-outline-info {
-    color: #0d6efd;
     border-color: #0d6efd;
     background: transparent;
+    color: #0d6efd;
 }
 
 :root.light-mode .btn-outline-info:hover {
-    background: #0d6efd;
     border-color: #0d6efd;
+    background: #0d6efd;
     color: #fff;
 }
 
@@ -2109,14 +2097,14 @@ input[type="file"]:hover::-ms-browse {
 }
 
 :root.light-mode .btn-outline-primary {
-    color: var(--neon-pink);
     border-color: var(--neon-pink);
     background: transparent;
+    color: var(--neon-pink);
 }
 
 :root.light-mode .btn-outline-primary:hover {
-    background: var(--neon-pink);
     border-color: var(--neon-pink);
+    background: var(--neon-pink);
     color: #fff;
 }
 
@@ -2127,10 +2115,10 @@ input[type="file"]:hover::-ms-browse {
 /* Edit button - softer pink styling */
 :root.light-mode .auth-card .table .btn-outline-pink,
 :root.light-mode .archived-products-table .btn-outline-pink {
-    background: rgba(255, 20, 147, 0.1);
-    color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.1);
     box-shadow: none;
+    color: var(--neon-pink);
 }
 
 :root.light-mode .auth-card .table .btn-outline-pink:hover,

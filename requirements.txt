@@ -1,3 +1,4 @@
+django-compressor==4.6.0
 Django==5.2.10
 EditorConfig==0.17.1
 PyYAML==6.0.3

@@ -1,0 +1,181 @@
+/* ================================================
+   HENDOSHI - COMPONENTS - ANIMATIONS
+   ================================================
+   
+   Purpose: Global CSS animations and keyframes for interactive elements
+   
+   Contains:
+   - Hero animations (pulse, gradient-shift)
+   - Vault animations (heartbeat, modal-pulse)
+   - Product animations (discount-pulse, pulse-heart)
+   - UI animations (slideDown, fadeIn, infinite-scroll)
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files, before feature files
+   ================================================ */
+
+@keyframes page-hero-pulse {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(10%, 10%) scale(1.1);
+    }
+}
+
+@keyframes vault-gradient-shift {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes vault-heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse-heart {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(255, 20, 147, 0.6);
+    }
+}
+
+@keyframes discount-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6);
+    }
+}
+
+@keyframes vault-modal-pulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(255, 20, 147, 0);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes slideDownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes infinite-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes hall-border-glow {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes hall-shine {
+    0% {
+        left: -100%;
+    }
+    50%,
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes trophy-pulse {
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.1) rotate(10deg);
+    }
+}
+
+@keyframes pulse-pink {
+    0% {
+        box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    }
+    50% {
+        box-shadow:
+            0 6px 20px rgba(255, 20, 147, 0.6),
+            0 0 30px rgba(255, 20, 147, 0.3);
+    }
+    100% {
+        box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    }
+}
+
+/* Two distinct 'pulse' variants used in vault - keep both as named animations */
+@keyframes pulse-scale {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+@keyframes pulse-opacity {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

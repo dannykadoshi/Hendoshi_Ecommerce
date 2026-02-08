@@ -11,8 +11,8 @@
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    padding-left: 15px;
     padding-right: 15px;
+    padding-left: 15px;
 }
 
 /* Canonical page container: centralized settings for page content wrappers */
@@ -24,19 +24,16 @@
 @media (max-width: 768px) {
     .container {
         max-width: 100%;
-        padding-left: 12px;
         padding-right: 12px;
+        padding-left: 12px;
     }
 }
 
 /* Search Results & Products Container */
-.search-results-container,
-.products-container {
-    max-width: 1400px;
-    margin: 0 auto;
-}
 
 /* Checkout Page Container - Canonical */
+.search-results-container,
+.products-container,
 .checkout-container {
     max-width: 1400px;
     margin: 0 auto;

@@ -1,0 +1,769 @@
+/* ================================================
+   HENDOSHI - COMPONENTS - DISCOUNT BANNER
+   ================================================
+   
+   Purpose: Discount banner and theme toggle button styling
+   
+   Contains:
+   - Theme toggle button
+   - Discount banner components
+   - Interactive hover effects
+   - Theme switching UI elements
+   
+   Dependencies: variables.css
+   Load Order: Load after foundation files
+   ================================================ */
+
+.theme-toggle:hover {
+    color: var(--neon-pink);
+    transform: rotate(20deg) scale(1.1);
+}
+
+.theme-toggle i {
+    transition: transform 0.5s ease;
+}
+
+.theme-toggle.light-mode-active i {
+    transform: rotate(180deg);
+}
+
+:root.light-mode .theme-toggle {
+    color: var(--neon-pink);
+}
+
+.theme-toggle.light-mode-active {
+    color: var(--neon-pink);
+}
+
+.theme-toggle.light-mode-active:hover {
+    color: #ff69b4;
+}
+
+:root.light-mode .theme-toggle:hover {
+    color: var(--electric-yellow);
+}
+
+/* ============================================
+   DISCOUNT BANNER - Enhanced with 7 Improvements
+   ============================================ */
+
+/* Main Banner Container */
+body .discount-banner {
+    background: linear-gradient(
+        -45deg,
+        var(--charcoal) 0%,
+        rgba(255, 20, 147, 0.3) 25%,
+        rgba(255, 215, 0, 0.2) 50%,
+        var(--charcoal) 100%
+    );
+    background-size: 400% 400%;
+    color: var(--off-white);
+    text-align: center;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    box-sizing: border-box;
+    z-index: 99999;
+    animation:
+        gradientShift 12s ease-in-out infinite,
+        bannerGlow 15s ease-in-out infinite;
+    transition:
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.4s ease,
+        opacity 0.3s ease;
+    cursor: default;
+    pointer-events: auto;
+    backdrop-filter: none;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    opacity: 1;
+    overflow: hidden;
+}
+
+/* High-value discount special styling */
+.discount-banner.high-value {
+    background: linear-gradient(
+        -45deg,
+        #1a0a14 0%,
+        rgba(255, 20, 147, 0.4) 20%,
+        rgba(255, 215, 0, 0.3) 40%,
+        rgba(255, 107, 53, 0.3) 60%,
+        rgba(255, 20, 147, 0.4) 80%,
+        #1a0a14 100%
+    );
+    background-size: 600% 600%;
+
+    animation:
+        bannerSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+        gradientShiftFast 8s ease-in-out infinite 0.6s;
+}
+
+/* Hidden state for scroll behavior */
+body .discount-banner.banner-hidden {
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+}
+
+/* Confetti Canvas */
+.confetti-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Banner Content Wrapper */
+body .discount-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Scrolling Message Container */
+body .discount-message-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.discount-message-scroll {
+    display: flex;
+    animation: discountMessageScroll 80s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+}
+
+.discount-message-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+    text-align: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.discount-separator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    font-weight: 300;
+    opacity: 0.6;
+    font-size: 1.2em;
+    color: var(--off-white);
+    flex-shrink: 0;
+}
+
+/* Discount Buttons */
+.discount-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 0.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+}
+
+.discount-button.shop-now {
+    background: linear-gradient(45deg, #e71f7f, #ff69b4);
+    color: white;
+}
+
+.discount-button.shop-now:hover {
+    background: linear-gradient(45deg, #ff1493, #ff8bc4);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(231, 31, 127, 0.4);
+}
+
+.discount-button.sale {
+    background: linear-gradient(45deg, #b8d400, #d4e157);
+    color: #000000;
+}
+
+.discount-button.sale:hover {
+    background: linear-gradient(45deg, #c6e226, #e0ee6e);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(184, 212, 0, 0.4);
+}
+
+.discount-banner:hover .discount-message-scroll {
+    animation-play-state: paused;
+}
+
+/* Banner Hover Effect */
+.discount-banner:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 8px 35px rgba(255, 20, 147, 0.25),
+        0 0 20px rgba(255, 215, 0, 0.15),
+        0 0 30px rgba(255, 105, 180, 0.1);
+}
+
+/* Gift Icon */
+.discount-banner #discountIcon {
+    color: var(--neon-pink);
+    animation:
+        iconSparkle 15s ease-in-out infinite,
+        iconBounce 2s ease-in-out infinite;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 1rem;
+}
+
+.discount-banner:hover #discountIcon {
+    transform: scale(1.15) rotate(10deg);
+}
+
+/* Discount Code Text - Clickable */
+.discount-banner .discount-code-text {
+    background: linear-gradient(45deg, #ff1493, #ffd700, #ffa500, #ff1493);
+    background-size: 300% 300%;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    animation:
+        textGlow 8s ease-in-out infinite,
+        gradientShift 12s ease-in-out infinite;
+    cursor: pointer;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    display: inline-block;
+}
+
+.discount-banner .discount-code-text::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.discount-banner .discount-code-text:hover {
+    transform: scale(1.05);
+}
+
+.discount-banner .discount-code-text:hover::before {
+    opacity: 1;
+}
+
+.discount-banner .discount-code-text:active {
+    transform: scale(0.95);
+}
+
+/* Copy Tooltip */
+.copy-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: rgba(25, 135, 84, 0.95);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.copy-tooltip::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: rgba(25, 135, 84, 0.95);
+}
+
+.copy-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(8px);
+}
+
+/* Message Transition */
+.discount-message-container {
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.discount-message-container.fade-out {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+/* Light mode styles */
+:root.light-mode .discount-banner {
+    background: linear-gradient(
+        -45deg,
+        #f5f5f5 0%,
+        rgba(255, 20, 147, 0.15) 30%,
+        rgba(255, 215, 0, 0.15) 60%,
+        #f5f5f5 100%
+    );
+    background-size: 400% 400%;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    color: #000000;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+}
+
+:root.light-mode .discount-banner.high-value {
+    background: linear-gradient(
+        -45deg,
+        #fff0f5 0%,
+        rgba(255, 20, 147, 0.2) 20%,
+        rgba(255, 215, 0, 0.2) 40%,
+        rgba(255, 107, 53, 0.15) 60%,
+        rgba(255, 20, 147, 0.2) 80%,
+        #fff0f5 100%
+    );
+}
+
+:root.light-mode .discount-banner #discountIcon {
+    color: #e71f7f;
+}
+
+:root.light-mode .discount-banner .discount-code-text {
+    color: #000000;
+    background: none;
+    background-clip: unset;
+}
+
+:root.light-mode .discount-button.shop-now {
+    color: #ffffff;
+}
+
+:root.light-mode .discount-button.sale {
+    color: #000000;
+}
+
+:root.light-mode .discount-close {
+    color: #000000;
+}
+
+:root.light-mode .discount-close:hover {
+    background-color: rgba(220, 53, 69, 0.4);
+}
+
+:root.light-mode .discount-cta {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .discount-banner,
+    .discount-banner.high-value {
+        animation: none;
+    }
+
+    .discount-banner #discountIcon,
+    .discount-banner .discount-code-text {
+        animation: none;
+    }
+
+    .discount-countdown {
+        animation: none;
+    }
+}
+
+.discount-banner.reduced-motion,
+.discount-banner.reduced-motion.high-value {
+    animation: none;
+}
+
+.discount-banner.reduced-motion #discountIcon,
+.discount-banner.reduced-motion .discount-code-text,
+.discount-banner.reduced-motion .discount-countdown {
+    animation: none;
+}
+
+/* Dismiss animation */
+body .discount-banner.slide-up {
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* ============================================
+   DISCOUNT BANNER KEYFRAME ANIMATIONS
+   ============================================ */
+
+/* Entry animation - slide in from top */
+@keyframes bannerSlideIn {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(5%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Gradient shift */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Faster gradient for high-value */
+@keyframes gradientShiftFast {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Banner glow */
+@keyframes bannerGlow {
+    0%,
+    100% {
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    }
+    50% {
+        box-shadow:
+            0 6px 35px rgba(255, 20, 147, 0.15),
+            0 0 15px rgba(255, 105, 180, 0.05);
+    }
+}
+
+/* Intense glow for high-value */
+@keyframes bannerGlowIntense {
+    0%,
+    100% {
+        box-shadow:
+            0 6px 40px rgba(255, 20, 147, 0.4),
+            0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 8px 50px rgba(255, 20, 147, 0.6),
+            0 0 30px rgba(255, 215, 0, 0.4),
+            0 0 40px rgba(255, 105, 180, 0.2);
+    }
+}
+
+/* Icon sparkle */
+@keyframes iconSparkle {
+    0%,
+    100% {
+        color: #ff1493;
+        transform: scale(1);
+        filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.5));
+    }
+    25% {
+        color: #ffd700;
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
+    50% {
+        color: #ffa500;
+        transform: scale(1);
+        filter: drop-shadow(0 0 3px rgba(255, 165, 0, 0.5));
+    }
+    75% {
+        color: #ffd700;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+    }
+}
+
+/* Icon bounce */
+@keyframes iconBounce {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-2px) scale(1.05);
+    }
+}
+
+/* Text glow */
+@keyframes textGlow {
+    0%,
+    100% {
+        filter: brightness(1) drop-shadow(0 0 2px rgba(255, 20, 147, 0.3));
+    }
+    50% {
+        filter: brightness(1.1) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
+}
+
+/* Countdown pulse */
+@keyframes countdownPulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Countdown urgent */
+@keyframes countdownUrgent {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Slide up dismiss */
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+/* Confetti fall */
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Discount message scroll */
+@keyframes discountMessageScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Mobile Responsive - Discount Banner */
+@media (max-width: 768px) {
+    /* Compact layout for mobile */
+    .discount-banner {
+        padding: 0.65rem 0;
+        font-size: 0.8rem;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-height: auto;
+        justify-content: center;
+        align-items: center;
+        z-index: 99998;
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        left: 0;
+        right: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Banner content - full width on mobile */
+    body .discount-banner-content {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Scrolling Message Container - Mobile */
+    body .discount-message-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        flex: none;
+    }
+
+    .discount-message-scroll {
+        animation-duration: 75s; /* Extremely slow on mobile for maximum readability */
+    }
+
+    .discount-message-text {
+        font-size: 0.75rem;
+        min-width: 150px;
+    }
+
+    .discount-separator {
+        width: 30px;
+        font-size: 1em;
+    }
+
+    .discount-button {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+        margin-right: 0.3rem;
+    }
+
+    /* Smaller gift icon */
+    .discount-banner #discountIcon {
+        font-size: 0.7rem;
+        flex-shrink: 0;
+    }
+
+    /* Second line: countdown + CTA together */
+    .discount-countdown {
+        display: inline-flex;
+        font-size: 0.6rem;
+        padding: 0.12rem 0.35rem;
+        gap: 0.2rem;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .discount-countdown i {
+        font-size: 0.55rem;
+    }
+
+    /* CTA button - compact */
+    .discount-cta {
+        display: inline-flex;
+        font-size: 0.6rem;
+        padding: 0.12rem 0.4rem;
+        gap: 0.2rem;
+        flex-shrink: 0;
+    }
+
+    /* Progress dots - inline in row, right side */
+    .discount-progress {
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+    }
+
+    .progress-dot {
+        width: 4px;
+        height: 4px;
+        display: inline-block;
+    }
+
+    .discount-cycle {
+        width: 14px;
+        height: 14px;
+        font-size: 0.5rem;
+    }
+
+    /* Close button - right side */
+    .discount-close {
+        right: 0.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        font-size: 0.6rem;
+    }
+
+    /* Show confetti on mobile (reduced) */
+    .confetti-canvas {
+        display: block;
+        opacity: 0.4;
+    }
+
+    /* Copy tooltip positioning on mobile */
+    .copy-tooltip {
+        font-size: 0.55rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+    .discount-banner {
+        font-size: 0.7rem;
+        padding: 0.55rem 1.3rem 0.55rem 0.4rem;
+        gap: 0.2rem;
+    }
+
+    .discount-message-container {
+        max-width: calc(100% - 5rem);
+    }
+
+    .discount-message-text {
+        font-size: 0.65rem;
+    }
+
+    .discount-banner #discountIcon {
+        font-size: 0.6rem;
+    }
+}

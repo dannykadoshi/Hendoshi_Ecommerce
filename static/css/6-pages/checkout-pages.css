@@ -20,27 +20,27 @@
 
 /* Override Bootstrap list-group-item active state for shipping modal */
 #shippingModal .list-group {
-    background: transparent;
     border: none;
+    background: transparent;
 }
 
 #shippingModal .list-group-item {
-    background-color: rgba(255, 20, 147, 0.05);
+    margin-bottom: 0.5rem;
     border: 1px solid rgba(255, 20, 147, 0.2);
+    border-radius: 8px;
+    background-color: rgba(255, 20, 147, 0.05);
     color: var(--off-white);
     transition: all 0.2s ease;
-    margin-bottom: 0.5rem;
-    border-radius: 8px;
 }
 
 #shippingModal .list-group-item:hover {
-    background-color: rgba(255, 20, 147, 0.1);
     border-color: rgba(255, 20, 147, 0.25);
+    background-color: rgba(255, 20, 147, 0.1);
 }
 
 #shippingModal .list-group-item.active {
-    background-color: rgba(255, 20, 147, 0.15);
     border-color: rgba(255, 20, 147, 0.3);
+    background-color: rgba(255, 20, 147, 0.15);
     color: var(--off-white);
 }
 
@@ -49,8 +49,8 @@
 }
 
 #shippingModal .form-check-input:checked {
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
 }
 
 /* Make free shipping text more visible */
@@ -77,20 +77,20 @@
 }
 
 .order-totals table td:last-child {
-    text-align: right;
-    font-weight: 600;
     min-width: 80px;
+    font-weight: 600;
+    text-align: right;
 }
 
 .order-totals table tr.total-row td {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding-top: 1rem;
     margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .order-totals table tr.total-row td:last-child {
-    font-size: 1.1rem;
     color: var(--electric-yellow);
+    font-size: 1.1rem;
 }
 
 /* Light Mode - Ensure text visibility */
@@ -104,40 +104,40 @@
 
 /* Style discount amount cell with inline edit icon */
 .discount-label-cell {
-    position: relative;
     display: flex;
+    position: relative;
     align-items: center;
     gap: 0.5rem;
 }
 
 .edit-discount-icon {
-    color: var(--neon-pink);
-    font-size: 0.9rem;
-    opacity: 0.7;
-    transition: all 0.2s ease;
-    text-decoration: none;
     padding: 0.2rem;
     border-radius: 3px;
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all 0.2s ease;
 }
 
 .edit-discount-icon:hover {
-    opacity: 1;
     background-color: rgba(255, 20, 147, 0.1);
     color: var(--neon-pink);
+    opacity: 1;
 }
 
 /* Full-screen shipping modal on mobile */
 @media (max-width: 576px) {
     #shippingModal .modal-dialog {
-        margin: 0;
         max-width: 100%;
         min-height: 100vh;
+        margin: 0;
     }
 
     #shippingModal .modal-content {
         min-height: 100vh;
-        border-radius: 0;
         border: none;
+        border-radius: 0;
     }
 
     #shippingModal .modal-body {
@@ -168,24 +168,24 @@
 /* Payment method logos */
 .payment-methods {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
+    gap: 1.25rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    flex-wrap: wrap;
 }
 
 .payment-method-icon {
-    font-size: 2.5rem;
     color: rgba(255, 255, 255, 0.6);
+    font-size: 2.5rem;
     transition: all 0.3s ease;
 }
 
 .payment-method-icon:hover {
-    color: var(--neon-pink);
     transform: translateY(-3px);
+    color: var(--neon-pink);
 }
 
 /* Ensure proper viewport height on mobile */
@@ -197,35 +197,35 @@
     }
 
     .container-fluid.page-container {
-        padding-left: 5px;
         padding-right: 5px;
+        padding-left: 5px;
         overflow-x: hidden;
     }
 
-    .payment-section {
+    .payment-section,
+    .payment-form {
         overflow-x: hidden;
     }
 
     .payment-form {
         max-width: 100%;
-        overflow-x: hidden;
     }
 
     .form-control,
     .input-group,
     .stripe-card-element {
-        max-width: 100%;
         box-sizing: border-box;
+        max-width: 100%;
     }
 
     .row {
-        margin-left: 0;
         margin-right: 0;
+        margin-left: 0;
     }
 
     .row > * {
-        padding-left: 0.5rem;
         padding-right: 0;
+        padding-left: 0.5rem;
     }
 
     .payment-methods {
@@ -242,8 +242,8 @@
 
 /* Tracking Card Enhancements */
 .tracking-card {
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 20, 147, 0.02));
     border: 2px solid rgba(255, 20, 147, 0.2);
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 20, 147, 0.02));
 }
 
 .tracking-card-empty {
@@ -254,53 +254,53 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-family: monospace;
     font-size: 1.1rem;
+    font-family: monospace;
     letter-spacing: 0.5px;
 }
 
 .carrier-badge {
     display: inline-block;
-    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
+    margin-left: 0.5rem;
     padding: 0.25rem 0.6rem;
     border-radius: 20px;
-    margin-left: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
     box-shadow: 0 2px 8px rgba(255, 20, 147, 0.3);
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .btn-copy-tracking {
-    background: rgba(255, 20, 147, 0.1);
-    border: 1px solid rgba(255, 20, 147, 0.3);
-    color: var(--neon-pink);
     padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(255, 20, 147, 0.3);
     border-radius: 6px;
+    background: rgba(255, 20, 147, 0.1);
+    color: var(--neon-pink);
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 0.9rem;
 }
 
 .btn-copy-tracking:hover {
+    transform: scale(1.05);
     background: var(--neon-pink);
     color: white;
-    transform: scale(1.05);
 }
 
 .btn-track-package {
     display: inline-block;
-    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
-    color: white;
-    text-decoration: none;
     padding: 0.6rem 1.2rem;
     border-radius: 8px;
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+    color: white;
     font-weight: 600;
     font-size: 0.95rem;
+    text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
 }
 
 .btn-track-package:hover {
@@ -316,38 +316,38 @@
 
 /* Tracking Update Form */
 .tracking-update-form {
-    background: rgba(255, 255, 255, 0.02);
     padding: 1.5rem;
-    border-radius: 12px;
     border: var(--border-glass);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .tracking-update-fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
     margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 .tracking-update-field label {
     display: block;
+    margin-bottom: 0.5rem;
     color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
-    margin-bottom: 0.5rem;
     font-size: 0.95rem;
 }
 
 .tracking-update-field label i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
+    color: var(--neon-pink);
 }
 
 .tracking-update-field .form-control {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
     padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
     transition: all 0.3s ease;
 }
 
@@ -364,33 +364,33 @@
 .tracking-update-btn {
     width: 100%;
     padding: 0.875rem;
-    font-size: 1rem;
     font-weight: 600;
+    font-size: 1rem;
 }
 
 .form-check-input:checked {
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
 }
 
 .form-check-label {
-    color: rgba(255, 255, 255, 0.8);
     margin-left: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* Toast for copy feedback */
 .copy-toast {
+    z-index: 9999;
     position: fixed;
-    bottom: 2rem;
     right: 2rem;
-    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
-    color: white;
+    bottom: 2rem;
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius-glass);
+    background: linear-gradient(135deg, var(--neon-pink), #ff6fb5);
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
-    z-index: 9999;
-    animation: slideIn 0.3s ease;
+    color: white;
     font-weight: 600;
+    animation: slideIn 0.3s ease;
 }
 
 @keyframes slideIn {
@@ -416,8 +416,8 @@
     }
 
     .copy-toast {
-        bottom: 1rem;
         right: 1rem;
+        bottom: 1rem;
         left: 1rem;
     }
 }
@@ -434,51 +434,51 @@
 }
 
 .auth-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
-    background: linear-gradient(135deg, var(--primary-pink), var(--secondary-yellow));
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
-    color: white;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     box-shadow: 0 8px 20px rgba(255, 45, 161, 0.3);
+    color: white;
+    font-size: 40px;
 }
 
 .form-section {
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .text-link-pink {
-    color: var(--primary-pink);
-    text-decoration: none;
+    color: var(--neon-pink);
     font-weight: 600;
+    text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .text-link-pink:hover {
-    color: var(--secondary-yellow);
+    color: var(--electric-yellow);
     text-decoration: underline;
 }
 
 .page-title {
+    margin-bottom: 10px;
     color: white;
     font-weight: 700;
-    margin-bottom: 10px;
 }
 
 .alert-info {
+    border-color: var(--neon-pink);
     background-color: rgba(255, 45, 161, 0.1);
-    border-color: var(--primary-pink);
     color: #e0e0e0;
 }
 
 .alert-info strong {
-    color: var(--primary-pink);
+    color: var(--neon-pink);
 }
 
 /* ================================================
@@ -487,17 +487,17 @@
    ================================================ */
 
 .next-steps {
-    background: rgba(204, 255, 0, 0.05);
+    margin: 2rem 0;
+    padding: 1.5rem;
     border: 1px solid var(--electric-yellow);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin: 2rem 0;
+    background: rgba(204, 255, 0, 0.05);
     text-align: left;
 }
 
 .next-steps h5 {
-    color: var(--electric-yellow);
     margin-bottom: 1rem;
+    color: var(--electric-yellow);
 }
 
 .next-steps ol {
@@ -516,45 +516,45 @@
 
 .next-steps p {
     margin: 0.5rem 0 0;
-    font-size: 0.95rem;
     color: var(--off-white);
+    font-size: 0.95rem;
 }
 
 .error-details {
-    background: rgba(255, 71, 87, 0.1);
+    margin: 2rem 0;
+    padding: 1.5rem;
     border: 1px solid #ff4757;
     border-radius: 12px;
-    padding: 1.5rem;
-    margin: 2rem 0;
+    background: rgba(255, 71, 87, 0.1);
     text-align: left;
 }
 
 .error-box h5 {
-    color: #ff4757;
     margin-bottom: 1rem;
+    color: #ff4757;
 }
 
 .error-message {
-    background: rgba(255, 71, 87, 0.05);
+    margin: 0;
     padding: 1rem;
     border-left: 3px solid #ff4757;
     border-radius: 4px;
-    margin: 0;
+    background: rgba(255, 71, 87, 0.05);
     color: var(--off-white);
     font-size: 0.95rem;
 }
 
 .failure-reasons {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 12px;
-    padding: 1.5rem;
     margin: 2rem 0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.3);
     text-align: left;
 }
 
 .failure-reasons h5 {
-    color: var(--neon-pink);
     margin-bottom: 1rem;
+    color: var(--neon-pink);
 }
 
 .failure-reasons ul {
@@ -564,16 +564,16 @@
 
 .failure-reasons li {
     margin-bottom: 0.75rem;
-    line-height: 1.5;
     color: var(--off-white);
+    line-height: 1.5;
 }
 
 .order-info-failed {
-    background: rgba(255, 20, 147, 0.05);
+    margin: 2rem 0;
+    padding: 1.5rem;
     border: 1px solid var(--neon-pink);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin: 2rem 0;
+    background: rgba(255, 20, 147, 0.05);
     text-align: left;
 }
 
@@ -585,44 +585,44 @@
 .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     margin: 2rem 0;
+    gap: 1rem;
 }
 
 .action-buttons .btn {
     width: 100%;
     padding: 1rem 2rem;
-    font-size: 1rem;
     font-weight: 700;
+    font-size: 1rem;
 }
 
 .alternative-section,
 .support-section {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    padding: 1.5rem;
     margin-top: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
     text-align: left;
 }
 
 .alternative-section h6,
 .support-section h6 {
-    color: var(--neon-pink);
     margin-bottom: 0.75rem;
+    color: var(--neon-pink);
 }
 
 .alternative-section p,
 .support-section p {
     margin: 0;
-    font-size: 0.95rem;
     color: var(--off-white);
+    font-size: 0.95rem;
     line-height: 1.6;
 }
 
 .support-section a {
     color: var(--electric-yellow);
-    text-decoration: none;
     font-weight: 700;
+    text-decoration: none;
 }
 
 .support-section a:hover {
@@ -689,10 +689,7 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
-:root.light-mode .tracking-card-empty {
-    background: rgba(0, 0, 0, 0.02);
-}
-
+:root.light-mode .tracking-card-empty,
 :root.light-mode .tracking-update-form {
     background: rgba(0, 0, 0, 0.02);
 }
@@ -702,8 +699,8 @@
 }
 
 :root.light-mode .tracking-update-field .form-control {
-    background: rgba(255, 255, 255, 0.9);
     border-color: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.9);
     color: #000;
 }
 

@@ -25,6 +25,7 @@
 
     /* Text Colors */
     --text-muted: rgba(255, 255, 255, 0.6);
+    --text-primary: var(--white);
 
     /* Glassmorphism */
     --bg-glass-light: rgba(255, 255, 255, 0.03);
@@ -53,6 +54,7 @@
 
     /* Text Colors */
     --text-muted: rgba(0, 0, 0, 0.6);
+    --text-primary: var(--black);
 
     /* Glassmorphism - Light Mode */
     --bg-glass-light: rgba(0, 0, 0, 0.03);

@@ -15,23 +15,23 @@
    ================================================ */
 
 .hero {
-    margin-top: 76px;
-    min-height: 86vh;
-    position: relative;
-    overflow: hidden;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
+    min-height: 86vh;
+    margin-top: 76px;
+    overflow: hidden;
 }
 
 /* Full-width Background Carousel */
 .hero-carousel {
+    z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
 }
 
 /* Carousel slides with Ken Burns effect - fixed to prevent black gaps */
@@ -42,17 +42,17 @@
     width: 110%;
     height: 110%;
     background-color: #0a0a0a;
+    animation: kenBurns 10s ease-in-out infinite alternate;
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
     will-change: transform, opacity;
-    animation: kenBurns 10s ease-in-out infinite alternate;
 }
 
 .carousel-slide img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
 .carousel-slide.active {
@@ -97,10 +97,7 @@
 
 /* Dark gradient overlays for text legibility */
 .hero-overlay-top {
-    position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
     height: 40%;
     background: linear-gradient(
         180deg,
@@ -108,15 +105,19 @@
         rgba(0, 0, 0, 0.3) 60%,
         transparent 100%
     );
+}
+
+.hero-overlay-top,
+.hero-overlay-bottom {
     z-index: 2;
+    position: absolute;
+    right: 0;
+    left: 0;
     pointer-events: none;
 }
 
 .hero-overlay-bottom {
-    position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
     height: 35%;
     background: linear-gradient(
         0deg,
@@ -124,14 +125,12 @@
         rgba(0, 0, 0, 0.4) 50%,
         transparent 100%
     );
-    z-index: 2;
-    pointer-events: none;
 }
 
 /* Logo Container - Top Center */
 .hero-logo-container {
-    position: relative;
     z-index: 10;
+    position: relative;
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -146,25 +145,25 @@
 }
 
 .hero-logo {
-    max-width: 320px;
     width: 90vw;
+    max-width: 320px;
     height: auto;
-    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.7));
     animation:
         heroLogoEntrance 1s ease-out forwards,
         glitchLogo 4s ease-in-out infinite;
     animation-delay: 0.2s, 1.5s;
+    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.7));
     opacity: 0;
 }
 
 @keyframes heroLogoEntrance {
     0% {
-        opacity: 0;
         transform: scale(0.8) translateY(-20px);
+        opacity: 0;
     }
     100% {
-        opacity: 1;
         transform: scale(1) translateY(0);
+        opacity: 1;
     }
 }
 
@@ -192,53 +191,53 @@
 }
 
 .hero-bottom-controls {
+    display: flex;
+    z-index: 15;
     position: absolute;
     bottom: 15px;
     left: 50%;
-    transform: translateX(-50%);
-    z-index: 15;
-    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0px;
+    transform: translateX(-50%);
 }
 
 /* Sleek CTA Button */
 .hero-cta-btn {
     display: inline-flex;
+    position: relative;
     align-items: center;
-    gap: 12px;
     padding: 14px 32px;
-    background: rgba(255, 20, 147, 0.9);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-decoration: none;
-    border-radius: 50px;
+    overflow: hidden;
+    gap: 12px;
     border: 2px solid var(--neon-pink);
+    border-radius: 50px;
+    background: rgba(255, 20, 147, 0.9);
     box-shadow:
         0 0 20px rgba(255, 20, 147, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
     animation:
         ctaEntrance 0.8s ease-out forwards,
         ctaPulse 2.5s ease-in-out infinite;
     animation-delay: 0.8s, 2s;
     opacity: 0;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 @keyframes ctaEntrance {
     0% {
-        opacity: 0;
         transform: translateY(20px);
+        opacity: 0;
     }
     100% {
-        opacity: 1;
         transform: translateY(0);
+        opacity: 1;
     }
 }
 
@@ -258,13 +257,13 @@
 }
 
 .hero-cta-btn::before {
-    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    content: "";
     animation: btnShine 3s ease-in-out infinite;
     animation-delay: 2.5s;
 }
@@ -280,13 +279,13 @@
 }
 
 .hero-cta-btn:hover {
-    background: var(--electric-yellow);
-    color: #000;
-    border-color: var(--electric-yellow);
     transform: translateY(-3px) scale(1.05);
+    border-color: var(--electric-yellow);
+    background: var(--electric-yellow);
     box-shadow:
         0 0 40px rgba(255, 255, 0, 0.6),
         0 15px 40px rgba(0, 0, 0, 0.3);
+    color: #000;
 }
 
 .hero-cta-btn i {
@@ -301,33 +300,33 @@
 /* Navigation Dots - Sleek horizontal line */
 .hero-carousel-dots {
     display: flex;
-    gap: 10px;
     padding: 8px 16px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
+    gap: 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .hero-carousel-dot {
     width: 10px;
     height: 10px;
+    border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.3);
-    border: none;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .hero-carousel-dot:hover {
-    background: rgba(255, 255, 255, 0.6);
     transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .hero-carousel-dot.active {
+    transform: scale(1.1);
     background: var(--neon-pink);
     box-shadow: 0 0 10px var(--neon-pink);
-    transform: scale(1.1);
 }
 
 /* Legacy classes - hide unused elements */
@@ -342,8 +341,8 @@
    ============================================ */
 @media (max-width: 768px) {
     .hero {
-        margin-top: 56px;
         min-height: 81vh;
+        margin-top: 56px;
     }
 
     /* Logo - now positioned in bottom controls */
@@ -356,11 +355,8 @@
     }
 
     /* Vinyl Record button - smaller on tablet */
-    .vinyl-record-btn {
-        width: 120px;
-        height: 120px;
-    }
 
+    .vinyl-record-btn,
     .vinyl-spinner {
         width: 120px;
         height: 120px;
@@ -462,16 +458,13 @@
     }
 
     .hero-logo {
-        max-width: 155px;
         width: auto;
+        max-width: 155px;
     }
 
     /* Vinyl Record button - even smaller on mobile */
-    .vinyl-record-btn {
-        width: 100px;
-        height: 100px;
-    }
 
+    .vinyl-record-btn,
     .vinyl-spinner {
         width: 100px;
         height: 100px;

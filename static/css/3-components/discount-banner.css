@@ -15,8 +15,8 @@
    ================================================ */
 
 .theme-toggle:hover {
-    color: var(--neon-pink);
     transform: rotate(20deg) scale(1.1);
+    color: var(--neon-pink);
 }
 
 .theme-toggle i {
@@ -27,10 +27,7 @@
     transform: rotate(180deg);
 }
 
-:root.light-mode .theme-toggle {
-    color: var(--neon-pink);
-}
-
+:root.light-mode .theme-toggle,
 .theme-toggle.light-mode-active {
     color: var(--neon-pink);
 }
@@ -49,6 +46,25 @@
 
 /* Main Banner Container */
 body .discount-banner {
+    box-sizing: border-box;
+    display: flex;
+    z-index: 99999;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.6rem 0;
+    overflow: hidden;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    backdrop-filter: none;
     background: linear-gradient(
         -45deg,
         var(--charcoal) 0%,
@@ -57,39 +73,20 @@ body .discount-banner {
         var(--charcoal) 100%
     );
     background-size: 400% 400%;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
     color: var(--off-white);
-    text-align: center;
-    padding: 0.6rem 0;
     font-size: 0.9rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-    box-sizing: border-box;
-    z-index: 99999;
+    text-align: center;
     animation:
         gradientShift 12s ease-in-out infinite,
         bannerGlow 15s ease-in-out infinite;
+    cursor: default;
+    opacity: 1;
+    pointer-events: auto;
     transition:
         transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
         box-shadow 0.4s ease,
         opacity 0.3s ease;
-    cursor: default;
-    pointer-events: auto;
-    backdrop-filter: none;
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
-    opacity: 1;
-    overflow: hidden;
 }
 
 /* High-value discount special styling */
@@ -113,20 +110,20 @@ body .discount-banner {
 /* Hidden state for scroll behavior */
 body .discount-banner.banner-hidden {
     transform: translateY(-110%);
+    animation: none;
     opacity: 0;
     pointer-events: none;
-    animation: none;
 }
 
 /* Confetti Canvas */
 .confetti-canvas {
+    z-index: 1;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
 }
 
 /* Banner Content Wrapper */
@@ -134,68 +131,65 @@ body .discount-banner-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    max-width: 100%;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 /* Scrolling Message Container */
+body .discount-banner-content,
 body .discount-message-container {
-    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
     width: 100%;
     max-width: 100%;
-    min-width: 100%;
-    position: relative;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+body .discount-message-container {
+    min-width: 100%;
+    overflow: hidden;
 }
 
 .discount-message-scroll {
     display: flex;
-    animation: discountMessageScroll 80s linear infinite;
-    white-space: nowrap;
     width: max-content;
+    white-space: nowrap;
+    animation: discountMessageScroll 80s linear infinite;
 }
 
 .discount-message-text {
+    min-width: 200px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.discount-message-text,
+.discount-separator {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    min-width: 200px;
-    text-align: center;
-    font-weight: 600;
-    flex-shrink: 0;
 }
 
 .discount-separator {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     width: 40px;
-    font-weight: 300;
-    opacity: 0.6;
-    font-size: 1.2em;
     color: var(--off-white);
-    flex-shrink: 0;
+    font-weight: 300;
+    font-size: 1.2em;
+    opacity: 0.6;
 }
 
 /* Discount Buttons */
 .discount-button {
     display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.6rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-decoration: none;
-    margin-left: 0.5rem;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
     flex-shrink: 0;
+    align-items: center;
+    margin-left: 0.5rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .discount-button.shop-now {
@@ -204,8 +198,8 @@ body .discount-message-container {
 }
 
 .discount-button.shop-now:hover {
-    background: linear-gradient(45deg, #ff1493, #ff8bc4);
     transform: translateY(-1px);
+    background: linear-gradient(45deg, #ff1493, #ff8bc4);
     box-shadow: 0 2px 8px rgba(231, 31, 127, 0.4);
 }
 
@@ -215,8 +209,8 @@ body .discount-message-container {
 }
 
 .discount-button.sale:hover {
-    background: linear-gradient(45deg, #c6e226, #e0ee6e);
     transform: translateY(-1px);
+    background: linear-gradient(45deg, #c6e226, #e0ee6e);
     box-shadow: 0 2px 8px rgba(184, 212, 0, 0.4);
 }
 
@@ -236,11 +230,11 @@ body .discount-message-container {
 /* Gift Icon */
 .discount-banner #discountIcon {
     color: var(--neon-pink);
+    font-size: 1rem;
     animation:
         iconSparkle 15s ease-in-out infinite,
         iconBounce 2s ease-in-out infinite;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    font-size: 1rem;
 }
 
 .discount-banner:hover #discountIcon {
@@ -249,6 +243,10 @@ body .discount-message-container {
 
 /* Discount Code Text - Clickable */
 .discount-banner .discount-code-text {
+    display: inline-block;
+    position: relative;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
     background: linear-gradient(45deg, #ff1493, #ffd700, #ffa500, #ff1493);
     background-size: 300% 300%;
     background-clip: text;
@@ -259,19 +257,15 @@ body .discount-message-container {
         textGlow 8s ease-in-out infinite,
         gradientShift 12s ease-in-out infinite;
     cursor: pointer;
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
-    display: inline-block;
 }
 
 .discount-banner .discount-code-text::before {
-    content: "";
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    content: "";
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -290,38 +284,38 @@ body .discount-message-container {
 
 /* Copy Tooltip */
 .copy-tooltip {
+    visibility: hidden;
+    z-index: 10;
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(5px);
-    background: rgba(25, 135, 84, 0.95);
-    color: white;
     padding: 0.4rem 0.8rem;
+    transform: translateX(-50%) translateY(5px);
     border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 10;
-    white-space: nowrap;
+    background: rgba(25, 135, 84, 0.95);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .copy-tooltip::before {
-    content: "";
     position: absolute;
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
     border-bottom-color: rgba(25, 135, 84, 0.95);
+    content: "";
 }
 
 .copy-tooltip.show {
-    opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(8px);
+    opacity: 1;
 }
 
 /* Message Transition */
@@ -332,12 +326,13 @@ body .discount-message-container {
 }
 
 .discount-message-container.fade-out {
-    opacity: 0;
     transform: translateY(-5px);
+    opacity: 0;
 }
 
 /* Light mode styles */
 :root.light-mode .discount-banner {
+    border-bottom-color: rgba(0, 0, 0, 0.12);
     background: linear-gradient(
         -45deg,
         #f5f5f5 0%,
@@ -346,9 +341,8 @@ body .discount-message-container {
         #f5f5f5 100%
     );
     background-size: 400% 400%;
-    border-bottom-color: rgba(0, 0, 0, 0.12);
-    color: #000000;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+    color: #000000;
 }
 
 :root.light-mode .discount-banner.high-value {
@@ -368,19 +362,16 @@ body .discount-message-container {
 }
 
 :root.light-mode .discount-banner .discount-code-text {
-    color: #000000;
     background: none;
     background-clip: unset;
+    color: #000000;
 }
 
 :root.light-mode .discount-button.shop-now {
     color: #ffffff;
 }
 
-:root.light-mode .discount-button.sale {
-    color: #000000;
-}
-
+:root.light-mode .discount-button.sale,
 :root.light-mode .discount-close {
     color: #000000;
 }
@@ -390,32 +381,23 @@ body .discount-message-container {
 }
 
 :root.light-mode .discount-cta {
-    background: rgba(0, 0, 0, 0.1);
     border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     .discount-banner,
-    .discount-banner.high-value {
-        animation: none;
-    }
-
+    .discount-banner.high-value,
     .discount-banner #discountIcon,
-    .discount-banner .discount-code-text {
-        animation: none;
-    }
-
+    .discount-banner .discount-code-text,
     .discount-countdown {
         animation: none;
     }
 }
 
 .discount-banner.reduced-motion,
-.discount-banner.reduced-motion.high-value {
-    animation: none;
-}
-
+.discount-banner.reduced-motion.high-value,
 .discount-banner.reduced-motion #discountIcon,
 .discount-banner.reduced-motion .discount-code-text,
 .discount-banner.reduced-motion .discount-countdown {
@@ -506,23 +488,23 @@ body .discount-banner.slide-up {
 @keyframes iconSparkle {
     0%,
     100% {
-        color: #ff1493;
         transform: scale(1);
+        color: #ff1493;
         filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.5));
     }
     25% {
-        color: #ffd700;
         transform: scale(1.1);
+        color: #ffd700;
         filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
     }
     50% {
-        color: #ffa500;
         transform: scale(1);
+        color: #ffa500;
         filter: drop-shadow(0 0 3px rgba(255, 165, 0, 0.5));
     }
     75% {
-        color: #ffd700;
         transform: scale(1.05);
+        color: #ffd700;
         filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
     }
 }
@@ -609,46 +591,43 @@ body .discount-banner.slide-up {
 @media (max-width: 768px) {
     /* Compact layout for mobile */
     .discount-banner {
-        padding: 0.65rem 0;
-        font-size: 0.8rem;
-        flex-direction: column;
-        gap: 0.25rem;
-        min-height: auto;
-        justify-content: center;
-        align-items: center;
         z-index: 99998;
-        width: 100%;
-        max-width: 100%;
-        min-width: 100%;
-        left: 0;
         right: 0;
-        margin: 0;
-        box-sizing: border-box;
+        left: 0;
+        flex-direction: column;
+        min-width: 100%;
+        min-height: auto;
+        padding: 0.65rem 0;
+        gap: 0.25rem;
+        font-size: 0.8rem;
     }
 
     /* Banner content - full width on mobile */
+    .discount-banner,
+    body .discount-banner-content {
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
     body .discount-banner-content {
         display: flex;
         flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-        gap: 0.3rem;
-        width: 100%;
-        max-width: 100%;
         padding: 0;
-        margin: 0;
-        box-sizing: border-box;
+        gap: 0.3rem;
     }
 
     /* Scrolling Message Container - Mobile */
     body .discount-message-container {
-        width: 100%;
-        max-width: 100%;
-        min-width: 100%;
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
         flex: none;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     .discount-message-scroll {
@@ -656,8 +635,8 @@ body .discount-banner.slide-up {
     }
 
     .discount-message-text {
-        font-size: 0.75rem;
         min-width: 150px;
+        font-size: 0.75rem;
     }
 
     .discount-separator {
@@ -666,25 +645,25 @@ body .discount-banner.slide-up {
     }
 
     .discount-button {
-        font-size: 0.65rem;
-        padding: 0.2rem 0.5rem;
         margin-right: 0.3rem;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.65rem;
     }
 
     /* Smaller gift icon */
     .discount-banner #discountIcon {
-        font-size: 0.7rem;
         flex-shrink: 0;
+        font-size: 0.7rem;
     }
 
     /* Second line: countdown + CTA together */
     .discount-countdown {
         display: inline-flex;
-        font-size: 0.6rem;
+        flex-shrink: 0;
+        margin: 0;
         padding: 0.12rem 0.35rem;
         gap: 0.2rem;
-        margin: 0;
-        flex-shrink: 0;
+        font-size: 0.6rem;
     }
 
     .discount-countdown i {
@@ -694,28 +673,28 @@ body .discount-banner.slide-up {
     /* CTA button - compact */
     .discount-cta {
         display: inline-flex;
-        font-size: 0.6rem;
+        flex-shrink: 0;
         padding: 0.12rem 0.4rem;
         gap: 0.2rem;
-        flex-shrink: 0;
+        font-size: 0.6rem;
     }
 
     /* Progress dots - inline in row, right side */
     .discount-progress {
-        position: absolute;
-        right: 1.5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        margin: 0;
         display: flex;
+        position: absolute;
+        top: 50%;
+        right: 1.5rem;
         align-items: center;
+        margin: 0;
         gap: 0.2rem;
+        transform: translateY(-50%);
     }
 
     .progress-dot {
+        display: inline-block;
         width: 4px;
         height: 4px;
-        display: inline-block;
     }
 
     .discount-cycle {
@@ -726,11 +705,11 @@ body .discount-banner.slide-up {
 
     /* Close button - right side */
     .discount-close {
-        right: 0.25rem;
         top: 50%;
-        transform: translateY(-50%);
+        right: 0.25rem;
         width: 16px;
         height: 16px;
+        transform: translateY(-50%);
         font-size: 0.6rem;
     }
 
@@ -742,17 +721,17 @@ body .discount-banner.slide-up {
 
     /* Copy tooltip positioning on mobile */
     .copy-tooltip {
-        font-size: 0.55rem;
         padding: 0.2rem 0.4rem;
+        font-size: 0.55rem;
     }
 }
 
 /* Very small screens */
 @media (max-width: 400px) {
     .discount-banner {
-        font-size: 0.7rem;
         padding: 0.55rem 1.3rem 0.55rem 0.4rem;
         gap: 0.2rem;
+        font-size: 0.7rem;
     }
 
     .discount-message-container {

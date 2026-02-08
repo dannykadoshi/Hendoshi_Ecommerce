@@ -1,0 +1,2572 @@
+/* ================================================
+   HENDOSHI - PRODUCTS - PRODUCT LIST
+   ================================================
+   
+   Purpose: Product listing and grid layout styling
+   
+   Contains:
+   - Product grid layouts
+   - Product card styling
+   - Filter and sort controls
+   - Responsive product displays
+   
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
+   ================================================ */
+
+/* Products page padding removed - now handled by vault-modals.css for consistency */
+
+/* Products Header Section */
+.products-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* Product Detail Hero -------------------------------------------------- */
+/* Inherits from global .page-hero in hero-pages.css */
+.product-hero {
+    /* Only override specific properties, inherit all global page-hero styles */
+    min-height: 200px;
+    margin-bottom: 2.5rem;
+}
+/* Removed duplicate .page-hero-title and .page-hero-subtitle - using global styles from hero-pages.css */
+
+/* Related / You Might Also Like ---------------------------------------- */
+.related-products {
+    margin-top: 2.5rem;
+    margin-bottom: 4rem; /* add space between related section and footer */
+    padding-top: 1rem;
+}
+.related-products .section-title,
+.you-might-also-like-title,
+.related-products h2,
+.related-products h3,
+.related-products .related-title,
+.related-products-carousel-container h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Specific gradient title styling */
+.gradient-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Extra specific rule for h2 gradient titles */
+h2.gradient-title {
+    font-size: 1.5rem;
+}
+
+/* Ensure social share has breathing room before footer */
+.social-share-section {
+    margin-bottom: 3.5rem;
+}
+
+.products-header h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    color: transparent;
+    background-clip: text;
+}
+
+.product-count {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+/* Filters & Sort Button and Dropdown */
+.filters-sort-wrapper {
+    position: relative;
+}
+
+.filters-sort-btn {
+    background-color: transparent;
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filters-sort-btn:hover {
+    background-color: var(--neon-pink);
+    color: var(--black);
+}
+
+.filters-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    /* Apply same style as navbar dropdown menu */
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    min-width: 600px;
+    margin-top: 0.5rem;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
+    transition:
+        opacity 0.3s,
+        visibility 0.3s;
+    border-radius: 12px;
+}
+
+.filters-dropdown.show {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tabbed Filter Interface - Applied to both desktop and mobile */
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 105, 180, 0.2);
+    margin-bottom: 1rem;
+}
+
+.filters-title {
+    color: var(--neon-pink);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.filters-tabs {
+    display: flex;
+    padding: 0 1.5rem;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.filter-tab {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    color: var(--off-white);
+    padding: 0.75rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.filter-tab i {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.filter-tab.active {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+.filter-tab:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 105, 180, 0.4);
+}
+
+.filters-tab-content {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.filter-tab-pane {
+    display: none;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.filter-tab-pane.active {
+    display: block;
+}
+
+.filter-tab-pane::-webkit-scrollbar {
+    width: 6px;
+}
+
+.filter-tab-pane::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.filter-tab-pane::-webkit-scrollbar-thumb {
+    background: rgba(255, 20, 147, 0.5);
+    border-radius: 8px;
+}
+
+.filter-tab-pane::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 20, 147, 0.8);
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-glass-light);
+    border: var(--border-glass);
+    border-radius: 8px;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.filter-option:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 105, 180, 0.3);
+    transform: translateY(-1px);
+}
+
+.filter-option.active {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+.filter-option i:first-child {
+    color: var(--neon-pink);
+    width: 20px;
+    text-align: center;
+}
+
+.filter-option i.fa-check {
+    color: var(--electric-yellow);
+    margin-left: auto;
+}
+
+.filter-option span {
+    flex: 1;
+    font-weight: 500;
+}
+
+/* Checkbox styling for multi-select filters */
+.checkbox-option {
+    cursor: pointer;
+    position: relative;
+}
+
+.checkbox-option input[type="checkbox"],
+.checkbox-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-option .checkmark {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 105, 180, 0.3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-option input[type="checkbox"]:checked ~ .checkmark,
+.checkbox-option input[type="radio"]:checked ~ .checkmark {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.checkbox-option input[type="checkbox"]:checked ~ .checkmark::after,
+.checkbox-option input[type="radio"]:checked ~ .checkmark::after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-option:hover .checkmark {
+    border-color: rgba(255, 105, 180, 0.6);
+    background: rgba(255, 20, 147, 0.1);
+}
+
+.checkbox-option input[type="checkbox"]:checked ~ *,
+.checkbox-option input[type="radio"]:checked ~ * {
+    color: var(--neon-pink);
+}
+
+.checkbox-option input[type="checkbox"]:checked ~ i:first-child,
+.checkbox-option input[type="radio"]:checked ~ i:first-child {
+    color: var(--electric-yellow);
+}
+
+/* Radio button specific styling for sort options */
+.radio-option .checkmark {
+    border-radius: 50%;
+}
+
+.radio-option input[type="radio"]:checked ~ .checkmark::after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+}
+
+/* Filter Actions */
+.filters-actions {
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: 1px solid rgba(255, 105, 180, 0.2);
+}
+
+.filter-note {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--off-white);
+    font-size: 0.8rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+/* Mobile: Make filter actions sticky at bottom of filter panel */
+@media (max-width: 991px) {
+    .filters-actions {
+        position: sticky;
+        bottom: 0;
+        background: rgba(20, 20, 20, 0.98);
+        backdrop-filter: blur(10px);
+        margin: 0 -1.5rem;
+        padding: 1rem 1.5rem 1.5rem;
+        border-top: 1px solid rgba(255, 105, 180, 0.3);
+        z-index: 10;
+    }
+
+    :root.light-mode .filters-actions {
+        background: rgba(255, 255, 255, 0.98);
+    }
+
+    /* Ensure filter tab content has enough bottom padding for sticky buttons */
+    .filters-tab-content {
+        padding-bottom: 0;
+    }
+
+    .filter-tab-pane {
+        max-height: calc(70vh - 280px);
+    }
+}
+
+.apply-filters-btn,
+.clear-filters-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+/* Mobile: Compact filter buttons */
+@media (max-width: 991px) {
+    .filters-actions .btn.apply-filters-btn,
+    .filters-actions .btn.clear-filters-btn {
+        padding: 0.45rem 0.6rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.2px;
+        min-height: auto;
+    }
+
+    .filter-buttons {
+        gap: 0.5rem;
+    }
+
+    .filter-note {
+        margin-bottom: 0.5rem;
+    }
+
+    .filter-note small {
+        font-size: 0.65rem;
+    }
+
+    .filters-actions {
+        padding: 0.75rem 1rem 1rem;
+    }
+}
+
+.apply-filters-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+}
+
+.clear-filters-btn:hover {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+/* Neutral ghost Clear button used across the site */
+.btn-clear-ghost {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.78);
+    border: var(--border-glass);
+    transition:
+        background-color 150ms ease,
+        color 150ms ease,
+        border-color 150ms ease;
+}
+.btn-clear-ghost:hover,
+.btn-clear-ghost:focus {
+    background: rgba(255, 45, 122, 0.06);
+    color: #ff2d7a;
+    border-color: rgba(255, 45, 122, 0.18);
+    text-decoration: none;
+}
+
+/* Mobile Filter Overlay */
+.filters-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.3s,
+        visibility 0.3s;
+}
+
+.filters-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile Filter Close Button */
+.filters-close-btn {
+    position: absolute;
+    top: 0.25rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 10;
+    transition: all 0.3s;
+    display: none;
+}
+
+.filters-close-btn:hover {
+    color: var(--electric-yellow);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 991px) {
+    .filters-close-btn {
+        display: block;
+    }
+}
+
+.filters-dropdown-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.filter-column h3 {
+    color: var(--neon-pink);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+.filter-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-column ul li {
+    margin-bottom: 0.5rem;
+}
+
+.filter-column ul li a {
+    color: var(--off-white);
+    text-decoration: none;
+    transition: all 0.3s;
+    display: block;
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+}
+
+.filter-column ul li a:hover,
+.filter-column ul li a.active {
+    color: var(--neon-pink);
+    padding-left: 0.5rem;
+}
+
+/* Products Grid - Responsive: 6 -> 5 -> 4 -> 2 (mobile) */
+.products-grid-wrapper {
+    width: 100%;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+}
+
+/* Prevent grid items from stretching to the height of the tallest item
+   and ensure flex children can shrink properly. Fixes cases where a
+   single tall child forces a very large row height. */
+.products-grid {
+    align-items: start;
+}
+
+/* Allow product cards and their inner flex containers to shrink below
+   content size when necessary (prevents unexpected large heights). */
+.product-card,
+.product-card-inner {
+    min-height: 0;
+}
+
+/* 5 columns for very large but not ultra-wide screens */
+@media (max-width: 1700px) {
+    .products-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* 4 columns for large screens */
+@media (max-width: 1400px) {
+    .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 3 columns for medium screens */
+@media (max-width: 1100px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* 2 columns for tablets and mobile - includes filter dropdown mobile positioning */
+@media (max-width: 991px) {
+    /* products-page padding-top removed - handled by vault-modals.css canonical wrapper */
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .filters-dropdown {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        min-width: 100%;
+        margin-top: 0;
+        max-height: 70vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition:
+            transform 0.3s ease,
+            opacity 0.3s,
+            visibility 0.3s;
+        border-radius: 20px 20px 0 0;
+        border-bottom: none;
+        z-index: 1001;
+    }
+
+    .filters-dropdown.show {
+        transform: translateY(0);
+        display: block;
+        /* Apply same style as navbar dropdown menu */
+        background: rgba(20, 20, 20, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 105, 180, 0.2);
+        border-bottom: none;
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(255, 20, 147, 0.1);
+    }
+
+    .filters-dropdown-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        padding-top: 3rem;
+    }
+
+    /* New Mobile Filter Design */
+    .filters-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem 0.5rem;
+        border-bottom: 1px solid rgba(255, 105, 180, 0.2);
+        margin-bottom: 1rem;
+    }
+
+    .filters-title {
+        color: var(--neon-pink);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .products-header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filters-sort-wrapper {
+        width: 100%;
+    }
+
+    .filters-sort-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+    }
+
+    .products-header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Additional tablet-only adjustments */
+@media (max-width: 768px) {
+    .products-grid {
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    .products-grid .product-card,
+    .products-grid .product-card-inner {
+        width: 100%;
+    }
+
+    /* Keep filters and sort compact on the right */
+    .products-header-section {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .filters-sort-wrapper {
+        width: auto;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .filters-sort-btn {
+        width: auto;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* Mobile adjustments (small) */
+@media (max-width: 600px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .products-header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.products-page .filters-sort-wrapper {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.products-page .page-container {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    /* Allow products page to expand wider on large screens so grid stretches across big monitors */
+    --vault-max-width: 2560px;
+    max-width: var(--vault-max-width);
+    margin: 0 auto; /* Center the container */
+}
+
+@media (max-width: 991px) {
+    .products-page .page-container {
+        padding-top: 0.75rem;
+        max-width: 100%; /* Full width on mobile */
+        margin: 0;
+    }
+    .products-page .filters-sort-wrapper {
+        margin-top: 0.5rem;
+    }
+}
+
+.product-card-wrapper {
+    width: 100%;
+}
+
+/* Quick Add overlay bar */
+.quick-add {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: auto;
+    background: transparent;
+    padding: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    pointer-events: all;
+}
+
+.product-card:hover .quick-add {
+    opacity: 1;
+    bottom: 20px;
+}
+
+@media (max-width: 991px) {
+    .quick-add {
+        opacity: 1;
+        bottom: 15px;
+    }
+}
+
+.btn-quick-add {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    border: none;
+    color: #000;
+    padding: 0.6rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-quick-add:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+    color: #000;
+}
+
+/* Mobile: Make add to cart button bigger */
+@media (max-width: 768px) {
+    .btn-quick-add {
+        padding: 0.75rem 2rem;
+        font-size: 0.95rem;
+        font-weight: 800;
+    }
+}
+
+/* Mobile menu search box */
+.mobile-search-box {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+    border-top: 1px solid rgba(255, 20, 147, 0.2);
+    transition:
+        max-height 0.3s ease,
+        padding 0.3s ease;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 10;
+    background-color: var(--black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.mobile-search-box.show {
+    max-height: 100px;
+    padding: 1rem 0;
+}
+
+.mobile-search-box .search-form {
+    width: 90%;
+    max-width: 500px;
+    padding: 0 1rem;
+}
+
+.mobile-search-box .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.mobile-search-box .search-input {
+    width: 100%;
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    color: var(--off-white);
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+}
+
+.mobile-search-box .search-input:focus {
+    border-color: var(--neon-pink);
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+}
+
+.mobile-search-box .search-input::placeholder {
+    color: var(--gray);
+}
+
+.mobile-search-box .search-btn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--neon-pink);
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 5;
+    font-size: 1.1rem;
+}
+
+/* Product Cards */
+.product-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+}
+
+/* Ensure product cards are equal-height and contents align so prices sit on the same baseline
+   regardless of title length. Using flexbox makes the image sit above and the info
+   fill the remaining space; the price is pushed to the bottom with margin-top:auto. */
+.product-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+.product-card:hover {
+    border-color: var(--neon-pink);
+    margin-top: -5px;
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+    z-index: 1000;
+}
+
+.product-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-image {
+    position: relative;
+    width: 100%;
+    /* Use 4:5 portrait ratio so a single AI-generated image works well
+       across desktop and mobile. Keeps consistent card heights while
+       providing more vertical room for product photos. */
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+        opacity 0.4s ease,
+        transform 0.3s ease;
+}
+
+.product-img-main {
+    position: relative;
+    z-index: 1;
+}
+
+.product-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 2;
+}
+
+/* Desktop hover effect */
+@media (min-width: 992px) {
+    .product-card:hover .product-img-main {
+        opacity: 0;
+    }
+
+    .product-card:hover .product-img-hover {
+        opacity: 1;
+    }
+}
+
+/* Mobile tap/click effect */
+@media (max-width: 991px) {
+    .product-card.image-flipped .product-img-main {
+        opacity: 0;
+    }
+
+    .product-card.image-flipped .product-img-hover {
+        opacity: 1;
+    }
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+}
+
+.badge-featured {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: var(--black);
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 20;
+    pointer-events: none;
+    border-radius: 3px;
+}
+
+.badge-sale {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff0000, #ff1493);
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 20;
+    pointer-events: none;
+    border-radius: 3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Absolute positioning in product images */
+.product-image .badge-featured,
+.product-image .badge-sale,
+.main-image .badge-featured,
+.main-image .badge-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+}
+
+/* Move second badge below first when both are present */
+.product-image .badge-featured + .badge-sale,
+.product-image .badge-sale + .badge-featured,
+.main-image .badge-featured + .badge-sale,
+.main-image .badge-sale + .badge-featured {
+    top: 35px;
+}
+
+/* Product Card Battle Vest Button */
+.product-vest-btn {
+    /* positioning removed - now handled by .product-vest-btn-positioned class */
+    background: rgba(255, 20, 147, 0.2);
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 11;
+    font-size: 1.1rem;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.product-vest-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
+    background: rgba(255, 20, 147, 0.3);
+}
+
+.product-vest-btn.in-vest {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: var(--neon-pink);
+}
+
+.product-vest-btn.in-vest:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+    background: rgba(255, 20, 147, 0.2);
+}
+
+.product-vest-btn i {
+    transition: transform 0.3s ease;
+}
+
+.product-vest-btn:hover i {
+    transform: scale(1.2);
+}
+
+/* Gradient fill only for heart icon when in vest */
+.product-vest-btn.in-vest i {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: transparent;
+    background-clip: text;
+}
+
+.product-info {
+    padding: var(--padding-glass) 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+.product-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--off-white);
+    transition: color 0.3s ease;
+    line-height: 1.3;
+}
+
+/* Clamp product title to two lines so product-type below it sits consistently */
+.product-info h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(2 * 1.3em);
+}
+
+.product-card:hover .product-info h3 {
+    color: var(--neon-pink);
+}
+
+.product-type {
+    background: linear-gradient(90deg, var(--electric-yellow), var(--neon-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+}
+
+/* Ensure product type occupies a single line and doesn't shift layout */
+.product-type {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* New drops date styling - smaller text */
+.new-drop-date {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+}
+
+/* Push price to the bottom of the product info area so it aligns across cards */
+.product-price {
+    margin-top: auto;
+}
+
+.product-collection {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.product-collection i {
+    color: var(--neon-pink);
+    margin-right: 0.25rem;
+}
+
+.product-price {
+    color: var(--neon-pink);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.sale-price {
+    color: var(--neon-pink);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Mobile: add padding to product-info to prevent quick-add overlap */
+@media (max-width: 991px) {
+    .product-info {
+        padding-bottom: 3.5rem;
+    }
+}
+
+/* Product Detail Page */
+.product-detail-page {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+    margin-top: 90px;
+    min-height: 100vh;
+    position: static;
+    transform: none;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .product-detail-page {
+        margin-top: 95px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .product-detail-page {
+        margin-top: 85px;
+    }
+}
+
+@media (max-width: 767px) {
+    .product-detail-page {
+        margin-top: 85px;
+    }
+}
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+}
+
+.breadcrumb-item a {
+    color: var(--off-white);
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--neon-pink);
+}
+
+.breadcrumb-item.active {
+    color: var(--gray);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--gray);
+}
+
+.main-image {
+    border: 3px solid var(--neon-pink);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease;
+}
+
+.main-image .main-img-primary {
+    position: relative;
+    z-index: 1;
+}
+
+.main-image .main-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 2;
+}
+
+/* Desktop hover effect for main image */
+@media (min-width: 992px) {
+    .main-image:hover .main-img-primary {
+        opacity: 0;
+    }
+
+    .main-image:hover .main-img-hover {
+        opacity: 1;
+    }
+}
+
+/* Mobile tap effect for main image */
+@media (max-width: 991px) {
+    .main-image.image-flipped .main-img-primary {
+        opacity: 0;
+    }
+
+    .main-image.image-flipped .main-img-hover {
+        opacity: 1;
+    }
+}
+
+.placeholder-image-large {
+    aspect-ratio: 1;
+    background-color: var(--charcoal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+}
+
+.image-thumbnails {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    border: 2px solid var(--gray);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+        border-color 0.3s,
+        transform 0.2s;
+}
+
+.thumbnail:hover {
+    border-color: var(--neon-pink);
+    transform: scale(1.05);
+}
+
+.thumbnail.active {
+    border-color: var(--neon-pink);
+    border-width: 3px;
+}
+
+/* Mobile Killstar-style layout - thumbnails on side */
+@media (max-width: 768px) {
+    .product-images {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .main-image {
+        flex: 1;
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+
+    .image-thumbnails {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 80px;
+        flex-shrink: 0;
+        flex-wrap: nowrap; /* Prevent wrapping */
+    }
+
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-images {
+        gap: 0.75rem;
+    }
+
+    .image-thumbnails {
+        width: 70px;
+    }
+
+    .thumbnail {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Product Header - Brand and Rating */
+.product-header {
+    padding-bottom: 1rem;
+}
+
+.brand-name .brand-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: transparent;
+    background-clip: text;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating-summary,
+.no-reviews {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stars {
+    display: flex;
+    gap: 0.125rem;
+}
+
+.stars i {
+    font-size: 1rem;
+    color: var(--gray);
+}
+
+.stars i.filled,
+.stars i.fas {
+    color: var(--electric-yellow);
+}
+
+.rating-count {
+    font-size: 0.9rem;
+    color: var(--off-white);
+    opacity: 0.8;
+}
+
+/* Reviews Section Styling */
+.reviews-summary-container {
+    margin-bottom: 2rem;
+}
+
+.rating-breakdown {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.rating-breakdown h5 {
+    color: var(--off-white);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.rating-row {
+    font-size: 0.9rem;
+}
+
+.star-label {
+    min-width: 45px;
+    color: var(--electric-yellow);
+    font-weight: 500;
+}
+
+.rating-row .count {
+    min-width: 20px;
+    text-align: right;
+    color: var(--off-white);
+    opacity: 0.8;
+}
+
+.progress {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.progress-bar.bg-pink {
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+}
+
+.reviews-filters {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    height: 100%;
+}
+
+.reviews-filters h5 {
+    color: var(--off-white);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.search-reviews .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--off-white);
+    border-radius: 8px;
+}
+
+.search-reviews .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-reviews .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--neon-pink);
+    color: var(--off-white);
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+}
+
+.filter-rating .form-label {
+    color: var(--off-white);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.filter-rating .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--off-white);
+    border-radius: 8px;
+}
+
+.filter-rating .form-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--neon-pink);
+    color: var(--off-white);
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+}
+
+.popular-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.topic-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--off-white);
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.topic-tag:hover,
+.topic-tag.active {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: var(--black);
+}
+
+/* Carousel Heart Buttons */
+.battle-vest-btn-carousel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--off-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.battle-vest-btn-carousel:hover {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: var(--black);
+    transform: scale(1.1);
+}
+
+.battle-vest-btn-carousel .heart-icon {
+    font-size: 0.875rem;
+}
+
+.battle-vest-btn-carousel.active .heart-icon:before {
+    content: "\f004"; /* Filled heart */
+    color: var(--neon-pink);
+}
+
+.product-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.product-meta {
+    display: flex;
+    gap: 1rem;
+}
+
+.collection-badge,
+.type-badge {
+    background-color: var(--charcoal);
+    color: var(--off-white);
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.collection-badge {
+    border: 2px solid var(--neon-pink);
+}
+
+.product-detail-page .product-price {
+    font-size: 2.5rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+/* Ensure original and sale prices sit inline and are styled consistently */
+.product-price {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    font-size: 1.25rem; /* slightly larger for grid and simple listings */
+}
+.product-card .product-price {
+    /* explicit grid/card override */
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.product-price .original-price {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 600;
+    font-size: 1.05rem;
+    opacity: 0.95;
+}
+.product-price .sale-price {
+    color: var(--neon-pink);
+    font-weight: 900;
+    font-size: 1.3rem; /* larger sale price in grid */
+}
+
+/* Larger sale price on product detail pages */
+.product-detail-page .product-price .sale-price {
+    font-size: 2.8rem;
+}
+.product-detail-page .product-price .original-price {
+    font-size: 1.2rem;
+}
+
+.product-description {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    background: var(--bg-glass-light);
+    backdrop-filter: blur(10px);
+    border: var(--border-glass);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-description .section-title {
+    display: block;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.product-description::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.product-description p {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    color: var(--off-white);
+}
+
+.design-story {
+    background: var(--bg-glass-light);
+    backdrop-filter: blur(10px);
+    border: var(--border-glass);
+    border-left: 4px solid var(--neon-pink);
+    padding: 1.5rem;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.design-story::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(255, 20, 147, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.design-story .story-title,
+.design-story .story-text,
+.design-story .story-author {
+    position: relative;
+    z-index: 2;
+}
+
+.design-story h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--neon-pink);
+}
+
+.btn-outline-pink {
+    background-color: var(--neon-pink);
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.btn-outline-pink:hover,
+.btn-check:checked + .btn-outline-pink {
+    background-color: var(--electric-yellow);
+    color: var(--black);
+    border: none;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
+
+/* No Products */
+.no-products {
+    color: var(--gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filters-sidebar {
+        position: static;
+        margin-bottom: 2rem;
+    }
+
+    .products-header h1 {
+        font-size: 2rem;
+    }
+
+    .product-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* User Dropdown Menu */
+.dropdown-menu {
+    background-color: var(--charcoal);
+    border: 2px solid var(--neon-pink);
+    border-radius: 0;
+    padding: 0;
+    margin-top: 0;
+    min-width: 200px;
+}
+
+/* Light mode override for user dropdown menu */
+:root.light-mode .dropdown-menu {
+    background-color: white;
+    border: 2px solid var(--neon-pink);
+}
+
+/* Add invisible bridge to prevent dropdown from closing when moving mouse */
+.desktop-menu .nav-item.dropdown .dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    right: 0;
+    height: 15px;
+    background: transparent;
+}
+
+.desktop-menu .dropdown-menu {
+    margin-top: 10px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    border-radius: 12px;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
+    padding: 0.5rem;
+}
+
+/* Light mode override for desktop menu dropdown */
+:root.light-mode .desktop-menu .dropdown-menu {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(255, 20, 147, 0.1);
+}
+
+.dropdown-item {
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.7rem 1rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-bottom: none;
+    border-radius: 8px;
+    margin-bottom: 2px;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--neon-pink);
+}
+
+/* Light mode overrides for dropdown items */
+:root.light-mode .dropdown-item {
+    color: rgba(0, 0, 0, 0.85);
+}
+
+:root.light-mode .dropdown-item:hover,
+:root.light-mode .dropdown-item:focus {
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--neon-pink);
+}
+
+.dropdown-divider {
+    border-color: rgba(255, 105, 180, 0.2);
+    margin: 0.5rem 0;
+    opacity: 1;
+}
+
+/* Mobile Menu Styles */
+.mobile-section-header {
+    pointer-events: none;
+}
+
+.mobile-section-header .nav-link {
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    padding: 1rem 1.5rem 0.5rem;
+    border-top: 1px solid rgba(255, 20, 147, 0.3);
+    margin-top: 0.5rem;
+}
+
+.mobile-section-header:first-child .nav-link {
+    border-top: none;
+    margin-top: 0;
+}
+
+.mobile-submenu-item {
+    font-size: 0.95rem;
+    padding-left: 2rem;
+    font-weight: 500;
+}
+
+.mobile-submenu-item:hover {
+    background-color: rgba(255, 20, 147, 0.1);
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background-color: var(--charcoal);
+        border: 2px solid var(--neon-pink);
+        border-top: none;
+        margin-top: 0.5rem;
+        padding: 1rem 0;
+    }
+
+    :root.light-mode .navbar-collapse {
+        background-color: #f5f5f5;
+        border-color: #e71f7f;
+    }
+}
+
+/* User Icon Highlight When Authenticated */
+.nav-item.dropdown .nav-link {
+    position: relative;
+}
+
+.user-authenticated .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--neon-pink);
+    border-radius: 50%;
+}
+
+/* Authentication Pages - padding removed, handled by vault-modals.css */
+/* Auth pages can use vault-page class for consistent spacing */
+
+.connections-subtitle {
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+}
+
+.auth-card {
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 20, 147, 0.1);
+}
+
+.btn-close-auth {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 20, 147, 0.1);
+}
+
+.btn-close-auth:hover {
+    color: white;
+    background-color: var(--neon-pink);
+    transform: rotate(90deg);
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.auth-icon {
+    color: var(--neon-pink);
+    margin-bottom: 2rem;
+}
+
+.auth-form-input {
+    background-color: var(--black);
+    border: 2px solid var(--gray);
+    color: var(--off-white);
+    padding: 0.8rem;
+    border-radius: 4px;
+}
+
+.auth-form-input.has-value {
+    border-color: rgba(204, 255, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.auth-form-input:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+    outline: none;
+    background-color: var(--black);
+    color: var(--off-white);
+}
+
+.auth-form-input::placeholder {
+    color: #fff;
+}
+
+.auth-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.auth-link:hover {
+    color: var(--neon-pink);
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 1rem;
+    }
+}
+
+.form-check-input {
+    background-color: var(--black);
+    border: 2px solid var(--gray);
+}
+
+.form-check-input:checked {
+    background-color: var(--neon-pink);
+    border-color: var(--neon-pink);
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
+}
+
+.form-label {
+    color: var(--off-white);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Profile Page - padding removed, handled by profile-account.css */
+
+/* Profile Hero Section */
+.profile-hero {
+    position: relative;
+    padding: 4rem 0;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    overflow: hidden;
+}
+
+.profile-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.profile-hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.profile-hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--off-white);
+    opacity: 0.9;
+    position: relative;
+    background-clip: text;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .profile-hero {
+        padding: 3rem 0;
+    }
+
+    .profile-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .profile-hero-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+.page-title {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.profile-card {
+    background: var(--bg-glass-light);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    border: var(--border-glass);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.profile-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 105, 180, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.2);
+}
+
+.profile-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.profile-card h2 {
+    color: var(--neon-pink);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 12px;
+    border-bottom: var(--border-glass);
+}
+
+.profile-card h2 i {
+    color: var(--neon-pink);
+}
+
+/* Center profile-card headings when a page requests it (e.g. newsletter unsubscribe) */
+.newsletter-unsubscribe .profile-card h2 {
+    justify-content: center;
+    text-align: center;
+}
+
+/* Newsletter subscribers admin styles moved from template */
+/* Glassmorphism auth-card styles */
+.auth-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Card Styles */
+@media (max-width: 768px) {
+    .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        color: var(--off-white);
+        margin-bottom: 0.75rem;
+    }
+
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    .card-title {
+        font-size: 1rem;
+        line-height: 1.3;
+        color: var(--off-white);
+        margin-bottom: 0.5rem;
+    }
+
+    .card-title strong {
+        color: var(--off-white);
+    }
+
+    .badge {
+        color: var(--off-white);
+    }
+
+    .btn-group-vertical .btn {
+        margin-bottom: 0.125rem;
+        border-radius: 6px;
+    }
+
+    .btn-group-vertical .btn:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Desktop button group styles */
+    .btn-group .btn {
+        border-radius: 0;
+    }
+
+    .btn-group .btn:first-child {
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+    }
+
+    .btn-group .btn:last-child {
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    /* Match desktop button colors */
+    .btn-outline-info {
+        color: #0dcaf0;
+        border-color: #0dcaf0;
+        background: transparent;
+    }
+
+    .btn-outline-info:hover {
+        color: #000;
+        background-color: #0dcaf0;
+        border-color: #0dcaf0;
+    }
+
+    .btn-outline-primary {
+        color: #0d6efd;
+        border-color: #0d6efd;
+        background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .btn-outline-success {
+        color: #198754;
+        border-color: #198754;
+        background: transparent;
+    }
+
+    .btn-outline-success:hover {
+        color: #fff;
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+        background: transparent;
+    }
+
+    .btn-outline-danger:hover {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+}
+
+/* Mobile card styles for subscribers */
+.subscriber-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-glass-light);
+    color: var(--off-white);
+}
+
+.subscriber-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--neon-pink);
+}
+
+.subscriber-card .card-body {
+    color: var(--off-white);
+}
+
+.subscriber-link {
+    color: var(--neon-pink);
+    text-decoration: none;
+}
+
+.subscriber-link:hover {
+    color: var(--electric-yellow);
+}
+
+/* Custom text color classes */
+.text-off-white {
+    color: var(--off-white);
+}
+
+.card-label {
+    color: var(--off-white);
+    opacity: 0.8;
+}
+
+.text-green {
+    color: #00ff88;
+}
+
+.text-red {
+    color: #ff6b6b;
+}
+
+.text-electric-yellow {
+    color: var(--electric-yellow);
+}
+
+.text-gray-888 {
+    color: #888;
+}
+
+/* Mobile responsive styles for subscribers management */
+@media (max-width: 768px) {
+    /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
+    .auth-card {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    /* Reduce column gutters inside the admin area */
+    .row.g-3 {
+        --bs-gutter-x: 0.5rem;
+        --bs-gutter-y: 0.5rem;
+    }
+
+    /* Make each column use minimal side padding so content is wider */
+    [class*="col-"] {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+
+    /* Let content span the full width available within their column */
+    .card {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    /* Search form responsive */
+    .d-flex.gap-2.flex-wrap {
+        gap: 0.5rem;
+    }
+
+    .d-flex.gap-2.flex-wrap .form-control {
+        min-width: auto;
+        flex: 1;
+    }
+
+    .d-flex.gap-2.flex-wrap .btn {
+        flex-shrink: 0;
+    }
+
+    /* Pagination responsive */
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .pagination .page-link {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Search card utility moved from inline template style */
+.search-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Moved from templates/cart/cart.html */
+
+/* ================================================
+   LIGHT MODE OVERRIDES - Products Page
+   ================================================ */
+
+/* Product card text */
+:root.light-mode .product-info h3 {
+    color: #222;
+}
+
+:root.light-mode .product-card:hover .product-info h3 {
+    color: var(--neon-pink);
+}
+
+/* Discounted price - make visible in light mode */
+:root.light-mode .product-price .original-price {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-mode .product-price .sale-price {
+    color: var(--neon-pink);
+}
+
+/* Product collection text */
+:root.light-mode .product-collection {
+    color: #666;
+}
+
+/* Product type gradient - keep visible */
+:root.light-mode .product-type {
+    background: linear-gradient(90deg, #d9b000, var(--neon-pink));
+    background-clip: text;
+    color: transparent;
+}
+
+/* Filters dropdown for light mode */
+:root.light-mode .filters-dropdown {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(255, 20, 147, 0.3);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 0 20px rgba(255, 20, 147, 0.1);
+}
+
+:root.light-mode .filters-dropdown.show {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+:root.light-mode .filters-title {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-tab {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+:root.light-mode .filter-tab.active {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-tab:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .filter-option {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+:root.light-mode .filter-option:hover {
+    background: rgba(255, 20, 147, 0.05);
+    border-color: rgba(255, 20, 147, 0.3);
+}
+
+:root.light-mode .filter-option.active {
+    background: rgba(255, 20, 147, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-column h3 {
+    color: var(--neon-pink);
+    border-bottom-color: rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .filter-column ul li a {
+    color: #333;
+}
+
+:root.light-mode .filter-column ul li a:hover,
+:root.light-mode .filter-column ul li a.active {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .filter-note {
+    color: #555;
+}
+
+:root.light-mode .checkbox-option .checkmark {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+:root.light-mode .checkbox-option:hover .checkmark {
+    border-color: rgba(255, 20, 147, 0.5);
+    background: rgba(255, 20, 147, 0.05);
+}
+
+/* Product card */
+:root.light-mode .product-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 20, 147, 0.15);
+}
+
+:root.light-mode .product-card:hover {
+    border-color: var(--neon-pink);
+}

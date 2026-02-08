@@ -14,15 +14,15 @@
    ================================================ */
 
 .hall-of-fame-photo-overlay {
+    display: flex;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.7), rgba(255, 20, 147, 0.7));
-    display: flex;
+    left: 0;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.7), rgba(255, 20, 147, 0.7));
     opacity: 0;
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -32,20 +32,20 @@
 }
 
 .hall-of-fame-view-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    transform: scale(0.8);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
     color: var(--black);
     font-size: 3rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.2);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    transform: scale(0.8);
 }
 
 .hall-of-fame-card:hover .hall-of-fame-view-btn {
@@ -53,43 +53,43 @@
 }
 
 .hall-of-fame-view-btn:hover {
-    background: rgba(255, 255, 255, 0.4);
     border-color: var(--off-white);
+    background: rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-    text-decoration: none;
     color: var(--black);
+    text-decoration: none;
 }
 
 .hall-of-fame-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding: 2rem;
     background: rgba(20, 20, 20, 0.95);
-    display: flex;
-    flex-direction: column;
-    flex: 1;
 }
 
 .hall-of-fame-user {
+    margin-bottom: 1rem;
     color: #ffd700;
     font-weight: 800;
-    margin-bottom: 1rem;
     font-size: 1.2rem;
-    text-transform: uppercase;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .hall-of-fame-caption-wrapper {
-    margin-bottom: 1rem;
     min-height: 6rem;
+    margin-bottom: 1rem;
 }
 
 .hall-of-fame-caption {
+    display: -webkit-box;
+    height: 4.8rem;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
     color: var(--off-white);
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 0.5rem;
-    height: 4.8rem;
-    overflow: hidden;
-    display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -104,29 +104,29 @@
 }
 
 .hall-of-fame-read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
     color: var(--electric-yellow);
-    cursor: pointer;
     font-weight: 700;
     font-size: 0.9rem;
-    margin-top: 0.5rem;
-    display: inline-block;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .hall-of-fame-read-more:hover {
-    color: var(--neon-pink);
     transform: translateX(5px);
+    color: var(--neon-pink);
 }
 
 .hall-of-fame-stats {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 1.5rem;
     margin-top: auto;
+    margin-bottom: 1.5rem;
     padding: 1rem;
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 20, 147, 0.1));
-    border-radius: 15px;
     border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 20, 147, 0.1));
 }
 
 .stat-item {
@@ -141,9 +141,9 @@
 }
 
 .stat-item span {
-    font-size: 1rem;
-    font-weight: 700;
     color: var(--off-white);
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 .hall-of-fame-actions {
@@ -152,12 +152,12 @@
 
 .hall-of-fame-vote-btn,
 .hall-of-fame-like-btn {
-    font-size: 0.9rem;
     padding: 0.6rem 1.2rem;
+    border-width: 2px;
     border-radius: 20px;
     font-weight: 700;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    border-width: 2px;
 }
 
 .hall-of-fame-vote-btn:hover,
@@ -167,11 +167,11 @@
 }
 
 .hall-of-fame-products {
-    margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
     min-height: 0;
+    margin-top: 1rem;
+    gap: 0.5rem;
 }
 
 .hall-of-fame-products:empty {
@@ -180,12 +180,12 @@
 }
 
 .product-badge {
-    background: linear-gradient(135deg, var(--neon-pink), rgba(255, 20, 147, 0.8));
     padding: 0.4rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
+    background: linear-gradient(135deg, var(--neon-pink), rgba(255, 20, 147, 0.8));
     font-weight: 600;
     font-size: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Responsive adjustments for Hall of Fame */
@@ -201,8 +201,8 @@
 
 @media (max-width: 768px) {
     .hall-of-fame-intro-card {
-        padding: 1.5rem;
         margin: 0 1rem;
+        padding: 1.5rem;
     }
 
     .hall-of-fame-subtitle {
@@ -219,10 +219,10 @@
     }
 
     .qualification-item {
-        padding: 1rem;
         flex-direction: column;
-        text-align: center;
+        padding: 1rem;
         gap: 0.75rem;
+        text-align: center;
     }
 
     .hall-of-fame-stats {
@@ -252,18 +252,18 @@
 }
 
 .dropdown-submenu .dropdown-toggle::after {
-    transform: rotate(-90deg);
     margin-left: 0.5rem;
+    transform: rotate(-90deg);
 }
 
 /* Mobile adjustments for nested dropdowns */
 @media (max-width: 768px) {
     .dropdown-submenu .dropdown-menu {
-        position: static;
         display: none;
+        position: static;
+        padding-left: 1rem;
         border: none;
         box-shadow: none;
-        padding-left: 1rem;
     }
 
     .dropdown-submenu:hover .dropdown-menu {
@@ -272,11 +272,8 @@
 }
 
 /* Collections Carousel */
-.collections-carousel-container {
-    position: relative;
-    overflow: hidden;
-}
 
+.collections-carousel-container,
 .collections-carousel {
     position: relative;
     overflow: hidden;
@@ -284,9 +281,9 @@
 
 .collections-track {
     display: flex;
+    padding: 0 60px 0 0; /* Remove left padding, keep right padding for navigation */
     gap: 1.5rem;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0 60px 0 0; /* Remove left padding, keep right padding for navigation */
 }
 
 .collection-carousel-item {
@@ -295,32 +292,32 @@
 }
 
 .collections-carousel .collection-card:not(.has-background-image) {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem 0 0 0;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 0;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    text-align: center;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
     position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 2rem 0 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
 }
 
 .collections-carousel .collection-card.has-background-image::before {
-    content: "";
+    z-index: -1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    background: inherit;
+    left: 0;
     border-radius: 16px;
-    z-index: -1;
+    background: inherit;
+    content: "";
 }
 
 .collections-carousel .collection-card.has-background-image {
@@ -328,49 +325,42 @@
 }
 
 .collections-carousel .collection-card.has-background-image .collection-info {
-    background: rgba(0, 0, 0, 0.78);
+    display: flex;
+    z-index: 3;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
     padding: 12px 16px;
     border-radius: 0;
     backdrop-filter: blur(10px);
-    width: 100%;
-    text-align: center;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.78);
     background-clip: padding-box;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.75);
+    text-align: center;
 }
 
 .collections-carousel .collection-card.has-background-image .collection-info h3 {
-    color: var(--neon-pink);
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-transform: uppercase;
     margin-bottom: 0.5rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.2rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
 }
 
 .collections-carousel .collection-card.has-background-image .collection-info p {
+    margin: 0;
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.9rem;
-    margin: 0;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.collections-carousel .collection-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(255, 20, 147, 0.3);
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        0 0 30px rgba(255, 20, 147, 0.1);
-}
-
+.collections-carousel .collection-card:hover,
 .collections-carousel .collection-card.has-background-image:hover {
     transform: translateY(-8px);
     border-color: rgba(255, 20, 147, 0.3);
@@ -396,47 +386,47 @@
 }
 
 .collections-carousel .collection-info {
-    height: 70px;
     display: flex;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 70px;
     margin-top: 0;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
 
 .collections-carousel .collection-info h3 {
-    color: var(--neon-pink);
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-transform: uppercase;
     margin-bottom: 0.5rem;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
 }
 
 .collections-carousel .collection-info p {
+    margin: 0;
     color: var(--off-white);
     font-size: 0.9rem;
-    margin: 0;
 }
 
 .collections-carousel-btn {
+    z-index: 10;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 20, 147, 0.9);
-    color: white;
-    border: none;
     width: 50px;
     height: 50px;
+    transform: translateY(-50%);
+    border: none;
     border-radius: 50%;
+    background: rgba(255, 20, 147, 0.9);
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+    color: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
-    z-index: 10;
 }
 
 /* pulse-pink moved to static/css/animations.css */
@@ -511,54 +501,56 @@
 }
 
 .share-title {
-    color: var(--off-white);
-    font-size: 1rem;
-    font-weight: 600;
     margin-bottom: 1rem;
+    color: var(--off-white);
+    font-weight: 600;
+    font-size: 1rem;
     text-align: center;
 }
 
 .social-share-buttons {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.social-share-buttons,
+.share-btn {
+    display: flex;
+    justify-content: center;
 }
 
 .share-btn {
-    display: flex;
+    position: relative;
     align-items: center;
-    justify-content: center;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
+    overflow: hidden;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
     backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--off-white);
     font-size: 1.2rem;
-    transition: all 0.3s ease;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .share-btn::before {
-    content: "";
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background: radial-gradient(circle at 30% 40%, rgba(255, 20, 147, 0.1) 0%, transparent 70%);
+    content: "";
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
 .share-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.3);
     border-color: var(--neon-pink);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.3);
 }
 
 .share-btn:hover::before {
@@ -566,8 +558,8 @@
 }
 
 .share-btn i {
-    position: relative;
     z-index: 2;
+    position: relative;
     transition: transform 0.3s ease;
 }
 
@@ -577,28 +569,28 @@
 
 /* Platform-specific colors */
 .facebook-btn:hover {
-    background: linear-gradient(135deg, #1877f2, #42a5f5);
     border-color: #1877f2;
+    background: linear-gradient(135deg, #1877f2, #42a5f5);
 }
 
 .twitter-btn:hover {
-    background: linear-gradient(135deg, #1da1f2, #42a5f5);
     border-color: #1da1f2;
+    background: linear-gradient(135deg, #1da1f2, #42a5f5);
 }
 
 .pinterest-btn:hover {
-    background: linear-gradient(135deg, #e60023, #ff4081);
     border-color: #e60023;
+    background: linear-gradient(135deg, #e60023, #ff4081);
 }
 
 .instagram-btn:hover {
-    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
     border-color: #e6683c;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
 }
 
 .copy-link-btn:hover {
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     border-color: var(--neon-pink);
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
 }
 
 /* Shipping Page Styles */
@@ -611,20 +603,20 @@
 }
 
 .shipping-heading {
-    color: var(--off-white);
-    font-size: 2rem;
-    font-weight: 700;
     margin-bottom: 1rem;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 2rem;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .shipping-description {
+    max-width: 600px;
+    margin: 0 auto;
     color: var(--gray);
     font-size: 1.1rem;
     line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .shipping-regions {
@@ -632,13 +624,13 @@
 }
 
 .shipping-region {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+    padding: 2rem;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 2rem;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
     transition: all 0.3s ease;
-    margin-bottom: 2rem;
 }
 
 .shipping-region:hover {
@@ -653,24 +645,24 @@
 }
 
 .region-icon {
-    font-size: 2rem;
-    color: var(--neon-pink);
     margin-right: 1rem;
+    color: var(--neon-pink);
+    font-size: 2rem;
 }
 
 .region-title {
-    color: var(--off-white);
-    font-size: 1.5rem;
-    font-weight: 700;
     margin: 0;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.5rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .shipping-option {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 1rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -704,59 +696,59 @@
 }
 
 .shipping-additional {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
+    margin-top: 3rem;
+    padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
-    padding: 2rem;
-    margin-top: 3rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .additional-heading {
-    color: var(--off-white);
-    font-size: 1.5rem;
-    font-weight: 700;
     margin-bottom: 1.5rem;
-    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.5rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .additional-list {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .additional-list li {
-    color: var(--gray);
+    position: relative;
     margin-bottom: 1rem;
     padding-left: 1.5rem;
-    position: relative;
+    color: var(--gray);
     line-height: 1.6;
 }
 
 .additional-list li::before {
+    position: absolute;
+    left: 0;
     content: "•";
     color: var(--neon-pink);
     font-weight: bold;
-    position: absolute;
-    left: 0;
 }
 
 .shipping-contact {
-    background: rgba(255, 20, 147, 0.1);
-    backdrop-filter: blur(10px);
+    margin-top: 3rem;
+    padding: 2rem;
     border: 1px solid rgba(255, 20, 147, 0.2);
     border-radius: 12px;
-    padding: 2rem;
-    margin-top: 3rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 20, 147, 0.1);
     text-align: center;
 }
 
 .contact-text {
+    margin-bottom: 1.5rem;
     color: var(--off-white);
     font-size: 1.1rem;
-    margin-bottom: 1.5rem;
 }
 
 /* .shipping-contact .btn-pink moved to components.css for canonical styling */
@@ -773,8 +765,8 @@
 
     .region-header {
         flex-direction: column;
-        text-align: center;
         gap: 0.5rem;
+        text-align: center;
     }
 
     .region-icon {
@@ -783,10 +775,10 @@
 
     .shipping-option {
         flex-direction: column;
-        align-items: flex-start;
         gap: 0.5rem;
     }
 
+    .shipping-option,
     .option-details {
         align-items: flex-start;
     }
@@ -835,32 +827,32 @@
 .type-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    gap: 0.5rem;
     border: 1px solid;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .type-badge-static {
-    background: rgba(13, 110, 253, 0.1);
     border-color: rgba(13, 110, 253, 0.3);
-    color: #0d6efd;
+    background: rgba(13, 110, 253, 0.1);
 }
 
+.type-badge-static,
 .type-badge-static i {
     color: #0d6efd;
 }
 
 .type-badge-custom {
-    background: rgba(40, 167, 69, 0.1);
     border-color: rgba(40, 167, 69, 0.3);
-    color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
 }
 
+.type-badge-custom,
 .type-badge-custom i {
     color: #28a745;
 }
@@ -868,14 +860,14 @@
 .product-count-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    color: #ffc107;
     padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 193, 7, 0.3);
     border-radius: 20px;
-    font-size: 0.85rem;
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
     font-weight: 600;
+    font-size: 0.85rem;
 }
 
 .product-count-badge i {
@@ -884,38 +876,38 @@
 
 /* Enhanced table styling */
 .table-responsive .archived-products-table tbody tr {
-    transition: all 0.3s ease;
     border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .table-responsive .archived-products-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.02);
     transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .table-responsive .archived-products-table td {
     padding: 1rem 0.75rem;
-    vertical-align: middle;
     border: none;
+    vertical-align: middle;
 }
 
 .table-responsive .archived-products-table td:first-child {
-    font-weight: 600;
     color: var(--off-white);
+    font-weight: 600;
 }
 
 .table-responsive .archived-products-table td code {
-    background: rgba(255, 255, 255, 0.05);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
     font-size: 0.85rem;
 }
 
 /* Button group styling */
 .btn-group .btn {
-    border-radius: 6px;
     margin-right: 0.25rem;
+    border-radius: 6px;
 }
 
 .btn-group .btn:last-child {
@@ -924,30 +916,32 @@
 
 /* Enhanced empty state */
 .alert-info {
-    background: rgba(23, 162, 184, 0.1);
     border: 1px solid rgba(23, 162, 184, 0.2);
-    color: #17a2b8;
     border-radius: 12px;
+    background: rgba(23, 162, 184, 0.1);
+    color: #17a2b8;
 }
 
 /* Product Types Page Enhancements */
 .slug-text {
-    background: var(--border-glass-color);
-    color: rgba(255, 255, 255, 0.8);
+    padding: 0.25rem 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
+    background: var(--border-glass-color);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.slug-text,
+.built-in-type-text {
     font-weight: 500;
+    font-size: 0.85rem;
 }
 
 .built-in-type-text {
-    color: rgba(13, 110, 253, 0.9);
-    font-size: 0.85rem;
-    font-weight: 500;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    color: rgba(13, 110, 253, 0.9);
 }
 
 .built-in-type-text i {
@@ -955,11 +949,11 @@
 }
 
 .guide-alert {
-    background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(13, 110, 253, 0.1));
     border: 1px solid rgba(23, 162, 184, 0.3);
     border-radius: 15px;
-    color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(13, 110, 253, 0.1));
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .guide-alert strong {
@@ -979,15 +973,15 @@
 /* Vault Hero Section Styling - removed duplicates, kept vault-specific only */
 
 .pug-skull-branding {
+    z-index: 2;
+    position: relative;
     width: 80px;
     height: auto;
+    margin-bottom: 0.5rem;
     filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.3));
     transition:
         transform 0.3s ease,
         filter 0.3s ease;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 0.5rem;
 }
 
 .pug-skull-branding:hover {
@@ -1007,11 +1001,11 @@
 /* Vault Hero Stats Row - for pages with multiple stats like cart */
 .page-hero-stats {
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
     margin-top: 0.5rem;
-    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .page-hero-stats .stat-item {
@@ -1022,18 +1016,18 @@
 }
 
 .page-hero-stats .stat-value {
-    font-size: 1.75rem;
-    font-weight: 800;
     color: var(--neon-pink);
+    font-weight: 800;
+    font-size: 1.75rem;
     line-height: 1.2;
 }
 
 .page-hero-stats .stat-label {
-    font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
-    text-transform: uppercase;
-    letter-spacing: 1px;
     font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .page-hero-stats .stat-divider {
@@ -1063,11 +1057,11 @@
 .auth-page,
 .checkout-page,
 .contact-page {
+    position: static;
     min-height: 100vh;
     padding-top: 112px;
     overflow: visible;
     overflow-x: clip;
-    position: static;
 }
 
 /* Mobile: consistent padding for all page wrappers */
@@ -1087,9 +1081,9 @@
 .auth-page::after,
 .checkout-page::after,
 .contact-page::after {
-    content: "";
     display: block;
     clear: both;
+    content: "";
 }
 /* page-container defaults moved to components.css; keep auth-page overrides below */
 
@@ -1109,118 +1103,118 @@
 
 /* Vault Submit Photo Page Styles */
 .vault-submit-hero {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-radius: 20px;
-    padding: 3rem 2rem;
-    margin-bottom: 2rem;
-    border: 2px solid #ff1493;
     position: relative;
+    margin-bottom: 2rem;
+    padding: 3rem 2rem;
     overflow: hidden;
+    border: 2px solid #ff1493;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }
 
 .vault-submit-hero::before {
-    content: "";
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF1493' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    content: "";
     opacity: 0.1;
 }
 
 .vault-submit-hero-icon {
-    font-size: 4rem;
-    color: #ff1493;
     margin-bottom: 1rem;
+    color: #ff1493;
+    font-size: 4rem;
     animation: pulse-scale 2s infinite;
 }
 
 .vault-submit-hero-title {
+    margin-bottom: 1rem;
     color: #fff;
     text-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
-    margin-bottom: 1rem;
 }
 
 .vault-submit-hero-subtitle {
+    margin-bottom: 2rem;
     color: #ccc;
     font-size: 1.2rem;
-    margin-bottom: 2rem;
 }
 
 .vault-submit-stats {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
-    flex-wrap: wrap;
 }
 
 .stat-item {
-    text-align: center;
     color: #fff;
+    text-align: center;
 }
 
 .stat-number {
-    font-size: 2rem;
-    font-weight: bold;
     color: #ff1493;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 .stat-label {
-    font-size: 0.9rem;
-    color: #ccc;
     margin-top: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
 }
 
 .stat-icon {
-    font-size: 1.5rem;
-    color: #ff1493;
     margin-bottom: 0.5rem;
+    color: #ff1493;
+    font-size: 1.5rem;
 }
 
 .vault-submit-header {
-    padding: 2rem;
-    text-align: center;
     margin-bottom: 1.5rem;
+    padding: 2rem;
     border-bottom: 2px solid rgba(255, 20, 147, 0.2);
+    text-align: center;
 }
 
 .vault-submit-header-icon {
-    font-size: 3rem;
-    color: var(--neon-pink);
     margin-bottom: 1rem;
+    color: var(--neon-pink);
+    font-size: 3rem;
 }
 
 .vault-submit-title {
-    font-size: 2rem;
-    font-weight: 700;
     margin-bottom: 0.75rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;
     color: transparent;
+    font-weight: 700;
+    font-size: 2rem;
 }
 
 .vault-submit-description {
-    font-size: 1.1rem;
-    color: var(--off-white);
-    opacity: 0.85;
     margin-bottom: 0;
+    color: var(--off-white);
+    font-size: 1.1rem;
     line-height: 1.6;
+    opacity: 0.85;
 }
 
 .vault-upload-zone {
-    padding: 3rem 2rem;
-    text-align: center;
-    border-bottom: 2px solid rgba(255, 20, 147, 0.1);
     position: relative;
+    padding: 3rem 2rem;
+    border-bottom: 2px solid rgba(255, 20, 147, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.02);
 }
 
 .vault-upload-zone:hover {
-    background: rgba(255, 20, 147, 0.08);
     border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 20, 147, 0.08);
 }
 
 .vault-upload-content {
@@ -1228,62 +1222,62 @@
 }
 
 .vault-upload-icon {
-    font-size: 4rem;
-    color: var(--neon-pink);
     margin-bottom: 1rem;
+    color: var(--neon-pink);
+    font-size: 4rem;
 }
 
 .vault-upload-title {
-    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
     color: var(--off-white);
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
 }
 
 .vault-upload-subtitle {
-    font-size: 1.1rem;
-    color: var(--gray);
     margin-bottom: 1.5rem;
+    color: var(--gray);
+    font-size: 1.1rem;
 }
 
 .vault-upload-requirements {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
     flex-wrap: wrap;
+    justify-content: center;
     margin-bottom: 2rem;
+    gap: 1rem;
 }
 
 .requirement-item {
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(255, 20, 147, 0.3);
+    border-radius: 20px;
     background: rgba(255, 20, 147, 0.15);
     color: var(--neon-pink);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
     font-weight: 500;
-    border: 2px solid rgba(255, 20, 147, 0.3);
+    font-size: 0.9rem;
     transition: all 0.3s ease;
 }
 
 .requirement-item:hover {
-    background: rgba(255, 20, 147, 0.25);
     border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.25);
 }
 
 .vault-file-input {
+    z-index: 5;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
     cursor: pointer;
-    z-index: 5;
+    opacity: 0;
 }
 
 .vault-upload-preview {
-    position: relative;
     z-index: 10;
+    position: relative;
 }
 
 .vault-upload-preview img {
@@ -1294,26 +1288,26 @@
 }
 
 .vault-preview-remove {
+    display: flex;
     position: absolute;
     top: -10px;
     right: -10px;
-    background: var(--neon-pink);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: var(--neon-pink);
     box-shadow: 0 2px 10px rgba(255, 20, 147, 0.4);
+    color: white;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .vault-preview-remove:hover {
-    background: var(--electric-yellow);
     transform: scale(1.1);
+    background: var(--electric-yellow);
 }
 
 .vault-form-section {
@@ -1328,27 +1322,27 @@
 .vault-section-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
     margin-bottom: 1.5rem;
+    gap: 1rem;
 }
 
 .section-icon {
-    font-size: 1.5rem;
     color: var(--neon-pink);
+    font-size: 1.5rem;
 }
 
 .section-title {
-    color: var(--off-white);
-    font-size: 1.3rem;
-    font-weight: 700;
     margin: 0;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.3rem;
 }
 
 .vault-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
     color: var(--off-white);
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
 }
 
 .vault-form-group {
@@ -1356,54 +1350,54 @@
 }
 
 .vault-form-textarea {
-    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 120px;
+    padding: 1rem;
     border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
     color: var(--off-white);
-    padding: 1rem;
     font-size: 1rem;
-    transition: all 0.3s ease;
-    height: 120px;
     resize: vertical;
-    width: 100%;
+    transition: all 0.3s ease;
 }
 
 .vault-form-textarea:focus {
     border-color: var(--neon-pink);
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
     outline: none;
     background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
 }
 
 .vault-multi-select {
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 20, 147, 0.2);
-    border-radius: 8px;
-    color: var(--off-white);
-    padding: 1rem;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    min-height: 50px;
     display: flex;
     flex-direction: column;
+    min-height: 50px;
+    padding: 1rem;
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--off-white);
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .vault-multi-select:focus-within {
     border-color: var(--neon-pink);
-    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
     background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 0.2rem rgba(255, 20, 147, 0.25);
 }
 
 .vault-tag-input {
+    box-sizing: border-box;
+    height: 30px;
+    margin: 0;
+    padding: 0;
     border: none;
+    outline: none;
     background: transparent;
     color: var(--off-white);
     font-size: 1rem;
-    outline: none;
-    padding: 0;
-    margin: 0;
-    height: 30px;
-    box-sizing: border-box;
     line-height: 30px;
 }
 
@@ -1415,32 +1409,32 @@
 .vault-selected-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
     margin-bottom: 0.75rem;
+    gap: 0.5rem;
 }
 
 .vault-tag {
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: var(--charcoal);
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.85rem;
-    font-weight: 700;
     display: inline-flex;
     align-items: center;
+    padding: 0.25rem 0.5rem;
     gap: 0.25rem;
     border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     box-shadow: 0 2px 8px rgba(255, 20, 147, 0.2);
+    color: var(--charcoal);
+    font-weight: 700;
+    font-size: 0.85rem;
 }
 
 .vault-tag-remove {
-    cursor: pointer;
+    padding: 0 2px;
+    border-radius: 50%;
     color: var(--charcoal);
     font-weight: bold;
     font-size: 1.1rem;
     line-height: 1;
-    padding: 0 2px;
-    border-radius: 50%;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -1450,35 +1444,35 @@
 }
 
 .vault-char-counter {
-    text-align: right;
+    margin-top: 0.5rem;
     color: var(--gray);
     font-size: 0.9rem;
-    margin-top: 0.5rem;
+    text-align: right;
 }
 
 .vault-form-help {
-    color: var(--neon-pink);
-    font-size: 0.9rem;
     margin-top: 1.5rem;
+    color: var(--neon-pink);
     font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .vault-rules-card {
-    background: rgba(255, 20, 147, 0.08);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
     border: 2px solid rgba(255, 20, 147, 0.25);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    background: rgba(255, 20, 147, 0.08);
 }
 
 .rules-title {
-    color: var(--off-white);
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
     gap: 0.5rem;
+    color: var(--off-white);
+    font-weight: 600;
+    font-size: 1.2rem;
 }
 
 .rules-icon {
@@ -1509,13 +1503,13 @@
 }
 
 .vault-consent-checkbox {
-    background: rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 20, 147, 0.3);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .vault-consent-checkbox:checked {
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
 }
 
 .vault-consent-label {
@@ -1526,55 +1520,57 @@
 
 .vault-submit-section {
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.02);
     border-top: 2px solid rgba(255, 20, 147, 0.1);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .vault-submit-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
     gap: 1rem;
 }
 
 .vault-back-btn {
-    background: linear-gradient(135deg, #ff1493, #ccff00);
-    color: #000;
-    border: 2px solid #ff1493;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
-    padding: 0.6rem 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.25s ease;
-    border-radius: 8px;
-    text-decoration: none;
     display: inline-block;
+    padding: 0.6rem 1rem;
+    border: 2px solid #ff1493;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff1493, #ccff00);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.vault-back-btn,
+.vault-back-btn:hover {
+    color: #000;
+    text-decoration: none;
 }
 
 .vault-back-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(255, 20, 147, 0.6);
-    text-decoration: none;
-    color: #000;
 }
 
 .vault-submit-btn {
-    background: linear-gradient(135deg, #ff1493, #ccff00);
-    color: #000;
-    border: 2px solid #ff1493;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
-    padding: 0.6rem 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.25s ease;
-    border-radius: 8px;
     position: relative;
+    padding: 0.6rem 1rem;
     overflow: hidden;
+    border: 2px solid #ff1493;
     border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff1493, #ccff00);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.45);
+    color: #000;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
 }
 
 .vault-submit-btn:hover {
@@ -1583,13 +1579,13 @@
 }
 
 .vault-submit-note {
-    text-align: center;
+    padding: 1rem;
+    border: 2px solid rgba(255, 20, 147, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 20, 147, 0.08);
     color: var(--gray);
     font-size: 0.9rem;
-    padding: 1rem;
-    background: rgba(255, 20, 147, 0.08);
-    border-radius: 8px;
-    border: 2px solid rgba(255, 20, 147, 0.2);
+    text-align: center;
 }
 
 @keyframes pulse {
@@ -1637,8 +1633,8 @@
 }
 
 .vest-hero-stat i {
-    color: var(--neon-pink);
     margin-right: 0.5rem;
+    color: var(--neon-pink);
 }
 
 .battle-vest-container {
@@ -1679,21 +1675,17 @@ body .page-hero .battle-vest-stats {
 @media (max-width: 768px) {
     body .page-hero .battle-vest-stats {
         flex-direction: row;
-        gap: 0.5rem;
         justify-content: center;
+        gap: 0.5rem;
     }
-}
-
-/* Admin Product Types Mobile Styles */
-@media (max-width: 768px) {
     .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
+        margin-bottom: 0.75rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         color: var(--off-white);
-        margin-bottom: 0.75rem;
     }
 
     .card-body {
@@ -1701,16 +1693,13 @@ body .page-hero .battle-vest-stats {
     }
 
     .card-title {
+        margin-bottom: 0.5rem;
         font-size: 1rem;
         line-height: 1.3;
-        color: var(--off-white);
-        margin-bottom: 0.5rem;
     }
 
-    .card-title strong {
-        color: var(--off-white);
-    }
-
+    .card-title,
+    .card-title strong,
     .badge {
         color: var(--off-white);
     }
@@ -1723,31 +1712,34 @@ body .page-hero .battle-vest-stats {
     .btn-group-vertical .btn:last-child {
         margin-bottom: 0;
     }
-
-    /* Match desktop button colors */
     .btn-outline-primary {
-        color: #0d6efd;
         border-color: #0d6efd;
         background: transparent;
+        color: #0d6efd;
     }
 
     .btn-outline-primary:hover {
-        color: #fff;
-        background-color: #0d6efd;
         border-color: #0d6efd;
+        background-color: #0d6efd;
+        color: #fff;
     }
 
     .btn-outline-danger {
-        color: #dc3545;
         border-color: #dc3545;
         background: transparent;
+        color: #dc3545;
     }
 
     .btn-outline-danger:hover {
-        color: #fff;
-        background-color: #dc3545;
         border-color: #dc3545;
+        background-color: #dc3545;
+        color: #fff;
     }
+}
+
+/* Admin Product Types Mobile Styles */
+@media (max-width: 768px) {
+    /* Match desktop button colors */
 }
 
 @media (max-width: 576px) {
@@ -1782,50 +1774,46 @@ body .page-hero .battle-vest-stats {
     }
 
     .slug-text {
-        word-break: break-all;
         font-size: 0.8rem;
+        word-break: break-all;
     }
 }
 
 /* Products Page Additional Styles */
 .filters-section {
     padding: 1rem 0;
-    background: rgba(255, 255, 255, 0.02);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.filters-section .filters-sort-wrapper {
-    margin-left: auto;
-    margin-right: 0;
-    display: flex;
-    justify-content: flex-end;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 /* Right-aligned filters with spacing */
+.filters-section .filters-sort-wrapper,
 .filters-right {
-    margin-left: auto;
-    margin-right: 0;
     display: flex;
     justify-content: flex-end;
+    margin-right: 0;
+    margin-left: auto;
+}
+.filters-right {
     margin-top: 1rem;
 }
 
 .glassmorphic-panel {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    padding: 1rem;
     border: 1px solid var(--border-glass-color);
     border-radius: 12px;
-    padding: 1rem;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
 }
 
 .product-vest-btn-positioned {
-    background: none;
-    border: none;
-    padding: 0;
+    z-index: 10;
     position: absolute;
     top: 6px;
     right: 6px;
-    z-index: 10;
+    padding: 0;
+    border: none;
+    background: none;
 }
 
 .product-image-relative {
@@ -1834,24 +1822,24 @@ body .page-hero .battle-vest-stats {
 
 /* Admin Products List Styles */
 .auth-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
+    padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 2rem;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile Card Styles */
 @media (max-width: 768px) {
     .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
+        margin-bottom: 0.75rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         color: var(--off-white);
-        margin-bottom: 0.75rem;
     }
 
     .card-body {
@@ -1859,16 +1847,13 @@ body .page-hero .battle-vest-stats {
     }
 
     .card-title {
+        margin-bottom: 0.5rem;
         font-size: 1rem;
         line-height: 1.3;
-        color: var(--off-white);
-        margin-bottom: 0.5rem;
     }
 
-    .card-title strong {
-        color: var(--off-white);
-    }
-
+    .card-title,
+    .card-title strong,
     .badge {
         color: var(--off-white);
     }
@@ -1884,51 +1869,51 @@ body .page-hero .battle-vest-stats {
 
     /* Match desktop button colors */
     .btn-outline-info {
-        color: #0dcaf0;
         border-color: #0dcaf0;
         background: transparent;
+        color: #0dcaf0;
     }
 
     .btn-outline-info:hover {
-        color: #000;
-        background-color: #0dcaf0;
         border-color: #0dcaf0;
+        background-color: #0dcaf0;
+        color: #000;
     }
 
     .btn-outline-primary {
-        color: #0d6efd;
         border-color: #0d6efd;
         background: transparent;
+        color: #0d6efd;
     }
 
     .btn-outline-primary:hover {
-        color: #fff;
-        background-color: #0d6efd;
         border-color: #0d6efd;
+        background-color: #0d6efd;
+        color: #fff;
     }
 
     .btn-outline-success {
-        color: #198754;
         border-color: #198754;
         background: transparent;
+        color: #198754;
     }
 
     .btn-outline-success:hover {
-        color: #fff;
-        background-color: #198754;
         border-color: #198754;
+        background-color: #198754;
+        color: #fff;
     }
 
     .btn-outline-danger {
-        color: #dc3545;
         border-color: #dc3545;
         background: transparent;
+        color: #dc3545;
     }
 
     .btn-outline-danger:hover {
-        color: #fff;
-        background-color: #dc3545;
         border-color: #dc3545;
+        background-color: #dc3545;
+        color: #fff;
     }
 }
 
@@ -1936,30 +1921,32 @@ body .page-hero .battle-vest-stats {
 .product-thumbnail {
     width: 50px;
     height: 50px;
-    object-fit: cover;
-    border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+
+.product-thumbnail,
+.product-thumbnail-mobile {
+    object-fit: cover;
     background: rgba(255, 255, 255, 0.05);
 }
 
 .product-thumbnail-mobile {
     width: 40px;
     height: 40px;
-    object-fit: cover;
-    border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
 }
 
 .no-image-placeholder {
-    width: 50px;
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @media (max-width: 576px) {
@@ -1968,9 +1955,9 @@ body .page-hero .battle-vest-stats {
     }
 
     .card-title {
+        margin-bottom: 0.25rem;
         font-size: 0.9rem;
         line-height: 1.2;
-        margin-bottom: 0.25rem;
     }
 
     .card-text {
@@ -1992,8 +1979,8 @@ body .page-hero .battle-vest-stats {
 @media (max-width: 768px) {
     /* Reduce outer auth-card horizontal padding so cards can reach closer to the border */
     .admin-products-container .auth-card {
-        padding-left: 0.5rem;
         padding-right: 0.5rem;
+        padding-left: 0.5rem;
     }
 
     /* Reduce column gutters inside the admin area */
@@ -2004,15 +1991,15 @@ body .page-hero .battle-vest-stats {
 
     /* Make each column use minimal side padding so cards are wider */
     .admin-products-container [class*="col-"] {
-        padding-left: 0.25rem;
         padding-right: 0.25rem;
+        padding-left: 0.25rem;
     }
 
     /* Let cards span the full width available within their column */
     .admin-products-container .card {
-        margin-left: 0;
-        margin-right: 0;
         width: 100%;
+        margin-right: 0;
+        margin-left: 0;
     }
 
     /* Slightly reduce internal card padding to fit more content */
@@ -2024,17 +2011,17 @@ body .page-hero .battle-vest-stats {
     .admin-products-container .col-md-3 > .d-flex.flex-column {
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
     }
 
     .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
     .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
+        box-sizing: border-box;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        box-sizing: border-box;
         min-width: 0;
         max-width: 100%;
     }
@@ -2063,30 +2050,30 @@ body .page-hero .battle-vest-stats {
     .admin-products-container .pagination {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 0.25rem;
         margin-bottom: 0;
+        gap: 0.25rem;
     }
 
     .admin-products-container .pagination .page-item .page-link {
+        min-width: auto;
         padding: 0.375rem 0.75rem;
         font-size: 0.875rem;
-        min-width: auto;
     }
 
     /* Make bulk action buttons align with inner card edges and size evenly */
     .admin-products-container .mt-3.d-flex {
         flex-direction: column;
-        gap: 0.75rem;
         align-items: stretch;
-        padding-left: 0;
         padding-right: 0;
+        padding-left: 0;
+        gap: 0.75rem;
     }
 
     .admin-products-container .mt-3.d-flex > div:first-child {
         display: flex;
-        gap: 0.75rem;
-        width: 100%;
         justify-content: space-between;
+        width: 100%;
+        gap: 0.75rem;
     }
 
     .admin-products-container .mt-3.d-flex > div:first-child .btn {
@@ -2105,9 +2092,9 @@ body .page-hero .battle-vest-stats {
     /* target the specific button wrapper column */
     .admin-products-container .col-md-3 > .d-flex.flex-column {
         flex-direction: row;
-        gap: 0.75rem;
-        justify-content: flex-end;
         align-items: center;
+        justify-content: flex-end;
+        gap: 0.75rem;
     }
 
     .admin-products-container .col-md-3 > .d-flex.flex-column .filter-btn-mobile,
@@ -2139,9 +2126,9 @@ body .page-hero .battle-vest-stats {
 
 /* Delete Confirmation Styles */
 .delete-confirmation-wrapper {
+    min-height: calc(100vh - 300px);
     margin-top: 150px;
     margin-bottom: 80px;
-    min-height: calc(100vh - 300px);
 }
 
 .delete-card {
@@ -2149,17 +2136,17 @@ body .page-hero .battle-vest-stats {
 }
 
 .delete-icon {
-    font-size: 4rem;
-    color: var(--neon-pink);
     margin-bottom: 1.5rem;
+    color: var(--neon-pink);
+    font-size: 4rem;
     animation: pulse-opacity 2s ease-in-out infinite;
 }
 /* pulse-opacity moved to static/css/animations.css */
 
 .delete-product-name {
     color: #ffffff;
-    font-size: 1.1rem;
     font-weight: 400;
+    font-size: 1.1rem;
 }
 
 .delete-product-name strong {
@@ -2168,69 +2155,69 @@ body .page-hero .battle-vest-stats {
 }
 
 .delete-warning {
+    padding: 1rem;
+    border-left: 3px solid var(--neon-pink);
+    border-radius: 8px;
+    background: rgba(255, 20, 147, 0.1);
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
     line-height: 1.6;
-    background: rgba(255, 20, 147, 0.1);
-    padding: 1rem;
-    border-radius: 8px;
-    border-left: 3px solid var(--neon-pink);
 }
 
 .delete-button-group {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .btn-delete-product {
+    display: inline-block;
+    min-width: 180px;
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--neon-pink);
+    border-radius: 50px;
     background-color: var(--neon-pink);
     color: #ffffff;
-    border: 2px solid var(--neon-pink);
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
     font-weight: 700;
+    font-size: 1.1rem;
     letter-spacing: 1px;
-    text-transform: uppercase;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    min-width: 180px;
-    display: inline-block;
     text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-delete-product:hover {
-    background-color: var(--electric-yellow);
-    color: var(--black);
     transform: translateY(-3px);
+    background-color: var(--electric-yellow);
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+    color: var(--black);
 }
 
 .delete-button-group .btn-outline-pink {
-    background-color: transparent;
-    color: var(--neon-pink);
-    border: 2px solid var(--neon-pink);
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    text-decoration: none;
     display: inline-block;
     min-width: 180px;
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--neon-pink);
+    border-radius: 50px;
+    background-color: transparent;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
     text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
 }
 
 .delete-button-group .btn-outline-pink:hover {
-    background-color: var(--electric-yellow);
-    color: var(--black);
-    border-color: var(--electric-yellow);
     transform: translateY(-3px);
+    border-color: var(--electric-yellow);
+    background-color: var(--electric-yellow);
     box-shadow: 0 10px 30px rgba(204, 255, 0, 0.5);
+    color: var(--black);
 }
 
 /* Light Mode Overrides for Delete Confirmation */
@@ -2239,8 +2226,8 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .delete-warning {
-    color: rgba(0, 0, 0, 0.8);
     background: rgba(255, 20, 147, 0.08);
+    color: rgba(0, 0, 0, 0.8);
 }
 
 :root.light-mode .btn-delete-product {
@@ -2254,14 +2241,14 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .delete-button-group .btn-outline-pink {
-    color: var(--neon-pink);
     border-color: var(--neon-pink);
+    color: var(--neon-pink);
 }
 
 :root.light-mode .delete-button-group .btn-outline-pink:hover {
+    border-color: var(--electric-yellow);
     background-color: var(--electric-yellow);
     color: var(--black);
-    border-color: var(--electric-yellow);
 }
 
 /* --- Products: create/edit/product-detail extracted styles --- */
@@ -2289,17 +2276,17 @@ body .page-hero .battle-vest-stats {
 
 /* Quill Editor Dark Theme Styling used in create/edit */
 .ql-toolbar.ql-snow {
-    background-color: #1a1a1a;
     border: 2px solid var(--electric-yellow);
     border-bottom: none;
     border-radius: 8px 8px 0 0;
+    background-color: #1a1a1a;
 }
 
 .ql-container.ql-snow {
-    background-color: #0a0a0a;
     border: 2px solid var(--electric-yellow);
     border-top: none;
     border-radius: 0 0 8px 8px;
+    background-color: #0a0a0a;
     color: #fff;
     font-family: "Poppins", sans-serif;
 }
@@ -2367,30 +2354,30 @@ body .page-hero .battle-vest-stats {
 }
 
 .btn-close-formset {
+    display: flex;
+    z-index: 10;
     position: absolute;
     top: 10px;
     right: 10px;
-    background: transparent;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
     border: none;
+    border-radius: 50%;
+    background: transparent;
     color: #ff1493;
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
     transition: all 0.2s;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-close-formset:hover {
+    transform: scale(1.1);
     background: rgba(255, 20, 147, 0.2);
     color: #ff69b4;
-    transform: scale(1.1);
 }
 
 /* Clear file control */
@@ -2406,24 +2393,24 @@ body .page-hero .battle-vest-stats {
 /* AI modal used in create/edit */
 .ai-modal {
     display: none;
-    position: fixed;
     z-index: 9999;
-    left: 0;
+    position: fixed;
     top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    align-items: center;
-    justify-content: center;
 }
 .ai-modal-content {
-    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-    border: 2px solid var(--neon-pink);
-    border-radius: 16px;
-    max-width: 600px;
     width: 90%;
+    max-width: 600px;
     max-height: 80vh;
     overflow-y: auto;
+    border: 2px solid var(--neon-pink);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
     box-shadow: 0 0 40px rgba(255, 20, 147, 0.4);
     animation: modalSlideIn 0.3s ease-out;
 }
@@ -2438,59 +2425,59 @@ body .page-hero .battle-vest-stats {
     }
 }
 .ai-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 20px 25px;
     border-bottom: 2px solid var(--electric-yellow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 .ai-modal-header h3 {
-    color: var(--neon-pink);
-    font-size: 1.3rem;
-    font-weight: 700;
     margin: 0;
+    color: var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.3rem;
 }
 .ai-modal-close {
-    background: none;
     border: none;
+    background: none;
     color: var(--neon-pink);
     font-size: 32px;
+    line-height: 1;
     cursor: pointer;
     transition: all 0.3s ease;
-    line-height: 1;
 }
 .ai-modal-close:hover {
-    color: var(--electric-yellow);
     transform: rotate(90deg);
+    color: var(--electric-yellow);
 }
 .ai-modal-body {
     padding: 25px;
 }
 .suggestion-card {
-    background: #0a0a0a;
+    margin-bottom: 15px;
+    padding: 20px;
     border: 2px solid var(--electric-yellow);
     border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 15px;
+    background: #0a0a0a;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 .suggestion-card:hover {
+    transform: translateX(5px);
     border-color: var(--neon-pink);
     background: rgba(255, 20, 147, 0.05);
-    transform: translateX(5px);
     box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
 }
 .suggestion-text {
+    margin-bottom: 10px;
     color: #fff;
     font-size: 15px;
     line-height: 1.6;
-    margin-bottom: 10px;
 }
 .suggestion-length {
     color: var(--electric-yellow);
-    font-size: 12px;
     font-weight: 600;
+    font-size: 12px;
 }
 .spinner-border {
     width: 3rem;
@@ -2500,37 +2487,38 @@ body .page-hero .battle-vest-stats {
 
 /* Product detail social share styles */
 .social-share-section {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 .share-title {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
     margin-bottom: 1rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
 }
 .social-share-buttons {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: 0.75rem;
 }
+.social-share-buttons,
 .share-btn {
     display: flex;
+    justify-content: center;
+}
+.share-btn {
     align-items: center;
-    gap: 0.5rem;
+    min-width: 120px;
     padding: 0.75rem 1rem;
+    gap: 0.5rem;
     border: 2px solid;
     border-radius: 8px;
     background: transparent;
     color: #fff;
-    font-size: 0.9rem;
     font-weight: 500;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 120px;
-    justify-content: center;
 }
 .share-btn:hover {
     transform: translateY(-2px);
@@ -2568,73 +2556,66 @@ body .page-hero .battle-vest-stats {
 }
 
 /* Newsletter confirmation / management styles (moved from template) */
-.newsletter-benefits {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-glass-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
 
+.newsletter-benefits,
 .newsletter-management {
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
     border: 1px solid var(--border-glass-color);
     border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
 }
 
 .newsletter-benefits h5,
 .newsletter-management h5 {
+    margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 600;
-    margin-bottom: 1rem;
 }
 
 .newsletter-benefits .list-unstyled li {
-    color: var(--off-white);
     margin-bottom: 0.75rem;
+    color: var(--off-white);
     font-size: 0.95rem;
 }
 
 .newsletter-benefits .fas {
-    color: var(--neon-pink);
     width: 16px;
+    color: var(--neon-pink);
 }
 
 .newsletter-footer {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
+    padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 6px;
-    padding: 1rem;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
     text-align: center;
 }
 
 .btn-outline-primary {
-    color: var(--neon-pink);
     border-color: var(--neon-pink);
     background: transparent;
+    color: var(--neon-pink);
 }
 
 .btn-outline-primary:hover {
-    color: #000;
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
+    color: #000;
 }
 
 .btn-outline-secondary {
-    color: var(--gray);
     border-color: var(--gray);
     background: transparent;
+    color: var(--gray);
 }
 
 .btn-outline-secondary:hover {
-    color: #000;
-    background-color: var(--gray);
     border-color: var(--gray);
+    background-color: var(--gray);
+    color: #000;
 }
 
 /* ======================================================================
@@ -2649,15 +2630,15 @@ body .page-hero .battle-vest-stats {
 /* From: templates/notifications/preferences.html */
 .notification-section {
     padding: 16px;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 20, 147, 0.1);
     border-radius: 12px;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .form-check-input:checked {
-    background-color: var(--neon-pink);
     border-color: var(--neon-pink);
+    background-color: var(--neon-pink);
 }
 
 .form-check-input:focus {
@@ -2689,8 +2670,8 @@ body .page-hero .battle-vest-stats {
 
 /* Vault cards */
 :root.light-mode .vault-card {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 255, 255, 0.95);
 }
 
 :root.light-mode .vault-card:hover {
@@ -2715,18 +2696,14 @@ body .page-hero .battle-vest-stats {
 
 /* Vault featured section (carousel) */
 :root.light-mode .vault-featured-section {
+    border-color: rgba(255, 20, 147, 0.2);
     background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(204, 255, 0, 0.03));
-    border-color: rgba(255, 20, 147, 0.2);
 }
 
-:root.light-mode .vault-featured-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(255, 20, 147, 0.2);
-}
-
+:root.light-mode .vault-featured-card,
 :root.light-mode body .vault-featured-card.glassmorphic-card {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 255, 255, 0.95);
 }
 
 :root.light-mode .vault-featured-card:hover {
@@ -2745,10 +2722,7 @@ body .page-hero .battle-vest-stats {
     color: var(--neon-pink);
 }
 
-:root.light-mode .vault-featured-likes {
-    color: #555;
-}
-
+:root.light-mode .vault-featured-likes,
 :root.light-mode .vault-featured-subtitle {
     color: #555;
 }
@@ -2760,8 +2734,8 @@ body .page-hero .battle-vest-stats {
 /* Hall of fame cards */
 :root.light-mode .hof-card,
 :root.light-mode .hall-of-fame-card {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 255, 255, 0.95);
 }
 
 :root.light-mode .hof-card:hover,
@@ -2807,8 +2781,8 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .hall-of-fame-header {
-    background: linear-gradient(135deg, rgba(212, 165, 0, 0.15), rgba(255, 20, 147, 0.1));
     border-bottom-color: rgba(212, 165, 0, 0.3);
+    background: linear-gradient(135deg, rgba(212, 165, 0, 0.15), rgba(255, 20, 147, 0.1));
 }
 
 :root.light-mode .hof-user i,
@@ -2820,8 +2794,8 @@ body .page-hero .battle-vest-stats {
 :root.light-mode .vault-form-input,
 :root.light-mode .vault-form-textarea,
 :root.light-mode .vault-form-select {
-    background-color: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 20, 147, 0.3);
+    background-color: rgba(255, 255, 255, 0.95);
     color: #222;
 }
 
@@ -2864,14 +2838,11 @@ body .page-hero .battle-vest-stats {
 
 /* Vault sidebar */
 :root.light-mode .vault-detail-sidebar-inner {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
 }
 
-:root.light-mode .vault-sidebar-caption {
-    color: #222;
-}
-
+:root.light-mode .vault-sidebar-caption,
 :root.light-mode .vault-sidebar-username {
     color: #222;
 }
@@ -2887,13 +2858,13 @@ body .page-hero .battle-vest-stats {
 /* Vault dropdown */
 :root.light-mode .vault-dropdown,
 :root.light-mode .vault-multi-dropdown {
-    background: rgba(255, 255, 255, 0.98);
     border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 255, 255, 0.98);
 }
 
 :root.light-mode .vault-dropdown-item {
-    color: #333;
     border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: #333;
 }
 
 :root.light-mode .vault-dropdown-item:hover,
@@ -2903,8 +2874,8 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .vault-filter-select {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 255, 255, 0.95);
     color: #222;
 }
 
@@ -2914,8 +2885,8 @@ body .page-hero .battle-vest-stats {
 
 /* Vault products section */
 :root.light-mode .vault-products-section {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
 }
 
 :root.light-mode .vault-section-title {
@@ -2924,8 +2895,8 @@ body .page-hero .battle-vest-stats {
 
 /* Vault product cards */
 :root.light-mode .vault-product-card {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 255, 255, 0.95);
 }
 
 :root.light-mode .vault-product-card:hover {
@@ -2939,8 +2910,8 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .moderation-card {
-    background: rgba(255, 255, 255, 0.95);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
 }
 
 :root.light-mode .moderation-card:hover {
@@ -2961,8 +2932,8 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .filters-card {
-    background: rgba(0, 0, 0, 0.02);
     border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 :root.light-mode .vault-moderate-label {
@@ -2970,8 +2941,8 @@ body .page-hero .battle-vest-stats {
 }
 
 :root.light-mode .vault-search-input {
-    background: white;
     border-color: rgba(0, 0, 0, 0.2);
+    background: white;
     color: #222;
 }
 
@@ -2983,19 +2954,16 @@ body .page-hero .battle-vest-stats {
     color: #222;
 }
 
-:root.light-mode .vault-empty-text {
-    color: rgba(0, 0, 0, 0.6);
-}
-
+:root.light-mode .vault-empty-text,
 :root.light-mode .vault-small {
     color: rgba(0, 0, 0, 0.6);
 }
 
 /* Product Types Page - Slug Text Light Mode */
 :root.light-mode .slug-text {
+    border-color: rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0.05);
     color: rgba(0, 0, 0, 0.7);
-    border-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .guide-alert {

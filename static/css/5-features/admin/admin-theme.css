@@ -30,16 +30,13 @@ html body {
 #header,
 .header,
 .branding {
-    background: linear-gradient(90deg, rgba(26, 26, 26, 0.98), rgba(26, 26, 26, 0.98));
     border-bottom: 2px solid rgba(255, 20, 147, 0.12);
+    background: linear-gradient(90deg, rgba(26, 26, 26, 0.98), rgba(26, 26, 26, 0.98));
 }
 
 #header h1,
 .branding a,
-.module h2 {
-    color: var(--neon-pink);
-}
-
+.module h2,
 a,
 .breadcrumbs a {
     color: var(--neon-pink);
@@ -49,17 +46,21 @@ a,
 input[type="submit"],
 .button,
 .submit-row .deletelink {
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: #000;
     border: none;
     box-shadow: 0 6px 20px rgba(255, 20, 147, 0.12);
 }
 
 /* Match site AI button appearance for Unfold widgets */
+input[type="submit"],
+.button,
+.submit-row .deletelink,
 .unfold .btn-ai,
 .btn-ai {
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     color: #000;
+}
+.unfold .btn-ai,
+.btn-ai {
     box-shadow:
         0 6px 18px rgba(255, 20, 147, 0.12),
         inset 0 -2px 0 rgba(0, 0, 0, 0.12);
@@ -81,9 +82,9 @@ label,
 input,
 textarea,
 select {
+    border: 1px solid rgba(255, 20, 147, 0.08);
     background: #222;
     color: var(--off-white);
-    border: 1px solid rgba(255, 20, 147, 0.08);
 }
 
 /* Small helper: prefer specificity and avoid proliferation */
@@ -94,8 +95,8 @@ select {
     }
     #header,
     .branding {
-        background: #fff;
         border-bottom-color: #e71f7f;
+        background: #fff;
     }
     #header h1,
     .branding a {
@@ -105,8 +106,8 @@ select {
 
 /* Admin filter form styling */
 .admin-filter-form {
-    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Utility classes for inline forms and hidden elements */

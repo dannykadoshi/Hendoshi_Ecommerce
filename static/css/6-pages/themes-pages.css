@@ -35,21 +35,22 @@
 
 /* Theme type badges */
 .theme-type-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
     padding: 0.25rem 0.6rem;
+    gap: 0.35rem;
     border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
     background: rgba(255, 45, 161, 0.15);
     color: var(--neon-pink);
+    font-weight: 600;
+    font-size: 0.75rem;
 }
 
 /* Priority indicator */
+.theme-type-badge,
 .priority-badge {
     display: inline-flex;
     align-items: center;
+}
+.priority-badge {
     justify-content: center;
     width: 28px;
     height: 28px;
@@ -74,15 +75,15 @@
 /* Animation speed/density display */
 .config-pills {
     display: flex;
-    gap: 0.35rem;
     flex-wrap: wrap;
+    gap: 0.35rem;
 }
 .config-pill {
     padding: 0.15rem 0.4rem;
     border-radius: 3px;
-    font-size: 0.7rem;
     background: var(--border-glass-color);
     color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
 }
 .config-pill.strip-enabled {
     background: rgba(255, 45, 161, 0.2);
@@ -99,10 +100,10 @@
 /* ===== ADMIN_THEMES_FORM ===== */
 
 .theme-form-card {
-    background: var(--bg-glass-light);
+    padding: 2rem;
     border: var(--border-glass);
     border-radius: 12px;
-    padding: 2rem;
+    background: var(--bg-glass-light);
 }
 
 .form-section {
@@ -112,19 +113,19 @@
 }
 
 .form-section:last-child {
-    border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;
+    border-bottom: none;
 }
 
 .form-section-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--neon-pink);
-    margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
     gap: 0.5rem;
+    color: var(--neon-pink);
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .form-check-label {
@@ -134,11 +135,11 @@
 .theme-type-preview {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: rgba(255, 45, 161, 0.1);
-    border-radius: 8px;
     margin-top: 0.5rem;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 8px;
+    background: rgba(255, 45, 161, 0.1);
 }
 
 .theme-type-preview .emoji {
@@ -146,16 +147,16 @@
 }
 
 .theme-type-preview .description {
-    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
 }
 
 /* Custom CSS textarea styling */
 .custom-css-editor {
-    font-family: "Fira Code", "Monaco", "Consolas", monospace;
-    font-size: 0.85rem;
     background: rgba(0, 0, 0, 0.3);
     color: #e0e0e0;
+    font-size: 0.85rem;
+    font-family: "Fira Code", "Monaco", "Consolas", monospace;
 }
 
 /* ===== ADMIN_THEMES_PREVIEW ===== */
@@ -168,13 +169,13 @@
 
 /* Preview controls */
 .preview-controls {
-    background: rgba(0, 0, 0, 0.95);
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 45, 161, 0.4);
     display: inline-flex;
-    gap: 1rem;
     align-items: center;
+    padding: 0.75rem 1.5rem;
+    gap: 1rem;
+    border: 1px solid rgba(255, 45, 161, 0.4);
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.95);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -183,20 +184,20 @@
 }
 
 .preview-info {
-    background: rgba(255, 45, 161, 0.1);
+    margin-bottom: 1rem;
+    padding: 1rem;
     border: 1px solid rgba(255, 45, 161, 0.3);
     border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    background: rgba(255, 45, 161, 0.1);
 }
 
 .preview-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: rgba(255, 45, 161, 0.2);
+    gap: 0.5rem;
     border-radius: 20px;
+    background: rgba(255, 45, 161, 0.2);
     font-size: 0.85rem;
 }
 
@@ -204,20 +205,23 @@
 .table {
     --bs-table-bg: transparent;
     --bs-table-color: var(--off-white, #f5f5f5);
+}
+
+.table,
+.table th {
     border-color: rgba(255, 255, 255, 0.1);
 }
 
 .table th {
     background: rgba(255, 255, 255, 0.05);
     color: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
     font-weight: 600;
 }
 
 .table td {
+    border-color: rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.02);
     color: var(--off-white, #f5f5f5);
-    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .table tbody tr:hover td {
@@ -226,8 +230,8 @@
 
 /* Auth card dark styling */
 .auth-card {
-    background: var(--bg-glass-light);
     border: var(--border-glass);
+    background: var(--bg-glass-light);
 }
 
 /* ===== THEME_ANIMATION_LAYER ===== */
@@ -289,15 +293,15 @@
 }
 
 :root.light-mode .table th {
+    border-color: rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0.03);
     color: rgba(0, 0, 0, 0.8);
-    border-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .table td {
+    border-color: rgba(0, 0, 0, 0.1);
     background: rgba(0, 0, 0, 0.01);
     color: #1a1a1a;
-    border-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .table tbody tr:hover td {

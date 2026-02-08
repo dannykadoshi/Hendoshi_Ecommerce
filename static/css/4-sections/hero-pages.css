@@ -16,26 +16,26 @@
 
 /* Base page hero - used on products, vault, checkout, profile, etc. */
 .page-hero {
-    position: relative;
-    overflow: hidden;
-    background: var(--bg-glass-light);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0.5rem 0 1rem; /* No top padding - wrapper provides spacing from navbar */
+    position: relative;
     width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    margin-top: 0;
     margin-right: calc(-50vw + 50%);
+    margin-bottom: 0;
+    margin-left: calc(-50vw + 50%);
+    padding: 0.5rem 0 1rem; /* No top padding - wrapper provides spacing from navbar */
+    overflow: hidden;
+    border-bottom: none;
+    backdrop-filter: blur(10px);
+    background: var(--bg-glass-light);
 
     /* Default banner for all page-hero sections */
     background-image: url("/static/images/page-hero-banners/all-page-banner.jpg");
-    background-size: cover;
     background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
     background-color: #0a0a0a;
-    border-bottom: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* ========================================
@@ -61,31 +61,19 @@
 
 /* Pages that explicitly don't want a banner */
 .page-hero.no-banner {
+    min-height: auto;
     background-image: none;
     background-color: transparent;
-    min-height: auto;
 }
 
 /* Background banner image (when present) - kept for backwards compatibility */
 .page-hero.has-banner {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     min-height: 280px;
-    background-color: #0a0a0a;
     border-bottom: none;
-}
-
-.page-hero.has-banner::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: -5px;
-    background: rgba(0, 0, 0, 0.65);
-    z-index: 1;
-    pointer-events: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #0a0a0a;
 }
 
 /* ========================================
@@ -93,15 +81,16 @@
    ======================================== */
 
 /* Default overlay for all page-hero sections */
+.page-hero.has-banner::after,
 .page-hero::after {
-    content: "";
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: -5px;
+    left: 0;
     background: rgba(0, 0, 0, 0.65);
-    z-index: 1;
+    content: "";
     pointer-events: none;
 }
 
@@ -111,15 +100,15 @@
 
 /* Animated gradient background */
 .page-hero::before {
-    content: "";
+    z-index: 0;
     position: absolute;
     top: -50%;
     left: -50%;
     width: 200%;
     height: 200%;
     background: radial-gradient(circle, rgba(255, 20, 147, 0.1) 0%, transparent 70%);
+    content: "";
     animation: page-hero-pulse 15s ease-in-out infinite;
-    z-index: 0;
     pointer-events: none;
 }
 
@@ -132,25 +121,23 @@
    ======================================== */
 
 .page-hero-title {
-    position: relative;
     z-index: 2;
-    font-size: 2.5rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 3px;
+    position: relative;
     /* Global gradient for all page-hero titles */
     background: linear-gradient(135deg, var(--neon-pink) 0%, var(--electric-yellow) 100%);
+    font-weight: 900;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .page-hero-subtitle {
-    position: relative;
-    z-index: 2;
-    font-size: 1.3rem;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 300;
+    font-size: 1.3rem;
     letter-spacing: 1px;
 }
 
@@ -159,6 +146,7 @@
    ======================================== */
 
 /* Ensure all interactive elements in page-hero are above overlay */
+.page-hero-subtitle,
 .page-hero .btn,
 .page-hero a,
 .page-hero button,
@@ -169,21 +157,21 @@
 .page-hero .page-hero-title,
 .page-hero .page-hero-subtitle,
 .page-hero .checkout-hero-stat {
-    position: relative;
     z-index: 2;
+    position: relative;
 }
 
 /* Mobile button stacking */
 @media (max-width: 768px) {
     .page-hero {
-        padding: 0 0 1rem;
         min-height: auto;
+        padding: 0 0 1rem;
     }
 
     body .page-hero .d-flex {
         flex-direction: column;
-        gap: 0.75rem;
         align-items: center;
+        gap: 0.75rem;
     }
 
     /* Exception: Keep stats/badges inline */

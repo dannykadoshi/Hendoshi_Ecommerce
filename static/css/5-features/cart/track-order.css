@@ -17,15 +17,12 @@
 .tracking-form-card {
     position: relative;
     overflow: hidden;
-    max-width: none;
-}
-
-.tracking-info-cards,
-.carriers-card {
-    max-width: none;
 }
 
 /* Override global contact-card width restriction for track order */
+.tracking-form-card,
+.tracking-info-cards,
+.carriers-card,
 .contact-form-section .tracking-form-card.contact-card {
     max-width: none;
 }
@@ -35,27 +32,27 @@
 }
 
 .tracking-icon-large {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
-    color: var(--black);
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+    color: var(--black);
+    font-size: 2.5rem;
 }
 
 .tracking-info-cards .info-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
+    height: 100%;
+    padding: 1.5rem;
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
-    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.03);
     text-align: center;
-    height: 100%;
     transition: all 0.3s ease;
 }
 
@@ -66,23 +63,23 @@
 }
 
 .tracking-info-cards .info-icon {
-    font-size: 2rem;
-    color: var(--neon-pink);
     margin-bottom: 1rem;
+    color: var(--neon-pink);
+    font-size: 2rem;
 }
 
 .tracking-info-cards h5 {
-    color: var(--off-white);
-    font-size: 1.1rem;
-    font-weight: 700;
     margin-bottom: 0.75rem;
+    color: var(--off-white);
+    font-weight: 700;
+    font-size: 1.1rem;
 }
 
 .carriers-card .carriers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
     margin-top: 1.5rem;
+    gap: 1.5rem;
 }
 
 /* Sidebar specific styling */
@@ -95,8 +92,8 @@
 
 .carriers-sidebar .carriers-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
     margin-top: 1rem;
+    gap: 1rem;
 }
 
 .carriers-sidebar .carrier-item {
@@ -109,16 +106,16 @@
 }
 
 .carriers-sidebar .carrier-name {
-    font-size: 1rem;
     margin-bottom: 0.5rem;
+    font-size: 1rem;
 }
 
 .carrier-item {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
+    padding: 1.5rem;
     border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 12px;
-    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.03);
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -130,33 +127,33 @@
 }
 
 .carrier-logo-placeholder {
-    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
+    height: 80px;
     margin-bottom: 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .carrier-name {
-    font-weight: 700;
-    color: var(--off-white);
     margin-bottom: 0.75rem;
+    color: var(--off-white);
+    font-weight: 700;
     font-size: 1.1rem;
 }
 
 .carrier-link {
-    color: var(--neon-pink);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.3s;
     display: inline-block;
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s;
 }
 
 .carrier-link:hover {
-    color: var(--electric-yellow);
     transform: translateX(5px);
+    color: var(--electric-yellow);
 }
 
 @media (max-width: 768px) {
@@ -174,10 +171,8 @@
 /* ================================================
    LIGHT MODE OVERRIDES
    ================================================ */
-:root.light-mode .tracking-info-cards .info-card {
-    background: rgba(0, 0, 0, 0.03);
-}
 
+:root.light-mode .tracking-info-cards .info-card,
 :root.light-mode .carrier-item {
     background: rgba(0, 0, 0, 0.03);
 }
