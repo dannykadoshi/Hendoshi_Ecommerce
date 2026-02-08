@@ -127,7 +127,7 @@
     {% endif %}
 
     <!-- Filters -->
-    <div class="vault-filters-section mb-4">
+    <div class="vault-filters-section mb-4" id="vault-filters">
         <div class="container">
             <!-- Main Filter -->
             <div class="row mb-3">
@@ -151,11 +151,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-pink btn-sm vault-filter-btn">Filter</button>
-                            {% if product_filter %}
-                            <a href="{% url 'vault:vault_gallery' %}" class="btn btn-clear-ghost vault-clear-btn" onclick="trackVaultEvent('filter_cleared')">
+                            <a href="{% url 'vault:vault_gallery' %}#vault-filters" class="btn btn-clear-ghost vault-clear-btn" onclick="trackVaultEvent('filter_cleared')">
                                 <i class="fas fa-times"></i> Clear
                             </a>
-                            {% endif %}
                         </form>
                     </div>
                 </div>
@@ -169,7 +167,7 @@
                         <div class="vault-chips-label">Popular products:</div>
                         <div class="vault-chips-container">
                             {% for product in products_with_counts %}
-                            <a href="?product={{ product.slug }}"
+                            <a href="?product={{ product.slug }}#vault-filters"
                                class="vault-product-chip {% if product_filter == product.slug %}active{% endif %}"
                                onclick="trackVaultEvent('chip_clicked', { product_slug: '{{ product.slug }}', product_name: '{{ product.name }}' })">
                                 {{ product.name }} <span class="chip-count">({{ product.photo_count }})</span>
@@ -243,6 +241,11 @@
         </div>
         {% endfor %}
     </div>
+    {% if not photos %}
+    <div class="text-center mt-4">
+        <p class="vault-no-photos">No photos found for the selected filter. <a href="{% url 'vault:vault_gallery' %}">Clear filter</a> to see all photos.</p>
+    </div>
+    {% endif %}
 </div>
 
     <!-- Pagination -->
