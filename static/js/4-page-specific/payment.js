@@ -11,7 +11,7 @@
     const totalsUrl = paymentContainer?.dataset.totalsUrl;
 
     if (!totalsUrl) {
-        console.warn('Payment: Totals URL not found');
+        // console.warn('Payment: Totals URL not found');
     }
 
     /**

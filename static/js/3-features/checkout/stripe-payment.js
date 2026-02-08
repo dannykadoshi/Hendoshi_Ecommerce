@@ -14,7 +14,7 @@
    ================================================ */
 
 // Stripe payment flow for Hendoshi checkout
-console.log('JS loaded');
+// console.log('JS loaded');
 
 document.addEventListener('DOMContentLoaded', () => {
     const paymentForm = document.getElementById('paymentForm');
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Log dataset for visibility
-    console.log('Payment form dataset:', paymentForm.dataset);
+    // console.log('Payment form dataset:', paymentForm.dataset);
 
     const stripePublicKey = paymentForm.dataset.publicKey;
     const clientSecret = paymentForm.dataset.clientSecret;
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             stripeInstance = Stripe(stripePublicKey);
-            console.log('Stripe initialized');
+            // console.log('Stripe initialized');
         } catch (err) {
             console.error('Stripe() initialization failed:', err);
             const mountError = document.createElement('div');
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             cardElement.mount(cardContainer);
-            console.log('Stripe card element mounted');
+            // console.log('Stripe card element mounted');
         } catch (err) {
             console.error('Error mounting Stripe card element:', err);
             return;
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 try {
                     cardElement.focus();
-                    console.log('cardElement.focus() called from label click');
+                    // console.log('cardElement.focus() called from label click');
                 } catch (err) {
                     try { cardContainer.focus(); } catch (e) {}
                     console.warn('cardElement.focus() failed, focused container instead', err);
@@ -130,9 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
             const el = document.elementFromPoint(x, y);
-            console.log('Element at card center (diagnostic):', el);
+            // console.log('Element at card center (diagnostic):', el);
             if (el && !cardContainer.contains(el)) {
-                console.warn('Found element blocking card input (diagnostic):', el);
+                // console.warn('Found element blocking card input (diagnostic):', el);
             }
             return el;
         }
@@ -145,8 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Log iframe presence
         setTimeout(function() {
             const iframe = cardContainer.querySelector('iframe');
-            console.log('Stripe iframe found:', iframe);
-            if (!iframe) console.warn('Stripe iframe not found inside #card-element — mount may not have succeeded or Stripe may be blocked');
+            // console.log('Stripe iframe found:', iframe);
+            // if (!iframe) console.warn('Stripe iframe not found inside #card-element — mount may not have succeeded or Stripe may be blocked');
         }, 400);
 
         // Hide autofill link by injecting CSS
@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // If Stripe is not defined yet on load, try to inject the Stripe script dynamically and initialize after load
     function ensureStripeScriptAndInit() {
         if (typeof Stripe !== 'undefined') {
-            console.log('Stripe already present, initializing immediately');
+            // console.log('Stripe already present, initializing immediately');
             startStripeInit();
             return;
         }
@@ -297,18 +297,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check if script tag already exists
         let script = document.querySelector('script[src="https://js.stripe.com/v3/"]');
         if (script) {
-            console.log('Stripe script tag exists but Stripe is undefined — waiting for load');
+            // console.log('Stripe script tag exists but Stripe is undefined — waiting for load');
             // Attach load handlers
-            script.addEventListener('load', function() { console.log('External Stripe script loaded'); startStripeInit(); });
+            script.addEventListener('load', function() { /* console.log('External Stripe script loaded'); */ startStripeInit(); });
             script.addEventListener('error', function(e) { console.error('External Stripe script failed to load', e); });
             return;
         }
 
-        console.log('Stripe script missing, injecting script tag dynamically');
+        // console.log('Stripe script missing, injecting script tag dynamically');
         script = document.createElement('script');
         script.src = 'https://js.stripe.com/v3/';
         script.async = true;
-        script.onload = function() { console.log('Injected Stripe script loaded'); startStripeInit(); };
+        script.onload = function() { /* console.log('Injected Stripe script loaded'); */ startStripeInit(); };
         script.onerror = function(e) { console.error('Injected Stripe script failed to load', e); };
         document.head.appendChild(script);
     }
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Log iframe presence as a final check
     setTimeout(function() {
         const iframe = cardContainer.querySelector('iframe');
-        console.log('Stripe iframe (post-init) found:', iframe);
+        // console.log('Stripe iframe (post-init) found:', iframe);
         if (!iframe) console.warn('Stripe iframe not found inside #card-element — mount may not have succeeded or Stripe may be blocked');
     }, 400);
 
