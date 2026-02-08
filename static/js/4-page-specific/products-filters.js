@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterTabs = document.querySelectorAll('.filter-tab');
     const filterContents = document.querySelectorAll('.filter-content');
 
-    console.log('Products Filters JS loaded');
-    console.log('filtersSortBtn:', filtersSortBtn);
-    console.log('filtersDropdown:', filtersDropdown);
-    console.log('applyFiltersBtn:', applyFiltersBtn);
+    // console.log('Products Filters JS loaded');
+    // console.log('filtersSortBtn:', filtersSortBtn);
+    // console.log('filtersDropdown:', filtersDropdown);
+    // console.log('applyFiltersBtn:', applyFiltersBtn);
 
     // Open filters
     if (filtersSortBtn && filtersDropdown && filtersOverlay) {
@@ -112,9 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Apply Filters Button
     if (applyFiltersBtn) {
-        console.log('Apply filters button found, attaching handler');
+        // console.log('Apply filters button found, attaching handler');
         applyFiltersBtn.addEventListener('click', function() {
-            console.log('Apply filters clicked');
+            // console.log('Apply filters clicked');
             const url = new URL(window.location);
             
             // Collect all checked checkboxes

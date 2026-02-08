@@ -19,7 +19,7 @@
    ================================================ */
 
 // Reserved for global initialization if needed
-console.log('HENDOSHI Base JS loaded');
+// console.log('HENDOSHI Base JS loaded');
 
 // Conditional logo navigation
 // If user is on home page, clicking logo goes to products

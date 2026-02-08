@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hasNext = loader.getAttribute('data-has-next') === 'true';
     
     if (!hasNext) {
-        console.log('No next page available');
+        // console.log('No next page available');
         return;
     }
 
