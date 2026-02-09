@@ -38,17 +38,23 @@
             <div class="auth-card">
                 <!-- Search Form -->
                 <form method="get" class="search-card mb-4 p-3 rounded">
-                    <div class="d-flex gap-2 flex-wrap">
-                        <input type="search" name="q" value="{{ q }}" class="form-control min-width-200" placeholder="Search email">
-                        <button class="btn btn-pink">Search</button>
+                    <div class="d-flex justify-content-start align-items-center">
+                        <input type="search" id="subscriber-search" name="q" value="{{ q }}" class="form-control" placeholder="Search email (live search)">
+                        <div id="search-loading" class="ms-2 d-none">
+                            <div class="spinner-border spinner-border-sm text-pink" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
-                <!-- Subscribers Table/Card View -->
-                {% if subscribers %}
-                <!-- Desktop Table View -->
-                <div class="table-responsive d-none d-md-block">
-                    <table class="table order-table">
+                <!-- Results Container -->
+                <div id="subscribers-results">
+                    <!-- Subscribers Table/Card View -->
+                    {% if subscribers %}
+                    <!-- Desktop Table View -->
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table order-table">
                         <thead>
                             <tr>
                                 <th>Email</th>
@@ -144,4 +150,202 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('subscriber-search');
+    const resultsContainer = document.getElementById('subscribers-results');
+    const loadingIndicator = document.getElementById('search-loading');
+    let searchTimeout;
+    let currentPage = 1;
+
+    // Function to perform AJAX search
+    function performSearch(query = '', page = 1) {
+        loadingIndicator.classList.remove('d-none');
+
+        // Build URL with query parameters
+        const url = new URL(window.location);
+        if (query) url.searchParams.set('q', query);
+        if (page > 1) url.searchParams.set('page', page);
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            updateResults(data, query);
+            loadingIndicator.classList.add('d-none');
+        })
+        .catch(error => {
+            console.error('Search error:', error);
+            loadingIndicator.classList.add('d-none');
+        });
+    }
+
+    // Function to update results in the DOM
+    function updateResults(data, query) {
+        let html = '';
+
+        if (data.subscribers && data.subscribers.length > 0) {
+            // Desktop Table View
+            html += `
+                <div class="table-responsive d-none d-md-block">
+                    <table class="table order-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Consent</th>
+                                <th>Confirmed</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            data.subscribers.forEach(subscriber => {
+                const consentIcon = subscriber.consent
+                    ? '<i class="fas fa-check text-success"></i>'
+                    : '<i class="fas fa-times text-danger"></i>';
+                const confirmedText = subscriber.is_confirmed ? 'Yes' : 'No';
+                const confirmedClass = subscriber.is_confirmed ? 'text-green' : 'text-red';
+
+                html += `
+                    <tr>
+                        <td>${subscriber.email}</td>
+                        <td class="text-center">${consentIcon}</td>
+                        <td><span class="${confirmedClass}">${confirmedText}</span></td>
+                        <td>${subscriber.created_at}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="/notifications/newsletter/confirm/${subscriber.confirmation_token}/" class="btn btn-outline-primary btn-sm" title="Resend confirmation email to subscriber">
+                                    <i class="fas fa-envelope"></i> Resend
+                                </a>
+                                <a href="/admin/notifications/newslettersubscriber/?q=${subscriber.email}" class="btn btn-outline-info btn-sm" title="Open subscriber in Django admin panel">
+                                    <i class="fas fa-external-link-alt"></i> Admin
+                                </a>
+                            </div>
+                        </td>
+                    </tr>`;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card View -->
+                <div class="d-md-none">
+                    <div class="row g-3">`;
+
+            data.subscribers.forEach(subscriber => {
+                const consentText = subscriber.consent ? 'Yes' : 'No';
+                const confirmedText = subscriber.is_confirmed ? 'Yes' : 'No';
+                const confirmedClass = subscriber.is_confirmed ? 'text-green' : 'text-red';
+
+                html += `
+                        <div class="col-12">
+                            <div class="card h-100 subscriber-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1 me-3">
+                                            <h6 class="card-title mb-1">${subscriber.email}</h6>
+                                            <div class="card-label small mb-2">
+                                                <strong>Consent:</strong> ${consentText}<br>
+                                                <strong>Confirmed:</strong> <span class="${confirmedClass}">${confirmedText}</span><br>
+                                                <strong>Created:</strong> ${subscriber.created_at}
+                                            </div>
+                                        </div>
+                                        <div class="btn-group-vertical btn-group-sm flex-shrink-0" role="group">
+                                            <a href="/notifications/newsletter/confirm/${subscriber.confirmation_token}/" class="btn btn-outline-primary btn-sm" title="Resend confirmation email to subscriber">
+                                                <i class="fas fa-envelope"></i> Resend
+                                            </a>
+                                            <a href="/admin/notifications/newslettersubscriber/?q=${subscriber.email}" class="btn btn-outline-info btn-sm" title="Open subscriber in Django admin panel">
+                                                <i class="fas fa-external-link-alt"></i> Admin
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+            });
+
+            html += `
+                    </div>
+                </div>`;
+
+            // Pagination
+            if (data.total_pages > 1) {
+                html += `
+                    <nav class="mt-3">
+                        <ul class="pagination">`;
+
+                if (data.has_previous) {
+                    html += `<li class="page-item"><a class="page-link" href="#" data-page="${data.current_page - 1}">Previous</a></li>`;
+                }
+
+                // Simple pagination - show current page and a few around it
+                const startPage = Math.max(1, data.current_page - 2);
+                const endPage = Math.min(data.total_pages, data.current_page + 2);
+
+                for (let p = startPage; p <= endPage; p++) {
+                    const activeClass = p === data.current_page ? 'active' : '';
+                    html += `<li class="page-item ${activeClass}"><a class="page-link" href="#" data-page="${p}">${p}</a></li>`;
+                }
+
+                if (data.has_next) {
+                    html += `<li class="page-item"><a class="page-link" href="#" data-page="${data.current_page + 1}">Next</a></li>`;
+                }
+
+                html += `
+                        </ul>
+                    </nav>`;
+            }
+        } else {
+            html = '<div class="text-center text-muted">No subscribers found.</div>';
+        }
+
+        resultsContainer.innerHTML = html;
+
+        // Add event listeners to pagination links
+        resultsContainer.querySelectorAll('.page-link[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = parseInt(this.getAttribute('data-page'));
+                currentPage = page;
+                performSearch(searchInput.value, page);
+            });
+        });
+    }
+
+    // Live search functionality
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        currentPage = 1; // Reset to first page on new search
+
+        searchTimeout = setTimeout(() => {
+            performSearch(this.value);
+        }, 300); // Debounce for 300ms
+    });
+
+    // Clear search when Escape is pressed
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.value = '';
+            currentPage = 1;
+            performSearch('');
+        }
+    });
+
+    // Initial load if there's a search query
+    if (searchInput.value) {
+        performSearch(searchInput.value);
+    }
+});
+</script>
 {% endblock %}
