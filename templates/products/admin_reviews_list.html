@@ -50,9 +50,9 @@
                         <div class="col-md-2">
                             <select name="status" class="form-select">
                                 <option value="">All Status</option>
-                                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
-                                <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
-                                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>&#xf017;</option>
+                                <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>&#xf164;</option>
+                                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>&#xf165;</option>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -74,8 +74,10 @@
                                 <option value="-helpful_count" {% if order_by == '-helpful_count' %}selected{% endif %}>Most Helpful</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-pink w-100">Filter</button>
+                        <div class="col-12 col-md-1 d-flex align-items-center">
+                            <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn" aria-label="Filter">
+                                <i class="fas fa-filter"></i>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -148,9 +150,9 @@
                                 </td>
                                 <td>
                                     <select class="form-select form-select-sm status-select" data-review-id="{{ review.id }}">
-                                        <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>Pending</option>
-                                        <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>Approved</option>
-                                        <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                        <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>&#xf017;</option>
+                                        <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>&#xf164;</option>
+                                        <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>&#xf165;</option>
                                     </select>
                                 </td>
                                 <td>{{ review.helpful_count }}</td>
@@ -187,9 +189,9 @@
                                             <small class="text-muted">by {{ review.user.username }}</small>
                                         </div>
                                         <select class="form-select form-select-sm status-select w-auto" data-review-id="{{ review.id }}">
-                                            <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>Pending</option>
-                                            <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>Approved</option>
-                                            <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                            <option value="pending" {% if review.status == 'pending' %}selected{% endif %}>&#xf017;</option>
+                                            <option value="approved" {% if review.status == 'approved' %}selected{% endif %}>&#xf164;</option>
+                                            <option value="rejected" {% if review.status == 'rejected' %}selected{% endif %}>&#xf165;</option>
                                         </select>
                                     </div>
 
@@ -215,7 +217,8 @@
                                             {{ review.created_at|date:"M d, Y" }} • {{ review.helpful_count }} helpful
                                         </small>
                                         <button type="button" class="btn btn-sm btn-info btn-width-32 btn-height-32" onclick="viewReviewDetail({{ review.id }})" title="View Full Review">
-                                            <i class="fas fa-eye"></i> View
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                            <span class="visually-hidden">View</span>
                                         </button>
                                     </div>
                                 </div>

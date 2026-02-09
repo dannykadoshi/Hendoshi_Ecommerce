@@ -69,11 +69,7 @@
                                 <i class="fas fa-times"></i> Clear Search
                             </a>
                             {% endif %}
-                            <div class="float-end">
-                                <small class="search-help-text">
-                                    <i class="fas fa-info-circle"></i> Search updates automatically as you type
-                                </small>
-                            </div>
+                            
                         </div>
                     </div>
                 </form>
@@ -133,7 +129,7 @@
             <!-- Photos Grid -->
             <div class="row g-4">
                 {% for photo in photos %}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-6 col-md-6 col-lg-4">
                     <div class="moderation-card">
                         <div class="moderation-image-container">
                         <input type="checkbox" class="photo-checkbox vault-checkbox" value="{{ photo.id }}">
@@ -150,7 +146,12 @@
                             </div>
                         </div>
                         <div class="moderation-info">
-                            <h5 class="moderation-caption">{{ photo.caption|truncatechars:50|default:"No caption" }}</h5>
+                            <div class="moderation-caption-container">
+                                <span class="moderation-caption">{{ photo.caption|default:"No caption" }}</span>
+                                {% if photo.caption|length > 50 %}
+                                <button class="caption-toggle" aria-expanded="false" aria-label="Expand caption"><i class="fas fa-chevron-down"></i></button>
+                                {% endif %}
+                            </div>
                             <p class="moderation-user">
                                 <i class="fas fa-user"></i> {{ photo.user.username }}
                             </p>

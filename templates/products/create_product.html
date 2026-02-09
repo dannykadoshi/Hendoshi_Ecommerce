@@ -58,17 +58,13 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10">
                             <div class="d-flex gap-3 justify-content-center flex-wrap">
-                                <button type="button" class="btn btn-pink creation-mode-btn" id="singleModeBtn">
-                                    <i class="fas fa-box me-2"></i>
-                                    <span>Create Single Product</span>
-                                </button>
                                 <button type="button" class="btn btn-pink creation-mode-btn" id="bulkModeBtn" data-bulk-url="{% url 'bulk_create_products_step1' %}">
                                     <i class="fas fa-boxes me-2"></i>
-                                    <span>Create in Bulk</span>
+                                    <span>Create Multiple Products</span>
                                 </button>
                             </div>
                             <p class="text-center mt-3 mode-description-text" id="modeDescription">
-                                <small>Create one product at a time with full customization</small>
+                                <small>Need to create multiple products? Use our bulk creation tool</small>
                             </p>
                         </div>
                     </div>
@@ -364,11 +360,11 @@
                     </div>
 
                     <!-- SUBMIT BUTTONS -->
-                    <div class="form-section text-center">
+                    <div class="form-section d-flex justify-content-center gap-3">
                         <button type="submit" class="btn btn-pink">
                             CREATE PRODUCT
                         </button>
-                        <a href="{% url 'products' %}" class="btn btn-pink ms-3">
+                        <a href="{% url 'products' %}" class="btn btn-pink">
                             CANCEL
                         </a>
                     </div>

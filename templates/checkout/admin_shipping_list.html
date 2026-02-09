@@ -29,6 +29,11 @@
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     <h1 class="page-hero-title">Shipping Rates Management</h1>
                     <p class="page-hero-subtitle">Create and manage shipping prices and free-shipping thresholds.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_shipping_create' %}" class="btn btn-pink">
+                            <i class="fas fa-plus"></i> Create Rate
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,9 +44,8 @@
             <div class="col-12 mx-auto">
                 <div class="auth-card">
 
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3 class="mb-0">Shipping Rates</h3>
-                        <a href="{% url 'admin_shipping_create' %}" class="btn btn-pink"><i class="fas fa-plus"></i> Create Rate</a>
+                    <div class="d-flex justify-content-center align-items-center mb-4">
+                        <h3 class="mb-0 me-3">Shipping Rates</h3>
                     </div>
 
                     <form method="get" class="mb-4 p-3 rounded admin-filter-form">
@@ -59,8 +63,10 @@
                                     <option value="-price" {% if sort == '-price' %}selected{% endif %}>Price (desc)</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-md-2">
-                                <button type="submit" class="btn btn-pink btn-form-action w-100">Filter</button>
+                            <div class="col-12 col-md-1 d-flex align-items-end">
+                                <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn" aria-label="Filter">
+                                    <i class="fas fa-filter"></i>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -106,16 +112,12 @@
                                             </form>
 
                                             <!-- Set standard -->
-                                            {% if rate.is_standard %}
-                                                <span class="badge bg-pink align-self-center">Standard</span>
-                                            {% else %}
-                                                <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-sm btn-pink btn-width-32 btn-height-32" title="Set as standard">
-                                                        <i class="fas fa-star"></i>
-                                                    </button>
-                                                </form>
-                                            {% endif %}
+                                            <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm {% if rate.is_standard %}btn-success{% else %}btn-pink{% endif %} btn-width-32 btn-height-32" title="{% if rate.is_standard %}Standard rate{% else %}Set as standard{% endif %}">
+                                                    <i class="{% if rate.is_standard %}fas fa-star{% else %}far fa-star{% endif %}"></i>
+                                                </button>
+                                            </form>
 
                                             <form method="post" action="{% url 'admin_shipping_delete' rate.id %}" class="display-inline">
                                                 {% csrf_token %}
@@ -159,14 +161,12 @@
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn btn-sm {% if rate.is_active %}btn-warning{% else %}btn-success{% endif %} btn-width-80 btn-height-32">{% if rate.is_active %}<i class="fas fa-pause"></i> Pause{% else %}<i class="fas fa-play"></i> Activate{% endif %}</button>
                                                 </form>
-                                                {% if rate.is_standard %}
-                                                    <span class="badge bg-pink align-self-center">Standard</span>
-                                                {% else %}
-                                                    <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-sm btn-pink btn-width-80 btn-height-32"><i class="fas fa-star"></i> Set Standard</button>
-                                                    </form>
-                                                {% endif %}
+                                                <form method="post" action="{% url 'admin_shipping_set_standard' rate.id %}" class="d-inline-block">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm {% if rate.is_standard %}btn-success{% else %}btn-pink{% endif %} btn-width-32 btn-height-32" title="{% if rate.is_standard %}Standard rate{% else %}Set as standard{% endif %}">
+                                                        <i class="{% if rate.is_standard %}fas fa-star{% else %}far fa-star{% endif %}"></i>
+                                                    </button>
+                                                </form>
                                                 <form method="post" action="{% url 'admin_shipping_delete' rate.id %}" class="display-inline" onsubmit="return false;">
                                                     {% csrf_token %}
                                                     <button type="button" class="btn btn-sm btn-danger btn-width-80 btn-height-32" onclick="confirmShippingRateDelete({{ rate.id }}, '{{ rate.name }}')"><i class="fas fa-trash"></i> Delete</button>

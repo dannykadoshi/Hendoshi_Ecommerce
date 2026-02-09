@@ -42,8 +42,8 @@
 
     <div class="container-fluid page-container">
         <div class="row">
-            <!-- Progress Indicator (Left Side) -->
-            <div class="col-lg-3">
+            <!-- Progress Indicator (Left Side on Desktop, Bottom on Mobile) -->
+            <div class="col-lg-3 order-2 order-lg-1">
                 <div class="progress-indicator" id="progressIndicator">
                     <h5><i class="fas fa-tasks me-2"></i>Completion Status</h5>
                     <div id="progressList"></div>
@@ -54,8 +54,8 @@
                 </div>
             </div>
             
-            <!-- Main Content (Right Side) -->
-            <div class="col-lg-9">
+            <!-- Main Content (Right Side on Desktop, Top on Mobile) -->
+            <div class="col-lg-9 order-1 order-lg-2">
                 <div class="auth-card bulk-creation-card">
                     {% if messages %}
                         {% for message in messages %}
@@ -134,18 +134,24 @@
                         <!-- Quick Actions -->
                         <div class="quick-actions">
                             <strong><i class="fas fa-bolt me-2"></i>Quick Actions:</strong>
-                            <button type="button" class="btn btn-sm btn-pink" id="autoFillNamesBtn">
-                                <i class="fas fa-magic me-2"></i>Auto-Fill Names
-                            </button>
-                            <button type="button" class="btn btn-sm btn-pink" id="setDefaultPriceBtn">
-                                <i class="fas fa-pound-sign me-2"></i>Set Default Price
-                            </button>
-                            <button type="button" class="btn btn-sm btn-pink" id="expandAllBtn">
-                                <i class="fas fa-expand-alt me-2"></i>Expand All
-                            </button>
-                            <button type="button" class="btn btn-sm btn-pink" id="collapseAllBtn">
-                                <i class="fas fa-compress-alt me-2"></i>Collapse All
-                            </button>
+                            <div class="quick-actions-grid mt-2">
+                                <div class="quick-actions-row">
+                                    <button type="button" class="btn btn-xs btn-pink" id="autoFillNamesBtn">
+                                        <i class="fas fa-magic me-1"></i>Auto-Fill Names
+                                    </button>
+                                    <button type="button" class="btn btn-xs btn-pink" id="setDefaultPriceBtn">
+                                        <i class="fas fa-pound-sign me-1"></i>Set Default Price
+                                    </button>
+                                </div>
+                                <div class="quick-actions-row">
+                                    <button type="button" class="btn btn-xs btn-pink" id="expandAllBtn">
+                                        <i class="fas fa-expand-alt me-1"></i>Expand All
+                                    </button>
+                                    <button type="button" class="btn btn-xs btn-pink" id="collapseAllBtn">
+                                        <i class="fas fa-compress-alt me-1"></i>Collapse All
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- INDIVIDUAL PRODUCTS ACCORDION -->

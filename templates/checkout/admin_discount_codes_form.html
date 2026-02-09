@@ -26,12 +26,12 @@
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     <h1 class="page-hero-title">{{ title }}</h1>
-                    <p class="page-hero-subtitle">
-                        Configure discount code settings and parameters.
-                        <a href="{% url 'admin_discount_codes_list' %}" class="btn btn-pink btn-sm ms-3">
-                            <i class="fas fa-tag"></i> Back to Discount Codes
+                    <p class="page-hero-subtitle">Configure discount code settings and parameters.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_discount_codes_list' %}" class="btn btn-pink">
+                            <i class="fas fa-tag"></i> Back to Discount
                         </a>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -205,9 +205,9 @@
                     {% endif %}
 
                     <!-- Submit Button -->
-                    <div class="d-flex justify-content-end mt-4">
-                        <a href="{% url 'admin_discount_codes_list' %}" class="btn btn-secondary me-2">Cancel</a>
-                        <button type="submit" class="btn btn-pink">{{ submit_text }}</button>
+                    <div class="d-flex flex-column align-items-center gap-3 mt-4">
+                        <button type="submit" class="btn btn-pink w-100" style="max-width: 300px;">{{ submit_text }}</button>
+                        <a href="{% url 'admin_discount_codes_list' %}" class="btn btn-secondary w-100" style="max-width: 300px;">Cancel</a>
                     </div>
                 </form>
 

@@ -53,10 +53,11 @@
                     <!-- Main Photo Container -->
                     <div class="vault-detail-photo-wrapper">
                         <div class="vault-detail-photo-main">
-                            <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image-natural">
+{% load vault_filters %}
+                            <img src="{{ photo.image.url|cloudinary_transform:'w_800,h_800,c_fit,f_auto,q_95' }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image-natural">
 
-                            <!-- Like Count Badge - Top Left -->
-                            <div class="vault-detail-like-badge" id="like-badge-{{ photo.id }}">
+                            <!-- Like Count Badge - Top Left (Now Clickable) -->
+                            <div class="vault-detail-like-badge {% if liked %}active-like{% endif %}" id="like-badge-{{ photo.id }}" onclick="likePhoto({{ photo.id }})" title="Like this photo">
                                 <i class="fas fa-heart"></i>
                                 <span>{{ photo.likes.count }}</span>
                             </div>
@@ -71,15 +72,6 @@
                                 <button id="downvote-button-{{ photo.id }}" class="vault-action-btn {% if user_downvoted %}active-down{% endif %}" onclick="votePhoto({{ photo.id }}, 'down')" title="Downvote">
                                     <i class="fas fa-thumbs-down"></i>
                                     <span>{{ photo.downvotes.count }}</span>
-                                </button>
-                                <button id="like-button-{{ photo.id }}" class="vault-action-btn vault-like-action {% if liked %}active-like{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </div>
-                            {% elif user.is_authenticated %}
-                            <div class="vault-detail-actions">
-                                <button id="like-button-{{ photo.id }}" class="vault-action-btn vault-like-action {% if liked %}active-like{% endif %}" onclick="likePhoto({{ photo.id }})" title="Like">
-                                    <i class="fas fa-heart"></i>
                                 </button>
                             </div>
                             {% endif %}

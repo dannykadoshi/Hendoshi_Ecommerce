@@ -410,11 +410,12 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_themes_list' %}"><i class="fas fa-magic"></i> Seasonal Themes</a></li>
-                                            <li class="dropdown-submenu">
-                                                <a class="dropdown-item menu-dropdown-item dropdown-toggle" href="#" id="contentModerationMenu" role="button" data-bs-toggle="dropdown">
+                                            <li class="content-moderation-dropdown-wrapper">
+                                                <a class="dropdown-item menu-dropdown-item content-moderation-toggle" href="#" role="button">
                                                     <i class="fas fa-gavel"></i> Content Moderation
+                                                    <i class="fas fa-angle-right"></i>
                                                 </a>
-                                                <ul class="dropdown-menu" aria-labelledby="contentModerationMenu">
+                                                <ul class="dropdown-menu content-moderation-submenu">
                                                     <li><a class="dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
                                                     <li><a class="dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                                 </ul>
@@ -430,6 +431,9 @@
                                 {% endif %}
                             </ul>
                         </div>
+                        <button class="nav-icon theme-toggle" id="mobileThemeToggle" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
                     </div>
 
                     <!-- Desktop Icons (Hidden on Mobile) -->
@@ -469,11 +473,12 @@
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_discount_codes_list' %}"><i class="fas fa-tags"></i> Discount Codes</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_shipping_list' %}"><i class="fas fa-shipping-fast"></i> Shipping Rates</a></li>
                                             <li><a class="dropdown-item menu-dropdown-item" href="{% url 'admin_themes_list' %}"><i class="fas fa-magic"></i> Seasonal Themes</a></li>
-                                            <li class="dropdown-submenu">
-                                                <a class="dropdown-item dropdown-toggle" href="#" id="contentModerationMenu2" role="button" data-bs-toggle="dropdown">
+                                            <li class="content-moderation-dropdown-wrapper">
+                                                <a class="dropdown-item menu-dropdown-item content-moderation-toggle" href="#" role="button">
                                                     <i class="fas fa-gavel"></i> Content Moderation
+                                                    <i class="fas fa-angle-right"></i>
                                                 </a>
-                                                <ul class="dropdown-menu" aria-labelledby="contentModerationMenu2">
+                                                <ul class="dropdown-menu content-moderation-submenu">
                                                     <li><a class="dropdown-item" href="{% url 'admin_list_reviews' %}"><i class="fas fa-star-half-alt"></i> Review Moderation</a></li>
                                                     <li><a class="dropdown-item" href="{% url 'vault:moderate_photos' %}"><i class="fas fa-gavel"></i> Vault Moderation</a></li>
                                                 </ul>
@@ -697,11 +702,6 @@
                         <button class="menu-item-arrow" data-submenu="about"><i class="fas fa-chevron-right"></i></button>
                     </li>
                     <li class="menu-item-divider"></li>
-                    <li class="menu-item-animate">
-                        <button class="menu-item menu-theme-toggle" id="mobileThemeToggle">
-                            <i class="fas fa-moon"></i> <span>Dark Mode</span>
-                        </button>
-                    </li>
                 </ul>
             </div>
             

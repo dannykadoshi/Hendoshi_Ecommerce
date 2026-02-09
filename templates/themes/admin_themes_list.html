@@ -30,6 +30,11 @@
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
                     <h1 class="page-hero-title">Seasonal Themes</h1>
                     <p class="page-hero-subtitle">Create and manage festive animations for your store. Toggle themes on/off, set schedules, and customize animations.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'admin_themes_create' %}" class="btn btn-pink">
+                            <i class="fas fa-plus"></i> Create New Theme
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,14 +44,6 @@
     <div class="row">
         <div class="col-12 mx-auto">
             <div class="auth-card">
-
-                <!-- Header with Create Button -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="mb-0">Seasonal Themes</h3>
-                    <a href="{% url 'admin_themes_create' %}" class="btn btn-pink">
-                        <i class="fas fa-plus me-2"></i> Create New Theme
-                    </a>
-                </div>
 
                 <!-- Filters and Search -->
                 <form method="get" class="mb-4 p-3 rounded admin-filter-form">
@@ -74,7 +71,7 @@
                                 <option value="name" {% if sort == 'name' %}selected{% endif %}>Name A-Z</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-1 d-flex align-items-end">
+                        <div class="col-12 col-md-1 d-flex align-items-center">
                             <button type="submit" class="btn btn-pink btn-form-action w-100 admin-filter-btn" aria-label="Filter">
                                 <i class="fas fa-filter"></i>
                             </button>
