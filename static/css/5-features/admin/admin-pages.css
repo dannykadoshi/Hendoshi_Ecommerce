@@ -280,6 +280,13 @@
     line-height: 1;
 }
 
+/* Orders management specific: make filter buttons full width and centered */
+.admin-products-container .row.g-3.align-items-end .col-12.col-md-2 .admin-filter-btn {
+    width: 100% !important;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
 .auth-card .mb-3 input[type="file"] {
     margin-top: 0.6rem;
 }
@@ -600,7 +607,7 @@ input[type="file"]:hover::-ms-browse {
 /* Edit icon in product detail - non-absolute positioning */
 .product-details .edit-product-icon {
     position: relative;
-    top: auto;
+    bottom: 2rem;
     left: auto;
     flex-shrink: 0;
     margin-left: 15px;
@@ -609,8 +616,8 @@ input[type="file"]:hover::-ms-browse {
 /* Mobile: Edit button positioned in bottom right of image */
 @media (max-width: 991px) {
     .edit-product-icon {
-        right: 10px;
-        bottom: 55px;
+        left: 10px;
+        bottom: 13px;
     }
 }
 
@@ -619,15 +626,6 @@ input[type="file"]:hover::-ms-browse {
    ================================ */
 
 /* Newsletter subscribers admin styles moved from template */
-/* Glassmorphism auth-card styles */
-.auth-card {
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    backdrop-filter: blur(15px);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
 
 /* Mobile Card Styles */
 @media (max-width: 768px) {
@@ -788,24 +786,6 @@ input[type="file"]:hover::-ms-browse {
 
 /* Mobile responsive styles for subscribers management */
 @media (max-width: 768px) {
-    /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
-    .auth-card {
-        padding-right: 0.5rem;
-        padding-left: 0.5rem;
-    }
-
-    /* Reduce column gutters inside the admin area */
-    .row.g-3 {
-        --bs-gutter-x: 0.5rem;
-        --bs-gutter-y: 0.5rem;
-    }
-
-    /* Make each column use minimal side padding so content is wider */
-    [class*="col-"] {
-        padding-right: 0.25rem;
-        padding-left: 0.25rem;
-    }
-
     /* Let content span the full width available within their column */
     .card {
         width: 100%;
@@ -1092,16 +1072,6 @@ input[type="file"]:hover::-ms-browse {
     color: var(--black);
 }
 
-.form-section {
-    margin-bottom: 2rem;
-    padding: 2rem;
-    border: 1px solid rgba(255, 105, 180, 0.2);
-    border-radius: 12px;
-    backdrop-filter: blur(15px);
-    background: rgba(20, 20, 20, 0.95);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
 .section-heading {
     display: flex;
     margin-bottom: 1.5rem;
@@ -1113,11 +1083,6 @@ input[type="file"]:hover::-ms-browse {
 }
 
 /* Light Mode - Product Form */
-:root.light-mode .form-section {
-    border-color: rgba(231, 31, 127, 0.2);
-    background-color: white;
-}
-
 :root.light-mode .section-heading,
 :root.light-mode .section-heading i {
     color: #e71f7f;
@@ -1308,6 +1273,33 @@ input[type="file"]:hover::-ms-browse {
     padding: 0.375rem 1.5rem;
 }
 
+/* Content Moderation submenu - click only, positioned to the left */
+.admin-panel-submenu .dropdown-submenu {
+    position: relative;
+}
+
+.admin-panel-submenu .content-moderation-submenu {
+    display: none;
+    z-index: 1051;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    left: auto;
+    min-width: 200px;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.admin-panel-submenu .content-moderation-submenu.show {
+    display: block;
+}
+
+/* Light mode Content Moderation submenu */
+:root.light-mode .content-moderation-submenu {
+    border: 2px solid var(--neon-pink);
+    background-color: white;
+}
+
 /* Profile submenu styles */
 .profile-submenu {
     display: none;
@@ -1401,16 +1393,9 @@ input[type="file"]:hover::-ms-browse {
 .section-title {
     color: var(--neon-pink);
 }
-.section-title {
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-    font-size: 1.3rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
 
-.section-title i {
+/* Admin section title icon color override */
+.admin-section .section-title i {
     color: var(--electric-yellow);
 }
 
@@ -2020,13 +2005,8 @@ input[type="file"]:hover::-ms-browse {
     color: #333;
 }
 
-:root.light-mode .bulk-actions-card,
-:root.light-mode .auth-card {
+:root.light-mode .bulk-actions-card {
     background: rgba(0, 0, 0, 0.02);
-}
-
-:root.light-mode .auth-card {
-    border-color: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .auth-card .list-group .list-group-item {

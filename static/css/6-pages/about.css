@@ -15,6 +15,10 @@
    ================================================ */
 
 /* Stats Section */
+.about-stats-section {
+    padding-bottom: 0 !important;
+}
+
 .about-stat-card {
     display: flex;
     flex-direction: column;
@@ -88,19 +92,7 @@
 /* Testimonials Section */
 .testimonials-section {
     background: rgba(0, 0, 0, 0.2);
-}
-
-.section-title {
-    color: var(--off-white);
-    font-weight: 900;
-    font-size: 2.5rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.section-title i {
-    margin-right: 1rem;
-    color: var(--neon-pink);
+    padding-top: 0 !important;
 }
 
 .testimonial-card {
@@ -204,12 +196,19 @@
     }
 
     .section-title {
-        font-size: 1.8rem;
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
     }
 
     .testimonial-text {
         font-size: 0.95rem;
     }
+}
+
+/* About page specific section title styling */
+.about-section .section-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
 }
 
 /* ================================================
@@ -237,10 +236,6 @@
 
 :root.light-mode .stat-label {
     color: rgba(0, 0, 0, 0.6);
-}
-
-:root.light-mode .section-title {
-    color: #222;
 }
 
 :root.light-mode .testimonial-text {

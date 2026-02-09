@@ -629,7 +629,7 @@ h2.gradient-title {
 
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        gap: 0.5rem; /* Reduced gap to give more space for cards */
     }
 
     .filters-dropdown {
@@ -769,10 +769,11 @@ h2.gradient-title {
     .products-page .page-container {
         max-width: 100%; /* Full width on mobile */
         margin: 0;
-        padding-top: 0.75rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem; /* Increase padding to ensure cards aren't cut off */
     }
     .products-page .filters-sort-wrapper {
-        margin-top: 0.5rem;
+        margin-top: 2rem !important; /* push filters lower on mobile so it's clear of the page-hero */
     }
 }
 
@@ -1945,17 +1946,6 @@ h2.gradient-title {
     font-size: 1.5rem;
 }
 
-.auth-card {
-    padding: 3rem;
-    border: 1px solid rgba(255, 105, 180, 0.2);
-    border-radius: 12px;
-    backdrop-filter: blur(20px);
-    background: rgba(20, 20, 20, 0.95);
-    box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(255, 20, 147, 0.1);
-}
-
 .btn-close-auth {
     display: flex;
     position: absolute;
@@ -2033,9 +2023,6 @@ h2.gradient-title {
 }
 
 @media (max-width: 768px) {
-    .auth-card {
-        padding: 1rem;
-    }
 }
 
 .form-check-input {
@@ -2132,7 +2119,6 @@ h2.gradient-title {
 
 .profile-card {
     position: relative;
-    margin-bottom: 20px;
     padding: 20px;
     overflow: hidden;
     border: var(--border-glass);
@@ -2171,7 +2157,6 @@ h2.gradient-title {
 .profile-card h2 {
     display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
     padding-bottom: 12px;
     gap: 0.75rem;
     border-bottom: var(--border-glass);
@@ -2192,15 +2177,6 @@ h2.gradient-title {
 }
 
 /* Newsletter subscribers admin styles moved from template */
-/* Glassmorphism auth-card styles */
-.auth-card {
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    backdrop-filter: blur(15px);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
 
 /* Mobile Card Styles */
 @media (max-width: 768px) {
@@ -2361,22 +2337,10 @@ h2.gradient-title {
 
 /* Mobile responsive styles for subscribers management */
 @media (max-width: 768px) {
-    /* Reduce outer auth-card horizontal padding so content can reach closer to the border */
-    .auth-card {
-        padding-right: 0.5rem;
-        padding-left: 0.5rem;
-    }
-
     /* Reduce column gutters inside the admin area */
     .row.g-3 {
         --bs-gutter-x: 0.5rem;
         --bs-gutter-y: 0.5rem;
-    }
-
-    /* Make each column use minimal side padding so content is wider */
-    [class*="col-"] {
-        padding-right: 0.25rem;
-        padding-left: 0.25rem;
     }
 
     /* Let content span the full width available within their column */

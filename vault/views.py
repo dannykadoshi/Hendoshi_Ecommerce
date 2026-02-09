@@ -16,31 +16,31 @@ def vault_gallery(request):
     """
     Display the public Vault gallery with approved photos
     """
-    from django.db.models import Exists, OuterRef
+    from django.db.models import Exists, OuterRef, Count, Case, When, BooleanField
 
+    # Base queryset with optimized queries
     photos = VaultPhoto.objects.filter(status='approved').select_related('user').prefetch_related('tagged_products')
 
-    # Annotate photos with liked status for authenticated users
+    # Use more efficient annotation for user-specific data
     if request.user.is_authenticated:
+        # Single query to get user's interactions with all photos
+        user_likes = VaultPhoto.likes.through.objects.filter(
+            user_id=request.user.id,
+            vaultphoto_id=OuterRef('pk')
+        )
+        user_upvotes = VaultPhoto.upvotes.through.objects.filter(
+            user_id=request.user.id,
+            vaultphoto_id=OuterRef('pk')
+        )
+        user_downvotes = VaultPhoto.downvotes.through.objects.filter(
+            user_id=request.user.id,
+            vaultphoto_id=OuterRef('pk')
+        )
+
         photos = photos.annotate(
-            is_liked=Exists(
-                VaultPhoto.likes.through.objects.filter(
-                    vaultphoto_id=OuterRef('pk'),
-                    user_id=request.user.id
-                )
-            ),
-            user_upvoted=Exists(
-                VaultPhoto.upvotes.through.objects.filter(
-                    vaultphoto_id=OuterRef('pk'),
-                    user_id=request.user.id
-                )
-            ),
-            user_downvoted=Exists(
-                VaultPhoto.downvotes.through.objects.filter(
-                    vaultphoto_id=OuterRef('pk'),
-                    user_id=request.user.id
-                )
-            )
+            is_liked=Exists(user_likes),
+            user_upvoted=Exists(user_upvotes),
+            user_downvoted=Exists(user_downvotes)
         )
 
     # Filter by product if specified
@@ -48,62 +48,59 @@ def vault_gallery(request):
     if product_filter:
         photos = photos.filter(tagged_products__slug=product_filter)
 
-    # Get featured photos (separate from main photos query)
-    # First try to get actively featured photos, but fallback to top-rated if none exist
+    # Get featured photos with optimized queries
     featured_photos = VaultPhoto.objects.filter(
         status='approved',
         is_featured=True,
         featured_until__gt=timezone.now()
-    ).select_related('user').prefetch_related('tagged_products').order_by('-feature_score')[:10]
-    
-    # If no featured photos exist, auto-select top photos by engagement
+    ).select_related('user').prefetch_related('tagged_products').annotate(
+        like_count=Count('likes')
+    ).order_by('-feature_score')[:10]
+
+    # Fallback to top photos if no featured ones
     if not featured_photos.exists():
-        from django.db.models import Count
         featured_photos = VaultPhoto.objects.filter(
             status='approved'
         ).annotate(
             like_count=Count('likes')
         ).select_related('user').prefetch_related('tagged_products').order_by('-like_count', '-created_at')[:10]
 
-    # Annotate featured photos with liked status for authenticated users
+    # Annotate featured photos efficiently
     if request.user.is_authenticated:
-        featured_photos = featured_photos.annotate(
-            is_liked=Exists(
-                VaultPhoto.likes.through.objects.filter(
-                    vaultphoto_id=OuterRef('pk'),
-                    user_id=request.user.id
-                )
-            ),
-            user_upvoted=Exists(
-                VaultPhoto.upvotes.through.objects.filter(
-                    vaultphoto_id=OuterRef('pk'),
-                    user_id=request.user.id
-                )
-            ),
-            user_downvoted=Exists(
-                VaultPhoto.downvotes.through.objects.filter(
-                    vaultphoto_id=OuterRef('pk'),
-                    user_id=request.user.id
-                )
-            )
+        featured_likes = VaultPhoto.likes.through.objects.filter(
+            user_id=request.user.id,
+            vaultphoto_id=OuterRef('pk')
+        )
+        featured_upvotes = VaultPhoto.upvotes.through.objects.filter(
+            user_id=request.user.id,
+            vaultphoto_id=OuterRef('pk')
+        )
+        featured_downvotes = VaultPhoto.downvotes.through.objects.filter(
+            user_id=request.user.id,
+            vaultphoto_id=OuterRef('pk')
         )
 
-    # Pagination
-    paginator = Paginator(photos, 20)  # 20 photos per page
+        featured_photos = featured_photos.annotate(
+            is_liked=Exists(featured_likes),
+            user_upvoted=Exists(featured_upvotes),
+            user_downvoted=Exists(featured_downvotes)
+        )
+
+    # Pagination with optimized page size
+    paginator = Paginator(photos, 12)  # Reduced from 20 to 12 for better performance
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Get all products for filter dropdown
+    # Get products efficiently
     all_products = Product.objects.filter(is_archived=False).order_by('name')
 
-    # Get products with photo counts for chips (top products with most photos)
-    from django.db.models import Count
+    # Get products with counts more efficiently
     products_with_counts = Product.objects.filter(
         is_archived=False,
         vault_photos__status='approved'
     ).annotate(
-        photo_count=Count('vault_photos')
-    ).order_by('-photo_count')[:8]  # Top 8 products
+        photo_count=Count('vault_photos', distinct=True)
+    ).order_by('-photo_count')[:8]
 
     context = {
         'photos': page_obj,

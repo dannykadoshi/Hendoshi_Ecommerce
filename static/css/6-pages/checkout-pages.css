@@ -218,16 +218,6 @@
         max-width: 100%;
     }
 
-    .row {
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    .row > * {
-        padding-right: 0;
-        padding-left: 0.5rem;
-    }
-
     .payment-methods {
         margin-top: 0.5rem;
         padding-top: 0.5rem;
@@ -244,10 +234,6 @@
 .tracking-card {
     border: 2px solid rgba(255, 20, 147, 0.2);
     background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 20, 147, 0.02));
-}
-
-.tracking-card-empty {
-    background: rgba(255, 255, 255, 0.02);
 }
 
 .tracking-number {
@@ -316,10 +302,7 @@
 
 /* Tracking Update Form */
 .tracking-update-form {
-    padding: 1.5rem;
-    border: var(--border-glass);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.02);
+    padding: 0.5rem;
 }
 
 .tracking-update-fields {
@@ -359,13 +342,6 @@
 
 .tracking-update-field .form-control::placeholder {
     color: rgba(255, 255, 255, 0.3);
-}
-
-.tracking-update-btn {
-    width: 100%;
-    padding: 0.875rem;
-    font-weight: 600;
-    font-size: 1rem;
 }
 
 .form-check-input:checked {
@@ -445,12 +421,6 @@
     box-shadow: 0 8px 20px rgba(255, 45, 161, 0.3);
     color: white;
     font-size: 40px;
-}
-
-.form-section {
-    padding: 20px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .text-link-pink {
@@ -714,10 +684,6 @@
 
 :root.light-mode .form-check-label {
     color: rgba(0, 0, 0, 0.8);
-}
-
-:root.light-mode .form-section {
-    background-color: rgba(0, 0, 0, 0.03);
 }
 
 :root.light-mode .page-title {

@@ -166,6 +166,7 @@
     .page-hero {
         min-height: auto;
         padding: 0 0 1rem;
+        margin-bottom: -2rem;
     }
 
     body .page-hero .d-flex {
@@ -199,5 +200,7 @@
 
     .page-hero-subtitle {
         font-size: 1.1rem;
+        margin-bottom: 0;
+        padding-bottom: 0.2rem;
     }
 }

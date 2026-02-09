@@ -24,37 +24,6 @@
     background: var(--charcoal);
 }
 
-.contact-card {
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-    border: 1px solid var(--border-glass-color);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.contact-close-btn {
-    z-index: 10;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-    transition:
-        color 0.3s,
-        transform 0.2s;
-}
-
-.contact-close-btn:hover {
-    transform: scale(1.1);
-    color: var(--electric-yellow);
-}
 .contact-hero {
     position: relative;
     margin-top: 76px;
@@ -105,43 +74,12 @@
     background: var(--charcoal);
 }
 
-.contact-card {
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-    border: 1px solid var(--border-glass-color);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.contact-close-btn {
-    z-index: 10;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-    transition:
-        color 0.3s,
-        transform 0.2s;
-}
-
-.contact-close-btn:hover {
-    transform: scale(1.1);
-    color: var(--electric-yellow);
-}
+/* .contact-card consolidated to page-styles.css */
 
 .size-table {
     width: 100%;
     margin: 20px 0;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--border-radius-glass);
     border-collapse: collapse;
     backdrop-filter: blur(10px);
@@ -169,6 +107,10 @@
 
 .size-table tr:hover {
     background: rgba(255, 20, 147, 0.05);
+}
+
+.contact-page .size-table tbody {
+    color: white;
 }
 
 .size-note {
@@ -209,10 +151,6 @@
         overflow-x: visible;
     }
 
-    .contact-card {
-        padding: 1rem 0.5rem;
-    }
-
     .shipping-content {
         padding: 0.5rem;
     }
@@ -226,7 +164,7 @@
 
 /* Quick Contact Cards */
 .quick-contact-card {
-    padding: 1.75rem;
+    padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     backdrop-filter: blur(10px);
@@ -364,11 +302,6 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 991px) {
-    .contact-form-section .container-fluid {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
     .contact-faq-section {
         padding: 2rem 1rem;
     }
@@ -388,25 +321,9 @@
     .contact-faq-section h3 {
         font-size: 1.5rem;
     }
-    .contact-page .contact-card {
-        width: auto;
-        max-width: 100%;
-        margin-right: 0;
-        margin-left: 0;
-        padding: 1.5rem 1rem;
-        border-radius: 12px;
-    }
-
-    .contact-page .container {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
 
     .contact-info-card {
         padding: 1rem;
-    }
-    .contact-card {
-        padding: 1rem 0.5rem;
     }
 
     .shipping-content {
@@ -416,17 +333,6 @@
     .shipping-region {
         padding: 1rem 0.5rem;
     }
-}
-
-/* Override full-width styles for contact page - keep some padding from edges */
-@media (max-width: 768px) {
-}
-
-/* ===== SHIPPING ===== */
-
-/* .shipping-contact .btn-pink moved to components.css for canonical styling */
-
-@media (max-width: 768px) {
 }
 
 /* ===== TRACK_ORDER ===== */
@@ -591,72 +497,13 @@
     background: var(--charcoal);
 }
 
-.contact-card {
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-    border: 1px solid var(--border-glass-color);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.02);
-}
+/* .contact-card consolidated to page-styles.css */
 
-.contact-close-btn {
-    z-index: 10;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-    transition:
-        color 0.3s,
-        transform 0.2s;
-}
-
-.contact-close-btn:hover {
-    transform: scale(1.1);
-    color: var(--electric-yellow);
-}
 .contact-form-section {
     background: var(--charcoal);
 }
 
-.contact-card {
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-    border: 1px solid var(--border-glass-color);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.contact-close-btn {
-    z-index: 10;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-    transition:
-        color 0.3s,
-        transform 0.2s;
-}
-
-.contact-close-btn:hover {
-    transform: scale(1.1);
-    color: var(--electric-yellow);
-}
+/* .contact-card consolidated to page-styles.css */
 
 .shipping-content {
     padding: 2rem;
@@ -815,8 +662,8 @@
 }
 
 .shipping-additional {
-    margin-top: 3rem;
-    padding: 2rem;
+    margin: 0 -0.8rem !important;
+    padding: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
     backdrop-filter: blur(10px);
@@ -824,12 +671,13 @@
 }
 
 .additional-heading {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     color: var(--off-white);
     font-weight: 700;
     font-size: 1.5rem;
     letter-spacing: 1px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .additional-list {
@@ -852,22 +700,6 @@
     content: "•";
     color: var(--neon-pink);
     font-weight: bold;
-}
-
-.shipping-contact {
-    margin-top: 3rem;
-    padding: 2rem;
-    border: 1px solid rgba(255, 20, 147, 0.2);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 20, 147, 0.1);
-    text-align: center;
-}
-
-.contact-text {
-    margin-bottom: 1.5rem;
-    color: var(--off-white);
-    font-size: 1.1rem;
 }
 
 /* Mobile responsiveness for returns page */
@@ -922,37 +754,7 @@
     background: var(--charcoal);
 }
 
-.contact-card {
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-    border: 1px solid var(--border-glass-color);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.contact-close-btn {
-    z-index: 10;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
-    color: var(--neon-pink);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-    transition:
-        color 0.3s,
-        transform 0.2s;
-}
-
-.contact-close-btn:hover {
-    transform: scale(1.1);
-    color: var(--electric-yellow);
-}
+/* .contact-card consolidated to page-styles.css */
 
 .shipping-content {
     padding: 2rem;
@@ -1045,22 +847,6 @@
     line-height: 1.6;
 }
 
-.shipping-contact {
-    margin-top: 3rem;
-    padding: 2rem;
-    border: 1px solid rgba(255, 20, 147, 0.2);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 20, 147, 0.1);
-    text-align: center;
-}
-
-.contact-text {
-    margin-bottom: 1.5rem;
-    color: var(--off-white);
-    font-size: 1.1rem;
-}
-
 /* Mobile responsiveness for FAQ page */
 @media (max-width: 768px) {
     .shipping-content {
@@ -1096,6 +882,7 @@
     .shipping-region,
     .shipping-content {
         padding: 1rem;
+        margin: -0.8rem;
     }
 }
 
@@ -1124,6 +911,10 @@
 
 :root.light-mode .size-note {
     color: rgba(0, 0, 0, 0.7);
+}
+
+:root.light-mode .contact-page .size-table tbody {
+    background: white !important;
 }
 
 :root.light-mode .quick-contact-card {

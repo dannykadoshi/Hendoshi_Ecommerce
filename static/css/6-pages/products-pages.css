@@ -19,11 +19,12 @@
 
 /* Enhanced approve button styling */
 .status-select {
-    min-width: 120px;
     border: 2px solid rgba(255, 20, 147, 0.3);
     background-color: rgba(0, 0, 0, 0.8);
     color: var(--off-white);
     transition: all 0.3s ease;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
 }
 
 .status-select:focus {
@@ -36,20 +37,33 @@
     background-color: rgba(0, 0, 0, 0.9);
 }
 
-/* Status-specific colors */
-.status-select option[value="approved"] {
-    background-color: rgba(25, 135, 84, 0.9);
-    color: white;
+/* Color the select control itself to reflect current status */
+.status-select.status-approved {
+    background-color: rgba(25, 135, 84, 0.12);
+    border-color: rgba(25, 135, 84, 0.6);
+    color: rgba(25, 135, 84, 1);
 }
 
-.status-select option[value="rejected"] {
-    background-color: rgba(220, 53, 69, 0.9);
-    color: white;
+.status-select.status-approved:focus,
+.status-select.status-approved:hover {
+    background-color: rgba(25, 135, 84, 0.18);
 }
 
-.status-select option[value="pending"] {
-    background-color: rgba(255, 193, 7, 0.9);
-    color: black;
+.status-select.status-rejected {
+    background-color: rgba(220, 53, 69, 0.12);
+    border-color: rgba(220, 53, 69, 0.6);
+    color: rgba(220, 53, 69, 1);
+}
+
+.status-select.status-rejected:focus,
+.status-select.status-rejected:hover {
+    background-color: rgba(220, 53, 69, 0.18);
+}
+
+.status-select.status-pending {
+    background-color: rgba(255, 193, 7, 0.12);
+    border-color: rgba(255, 193, 7, 0.6);
+    color: rgba(102, 81, 0, 1);
 }
 
 /* Bulk action buttons styling */
@@ -729,17 +743,20 @@ body .admin-reply .text-muted {
     padding: 20px 0;
 }
 
-.form-section {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+/* Mobile button spacing for creation mode buttons */
+.creation-mode-toggle .d-flex {
+    gap: 1rem !important;
 }
 
-.form-section:last-child {
-    border-bottom: none;
+.creation-mode-toggle .d-flex .btn {
+    margin-bottom: 0.5rem !important;
+    min-width: fit-content;
 }
 
-.image-form-row,
+/* Mobile button spacing for submit buttons */
 .variant-form-row {
+    margin-bottom: 0.5rem !important;
+    padding: 0.75rem !important;
     transition: all 0.3s ease;
 }
 
@@ -1080,7 +1097,6 @@ body .admin-reply .text-muted {
 
     .btn {
         padding: 0.375rem 0.5rem;
-        font-size: 0.75rem;
     }
 }
 
@@ -1229,6 +1245,38 @@ body .admin-reply .text-muted {
     font-size: 1.1rem;
 }
 
+/* Mobile styles for progress indicator at bottom */
+@media (max-width: 767px) {
+    .progress-indicator {
+        position: static;
+        margin: 2rem 1rem 1rem 1rem;
+        width: calc(100% - 2rem);
+        padding: 20px;
+        border: 2px solid rgba(255, 105, 180, 0.7);
+        background: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+    }
+
+    .progress-indicator h5 {
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+    }
+
+    .progress-item {
+        margin-bottom: 2px;
+        font-size: 0.8rem;
+        gap: 8px;
+    }
+
+    .progress-indicator hr {
+        margin: 12px 0;
+    }
+
+    .progress-indicator strong {
+        font-size: 1rem;
+    }
+}
+
 .quick-actions {
     margin-bottom: 20px;
     padding: 15px;
@@ -1236,9 +1284,30 @@ body .admin-reply .text-muted {
     background: rgba(255, 105, 180, 0.1);
 }
 
-.quick-actions .btn {
-    margin-right: 10px;
-    margin-bottom: 10px;
+/* Quick actions grid layout - 2x2 */
+.quick-actions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quick-actions-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.quick-actions-row .btn {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Extra small button size for quick actions */
+.btn-xs {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    border-radius: 0.25rem !important;
 }
 
 .product-number {
@@ -1778,16 +1847,13 @@ body .admin-reply-section small.text-muted {
 
 /* Existing variants section */
 .existing-variants-section {
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.2);
+    margin: -1rem;
 }
 
 .existing-variants-section h5 {
     color: var(--electric-yellow);
     font-weight: 600;
+    margin-left: 1rem;
 }
 
 .add-variants-section h5 {

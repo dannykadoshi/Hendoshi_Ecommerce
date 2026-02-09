@@ -201,8 +201,7 @@
 
 @media (max-width: 768px) {
     .hall-of-fame-intro-card {
-        margin: 0 1rem;
-        padding: 1.5rem;
+        padding-left: 1rem;
     }
 
     .hall-of-fame-subtitle {
@@ -219,7 +218,6 @@
     }
 
     .qualification-item {
-        flex-direction: column;
         padding: 1rem;
         gap: 0.75rem;
         text-align: center;
@@ -695,15 +693,6 @@
     font-size: 1rem;
 }
 
-.shipping-additional {
-    margin-top: 3rem;
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.02);
-}
-
 .additional-heading {
     margin-bottom: 1.5rem;
     color: var(--off-white);
@@ -733,22 +722,6 @@
     content: "•";
     color: var(--neon-pink);
     font-weight: bold;
-}
-
-.shipping-contact {
-    margin-top: 3rem;
-    padding: 2rem;
-    border: 1px solid rgba(255, 20, 147, 0.2);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 20, 147, 0.1);
-    text-align: center;
-}
-
-.contact-text {
-    margin-bottom: 1.5rem;
-    color: var(--off-white);
-    font-size: 1.1rem;
 }
 
 /* .shipping-contact .btn-pink moved to components.css for canonical styling */
@@ -850,11 +823,13 @@
 .type-badge-custom {
     border-color: rgba(40, 167, 69, 0.3);
     background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    font-size: 0.5rem;
 }
 
-.type-badge-custom,
 .type-badge-custom i {
     color: #28a745;
+    font-size: 0.5rem;
 }
 
 .product-count-badge {
@@ -1331,11 +1306,9 @@
     font-size: 1.5rem;
 }
 
-.section-title {
+/* Modal section title override */
+.modal-section .section-title {
     margin: 0;
-    color: var(--off-white);
-    font-weight: 700;
-    font-size: 1.3rem;
 }
 
 .vault-form-label {
@@ -1821,14 +1794,6 @@ body .page-hero .battle-vest-stats {
 }
 
 /* Admin Products List Styles */
-.auth-card {
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    backdrop-filter: blur(15px);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
 
 /* Mobile Card Styles */
 @media (max-width: 768px) {
@@ -2036,12 +2001,6 @@ body .page-hero .battle-vest-stats {
     .admin-products-container .col-md-3 > .d-flex.flex-column .clear-btn-mobile {
         flex: 1 1 35%;
         padding: 0.45rem 0.7rem;
-    }
-
-    /* Ensure they align with card edges and do not overflow */
-    .admin-products-container .auth-card,
-    .admin-products-container .auth-card .row {
-        overflow: hidden;
     }
 
     /* Match pagination sizing used on Products Management so admin lists
@@ -2254,17 +2213,10 @@ body .page-hero .battle-vest-stats {
 /* --- Products: create/edit/product-detail extracted styles --- */
 
 /* Form sections and editor styling for create/edit product */
-.form-section {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 20, 147, 0.2);
-}
 
-.form-section:last-child {
-    border-bottom: none;
-}
-
-.image-form-row,
 .variant-form-row {
+    margin-bottom: 0.5rem !important;
+    padding: 0.75rem !important;
     transition: all 0.3s ease;
 }
 

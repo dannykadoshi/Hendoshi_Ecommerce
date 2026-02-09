@@ -25,7 +25,12 @@
     border-radius: 20px;
     backdrop-filter: blur(10px);
     background: rgba(20, 20, 20, 0.95);
-    transition: all 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    contain: layout style;
 }
 
 .vault-card::before {
@@ -66,6 +71,8 @@
     object-fit: cover;
     filter: brightness(0.9) contrast(1.1);
     transition: transform 0.3s ease;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .vault-card:hover .vault-image {
@@ -215,19 +222,8 @@
 /* pulse-heart moved to static/css/animations.css */
 
 /* ========================================
-   FEATURED CAROUSEL - PREMIUM DESIGN
-   ======================================== */
-
-.vault-featured-section {
-    position: relative;
-    margin-bottom: 3rem;
-    padding: 3rem 2rem;
-    overflow: hidden;
-    border: 2px solid rgba(255, 20, 147, 0.3);
-    border-radius: 24px;
-    backdrop-filter: blur(15px);
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.08), rgba(204, 255, 0, 0.03));
-}
+    FEATURED CAROUSEL - PREMIUM DESIGN
+    ======================================== */
 
 .vault-featured-header {
     z-index: 2;
@@ -277,8 +273,9 @@
 /* .vault-featured-track styles defined below in carousel section */
 
 .vault-featured-item {
-    flex: 0 0 280px;
-    max-width: 280px;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
 }
 
 .vault-featured-card {
@@ -295,7 +292,6 @@
 
 /* Override glassmorphic-card when used on featured cards */
 body .vault-featured-card.glassmorphic-card {
-    border: 2px solid rgba(255, 20, 147, 0.3);
     background: rgba(20, 20, 20, 0.95);
 }
 
@@ -313,11 +309,42 @@ body .vault-featured-card.glassmorphic-card {
     overflow: hidden;
 }
 
+.vault-featured-image-link {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
 .vault-featured-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
+}
+
+/* Click indicator - small pink eye icon in corner */
+.vault-featured-click-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    color: #000;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.vault-featured-card:hover .vault-featured-click-indicator {
+    opacity: 0;
 }
 
 /* Carousel rendering / performance hints moved into the single
@@ -387,7 +414,28 @@ body .vault-featured-card.glassmorphic-card {
     transition: all 0.3s ease;
 }
 
+.vault-featured-link-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    transform: scale(0.8);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--black);
+    font-size: 2.5rem;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
 .vault-featured-card:hover .vault-featured-link {
+    transform: scale(1.05);
+}
+
+.vault-featured-card:hover .vault-featured-link-placeholder {
     transform: scale(1.05);
 }
 
@@ -607,15 +655,6 @@ body .vault-featured-card.glassmorphic-card {
 }
 
 /* Button Styling */
-.btn-clear-ghost {
-    padding: 0.5rem 1.5rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
 
 .btn-clear-ghost:hover {
     transform: translateY(-2px);
@@ -691,9 +730,9 @@ body .vault-featured-card.glassmorphic-card {
    ======================================== */
 
 .vault-filters-section {
-    max-width: 1200px;
+    max-width: 1800px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0.5rem;
     border: var(--border-glass);
     border-radius: 15px;
     backdrop-filter: blur(10px);
@@ -712,14 +751,7 @@ body .vault-featured-card.glassmorphic-card {
 }
 
 .vault-filter-btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
-    color: #000;
-    font-weight: 700;
-    transition: all 0.3s ease;
+    padding: 0.75rem 0rem !important;
 }
 
 .vault-filter-btn:hover {
@@ -730,7 +762,7 @@ body .vault-featured-card.glassmorphic-card {
 .vault-clear-btn {
     display: inline-flex;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
     gap: 0.5rem;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
@@ -1023,6 +1055,7 @@ body .vault-featured-card.glassmorphic-card {
 .vault-detail-photo-wrapper {
     flex: 1;
     min-width: 0;
+    margin-bottom: 3rem;
 }
 
 .vault-detail-photo-main {
@@ -1056,6 +1089,21 @@ body .vault-featured-card.glassmorphic-card {
     color: #fff;
     font-weight: 700;
     font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.vault-detail-like-badge:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 20, 147, 0.95);
+    transform: scale(1.05);
+}
+
+.vault-detail-like-badge.active-like {
+    border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 1);
+    box-shadow: 0 4px 20px rgba(255, 20, 147, 0.6);
 }
 
 .vault-detail-like-badge i {
@@ -1550,12 +1598,13 @@ body .vault-featured-card.glassmorphic-card {
     text-transform: uppercase;
 }
 
-.section-title {
+/* Vault section title centering */
+.vault-section .section-title {
     margin-bottom: 2rem;
     text-align: center;
 }
 
-.section-title i {
+.vault-section .section-title i {
     margin-right: 0.5rem;
 }
 
@@ -1814,13 +1863,12 @@ body .vault-featured-card.glassmorphic-card {
 
 .filters-card,
 .bulk-actions-card {
-    padding: 1.5rem;
+    padding: 0.5rem;
 }
 
 .filters-card,
 .bulk-actions-card,
 .moderation-card {
-    border: 2px solid rgba(255, 20, 147, 0.2);
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.02);
 }
@@ -1862,11 +1910,6 @@ body .vault-featured-card.glassmorphic-card {
     text-transform: uppercase;
 }
 
-.status-pending {
-    background: var(--electric-yellow);
-    color: #000;
-}
-
 .status-approved {
     background: #28a745;
     color: #fff;
@@ -1881,12 +1924,45 @@ body .vault-featured-card.glassmorphic-card {
     padding: var(--padding-glass);
 }
 
-.moderation-caption {
+.moderation-caption-container {
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 0.5rem;
+}
+
+.moderation-caption {
+    flex: 1;
     color: var(--off-white);
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+}
+
+.moderation-caption.expanded {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.caption-toggle {
+    background: none;
+    border: none;
+    color: var(--neon-pink);
+    cursor: pointer;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.caption-toggle[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.caption-toggle:hover {
+    color: var(--hot-pink);
 }
 
 .moderation-user,
@@ -1912,6 +1988,10 @@ body .vault-featured-card.glassmorphic-card {
     padding: 0 1.25rem 1.25rem;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 20, 147, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .btn-success {
@@ -1978,6 +2058,45 @@ body .vault-featured-card.glassmorphic-card {
 
 .vault-inline-form {
     display: inline;
+}
+
+@media (max-width: 576px) {
+    .moderation-actions {
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .moderation-actions .vault-inline-form {
+        display: inline-flex;
+        margin: 0;
+    }
+
+    .moderation-actions .vault-inline-form .btn,
+    .moderation-actions .vault-inline-form .btn.btn-sm {
+        padding: 0.28rem 0.48rem;
+        font-size: 0.78rem;
+        line-height: 1;
+        min-width: 0;
+        white-space: nowrap;
+        flex: 0 0 auto;
+    }
+
+    .moderation-actions .vault-inline-form .btn i {
+        margin-right: 0.25rem;
+        font-size: 0.95em;
+    }
+
+    /* If viewport is very narrow, further reduce text but keep icons visible */
+    @media (max-width: 420px) {
+        .moderation-actions .vault-inline-form .btn {
+            padding: 0.22rem 0.4rem;
+            font-size: 0.72rem;
+        }
+    }
 }
 
 .vault-moderate-label {
@@ -2319,31 +2438,57 @@ body .vault-featured-card.glassmorphic-card {
     box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
 }
 
-/* Vault Featured Photos Carousel */
-.vault-featured-section {
-    position: relative;
-    /* Break out of container for full width edge-to-edge */
-    width: 100vw;
-    margin-right: calc(-50vw + 50%);
-    margin-left: calc(-50vw + 50%);
-    padding: 2rem 0;
-    overflow: hidden;
-    border-radius: 0;
+/* ========================================
+   VAULT MAIN LAYOUT - SIDEBAR STRUCTURE
+   ======================================== */
+
+/* Main layout container: Left column (filters & grid) + Right sidebar (featured) */
+.vault-main-layout {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 3rem;
 }
 
-/* Disable glassmorphic hover effect on featured section container */
-.vault-featured-section,
+/* Left column contains filters and photo grid */
+.vault-left-column {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Right sidebar for featured photos - fixed width */
+.vault-right-sidebar {
+    flex: 0 0 380px;
+    width: 380px;
+}
+
+/* ========================================
+   VAULT FEATURED PHOTOS - VERTICAL CAROUSEL
+   ======================================== */
+
+/* Vault Featured Photos Carousel */
+.vault-featured-section {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 80px);
+    overflow: visible;
+    border: 2px solid rgba(255, 20, 147, 0.2) !important;
+    border-radius: 20px;
+    padding: 0.5rem;
+}
+
+/* When using the glassmorphic-card modifier, disable its hover
+   visual treatment and apply a subtle background only for that
+   modifier to avoid redefining the base `.vault-featured-section`. */
 .vault-featured-section.glassmorphic-card:hover {
     background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 105, 180, 0.03));
-}
-.vault-featured-section.glassmorphic-card:hover {
     transform: none;
-    border-color: transparent;
+    border-color: rgba(255, 20, 147, 0.2);
     box-shadow: none;
 }
 
 .vault-featured-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-align: center;
 }
 
@@ -2351,7 +2496,7 @@ body .vault-featured-card.glassmorphic-card {
     margin-bottom: 0.5rem;
     color: #ff1493;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.5rem;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -2365,14 +2510,14 @@ body .vault-featured-card.glassmorphic-card {
     margin: 0;
     color: #666;
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
 }
 
 .vault-featured-note {
     margin: 0.5rem 0 0 0;
     color: #ff1493;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
 .vault-featured-note i {
@@ -2382,11 +2527,13 @@ body .vault-featured-card.glassmorphic-card {
 
 .vault-featured-carousel-container {
     position: relative;
+    height: calc(100vh - 180px);
     overflow: visible;
 }
 
 .vault-featured-carousel {
     position: relative;
+    height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -2394,22 +2541,23 @@ body .vault-featured-card.glassmorphic-card {
 
 .vault-featured-track {
     display: flex;
-    width: max-content;
-    padding: 1rem 60px 1rem 0;
+    flex-direction: column;
+    height: max-content;
+    padding: 50px 0;
     gap: 1.5rem;
     transform: translateZ(0);
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
 }
 
-/* Carousel navigation buttons */
+/* Carousel navigation buttons - now vertical */
 .vault-featured-carousel-btn {
-    z-index: 10;
+    z-index: 1000;
     position: absolute;
-    top: 50%;
-    width: 50px;
-    height: 50px;
-    transform: translateY(-50%);
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translateX(-50%);
     border: none;
     border-radius: 50%;
     background: rgba(255, 20, 147, 0.9);
@@ -2417,36 +2565,156 @@ body .vault-featured-card.glassmorphic-card {
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
 .vault-featured-carousel-btn:hover {
-    transform: translateY(-50%) scale(1.1);
+    transform: translateX(-50%) scale(1.1);
     background: #ff1493;
     box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
 }
 
 .vault-featured-carousel-prev {
-    left: 10px;
+    top: 10px;
 }
 
 .vault-featured-carousel-next {
-    right: 10px;
+    bottom: 10px;
+}
+
+.vault-featured-carousel-btn:hover {
+    transform: translateX(-50%) scale(1.1);
+    background: #ff1493;
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+}
+
+.vault-featured-carousel-prev {
+    top: 10px;
+}
+
+.vault-featured-carousel-next {
+    bottom: 10px;
+}
+
+/* Rotate arrows for vertical layout on desktop */
+.vault-featured-carousel-prev i {
+    transform: rotate(-90deg);
+}
+
+.vault-featured-carousel-next i {
+    transform: rotate(-90deg);
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .vault-featured-item {
-        flex: 0 0 250px;
-        min-width: 250px;
+@media (max-width: 1400px) {
+    .vault-right-sidebar {
+        flex: 0 0 320px;
+        width: 320px;
+    }
+}
+
+@media (max-width: 1200px) {
+    /* Stack layout on smaller screens */
+    .vault-main-layout {
+        flex-direction: column;
+        margin-bottom: 2rem;
+    }
+
+    .vault-right-sidebar {
+        flex: 1;
+        width: 100%;
+        max-width: 100%;
+        order: -1;
+    }
+
+    .vault-featured-section {
+        position: relative;
+        top: auto;
+        max-height: none;
+        margin-bottom: 0.1rem;
+    }
+
+    .vault-featured-carousel-container {
+        height: auto;
+        overflow: visible;
+        padding: 0 40px; /* Add padding for buttons */
+    }
+
+    .vault-featured-carousel {
+        height: auto;
+        overflow: visible;
     }
 
     .vault-featured-track {
-        padding: 1rem 50px 1rem 0;
+        flex-direction: row;
+        width: max-content;
+        height: auto;
+        padding: 1rem 60px 1rem 0;
+    }
+
+    .vault-featured-item {
+        flex: 0 0 350px;
+        width: 350px;
+        max-width: 350px;
     }
 
     .vault-featured-carousel-btn {
-        width: 40px;
-        height: 40px;
+        top: 50%;
+        left: auto;
+        right: auto;
+        transform: translateY(-50%);
+        z-index: 1000;
+        pointer-events: auto;
+        position: absolute;
+    }
+
+    .vault-featured-carousel-btn:hover {
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .vault-featured-carousel-prev {
+        left: 5px;
+        top: 50%;
+    }
+
+    .vault-featured-carousel-next {
+        right: 5px;
+        bottom: auto;
+        top: 50%;
+    }
+
+    /* Remove rotation on mobile for horizontal layout */
+    .vault-featured-carousel-prev i,
+    .vault-featured-carousel-next i {
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .vault-featured-item {
+        flex: 0 0 200px;
+        width: 200px;
+        max-width: 200px;
+    }
+
+    .vault-featured-track {
+        padding: 1rem 40px 1rem 0;
+    }
+
+    .vault-featured-carousel-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .vault-filter-btn,
+    .vault-clear-btn {
+        flex: 1;
+        min-width: 100px;
+        max-width: 120px;
+        height: 38px;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
     }
 }
 
@@ -2474,8 +2742,8 @@ body .vault-featured-card.glassmorphic-card {
 /* Responsive adjustments for featured carousel */
 @media (max-width: 768px) {
     .vault-featured-item {
-        flex: 0 0 300px;
-        min-width: 300px;
+        flex: 0 0 200px;
+        min-width: 200px;
     }
 
     .vault-carousel-btn {
@@ -2493,35 +2761,13 @@ body .vault-featured-card.glassmorphic-card {
         padding-bottom: calc(var(--bs-gutter-y) / 2);
         padding-left: calc(var(--bs-gutter-x) / 2);
     }
-    .vault-featured-track {
-        padding: 1rem 50px 1rem 1rem;
-        gap: 1.5rem;
-    }
-
-    .vault-featured-item {
-        flex: 0 0 210px;
-        min-width: 210px;
-    }
-
-    .vault-featured-section {
-        padding-right: 1rem;
-        padding-left: 1rem;
-    }
-}
-
-/* Ensure photo grid has proper gutters on small screens */
-@media (max-width: 768px) {
-    /* As a fallback, add explicit column padding if gutters are overridden */
-}
-
-/* Mobile override: match product card spacing and mobile sizing
-   so vault cards aren't glued together on small screens */
-@media (max-width: 768px) {
 }
 
 /* Vault Grid - Responsive: 6 -> 5 -> 4 -> 3 -> 2 (mobile) */
 .vault-grid-wrapper {
     width: 100%;
+    margin-top: 2rem; /* spacing between filter section and cards grid on desktop */
+    margin-bottom: 2rem; /* small gap between vault cards and footer */
 }
 
 .vault-grid {
@@ -2569,6 +2815,11 @@ body .vault-featured-card.glassmorphic-card {
     .vault-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
+    }
+
+    .vault-grid-wrapper {
+        margin-top: 0; /* no extra spacing needed on mobile */
+        margin-bottom: 2rem; /* keep a small 2rem gap on mobile as well */
     }
 }
 

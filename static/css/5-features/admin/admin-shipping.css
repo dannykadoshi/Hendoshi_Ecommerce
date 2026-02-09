@@ -36,6 +36,7 @@
     transition:
         transform 0.15s ease-in-out,
         box-shadow 0.12s ease-in-out;
+    padding: 0;
 }
 .admin-action-animated .btn:hover {
     transform: translateY(-3px);

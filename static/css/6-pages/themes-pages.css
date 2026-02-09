@@ -106,28 +106,6 @@
     background: var(--bg-glass-light);
 }
 
-.form-section {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: var(--border-glass);
-}
-
-.form-section:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.form-section-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    gap: 0.5rem;
-    color: var(--neon-pink);
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
 .form-check-label {
     color: var(--off-white);
 }
@@ -228,10 +206,25 @@
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Auth card dark styling */
+/* Auth card glassmorphism styling */
 .auth-card {
-    border: var(--border-glass);
-    background: var(--bg-glass-light);
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .auth-card {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 1rem;
+    }
 }
 
 /* ===== THEME_ANIMATION_LAYER ===== */
@@ -310,4 +303,86 @@
 
 :root.light-mode .theme-type-preview .description {
     color: rgba(0, 0, 0, 0.7);
+}
+
+/* ===== SUMMARY_ROW ===== */
+
+.summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    font-size: 0.95rem;
+}
+
+.summary-label {
+    font-weight: 700;
+    color: var(--summary-label-color, #f2f2f2);
+}
+
+.summary-value {
+    font-weight: 800;
+    color: var(--summary-value-color, #ffffff);
+}
+
+.shipping-cost,
+.tax-cost {
+    color: var(--summary-secondary-color, #d8d8d8);
+    font-style: italic;
+}
+
+.summary-row.total .summary-label {
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.summary-row.total .summary-value {
+    color: var(--neon-pink);
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .summary-row {
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+}
+
+/* Light mode variants */
+:root.light-mode .summary-label {
+    color: var(--summary-label-color-light, #333333);
+}
+
+:root.light-mode .summary-value {
+    color: var(--summary-value-color-light, #222);
+}
+
+:root.light-mode .shipping-cost,
+:root.light-mode .tax-cost {
+    color: var(--summary-secondary-color-light, #555555);
+}
+
+:root.light-mode .summary-row.total .summary-value {
+    color: #e71f7f;
+}
+
+/* ===== BOOTSTRAP OVERRIDES ===== */
+
+.mb-4 {
+    margin-bottom: 0.5rem !important;
+    margin-top: 0.5rem !important;
+}
+
+.mb-5 {
+    margin-bottom: 0.5rem !important;
+}
+
+@media (max-width: 768px) {
+    [class*="col-"] {
+        padding-right: 0.25rem;
+        padding-left: 0.25rem;
+    }
 }

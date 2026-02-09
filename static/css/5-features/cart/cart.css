@@ -1372,30 +1372,6 @@ main {
     }
 }
 
-/* Sections */
-.section-title {
-    display: inline-block;
-    position: relative;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    background-clip: text;
-    color: transparent;
-    font-weight: 900;
-    font-size: 3rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
-.section-title::after {
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    width: 100px;
-    height: 4px;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    content: "";
-}
-
 /* Collection Cards */
 .collection-card {
     height: 100%;
@@ -1515,6 +1491,7 @@ main {
     font-size: 1.1rem;
     text-align: center;
     opacity: 0.8;
+    margin-top: 1rem !important;
 }
 
 .features-grid {
@@ -1678,6 +1655,7 @@ main {
     font-size: 1.1rem;
     text-align: center;
     opacity: 0.8;
+    margin-top: 1rem !important;
 }
 
 .collections-carousel-container {
@@ -1695,6 +1673,7 @@ main {
     backdrop-filter: blur(15px);
     background: rgba(255, 255, 255, 0.05);
     transition: all 0.4s ease;
+    margin-bottom: 2rem;
 }
 
 .collections-carousel .collection-card::before {
@@ -1918,6 +1897,19 @@ main {
 
     .footer .col-md-3:last-child {
         margin-bottom: 0;
+        margin-left: 0; /* Remove auto margin on mobile */
+        padding: 0; /* Remove asymmetric padding on mobile */
+    }
+
+    /* Center the Join the Cult section content on mobile */
+    .footer .col-md-3:last-child h5,
+    .footer .col-md-3:last-child p,
+    .footer .col-md-3:last-child .newsletter-form {
+        text-align: center;
+    }
+
+    .footer .col-md-3:last-child .social-icons {
+        justify-content: center;
     }
 
     .footer p {
@@ -2390,7 +2382,6 @@ main {
 
     .checkout-page * {
         box-sizing: border-box;
-        max-width: 100%;
     }
 
     .checkout-container {
@@ -2870,18 +2861,17 @@ body .checkout-page .shipping-rates-section .list-group-item .text-success {
     min-width: 180px;
     max-width: 100%;
 }
+
 .status-update-btn {
-    width: 150px;
-    padding: 0.7rem 1.2rem;
-    border-radius: 7px;
-    font-weight: 700;
-    font-size: 1rem;
+    max-width: 25%;
 }
+
 .status-update-form {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
 }
 .status-update-fields {
     display: flex;
@@ -2890,7 +2880,6 @@ body .checkout-page .shipping-rates-section .list-group-item .text-success {
 }
 .status-update-field {
     display: flex;
-    flex: 1 1 220px;
     flex-direction: column;
     gap: 0.5rem;
 }
@@ -3026,24 +3015,28 @@ body .checkout-page .shipping-rates-section .list-group-item .text-success {
 /* page-container helpers consolidated into components.css */
 
 .info-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .info-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--gray);
+    display: inline-block;
+    margin-bottom: 0;
+    color: var(--neon-pink);
     font-weight: 600;
     font-size: 0.85rem;
     letter-spacing: 1px;
     text-transform: uppercase;
+    flex-shrink: 0;
 }
 
 .info-group p {
     margin: 0;
     color: var(--off-white);
-    font-weight: 500;
-    font-size: 1.1rem;
+    font-weight: 300;
+    font-size: 1rem;
 }
 
 .profile-divider {

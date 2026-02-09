@@ -307,4 +307,24 @@ def admin_list_subscribers(request):
     page = request.GET.get('page', 1)
     subs = paginator.get_page(page)
 
+    # Check if AJAX request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        subscriber_data = []
+        for sub in subs:
+            subscriber_data.append({
+                'id': sub.id,
+                'email': sub.email,
+                'is_confirmed': sub.is_confirmed,
+                'created_at': sub.created_at.strftime('%Y-%m-%d %H:%M'),
+                'consent': sub.consent,
+                'confirmation_token': sub.confirmation_token,
+            })
+        return JsonResponse({
+            'subscribers': subscriber_data,
+            'has_next': subs.has_next(),
+            'has_previous': subs.has_previous(),
+            'current_page': subs.number,
+            'total_pages': paginator.num_pages,
+        })
+
     return render(request, 'notifications/admin_subscribers.html', {'subscribers': subs, 'q': q})
