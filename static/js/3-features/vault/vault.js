@@ -200,7 +200,6 @@ function likePhotoUnified(photoId, source) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Like response:', data);
         
         // Update likes count elements in gallery/featured views (if exist)
         const galleryLikesElements = document.querySelectorAll(`[data-likes-for="${photoId}"]`);
@@ -210,13 +209,18 @@ function likePhotoUnified(photoId, source) {
             });
         }
 
-        // Update detail view like badge (if exists)
+        // Update detail view like badge (if exists) - now handles both display and active state
         const likeBadge = document.getElementById(`like-badge-${photoId}`);
         if (likeBadge) {
             likeBadge.innerHTML = `<i class="fas fa-heart"></i> <span>${data.likes}</span>`;
+            if (data.liked) {
+                likeBadge.classList.add('active-like');
+            } else {
+                likeBadge.classList.remove('active-like');
+            }
         }
 
-        // Update detail view like button styling (if exists)
+        // Update detail view like button styling (if exists) - keeping for backward compatibility
         const detailButton = document.getElementById(`like-button-${photoId}`);
         if (detailButton) {
             if (data.liked) {
@@ -264,7 +268,6 @@ function likePhotoUnified(photoId, source) {
 // Voting Functionality
 function initializeVoting() {
     window.votePhoto = function(photoId, voteType) {
-        console.log('votePhoto called:', photoId, voteType);
         const url = `/vault/photo/${photoId}/vote/${voteType}/`;
         fetch(url, {
             method: 'POST',
@@ -275,7 +278,6 @@ function initializeVoting() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Vote response:', data);
             if (data.error) {
                 alert(data.error);
                 return;
@@ -406,7 +408,7 @@ function initializePhotoDetailShare() {
                 text: caption,
                 url: url
             }).catch(function(err) {
-                console.log('Share cancelled or failed');
+                
             });
         } else {
             copyToClipboard(url, document.querySelector('.copy-link-btn'));
@@ -923,26 +925,46 @@ function initializeModerationBulkSelection() {
     }
 }
 
+// Moderation Caption Toggle
+function initializeModerationCaptionToggle() {
+    const toggleButtons = document.querySelectorAll('.caption-toggle');
+
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const container = this.parentElement;
+            const caption = container.querySelector('.moderation-caption');
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                // Collapse
+                caption.classList.remove('expanded');
+                this.setAttribute('aria-expanded', 'false');
+                this.setAttribute('aria-label', 'Expand caption');
+            } else {
+                // Expand
+                caption.classList.add('expanded');
+                this.setAttribute('aria-expanded', 'true');
+                this.setAttribute('aria-label', 'Collapse caption');
+            }
+        });
+    });
+}
+
 // Moderation Page Auto-Submit Filter
 function initializeModerationAutoSubmit() {
     const statusFilter = document.getElementById('status-filter');
     const filterForm = document.getElementById('status-filter-form');
     const searchInput = document.getElementById('search-input');
     
-    console.log('initializeModerationAutoSubmit called');
-    console.log('statusFilter element:', statusFilter);
-    console.log('filterForm element:', filterForm);
-    console.log('searchInput element:', searchInput);
     
     if (!statusFilter || !filterForm) {
-        console.log('Missing elements, returning');
+        
         return;
     }
     
     // Auto-submit when status changes
     statusFilter.addEventListener('change', function() {
-        console.log('Status filter changed to:', this.value);
-        console.log('Submitting form');
+        
         filterForm.submit();
     });
     
@@ -951,7 +973,7 @@ function initializeModerationAutoSubmit() {
         searchInput.addEventListener('input', function() {
             clearTimeout(this.searchTimeout);
             this.searchTimeout = setTimeout(() => {
-                console.log('Search input changed, submitting form');
+                
                 filterForm.submit();
             }, 500);
         });
@@ -990,43 +1012,100 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Moderation page
     if (document.getElementById('status-filter')) {
-        console.log('Moderation page detected, initializing auto-submit');
         initializeModerationAutoSubmit();
     }
     if (document.querySelector('.moderation-card') || document.getElementById('select-all')) {
-        console.log('Moderation page with photos detected, initializing bulk selection');
         initializeModerationBulkSelection();
+        initializeModerationCaptionToggle();
     }
 
     // Featured photos carousel
     if (document.getElementById('featured-track')) {
-        initializeFeaturedCarousel();
+        // Add a longer delay to ensure CSS is fully loaded
+        setTimeout(() => {
+            initializeFeaturedCarousel();
+        }, 500);
     }
 });
 
 // Featured Photos Carousel - Transform-based like Collections Carousel
 function initializeFeaturedCarousel() {
+    
     const track = document.getElementById('featured-track');
     const prevBtn = document.getElementById('featured-prev');
     const nextBtn = document.getElementById('featured-next');
 
     // Only initialize if required elements exist
-    if (!track || !prevBtn || !nextBtn) return;
+    if (!track || !prevBtn || !nextBtn) {
+        return;
+    }
 
     const featuredItems = track.children;
     const totalItems = featuredItems.length;
 
-    // Calculate item width dynamically
-    const itemWidth = featuredItems[0] ? featuredItems[0].offsetWidth + 24 : 374; // width + gap (1.5rem = 24px)
-
     let currentIndex = 0;
-    // Show max 3 visible items, always scrollable
-    const visibleItems = Math.min(3, totalItems);
-    const maxIndex = Math.max(0, totalItems - visibleItems);
+    let isVerticalLayout = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    // Determine if we're in vertical (desktop sidebar) or horizontal (mobile) layout
+    function checkLayout() {
+        const trackComputedStyle = window.getComputedStyle(track);
+        const flexDirection = trackComputedStyle.flexDirection;
+        isVerticalLayout = flexDirection === 'column';
+    }
+
+    // Calculate item size dynamically based on layout
+    function getItemSize() {
+        if (featuredItems.length === 0) return isVerticalLayout ? 400 : 374;
+        
+        if (isVerticalLayout) {
+            // Vertical layout: use height + gap
+            return featuredItems[0].offsetHeight + 24; // height + gap (1.5rem = 24px)
+        } else {
+            // Horizontal layout: use width + gap
+            return featuredItems[0].offsetWidth + 24; // width + gap (1.5rem = 24px)
+        }
+    }
 
     function updateFeaturedCarousel() {
-        const translateX = -currentIndex * itemWidth;
-        track.style.transform = `translateX(${translateX}px)`;
+        checkLayout();
+        
+        const itemSize = getItemSize();
+        let visibleItems;
+        
+        if (isVerticalLayout) {
+            // Vertical layout (desktop): show 2 items
+            visibleItems = Math.min(2, totalItems);
+        } else {
+            // Horizontal layout (mobile): calculate based on container width
+            const container = track.closest('.vault-featured-carousel-container');
+            if (container) {
+                const containerWidth = container.offsetWidth - 100; // Subtract padding (50px each side)
+                visibleItems = Math.max(1, Math.floor(containerWidth / itemSize));
+            } else {
+                visibleItems = Math.min(2, totalItems); // Fallback
+            }
+        }
+        
+        const maxIndex = Math.max(0, totalItems - visibleItems);
+        
+        // Clamp current index if needed
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
+        
+        if (isVerticalLayout) {
+            // Vertical scrolling (desktop sidebar)
+            const translateY = -currentIndex * itemSize;
+            track.style.transform = `translateY(${translateY}px)`;
+        } else {
+            // Horizontal scrolling (mobile)
+            const translateX = -currentIndex * itemSize;
+            track.style.transform = `translateX(${translateX}px)`;
+        }
 
         // Update button states - always enabled for looping
         prevBtn.style.opacity = '1';
@@ -1036,6 +1115,24 @@ function initializeFeaturedCarousel() {
     }
 
     function nextFeaturedSlide() {
+        checkLayout();
+        const itemSize = getItemSize();
+        let visibleItems;
+        
+        if (isVerticalLayout) {
+            visibleItems = Math.min(2, totalItems);
+        } else {
+            const container = track.closest('.vault-featured-carousel-container');
+            if (container) {
+                const containerWidth = container.offsetWidth - 100;
+                visibleItems = Math.max(1, Math.floor(containerWidth / itemSize));
+            } else {
+                visibleItems = Math.min(2, totalItems);
+            }
+        }
+        
+        const maxIndex = Math.max(0, totalItems - visibleItems);
+        
         currentIndex++;
         if (currentIndex > maxIndex) {
             currentIndex = 0; // Loop back to start
@@ -1044,6 +1141,24 @@ function initializeFeaturedCarousel() {
     }
 
     function prevFeaturedSlide() {
+        checkLayout();
+        const itemSize = getItemSize();
+        let visibleItems;
+        
+        if (isVerticalLayout) {
+            visibleItems = Math.min(2, totalItems);
+        } else {
+            const container = track.closest('.vault-featured-carousel-container');
+            if (container) {
+                const containerWidth = container.offsetWidth - 100;
+                visibleItems = Math.max(1, Math.floor(containerWidth / itemSize));
+            } else {
+                visibleItems = Math.min(2, totalItems);
+            }
+        }
+        
+        const maxIndex = Math.max(0, totalItems - visibleItems);
+        
         currentIndex--;
         if (currentIndex < 0) {
             currentIndex = maxIndex; // Loop to end
@@ -1051,92 +1166,168 @@ function initializeFeaturedCarousel() {
         updateFeaturedCarousel();
     }
 
-    // Event listeners for click
-    nextBtn.addEventListener('click', () => {
-        nextFeaturedSlide();
-        resetAutoPlay(); // Reset timer on manual interaction
-    });
-    prevBtn.addEventListener('click', () => {
-        prevFeaturedSlide();
-        resetAutoPlay(); // Reset timer on manual interaction
-    });
+    // Touch event handlers for mobile swipe
+    function handleTouchStart(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }
 
-    // Auto-play functionality
-    let autoPlayInterval;
-    const autoPlayDelay = 4000; // Auto-advance every 4 seconds
+    function handleTouchEnd(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipeGesture();
+    }
+
+    function handleSwipeGesture() {
+        checkLayout();
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
+        const minSwipeDistance = 30; // Reduced from 50 to 30 for better sensitivity
+
+        if (isVerticalLayout) {
+            // Vertical layout - respond to vertical swipes
+            if (Math.abs(diffY) > minSwipeDistance && Math.abs(diffY) > Math.abs(diffX)) {
+                if (diffY > 0) {
+                    // Swipe up - next
+                    nextFeaturedSlide();
+                } else {
+                    // Swipe down - previous
+                    prevFeaturedSlide();
+                }
+            }
+        } else {
+            // Horizontal layout - respond to horizontal swipes
+            if (Math.abs(diffX) > minSwipeDistance && Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) {
+                    // Swipe left - next
+                    nextFeaturedSlide();
+                } else {
+                    // Swipe right - previous
+                    prevFeaturedSlide();
+                }
+            }
+        }
+    }
+
+    // Add touch event listeners to featured section (parent container)
+    const featuredSection = track.closest('.vault-featured-section');
+    
+    if (featuredSection) {
+        featuredSection.addEventListener('touchstart', handleTouchStart, { passive: true });
+        featuredSection.addEventListener('touchend', handleTouchEnd, { passive: true });
+    } else {
+        
+        const carouselContainer = track.closest('.vault-featured-carousel');
+        if (carouselContainer) {
+            carouselContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+            carouselContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+        } else {
+            
+            track.addEventListener('touchstart', handleTouchStart, { passive: true });
+            track.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+    }
+
+    // Event listeners for click
+    
+    
+    if (prevBtn && nextBtn) {
+        
+        
+        const handlePrevClick = (e) => {
+            pauseAutoPlay();
+            e.preventDefault();
+            e.stopPropagation();
+            prevFeaturedSlide();
+            resumeAutoPlay();
+        };
+        
+        const handleNextClick = (e) => {
+            pauseAutoPlay();
+            e.preventDefault();
+            e.stopPropagation();
+            nextFeaturedSlide();
+            resumeAutoPlay();
+        };
+        
+        prevBtn.addEventListener('click', handlePrevClick);
+        nextBtn.addEventListener('click', handleNextClick);
+        
+        
+        
+        // Test immediate click
+        
+    } else {
+        console.error('Buttons not found for event listeners');
+    }
+
+    // Auto-play functionality for mobile
+    let autoPlayInterval = null;
+    const autoPlayDelay = 4000; // 4 seconds
+    let isUserInteracting = false;
 
     function startAutoPlay() {
-        clearInterval(autoPlayInterval);
-        autoPlayInterval = setInterval(nextFeaturedSlide, autoPlayDelay);
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+        }
+        
+        autoPlayInterval = setInterval(() => {
+            if (!isUserInteracting && !isVerticalLayout) {
+                nextFeaturedSlide();
+            }
+        }, autoPlayDelay);
     }
 
     function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
     }
 
-    function resetAutoPlay() {
+    function pauseAutoPlay() {
+        isUserInteracting = true;
         stopAutoPlay();
-        startAutoPlay();
     }
 
-    // Pause auto-play on hover over carousel container
-    const carouselContainer = track.closest('.vault-featured-carousel');
-    if (carouselContainer) {
-        carouselContainer.addEventListener('mouseenter', stopAutoPlay);
-        carouselContainer.addEventListener('mouseleave', startAutoPlay);
+    function resumeAutoPlay() {
+        isUserInteracting = false;
+        // Resume auto-play after 8 seconds of inactivity
+        setTimeout(() => {
+            if (!isUserInteracting && !isVerticalLayout) {
+                startAutoPlay();
+            }
+        }, 8000);
     }
 
-    // Clear interval when page unloads
-    window.addEventListener('beforeunload', stopAutoPlay);
-
-    // Start auto-play
+    // Start auto-play initially (will only work on mobile due to layout check)
     startAutoPlay();
 
-    // Touch/swipe support for mobile
-    let startX = 0;
-    let isDragging = false;
+    // Pause auto-play on touch interactions
+    function handleTouchStart(e) {
+        pauseAutoPlay();
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }
 
-    track.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        isDragging = true;
-        stopAutoPlay(); // Pause auto-play during touch
-    });
+    function handleTouchEnd(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipeGesture();
+        resumeAutoPlay();
+    }
 
-    track.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const currentX = e.touches[0].clientX;
-        const diff = startX - currentX;
-
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                nextFeaturedSlide();
-            } else {
-                prevFeaturedSlide();
-            }
-            isDragging = false;
-        }
-    });
-
-    track.addEventListener('touchend', () => {
-        isDragging = false;
-        resetAutoPlay(); // Resume auto-play after touch
-    });
-
-    // Initialize carousel
-    updateFeaturedCarousel();
-
-    // Update on window resize
+    // Handle window resize
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        // Recalculate visible items on resize
-        const newVisibleItems = Math.min(3, totalItems);
-        const newMaxIndex = Math.max(0, totalItems - newVisibleItems);
-
-        // Adjust current index if it's now out of bounds
-        if (currentIndex > newMaxIndex) {
-            currentIndex = newMaxIndex;
-        }
-
-        updateFeaturedCarousel();
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            currentIndex = 0; // Reset to start on resize
+            updateFeaturedCarousel();
+            // Restart auto-play after resize
+            stopAutoPlay();
+            startAutoPlay();
+        }, 250);
     });
 }
 

@@ -223,9 +223,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========================================
     
     document.querySelectorAll('.status-select').forEach(select => {
+        // Apply initial status class
+        applyStatusClass(select);
+
         select.addEventListener('change', function() {
             const reviewId = this.dataset.reviewId;
             const status = this.value;
+            // Optimistically update visual class
+            applyStatusClass(this);
             updateReviewStatus(reviewId, status);
         });
     });
@@ -285,6 +290,8 @@ function updateReviewStatus(reviewId, status) {
             const select = document.querySelector(`[data-review-id="${reviewId}"]`);
             if (select) {
                 select.value = status;
+                    // Ensure visual class matches final status
+                    applyStatusClass(select);
             }
             if (typeof showToast === 'function') {
                 showToast(`Review ${status}`, 'success');
@@ -301,6 +308,20 @@ function updateReviewStatus(reviewId, status) {
             showToast('Failed to update review status', 'error');
         }
     });
+}
+
+// Utility to apply status classes to select elements
+function applyStatusClass(selectEl) {
+    if (!selectEl) return;
+    selectEl.classList.remove('status-approved', 'status-rejected', 'status-pending');
+    const val = selectEl.value;
+    if (val === 'approved') {
+        selectEl.classList.add('status-approved');
+    } else if (val === 'rejected') {
+        selectEl.classList.add('status-rejected');
+    } else {
+        selectEl.classList.add('status-pending');
+    }
 }
 
 window.viewReviewDetail = function(reviewId) {

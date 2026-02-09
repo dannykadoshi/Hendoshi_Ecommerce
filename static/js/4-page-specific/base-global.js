@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // 2. ADMIN PANEL & MOBILE MENU FUNCTIONALITY
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Unified function to close all submenus (admin + vault)
+    // Unified function to close all submenus (admin + vault + content moderation)
     function closeAllSubmenus() {
-        document.querySelectorAll('.admin-panel-submenu, .vault-submenu').forEach(menu => {
+        document.querySelectorAll('.admin-panel-submenu, .vault-submenu, .content-moderation-submenu').forEach(menu => {
             menu.classList.remove('show');
             if (menu.parentElement) menu.parentElement.classList.remove('show');
         });
@@ -100,10 +100,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Handle Content Moderation submenu toggle (click only)
+    document.querySelectorAll('.content-moderation-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const submenu = this.parentElement.querySelector('.content-moderation-submenu');
+            // Toggle .show class for submenu
+            const isOpen = submenu.classList.contains('show');
+            // Close all other submenus first
+            document.querySelectorAll('.content-moderation-submenu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+            if (!isOpen) {
+                submenu.classList.add('show');
+            }
+        });
+    });
+
     // Close vault and admin submenus when mouse leaves the wrapper
     document.querySelectorAll('.vault-submenu-dropdown-wrapper, .admin-panel-dropdown-wrapper').forEach(wrapper => {
         wrapper.addEventListener('mouseleave', function() {
-            const submenu = this.querySelector('.admin-panel-submenu, .vault-submenu');
+            const submenu = this.querySelector('.admin-panel-submenu, .vault-submenu, .content-moderation-submenu');
             if (submenu && submenu.classList.contains('show')) {
                 closeAllSubmenus();
             }
@@ -111,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Prevent submenu from closing when clicking inside it
-    document.querySelectorAll('.admin-panel-submenu, .vault-submenu').forEach(submenu => {
+    document.querySelectorAll('.admin-panel-submenu, .vault-submenu, .content-moderation-submenu').forEach(submenu => {
         submenu.addEventListener('click', function(e) {
             if (e.target.tagName === 'A' || e.target.closest('a')) {
                 return;

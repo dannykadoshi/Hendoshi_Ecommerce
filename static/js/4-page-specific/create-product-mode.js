@@ -15,7 +15,6 @@
 
 // Creation Mode Toggle - Single vs Bulk
 document.addEventListener('DOMContentLoaded', function() {
-    const singleModeBtn = document.getElementById('singleModeBtn');
     const bulkModeBtn = document.getElementById('bulkModeBtn');
     const modeDescription = document.getElementById('modeDescription');
     
@@ -27,21 +26,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = bulkUrl;
             }
         });
-    }
-    
-    // Hover effects for descriptions
-    if (singleModeBtn) {
-        singleModeBtn.addEventListener('mouseenter', function() {
-            if (modeDescription) {
-                modeDescription.innerHTML = '<small>Create one product at a time with full customization</small>';
-            }
-        });
-    }
-    
-    if (bulkModeBtn) {
+        
+        // Hover effects for descriptions
         bulkModeBtn.addEventListener('mouseenter', function() {
             if (modeDescription) {
                 modeDescription.innerHTML = '<small>Create multiple products at once by selecting types and audiences</small>';
+            }
+        });
+        
+        bulkModeBtn.addEventListener('mouseleave', function() {
+            if (modeDescription) {
+                modeDescription.innerHTML = '<small>Need to create multiple products? Use our bulk creation tool</small>';
             }
         });
     }
