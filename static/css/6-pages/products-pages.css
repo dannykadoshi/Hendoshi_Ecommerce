@@ -296,11 +296,16 @@ body .card .text-muted {
 .reviews-section {
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0 !important;
 }
 
 .reviews-title {
     color: #fff;
     font-size: 1.5rem;
+}
+
+:root.light-mode .reviews-title {
+    color: var(--neon-pink);
 }
 
 .text-pink {
@@ -721,8 +726,7 @@ body .admin-reply .text-muted {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 45px;
-        min-width: auto;
+        min-width: 10px !important;
         height: 45px;
         padding: 0.6rem 0.8rem;
         font-size: 1.1rem;
@@ -1862,7 +1866,7 @@ body .admin-reply-section small.text-muted {
 
 .product-header-spacing,
 .product-title-spacing {
-    margin-top: -0.5rem;
+    margin-top: 0.5rem;
 }
 
 /* Heart icon size variations */

@@ -21,7 +21,7 @@
 /* Profile Stats Cards */
 .profile-stat-card {
     padding: 1.5rem 1rem;
-    border: 2px solid rgba(255, 20, 147, 0.2);
+    border: 2px solid rgba(255, 20, 147, 0.2) !important;
     transition: all 0.3s ease;
 }
 
@@ -803,7 +803,6 @@
 :root.light-mode .empty-cart {
     border-color: rgba(0, 0, 0, 0.06);
     background: rgba(0, 0, 0, 0.02);
-    margin-top: 1.5rem;
 }
 
 :root.light-mode .cart-item {
@@ -826,4 +825,11 @@
 :root.light-mode .btn-remove {
     border-color: rgba(0, 0, 0, 0.05);
     background: rgba(0, 0, 0, 0.02);
+}
+
+/* Remove the general mobile column padding from profile page only */
+@media (max-width: 768px) {
+  .profile-page [class*="col-"] {
+    padding: 0 0.2rem;
+  }
 }

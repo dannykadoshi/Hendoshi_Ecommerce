@@ -46,8 +46,7 @@
         gap: 0.1rem;
     }
 
-    .cart-page-layout .cart-container,
-    .cart-summary-section {
+    .cart-page-layout .cart-container {
         padding: 0 0.5rem;
     }
 

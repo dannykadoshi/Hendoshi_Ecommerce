@@ -25,7 +25,6 @@
 
 /* Canonical page container: centralized settings for page content wrappers */
 .page-container {
-    padding-top: 2rem;
     --vault-max-width: 1200px;
 }
 
@@ -48,6 +47,10 @@
     --vault-max-width: 1400px;
 }
 
+.page-hero {
+    margin-bottom: 0.5rem !important; /* Override default hero spacing for better mobile layout */
+}
+
 /* Canonical card-body padding */
 .card-body {
     padding: 0.75rem;
@@ -57,6 +60,7 @@
 
 /* Checkout pages need reduced page-container bottom padding to avoid excessive footer spacing */
 .checkout-page .page-container {
+    padding-top: 0;
     padding-bottom: 2rem;
 }
 
@@ -3494,4 +3498,11 @@ body .text-muted {
         max-width: 300px !important;
         margin-bottom: 0 !important;
     }
+}
+
+/* Page hero mobile adjustments - remove bottom padding from columns */
+@media (max-width: 768px) {
+  .page-hero [class*="col-"] {
+    padding-bottom: 0;
+  }
 }

@@ -386,4 +386,17 @@
     [class*="col-"] {
         padding: 1rem 0.8rem 2rem 0.8rem;
     }
+
+    .products-page .col-md-6 {
+        padding-bottom: 0;
+    }
+}
+
+.vault-page .order-section {
+    margin-bottom: 0 !important;
+}
+
+.vault-page .order-status-bar.mb-4 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
 }

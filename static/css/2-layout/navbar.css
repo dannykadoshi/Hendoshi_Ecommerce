@@ -1251,7 +1251,6 @@ span.gradient-text-mobile {
 .btn-address-add {
     height: 38px;
     white-space: nowrap;
-    max-width: 2rem;
 }
 
 .btn-form-action,

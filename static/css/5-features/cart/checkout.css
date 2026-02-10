@@ -3100,7 +3100,7 @@ html.light-mode .order-summary-card .order-items-details .items-list .text-muted
     gap: 1rem;
     border: 0.2px solid rgba(255, 20, 147, 0.2);
     border-radius: 8px;
-    background-color: rgba(255, 20, 147, 0.03);
+    background-color: rgba(255, 20, 145, 0.234);
     transition: all 0.3s ease;
 }
 
@@ -6349,4 +6349,10 @@ body > iframe[name*="__privateStripeFrame"] {
 /* Fix all text-muted in checkout page */
 .checkout-page .text-muted {
     color: #fff !important;
+}
+
+/* Make add new address button smaller */
+#useNewAddressBtn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
 }

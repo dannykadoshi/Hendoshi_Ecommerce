@@ -182,7 +182,6 @@
 .contact-card {
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--border-glass-color);
     border-radius: 12px;
     backdrop-filter: blur(8px);
     background: rgba(255, 255, 255, 0.02);

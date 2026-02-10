@@ -772,9 +772,6 @@ h2.gradient-title {
         padding-left: 1.5rem;
         padding-right: 1.5rem; /* Increase padding to ensure cards aren't cut off */
     }
-    .products-page .filters-sort-wrapper {
-        margin-top: 2rem !important; /* push filters lower on mobile so it's clear of the page-hero */
-    }
 }
 
 .product-card-wrapper {
@@ -1259,6 +1256,7 @@ h2.gradient-title {
     overflow: hidden;
     border: 3px solid var(--neon-pink);
     border-radius: 8px;
+    margin-top: 0.5rem;
 }
 
 .main-image img {
@@ -1349,12 +1347,12 @@ h2.gradient-title {
         display: flex;
         align-items: flex-start;
         gap: 1rem;
-        margin-top: -2.5rem;
     }
 
     .main-image {
         flex: 1;
-        margin-bottom: 0; /* Remove bottom margin */
+        margin-bottom: -3rem !important;
+        margin-top: -0.5rem;
     }
 
     .image-thumbnails {
