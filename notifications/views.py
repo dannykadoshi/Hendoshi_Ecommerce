@@ -15,6 +15,9 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.core.cache import cache
 from django.contrib.admin.views.decorators import staff_member_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -170,11 +173,15 @@ def newsletter_subscribe(request):
         # Not confirmed yet: resend confirmation
         subscriber.consent = subscriber.consent or consent
         subscriber.save()
-        send_newsletter_confirmation_email(subscriber, request)
+        sent = send_newsletter_confirmation_email(subscriber, request)
+        if not sent:
+            return JsonResponse({'success': False, 'message': 'Failed to send confirmation email. Please try again later.'}, status=502)
         return JsonResponse({'success': True, 'message': 'Confirmation email resent. Please check your inbox.'})
     except NewsletterSubscriber.DoesNotExist:
         subscriber = NewsletterSubscriber.objects.create(email=email, consent=consent)
-        send_newsletter_confirmation_email(subscriber, request)
+        sent = send_newsletter_confirmation_email(subscriber, request)
+        if not sent:
+            return JsonResponse({'success': False, 'message': 'Failed to send confirmation email. Please try again later.'}, status=502)
         return JsonResponse({'success': True, 'message': 'Confirmation email sent. Please check your inbox.'})
 
 
@@ -194,11 +201,29 @@ def send_newsletter_confirmation_email(subscriber, request):
 
     msg = EmailMultiAlternatives(subject, text_body, settings.DEFAULT_FROM_EMAIL, [subscriber.email])
     msg.attach_alternative(html_body, 'text/html')
+    # If Resend API key is not configured and we're in DEBUG, fall back to console backend
+    resend_key = None
+    try:
+        resend_key = settings.ANYMAIL.get('RESEND_API_KEY')
+    except Exception:
+        resend_key = None
+
+    if not resend_key and getattr(settings, 'DEBUG', False):
+        from django.core.mail import get_connection
+        try:
+            conn = get_connection('django.core.mail.backends.console.EmailBackend')
+            conn.send_messages([msg])
+            return True
+        except Exception:
+            logger.exception('Failed to output confirmation email to console for %s', subscriber.email)
+            return False
+
     try:
         msg.send(fail_silently=False)
-    except Exception:
-        # Fail silently here — view will still inform user to check inbox
-        pass
+        return True
+    except Exception as exc:
+        logger.exception('Failed to send newsletter confirmation email to %s', subscriber.email)
+        return False
 
 
 def send_welcome_email_with_discount(subscriber, request):
@@ -254,9 +279,9 @@ def send_welcome_email_with_discount(subscriber, request):
     msg.attach_alternative(html_body, 'text/html')
     try:
         msg.send(fail_silently=False)
-    except Exception as e:
+    except Exception:
         # Log error but don't fail the confirmation process
-        print(f"Failed to send welcome email: {e}")
+        logger.exception('Failed to send welcome email to %s', subscriber.email)
 
 
 def newsletter_confirm(request, token):

@@ -10,6 +10,10 @@
             --neon-pink: #ff1493;
             --electric-yellow: #ffff00;
         }
+        /* Tight spacing override: make inner containers nearly touch outer container */
+        body { padding: 0.5rem !important; }
+        .email-header, .email-body, .product-info, .battle-vest-note, .email-footer { padding: 0.5rem !important; }
+        .battle-vest-note { margin: 0.5rem 0 !important; }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
             line-height: 1.6;

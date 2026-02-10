@@ -1,16 +1,3 @@
-{# ================================================
-   HENDOSHI - EMAILS - CONTACT ADMIN NOTIFICATION
-   ================================================
-   
-   Purpose: Template for emails - contact admin notification
-   
-   Template Type: Django Template
-   Extends: Varies by template
-   Includes: Varies by template
-   
-   Context Variables: Varies by template
-   ================================================ #}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,6 +84,10 @@
             white-space: pre-wrap;
             margin: 0;
         }
+            /* Tight spacing override: make inner containers nearly touch outer container */
+            body { padding: 0.5rem !important; }
+            .email-header, .email-body, .product-info, .battle-vest-note, .email-footer { padding: 0.5rem !important; }
+            .battle-vest-note { margin: 0.5rem 0 !important; }
         .note {
             text-align: center;
             color: #666;
@@ -119,6 +110,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
+            <div style="font-size:28px;font-weight:900;color:#ffffff;text-shadow:0 2px 6px rgba(0,0,0,0.35);margin-bottom:10px;">HENDOSHI</div>
             <h1>New Contact Form Submission</h1>
             <p>A customer has reached out</p>
         </div>

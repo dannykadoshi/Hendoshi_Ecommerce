@@ -10,6 +10,10 @@
             --neon-pink: #ff1493;
             --electric-yellow: #ffff00;
         }
+        /* Tight spacing override: make inner containers nearly touch outer container */
+        body { padding: 0.5rem !important; }
+        .email-header, .email-body, .product-info, .battle-vest-note, .email-footer { padding: 0.5rem !important; }
+        .battle-vest-note { margin: 0.5rem 0 !important; }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
             line-height: 1.6;
@@ -200,19 +204,25 @@
                     <p>Great news! An item from your Battle Vest just went on sale. Don't miss out on this amazing deal!</p>
                 </div>
 
-                <div class="price-drop-badge">{{ notification.price_drop_percentage }}% OFF</div>
+                <div class="price-drop-badge">{{ notification.price_drop_percentage|default:"0" }}% OFF</div>
 
                 <div class="product-card">
                     {% if product.main_image %}
-                    <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                        {% if site_url %}
+                            <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image" style="width:100%;height:auto;display:block;">
+                        {% else %}
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image" style="width:100%;height:auto;display:block;">
+                        {% endif %}
+                    {% else %}
+                        <p style="margin:12px; color:#6c757d;">Image not available — <a href="{{ product_url|default:'#' }}" style="color:var(--neon-pink);">View product</a></p>
                     {% endif %}
                     <div class="product-info">
                         <h2 class="product-name">{{ product.name }}</h2>
 
                         <div class="price-container">
-                            <span class="original-price">${{ notification.original_price }}</span>
-                            <span class="sale-price">${{ notification.new_price }}</span>
-                            <span class="savings">Save ${{ notification.price_savings }}</span>
+                            <span class="original-price">${{ notification.original_price|default:"0.00" }}</span>
+                            <span class="sale-price">${{ notification.new_price|default:"0.00" }}</span>
+                            <span class="savings">Save ${{ notification.price_savings|default:"0.00" }}</span>
                         </div>
 
                         <p class="product-description">{{ product.description|truncatewords:30 }}</p>

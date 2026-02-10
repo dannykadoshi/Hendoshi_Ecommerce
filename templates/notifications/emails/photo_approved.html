@@ -10,6 +10,10 @@
             --neon-pink: #ff1493;
             --electric-yellow: #ffff00;
         }
+        /* Tight spacing override: make inner containers nearly touch outer container */
+        body { padding: 0.5rem !important; }
+        .email-header, .email-body, .product-info, .battle-vest-note, .email-footer { padding: 0.5rem !important; }
+        .battle-vest-note { margin: 0.5rem 0 !important; }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
             line-height: 1.6;
@@ -141,10 +145,16 @@
 
                 <div class="photo-preview">
                     {% if photo.image %}
-                    <img src="{{ site_url }}{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" style="max-width: 300px;">
+                        {% if site_url %}
+                            <img src="{{ site_url }}{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" style="max-width: 300px; width:100%; height:auto; display:block; margin:0 auto;">
+                        {% else %}
+                            <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" style="max-width: 300px; width:100%; height:auto; display:block; margin:0 auto;">
+                        {% endif %}
+                    {% else %}
+                        <p style="margin-bottom: 10px; color:#6c757d;">Image not attached — <a href="{{ site_url|default:'#' }}/vault/" style="color:#ff1493;">View in gallery</a></p>
                     {% endif %}
                     {% if photo.caption %}
-                    <p style="margin-top: 10px; font-style: italic;">"{{ photo.caption }}"</p>
+                        <p style="margin-top: 10px; font-style: italic;">"{{ photo.caption }}"</p>
                     {% endif %}
                 </div>
 

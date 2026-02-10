@@ -10,6 +10,10 @@
             --neon-pink: #ff1493;
             --electric-yellow: #ffff00;
         }
+        /* Tight spacing override: make inner containers nearly touch outer container */
+        body { padding: 0.5rem !important; }
+        .email-header, .email-body, .product-info, .battle-vest-note, .email-footer { padding: 0.5rem !important; }
+        .battle-vest-note { margin: 0.5rem 0 !important; }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
             line-height: 1.6;
@@ -41,13 +45,10 @@
         .email-header .logo {
             font-size: 28px;
             font-weight: 900;
-            background: linear-gradient(135deg, #fff 0%, var(--neon-pink) 50%, var(--electric-yellow) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #ffffff;
             text-decoration: none;
             position: relative;
-            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
             transition: all 0.3s ease;
             margin-bottom: 10px;
         }
