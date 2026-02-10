@@ -598,13 +598,15 @@ body .vault-featured-card.glassmorphic-card {
 
 .vault-filter-select {
     width: auto;
-    min-width: 250px;
-    padding: 0.75rem 1.25rem;
+    min-width: 220px;
+    max-width: 280px;
+    padding: 0.5rem 1rem;
     border: 2px solid rgba(255, 20, 147, 0.3);
-    border-radius: 15px;
+    border-radius: 8px;
     background: rgba(20, 20, 20, 0.95);
     color: var(--off-white);
     font-weight: 600;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
 }
 
@@ -618,7 +620,7 @@ body .vault-featured-card.glassmorphic-card {
 .vault-dropdown,
 .vault-multi-dropdown {
     display: none;
-    z-index: 1000;
+    z-index: 1000001;
     position: absolute;
     top: 100%;
     right: 0;
@@ -628,7 +630,7 @@ body .vault-featured-card.glassmorphic-card {
     overflow-y: auto;
     border: 2px solid rgba(255, 20, 147, 0.3);
     border-top: none;
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 8px 8px;
     backdrop-filter: blur(20px);
     background: rgba(20, 20, 20, 0.95);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -726,155 +728,8 @@ body .vault-featured-card.glassmorphic-card {
 }
 
 /* ========================================
-   ENHANCED FILTER SECTION - NEW DESIGN
+   ENHANCED FILTER SECTION - REMOVED
    ======================================== */
-
-.vault-filters-section {
-    max-width: 1800px;
-    margin: 0 auto;
-    padding: 0.5rem;
-    border: var(--border-glass);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    background: var(--bg-glass-light);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.vault-filter-form {
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.vault-filter-container {
-    position: relative;
-    min-width: 280px;
-}
-
-.vault-filter-btn {
-    padding: 0.75rem 0rem !important;
-}
-
-.vault-filter-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
-}
-
-.vault-clear-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    gap: 0.5rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.vault-clear-btn:hover {
-    transform: translateY(-2px);
-    border-color: var(--neon-pink);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.3);
-    color: var(--off-white);
-}
-
-/* Product Chips */
-.vault-product-chips {
-    margin-top: 1.5rem;
-    text-align: center;
-}
-
-.vault-chips-label {
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.vault-chips-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 100%;
-    gap: 0.75rem;
-}
-
-.vault-product-chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border: 1px solid rgba(255, 20, 147, 0.3);
-    border-radius: 25px;
-    background: rgba(255, 20, 147, 0.1);
-    color: var(--off-white);
-    font-weight: 500;
-    font-size: 0.9rem;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-}
-
-.vault-product-chip:hover {
-    transform: translateY(-2px);
-    border-color: var(--neon-pink);
-    background: rgba(255, 20, 147, 0.2);
-    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
-}
-
-.vault-product-chip.active {
-    border-color: var(--neon-pink);
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    color: #000;
-    font-weight: 700;
-}
-
-.chip-count {
-    margin-left: 0.25rem;
-    font-size: 0.85rem;
-    opacity: 0.8;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .vault-filter-container,
-    .vault-filter-select {
-        width: 100%;
-        min-width: auto;
-    }
-
-    .vault-filter-btn,
-    .vault-clear-btn {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .vault-chips-container {
-        gap: 0.5rem;
-    }
-
-    .vault-product-chip {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .vault-chips-container {
-        justify-content: flex-start;
-        padding-bottom: 0.5rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .vault-product-chip {
-        flex-shrink: 0;
-    }
-}
 
 /* Vault Submit Styles */
 .vault-card {
@@ -2763,10 +2618,9 @@ body .vault-featured-card.glassmorphic-card {
     }
 }
 
-/* Vault Grid - Responsive: 6 -> 5 -> 4 -> 3 -> 2 (mobile) */
+/* Vault Grid */
 .vault-grid-wrapper {
     width: 100%;
-    margin-top: 2rem; /* spacing between filter section and cards grid on desktop */
     margin-bottom: 2rem; /* small gap between vault cards and footer */
 }
 

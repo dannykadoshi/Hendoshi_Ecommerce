@@ -34,144 +34,10 @@ function trackVaultEvent(action, details = {}) {
 }
 
 // Gallery Filter Dropdown
-function initializeGalleryFilter() {
-    const input = document.getElementById('product_filter');
-    const hiddenInput = document.getElementById('product_value');
-    const dropdown = document.getElementById('product-dropdown');
-
-    // Only initialize if required elements exist (gallery page)
-    if (!input || !hiddenInput || !dropdown) return;
-
-    const items = dropdown.querySelectorAll('.vault-dropdown-item');
-    let selectedIndex = -1;
-
-    // Initialize with current filter if any
-    const productFilter = '{{ product_filter }}';
-    if (productFilter) {
-        const currentItem = Array.from(items).find(item => item.dataset.value === productFilter);
-        if (currentItem) {
-            input.value = currentItem.textContent;
-            hiddenInput.value = productFilter;
-        }
-    }
-
-    function showDropdown() {
-        dropdown.style.display = 'block';
-        filterItems();
-    }
-
-    function hideDropdown() {
-        dropdown.style.display = 'none';
-        selectedIndex = -1;
-        items.forEach(item => item.classList.remove('selected'));
-    }
-
-    function filterItems() {
-        const query = input.value.toLowerCase();
-        let hasVisibleItems = false;
-
-        items.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            if (text.includes(query)) {
-                item.style.display = 'block';
-                hasVisibleItems = true;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-
-        dropdown.style.display = hasVisibleItems && input === document.activeElement ? 'block' : 'none';
-    }
-
-    function selectItem(item) {
-        const productSlug = item.dataset.value;
-        const productName = item.textContent;
-
-        input.value = productName;
-        hiddenInput.value = productSlug;
-        hideDropdown();
-
-        // Track filter application
-        trackVaultEvent('filter_applied', {
-            product_slug: productSlug,
-            product_name: productName,
-            filter_type: 'dropdown'
-        });
-    }
-
-    // Input event listeners
-    input.addEventListener('focus', function() {
-        showDropdown();
-        trackVaultEvent('filter_opened', { filter_type: 'dropdown' });
-    });
-    input.addEventListener('input', filterItems);
-
-    input.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
-            updateSelection();
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            selectedIndex = Math.max(selectedIndex - 1, 0);
-            updateSelection();
-        } else if (e.key === 'Enter') {
-            e.preventDefault();
-            if (selectedIndex >= 0 && items[selectedIndex].style.display !== 'none') {
-                selectItem(items[selectedIndex]);
-            }
-        } else if (e.key === 'Escape') {
-            hideDropdown();
-        }
-    });
-
-    function updateSelection() {
-        items.forEach((item, index) => {
-            if (index === selectedIndex && item.style.display !== 'none') {
-                item.classList.add('selected');
-                item.scrollIntoView({ block: 'nearest' });
-            } else {
-                item.classList.remove('selected');
-            }
-        });
-    }
-
-    // Item click handlers
-    items.forEach(item => {
-        item.addEventListener('click', function() {
-            selectItem(this);
-        });
-        item.addEventListener('mouseenter', function() {
-            selectedIndex = Array.from(items).indexOf(this);
-            updateSelection();
-        });
-    });
-
-    // Hide dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-            hideDropdown();
-        }
-    });
-}
+// Gallery Filter Dropdown - REMOVED
 
 // Initialize product chip interactions
-function initializeProductChips() {
-    const chips = document.querySelectorAll('.vault-product-chip');
-    chips.forEach(chip => {
-        chip.addEventListener('click', function(e) {
-            // Let the link work normally, but track the event
-            const productSlug = this.getAttribute('href').split('=')[1];
-            const productName = this.textContent.split(' (')[0]; // Remove count from name
-
-            trackVaultEvent('chip_clicked', {
-                product_slug: productSlug,
-                product_name: productName,
-                filter_type: 'chip'
-            });
-        });
-    });
-}
+// Initialize product chip interactions - REMOVED
 
 // Gallery Like Functionality
 function initializeGalleryLikes() {
@@ -987,11 +853,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeGalleryLikes();
     initializePhotoDetailLikes();
 
-    // Gallery page
-    if (document.getElementById('product_filter')) {
-        initializeGalleryFilter();
-        initializeProductChips();
-    }
+    // Gallery page - filter functionality removed
+    // if (document.getElementById('product_filter')) {
+    //     initializeGalleryFilter();
+    //     initializeProductChips();
+    // }
 
     // Photo detail page
     if (document.querySelector('.vault-detail-layout')) {

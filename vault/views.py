@@ -43,10 +43,7 @@ def vault_gallery(request):
             user_downvoted=Exists(user_downvotes)
         )
 
-    # Filter by product if specified
-    product_filter = request.GET.get('product')
-    if product_filter:
-        photos = photos.filter(tagged_products__slug=product_filter)
+    # Filter functionality removed - keeping all photos
 
     # Get featured photos with optimized queries
     featured_photos = VaultPhoto.objects.filter(
@@ -105,7 +102,6 @@ def vault_gallery(request):
     context = {
         'photos': page_obj,
         'page_obj': page_obj,
-        'product_filter': product_filter,
         'all_products': all_products,
         'products_with_counts': products_with_counts,
         'featured_photos': featured_photos,

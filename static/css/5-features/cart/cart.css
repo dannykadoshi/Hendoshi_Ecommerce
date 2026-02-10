@@ -1722,7 +1722,7 @@ main {
 .footer {
     position: relative;
     margin-top: 0;
-    padding: 4rem 2rem 2rem;
+    padding: 2rem 2rem 2rem;
     backdrop-filter: blur(10px);
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
 }

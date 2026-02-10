@@ -52,61 +52,6 @@
         <!-- Left Column: Filters and Photo Grid -->
         <div class="vault-left-column">
             
-            <!-- Filters -->
-    <div class="vault-filters-section mb-4" id="vault-filters">
-        <div class="container">
-            <!-- Main Filter -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex justify-content-center">
-                        <form method="get" class="vault-filter-form d-flex gap-2 align-items-center">
-                            <label for="product_filter" class="vault-filter-label">Filter by Product:</label>
-                            <div class="position-relative vault-filter-container">
-                                <input type="text"
-                                       id="product_filter"
-                                       class="form-control vault-filter-select"
-                                       placeholder="Filter by product (optional)"
-                                       autocomplete="off"
-                                       aria-label="Filter vault photos by product">
-                                <input type="hidden" name="product" id="product_value">
-                                <div id="product-dropdown" class="vault-dropdown" role="listbox">
-                                    <div class="vault-dropdown-item" data-value="" role="option">All Photos</div>
-                                    {% for product in all_products %}
-                                    <div class="vault-dropdown-item" data-value="{{ product.slug }}" role="option">{{ product.name }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-pink btn-sm vault-filter-btn">Filter</button>
-                            <a href="{% url 'vault:vault_gallery' %}#vault-filters" class="btn btn-clear-ghost vault-clear-btn" onclick="trackVaultEvent('filter_cleared')">
-                                <i class="fas fa-times"></i> Clear
-                            </a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Chips -->
-            {% if products_with_counts %}
-            <div class="row">
-                <div class="col-12">
-                    <div class="vault-product-chips">
-                        <div class="vault-chips-label">Popular products:</div>
-                        <div class="vault-chips-container">
-                            {% for product in products_with_counts %}
-                            <a href="?product={{ product.slug }}#vault-filters"
-                               class="vault-product-chip {% if product_filter == product.slug %}active{% endif %}"
-                               onclick="trackVaultEvent('chip_clicked', { product_slug: '{{ product.slug }}', product_name: '{{ product.name }}' })">
-                                {{ product.name }} <span class="chip-count">({{ product.photo_count }})</span>
-                            </a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
     <!-- Photo Grid -->
     <div class="vault-grid-wrapper">
         <div class="vault-grid" id="photo-grid">
@@ -185,7 +130,7 @@
                 <ul class="pagination justify-content-center">
                     {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if product_filter %}&product={{ product_filter }}{% endif %}">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
                             <i class="fas fa-chevron-left"></i>
                         </a>
                     </li>
@@ -198,14 +143,14 @@
                         </li>
                         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ num }}{% if product_filter %}&product={{ product_filter }}{% endif %}">{{ num }}</a>
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
                         </li>
                         {% endif %}
                     {% endfor %}
 
                     {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if product_filter %}&product={{ product_filter }}{% endif %}">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </li>

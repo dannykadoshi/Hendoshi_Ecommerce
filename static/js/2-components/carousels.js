@@ -94,6 +94,13 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselContainer.addEventListener('mouseleave', startAutoPlay);
     }
 
+    // Also pause auto-play on hover over individual collection cards
+    const collectionCards = collectionsTrack.querySelectorAll('.collection-card');
+    collectionCards.forEach(card => {
+        card.addEventListener('mouseenter', stopAutoPlay);
+        card.addEventListener('mouseleave', startAutoPlay);
+    });
+
     // Clear interval when page unloads
     window.addEventListener('beforeunload', stopAutoPlay);
 
