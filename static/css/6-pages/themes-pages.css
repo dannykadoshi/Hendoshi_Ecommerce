@@ -374,6 +374,8 @@
 .mb-4 {
     margin-bottom: 0.5rem !important;
     margin-top: 0.5rem !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
 }
 
 .mb-5 {
@@ -382,7 +384,6 @@
 
 @media (max-width: 768px) {
     [class*="col-"] {
-        padding-right: 0.25rem;
-        padding-left: 0.25rem;
+        padding: 1rem 0.8rem 2rem 0.8rem;
     }
 }

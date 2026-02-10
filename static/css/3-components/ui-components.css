@@ -48,6 +48,11 @@
     --vault-max-width: 1400px;
 }
 
+/* Canonical card-body padding */
+.card-body {
+    padding: 0.75rem;
+}
+
 /* Checkout page padding moved to vault-modals.css for consistency */
 
 /* Checkout pages need reduced page-container bottom padding to avoid excessive footer spacing */
@@ -3006,7 +3011,6 @@ body .glassmorphic-card:hover {
     border: 2px solid var(--neon-pink);
     border-radius: 12px;
     background-color: var(--neon-pink);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     color: #000;
     font-weight: 700;
     letter-spacing: 0.6px;
@@ -3037,6 +3041,7 @@ body .glassmorphic-card:hover {
     border-color: var(--neon-pink);
     background-color: var(--neon-pink);
     color: #fff;
+    margin-bottom: 0.5rem;
 }
 
 :root.light-mode .btn-pink:hover,

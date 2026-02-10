@@ -803,6 +803,7 @@
 :root.light-mode .empty-cart {
     border-color: rgba(0, 0, 0, 0.06);
     background: rgba(0, 0, 0, 0.02);
+    margin-top: 1.5rem;
 }
 
 :root.light-mode .cart-item {

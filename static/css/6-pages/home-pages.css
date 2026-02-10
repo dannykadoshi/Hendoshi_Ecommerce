@@ -892,11 +892,11 @@
 
 :root.light-mode .contact-card,
 :root.light-mode .contact-hero {
-    background: rgba(0, 0, 0, 0.03);
+    background: #fff;
 }
 
 :root.light-mode .size-table {
-    border-color: rgba(0, 0, 0, 0.15);
+    border-color: rgb(254, 252, 252);
     background: rgba(0, 0, 0, 0.05);
 }
 

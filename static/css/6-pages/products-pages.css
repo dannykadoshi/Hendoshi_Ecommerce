@@ -1078,10 +1078,6 @@ body .admin-reply .text-muted {
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
-    .card-body {
-        padding: 0.75rem;
-    }
-
     .card-title {
         color: rgba(255, 255, 255, 0.9);
         font-size: 0.9rem;
@@ -1617,7 +1613,6 @@ body .admin-reply-section small.text-muted {
 .product-type-card {
     position: relative;
     padding: 20px 15px;
-    border: 2px solid var(--neon-pink);
     border-radius: 12px;
     background: rgba(255, 105, 180, 0.05);
     text-align: center;

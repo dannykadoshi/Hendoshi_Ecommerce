@@ -618,6 +618,8 @@
         margin-right: calc(50% - 50vw);
         margin-left: calc(50% - 50vw);
         border-radius: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     /* remove outer container padding for full width */

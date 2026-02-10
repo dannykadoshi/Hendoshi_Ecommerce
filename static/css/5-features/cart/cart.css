@@ -90,6 +90,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding-top: 1rem;
 }
 
 /* Cart Card - Individual Item */
@@ -2277,7 +2278,7 @@ main {
 
     body .checkout-left-column .shipping-selector-prominent {
         margin-bottom: 0;
-        border-radius: 0;
+        border-radius: 8px;
     }
 
     .checkout-main-content {

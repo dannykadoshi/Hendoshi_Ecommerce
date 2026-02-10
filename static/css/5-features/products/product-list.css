@@ -454,7 +454,7 @@ h2.gradient-title {
     }
 
     .filters-actions {
-        padding: 0.75rem 1rem 1rem;
+        padding: 0.5rem 2rem 1rem;
     }
 }
 
@@ -1349,6 +1349,7 @@ h2.gradient-title {
         display: flex;
         align-items: flex-start;
         gap: 1rem;
+        margin-top: -2.5rem;
     }
 
     .main-image {
@@ -2119,7 +2120,7 @@ h2.gradient-title {
 
 .profile-card {
     position: relative;
-    padding: 20px;
+    padding: 0.5rem;
     overflow: hidden;
     border: var(--border-glass);
     border-radius: 15px;
@@ -2188,10 +2189,6 @@ h2.gradient-title {
         background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         color: var(--off-white);
-    }
-
-    .card-body {
-        padding: 0.75rem;
     }
 
     .card-title {
@@ -2348,10 +2345,6 @@ h2.gradient-title {
         width: 100%;
         margin-right: 0;
         margin-left: 0;
-    }
-
-    .card-body {
-        padding: 0.75rem;
     }
 
     /* Search form responsive */

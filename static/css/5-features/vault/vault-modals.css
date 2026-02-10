@@ -1661,10 +1661,6 @@ body .page-hero .battle-vest-stats {
         color: var(--off-white);
     }
 
-    .card-body {
-        padding: 0.75rem;
-    }
-
     .card-title {
         margin-bottom: 0.5rem;
         font-size: 1rem;
@@ -1716,10 +1712,6 @@ body .page-hero .battle-vest-stats {
 }
 
 @media (max-width: 576px) {
-    .card-body {
-        padding: 0.75rem;
-    }
-
     .card-title {
         font-size: 0.9rem;
     }
@@ -1805,10 +1797,6 @@ body .page-hero .battle-vest-stats {
         background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         color: var(--off-white);
-    }
-
-    .card-body {
-        padding: 0.75rem;
     }
 
     .card-title {
@@ -1915,10 +1903,6 @@ body .page-hero .battle-vest-stats {
 }
 
 @media (max-width: 576px) {
-    .card-body {
-        padding: 0.75rem;
-    }
-
     .card-title {
         margin-bottom: 0.25rem;
         font-size: 0.9rem;

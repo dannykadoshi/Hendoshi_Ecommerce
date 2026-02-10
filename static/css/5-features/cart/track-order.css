@@ -176,3 +176,14 @@
 :root.light-mode .carrier-item {
     background: rgba(0, 0, 0, 0.03);
 }
+
+/* Override universal styles for track order page */
+@media (max-width: 768px) {
+    .contact-page [class*="col-"] {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+.contact-page .mb-4 {
+    margin-top: 0.5rem !important;
+}
