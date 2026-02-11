@@ -16,12 +16,28 @@
 {% block extra_title %}Email Addresses{% endblock %}
 
 {% block content %}
-<div class="container auth-page">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="profile-card">
-                <h1 class="page-title mb-4">EMAIL ADDRESSES</h1>
-                
+<div id="auth-email-page" class="auth-page">
+    <section class="page-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="page-hero-title">Email Addresses</h1>
+                    <p class="page-hero-subtitle">Manage the emails tied to your Hendoshi and keep them secure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="auth-card text-center">
+                    <div class="auth-icon-wrapper">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h2 class="auth-card-title visually-hidden">Email Addresses</h2>
+
                 {% if emailaddresses %}
                     <p class="mb-4">The following email addresses are associated with your account:</p>
                     
@@ -49,6 +65,7 @@
                 {% endif %}
                 
                 <a href="{% url 'profile' %}" class="btn btn-pink">BACK TO PROFILE</a>
+                </div>
             </div>
         </div>
     </div>

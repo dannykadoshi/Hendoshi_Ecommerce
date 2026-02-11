@@ -18,28 +18,44 @@
 {% block extra_title %}Confirm Email{% endblock %}
 
 {% block content %}
-<div class="container auth-page">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="auth-card text-center">
-                
-                {% if confirmation %}
-                    <i class="fas fa-envelope fa-4x auth-icon"></i>
-                    <h1 class="auth-title">CONFIRM EMAIL</h1>
-                    
-                    <p class="mb-4">Please confirm that <strong>{{ confirmation.email_address.email }}</strong> is your email address.</p>
-                    
-                    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-pink btn-lg w-100">CONFIRM EMAIL</button>
-                    </form>
-                {% else %}
-                    <i class="fas fa-times-circle fa-4x mb-4 text-danger"></i>
-                    <h1 class="auth-title">Invalid Link</h1>
-                    <p class="mb-4">This email confirmation link is invalid or has already been used.</p>
-                    <a href="{% url 'account_login' %}" class="btn btn-pink btn-lg">GO TO LOGIN</a>
-                {% endif %}
-                
+<div id="auth-email-confirm-container" class="auth-page">
+    <section class="page-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <h1 class="page-hero-title">You're Almost In — One Click to Confirm</h1>
+                    <p class="page-hero-subtitle">Confirm your email to unlock the vault and join the HENDOSHI crew.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="page-email-confirm-container" class="page-container">
+        <div id="email-confirm-container" class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div id="auth-card-email-confirm" class="auth-card text-center">
+                        
+                        {% if confirmation %}
+                            <i class="fas fa-envelope fa-4x auth-icon"></i>
+                            <h1 class="auth-title">CONFIRM EMAIL</h1>
+                            
+                            <p class="mb-4">Please confirm that <strong>{{ confirmation.email_address.email }}</strong> is your email address.</p>
+                            
+                            <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-pink btn-lg w-100">CONFIRM EMAIL</button>
+                            </form>
+                        {% else %}
+                            <i class="fas fa-times-circle fa-4x mb-4 text-danger"></i>
+                            <h1 class="auth-title">Invalid Link</h1>
+                            <p class="mb-4">This email confirmation link is invalid or has already been used.</p>
+                            <a href="{% url 'account_login' %}" class="btn btn-pink btn-lg">GO TO LOGIN</a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>

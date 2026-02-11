@@ -1,0 +1,17 @@
+{% extends 'account/email/base_message.html' %}
+{% load i18n %}
+
+{% block content %}
+  <p class="greeting">Hi {{ user.get_full_name|default:user.email }},</p>
+
+  <p class="message">Thanks for signing up — welcome to HENDOSHI! Please confirm your email address by clicking the button below.</p>
+
+  <p style="text-align:center; margin:22px 0;">
+    <a href="{{ activate_url }}" class="cta-button">Confirm your email</a>
+  </p>
+
+  <p class="message">If the button doesn't work, copy and paste the following link into your browser:</p>
+  <p class="message"><a href="{{ activate_url }}">{{ activate_url }}</a></p>
+
+  <p class="footer-note">If you didn't create an account with us, you can ignore this email.</p>
+{% endblock %}

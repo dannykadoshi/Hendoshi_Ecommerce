@@ -18,21 +18,21 @@
 {% block meta_description %}Login to your HENDOSHI account - Access your Battle Vest wishlist, order history, and personalized metal apparel recommendations.{% endblock %}
 
 {% block content %}
-<div class="auth-page">
+<div id="auth-page-login" class="auth-page">
     <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="page-hero-title">Welcome Back</h1>
-                    <p class="page-hero-subtitle">Sign in to your HENDOSHI account</p>
+                    <h1 class="page-hero-title">Welcome Back, Legend</h1>
+                    <p class="page-hero-subtitle">Sign in to access your Vault, wishlist, and exclusive drops.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="page-container">
-        <div class="container">
+    <div id="page-signin-container" class="page-container">
+        <div id="signin-container" class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="auth-card text-center">

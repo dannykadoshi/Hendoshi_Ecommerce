@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject|default:current_site.name }}</title>
+    <style>
+        :root { --neon-pink: #ff1493; --electric-yellow: #ffff00; }
+        body { font-family: 'Montserrat', Arial, sans-serif; line-height:1.6; color:#333; background-color:#f8f9fa; margin:0; padding:20px; }
+        .email-container { max-width:600px; margin:0 auto; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.08); }
+        .email-header { background:linear-gradient(135deg,#000,#333); color:#fff; padding:30px 24px; text-align:center; }
+        .logo { font-size:28px; font-weight:900; background:linear-gradient(135deg,#fff 0%,var(--neon-pink) 50%,var(--electric-yellow) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .email-body { padding:28px 24px; text-align:left; }
+        .greeting { font-size:18px; margin-bottom:12px; }
+        .message { font-size:15px; color:#555; margin-bottom:16px; }
+        .cta-button { display:inline-block; background:linear-gradient(135deg,var(--neon-pink),#ff69b4); color:#fff; padding:12px 28px; border-radius:24px; text-decoration:none; font-weight:700; }
+        .footer-note { font-size:13px; color:#777; margin-top:18px; padding-top:12px; border-top:1px solid #eee; }
+        .email-footer { background:#f8f9fa; padding:20px 24px; text-align:center; color:#6c757d; font-size:13px; }
+        @media (max-width:480px){ .email-body{padding:16px;} .email-header{padding:20px;} }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">HENDOSHI</div>
+            <h2 style="margin:6px 0 0; font-size:18px; font-weight:700;">{{ subject|default:current_site.name }}</h2>
+        </div>
+
+        <div class="email-body">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="email-footer">
+            <p><strong>HENDOSHI</strong> - Wear Your Weird</p>
+            <p>Metal-inspired apparel with original skull, animal, and gym designs</p>
+        </div>
+    </div>
+</body>
+</html>

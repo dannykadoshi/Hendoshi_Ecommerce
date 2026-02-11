@@ -16,24 +16,24 @@
 {% block extra_title %}Sign Out{% endblock %}
 
 {% block content %}
-<div class="auth-page">
+<div id="auth-logout-page" class="auth-page">
     <section class="page-hero">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                    <h1 class="page-hero-title">Sign Out</h1>
-                    <p class="page-hero-subtitle">Come back anytime — we'll be here</p>
+                    <h1 class="page-hero-title">See You Soon</h1>
+                    <p class="page-hero-subtitle">Your vault stays guarded — come back when the next drop drops.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="page-container">
-        <div class="container">
+    <div id="page-logout-container" class="page-container">
+        <div id="logout-container" class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <div class="auth-card text-center logout-card">
+                    <div id="auth-card-logout" class="auth-card text-center logout-card">
                         <div class="auth-icon-wrapper">
                             <i class="fas fa-sign-out-alt"></i>
                         </div>
