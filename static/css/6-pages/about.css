@@ -250,7 +250,25 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
+/* Light-mode background for the testimonials container (page-scoped via ID) */
+:root.light-mode #about-testimonials-container {
+    background: #f5f5f5;
+    margin-bottom: -3rem;
+    padding-bottom: 2rem;
+}
+
+:root.light-mode #about-contact-card {
+    background: #f5f5f5;
+}
+
+
 /* Override the gray background for about page contact section */
 .contact-form-section {
     background: transparent !important;
+    padding-top: 0 !important;
+}
+
+/* Page-scoped contact card spacing */
+#about-contact-card {
+    padding-top: 0.5rem;
 }

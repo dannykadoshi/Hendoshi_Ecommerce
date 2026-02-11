@@ -41,11 +41,6 @@
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="contact-card">
-                            <!-- Close Button -->
-                            <button type="button" class="contact-close-btn" onclick="history.back()" title="Close">
-                                <i class="fas fa-times"></i>
-                            </button>
-
                             <div class="shipping-content">
                                 <div class="shipping-intro mb-5">
                                     <p class="shipping-description">
@@ -161,7 +156,7 @@
                                     </div>
 
                                     <!-- Bella Canvas Jersey Tee -->
-                                    <div class="shipping-region mb-5">
+                                    <div id="bella-canvas-region" class="shipping-region mb-5">
                                         <div class="region-header">
                                             <i class="fas fa-tshirt region-icon"></i>
                                             <h3 class="region-title">Bella Canvas Unisex Jersey Short Sleeve Tee</h3>
@@ -272,7 +267,7 @@
                                 </div>
 
                                 <!-- Sizing Tips -->
-                                <div class="shipping-additional mt-5">
+                                <div id="sizeguide-shipping-additional" class="shipping-additional mt-5">
                                     <div class="region-header">
                                         <i class="fas fa-ruler region-icon"></i>
                                         <h3 class="additional-heading">Sizing Tips</h3>
@@ -288,7 +283,7 @@
                                 </div>
 
                                 <!-- Contact CTA -->
-                                <div class="shipping-contact mt-5 text-center">
+                                <div id="sizeguide-shipping-contact" class="shipping-contact mt-5 text-center">
                                     <p class="contact-text">Need help finding your size?</p>
                                     <a href="{% url 'contact' %}" class="btn btn-pink">Contact Us</a>
                                 </div>

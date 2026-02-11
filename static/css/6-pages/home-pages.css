@@ -20,10 +20,6 @@
 /* .shipping-contact .btn-pink moved to components.css for canonical styling */
 /* .contact-page styling moved to containers.css for centralized layout management */
 
-.contact-form-section {
-    background: var(--charcoal);
-}
-
 .contact-hero {
     position: relative;
     margin-top: 76px;
@@ -70,9 +66,7 @@
     opacity: 0.9;
 }
 
-.contact-form-section {
-    background: var(--charcoal);
-}
+    /* contact-form-section styles consolidated to ui-components.css */
 
 /* .contact-card consolidated to page-styles.css */
 
@@ -107,6 +101,23 @@
 
 .size-table tr:hover {
     background: rgba(255, 20, 147, 0.05);
+}
+
+@media (max-width: 768px) {
+    /* Page-scoped spacing for the Bella Canvas size region (mobile only) */
+    #bella-canvas-region {
+        margin-top: 0.5rem;
+    }
+}
+
+/* Size Guide page-specific overrides */
+#sizeguide-shipping-contact {
+    margin-top: 1.5rem;
+}
+
+#sizeguide-shipping-additional {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .contact-page .size-table tbody {
@@ -493,15 +504,9 @@
 
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
-.contact-form-section {
-    background: var(--charcoal);
-}
+/* contact-form-section styles consolidated to ui-components.css */
 
 /* .contact-card consolidated to page-styles.css */
-
-.contact-form-section {
-    background: var(--charcoal);
-}
 
 /* .contact-card consolidated to page-styles.css */
 
@@ -750,9 +755,7 @@
 
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
-.contact-form-section {
-    background: var(--charcoal);
-}
+/* contact-form-section styles consolidated to ui-components.css */
 
 /* .contact-card consolidated to page-styles.css */
 

@@ -2016,11 +2016,18 @@ body .admin-reply-section small.text-muted {
 }
 
 :root.light-mode .card {
-    background: rgba(0, 0, 0, 0.02);
+    box-shadow: none !important;
+    border-color: #ff1493;
 }
+
 
 :root.light-mode .card-title {
     color: rgba(0, 0, 0, 0.87);
+}
+
+/* Profile card light-mode override */
+:root.light-mode #profile-card {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 :root.light-mode .card small {
@@ -2061,5 +2068,19 @@ body .admin-reply-section small.text-muted {
 
 :root.light-mode .existing-variants-section {
     border-color: rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Ensure mode description text is readable in light mode */
+:root.light-mode .mode-description-text {
+    color: #000000;
+}
+
+/* Centralized: make form check labels pink in light mode */
+:root.light-mode .form-check-label {
+    color: var(--neon-pink) !important;
+}
+
+/* Ensure `.text-white` shows pink in light mode for emphasis */
+:root.light-mode .text-white {
+    color: var(--neon-pink) !important;
 }

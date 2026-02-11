@@ -281,9 +281,7 @@
 /* From: templates/home/returns.html */
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
-.contact-form-section {
-    background: var(--charcoal);
-}
+/* contact-form-section styles consolidated to ui-components.css */
 
 .shipping-content {
     padding: 2rem;

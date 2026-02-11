@@ -44,6 +44,30 @@
     font-size: 0.75rem;
 }
 
+/* Site-wide container widen: increase max-width and keep comfortable side
+   padding so pages appear less narrow on large screens. This intentionally
+   overrides default Bootstrap container widths to give more horizontal
+   space across the site. Adjust values if you want tighter or wider gutters. */
+.container {
+    width: 100%;
+    max-width: 1200px; /* wider desktop container */
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1360px; /* extra breathing room on very large screens */
+    }
+}
+
+@media (max-width: 1199px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
 /* Priority indicator */
 .theme-type-badge,
 .priority-badge {
@@ -227,6 +251,83 @@
     }
 }
 
+/* Per-page bottom spacing for specific auth flows */
+#row-password-reset {
+    margin-bottom: 3rem !important;
+}
+
+#auth-card-verification-sent {
+    margin-bottom: 3rem !important;
+}
+
+#auth-card-email-confirm {
+    margin-bottom: 3rem !important;
+}
+/* Logout card: reduce bottom spacing like other auth flows */
+#auth-card-logout {
+    margin-bottom: 0.25rem !important;
+}
+
+/* Add explicit bottom spacing on the logout container so the page has
+   consistent breathing room like other confirmation/verification flows. */
+.auth-page #logout-container {
+    margin-bottom: 3rem !important;
+    padding-bottom: 1.5rem !important;
+}
+
+/* Password reset (from key) - input styling and centering overrides
+   Use high specificity to override Bootstrap defaults for this auth page */
+.auth-page #password-reset-from-key-container .auth-card {
+    text-align: center;
+}
+.auth-page #password-reset-from-key-container .auth-card .form-control {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0.25rem auto 0.5rem auto !important;
+    padding: 0.85rem 1rem !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+    box-shadow: 0 8px 18px rgba(255,20,147,0.04) !important;
+    font-size: 0.95rem !important;
+}
+.auth-page #password-reset-from-key-container .auth-card .form-control:focus {
+    outline: none !important;
+    box-shadow: 0 10px 30px rgba(255,20,147,0.12) !important;
+    border-color: var(--neon-pink) !important;
+}
+.auth-page #password-reset-from-key-container .password-requirements {
+    text-align: left !important;
+    display: inline-block !important;
+    max-width: 420px !important;
+    margin: 1rem auto 0 auto !important;
+    /* Requirements copy should be readable on dark backgrounds */
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Muted helper text on password reset pages: ensure readable in dark mode
+   while remaining appropriately muted in light mode. Targets common
+   .text-muted usage inside the password reset containers. */
+.auth-page #password-reset-container .text-muted,
+.auth-page #password-reset-from-key-container .text-muted {
+    color: rgba(255, 255, 255, 0.65) !important; /* light gray on dark */
+}
+
+:root.light-mode .auth-page #password-reset-container .text-muted,
+:root.light-mode .auth-page #password-reset-from-key-container .text-muted {
+    color: rgba(0, 0, 0, 0.55) !important; /* darker gray on light */
+}
+.auth-page #password-reset-from-key-container .auth-title {
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+    color: var(--neon-pink) !important;
+}
+
+/* Small spacing between password requirements and the action button */
+.auth-page #password-reset-from-key-container .auth-card .btn {
+     margin-top: 0.5rem !important;
+}
+
 /* ===== THEME_ANIMATION_LAYER ===== */
 
 /* Custom CSS for {{ seasonal_theme.name }} */
@@ -303,6 +404,12 @@
 
 :root.light-mode .theme-type-preview .description {
     color: rgba(0, 0, 0, 0.7);
+}
+
+/* Light-mode override: make password requirement text darker on light backgrounds */
+:root.light-mode .auth-page .password-requirements,
+:root.light-mode .auth-page #password-reset-from-key-container .password-requirements {
+    color: rgba(0, 0, 0, 0.75) !important;
 }
 
 /* ===== SUMMARY_ROW ===== */
@@ -399,4 +506,176 @@
 .vault-page .order-status-bar.mb-4 {
     padding-right: 0 !important;
     padding-left: 0 !important;
+}
+
+/* Mobile rule: ensure logout container has no top padding on small screens */
+@media (max-width: 768px) {
+    #logout-container,
+    #signup-container,
+    #signin-container {
+        padding-top: 0 !important;
+    }
+}
+
+/* Auth pages: full-height layout with centered content and safe footer gap
+   Replaces brittle negative-margin rules with a flexible approach that
+   centers on large screens and allows scrolling on small screens so the
+   footer never overlaps content. */
+.auth-page {
+    display: flex;
+    flex-direction: column;
+    /* Ensure auth layout accounts for header/footer so the main
+       content doesn't try to fill the entire viewport and create
+       a large gap beneath the container. */
+    min-height: calc(100vh - var(--site-header-height, 64px) - var(--site-footer-height, 72px));
+}
+
+/* Prevent very tall auth-page wrappers from forcing large empty gaps
+   for short flows like password reset and email confirmation. When a
+   template uses one of these IDs as the `.auth-page` root, switch that
+   page to auto height so content hugs the hero and footer naturally. */
+.auth-page#password-reset-container,
+.auth-page#password-reset-done-container,
+.auth-page#password-reset-from-key-done-container,
+.auth-page#auth-page-password-change,
+.auth-page#auth-email-confirm-container,
+.auth-page#auth-verification-sent-container,
+.auth-page#auth-logout-page {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+/* Also constrain the inner page-container on these flows so vertical
+   centering doesn't add large whitespace. Keep items aligned to the
+   start and tighten padding so the page feels compact. */
+.auth-page#password-reset-container > .page-container,
+.auth-page#password-reset-from-key-done-container > .page-container,
+.auth-page#password-reset-done-container > .page-container,
+.auth-page#auth-page-password-change > .page-container,
+.auth-page#auth-email-confirm-container > .page-container,
+.auth-page#auth-verification-sent-container > .page-container,
+.auth-page#auth-logout-page > .page-container {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.25rem !important;
+    max-height: none !important;
+}
+
+/* Center the main page-container between header and footer */
+.auth-page > .page-hero + .page-container,
+.auth-page > .page-container {
+     /* Avoid forcing the page-container to stretch to 100% height
+         which created a large gap below the card; allow it to size
+         naturally while still being flexible. */
+     flex: 0 1 auto;
+     display: flex;
+     /* Place auth card closer to the page-hero on desktop by aligning
+         items to the start vertically while keeping horizontal centering. */
+     align-items: flex-start;
+     justify-content: center;
+    /* Keep a comfortable gap from the hero but reduce bottom spacing */
+    padding-top: 2rem;
+    padding-bottom: 0.75rem; /* tighter gap to footer */
+}
+
+.auth-page .page-container > .container {
+    width: 100%;
+    /* Wider container on desktop so auth-card isn't overly narrow */
+    max-width: 980px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* For very large screens allow a little extra breathing room */
+@media (min-width: 1400px) {
+    .auth-page .page-container > .container {
+        max-width: 1100px;
+    }
+}
+
+/* Widen the specific "change your password" flow so the card has
+   more horizontal room without affecting other auth pages. Scope to
+   the template ID used in `password_reset_from_key.html`. */
+.auth-page#auth-page-password-change .page-container > .container {
+    max-width: 1200px !important;
+}
+
+/* Allow the auth-card on the change-password page to expand up to a
+   comfortable reading width while staying centered. */
+.auth-page#auth-page-password-change .auth-card {
+    max-width: 900px !important;
+    width: 100% !important;
+}
+
+/* Also widen the reset-from-key container variant if used as root */
+.auth-page#password-reset-from-key-done-container .page-container > .container,
+.auth-page#password-reset-from-key-container .page-container > .container {
+    max-width: 1100px !important;
+}
+
+.auth-page#password-reset-from-key-container .auth-card,
+.auth-page#password-reset-from-key-done-container .auth-card {
+    max-width: 760px !important;
+    width: 100% !important;
+}
+
+.auth-page .auth-card,
+.auth-page .profile-card {
+    margin: 0 auto;
+}
+
+/* Per-page spacing overrides: tweak bottom padding for specific auth flows.
+   These target the common container IDs used in auth templates so each
+   page can have its own breathing room without affecting others. */
+.auth-page #signup-container {
+    padding-bottom: 3rem !important; /* signup: needs a bit more bottom space */
+}
+
+.auth-page #password-reset-container {
+    /* lost-key / password reset request: increase bottom gap so content
+       doesn't feel cramped on tall hero pages */
+    /* Reduced significantly to tighten the page layout */
+    padding-top: 0.5rem !important;
+    margin-bottom: 3rem !important;
+}
+
+.auth-page #password-reset-from-key-container,
+.auth-page #auth-page-password-change,
+.auth-page #password-reset-from-key-done-container {
+    /* reset-from-key / password-change pages: keep compact spacing so
+       action buttons and messages have breathing room but the page
+       remains tight. Includes multiple template IDs used in repo. */
+    padding-top: 0.5rem !important;
+    margin-bottom: 3rem !important;
+}
+
+.auth-page #email-confirmation-container,
+.auth-page #verification-container,
+.auth-page #verification-sent-container,
+.auth-page #auth-email-confirm-container,
+.auth-page #auth-verification-sent-container {
+    /* Make confirmation pages very tight — minimal vertical padding.
+       Also include the `auth-` prefixed IDs used by the templates. */
+    padding-top: 0.5rem !important;
+    margin-bottom: 3rem !important;
+    margin-top: 0 !important;
+}
+
+/* Small-screen behavior: allow content to scroll and reduce strict vertical centering */
+@media (max-width: 768px) {
+    .auth-page {
+        /* On small screens still exclude header/footer height so content
+           area matches available space and scrolling behaves predictably. */
+        min-height: calc(100vh - var(--site-header-height, 64px) - var(--site-footer-height, 72px));
+    }
+    .auth-page > .page-hero + .page-container,
+    .auth-page > .page-container {
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 1.25rem;
+        padding-bottom: 1rem;
+        overflow-y: auto;
+        max-height: calc(100vh - var(--site-header-height, 64px) - var(--site-footer-height, 72px));
+    }
 }

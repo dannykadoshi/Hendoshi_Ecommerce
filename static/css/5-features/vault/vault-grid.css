@@ -1379,6 +1379,7 @@ body .vault-featured-card.glassmorphic-card {
 
     .vault-detail-sidebar {
         width: 100%;
+        margin-bottom: 2rem;
     }
 
     .vault-detail-sidebar-inner {
@@ -2995,4 +2996,10 @@ html.light-mode .vault-modal-message small.text-muted {
     left: 0;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .vault-detail-photo-wrapper {
+        margin-bottom: 0rem;
+    }
 }

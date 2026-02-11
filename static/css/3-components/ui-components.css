@@ -3506,3 +3506,34 @@ body .text-muted {
     padding-bottom: 0;
   }
 }
+
+/* Auth pages (non-invasive): remove top padding from main container on mobile
+     Use :has() to scope to containers that include the auth card, with a
+     safe fallback targeting a page-hero immediately followed by a page-container.
+     This avoids relying on `.auth-page` and minimizes global impact. */
+@media (max-width: 768px) {
+    .page-container:has(.auth-card) {
+        padding-top: 0 !important;
+    }
+
+    .page-hero + .page-container {
+        padding-top: 0 !important;
+    }
+}
+
+/* Contact page: remove top margin on small screens for Quick Answers row */
+@media (max-width: 991px) {
+    #contact-quick-answers {
+        margin-top: 0 !important;
+    }
+}
+
+/* Canonical: contact-form-section global defaults (centralized)
+   Kept in sync with the About page variant. */
+.contact-form-section {
+    background: transparent !important;
+    padding-top: 0 !important;
+}
+
+
+

@@ -627,13 +627,15 @@
         padding-right: 0;
         padding-left: 0;
     }
+
+    .contact-form-section .container{
+        padding-top: 0 !important;
+    }
 }
 
 /* contact-page padding moved to vault-modals.css canonical wrapper */
 
-.contact-form-section {
-    background: var(--charcoal);
-}
+/* contact-form-section styles consolidated to ui-components.css */
 
 .about-vibrant .two-columns {
     display: grid;

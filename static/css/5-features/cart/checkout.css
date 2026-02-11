@@ -2169,9 +2169,7 @@ html.light-mode .order-summary-card .order-items-details .items-list .text-muted
     background-color: var(--neon-pink);
 }
 
-:root.light-mode .form-check-label {
-    color: #333333;
-}
+/* form-check-label color consolidated into central light-mode rule */
 
 :root.light-mode .alert {
     border-color: rgba(211, 47, 47, 0.25);
@@ -4360,9 +4358,7 @@ input[type="number"] {
     background-color: #e71f7f;
 }
 
-:root.light-mode .form-check-label {
-    color: #333;
-}
+/* form-check-label color consolidated into central light-mode rule */
 
 :root.light-mode .form-control[type="file"]::file-selector-button {
     background-color: #e71f7f;
@@ -4702,7 +4698,7 @@ body .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
 /* Battle Vest Page */
 .battle-vest-page {
     min-height: 100vh;
-    padding: 112px 0 4rem;
+    padding: 112px 0 0rem;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
 }
 
@@ -5022,6 +5018,7 @@ body .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
 /* Vest Actions */
 .vest-actions {
     padding: 2rem 0;
+    padding-top: 0;
 }
 
 /* Battle Vest Button on Product Detail */
@@ -6355,4 +6352,12 @@ body > iframe[name*="__privateStripeFrame"] {
 #useNewAddressBtn {
     padding: 0.25rem 0.5rem;
     font-size: 0.8rem;
+}
+
+/* Mobile: remove extra vest actions vertical padding */
+@media (max-width: 768px) {
+    .vest-actions {
+        margin-top: -1.5rem !important;
+        padding-bottom: -0rem;
+    }
 }

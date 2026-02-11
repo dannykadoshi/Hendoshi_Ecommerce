@@ -713,6 +713,7 @@ h2.gradient-title {
 @media (max-width: 768px) {
     .products-grid {
         gap: 0.75rem;
+        margin-bottom: 2rem;
     }
 
     .products-grid,

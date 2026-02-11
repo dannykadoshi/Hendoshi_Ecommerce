@@ -1116,9 +1116,7 @@ input[type="file"]:hover::-ms-browse {
     background-color: #e71f7f;
 }
 
-:root.light-mode .form-check-label {
-    color: #333;
-}
+/* form-check-label color consolidated into central light-mode rule */
 
 :root.light-mode .form-control[type="file"]::file-selector-button {
     background-color: #e71f7f;

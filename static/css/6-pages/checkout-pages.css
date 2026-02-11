@@ -682,9 +682,7 @@
     color: rgba(0, 0, 0, 0.4);
 }
 
-:root.light-mode .form-check-label {
-    color: rgba(0, 0, 0, 0.8);
-}
+/* form-check-label color consolidated into central light-mode rule */
 
 :root.light-mode .page-title {
     color: #000;
