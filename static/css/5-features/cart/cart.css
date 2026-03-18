@@ -3652,21 +3652,9 @@ body .checkout-page .shipping-rates-section .list-group-item .text-success {
     opacity: 0.8;
 }
 
-.btn-close:hover {
-    opacity: 1;
-}
+/* .btn-close:hover { opacity: 1 } - defined earlier in this file */
 
-@keyframes slideIn {
-    from {
-        transform: translateX(400px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
+/* @keyframes slideIn - defined in animations.css */
 
 /* 404 Error Page */
 .error-page {
@@ -3688,16 +3676,7 @@ body .checkout-page .shipping-rates-section .list-group-item .text-success {
     filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.6));
 }
 
-@keyframes float {
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-20px);
-    }
-}
+/* @keyframes float - defined in animations.css */
 
 .error-title {
     margin-bottom: 0;

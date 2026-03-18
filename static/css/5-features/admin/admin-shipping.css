@@ -49,10 +49,7 @@
     line-height: 1;
 }
 
-/* Dark mode text-muted visibility improvements */
-.text-muted {
-    color: #cccccc !important; /* Lighter gray for better visibility in dark mode */
-}
+/* .text-muted dark mode override - defined in admin-pages.css */
 
 /* responsive tweak: allow more compact layout on very small screens */
 @media (max-width: 576px) {

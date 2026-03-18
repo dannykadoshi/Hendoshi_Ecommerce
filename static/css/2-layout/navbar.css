@@ -35,10 +35,7 @@
     .navbar {
         margin-top: 2.8rem; /* Compact 2-line banner on mobile */
     }
-
-    .navbar.banner-dismissed {
-        margin-top: 0;
-    }
+    /* .navbar.banner-dismissed margin-top: 0 - already handled by base rule above */
 }
 
 @media (max-width: 400px) {
@@ -1341,10 +1338,7 @@ span.gradient-text-mobile {
     text-align: left;
 }
 
-.menu-item:hover {
-    background-color: rgba(255, 20, 147, 0.05);
-    color: var(--neon-pink);
-}
+/* .menu-item:hover - consolidated into compound selector .menu-item-header:hover, .menu-item:hover below */
 
 .menu-item-divider {
     height: 1px;

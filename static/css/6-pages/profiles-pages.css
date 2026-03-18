@@ -101,10 +101,6 @@ td {
     padding: 10px 12px;
     border-bottom: 1px solid #ddd;
 }
-.totals-table {
-    width: 300px;
-    margin-left: auto;
-}
 .totals-table td {
     text-align: right;
 }

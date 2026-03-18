@@ -3171,15 +3171,7 @@ body .text-muted {
     pointer-events: none;
 }
 
-@keyframes page-hero-pulse {
-    0%,
-    100% {
-        transform: translate(0, 0) scale(1);
-    }
-    50% {
-        transform: translate(10%, 10%) scale(1.1);
-    }
-}
+/* @keyframes page-hero-pulse - defined in animations.css */
 
 /* Ensure content is above animated background */
 .quick-add-modal-header,
@@ -3537,3 +3529,34 @@ body .text-muted {
 
 
 
+
+/* ================================================
+   REMOVED INLINE STYLES - Refactored to External CSS
+   ================================================ */
+
+/* Collections Preview - negative margin adjustment */
+.collections-preview-adjust {
+    margin-top: -1rem;
+}
+
+/* Track Order Page - dividing line with pink border */
+.track-section-divider {
+    border-color: rgba(255, 105, 180, 0.2) !important;
+}
+
+/* Form button constrained width */
+.form-button-constrain {
+    max-width: 300px;
+}
+
+/* Theme Custom CSS Preview Box */
+.theme-custom-css {
+    background: rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+    overflow-x: auto;
+}
+
+/* Seasonal theme data layer - hidden element for data storage */
+.seasonal-theme-data-layer {
+    display: none;
+}

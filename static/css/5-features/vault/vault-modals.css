@@ -2348,17 +2348,7 @@ body .page-hero .battle-vest-stats {
     border-radius: 16px;
     background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
     box-shadow: 0 0 40px rgba(255, 20, 147, 0.4);
-    animation: modalSlideIn 0.3s ease-out;
-}
-@keyframes modalSlideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    animation: modalSlideIn 0.3s ease-out; /* keyframe defined in animations.css */
 }
 .ai-modal-header {
     display: flex;
