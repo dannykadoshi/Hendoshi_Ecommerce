@@ -10,6 +10,10 @@ __pycache__/
 
 # Legacy CSS backup (February 2026 reorganization)
 static/css/_legacy/
+static/css_backup_pre_clean/
+
+# Development utility scripts
+scripts/
 
 # C extensions
 *.so
