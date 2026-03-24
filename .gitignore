@@ -8,6 +8,11 @@ __pycache__/
 .vscode/
 .ai/
 
+# Personal developer tooling configs
+.djlintrc
+.htmlhintrc
+.prettierignore
+
 # Legacy CSS backup (February 2026 reorganization)
 static/css/_legacy/
 static/css_backup_pre_clean/
