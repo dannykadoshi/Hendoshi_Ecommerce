@@ -101,7 +101,7 @@
                             </button>
                         </div>
                         {% if order.get_tracking_url %}
-                        <a href="{{ order.get_tracking_url }}" target="_blank" class="btn-track-package mt-2">
+                        <a href="{{ order.get_tracking_url }}" target="_blank" rel="noopener noreferrer" class="btn-track-package mt-2">
                             <i class="fas fa-external-link-alt"></i> Track Package
                         </a>
                         {% else %}

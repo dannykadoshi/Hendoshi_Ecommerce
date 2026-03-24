@@ -3,14 +3,18 @@ from django.contrib import messages
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.views.decorators.cache import cache_control
 
 from products.models import Collection
 from .forms import ContactForm
 
 
+@cache_control(max_age=60, private=True)
 def index(request):
     """
-    View to return the homepage
+    View to return the homepage.
+    Cache-Control: private, max-age=60 — browser may reuse the page for 60 seconds,
+    but shared CDN caches must not store it (personalised cart/auth state in navbar).
     """
     # Get all collections with products, ordered by product count (most popular first)
     collections_data = []

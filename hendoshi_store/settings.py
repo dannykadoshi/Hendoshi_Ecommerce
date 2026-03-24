@@ -191,6 +191,20 @@ DATABASES = {
     )
 }
 
+# Cache configuration
+# Uses in-memory cache per process — fast, zero infrastructure required.
+# Per-site cache headers are set on public, read-heavy views (product list, vault gallery).
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'hendoshi-cache',
+        'TIMEOUT': 300,  # 5 minutes default TTL
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        },
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

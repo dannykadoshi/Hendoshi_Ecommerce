@@ -28,7 +28,7 @@
     {% if review.images.exists %}
     <div class="review-images mb-3">
         {% for image in review.images.all %}
-        <a href="{{ image.image.url }}" target="_blank" class="review-image-thumb">
+        <a href="{{ image.image.url }}" target="_blank" rel="noopener noreferrer" class="review-image-thumb">
             <img src="{{ image.image.url }}" alt="Review image {{ forloop.counter }}">
         </a>
         {% endfor %}

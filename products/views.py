@@ -51,6 +51,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
+from django.views.decorators.cache import cache_control
 from hendoshi_store.cookies import CookieManager
 from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful, ReviewImage
 from .image_utils import optimize_product_images
@@ -201,9 +202,12 @@ def get_variant_options(request, product_id):
         }, status=400)
 
 
+@cache_control(max_age=60, private=True)
 def all_products(request):
     """
-    View to show all products with filtering and sorting
+    View to show all products with filtering and sorting.
+    Cache-Control: private, max-age=60 — browser caches for 60s;
+    private ensures shared proxies don't cache personalised Battle Vest state.
     """
     products = Product.objects.filter(is_active=True, is_archived=False)
     from django.core.paginator import Paginator

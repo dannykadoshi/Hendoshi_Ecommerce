@@ -8,13 +8,17 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils import timezone
+from django.views.decorators.cache import cache_control
 from .models import VaultPhoto
 from products.models import Product
 
 
+@cache_control(max_age=60, private=True)
 def vault_gallery(request):
     """
-    Display the public Vault gallery with approved photos
+    Display the public Vault gallery with approved photos.
+    Cache-Control: private, max-age=60 — browser caches for 60s;
+    private prevents shared CDN caches from storing per-user like/vote state.
     """
     from django.db.models import Exists, OuterRef, Count, Case, When, BooleanField
 

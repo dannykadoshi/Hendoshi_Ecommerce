@@ -77,10 +77,10 @@
                         {% if product.main_image %}
                             {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
                             {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
-                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}" loading="eager" fetchpriority="high">
                             {% with second_image=product.images.first %}
                                 {% if second_image %}
-                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="img-fluid main-img-hover">
+                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="img-fluid main-img-hover" loading="lazy">
                                 {% endif %}
                             {% endwith %}
                         {% else %}
@@ -95,12 +95,12 @@
                     <div class="image-thumbnails">
                         {% if product.main_image %}
                         <div class="thumbnail active" data-image-url="{{ product.main_image.url }}">
-                            <img src="{{ product.main_image.url }}" alt="{{ product.name }} - Main">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }} - Main" loading="lazy">
                         </div>
                         {% endif %}
                         {% for image in product.images.all %}
                         <div class="thumbnail" data-image-url="{{ image.image.url }}">
-                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}">
+                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy">
                         </div>
                         {% endfor %}
                     </div>
@@ -295,7 +295,7 @@
                             <div class="sticky-product">
                                 <div class="sticky-thumb">
                                     {% if product.main_image %}
-                                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
                                     {% else %}
                                         <div class="sticky-thumb-placeholder">
                                             <i class="fas fa-image"></i>

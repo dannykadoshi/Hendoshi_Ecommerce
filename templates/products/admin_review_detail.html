@@ -101,7 +101,7 @@
                         <div class="review-images-grid">
                             {% for image in review.images.all %}
                             <div class="review-image-container" id="review-image-{{ image.id }}">
-                                <a href="{{ image.image.url }}" target="_blank">
+                                <a href="{{ image.image.url }}" target="_blank" rel="noopener noreferrer">
                                     <img src="{{ image.image.url }}" alt="Review image {{ forloop.counter }}">
                                 </a>
                                 <button type="button" class="delete-image-btn" onclick="deleteImage({{ image.id }})" title="Delete image">
