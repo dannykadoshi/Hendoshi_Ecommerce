@@ -22,10 +22,10 @@
             <a href="{% url 'product_detail' product.slug %}" class="product-card-link">
                 <div class="product-image product-image-relative">
                     {% if product.main_image %}
-                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy">
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-img-main" loading="lazy" decoding="async" width="800" height="1000">
                         {% with second_image=product.images.first %}
                             {% if second_image %}
-                                <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy">
+                                <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="product-img-hover" loading="lazy" decoding="async" width="800" height="1000">
                             {% endif %}
                         {% endwith %}
                     {% else %}

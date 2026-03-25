@@ -25,7 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Find any pre-marked active slide
     slides.forEach((s, i) => {
         if (s.classList.contains('active')) currentSlide = i;
-        s.setAttribute('aria-hidden', s.classList.contains('active') ? 'false' : 'true');
+        const isActive = s.classList.contains('active');
+        if (isActive) {
+            s.removeAttribute('inert');
+        } else {
+            s.setAttribute('inert', '');
+        }
     });
 
     // Update navigation dots
@@ -42,11 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function showSlide(index) {
         if (index === currentSlide) return;
         slides[currentSlide].classList.remove('active');
-        slides[currentSlide].setAttribute('aria-hidden', 'true');
+        slides[currentSlide].setAttribute('inert', '');
         currentSlide = index % slides.length;
         if (currentSlide < 0) currentSlide = slides.length - 1;
         slides[currentSlide].classList.add('active');
-        slides[currentSlide].setAttribute('aria-hidden', 'false');
+        slides[currentSlide].removeAttribute('inert');
         updateDots(currentSlide);
     }
 

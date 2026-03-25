@@ -19,13 +19,21 @@
 
 {% block meta_keywords %}HENDOSHI, metal apparel, gothic clothing, skull t-shirts, alternative fashion, unique designs, gym wear, heavy metal merch, rock clothing, wear your weird{% endblock %}
 
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static 'images/hero-1-gothic-1920.webp' %}" fetchpriority="high">
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/4-sections/hero-homepage.css' %}?v=3.0">
+{% endblock %}
+
 {% block content %}
 
 <!-- Hero Section - Full Width Immersive -->
 <section class="hero">
     <!-- Full-width Background Carousel -->
     <div class="hero-carousel">
-        <a href="{% url 'products' %}" class="carousel-slide active">
+        <a href="{% url 'products' %}" class="carousel-slide active" aria-label="Shop HENDOSHI festival wear">
             <picture>
                 <source
                     type="image/webp"
@@ -41,7 +49,7 @@
                     fetchpriority="high">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -56,7 +64,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -71,7 +79,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -86,7 +94,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -101,7 +109,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -116,7 +124,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -131,7 +139,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -146,7 +154,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -161,7 +169,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -176,7 +184,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -191,7 +199,7 @@
                     decoding="async">
             </picture>
         </a>
-        <a href="{% url 'products' %}" class="carousel-slide">
+        <a href="{% url 'products' %}" class="carousel-slide" inert>
             <picture>
                 <source
                     type="image/webp"
@@ -218,7 +226,7 @@
         <a href="{% url 'products' %}" class="hero-logo-container">
             <picture>
                 <source srcset="{% static 'images/hendoshi-logo-white.webp' %}" type="image/webp">
-                <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo">
+                <img src="{% static 'images/hendoshi-logo-white.png' %}" alt="Hendoshi" class="hero-logo" width="640" height="457">
             </picture>
         </a>
         <div class="hero-carousel-dots">
@@ -295,11 +303,11 @@
                     {% endfor %}
                 </div>
 
-                <button class="collections-carousel-btn collections-carousel-prev" id="collections-prev">
-                    <i class="fas fa-chevron-left"></i>
+                <button class="collections-carousel-btn collections-carousel-prev" id="collections-prev" aria-label="Previous collection">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
                 </button>
-                <button class="collections-carousel-btn collections-carousel-next" id="collections-next">
-                    <i class="fas fa-chevron-right"></i>
+                <button class="collections-carousel-btn collections-carousel-next" id="collections-next" aria-label="Next collection">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -349,4 +357,8 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script defer src="{% static 'js/2-components/hero-carousel.js' %}"></script>
 {% endblock %}

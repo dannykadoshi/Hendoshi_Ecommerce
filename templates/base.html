@@ -38,9 +38,7 @@
         {% block canonical %}
         <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
         {% endblock %}
-
-        <!-- Preload hero image for instant loading -->
-        <link rel="preload" as="image" href="{% static 'images/hero-1-gothic-1920.webp' %}">
+        {% block extra_head %}{% endblock %}
 
         <!-- Schema.org Organization and Website Structured Data -->
         <script type="application/ld+json">
@@ -155,7 +153,6 @@
         <link rel="stylesheet" href="{% static 'css/3-components/ui-components.css' %}?v=4.0">
         
         <!-- 4. SECTIONS - Page Sections (used across multiple pages) -->
-        <link rel="stylesheet" href="{% static 'css/4-sections/hero-homepage.css' %}?v=3.0">
         <link rel="stylesheet" href="{% static 'css/4-sections/hero-pages.css' %}?v=3.0">
         <link rel="stylesheet" href="{% static 'css/4-sections/newsletter-popup.css' %}?v=3.0">
         
@@ -192,7 +189,6 @@
         {% endif %}
 
         {% block extra_css %}{% endblock %}
-        {% block extra_js %}{% endblock %}
     </head>
     <body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
         <!-- Toast Messages - Server-rendered -->
@@ -860,9 +856,10 @@
                     <form id="cartDrawerDiscountForm" class="cart-drawer-discount-form">
                         {% csrf_token %}
                         <div class="cart-drawer-discount-field">
-                            <input type="text" id="cartDrawerDiscountCodeInput" name="discount_code" 
-                                   placeholder="Enter discount code" class="cart-drawer-discount-text" 
-                                   maxlength="20" autocomplete="off">
+                            <input type="text" id="cartDrawerDiscountCodeInput" name="discount_code"
+                                   placeholder="Enter discount code" class="cart-drawer-discount-text"
+                                   maxlength="20" autocomplete="off"
+                                   aria-label="Discount code">
                             <button type="submit" class="cart-drawer-discount-apply" id="cartDrawerDiscountApply">
                                 <i class="fas fa-tag"></i> Apply
                             </button>
@@ -1018,10 +1015,10 @@
                         </form>
                         
                         <div class="social-icons mt-3">
-                            <a href="https://www.instagram.com/hendoshiart/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.facebook.com/hendoshiart" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
-                            <a href="https://x.com/hendoshiart" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter"></i></a>
-                            <a href="https://ie.pinterest.com/hendoshiart/" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest"></i></a>
+                            <a href="https://www.instagram.com/hendoshiart/" target="_blank" rel="noopener noreferrer" aria-label="Hendoshi on Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/hendoshiart" target="_blank" rel="noopener noreferrer" aria-label="Hendoshi on Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/hendoshiart" target="_blank" rel="noopener noreferrer" aria-label="Hendoshi on X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="https://ie.pinterest.com/hendoshiart/" target="_blank" rel="noopener noreferrer" aria-label="Hendoshi on Pinterest"><i class="fab fa-pinterest"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1049,19 +1046,18 @@
             </div>
         </footer>
         <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         
         <!-- Custom Modular JS (Reorganized) -->
-        <script src="{% static 'js/1-core/base.js' %}"></script>
-        <script src="{% static 'js/1-core/utils.js' %}"></script>
-        <script src="{% static 'js/2-components/theme-toggle.js' %}"></script>
-        <script src="{% static 'js/2-components/navigation-dropdown.js' %}"></script>
-        <script src="{% static 'js/2-components/hero-carousel.js' %}"></script>
-        <script src="{% static 'js/2-components/newsletter-validation.js' %}"></script>
-        <script src="{% static 'js/2-components/carousels.js' %}"></script>
+        <script defer src="{% static 'js/1-core/base.js' %}"></script>
+        <script defer src="{% static 'js/1-core/utils.js' %}"></script>
+        <script defer src="{% static 'js/2-components/theme-toggle.js' %}"></script>
+        <script defer src="{% static 'js/2-components/navigation-dropdown.js' %}"></script>
+        <script defer src="{% static 'js/2-components/newsletter-validation.js' %}"></script>
+        <script defer src="{% static 'js/2-components/carousels.js' %}"></script>
         
         <!-- Base Global Functions (Toast, Cart Drawer, Mobile Menu, etc.) -->
-        <script src="{% static 'js/4-page-specific/base-global.js' %}"></script>
+        <script defer src="{% static 'js/4-page-specific/base-global.js' %}"></script>
 
         <!-- Initialize authenticated user features if logged in -->
         {% if user.is_authenticated %}
@@ -1126,7 +1122,9 @@
         </button>
 
         <!-- Newsletter Popup Script -->
-        <script src="{% static 'js/2-components/newsletter-popup.js' %}"></script>
+        <script defer src="{% static 'js/2-components/newsletter-popup.js' %}"></script>
+
+        {% block extra_js %}{% endblock %}
 
         <!-- Cookie Consent Banner -->
         {% include 'cookies/cookie_consent.html' %}

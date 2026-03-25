@@ -243,6 +243,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# WhiteNoise cache settings
+# Files with content hash in name (from CompressedManifestStaticFilesStorage) get 1-year immutable cache
+# Files without hash get this TTL as fallback (matched with ?v=X.X versioning in templates)
+WHITENOISE_MAX_AGE = 31536000  # 1 year in seconds
+
 # Django Compressor settings for minification
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = True

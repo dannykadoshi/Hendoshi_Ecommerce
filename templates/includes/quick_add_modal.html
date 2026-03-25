@@ -15,21 +15,21 @@
                     
                     <!-- Size Selection with Buttons -->
                     <div class="quick-add-form-group" id="quickAddSizeWrapper" style="display: none;">
-                        <label class="quick-add-form-label">Select Size <span class="required-star">*</span></label>
-                        <div class="quick-add-size-selector" id="quickAddSizeButtons"></div>
+                        <p class="quick-add-form-label" id="quickAddSizeLabel">Select Size <span class="required-star">*</span></p>
+                        <div class="quick-add-size-selector" id="quickAddSizeButtons" role="group" aria-labelledby="quickAddSizeLabel"></div>
                         <input type="hidden" name="size" id="quickAddSizeInput">
                     </div>
-                    
+
                     <!-- Color Selection with Buttons -->
                     <div class="quick-add-form-group" id="quickAddColorWrapper" style="display: none;">
-                        <label class="quick-add-form-label">Select Color <span class="required-star">*</span></label>
-                        <div class="quick-add-color-selector" id="quickAddColorButtons"></div>
+                        <p class="quick-add-form-label" id="quickAddColorLabel">Select Color <span class="required-star">*</span></p>
+                        <div class="quick-add-color-selector" id="quickAddColorButtons" role="group" aria-labelledby="quickAddColorLabel"></div>
                         <input type="hidden" name="color" id="quickAddColorInput">
                     </div>
-                    
+
                     <!-- Quantity -->
                     <div class="quick-add-form-group">
-                        <label class="quick-add-form-label">Quantity</label>
+                        <label class="quick-add-form-label" for="quickAddQuantitySelect">Quantity</label>
                         <div class="quick-add-qty-wrapper">
                             <div class="qty-control">
                                 <button type="button" class="qty-btn quick-add-qty-minus">
