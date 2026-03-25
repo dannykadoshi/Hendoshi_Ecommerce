@@ -178,7 +178,7 @@
                 {% for item in cart_items %}
                 <div class="cart-item">
                     {% if item.product.main_image %}
-                    <img src="{{ site_url }}{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="cart-item-image">
+                    <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="cart-item-image">
                     {% endif %}
                     <div class="cart-item-details">
                         <div class="cart-item-name">{{ item.product.name }}</div>

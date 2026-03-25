@@ -104,15 +104,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
+    width: 52px;
+    height: 52px;
     transform: scale(0.8);
-    border: 3px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.2);
     color: var(--black);
-    font-size: 3rem;
+    font-size: 1.4rem;
     text-decoration: none;
     transition: all 0.3s ease;
 }
@@ -124,7 +124,46 @@
 .vault-overlay-link:hover {
     border-color: var(--off-white);
     background: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+/* Grid overlay vote buttons — circular, consistent with overlay aesthetic */
+.vault-vote-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--off-white);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.vault-vote-btn:hover,
+.vault-vote-btn.voted {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: var(--off-white);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+.vault-vote-btn.btn-success,
+.vault-vote-btn.btn-outline-success {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+}
+
+.vault-vote-btn.btn-danger,
+.vault-vote-btn.btn-outline-danger {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
 }
 
 .vault-info {
@@ -418,38 +457,6 @@ body .vault-featured-card.glassmorphic-card {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    height: 70px;
-    transform: scale(0.8);
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--black);
-    font-size: 2.5rem;
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
-
-.vault-featured-card:hover .vault-featured-link {
-    transform: scale(1.05);
-}
-
-.vault-featured-card:hover .vault-featured-link-placeholder {
-    transform: scale(1.05);
-}
-
-.vault-featured-link:hover {
-    border-color: var(--off-white);
-    background: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-}
-
-.vault-featured-vote-btn,
-.vault-featured-like-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 45px;
     height: 45px;
     border: 2px solid rgba(255, 255, 255, 0.5);
@@ -458,14 +465,40 @@ body .vault-featured-card.glassmorphic-card {
     background: rgba(255, 255, 255, 0.2);
     color: var(--off-white);
     font-size: 1.1rem;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.vault-featured-link:hover {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: var(--off-white);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+.vault-featured-vote-btn,
+.vault-featured-like-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 0 !important;
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 50% !important;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: var(--off-white) !important;
+    font-size: 1.1rem;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .vault-featured-vote-btn:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
+    border-color: var(--off-white);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+    color: #fff;
 }
 
 /* Featured carousel like button - positioned like grid like button */

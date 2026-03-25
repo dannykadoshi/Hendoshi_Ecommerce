@@ -255,22 +255,34 @@ def download_invoice(request, order_number):
     # Get the order and verify it belongs to the user
     order = get_object_or_404(Order, order_number=order_number, user=request.user)
     
-    # Build base64 data URI for logo so downloaded HTML renders the image
-    logo_data_uri = None
-    try:
-        logo_path = os.path.join(settings.MEDIA_ROOT, 'invoice', 'hendoshi-logo.png')
-        if os.path.exists(logo_path):
-            with open(logo_path, 'rb') as f:
-                encoded = base64.b64encode(f.read()).decode('ascii')
-                logo_data_uri = f'data:image/png;base64,{encoded}'
-    except Exception:
-        logo_data_uri = None
+    def _embed_image(path):
+        try:
+            if os.path.exists(path):
+                with open(path, 'rb') as f:
+                    encoded = base64.b64encode(f.read()).decode('ascii')
+                    ext = os.path.splitext(path)[1].lstrip('.').lower()
+                    mime = 'image/png' if ext == 'png' else f'image/{ext}'
+                    return f'data:{mime};base64,{encoded}'
+        except Exception:
+            pass
+        return None
+
+    static_root = os.path.join(settings.BASE_DIR, 'static', 'images')
+    logo_data_uri = (
+        _embed_image(os.path.join(static_root, 'hendoshi-logo-white.png')) or
+        _embed_image(os.path.join(settings.MEDIA_ROOT, 'front_page', 'hendoshi-logo-white.png'))
+    )
+    pug_data_uri = (
+        _embed_image(os.path.join(static_root, 'pug-skull.png')) or
+        _embed_image(os.path.join(settings.MEDIA_ROOT, 'front_page', 'pug-skull.png'))
+    )
 
     # Render the invoice HTML
     html_context = {
         'order': order,
         'user': request.user,
         'logo_data_uri': logo_data_uri,
+        'pug_data_uri': pug_data_uri,
     }
     html_content = render_to_string('profiles/invoice.html', html_context)
     

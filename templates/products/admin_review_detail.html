@@ -17,7 +17,14 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/5-features/admin/admin-shipping.css' %}">
-
+<style>
+    /* ── Admin review detail — dark-theme text fixes ── */
+    .review-detail-card h2 { color: var(--off-white); }
+    .moderation-section,
+    .moderation-section strong { color: var(--off-white); }
+    .review-actions h5,
+    .review-actions { color: var(--off-white); }
+</style>
 {% endblock %}
 
 {% block content %}

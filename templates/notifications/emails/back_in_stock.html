@@ -207,7 +207,7 @@
 
                 <div class="product-card">
                     {% if product.main_image %}
-                    <img src="{{ site_url }}{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
+                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="product-image">
                     {% endif %}
                     <div class="product-info">
                         <h2 class="product-name">{{ product.name }}</h2>

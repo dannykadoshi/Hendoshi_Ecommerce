@@ -44,7 +44,7 @@
     <!-- Main Form Card -->
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="glassmorphic-card">
+            <div class="glassmorphic-card vault-submit-card">
                 <!-- Header -->
                 <div class="vault-submit-header">
                     <div class="vault-submit-header-icon">
@@ -195,7 +195,90 @@
 {% endblock %}
 
 {% block extra_css %}
+<style>
+    /* ── Vault submit form — compact vertical spacing, scoped only to this page ── */
+    .vault-submit-card .vault-submit-header {
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 0;
+    }
 
+    .vault-submit-card .vault-submit-header-icon {
+        margin-bottom: 0.4rem;
+        font-size: 2rem;
+    }
+
+    .vault-submit-card .vault-submit-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .vault-submit-card .vault-submit-description {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .vault-submit-card .vault-upload-zone {
+        padding: 1.5rem 2rem;
+    }
+
+    .vault-submit-card .vault-upload-icon {
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+    }
+
+    .vault-submit-card .vault-upload-title {
+        margin-bottom: 0.25rem;
+        font-size: 1.15rem;
+    }
+
+    .vault-submit-card .vault-upload-subtitle {
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .vault-submit-card .vault-upload-requirements {
+        margin-bottom: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .vault-submit-card .requirement-item {
+        padding: 0.3rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .vault-submit-card .vault-form-section {
+        padding: 1rem 1.5rem;
+    }
+
+    .vault-submit-card .vault-section-header {
+        margin-bottom: 0.75rem;
+        gap: 0.6rem;
+    }
+
+    .vault-submit-card .section-icon {
+        font-size: 1.1rem;
+    }
+
+    .vault-submit-card .vault-form-group {
+        margin-bottom: 0.75rem;
+    }
+
+    .vault-submit-card .vault-form-textarea {
+        height: 90px;
+    }
+
+    .vault-submit-card .vault-rules-card {
+        margin-bottom: 0.75rem;
+    }
+
+    .vault-submit-card .vault-consent-section {
+        padding-top: 0;
+    }
+
+    .vault-submit-card {
+        margin-bottom: 60px;
+    }
+</style>
 {% endblock %}
 
 {% block extra_js %}

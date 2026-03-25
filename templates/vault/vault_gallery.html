@@ -60,12 +60,12 @@
                 <div class="vault-card glassmorphic-card">
                 <div class="vault-image-container">
 {% load vault_filters %}
-                    <img src="{{ photo.image.url|cloudinary_transform:'w_400,h_400,c_fill,f_auto,q_85' }}"
+                    <img src="{{ photo.image.url|cloudinary_transform:'w_800,h_800,c_fill,f_auto,q_auto' }}"
                          alt="{{ photo.caption|default:'HENDOSHI photo' }}"
                          class="vault-image"
                          loading="lazy"
-                         width="400"
-                         height="400">
+                         width="800"
+                         height="800">
                     <div class="vault-overlay">
                         <div class="d-flex justify-content-center align-items-center gap-2">
                             <a href="{% url 'vault:photo_detail' photo.id %}" class="vault-overlay-link">
@@ -182,33 +182,18 @@
                                 <div class="vault-featured-card glassmorphic-card">
                                     <a href="{% url 'vault:photo_detail' photo.id %}" class="vault-featured-image-link">
                                         <div class="vault-featured-image-container">
-                                            <img src="{{ photo.image.url|cloudinary_transform:'w_300,h_300,c_fill,f_auto,q_85' }}"
+                                            <img src="{{ photo.image.url|cloudinary_transform:'w_600,h_600,c_fill,f_auto,q_auto' }}"
                                                  alt="{{ photo.caption|default:'HENDOSHI photo' }}"
                                                  class="vault-featured-image"
                                                  loading="lazy"
-                                                 width="300"
-                                                 height="300">
+                                                 width="600"
+                                                 height="600">
                                             <div class="vault-featured-click-indicator">
                                                 <i class="fas fa-eye"></i>
                                             </div>
                                             <div class="vault-featured-overlay">
                                                 <div class="vault-featured-badge">
                                                     <i class="fas fa-star"></i> FEATURED
-                                                </div>
-                                                <div class="vault-featured-actions">
-                                                    <div class="vault-featured-link-placeholder">
-                                                        <i class="fas fa-eye"></i>
-                                                    </div>
-                                                    {% if user.is_authenticated %}
-                                                    {% if user != photo.user %}
-                                                    <button onclick="votePhoto({{ photo.id }}, 'up'); event.stopPropagation(); return false;" class="btn btn-sm btn-pink vault-featured-vote-btn" title="Upvote">
-                                                        <i class="fas fa-thumbs-up"></i>
-                                                    </button>
-                                                    <button onclick="votePhoto({{ photo.id }}, 'down'); event.stopPropagation(); return false;" class="btn btn-sm btn-pink vault-featured-vote-btn" title="Downvote">
-                                                        <i class="fas fa-thumbs-down"></i>
-                                                    </button>
-                                                    {% endif %}
-                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>

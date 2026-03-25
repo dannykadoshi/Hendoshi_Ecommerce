@@ -145,11 +145,7 @@
 
                 <div class="photo-preview">
                     {% if photo.image %}
-                        {% if site_url %}
-                            <img src="{{ site_url }}{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" style="max-width: 300px; width:100%; height:auto; display:block; margin:0 auto;">
-                        {% else %}
-                            <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" style="max-width: 300px; width:100%; height:auto; display:block; margin:0 auto;">
-                        {% endif %}
+                        <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" style="max-width: 300px; width:100%; height:auto; display:block; margin:0 auto;">
                     {% else %}
                         <p style="margin-bottom: 10px; color:#6c757d;">Image not attached — <a href="{{ site_url|default:'#' }}/vault/" style="color:#ff1493;">View in gallery</a></p>
                     {% endif %}

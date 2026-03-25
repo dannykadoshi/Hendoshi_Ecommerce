@@ -1,24 +1,37 @@
 /* ================================================
    HENDOSHI - PAGES - ERROR
    ================================================
-   
+
    Purpose: Error page styling (404, 500, etc.)
-   
+
    Contains:
-   - Error page layouts
+   - Base layout for standalone error pages
    - Animated backgrounds
    - Error code displays
+   - Button styles
+   - Search bar
    - Navigation helpers
-   
+
    Dependencies: variables.css
-   Load Order: Load after foundation files
+   Load Order: Load after variables.css
    ================================================ */
+
+/* ── Base ── */
+.error-body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #0d0d0d;
+    color: #f5f5f5;
+    min-height: 100vh;
+}
 
 .error-page {
     position: relative;
     min-height: 100vh;
     overflow: hidden;
     background: linear-gradient(180deg, var(--charcoal) 0%, rgba(13, 13, 13, 0.98) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Animated background pattern */
@@ -40,8 +53,8 @@
             -45deg,
             transparent,
             transparent 25px,
-            rgba(0, 255, 0, 0.02) 25px,
-            rgba(0, 255, 0, 0.02) 26px
+            rgba(204, 255, 0, 0.02) 25px,
+            rgba(204, 255, 0, 0.02) 26px
         );
     content: "";
     animation: patternShift 60s linear infinite;
@@ -49,27 +62,44 @@
 }
 
 @keyframes patternShift {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(50px, 50px);
-    }
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
 }
 
+/* ── Content wrapper ── */
+.error-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem 1rem;
+    max-width: 680px;
+    width: 100%;
+}
+
+/* ── HENDOSHI logo text ── */
+.error-logo {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #fff 0%, var(--neon-pink) 50%, var(--electric-yellow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+}
+
+/* ── Floating pug skull ── */
 .error-icon {
     position: relative;
+    margin-bottom: 1rem;
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }
 
 .pug-skull-404 {
@@ -78,17 +108,20 @@
     filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.5));
 }
 
+/* ── Error code ── */
 .error-title {
     margin-bottom: 0;
-    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
-    background-clip: text;
-    color: transparent;
-    font-weight: 900;
     font-size: 10rem;
+    font-weight: 900;
     line-height: 1;
-    text-shadow: 0 0 50px rgba(255, 20, 147, 0.5);
+    background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.4));
 }
 
+/* ── Subtitle ── */
 .error-subtitle {
     margin-top: 1rem;
     margin-bottom: 2rem;
@@ -99,41 +132,122 @@
     text-transform: uppercase;
 }
 
+/* ── Accent divider ── */
+.error-divider {
+    width: 60px;
+    height: 3px;
+    margin: 0 auto 2rem;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--neon-pink), var(--electric-yellow));
+}
+
+/* ── Body copy ── */
 .error-message {
     max-width: 600px;
     margin-right: auto;
+    margin-bottom: 2rem;
     margin-left: auto;
     color: #ccc;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    line-height: 1.7;
 }
 
-.error-message,
+/* ── Actions row ── */
 .error-actions {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
-.error-actions .btn {
-    margin: 0.5rem;
+/* ── Info strip (500 page) ── */
+.error-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(255, 20, 147, 0.25);
+    border-radius: 8px;
+    background: rgba(255, 20, 147, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
 }
 
+/* ── Buttons ── */
+.error-btn-pink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--neon-pink), #ff69b4);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(255, 20, 147, 0.4);
+    transition: all 0.3s ease;
+}
+
+.error-btn-pink:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(255, 20, 147, 0.6);
+}
+
+.error-btn-yellow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border: 2px solid var(--electric-yellow);
+    border-radius: 50px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    color: var(--electric-yellow);
+    transition: all 0.3s ease;
+}
+
+.error-btn-yellow:hover {
+    background: var(--electric-yellow);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(204, 255, 0, 0.4);
+}
+
+/* ── Search (404 page) ── */
 .error-search {
     max-width: 500px;
     margin: 0 auto;
 }
 
 .error-search p {
-    color: #999;
+    color: #888;
+    font-size: 1rem;
     font-weight: 600;
-    font-size: 1.1rem;
+    margin-bottom: 1rem;
 }
 
 .search-input {
+    flex: 1;
     padding: 0.8rem 1.2rem;
     border: 2px solid rgba(255, 20, 147, 0.3);
-    border-radius: 8px;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
     background: rgba(255, 255, 255, 0.05);
     color: var(--off-white);
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 1rem;
+    outline: none;
     transition: all 0.3s ease;
 }
 
@@ -144,63 +258,59 @@
     color: var(--off-white);
 }
 
-.search-input::placeholder {
-    color: #666;
+.search-input::placeholder { color: #555; }
+
+.search-btn {
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    background: var(--neon-pink);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
 }
 
-/* Mobile Responsiveness */
+.search-btn:hover { background: #e0117f; }
+
+/* ── Contact (500 page) ── */
+.error-contact {
+    margin-top: 1rem;
+}
+
+.error-contact p {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.error-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.error-btn-outline:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #fff;
+}
+
+/* ── Mobile ── */
 @media (max-width: 768px) {
-    .error-title {
-        font-size: 6rem;
-    }
-
-    .error-subtitle {
-        font-size: 1.8rem;
-        letter-spacing: 4px;
-    }
-
-    .error-message {
-        font-size: 1.1rem;
-    }
-
-    .pug-skull-404 {
-        width: 100px;
-    }
-
-    .error-actions .btn {
-        width: 100%;
-        margin-bottom: 1rem;
-    }
-
-    .error-actions .me-3 {
-        margin-right: 0;
-    }
-}
-
-/* Light Mode Support */
-:root.light-mode .error-page {
-    background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
-}
-
-:root.light-mode .error-title {
-    text-shadow: 0 0 30px rgba(255, 20, 147, 0.3);
-}
-
-:root.light-mode .error-subtitle,
-:root.light-mode .error-message {
-    color: #333;
-}
-
-:root.light-mode .search-input {
-    background: rgba(0, 0, 0, 0.05);
-    color: #333;
-}
-
-:root.light-mode .search-input::placeholder {
-    color: #999;
-}
-
-:root.light-mode .search-input:focus {
-    background: rgba(0, 0, 0, 0.08);
-    color: #333;
+    .error-title { font-size: 6rem; }
+    .error-subtitle { font-size: 1.8rem; letter-spacing: 4px; }
+    .error-message { font-size: 1.05rem; }
+    .pug-skull-404 { width: 100px; }
+    .error-btn-pink,
+    .error-btn-yellow { width: 100%; justify-content: center; margin-bottom: 0.75rem; }
 }

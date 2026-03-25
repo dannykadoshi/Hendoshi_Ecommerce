@@ -15,8 +15,21 @@
 
 {% block extra_title %}Edit Account Info{% endblock %}
 
+{% block extra_css %}
+<style>
+    .profile-page .form-text.text-muted {
+        color: rgba(255,255,255,0.5) !important;
+    }
+
+    .edit-account-page {
+        min-height: auto !important;
+        padding-bottom: 60px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="profile-page">
+<div class="profile-page edit-account-page">
     <!-- Edit Account Hero -->
     <section class="page-hero">
         <div class="container">
@@ -30,7 +43,7 @@
         </div>
     </section>
 
-    <div class="container checkout-container mb-5">
+    <div class="container checkout-container">
         <div class="checkout-wrapper">
         
         <div class="checkout-content checkout-content-spaced">

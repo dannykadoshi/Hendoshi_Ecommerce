@@ -193,6 +193,12 @@
 
 {% endblock %}
 
+{% block extra_css %}
+<style>
+    .vault-page .page-container { padding-bottom: 60px; }
+</style>
+{% endblock %}
+
 {% block extra_js %}
 <script src="{% static 'js/3-features/vault/vault.js' %}"></script>
 <script src="{% static 'js/3-features/vault/vault-hall-of-fame.js' %}"></script>

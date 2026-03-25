@@ -1,7 +1,28 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.utils import timezone
 from datetime import timedelta
 from products.models import Collection, Product, ProductType
+
+
+def robots_txt(request):
+    """
+    Robots.txt for search engine crawlers
+    """
+    content = """User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /cookies/
+Disallow: /search/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+
+Sitemap: https://hendoshi-store.onrender.com/sitemap.xml
+"""
+    return HttpResponse(content, content_type='text/plain')
 
 
 def custom_404(request, exception):

@@ -13,6 +13,48 @@ from .models import VaultPhoto
 from products.models import Product
 
 
+def _auto_feature_photos(num_photos=6, weeks=1):
+    """
+    Run the weekly featuring cycle automatically — no cron job needed.
+    Called from vault_gallery whenever active featured photos have expired.
+    """
+    from datetime import timedelta
+
+    # Expire any photos whose feature window has passed
+    VaultPhoto.objects.filter(
+        is_featured=True,
+        featured_until__lt=timezone.now()
+    ).update(is_featured=False, featured_until=None)
+
+    # Score recent photos (last 30 days first, fall back to all approved)
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    candidates = VaultPhoto.objects.filter(status='approved', created_at__gte=thirty_days_ago)
+    if not candidates.exists():
+        candidates = VaultPhoto.objects.filter(status='approved')
+
+    for photo in candidates:
+        like_score = photo.likes.count() * 10
+        vote_score = photo.vote_score * 15
+        days_old = (timezone.now() - photo.created_at).days
+        age_boost = max(0, (30 - days_old) / 30 * 20)
+        score = max(0, like_score + vote_score + int(age_boost))
+        VaultPhoto.objects.filter(pk=photo.pk).update(feature_score=score)
+
+    top_photos = list(candidates.order_by('-feature_score')[:num_photos])
+    featured_until = timezone.now() + timedelta(weeks=weeks)
+    top_ids = [p.pk for p in top_photos]
+    now = timezone.now()
+
+    VaultPhoto.objects.filter(pk__in=top_ids).update(
+        is_featured=True,
+        featured_until=featured_until
+    )
+    # Only stamp featured_date the first time a photo is featured
+    VaultPhoto.objects.filter(pk__in=top_ids, featured_date__isnull=True).update(
+        featured_date=now
+    )
+
+
 @cache_control(max_age=60, private=True)
 def vault_gallery(request):
     """
@@ -21,6 +63,11 @@ def vault_gallery(request):
     private prevents shared CDN caches from storing per-user like/vote state.
     """
     from django.db.models import Exists, OuterRef, Count, Case, When, BooleanField
+
+    # Auto-feature: ensure at least 2 featured photos are active at all times
+    active_featured_count = VaultPhoto.objects.filter(is_featured=True, featured_until__gt=timezone.now()).count()
+    if active_featured_count < 2 and VaultPhoto.objects.filter(status='approved').exists():
+        _auto_feature_photos()
 
     # Base queryset with optimized queries
     photos = VaultPhoto.objects.filter(status='approved').select_related('user').prefetch_related('tagged_products')
@@ -481,13 +528,19 @@ def hall_of_fame(request):
     """
     Display the Hall of Fame - past featured photos
     """
-    from django.db.models import Exists, OuterRef
+    from django.db.models import Exists, OuterRef, Q
 
-    # Get all photos that have been featured at some point (have a featured_date)
+    # Show photos that are currently featured OR have ever been featured
     hall_photos = VaultPhoto.objects.filter(
+        Q(featured_date__isnull=False) | Q(is_featured=True),
         status='approved',
-        featured_date__isnull=False
-    ).select_related('user').prefetch_related('tagged_products').order_by('-featured_date')
+    ).select_related('user').prefetch_related('tagged_products').order_by('-featured_date', '-feature_score')
+
+    # Fallback: never leave Hall of Fame empty — show top approved photos by score
+    if not hall_photos.exists():
+        hall_photos = VaultPhoto.objects.filter(
+            status='approved'
+        ).select_related('user').prefetch_related('tagged_products').order_by('-feature_score', '-created_at')
 
     # Annotate photos with liked status for authenticated users
     if request.user.is_authenticated:
