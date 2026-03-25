@@ -94,6 +94,7 @@
 
 ## 💼 Business Model
 
+**Click button to access it**  
 [![Business Model Documentation](https://img.shields.io/badge/Documentation-BUSINESS_MODEL-CCFF00?style=flat-square)](BUSINESS_MODEL.md)
 
 HENDOSHI operates on a **B2C (Business-to-Consumer) e-commerce model** with Print-on-Demand (POD) integration for sustainable inventory management.
@@ -119,6 +120,7 @@ HENDOSHI operates on a **B2C (Business-to-Consumer) e-commerce model** with Prin
 
 This project was developed using **Agile principles** with iterative development cycles and continuous feedback integration.
 
+**Click button to access it**  
 [![GitHub Projects Board](https://img.shields.io/badge/GitHub-Projects-00ACC1?style=flat-square&logo=github)](https://github.com/users/dannykadoshi/projects/7)
 
 The project board is **publicly visible** and demonstrates full Agile project management:
@@ -356,6 +358,8 @@ Wireframes were created during the planning phase to define page layout and user
 - **Light/dark mode** - Full site theming with smooth transition
 
 **Footer:**
+
+![Footer](assets/readme/footer.png)
 
 - **Shop column** — Quick links to Sale, New Drops, Collections, and Products pages
 - **Customer Care column** — Links to Track Your Order, Contact Us, FAQ, and About Us
@@ -1111,6 +1115,7 @@ Product → PriceHistory
 
 ## 🧪 Testing
 
+**Click Button to access full testing:**  
 [![Testing Documentation](https://img.shields.io/badge/Documentation-TESTING-9C27B0?style=flat-square)](TESTING.md)
 
 ### Testing Methodologies
