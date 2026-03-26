@@ -823,10 +823,10 @@
                 <!-- Item Just Added -->
                 <div class="cart-drawer-item" id="cartDrawerItem">
                     <div class="cart-drawer-item-image">
-                        <img src="" alt="" id="cartDrawerItemImage">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23eee' width='100' height='100'/%3E%3C/svg%3E" alt="Product image" id="cartDrawerItemImage">
                     </div>
                     <div class="cart-drawer-item-details">
-                        <h4 class="cart-drawer-item-name" id="cartDrawerItemName"></h4>
+                        <h4 class="cart-drawer-item-name" id="cartDrawerItemName" aria-label="Product item name">Loading...</h4>
                         <p class="cart-drawer-item-variant" id="cartDrawerItemVariant"></p>
                         <div class="cart-drawer-item-price-row">
                             <span class="cart-drawer-item-qty" id="cartDrawerItemQty"></span>
@@ -841,7 +841,7 @@
                         <span>Subtotal</span>
                         <span id="cartDrawerSubtotal">€0.00</span>
                     </div>
-                    <div class="cart-drawer-summary-row cart-drawer-discount-row" id="cartDrawerDiscountRow" class="d-none">
+                    <div class="cart-drawer-summary-row cart-drawer-discount-row d-none" id="cartDrawerDiscountRow">
                         <span>Discount (<span id="cartDrawerDiscountCode"></span>)</span>
                         <span class="text-success">-€<span id="cartDrawerDiscountAmount">0.00</span></span>
                     </div>
@@ -864,7 +864,7 @@
                                 <i class="fas fa-tag"></i> Apply
                             </button>
                         </div>
-                        <div class="cart-drawer-discount-message" id="cartDrawerDiscountMessage" class="d-none"></div>
+                        <div class="cart-drawer-discount-message d-none" id="cartDrawerDiscountMessage"></div>
                     </form>
                 </div>
 
@@ -879,7 +879,7 @@
                 </div>
 
                 <!-- Related Products Carousel -->
-                <div class="cart-drawer-related" id="cartDrawerRelated" class="d-none">
+                <div class="cart-drawer-related d-none" id="cartDrawerRelated">
                     <div class="cart-drawer-related-header">
                         <h5 class="cart-drawer-related-title">
                             <img src="{% static 'images/pug-skull.webp' %}" alt="Skull Pug" class="cart-drawer-title-icon me-2" width="24" height="24">More weird, more wonderful
