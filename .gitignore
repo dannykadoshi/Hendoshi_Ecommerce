@@ -68,6 +68,14 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# JSHint / Code Quality Reports (keep only .jshintrc and .html reports)
+jshint-report-*.txt
+jshint-*.txt
+jshint-*.json
+jshint-final-*.txt
+jshint-final-*.json
+jshint-summary.txt
+
 # Translations
 *.mo
 *.pot
