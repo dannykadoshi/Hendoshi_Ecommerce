@@ -30,7 +30,7 @@
     background: var(--bg-glass-light);
 
     /* Default banner for all page-hero sections */
-    background-image: url("/static/images/page-hero-banners/all-page-banner.jpg");
+    background-image: url("/static/images/page-hero-banners/all-page-banner.webp");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

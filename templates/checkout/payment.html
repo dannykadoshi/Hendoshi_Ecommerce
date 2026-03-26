@@ -14,6 +14,7 @@
    ================================================ #}
 
 {% block title %}Payment - Hendoshi Store{% endblock %}
+{% block extra_head %}<meta name="robots" content="noindex,nofollow">{% endblock %}
 {% block extra_css %}
 
 {% endblock %}
@@ -25,7 +26,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy" width="320" height="320">
                     <h1 class="page-hero-title">Payment</h1>
                     <p class="page-hero-subtitle">Review your order and pay securely</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">

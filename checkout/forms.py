@@ -155,20 +155,22 @@ class ShippingForm(forms.Form):
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Full name',
-            'aria-label': 'Full name'
+            'aria-label': 'Full name',
+            'autocomplete': 'name'
         })
     )
-    
+
     email = forms.EmailField(
         max_length=254,
         required=True,
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
             'placeholder': 'Email address',
-            'aria-label': 'Email address'
+            'aria-label': 'Email address',
+            'autocomplete': 'email'
         })
     )
-    
+
     phone = forms.CharField(
         max_length=20,
         required=True,
@@ -176,76 +178,84 @@ class ShippingForm(forms.Form):
             'type': 'tel',
             'class': 'form-control',
             'placeholder': '+1 (555) 123-4567',
-            'aria-label': 'Phone number'
+            'aria-label': 'Phone number',
+            'autocomplete': 'tel'
         })
     )
-    
+
     address = forms.CharField(
         max_length=250,
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Street address',
-            'aria-label': 'Street address'
+            'aria-label': 'Street address',
+            'autocomplete': 'address-line1'
         })
     )
-    
+
     address_line_2 = forms.CharField(
         max_length=250,
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Apartment, suite, etc. (optional)',
-            'aria-label': 'Address line 2'
+            'aria-label': 'Address line 2',
+            'autocomplete': 'address-line2'
         })
     )
-    
+
     city = forms.CharField(
         max_length=100,
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'City',
-            'aria-label': 'City'
+            'aria-label': 'City',
+            'autocomplete': 'address-level2'
         })
     )
-    
+
     country = forms.ChoiceField(
         choices=COUNTRY_CHOICES,
         required=True,
         widget=forms.Select(attrs={
             'class': 'form-control form-select',
-            'aria-label': 'Country'
+            'aria-label': 'Country',
+            'autocomplete': 'country'
         })
     )
-    
+
     state_or_county = forms.CharField(
         max_length=100,
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'State/County',
-            'aria-label': 'State or County'
+            'aria-label': 'State or County',
+            'autocomplete': 'address-level1'
         })
     )
-    
+
     postal_code = forms.CharField(
         max_length=20,
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Postal code',
-            'aria-label': 'Postal code'
+            'aria-label': 'Postal code',
+            'autocomplete': 'postal-code'
         })
     )
-    
+
     discount_code = forms.CharField(
         max_length=50,
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Discount code (optional)',
-            'aria-label': 'Discount code'
+            'aria-label': 'Discount code',
+            'autocomplete': 'off'
         })
     )
     

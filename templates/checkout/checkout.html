@@ -17,6 +17,8 @@
 
 {% block meta_description %}Secure checkout for HENDOSHI - Complete your purchase of metal-inspired apparel with fast shipping and safe payment processing. Free shipping over €50.{% endblock %}
 
+{% block extra_head %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+
 {% block content %}
 <div class="checkout-page">
     <!-- Checkout Hero -->
@@ -24,7 +26,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                    <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy" width="320" height="320">
                     <h1 class="page-hero-title">Shipping Address</h1>
                     <p class="page-hero-subtitle">Enter your shipping details to continue</p>
                     <div class="d-flex justify-content-center gap-4 mt-4">

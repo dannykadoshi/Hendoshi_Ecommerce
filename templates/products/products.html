@@ -64,7 +64,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
-                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                        <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy" width="320" height="320">
                         <h1 class="page-hero-title">
                             {% if current_collection %}
                                 {% for collection in collections %}
@@ -274,6 +274,7 @@
         <div class="container-fluid page-container">
             <!-- Products Grid -->
             <div class="products-grid-wrapper">
+                <h2 class="visually-hidden">Product Results</h2>
                 {% if products %}
 
                     <div class="products-grid" id="productsGrid">

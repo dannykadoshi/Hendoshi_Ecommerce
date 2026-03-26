@@ -58,7 +58,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 text-center">
-                            <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
+                            <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy" width="320" height="320">
                             <h2 class="page-hero-title">{{ product.product_type_display }}</h2>
                             <p class="page-hero-subtitle">{{ product.collection.name|default:'HENDOSHI' }}</p>
                         </div>
@@ -77,10 +77,10 @@
                         {% if product.main_image %}
                             {% if product.is_on_sale %}<span class="badge-sale">Sale</span>{% endif %}
                             {% if product.featured %}<span class="badge-featured">Featured</span>{% endif %}
-                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}" loading="eager" fetchpriority="high">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-fluid main-img-primary" id="mainProductImage" data-original="{{ product.main_image.url }}" loading="eager" fetchpriority="high" width="600" height="600">
                             {% with second_image=product.images.first %}
                                 {% if second_image %}
-                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="img-fluid main-img-hover" loading="lazy">
+                                    <img src="{{ second_image.image.url }}" alt="{{ product.name }}" class="img-fluid main-img-hover" loading="lazy" width="600" height="600">
                                 {% endif %}
                             {% endwith %}
                         {% else %}
@@ -95,12 +95,12 @@
                     <div class="image-thumbnails">
                         {% if product.main_image %}
                         <div class="thumbnail active" data-image-url="{{ product.main_image.url }}">
-                            <img src="{{ product.main_image.url }}" alt="{{ product.name }} - Main" loading="lazy">
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }} - Main" loading="lazy" width="80" height="80">
                         </div>
                         {% endif %}
                         {% for image in product.images.all %}
                         <div class="thumbnail" data-image-url="{{ image.image.url }}">
-                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy">
+                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" loading="lazy" width="80" height="80">
                         </div>
                         {% endfor %}
                     </div>
@@ -230,7 +230,7 @@
                                 <label class="form-label product-label">Select Size <span class="required-star">*</span></label>
                                 <div class="size-selector">
                                     {% for size_value, size_display in available_sizes_display %}
-                                    <button type="button" class="size-btn" data-value="{{ size_value }}">
+                                    <button type="button" class="size-btn" data-value="{{ size_value }}" aria-label="Select size {{ size_display }}">
                                         {{ size_display }}
                                     </button>
                                     {% endfor %}
@@ -245,7 +245,7 @@
                                 <label class="form-label product-label">Select Color <span class="required-star">*</span></label>
                                 <div class="color-selector">
                                     {% for color in available_colors %}
-                                    <button type="button" class="color-btn" data-value="{{ color }}" data-color="{{ color|lower }}">
+                                    <button type="button" class="color-btn" data-value="{{ color }}" data-color="{{ color|lower }}" aria-label="Select color {{ color|title }}">
                                         <span class="color-name">{{ color|title }}</span>
                                     </button>
                                     {% endfor %}
@@ -257,7 +257,7 @@
                         
                         <!-- Quantity -->
                         <div class="mb-4">
-                            <label class="form-label product-label">Quantity</label>
+                            <label class="form-label product-label" for="quantity">Quantity</label>
                             <div class="quantity-selector-wrapper">
                                 <button type="button" class="qty-btn qty-minus" aria-label="Decrease quantity">
                                     <i class="fas fa-minus"></i>
@@ -283,7 +283,7 @@
                         </div>
 
                         {% if not user.is_authenticated %}
-                        <button type="button" class="btn btn-pink w-100 login-to-add-btn">
+                        <button type="button" class="btn btn-pink w-100 login-to-add-btn" aria-label="Login to add to Battle Vest">
                             <i class="fas fa-sign-in-alt"></i> LOGIN TO ADD TO BATTLE VEST
                         </button>
                         {% endif %}
@@ -295,7 +295,7 @@
                             <div class="sticky-product">
                                 <div class="sticky-thumb">
                                     {% if product.main_image %}
-                                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+                                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy" width="60" height="60">
                                     {% else %}
                                         <div class="sticky-thumb-placeholder">
                                             <i class="fas fa-image"></i>
@@ -317,7 +317,7 @@
 
                             <div class="sticky-options">
                                 {% if requires_size and available_sizes or available_sizes|length > 1 %}
-                                <select class="sticky-select" id="stickySizeSelect" aria-label="Select size">
+                                <select class="sticky-select" id="stickySizeSelect" aria-label="Select size" tabindex="-1">
                                     <option value="">Size</option>
                                     {% for size_value, size_display in available_sizes_display %}
                                         <option value="{{ size_value }}">{{ size_display }}</option>
@@ -326,7 +326,7 @@
                                 {% endif %}
 
                                 {% if requires_color and available_colors or available_colors|length > 1 %}
-                                <select class="sticky-select" id="stickyColorSelect" aria-label="Select color">
+                                <select class="sticky-select" id="stickyColorSelect" aria-label="Select color" tabindex="-1">
                                     <option value="">Color</option>
                                     {% for color in available_colors %}
                                         <option value="{{ color }}">{{ color|title }}</option>
@@ -335,7 +335,7 @@
                                 {% endif %}
                             </div>
 
-                            <button type="button" class="btn btn-pink sticky-add-btn" id="stickyAddBtn">
+                            <button type="button" class="btn btn-pink sticky-add-btn" id="stickyAddBtn" tabindex="-1" aria-label="Add to bag">
                                 <i class="fas fa-shopping-bag"></i>
                                 <span class="sticky-add-text ms-2">Add to Bag</span>
                             </button>
@@ -603,7 +603,7 @@
                                         <input type="text" class="form-control" id="reviewSearch" placeholder="Search reviews..." aria-label="Search reviews">
                                     </div>
                                     <div class="filter-rating">
-                                        <label class="form-label">Filter by Rating</label>
+                                        <label class="form-label" for="ratingFilter">Filter by Rating</label>
                                         <select class="form-select" id="ratingFilter">
                                             <option value="">All Ratings</option>
                                             <option value="5">5 Stars</option>

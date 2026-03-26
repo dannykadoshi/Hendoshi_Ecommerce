@@ -9,16 +9,42 @@ def robots_txt(request):
     """
     Robots.txt for search engine crawlers
     """
-    content = """User-agent: *
-Allow: /
+    content = """# robots.txt for HENDOSHI E-commerce Store
+# https://hendoshi-store.onrender.com
+
+User-agent: *
+
+# Private / transactional pages — do not index
 Disallow: /admin/
 Disallow: /accounts/
-Disallow: /checkout/
-Disallow: /cart/
-Disallow: /cookies/
-Disallow: /search/
-Disallow: /*?*sort=
-Disallow: /*?*filter=
+Disallow: /profiles/
+Disallow: /notifications/preferences/
+Disallow: /notifications/unsubscribe/
+
+# Duplicate content — filter/sort/search query strings
+Disallow: /*?sort=
+Disallow: /*?page=
+Disallow: /*?q=
+Disallow: /*?collection=
+Disallow: /*?type=
+Disallow: /*?audience=
+
+# Explicitly allow all public pages
+Allow: /
+Allow: /products/
+Allow: /vault/
+Allow: /about/
+Allow: /contact/
+Allow: /faq/
+Allow: /shipping/
+Allow: /returns/
+Allow: /size-guide/
+Allow: /track-order/
+Allow: /privacy/
+Allow: /cookie-settings/
+Allow: /new-drops/
+Allow: /sale/
+Allow: /collections/
 
 Sitemap: https://hendoshi-store.onrender.com/sitemap.xml
 """
