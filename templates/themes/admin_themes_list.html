@@ -136,18 +136,18 @@
                                 <td>
                                     <div class="d-flex gap-1 min-width-200 shipping-admin-actions">
                                         <!-- Preview -->
-                                        <a href="{% url 'admin_themes_preview' theme.id %}" class="btn btn-sm btn-info btn-width-32 btn-height-32" title="Preview Theme">
+                                        <a href="{% url 'admin_themes_preview' theme.id %}" class="btn btn-sm btn-info btn-width-32 btn-height-32" title="Preview Theme" aria-label="Preview theme">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <!-- Toggle Active -->
                                         <form method="post" action="{% url 'admin_themes_toggle' theme.id %}" class="display-inline">
                                             {% csrf_token %}
                                             {% if theme.is_active %}
-                                            <button type="submit" class="btn btn-sm btn-warning btn-width-32 btn-height-32" title="Deactivate">
+                                            <button type="submit" class="btn btn-sm btn-warning btn-width-32 btn-height-32" title="Deactivate" aria-label="Deactivate theme">
                                                 <i class="fas fa-power-off"></i>
                                             </button>
                                             {% else %}
-                                            <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Activate">
+                                            <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Activate" aria-label="Activate theme">
                                                 <i class="fas fa-power-off"></i>
                                             </button>
                                             {% endif %}
@@ -157,24 +157,24 @@
                                         <form method="post" action="{% url 'admin_themes_pause' theme.id %}" class="display-inline">
                                             {% csrf_token %}
                                             {% if theme.is_paused %}
-                                            <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Resume Animation">
+                                            <button type="submit" class="btn btn-sm btn-success btn-width-32 btn-height-32" title="Resume Animation" aria-label="Resume animation">
                                                 <i class="fas fa-play"></i>
                                             </button>
                                             {% else %}
-                                            <button type="submit" class="btn btn-sm btn-secondary btn-width-32 btn-height-32" title="Pause Animation">
+                                            <button type="submit" class="btn btn-sm btn-secondary btn-width-32 btn-height-32" title="Pause Animation" aria-label="Pause animation">
                                                 <i class="fas fa-pause"></i>
                                             </button>
                                             {% endif %}
                                         </form>
                                         {% endif %}
                                         <!-- Edit -->
-                                        <a href="{% url 'admin_themes_edit' theme.id %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit Theme">
+                                        <a href="{% url 'admin_themes_edit' theme.id %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit Theme" aria-label="Edit theme">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <!-- Delete -->
                                         <form method="post" action="{% url 'admin_themes_delete' theme.id %}" class="display-inline">
                                             {% csrf_token %}
-                                            <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmThemeDelete({{ theme.id }}, '{{ theme.name }}')" title="Delete Theme">
+                                            <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmThemeDelete({{ theme.id }}, '{{ theme.name }}')" title="Delete Theme" aria-label="Delete theme">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>

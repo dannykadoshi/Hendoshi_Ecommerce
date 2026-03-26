@@ -49,7 +49,7 @@
 
     <div class="checkout-header d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="page-title mb-0">Where should we send your order?</h1>
+            <h2 class="page-title mb-0">Where should we send your order?</h2>
             <p class="text-muted mb-0">Enter your shipping address below. Shipping cost will be calculated in the next step.</p>
         </div>
     </div>
@@ -59,7 +59,7 @@
     <div class="col-lg-4 order-1">
             <div class="checkout-sidebar-summary">
 			<div class="checkout-totals-summary glassmorphic-card p-4">
-				<h5 class="mb-3"><i class="fas fa-calculator"></i> Order Summary</h5>
+				<h3 class="mb-3"><i class="fas fa-calculator"></i> Order Summary</h3>
 					<div class="d-flex justify-content-between mb-2">
 						<div class="text-muted">Subtotal</div>
 						<div id="summary-subtotal">€{{ subtotal|floatformat:2 }}</div>
@@ -111,7 +111,7 @@
                 {% if request.user.is_authenticated and saved_addresses %}
                 <div class="saved-addresses-section mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-address-book"></i> Use Saved Address</h5>
+                        <h4 class="mb-0"><i class="fas fa-address-book"></i> Use Saved Address</h4>
                         <button type="button" class="btn btn-pink btn-sm" id="useNewAddressBtn">
                             <i class="fas fa-plus"></i> Add New Address
                         </button>
@@ -119,7 +119,9 @@
                     
                     <div class="saved-address-cards" id="savedAddressCards">
                         {% for address in saved_addresses %}
-                        <div class="saved-address-card {% if address.is_default %}selected{% endif %}" 
+                        <div class="saved-address-card {% if address.is_default %}selected{% endif %}"
+                             role="button" tabindex="0"
+                             aria-label="Select address for {{ address.full_name }}, {{ address.address }}, {{ address.city }}"
                              data-address-id="{{ address.id }}"
                              data-full-name="{{ address.full_name }}"
                              data-phone="{{ address.phone }}"

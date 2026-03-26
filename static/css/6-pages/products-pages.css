@@ -416,11 +416,13 @@ body .admin-reply .text-muted {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.review-form h4 {
+.review-form h4,
+.review-form h3 {
     color: #fff;
 }
 
-:root.light-mode .review-form h4 {
+:root.light-mode .review-form h4,
+:root.light-mode .review-form h3 {
     color: #000;
 }
 

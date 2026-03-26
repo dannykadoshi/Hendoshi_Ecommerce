@@ -68,7 +68,7 @@
                 <div class="hall-of-fame-photo-container">
                     <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="hall-of-fame-photo">
                     <div class="hall-of-fame-photo-overlay">
-                        <a href="{% url 'vault:photo_detail' photo.id %}" class="hall-of-fame-view-btn">
+                        <a href="{% url 'vault:photo_detail' photo.id %}" class="hall-of-fame-view-btn" aria-label="View photo">
                             <i class="fas fa-eye"></i>
                         </a>
                     </div>
@@ -85,7 +85,7 @@
                         <div class="hall-of-fame-caption" id="caption-{{ photo.id }}">
                             {{ photo.caption }}
                         </div>
-                        <span class="hall-of-fame-read-more" data-action="toggle-caption" data-photo-id="{{ photo.id }}" id="read-more-{{ photo.id }}">
+                        <span class="hall-of-fame-read-more" data-action="toggle-caption" data-photo-id="{{ photo.id }}" id="read-more-{{ photo.id }}" role="button" tabindex="0" aria-label="Read more">
                             <i class="fas fa-chevron-down"></i> Read More
                         </span>
                     </div>
@@ -122,10 +122,10 @@
                         {% if user.is_authenticated %}
                         <div class="d-flex gap-2 justify-content-center">
                             {% if user != photo.user %}
-                            <button data-action="vote" data-photo-id="{{ photo.id }}" data-vote-type="up" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} hall-of-fame-vote-btn" title="Upvote this photo">
+                            <button data-action="vote" data-photo-id="{{ photo.id }}" data-vote-type="up" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} hall-of-fame-vote-btn" title="Upvote this photo" aria-label="Upvote this photo">
                                 <i class="fas fa-thumbs-up"></i>
                             </button>
-                            <button data-action="vote" data-photo-id="{{ photo.id }}" data-vote-type="down" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} hall-of-fame-vote-btn" title="Downvote this photo">
+                            <button data-action="vote" data-photo-id="{{ photo.id }}" data-vote-type="down" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} hall-of-fame-vote-btn" title="Downvote this photo" aria-label="Downvote this photo">
                                 <i class="fas fa-thumbs-down"></i>
                             </button>
                             {% endif %}

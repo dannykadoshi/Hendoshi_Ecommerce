@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <img src="{% static 'images/pug-skull.webp' %}" alt="HENDOSHI Pug Skull" class="pug-skull-branding mb-3" loading="lazy">
-                            <h1 class="page-hero-title">{{ product.product_type_display }}</h1>
+                            <h2 class="page-hero-title">{{ product.product_type_display }}</h2>
                             <p class="page-hero-subtitle">{{ product.collection.name|default:'HENDOSHI' }}</p>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                             {% endif %}
                         </div>
                         {% if request.user.is_staff or request.user.is_superuser %}
-                        <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product">
+                        <a href="{% url 'edit_product' product.slug %}" class="edit-product-icon" title="Edit Product" aria-label="Edit product">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
                         {% endif %}
@@ -259,11 +259,11 @@
                         <div class="mb-4">
                             <label class="form-label product-label">Quantity</label>
                             <div class="quantity-selector-wrapper">
-                                <button type="button" class="qty-btn qty-minus">
+                                <button type="button" class="qty-btn qty-minus" aria-label="Decrease quantity">
                                     <i class="fas fa-minus"></i>
                                 </button>
                                 <input type="number" class="quantity-input" name="quantity" id="quantity" value="1" min="1" readonly>
-                                <button type="button" class="qty-btn qty-plus">
+                                <button type="button" class="qty-btn qty-plus" aria-label="Increase quantity">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -276,7 +276,7 @@
                         </button>
 
                         {% if user.is_authenticated %}
-                        <button type="button" class="btn btn-pink battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}">
+                        <button type="button" class="btn btn-pink battle-vest-btn" id="battleVestBtn" data-product-slug="{{ product.slug }}" aria-label="Add to Battle Vest">
                             <i class="far fa-heart heart-icon heart-icon-large"></i>
                         </button>
                         {% endif %}
@@ -344,7 +344,7 @@
                     {% endif %}
                     
                     <div class="product-description mb-4">
-                        <h4 class="section-title text-center">Product Description</h4>
+                        <h2 class="section-title text-center">Product Description</h2>
                         <p>{{ product.description }}</p>
                     </div>
                     
@@ -386,18 +386,18 @@
                             <div id="delivery-info" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="info-content">
-                                        <h5>Shipping Times</h5>
+                                        <h3>Shipping Times</h3>
                                         <ul class="shipping-list">
                                             <li><strong>EU Orders:</strong> 3-7 business days</li>
                                             <li><strong>UK Orders:</strong> 2-5 business days</li>
                                             <li><strong>US Orders:</strong> 5-10 business days</li>
                                             <li><strong>Rest of World:</strong> 7-14 business days</li>
                                         </ul>
-                                        
-                                        <h5>Shipping Costs</h5>
+
+                                        <h3>Shipping Costs</h3>
                                         <p>Free shipping on orders over €50. Standard shipping €4.99. Express shipping €9.99.</p>
-                                        
-                                        <h5>Order Tracking</h5>
+
+                                        <h3>Order Tracking</h3>
                                         <p>You'll receive a tracking number via email once your order ships. Track your package in real-time!</p>
                                     </div>
                                 </div>
@@ -417,18 +417,18 @@
                             <div id="returns-info" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="info-content">
-                                        <h5>30-Day Return Policy</h5>
+                                        <h3>30-Day Return Policy</h3>
                                         <p>Not satisfied with your purchase? No problem! You have 30 days from delivery to return items for a full refund.</p>
-                                        
-                                        <h5>How to Return</h5>
+
+                                        <h3>How to Return</h3>
                                         <ol class="returns-steps">
                                             <li>Contact us at <a href="mailto:returns@hendoshi.com">returns@hendoshi.com</a> with your order number</li>
                                             <li>Pack your items securely in their original packaging</li>
                                             <li>Include the return authorization form we'll send you</li>
                                             <li>Ship to: HENDOSHI Returns, [Return Address], EU</li>
                                         </ol>
-                                        
-                                        <h5>Return Conditions</h5>
+
+                                        <h3>Return Conditions</h3>
                                         <ul class="conditions-list">
                                             <li>Items must be unworn and in original condition</li>
                                             <li>Tags must still be attached</li>
@@ -457,7 +457,7 @@
                             <div id="size-guide" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div class="info-content">
-                                        <h5>Size Chart</h5>
+                                        <h3>Size Chart</h3>
                                         <div class="size-chart-container">
                                             <table class="size-chart">
                                                 <thead>
@@ -503,7 +503,7 @@
                                             </table>
                                         </div>
                                         
-                                        <h5>How to Measure</h5>
+                                        <h3>How to Measure</h3>
                                         <ul class="measurement-guide">
                                             <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal</li>
                                             <li><strong>Length:</strong> Measure from the highest point of the shoulder to the bottom hem</li>
@@ -519,21 +519,21 @@
                     
                     <!-- Social Share Section -->
                     <div class="social-share-section mt-4">
-                        <h6 class="share-title mb-3">Share this design</h6>
+                        <h3 class="share-title mb-3">Share this design</h3>
                         <div class="social-share-buttons">
-                            <button class="share-btn facebook-btn" data-platform="facebook" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
+                            <button class="share-btn facebook-btn" data-platform="facebook" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" aria-label="Share on Facebook">
                                 <i class="fab fa-facebook-f"></i>
                             </button>
-                            <button class="share-btn twitter-btn" data-platform="twitter" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
+                            <button class="share-btn twitter-btn" data-platform="twitter" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" aria-label="Share on Twitter">
                                 <i class="fa-brands fa-x-twitter"></i>
                             </button>
-                            <button class="share-btn pinterest-btn" data-platform="pinterest" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" {% if product.main_image %}data-product-image="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"{% endif %}>
+                            <button class="share-btn pinterest-btn" data-platform="pinterest" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" {% if product.main_image %}data-product-image="{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}"{% endif %} aria-label="Share on Pinterest">
                                 <i class="fab fa-pinterest-p"></i>
                             </button>
-                            <button class="share-btn instagram-btn" data-platform="instagram" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}">
+                            <button class="share-btn instagram-btn" data-platform="instagram" data-product-name="{{ product.name }}" data-product-url="{{ request.build_absolute_uri }}" aria-label="Share on Instagram">
                                 <i class="fab fa-instagram"></i>
                             </button>
-                            <button class="share-btn copy-link-btn" data-platform="copy-link" data-product-url="{{ request.build_absolute_uri }}">
+                            <button class="share-btn copy-link-btn" data-platform="copy-link" data-product-url="{{ request.build_absolute_uri }}" aria-label="Copy link">
                                 <i class="fas fa-link"></i>
                             </button>
                         </div>
@@ -578,7 +578,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="rating-breakdown glassmorphic-card p-3">
-                            <h5 class="mb-3">Rating Breakdown</h5>
+                            <h3 class="mb-3">Rating Breakdown</h3>
                             {% with rating_dist=product.get_rating_distribution %}
                             {% for star_val, count in rating_dist.items %}
                                 <div class="rating-row d-flex align-items-center mb-2">
@@ -586,7 +586,7 @@
                                     <div class="progress flex-grow-1 mx-3">
                                         <div class="progress-bar bg-pink" role="progressbar"
                                              data-width="{% widthratio count product.get_review_count 100 %}"
-                                             aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ product.get_review_count }}"></div>
+                                             aria-valuenow="{{ count }}" aria-valuemin="0" aria-valuemax="{{ product.get_review_count }}" aria-label="Rating distribution"></div>
                                     </div>
                                     <span class="count">{{ count }}</span>
                                 </div>
@@ -598,9 +598,9 @@
                         <div class="reviews-filters glassmorphic-card p-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h5 class="mb-3">Search Reviews</h5>
+                                    <h3 class="mb-3">Search Reviews</h3>
                                     <div class="search-reviews mb-3">
-                                        <input type="text" class="form-control" id="reviewSearch" placeholder="Search reviews...">
+                                        <input type="text" class="form-control" id="reviewSearch" placeholder="Search reviews..." aria-label="Search reviews">
                                     </div>
                                     <div class="filter-rating">
                                         <label class="form-label">Filter by Rating</label>
@@ -615,14 +615,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <h5 class="mb-3">Popular Topics</h5>
+                                    <h3 class="mb-3">Popular Topics</h3>
                                     <div class="popular-topics">
-                                        <div class="topic-tag" data-topic="fit">Fit</div>
-                                        <div class="topic-tag" data-topic="quality">Quality</div>
-                                        <div class="topic-tag" data-topic="style">Style</div>
-                                        <div class="topic-tag" data-topic="comfort">Comfort</div>
-                                        <div class="topic-tag" data-topic="value">Value</div>
-                                        <div class="topic-tag" data-topic="shipping">Shipping</div>
+                                        <div class="topic-tag" data-topic="fit" role="button" tabindex="0">Fit</div>
+                                        <div class="topic-tag" data-topic="quality" role="button" tabindex="0">Quality</div>
+                                        <div class="topic-tag" data-topic="style" role="button" tabindex="0">Style</div>
+                                        <div class="topic-tag" data-topic="comfort" role="button" tabindex="0">Comfort</div>
+                                        <div class="topic-tag" data-topic="value" role="button" tabindex="0">Value</div>
+                                        <div class="topic-tag" data-topic="shipping" role="button" tabindex="0">Shipping</div>
                                     </div>
                                 </div>
                             </div>
@@ -646,7 +646,7 @@
 
             <!-- Review Form (hidden by default) -->
             <div id="reviewForm" class="review-form glassmorphic-card p-4 mb-4 d-none">
-                <h4 class="mb-3">Share Your Thoughts</h4>
+                <h3 class="mb-3">Share Your Thoughts</h3>
                 <form id="submitReviewForm" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
@@ -716,10 +716,10 @@
                     {% include 'products/_related_product_cards.html' with related_products=related_products %}
                 </div>
 
-                <button class="related-products-carousel-btn related-products-carousel-prev" id="related-products-prev">
+                <button class="related-products-carousel-btn related-products-carousel-prev" id="related-products-prev" aria-label="Previous products">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="related-products-carousel-btn related-products-carousel-next" id="related-products-next">
+                <button class="related-products-carousel-btn related-products-carousel-next" id="related-products-next" aria-label="Next products">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
@@ -735,10 +735,10 @@
                     {% include 'products/_recently_viewed_product_cards.html' with recently_viewed_products=recently_viewed_products %}
                 </div>
 
-                <button class="recently-viewed-products-carousel-btn recently-viewed-products-carousel-prev" id="recently-viewed-products-prev">
+                <button class="recently-viewed-products-carousel-btn recently-viewed-products-carousel-prev" id="recently-viewed-products-prev" aria-label="Previous recently viewed">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="recently-viewed-products-carousel-btn recently-viewed-products-carousel-next" id="recently-viewed-products-next">
+                <button class="recently-viewed-products-carousel-btn recently-viewed-products-carousel-next" id="recently-viewed-products-next" aria-label="Next recently viewed">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>

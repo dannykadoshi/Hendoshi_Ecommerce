@@ -73,10 +73,10 @@
                             </a>
                             {% if user.is_authenticated %}
                             {% if user != photo.user %}
-                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} vault-vote-btn" title="Upvote">
+                            <button onclick="votePhoto({{ photo.id }}, 'up')" class="btn btn-sm {% if photo.user_upvoted %}btn-success{% else %}btn-outline-success{% endif %} vault-vote-btn" title="Upvote" aria-label="Upvote photo">
                                 <i class="fas fa-thumbs-up"></i>
                             </button>
-                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} vault-vote-btn" title="Downvote">
+                            <button onclick="votePhoto({{ photo.id }}, 'down')" class="btn btn-sm {% if photo.user_downvoted %}btn-danger{% else %}btn-outline-danger{% endif %} vault-vote-btn" title="Downvote" aria-label="Downvote photo">
                                 <i class="fas fa-thumbs-down"></i>
                             </button>
                             {% endif %}
@@ -88,7 +88,7 @@
                     {% endif %}
                 </div>
                 {% if user.is_authenticated %}
-                <button data-photo-id="{{ photo.id }}" onclick="likePhotoFromGallery({{ photo.id }}); return false;" class="vault-grid-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo" type="button">
+                <button data-photo-id="{{ photo.id }}" onclick="likePhotoFromGallery({{ photo.id }}); return false;" class="vault-grid-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo" type="button" aria-label="Like photo">
                     <i class="fas fa-heart"></i>
                 </button>
                 {% endif %}
@@ -212,7 +212,7 @@
                                         </div>
                                     </div>
                                     {% if user.is_authenticated %}
-                                    <button data-photo-id="{{ photo.id }}" onclick="likePhotoFromGallery({{ photo.id }}); return false;" class="vault-grid-like-btn vault-featured-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo" type="button">
+                                    <button data-photo-id="{{ photo.id }}" onclick="likePhotoFromGallery({{ photo.id }}); return false;" class="vault-grid-like-btn vault-featured-like-btn {% if photo.is_liked %}liked{% endif %}" title="Like this photo" type="button" aria-label="Like featured photo">
                                         <i class="fas fa-heart"></i>
                                     </button>
                                     {% endif %}
@@ -222,10 +222,10 @@
                         </div>
                     </div>
 
-                    <button class="vault-featured-carousel-btn vault-featured-carousel-prev" id="featured-prev">
+                    <button class="vault-featured-carousel-btn vault-featured-carousel-prev" id="featured-prev" aria-label="Previous featured photo">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="vault-featured-carousel-btn vault-featured-carousel-next" id="featured-next">
+                    <button class="vault-featured-carousel-btn vault-featured-carousel-next" id="featured-next" aria-label="Next featured photo">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>

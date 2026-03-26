@@ -1539,7 +1539,8 @@ html.light-mode .order-summary-card .order-items-details .items-list .text-muted
 }
 
 /* Light Mode - Saved Address Cards */
-:root.light-mode .saved-addresses-section h5 {
+:root.light-mode .saved-addresses-section h5,
+:root.light-mode .saved-addresses-section h4 {
     color: #e71f7f;
 }
 
@@ -5210,7 +5211,8 @@ body .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
     }
 
     /* Add subtle animation for better UX */
-    .checkout-totals-summary h5 {
+    .checkout-totals-summary h5,
+    .checkout-totals-summary h3 {
         font-size: 1.1rem;
     }
 }
@@ -5223,13 +5225,15 @@ body .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
     background: rgba(255, 255, 255, 0.03);
 }
 
-.checkout-totals-summary h5 {
+.checkout-totals-summary h5,
+.checkout-totals-summary h3 {
     margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 700;
 }
 
-.checkout-totals-summary h5 i {
+.checkout-totals-summary h5 i,
+.checkout-totals-summary h3 i {
     margin-right: 0.5rem;
     color: var(--neon-pink);
 }
@@ -5302,7 +5306,8 @@ body .order-totals .text-success {
     border-bottom: 1px solid rgba(255, 105, 180, 0.3);
 }
 
-.shipping-selector-header h3 {
+.shipping-selector-header h3,
+.shipping-selector-header h2 {
     margin-bottom: 0.5rem;
     color: var(--off-white);
     font-weight: 800;
@@ -5311,7 +5316,8 @@ body .order-totals .text-success {
     text-transform: uppercase;
 }
 
-.shipping-selector-header h3 i {
+.shipping-selector-header h3 i,
+.shipping-selector-header h2 i {
     margin-right: 0.75rem;
     color: var(--neon-pink);
 }
@@ -5722,7 +5728,8 @@ body > iframe[name*="__privateStripeFrame"] {
         margin-bottom: 0.75rem;
     }
 
-    .shipping-selector-header h3 {
+    .shipping-selector-header h3,
+    .shipping-selector-header h2 {
         margin-bottom: 0.25rem;
         font-size: 1rem;
     }

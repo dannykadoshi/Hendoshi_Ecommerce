@@ -1446,7 +1446,8 @@ h2.gradient-title {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.rating-breakdown h5 {
+.rating-breakdown h5,
+.rating-breakdown h3 {
     margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 600;
@@ -1487,7 +1488,8 @@ h2.gradient-title {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.reviews-filters h5 {
+.reviews-filters h5,
+.reviews-filters h3 {
     margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 600;

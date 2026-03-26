@@ -153,7 +153,7 @@
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         {% if not address.is_default %}
-                                            <button type="button" class="btn-icon" title="Delete" onclick="showDeleteConfirmation({{ address.id }}, '{{ address.full_name }}')">
+                                            <button type="button" class="btn-icon" title="Delete" onclick="showDeleteConfirmation({{ address.id }}, '{{ address.full_name }}')" aria-label="Delete address">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         {% endif %}

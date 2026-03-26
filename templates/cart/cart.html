@@ -73,9 +73,9 @@
                         <form method="post" action="{% url 'update_cart_item' item.id %}" class="quantity-form" data-item-id="{{ item.id }}">
                             {% csrf_token %}
                             <div class="qty-control">
-                                <button type="button" class="qty-btn" onclick="decrementQty(this)"><i class="fas fa-minus"></i></button>
+                                <button type="button" class="qty-btn" onclick="decrementQty(this)" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
                                 <input type="number" name="quantity" class="qty-input" value="{{ item.quantity }}" min="1" max="{{ item.get_variant_stock }}" data-max="{{ item.get_variant_stock }}">
-                                <button type="button" class="qty-btn" onclick="incrementQty(this)"><i class="fas fa-plus"></i></button>
+                                <button type="button" class="qty-btn" onclick="incrementQty(this)" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
                             </div>
                         </form>
                     </div>
@@ -83,7 +83,7 @@
                         <span class="total-label">Total</span>
                         <span class="total-value" data-item-id="{{ item.id }}">€{{ item.get_total_price|floatformat:2 }}</span>
                     </div>
-                    <button class="cart-card-remove" onclick="confirmRemove(event, {{ item.id }}, '{{ item.product.name|escapejs }}')" title="Remove">
+                    <button class="cart-card-remove" onclick="confirmRemove(event, {{ item.id }}, '{{ item.product.name|escapejs }}')" title="Remove" aria-label="Remove item from cart">
                         <i class="fas fa-times"></i>
                     </button>
                     <a href="{% url 'remove_from_cart' item.id %}" class="d-none remove-link" data-item-id="{{ item.id }}"></a>
@@ -122,13 +122,13 @@
                                 <span>{{ discount_code }}</span>
                                 <span class="promo-savings">-€<span id="savedAmount">{{ discount_amount|floatformat:2 }}</span></span>
                             </div>
-                            <button type="button" id="removeCouponBtn" class="promo-remove"><i class="fas fa-times"></i></button>
+                            <button type="button" id="removeCouponBtn" class="promo-remove" aria-label="Remove coupon"><i class="fas fa-times"></i></button>
                         </div>
                         {% else %}
                         <form id="couponForm" class="promo-form" onsubmit="return applyCoupon(event)">
                             {% csrf_token %}
                             <input type="text" id="couponCode" name="discount_code" placeholder="Promo code">
-                            <button type="submit" class="promo-btn">
+                            <button type="submit" class="promo-btn" aria-label="Apply coupon code">
                                 <span class="btn-text">Apply</span>
                                 <span class="btn-spinner d-none"><span class="spinner-border spinner-border-sm"></span></span>
                             </button>

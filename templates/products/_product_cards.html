@@ -6,7 +6,7 @@
         <div class="product-card-inner">
             <!-- Battle Vest Button (always same style) -->
             {% if user.is_authenticated %}
-            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest">
+            <button type="button" class="product-vest-btn product-vest-btn-positioned" data-product-slug="{{ product.slug }}" title="Add to Battle Vest" aria-label="Add to Battle Vest">
                 <i class="far fa-heart"></i>
             </button>
             {% else %}
@@ -60,7 +60,7 @@
             </a>
             <!-- Quick Add overlay - outside link to prevent bubbling -->
             <div class="quick-add">
-                <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag">
+                <button type="button" class="btn btn-quick-add product-grid-add-bag-btn" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}" data-product-name="{{ product.name|escapejs }}" title="Add to Bag" aria-label="Add to Bag">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
             </div>

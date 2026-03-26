@@ -116,12 +116,16 @@ class HybridCloudinaryStorage(Storage):
                 # Fallback to local URL
                 return f"{settings.MEDIA_URL}{name}"
 
-            # Generate Cloudinary URL with full URL (secure=True ensures https)
+            # Generate Cloudinary URL — cap width at 1200px (preserves 2× retina
+            # for the largest display context ~600px) and let Cloudinary auto-pick
+            # format (WebP/AVIF) and quality. crop='limit' never upscales.
             url, _ = cloudinary.utils.cloudinary_url(
                 public_id,
                 secure=True,
                 fetch_format='auto',
-                quality='auto'
+                quality='auto',
+                width=1200,
+                crop='limit'
             )
 
             if url:

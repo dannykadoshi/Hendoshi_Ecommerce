@@ -57,7 +57,7 @@
                             <img src="{{ photo.image.url|cloudinary_transform:'w_800,h_800,c_fit,f_auto,q_95' }}" alt="{{ photo.caption|default:'HENDOSHI photo' }}" class="vault-detail-image-natural">
 
                             <!-- Like Count Badge - Top Left (Now Clickable) -->
-                            <div class="vault-detail-like-badge {% if liked %}active-like{% endif %}" id="like-badge-{{ photo.id }}" onclick="likePhoto({{ photo.id }})" title="Like this photo">
+                            <div class="vault-detail-like-badge {% if liked %}active-like{% endif %}" id="like-badge-{{ photo.id }}" onclick="likePhoto({{ photo.id }})" title="Like this photo" role="button" tabindex="0" aria-label="Like photo">
                                 <i class="fas fa-heart"></i>
                                 <span>{{ photo.likes.count }}</span>
                             </div>
@@ -65,11 +65,11 @@
                             <!-- Voting buttons overlay - Bottom Left -->
                             {% if user.is_authenticated and user != photo.user %}
                             <div class="vault-detail-actions">
-                                <button id="upvote-button-{{ photo.id }}" class="vault-action-btn {% if user_upvoted %}active-up{% endif %}" onclick="votePhoto({{ photo.id }}, 'up')" title="Upvote">
+                                <button id="upvote-button-{{ photo.id }}" class="vault-action-btn {% if user_upvoted %}active-up{% endif %}" onclick="votePhoto({{ photo.id }}, 'up')" title="Upvote" aria-label="Upvote photo">
                                     <i class="fas fa-thumbs-up"></i>
                                     <span>{{ photo.upvotes.count }}</span>
                                 </button>
-                                <button id="downvote-button-{{ photo.id }}" class="vault-action-btn {% if user_downvoted %}active-down{% endif %}" onclick="votePhoto({{ photo.id }}, 'down')" title="Downvote">
+                                <button id="downvote-button-{{ photo.id }}" class="vault-action-btn {% if user_downvoted %}active-down{% endif %}" onclick="votePhoto({{ photo.id }}, 'down')" title="Downvote" aria-label="Downvote photo">
                                     <i class="fas fa-thumbs-down"></i>
                                     <span>{{ photo.downvotes.count }}</span>
                                 </button>
@@ -147,22 +147,22 @@
                                     <i class="fas fa-share-alt"></i> Share this design
                                 </h6>
                                 <div class="vault-sidebar-share-buttons">
-                                    <button class="share-btn native-share-btn" data-platform="native" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                    <button class="share-btn native-share-btn" data-platform="native" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" aria-label="Share photo">
                                         <i class="fas fa-share-alt"></i>
                                     </button>
-                                    <button class="share-btn facebook-btn" data-platform="facebook" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                    <button class="share-btn facebook-btn" data-platform="facebook" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" aria-label="Share on Facebook">
                                         <i class="fab fa-facebook-f"></i>
                                     </button>
-                                    <button class="share-btn twitter-btn" data-platform="twitter" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                    <button class="share-btn twitter-btn" data-platform="twitter" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" aria-label="Share on Twitter">
                                         <i class="fa-brands fa-x-twitter"></i>
                                     </button>
-                                    <button class="share-btn pinterest-btn" data-platform="pinterest" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" data-photo-image="{{ request.scheme }}://{{ request.get_host }}{{ photo.image.url }}">
+                                    <button class="share-btn pinterest-btn" data-platform="pinterest" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" data-photo-image="{{ request.scheme }}://{{ request.get_host }}{{ photo.image.url }}" aria-label="Share on Pinterest">
                                         <i class="fab fa-pinterest-p"></i>
                                     </button>
-                                    <button class="share-btn instagram-btn" data-platform="instagram" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}">
+                                    <button class="share-btn instagram-btn" data-platform="instagram" data-photo-caption="{{ photo.caption|default:'Check out this HENDOSHI look!' }}" data-photo-url="{{ request.build_absolute_uri }}" aria-label="Share on Instagram">
                                         <i class="fab fa-instagram"></i>
                                     </button>
-                                    <button class="share-btn copy-link-btn" data-platform="copy-link" data-photo-url="{{ request.build_absolute_uri }}">
+                                    <button class="share-btn copy-link-btn" data-platform="copy-link" data-photo-url="{{ request.build_absolute_uri }}" aria-label="Copy link">
                                         <i class="fas fa-link"></i>
                                     </button>
                                 </div>

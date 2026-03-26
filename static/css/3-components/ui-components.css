@@ -1396,7 +1396,8 @@ body.cart-drawer-open {
     background: rgba(0, 0, 0, 0.05);
 }
 
-:root.light-mode .rating-breakdown h5 {
+:root.light-mode .rating-breakdown h5,
+:root.light-mode .rating-breakdown h3 {
     color: #000000;
 }
 
