@@ -3238,7 +3238,6 @@ html.light-mode .order-summary-card .order-items-details .items-list .text-muted
     line-height: 1.3;
     text-decoration: none;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
