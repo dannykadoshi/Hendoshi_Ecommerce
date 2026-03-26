@@ -10,6 +10,24 @@
 /* Base typography is inherited from body in reset.css */
 /* Font stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif */
 
+/* Override Font Awesome CDN @font-face to add font-display: swap.
+   This prevents invisible text (FOIT) while the icon fonts load. */
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/webfonts/fa-solid-900.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/webfonts/fa-brands-400.woff2') format('woff2');
+}
+
 /* Text Color Utilities */
 .text-white-95 {
     color: rgba(255, 255, 255, 0.95);
