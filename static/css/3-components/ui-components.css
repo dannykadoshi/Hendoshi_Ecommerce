@@ -2569,7 +2569,6 @@ body.cart-drawer-open {
 .recently-viewed-products-carousel .product-info h3 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     /* ensure two-line baseline space across browsers */
     min-height: calc(1.3em * 2);

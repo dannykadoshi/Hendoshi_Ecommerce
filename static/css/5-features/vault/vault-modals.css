@@ -91,7 +91,6 @@
     font-size: 1rem;
     line-height: 1.6;
     -webkit-line-clamp: 3;
-    line-clamp: 3;
     -webkit-box-orient: vertical;
     position: relative;
     min-height: 4.8rem;
@@ -100,7 +99,6 @@
 .hall-of-fame-caption.expanded {
     height: auto;
     -webkit-line-clamp: unset;
-    line-clamp: unset;
 }
 
 .hall-of-fame-read-more {

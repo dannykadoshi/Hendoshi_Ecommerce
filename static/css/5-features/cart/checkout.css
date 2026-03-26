@@ -3403,7 +3403,7 @@ html.light-mode .order-summary-card .order-items-details .items-list .text-muted
         font-size: 0.8rem;
         line-height: 1.2;
         -webkit-line-clamp: 2;
-        line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .item-name,
@@ -4900,7 +4900,6 @@ body .dropdown-menu .admin-panel-dropdown > a.dropdown-toggle:hover {
     text-decoration: none;
     transition: color 0.3s ease;
     -webkit-line-clamp: 2; /* support up to 2 lines */
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     max-height: calc(1.3em * 2);
     overflow: hidden;
