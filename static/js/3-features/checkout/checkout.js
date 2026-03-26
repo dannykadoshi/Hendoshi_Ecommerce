@@ -11,11 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const savedAddressCards = document.querySelectorAll('.saved-address-card');
     const useNewAddressBtn = document.getElementById('useNewAddressBtn');
-    const savedAddressSection = document.getElementById('savedAddressCards');
     const checkoutForm = document.getElementById('checkoutForm');
     
     // Auto-fill form from selected address
-    function fillFormFromAddress(card) {
+    const fillFormFromAddress = function(card) {
         if (card) {
             document.querySelector('[name="full_name"]').value = card.dataset.fullName || '';
             document.querySelector('[name="phone"]').value = card.dataset.phone || '';
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-    }
+    };
     
     // Handle address card selection
     if (savedAddressCards) {
@@ -100,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const stateLabel = document.querySelector('label[for="id_state_or_county"]');
     
     if (countrySelect && stateLabel) {
-        function updateStateLabel() {
+        const updateStateLabel = function() {
             if (countrySelect.value === 'US') {
                 stateLabel.textContent = 'State';
                 stateInput.placeholder = 'State';
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 stateLabel.textContent = 'State/County';
                 stateInput.placeholder = 'State/County';
             }
-        }
+        };
         
         countrySelect.addEventListener('change', updateStateLabel);
         updateStateLabel(); // Initial call

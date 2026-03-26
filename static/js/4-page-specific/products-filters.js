@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearFiltersBtn = document.querySelector('.clear-filters-btn');
     
     const filterTabs = document.querySelectorAll('.filter-tab');
-    const filterContents = document.querySelectorAll('.filter-content');
+    // filterContents not used but kept for future filter content switching functionality
 
     // console.log('Products Filters JS loaded');
     // console.log('filtersSortBtn:', filtersSortBtn);

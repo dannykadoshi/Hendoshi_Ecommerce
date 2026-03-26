@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        document.querySelectorAll('.bulk-product-name').forEach((input, idx) => {
+        document.querySelectorAll('.bulk-product-name').forEach((input) => {
             const accordion = input.closest('.accordion-item');
             const titleSpan = accordion.querySelector('.product-title');
             const productInfo = titleSpan.textContent.replace(/\s+/g, ' ').trim();
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     collapseAllBtn.addEventListener('click', function() {
-        document.querySelectorAll('.accordion-collapse').forEach((el, idx) => {
-            if (idx > 0 && el.classList.contains('show')) {
+        document.querySelectorAll('.accordion-collapse').forEach((el) => {
+            if (!el.classList.contains('show')) {
                 el.classList.remove('show');
                 el.previousElementSibling.querySelector('.accordion-button').classList.add('collapsed');
             }
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Image preview
     document.querySelectorAll('.bulk-main-image').forEach(input => {
-        input.addEventListener('change', function(e) {
+        input.addEventListener('change', function() {
             const prefix = this.name.split('-')[0];
             const preview = document.getElementById(`preview_${prefix}_main`);
             
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const progressList = document.getElementById('progressList');
         progressList.innerHTML = '';
         
-        document.querySelectorAll('.accordion-item').forEach((item, idx) => {
+        document.querySelectorAll('.accordion-item').forEach((item) => {
             const nameInput = item.querySelector('.bulk-product-name');
             const priceInput = item.querySelector('.bulk-product-price');
             const imageInput = item.querySelector('.bulk-main-image');

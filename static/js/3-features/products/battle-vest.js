@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             })
-            .catch(error => {
+            .catch(() => {
                 if (typeof showToast === 'function') {
                     showToast('Could not add to cart', 'error');
                 }

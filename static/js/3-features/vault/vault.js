@@ -23,15 +23,15 @@ if (typeof console !== 'undefined' && console.info) {
 
     // Contains all vault-specific functionality
 
-// Analytics tracking for vault interactions
-function trackVaultEvent(action, details = {}) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'vault_interaction', {
-            page_location: window.location.pathname,
-            ...details
-        });
-    }
-}
+// Analytics tracking for vault interactions (currently unused - available for future use)
+// function trackVaultEvent(action, details = {}) {
+//     if (typeof gtag !== 'undefined') {
+//         gtag('event', 'vault_interaction', {
+//             page_location: window.location.pathname,
+//             ...details
+//         });
+//     }
+// }
 
 // Gallery Filter Dropdown
 // Gallery Filter Dropdown - REMOVED
@@ -55,7 +55,7 @@ function initializePhotoDetailLikes() {
 }
 
 // Unified like function that works for both gallery and detail views
-function likePhotoUnified(photoId, source) {
+function likePhotoUnified(photoId) {
     const url = `/vault/photo/${photoId}/like/`;
     fetch(url, {
         method: 'POST',
@@ -273,7 +273,7 @@ function initializePhotoDetailShare() {
                 title: 'HENDOSHI Vault Photo',
                 text: caption,
                 url: url
-            }).catch(function(err) {
+            }).catch(function() {
                 
             });
         } else {
@@ -300,7 +300,7 @@ function initializePhotoDetailShare() {
         window.open(shareUrl, 'pinterest-share', 'width=600,height=400');
     }
 
-    function shareToInstagram(url, caption) {
+    function shareToInstagram(url) {
         copyToClipboard(url, document.querySelector('.copy-link-btn'));
         alert('Link copied! Open Instagram and paste in your story or bio.');
     }
@@ -309,7 +309,7 @@ function initializePhotoDetailShare() {
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(url).then(function() {
                 showCopySuccess(button);
-            }).catch(function(err) {
+            }).catch(function() {
                 fallbackCopy(url, button);
             });
         } else {
@@ -397,7 +397,7 @@ function initializeSubmitMultiSelect() {
         dropdown.style.display = hasVisibleItems && tagInput === document.activeElement ? 'block' : 'none';
     }
 
-    function addTag(productId, productName) {
+    function addTag(productId) {
         if (selectedProducts.includes(productId)) return;
 
         selectedProducts.push(productId);
@@ -470,7 +470,7 @@ function initializeSubmitMultiSelect() {
     });
 
     function updateSelection(visibleItems) {
-        items.forEach((item, index) => {
+        items.forEach((item) => {
             if (visibleItems.indexOf(item) === selectedIndex) {
                 item.classList.add('selected');
                 item.scrollIntoView({ block: 'nearest' });
@@ -580,7 +580,7 @@ function initializeSubmitUploadZone() {
             
             // Force Safari to repaint/reflow
             uploadPreview.style.display = 'none';
-            uploadPreview.offsetHeight; // Trigger reflow
+            void uploadPreview.offsetHeight; // Trigger reflow
             uploadPreview.style.display = '';
         };
         reader.onerror = function(e) {
@@ -1168,20 +1168,6 @@ function initializeFeaturedCarousel() {
 
     // Start auto-play initially (will only work on mobile due to layout check)
     startAutoPlay();
-
-    // Pause auto-play on touch interactions
-    function handleTouchStart(e) {
-        pauseAutoPlay();
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    }
-
-    function handleTouchEnd(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipeGesture();
-        resumeAutoPlay();
-    }
 
     // Handle window resize
     let resizeTimeout;

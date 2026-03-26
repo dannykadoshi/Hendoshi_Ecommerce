@@ -47,13 +47,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const stripSettingsContainer = document.getElementById('stripSettingsContainer');
 
     if (showStripCheckbox && stripSettingsContainer) {
-        function toggleStripSettings() {
+        const toggleStripSettings = function() {
             if (showStripCheckbox.checked) {
                 stripSettingsContainer.style.display = 'block';
             } else {
                 stripSettingsContainer.style.display = 'none';
             }
-        }
+        };
 
         showStripCheckbox.addEventListener('change', toggleStripSettings);
         toggleStripSettings();
@@ -63,13 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handles showing/hiding the strip preview using CSS class instead of inline style
     const stripPreview = document.getElementById('stripPreview');
     if (stripPreview && stripSettingsContainer) {
-        const observer = new MutationObserver(function() {
-            if (stripSettingsContainer.style.display !== 'none') {
-                stripPreview.classList.remove('strip-preview-hidden');
-            } else {
-                stripPreview.classList.add('strip-preview-hidden');
-            }
-        });
+        // MutationObserver removed - using event listener instead
         
         if (showStripCheckbox) {
             showStripCheckbox.addEventListener('change', function() {

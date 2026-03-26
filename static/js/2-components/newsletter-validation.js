@@ -91,10 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     }
     
-    function showSuccess() {
-        showSuccessMessage('Thanks for subscribing!');
-    }
-
     function showSuccessMessage(message) {
         errorDiv.textContent = '✓ ' + (message || 'Thanks for subscribing!');
         errorDiv.style.borderLeftColor = '#00ff00';

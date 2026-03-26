@@ -14,18 +14,18 @@
    ================================================ */
 
 // Bulk Select Types - Product Type & Audience Selection, Total Calculation
-// Styled alert modal functions
-function showStyledAlert(message) {
-    const modal = document.getElementById('styledAlertModal');
-    const messageEl = document.getElementById('styledAlertMessage');
-    messageEl.textContent = message;
-    modal.style.display = 'block';
-}
-
-function closeStyledAlert() {
-    const modal = document.getElementById('styledAlertModal');
-    modal.style.display = 'none';
-}
+// Styled alert modal functions (currently unused - available for future use)
+// window.showStyledAlert = function(message) {
+//     const modal = document.getElementById('styledAlertModal');
+//     const messageEl = document.getElementById('styledAlertMessage');
+//     messageEl.textContent = message;
+//     modal.style.display = 'block';
+// };
+//
+// window.closeStyledAlert = function() {
+//     const modal = document.getElementById('styledAlertModal');
+//     modal.style.display = 'none';
+// };
 
 // Close modal when clicking outside
 window.addEventListener('click', function(event) {

@@ -262,7 +262,9 @@ window.toggleAllCheckboxes = function() {
 window.bulkUpdateStatus = function(status) {
     const selectedReviews = document.querySelectorAll('.review-checkbox:checked');
     if (selectedReviews.length === 0) {
-        alert('Please select reviews to update.');
+        if (typeof window.alert !== 'undefined') {
+            window.alert('Please select reviews to update.');
+        }
         return;
     }
 
@@ -335,7 +337,9 @@ window.viewReviewDetail = function(reviewId) {
 window.submitBulkAction = function(action) {
     const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
     if (checkedBoxes.length === 0) {
-        alert('Please select at least one product.');
+        if (typeof window.alert !== 'undefined') {
+            window.alert('Please select at least one product.');
+        }
         return;
     }
 

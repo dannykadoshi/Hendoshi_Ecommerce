@@ -290,7 +290,7 @@
                         throw new Error('Failed to update shipping');
                     }
 
-                    const data = await resp.json();
+                    await resp.json();
                     
                     // Fetch and update totals
                     fetchTotals();

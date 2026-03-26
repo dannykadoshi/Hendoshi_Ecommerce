@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageFormsetContainer = document.getElementById('imageFormsetContainer');
 
     if (addImageBtn && imageFormsetContainer) {
-        function attachImageInputListeners(wrapper) {
+        const attachImageInputListeners = function(wrapper) {
             if (!wrapper) return;
             const fileInput = wrapper.querySelector('input[type="file"]');
             const clearX = wrapper.querySelector('.clear-file-x');
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
-        }
+        };
 
         addImageBtn.addEventListener('click', function() {
             const totalForms = document.querySelector('input[name="images-TOTAL_FORMS"]');

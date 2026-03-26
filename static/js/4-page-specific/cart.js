@@ -123,7 +123,7 @@
                 }
 
                 // Update saved amount (discount) if available or compute from subtotal/total
-                let discountAmount = undefined;
+                let discountAmount;
                 if (data.discount_amount !== undefined) {
                     discountAmount = parseFloat(data.discount_amount);
                 } else if (data.cart_subtotal !== undefined && data.cart_total !== undefined) {
@@ -273,7 +273,7 @@
                 }
 
                 // Update saved amount when item removed
-                let removedDiscount = undefined;
+                let removedDiscount;
                 if (data.discount_amount !== undefined) {
                     removedDiscount = parseFloat(data.discount_amount);
                 } else if (data.cart_subtotal !== undefined && data.cart_total !== undefined) {

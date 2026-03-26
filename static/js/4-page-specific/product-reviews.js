@@ -192,9 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Helper function to create review card HTML
     function createReviewCard(review) {
         const stars = Array(5).fill().map((_, i) => {
-            return i < review.rating
-                ? '<i class="fas fa-star"></i>'
-                : '<i class="far fa-star text-muted"></i>';
+            return (i < review.rating ?
+                '<i class="fas fa-star"></i>' :
+                '<i class="far fa-star text-muted"></i>');
         }).join('');
 
         return `

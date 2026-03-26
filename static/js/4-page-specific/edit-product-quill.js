@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 suggestionsList.innerHTML = '';
 
                 // Add each suggestion as a clickable card
-                data.suggestions.forEach((suggestion, index) => {
+                data.suggestions.forEach((suggestion) => {
                     const card = document.createElement('div');
                     card.className = 'suggestion-card';
                     card.innerHTML = `

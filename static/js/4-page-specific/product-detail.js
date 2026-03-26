@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         })
-        .catch(error => {});
+        .catch(() => {});
     });
 
     // Handle add to cart clicks on carousel items
@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!addBtn) return;
 
         const productId = addBtn.getAttribute('data-product-id');
-        const productName = addBtn.getAttribute('data-product-name');
         
         if (!productId) return;
 
@@ -134,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         })
-        .catch(error => {});
+        .catch(() => {});
     });
 });
 
@@ -150,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const button = e.target.closest('.product-vest-btn');
             const productSlug = button.dataset.productSlug;
-            const heartIcon = button.querySelector('i');
 
             const isInVest = button.classList.contains('in-vest');
 

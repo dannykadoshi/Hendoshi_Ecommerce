@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function showValidationError(message) {
         if (typeof showToast === 'function') {
             showToast(message, 'warning');
-        } else {
-            alert(message);
+        } else if (typeof window.alert !== 'undefined') {
+            window.alert(message);
         }
     }
 });

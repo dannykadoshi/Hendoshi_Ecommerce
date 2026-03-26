@@ -548,121 +548,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// 5. BATTLE VEST COUNT & COLLECTIONS CAROUSEL (Authenticated users only)
-// Note: This code will only execute if the user is authenticated (wrapped in {% if user.is_authenticated %})
-// ============================================
-function initAuthenticatedFeatures() {
-    // Update both mobile and desktop count badges
-    function updateVestCountBadges(count) {
-        const mobileBadge = document.getElementById('battleVestCount');
-        const desktopBadge = document.getElementById('battleVestCountDesktop');
-
-        if (mobileBadge) {
-            mobileBadge.textContent = count;
-            if (count > 0) {
-                mobileBadge.classList.remove('badge-hidden');
-            } else {
-                mobileBadge.classList.add('badge-hidden');
-            }
-        }
-
-        if (desktopBadge) {
-            desktopBadge.textContent = count;
-            if (count > 0) {
-                desktopBadge.classList.remove('badge-hidden');
-            } else {
-                desktopBadge.classList.add('badge-hidden');
-            }
-        }
-    }
-
-    // Collections Carousel Functionality
-    const collectionsTrack = document.getElementById('collections-track');
-    const collectionsPrevBtn = document.getElementById('collections-prev');
-    const collectionsNextBtn = document.getElementById('collections-next');
-
-    if (collectionsTrack && collectionsPrevBtn && collectionsNextBtn) {
-        let currentIndex = 0;
-        let autoRotateInterval;
-        const items = collectionsTrack.children;
-        const itemWidth = 280 + 24; // card width + gap
-        const visibleItems = Math.floor(collectionsTrack.parentElement.offsetWidth / itemWidth) || 1;
-        const maxIndex = Math.max(0, items.length - visibleItems);
-
-        function updateCarousel() {
-            const translateX = -currentIndex * itemWidth;
-            collectionsTrack.style.transform = `translateX(${translateX}px)`;
-
-            // Update button states
-            collectionsPrevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-            collectionsNextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
-        }
-
-        function startAutoRotate() {
-            autoRotateInterval = setInterval(function() {
-                if (currentIndex < maxIndex) {
-                    currentIndex++;
-                    updateCarousel();
-                } else {
-                    stopAutoRotate(); // Stop when reaching the end
-                }
-            }, 4000); // Auto-rotate every 4 seconds
-        }
-
-        function stopAutoRotate() {
-            if (autoRotateInterval) {
-                clearInterval(autoRotateInterval);
-            }
-        }
-
-        collectionsPrevBtn.addEventListener('click', function() {
-            stopAutoRotate(); // Stop auto-rotation when user interacts
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-            startAutoRotate(); // Restart auto-rotation after user interaction
-        });
-
-        collectionsNextBtn.addEventListener('click', function() {
-            stopAutoRotate(); // Stop auto-rotation when user interacts
-            if (currentIndex < maxIndex) {
-                currentIndex++;
-                updateCarousel();
-            }
-            startAutoRotate(); // Restart auto-rotation after user interaction
-        });
-
-        // Initialize
-        updateCarousel();
-        startAutoRotate(); // Start auto-rotation
-
-        // Update on window resize
-        window.addEventListener('resize', function() {
-            const newVisibleItems = Math.floor(collectionsTrack.parentElement.offsetWidth / itemWidth) || 1;
-            const newMaxIndex = Math.max(0, items.length - newVisibleItems);
-
-            if (currentIndex > newMaxIndex) {
-                currentIndex = newMaxIndex;
-            }
-
-            updateCarousel();
-        });
-    }
-
-    // Expose updateVestCountBadges for external use
-    window.updateVestCountBadges = updateVestCountBadges;
-}
-
-// ============================================
 // 6. DISCOUNT BANNER FUNCTIONALITY
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     try {
         const discountBanner = document.getElementById('discountBanner');
-        const discountClose = document.getElementById('discountClose');
         const navbar = document.querySelector('.navbar');
-        const discountMessage = document.getElementById('discountMessage');
         const copyTooltip = document.getElementById('copyTooltip');
         const confettiCanvas = document.getElementById('confettiCanvas');
 
@@ -682,14 +573,13 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn('Failed to parse discount offers JSON:', jsonErr);
         }
 
-        // URL override for testing
-        const urlParams = new URLSearchParams(window.location.search || '');
-        const forceShow = urlParams.get('show_discount_banner') === '1' || urlParams.get('show_discount_banner') === 'true';
+        // URL override for testing (kept for potential future use)
+        // const forceShow = urlParams.get('show_discount_banner') === '1' || urlParams.get('show_discount_banner') === 'true';
 
         // ============================================
         // CLICK-TO-COPY FUNCTIONALITY (with robust fallback and feedback)
         // ============================================
-        function initCopyToClipboard() {
+        const initCopyToClipboard = function() {
             discountBanner.addEventListener('click', async function(e) {
                 const codeElement = e.target.closest('.discount-code-text');
                 if (!codeElement) return;
@@ -699,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const code = codeElement.dataset.code || codeElement.textContent.trim();
 
-                function showCopiedFeedback() {
+                const showCopiedFeedback = function() {
                     // Show tooltip
                     if (copyTooltip) {
                         copyTooltip.classList.add('show');
@@ -722,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } catch (e) {
                         // No-op
                     }
-                }
+                };
 
                 // Try navigator.clipboard first (preferred)
                 try {
@@ -768,14 +658,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 } catch (e) {}
             });
-        }
+        };
 
         // ============================================
         // CONFETTI EFFECT FOR HIGH-VALUE DISCOUNTS
         // Implemented as a controller exposed at window.confettiController
         // so it can be started/stopped when offers change.
         // ============================================
-        function initConfetti() {
+        const initConfetti = function() {
             if (!confettiCanvas) return;
 
             const ctx = confettiCanvas.getContext('2d');
@@ -856,15 +746,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             function burstConfetti(count = 20) {
+                // Generate all pieces first, then schedule them
+                const pieces = [];
                 for (let i = 0; i < count; i++) {
+                    pieces.push({
+                        delayTime: i * 30,
+                        index: i
+                    });
+                }
+
+                // Now schedule them with closures
+                pieces.forEach((item) => {
                     setTimeout(() => {
                         const piece = new Confetti();
                         piece.x = confettiCanvas.width / 2;
                         piece.speedX = (Math.random() - 0.5) * 8;
                         piece.speedY = Math.random() * 3 + 2;
                         confettiPieces.push(piece);
-                    }, i * 30);
-                }
+                    }, item.delayTime);
+                });
             }
 
             function stopConfetti() {
@@ -897,12 +797,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Handle resize
             window.addEventListener('resize', resizeCanvas);
-        }
+        };
 
         // ============================================
         // AUTO-SCROLL BEHAVIOR (Hide on scroll down, show on scroll up)
         // ============================================
-        function initScrollBehavior() {
+        const initScrollBehavior = function() {
             let lastScrollY = window.scrollY || 0;
             let ticking = false;
             let isHidden = false;
@@ -944,16 +844,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Ensure banner updates when user returns to the tab or window (visibility/focus changes)
             window.addEventListener('visibilitychange', function() { try { updateBannerVisibility(); } catch (e) {} });
             window.addEventListener('focus', function() { try { updateBannerVisibility(); } catch (e) {} });
-        }
+        };
 
         // ============================================
         // REDUCED MOTION SUPPORT
         // ============================================
-        function initReducedMotion() {
+        const initReducedMotion = function() {
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 discountBanner.classList.add('reduced-motion');
             }
-        }
+        };
 
         // ============================================
         // INITIALIZE ALL FEATURES
@@ -1060,6 +960,9 @@ function showCartDrawer(data) {
     document.body.classList.add('cart-drawer-open');
 }
 
+// Expose showCartDrawer to window scope
+window.showCartDrawer = showCartDrawer;
+
 // Generate star rating HTML
 function generateStarRating(rating) {
     let html = '';
@@ -1117,7 +1020,7 @@ function populateRelatedProducts(products) {
 }
 
 // Quick add to cart from carousel
-function quickAddToCart(button) {
+window.quickAddToCart = function(button) {
     const productId = button.dataset.productId;
     const size = button.dataset.defaultSize;
     const color = button.dataset.defaultColor;
@@ -1188,7 +1091,7 @@ function quickAddToCart(button) {
         button.innerHTML = originalHtml;
         button.disabled = false;
     });
-}
+};
 
 // Carousel navigation
 function updateCarouselButtons() {
@@ -1306,8 +1209,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Discount code functionality
     const discountForm = document.getElementById('cartDrawerDiscountForm');
     const discountInput = document.getElementById('cartDrawerDiscountCodeInput');
-    const discountApplyBtn = document.getElementById('cartDrawerDiscountApply');
-    const discountMessage = document.getElementById('cartDrawerDiscountMessage');
 
     if (discountForm) {
         discountForm.addEventListener('submit', function(e) {
@@ -1330,7 +1231,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function applyDiscountCode() {
     const discountInput = document.getElementById('cartDrawerDiscountCodeInput');
     const discountApplyBtn = document.getElementById('cartDrawerDiscountApply');
-    const discountMessage = document.getElementById('cartDrawerDiscountMessage');
     
     const code = discountInput.value.trim().toUpperCase();
     

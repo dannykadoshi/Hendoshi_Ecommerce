@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Instagram share function (opens Instagram app/website)
-    function shareToInstagram(url, title) {
+    function shareToInstagram(url) {
         // Instagram doesn't have a direct share URL like Facebook/Twitter
         // We'll copy the link and show instructions
         copyToClipboard(url);

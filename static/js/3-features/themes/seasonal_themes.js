@@ -130,7 +130,7 @@ const SeasonalThemes = {
     setupContainers: function() {
         const heroes = document.querySelectorAll('.page-hero, .vault-hero');
 
-        heroes.forEach((hero, index) => {
+        heroes.forEach((hero) => {
             // Add theme-active class if not already present
             hero.classList.add('theme-active');
             hero.classList.add(`theme-speed-${this.config.speed}`);

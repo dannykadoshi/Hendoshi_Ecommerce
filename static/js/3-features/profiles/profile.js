@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const optionsSection = document.getElementById('notificationOptions');
 
     if (masterToggle && optionsSection) {
-        function updateOptionsState() {
+        const updateOptionsState = function() {
             if (masterToggle.checked) {
                 optionsSection.style.opacity = '1';
                 optionsSection.style.pointerEvents = 'auto';
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 optionsSection.style.opacity = '0.5';
                 optionsSection.style.pointerEvents = 'none';
             }
-        }
+        };
 
         masterToggle.addEventListener('change', updateOptionsState);
         updateOptionsState();

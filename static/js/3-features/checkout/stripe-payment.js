@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mountError.className = 'card-mount-error';
         mountError.textContent = 'Payment fields unavailable — Stripe is not configured on this environment.';
         const parent = document.getElementById('card-element') || paymentForm;
-        parent && parent.parentNode && parent.parentNode.insertBefore(mountError, document.getElementById('card-element')?.nextSibling || null);
+        if (parent && parent.parentNode) {
+            parent.parentNode.insertBefore(mountError, document.getElementById('card-element')?.nextSibling || null);
+        }
         return;
     }
 
@@ -65,7 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
             mountError.className = 'card-mount-error';
             mountError.textContent = 'Payment provider script not loaded. Check console for CSP or network errors.';
             const parent = cardContainer || paymentForm;
-            parent && parent.parentNode && parent.parentNode.insertBefore(mountError, cardContainer?.nextSibling || null);
+            if (parent && parent.parentNode) {
+                parent.parentNode.insertBefore(mountError, cardContainer?.nextSibling || null);
+            }
             return;
         }
 
@@ -78,7 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
             mountError.className = 'card-mount-error';
             mountError.textContent = 'Payment initialization failed. See console for details.';
             const parent = cardContainer || paymentForm;
-            parent && parent.parentNode && parent.parentNode.insertBefore(mountError, cardContainer?.nextSibling || null);
+            if (parent && parent.parentNode) {
+                parent.parentNode.insertBefore(mountError, cardContainer?.nextSibling || null);
+            }
             return;
         }
 
@@ -144,7 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Log iframe presence
         setTimeout(function() {
-            const iframe = cardContainer.querySelector('iframe');
+            // iframe not used but kept for diagnostic purposes
+            // const iframe = cardContainer.querySelector('iframe');
             // console.log('Stripe iframe found:', iframe);
             // if (!iframe) console.warn('Stripe iframe not found inside #card-element — mount may not have succeeded or Stripe may be blocked');
         }, 400);

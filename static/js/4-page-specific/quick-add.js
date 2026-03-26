@@ -151,9 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isInVest = this.classList.contains('in-vest');
                 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-                const url = isInVest
-                    ? `/products/${slug}/remove-from-vest/`
-                    : `/products/${slug}/add-to-vest/`;
+                const url = (isInVest ?
+                    `/products/${slug}/remove-from-vest/` :
+                    `/products/${slug}/add-to-vest/`);
 
                 fetch(url, {
                     method: 'POST',
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             })
-            .catch(error => {});
+            .catch(() => {});
         };
     }
 
