@@ -124,6 +124,14 @@
         <link rel="dns-prefetch" href="//www.googletagmanager.com">
         <link rel="dns-prefetch" href="//www.google-analytics.com">
         
+        <!-- Preload Critical Fonts (Font Awesome) -->
+        <link rel="preload" as="font" type="font/woff2" 
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/webfonts/fa-solid-900.woff2"
+              crossorigin>
+        <link rel="preload" as="font" type="font/woff2"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/webfonts/fa-brands-400.woff2"
+              crossorigin>
+        
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
               rel="stylesheet">
@@ -823,7 +831,7 @@
                 <!-- Item Just Added -->
                 <div class="cart-drawer-item" id="cartDrawerItem">
                     <div class="cart-drawer-item-image">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23eee' width='100' height='100'/%3E%3C/svg%3E" alt="Product image" id="cartDrawerItemImage">
+                        <img src="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20100%20100%27%3E%3Crect%20fill=%27%23eee%27%20width=%27100%27%20height=%27100%27/%3E%3C/svg%3E" alt="Product image" id="cartDrawerItemImage">
                     </div>
                     <div class="cart-drawer-item-details">
                         <h4 class="cart-drawer-item-name" id="cartDrawerItemName" aria-label="Product item name">Loading...</h4>

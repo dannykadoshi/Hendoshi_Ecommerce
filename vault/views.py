@@ -55,7 +55,7 @@ def _auto_feature_photos(num_photos=6, weeks=1):
     )
 
 
-@cache_control(max_age=60, private=True)
+@cache_control(max_age=3600, public=True)
 def vault_gallery(request):
     """
     Display the public Vault gallery with approved photos.

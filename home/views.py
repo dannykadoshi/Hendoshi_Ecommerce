@@ -9,12 +9,12 @@ from products.models import Collection
 from .forms import ContactForm
 
 
-@cache_control(max_age=60, private=True)
+@cache_control(max_age=1800, private=True)
 def index(request):
     """
     View to return the homepage.
-    Cache-Control: private, max-age=60 — browser may reuse the page for 60 seconds,
-    but shared CDN caches must not store it (personalised cart/auth state in navbar).
+    Cache-Control: private, max-age=1800 — browser caches for 30 minutes.
+    Private because navbar contains personalized cart/auth state.
     """
     # Get all collections with products, ordered by product count (most popular first)
     collections_data = []

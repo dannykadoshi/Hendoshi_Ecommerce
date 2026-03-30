@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_control
 
 from .forms import ShippingForm, ActivateAccountForm
 from .models import Order, OrderItem, DiscountCode, ShippingRate
@@ -141,6 +142,7 @@ def _handle_payment_intent_failed(intent):
     _record_failed_payment(order, intent)
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True, private=True)
 def checkout(request):
     """Display checkout page for authenticated and guest users."""
     cart = get_or_create_cart(request)
@@ -447,6 +449,7 @@ def checkout(request):
     return render(request, 'checkout/checkout.html', context)
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True, private=True)
 def order_confirmation(request, order_number):
     """Display order confirmation page"""
     order = get_object_or_404(Order, order_number=order_number)
@@ -686,6 +689,7 @@ def update_order_shipping(request, order_number):
     })
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True, private=True)
 def payment(request, order_number):
     """Display payment page and coordinate Stripe payment confirmation."""
     order = get_object_or_404(Order, order_number=order_number)
@@ -769,6 +773,7 @@ def payment(request, order_number):
 
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True, private=True)
 def payment_result(request, order_number):
     """Display payment result page (success or failure)"""
     order = get_object_or_404(Order, order_number=order_number)
@@ -819,6 +824,7 @@ def stripe_webhook(request):
     return HttpResponse(status=200)
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True, private=True)
 def order_detail(request, order_number):
     """Display detailed order information"""
     order = get_object_or_404(Order, order_number=order_number)

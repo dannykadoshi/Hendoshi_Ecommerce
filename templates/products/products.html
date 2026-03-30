@@ -20,6 +20,8 @@
 {% block meta_keywords %}shop metal apparel, gothic t-shirts, skull clothing, alternative fashion products, HENDOSHI store, heavy metal merch{% endblock %}
 
 {% block extra_head %}
+<!-- Preload first product card image for better perceived performance -->
+<link rel="preload" as="image" href="{% static 'images/pug-skull.webp' %}" fetchpriority="low">
 <!-- Collection/Product Listing Schema -->
 <script type="application/ld+json">
 {

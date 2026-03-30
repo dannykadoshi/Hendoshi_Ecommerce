@@ -21,6 +21,8 @@
 
 {% block extra_head %}
 <link rel="preload" as="image" href="{% static 'images/hero-1-gothic-1920.webp' %}" fetchpriority="high">
+<!-- Preload second carousel image for smooth transitions -->
+<link rel="preload" as="image" href="{% static 'images/hero-2-friends-1920.webp' %}" fetchpriority="low">
 {% endblock %}
 
 {% block extra_css %}

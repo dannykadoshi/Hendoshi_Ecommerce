@@ -19,6 +19,11 @@
 
 {% block meta_keywords %}HENDOSHI vault, community gallery, customer photos, wear your weird, metal apparel community{% endblock %}
 
+{% block extra_head %}
+<!-- Preload first featured photo if available for better perceived performance -->
+<link rel="preload" as="image" href="{% static 'images/pug-skull.webp' %}" fetchpriority="low">
+{% endblock %}
+
 {% block content %}
 <div class="vault-page">
     <!-- Vault Hero -->

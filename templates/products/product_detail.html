@@ -20,6 +20,11 @@
 {% block meta_keywords %}{{ product.name }}, {{ product.collection.name }}, metal apparel, gothic clothing, alternative fashion, HENDOSHI{% endblock %}
 
 {% block extra_head %}
+<!-- Preload main product image for faster LCP -->
+{% if product.main_image %}
+<link rel="preload" as="image" href="{{ product.main_image.url }}" fetchpriority="high">
+{% endif %}
+
 <!-- Product-specific Open Graph meta tags -->
 <meta property="og:type" content="product">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">

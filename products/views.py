@@ -202,7 +202,7 @@ def get_variant_options(request, product_id):
         }, status=400)
 
 
-@cache_control(max_age=60, private=True)
+@cache_control(max_age=3600, public=True)
 def all_products(request):
     """
     View to show all products with filtering and sorting.
@@ -406,9 +406,10 @@ def sale_products(request):
     return render(request, 'products/sale.html', context)
 
 
+@cache_control(max_age=3600, public=True)
 def product_detail(request, slug):
     """
-    View to show individual product details
+    View to show individual product details - cached 1 hour for public caching.
     """
     # Allow admin users to view archived products
     if request.user.is_staff or request.user.is_superuser:
