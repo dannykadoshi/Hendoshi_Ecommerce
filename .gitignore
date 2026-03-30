@@ -68,13 +68,20 @@ coverage.xml
 .pytest_cache/
 cover/
 
-# JSHint / Code Quality Reports (keep only .jshintrc and .html reports)
+# JSHint / Code Quality (tooling config and generated reports)
+.jshintrc
+jshint-report.html
 jshint-report-*.txt
 jshint-*.txt
 jshint-*.json
 jshint-final-*.txt
 jshint-final-*.json
 jshint-summary.txt
+
+# Node.js (used for JSHint tooling only, not part of the Django project)
+node_modules/
+package.json
+package-lock.json
 
 # Translations
 *.mo

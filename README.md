@@ -65,7 +65,6 @@
 - [SEO & Marketing](#-seo--marketing)
 - [Credits](#-credits)
 - [Acknowledgments](#-acknowledgments)
-- [Screenshot Checklist](#-screenshot-checklist)
 - [Contact](#-contact)
 
 ---
