@@ -600,6 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add a native share button for mobile devices
         const mobileShareBtn = document.createElement('button');
         mobileShareBtn.className = 'share-btn mobile-share-btn';
+        mobileShareBtn.setAttribute('aria-label', 'Share product');
         mobileShareBtn.innerHTML = '<i class="fas fa-share-alt"></i>';
         mobileShareBtn.style.borderColor = 'var(--electric-yellow)';
         mobileShareBtn.style.color = 'var(--electric-yellow)';

@@ -74,7 +74,8 @@
                             {% csrf_token %}
                             <div class="qty-control">
                                 <button type="button" class="qty-btn" onclick="decrementQty(this)" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
-                                <input type="number" name="quantity" class="qty-input" value="{{ item.quantity }}" min="1" max="{{ item.get_variant_stock }}" data-max="{{ item.get_variant_stock }}">
+                                <label for="qty-input-{{ item.id }}" class="sr-only">Quantity for {{ item.product.name }}</label>
+                                <input type="number" id="qty-input-{{ item.id }}" name="quantity" class="qty-input" value="{{ item.quantity }}" min="1" max="{{ item.get_variant_stock }}" data-max="{{ item.get_variant_stock }}" aria-label="Quantity for {{ item.product.name }}">
                                 <button type="button" class="qty-btn" onclick="incrementQty(this)" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
                             </div>
                         </form>

@@ -547,8 +547,9 @@
                     promoSection.innerHTML = `
                         <form id="couponForm" class="promo-form" onsubmit="return applyCoupon(event)">
                             <input type="hidden" name="csrfmiddlewaretoken" value="${getCookie('csrftoken')}">
-                            <input type="text" id="couponCode" name="discount_code" placeholder="Promo code">
-                            <button type="submit" class="promo-btn">
+                            <label for="couponCode" class="sr-only">Enter promo code</label>
+                            <input type="text" id="couponCode" name="discount_code" placeholder="Promo code" aria-label="Enter promo code">
+                            <button type="submit" class="promo-btn" aria-label="Apply coupon code">
                                 <span class="btn-text">Apply</span>
                                 <span class="btn-spinner d-none"><span class="spinner-border spinner-border-sm"></span></span>
                             </button>
