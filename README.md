@@ -119,8 +119,7 @@ HENDOSHI operates on a **B2C (Business-to-Consumer) e-commerce model** with Prin
 
 This project was developed using **Agile principles** with iterative development cycles and continuous feedback integration.
 
-**Click button to access it**  
-[![GitHub Projects Board](https://img.shields.io/badge/GitHub-Projects-00ACC1?style=flat-square&logo=github)](https://github.com/users/dannykadoshi/projects/7)
+[![GitHub Projects Board](https://img.shields.io/badge/GitHub-Projects_Board-00ACC1?style=for-the-badge&logo=github&logoColor=white)](https://github.com/users/dannykadoshi/projects/7)
 
 The project board is **publicly visible** and demonstrates full Agile project management:
 
@@ -884,10 +883,10 @@ HENDOSHI maintains an active presence across four social media platforms. All li
 
 | Platform | Handle | Link |
 |----------|--------|------|
-| **Instagram** | `@hendoshiart` | [instagram.com/hendoshiart](https://instagram.com/hendoshiart) |
-| **Facebook** | `hendoshiart` | [facebook.com/hendoshiart](https://www.facebook.com/hendoshiart) |
-| **X (Twitter)** | `@hendoshiart` | [x.com/hendoshiart](https://x.com/hendoshiart) |
-| **Pinterest** | `hendoshiart` | [pinterest.com/hendoshiart](https://ie.pinterest.com/hendoshiart/) |
+| **Instagram** | `@hendoshiart` | [![Instagram](https://img.shields.io/badge/Instagram-@hendoshiart-E1306C?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/hendoshiart) |
+| **Facebook** | `hendoshiart` | [![Facebook](https://img.shields.io/badge/Facebook-hendoshiart-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/hendoshiart) |
+| **X (Twitter)** | `@hendoshiart` | [![X](https://img.shields.io/badge/X-@hendoshiart-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/hendoshiart) |
+| **Pinterest** | `hendoshiart` | [![Pinterest](https://img.shields.io/badge/Pinterest-hendoshiart-E60023?style=for-the-badge&logo=pinterest&logoColor=white)](https://ie.pinterest.com/hendoshiart/) |
 
 ---
 
@@ -895,9 +894,7 @@ HENDOSHI maintains an active presence across four social media platforms. All li
 
 ![ERD Diagram](assets/readme/database-erd.png)
 
-**Assess full database schema clicking the buton bellow:**
-
-[![Database ERD Diagram](https://img.shields.io/badge/Database-Schema-CCFF00?style=for-the-badge&logo=database)](https://dbdiagram.io/d/69c29cb4fb2db18e3bf1d0b4)
+[![Database ERD Diagram](https://img.shields.io/badge/Database-Full_Schema_ERD-CCFF00?style=for-the-badge)](https://dbdiagram.io/d/69c29cb4fb2db18e3bf1d0b4)
 
 The project uses **PostgreSQL** with **33 custom models** across 8 Django applications featuring advanced patterns: auto-created signals, soft deletes, audit trails, image optimization, price/stock history tracking, and complex relationship management.
 
@@ -1114,8 +1111,7 @@ Product → PriceHistory
 
 ## 🧪 Testing
 
-**Click Button to access full testing:**  
-[![Testing Documentation](https://img.shields.io/badge/Documentation-TESTING-9C27B0?style=flat-square)](TESTING.md)
+[![Testing Documentation](https://img.shields.io/badge/Testing-Full_Documentation-9C27B0?style=for-the-badge)](TESTING.md)
 
 ### Testing Methodologies
 
@@ -1411,9 +1407,8 @@ All links pointing to external resources implement the correct `rel` attributes:
 
 **Email:** admin@hendoshi.com
 
-**GitHub:** [@dannykadoshi](https://github.com/dannykadoshi)
-
-**Live Site:** [hendoshi-ecommerce.onrender.com](https://hendoshi-ecommerce.onrender.com)
+[![GitHub Profile](https://img.shields.io/badge/GitHub-@dannykadoshi-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dannykadoshi)
+[![Live Site](https://img.shields.io/badge/Live_Site-hendoshi--store.onrender.com-ff1493?style=for-the-badge)](https://hendoshi-store.onrender.com)
 
 ---
 

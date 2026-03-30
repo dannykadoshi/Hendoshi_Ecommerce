@@ -81,28 +81,30 @@
 
     <!-- Add to Cart Modal -->
     <div id="addToCartVestModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartVestModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered quick-add-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addToCartVestModalLabel">Add to Cart</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered quick-add-modal-global">
+            <div class="modal-content quick-add-modal-content">
+                <div class="modal-header quick-add-modal-header">
+                    <h3 class="modal-title quick-add-modal-title" id="addToCartVestModalLabel">Add to Bag</h3>
+                    <button type="button" class="btn-close quick-add-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body quick-add-modal-body">
                     <form id="addToCartVestForm">
                         <input type="hidden" name="product_id" id="vestProductId">
-                        <div class="mb-3" id="vestSizeWrapper">
-                            <label class="form-label">Size</label>
+                        <div class="quick-add-form-group" id="vestSizeWrapper">
+                            <label class="quick-add-form-label" for="vestSizeSelect">SIZE</label>
                             <select name="size" id="vestSizeSelect" class="form-select"></select>
                         </div>
-                        <div class="mb-3" id="vestColorWrapper">
-                            <label class="form-label">Color</label>
+                        <div class="quick-add-form-group" id="vestColorWrapper">
+                            <label class="quick-add-form-label" for="vestColorSelect">COLOR</label>
                             <select name="color" id="vestColorSelect" class="form-select"></select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Quantity</label>
+                        <div class="quick-add-form-group">
+                            <label class="quick-add-form-label" for="vestQuantitySelect">QUANTITY</label>
                             <input type="number" name="quantity" id="vestQuantitySelect" class="form-control" min="1" max="99" value="1" required>
                         </div>
-                        <button type="submit" class="btn btn-pink w-100">Add to Cart</button>
+                        <button type="submit" class="btn btn-pink quick-add-modal-submit w-100">
+                            <i class="fas fa-shopping-bag"></i> ADD TO BAG
+                        </button>
                     </form>
                 </div>
             </div>
