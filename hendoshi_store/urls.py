@@ -35,6 +35,7 @@ urlpatterns = [
     path('cookies/', cookie_settings, name='cookie_settings'),
     path('cookies/update-consent/', update_cookie_consent, name='update_cookie_consent'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
+    path('jshint-report.html', views.jshint_report, name='jshint_report'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

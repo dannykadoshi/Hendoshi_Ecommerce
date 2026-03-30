@@ -486,6 +486,7 @@ class BattleVestViewTests(TestCase):
 
 import unittest
 
+
 @unittest.skip("Integration test for multi-audience product creation — requires full form wiring, skipped in unit test run")
 class CreateMultiAudienceTest(TestCase):
     def setUp(self):

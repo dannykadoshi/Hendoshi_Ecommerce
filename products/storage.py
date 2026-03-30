@@ -81,7 +81,7 @@ class HybridCloudinaryStorage(Storage):
                 raise Exception(f"Cloudinary upload failed: {e}. Local fallback disabled in production.")
 
             # In development, fall back to local storage
-            print(f"[CLOUDINARY _save] Falling back to local storage", flush=True)
+            print("[CLOUDINARY _save] Falling back to local storage", flush=True)
             logger.warning(f"Falling back to local storage for {name}")
             return self.local_storage._save(name, content)
 

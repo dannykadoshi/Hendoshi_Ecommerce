@@ -11,16 +11,16 @@ class Cart(models.Model):
     session_key = models.CharField(max_length=40, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     def __str__(self):
         if self.user:
             return f"Cart for {self.user.username}"
         return f"Guest Cart {self.session_key}"
-    
+
     def get_total_items(self):
         """Get total number of items in cart"""
         return sum(item.quantity for item in self.items.all())
-    
+
     def get_subtotal(self):
         """Calculate cart subtotal"""
         return sum(item.get_total_price() for item in self.items.all())
@@ -63,5 +63,5 @@ class CartItem(models.Model):
         try:
             variant = self.product.variants.get(size=self.size, color=self.color)
             return variant.stock if variant.stock > 0 else 10
-        except:
+        except Exception:
             return 10

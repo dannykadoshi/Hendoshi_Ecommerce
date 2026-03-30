@@ -3592,7 +3592,7 @@ html.light-mode .order-summary-card .order-items-details .items-list .text-muted
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    filter: drop-shadow(0 0 0 2px white) drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
+    filter: drop-shadow(0 0 2px white) drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
     transition: all 0.3s ease;
 }
 

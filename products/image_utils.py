@@ -1,11 +1,10 @@
 import os
 import logging
 from pathlib import Path
-from django.conf import settings
 from PIL import Image
-from django.core.files.storage import default_storage
 
 logger = logging.getLogger(__name__)
+
 
 def optimize_product_images(product):
     """
@@ -44,6 +43,7 @@ def optimize_product_images(product):
         'success': len(errors) == 0
     }
 
+
 def optimize_single_image(image_path):
     """
     Optimize a single image file safely.
@@ -59,7 +59,6 @@ def optimize_single_image(image_path):
 
         # Re-open for processing
         with Image.open(image_path) as img:
-            original_format = img.format
             original_size = os.path.getsize(image_path)
 
             # Convert to RGBA for consistent processing
@@ -102,6 +101,7 @@ def optimize_single_image(image_path):
 
     except Exception as e:
         return {'success': False, 'error': str(e)}
+
 
 def get_optimized_image_urls(product):
     """

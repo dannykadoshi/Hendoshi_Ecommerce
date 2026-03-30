@@ -10,10 +10,10 @@ class UserProfile(models.Model):
     and order history
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
+
     # User display name
     name = models.CharField(max_length=100, null=True, blank=True)
-    
+
     # Default delivery information
     default_phone_number = models.CharField(max_length=20, null=True, blank=True)
     default_street_address1 = models.CharField(max_length=80, null=True, blank=True)
@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     default_county = models.CharField(max_length=80, null=True, blank=True)
     default_postcode = models.CharField(max_length=20, null=True, blank=True)
     default_country = models.CharField(max_length=40, null=True, blank=True)
-    
+
     def __str__(self):
         return self.user.username
 
@@ -43,11 +43,11 @@ class Address(models.Model):
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         verbose_name_plural = 'Addresses'
         ordering = ['-is_default', '-updated_at']
-    
+
     def __str__(self):
         return f"{self.full_name} - {self.city}, {self.country}"
 
@@ -73,17 +73,18 @@ class SavedPaymentMethod(models.Model):
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         verbose_name_plural = 'Saved Payment Methods'
         ordering = ['-is_default', '-created_at']
-    
+
     def __str__(self):
         return f"{self.card_type.title()} ending in {self.card_number[-4:]}"
-    
+
     def get_display_name(self):
         """Return a display-friendly name for the card"""
         return f"{self.card_type.title()} ending in {self.card_number[-4:]}"
+
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):

@@ -10,9 +10,8 @@ from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
-from .models import NewsletterSubscriber
+from .models import NewsletterSubscriber  # noqa: F811
 from django.urls import reverse
-from django.http import HttpResponse
 from django.core.cache import cache
 from django.contrib.admin.views.decorators import staff_member_required
 import logging
@@ -156,7 +155,7 @@ def newsletter_subscribe(request):
     cache_key = f'nl:ip:{ip}'
     attempts = cache.get(cache_key) or 0
     if attempts >= 6:
-        return JsonResponse({'success': False, 'message': 'Too many subscription attempts. Please try again later.'}, status=429)
+        return JsonResponse({'success': False, 'message': 'Too many subscription attempts. Please try again later.'}, status=429)  # noqa: E501
     cache.set(cache_key, attempts + 1, timeout=3600)
 
     try:
@@ -175,13 +174,13 @@ def newsletter_subscribe(request):
         subscriber.save()
         sent = send_newsletter_confirmation_email(subscriber, request)
         if not sent:
-            return JsonResponse({'success': False, 'message': 'Failed to send confirmation email. Please try again later.'}, status=502)
+            return JsonResponse({'success': False, 'message': 'Failed to send confirmation email. Please try again later.'}, status=502)  # noqa: E501
         return JsonResponse({'success': True, 'message': 'Confirmation email resent. Please check your inbox.'})
     except NewsletterSubscriber.DoesNotExist:
         subscriber = NewsletterSubscriber.objects.create(email=email, consent=consent)
         sent = send_newsletter_confirmation_email(subscriber, request)
         if not sent:
-            return JsonResponse({'success': False, 'message': 'Failed to send confirmation email. Please try again later.'}, status=502)
+            return JsonResponse({'success': False, 'message': 'Failed to send confirmation email. Please try again later.'}, status=502)  # noqa: E501
         return JsonResponse({'success': True, 'message': 'Confirmation email sent. Please check your inbox.'})
 
 
@@ -221,7 +220,7 @@ def send_newsletter_confirmation_email(subscriber, request):
     try:
         msg.send(fail_silently=False)
         return True
-    except Exception as exc:
+    except Exception:
         logger.exception('Failed to send newsletter confirmation email to %s', subscriber.email)
         return False
 
@@ -232,7 +231,7 @@ def send_welcome_email_with_discount(subscriber, request):
     import random
     from checkout.models import DiscountCode
     from datetime import timedelta
-    
+
     # Generate unique discount code: WELCOME10-XXXXX
     def generate_unique_code():
         while True:
@@ -240,9 +239,9 @@ def send_welcome_email_with_discount(subscriber, request):
             code = f"WELCOME10-{random_suffix}"
             if not DiscountCode.objects.filter(code=code).exists():
                 return code
-    
+
     unique_code = generate_unique_code()
-    
+
     # Create discount code (10% off, single use, expires in 30 days)
     expires_at = timezone.now() + timedelta(days=30)
     discount_code = DiscountCode.objects.create(
@@ -257,12 +256,12 @@ def send_welcome_email_with_discount(subscriber, request):
         banner_message=f'Welcome! Get 10% off your first order with code {unique_code}',
         banner_button='shop_now'
     )
-    
+
     # Send welcome email
     subject = 'Welcome to HENDOSHI - Here\'s Your 10% Off! 🎁'
     shop_url = request.build_absolute_uri('/')
-    unsubscribe_url = request.build_absolute_uri(reverse('newsletter_unsubscribe', args=[subscriber.confirmation_token]))
-    
+    unsubscribe_url = request.build_absolute_uri(reverse('newsletter_unsubscribe', args=[subscriber.confirmation_token]))  # noqa: E501
+
     context = {
         'subscriber': subscriber,
         'discount_code': discount_code.code,
@@ -271,10 +270,10 @@ def send_welcome_email_with_discount(subscriber, request):
         'unsubscribe_url': unsubscribe_url,
         'site_name': getattr(settings, 'SITE_NAME', 'HENDOSHI'),
     }
-    
+
     text_body = render_to_string('notifications/emails/newsletter_welcome.txt', context)
     html_body = render_to_string('notifications/emails/newsletter_welcome.html', context)
-    
+
     msg = EmailMultiAlternatives(subject, text_body, settings.DEFAULT_FROM_EMAIL, [subscriber.email])
     msg.attach_alternative(html_body, 'text/html')
     try:
@@ -295,7 +294,7 @@ def newsletter_confirm(request, token):
         subscriber.is_confirmed = True
         subscriber.confirmed_at = timezone.now()
         subscriber.save()
-        
+
         # Generate unique discount code and send welcome email
         send_welcome_email_with_discount(subscriber, request)
 

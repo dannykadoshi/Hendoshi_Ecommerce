@@ -60,7 +60,7 @@ urlpatterns = [
 
     # Canonical collection pages
     path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),
-    
+
     # Design products - all products for a specific design
     path('design/<slug:design_slug>/', views.design_products, name='design_products'),
 

@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cardElement.focus();
                     // console.log('cardElement.focus() called from label click');
                 } catch (err) {
-                    try { cardContainer.focus(); } catch (e) {}
+                    try { cardContainer.focus(); } catch (_) {}
                     console.warn('cardElement.focus() failed, focused container instead', err);
                 }
             });
@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('cardElement.focus() called from label click');
             } catch (err) {
                 // As a fallback, blur and focus the container
-                try { cardContainer.focus(); } catch (e) {}
+                try { cardContainer.focus(); } catch (_) {}
                 console.warn('cardElement.focus() failed, focused container instead', err);
             }
         });

@@ -89,9 +89,9 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('meta_description', 'is_active', 'featured')
         }),
     )
-    
+
     actions = ['optimize_selected_images']
-    
+
     inlines = [ProductVariantInline, ProductImageInline, DesignStoryInline]
 
     def optimize_selected_images(self, request, queryset):
@@ -149,7 +149,8 @@ class DesignStoryAdmin(admin.ModelAdmin):
     list_display = ['product', 'title', 'author', 'created_at']
     search_fields = ['product__name', 'title', 'story']
     list_filter = ['author', 'created_at']
-    
+
+
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
     """
@@ -195,7 +196,7 @@ class BattleVestItemAdmin(admin.ModelAdmin):
     list_filter = ['added_at']
     search_fields = ['product__name', 'battle_vest__user__username']
     autocomplete_fields = ['product', 'battle_vest']
-    readonly_fields = ['added_at']    
+    readonly_fields = ['added_at']
 
 
 @admin.register(ProductType)

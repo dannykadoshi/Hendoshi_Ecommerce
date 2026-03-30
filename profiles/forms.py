@@ -9,7 +9,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('user',)
-    
+
     def __init__(self, *args, **kwargs):
         """
         Add placeholders, classes, and remove auto-generated labels
@@ -24,7 +24,7 @@ class UserProfileForm(forms.ModelForm):
             'default_postcode': 'Postal Code',
             'default_country': 'Country',
         }
-        
+
         for field in self.fields:
             placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder

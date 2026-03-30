@@ -62,7 +62,7 @@ def vault_gallery(request):
     Cache-Control: private, max-age=60 — browser caches for 60s;
     private prevents shared CDN caches from storing per-user like/vote state.
     """
-    from django.db.models import Exists, OuterRef, Count, Case, When, BooleanField
+    from django.db.models import Exists, OuterRef, Count
 
     # Auto-feature: ensure at least 2 featured photos are active at all times
     active_featured_count = VaultPhoto.objects.filter(is_featured=True, featured_until__gt=timezone.now()).count()
@@ -200,12 +200,12 @@ def submit_photo(request):
                 products = Product.objects.filter(id__in=valid_product_ids)
                 photo.tagged_products.set(products)
 
-        messages.success(request, 'Your photo has been submitted for approval. You will be notified once it\'s reviewed.')
+        messages.success(request, 'Your photo has been submitted for approval. You will be notified once it\'s reviewed.')  # noqa: E501
         return redirect('vault:vault_gallery')
 
     # GET request - show form
     products = Product.objects.filter(is_archived=False).order_by('name')
-    
+
     context = {
         'all_products': products,
     }
@@ -328,9 +328,9 @@ def moderate_photos(request):
                             html_message=html_message,
                             fail_silently=True
                         )
-                        messages.success(request, f'Photo by {photo.user.username} approved and notification email sent.')
+                        messages.success(request, f'Photo by {photo.user.username} approved and notification email sent.')  # noqa: E501
                     else:
-                        messages.success(request, f'Photo by {photo.user.username} approved. (User has notifications disabled)')
+                        messages.success(request, f'Photo by {photo.user.username} approved. (User has notifications disabled)')  # noqa: E501
                 except Exception as e:
                     messages.warning(request, f'Photo approved but email notification failed: {str(e)}')
             elif action == 'reject':
@@ -346,7 +346,7 @@ def moderate_photos(request):
                         prefs = NotificationPreference.objects.get_or_create(user=photo.user)[0]
                         if prefs.email_notifications_enabled and prefs.vault_photo_notifications:
                             # Send email to user
-                            subject = f'Your HENDOSHI Vault photo has been reviewed'
+                            subject = 'Your HENDOSHI Vault photo has been reviewed'
                             context = {
                                 'user': photo.user,
                                 'profile': photo.user.userprofile,
@@ -378,9 +378,9 @@ def moderate_photos(request):
                                 html_message=html_message,
                                 fail_silently=True
                             )
-                            messages.success(request, f'Photo by {photo.user.username} rejected and notification email sent.')
+                            messages.success(request, f'Photo by {photo.user.username} rejected and notification email sent.')  # noqa: E501
                         else:
-                            messages.success(request, f'Photo by {photo.user.username} rejected. (User has notifications disabled)')
+                            messages.success(request, f'Photo by {photo.user.username} rejected. (User has notifications disabled)')  # noqa: E501
                     except Exception as e:
                         messages.warning(request, f'Photo rejected but email notification failed: {str(e)}')
                 else:
@@ -407,7 +407,7 @@ def moderate_photos(request):
     if status_filter == 'all':
         photos = VaultPhoto.objects.all().select_related('user').prefetch_related('tagged_products')
     else:
-        photos = VaultPhoto.objects.filter(status=status_filter).select_related('user').prefetch_related('tagged_products')
+        photos = VaultPhoto.objects.filter(status=status_filter).select_related('user').prefetch_related('tagged_products')  # noqa: E501
 
     # Apply search filter if provided
     if search_query:
@@ -471,7 +471,7 @@ def approve_photo(request, photo_id):
                 html_message=html_message,
                 fail_silently=True
             )
-    except Exception as e:
+    except Exception:
         # Email sending failed, but photo is still approved
         pass
 

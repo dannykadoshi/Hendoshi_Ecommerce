@@ -1,7 +1,7 @@
+import os
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.utils import timezone
-from datetime import timedelta
+from django.conf import settings as django_settings
 from products.models import Collection, Product, ProductType
 
 
@@ -99,11 +99,11 @@ def collections(request):
         if product_count > 0:  # Only show collections that have products
             # Get a representative product (first active one with an image)
             representative_product = collection.products.filter(
-                is_active=True, 
+                is_active=True,
                 is_archived=False,
                 main_image__isnull=False
             ).first()
-            
+
             collections_data.append({
                 'name': collection.name,
                 'slug': collection.slug,
@@ -134,12 +134,12 @@ def product_types(request):
         if product_count > 0:
             # Get a representative product (first active one with an image)
             representative_product = Product.objects.filter(
-                product_type=pt, 
-                is_active=True, 
+                product_type=pt,
+                is_active=True,
                 is_archived=False,
                 main_image__isnull=False
             ).first()
-            
+
             product_types_data.append({
                 'name': pt.name,
                 'slug': pt.slug,
@@ -163,44 +163,44 @@ def new_drops(request):
     from django.utils import timezone
     from datetime import timedelta
     from products.models import Collection, ProductType
-    
+
     # Get the most recent products (last 30 days or last 50 products, whichever is smaller)
     thirty_days_ago = timezone.now() - timedelta(days=30)
     recent_products = Product.objects.filter(
-        is_active=True, 
+        is_active=True,
         is_archived=False,
         created_at__gte=thirty_days_ago
     )
-    
+
     # If we have fewer than 20 recent products, get more from the last 60 days
     if recent_products.count() < 20:
         sixty_days_ago = timezone.now() - timedelta(days=60)
         recent_products = Product.objects.filter(
-            is_active=True, 
+            is_active=True,
             is_archived=False,
             created_at__gte=sixty_days_ago
         )
-    
+
     # Get filter parameters
     current_collection = request.GET.get('collection', '')
     current_type = request.GET.get('type', '')
     current_audience = request.GET.get('audience', '')
     sort_param = request.GET.get('sort', '')
-    
+
     # Apply filters
     if current_collection:
         recent_products = recent_products.filter(collection__slug=current_collection)
-    
+
     if current_type:
         try:
             product_type = ProductType.objects.get(slug=current_type)
             recent_products = recent_products.filter(product_type=product_type)
         except ProductType.DoesNotExist:
             pass
-    
+
     if current_audience:
         recent_products = recent_products.filter(audience=current_audience)
-    
+
     # Apply sorting
     sort_by = None
     direction = None
@@ -225,14 +225,14 @@ def new_drops(request):
             recent_products = recent_products.order_by('-created_at')
     else:
         recent_products = recent_products.order_by('-created_at')
-    
+
     # Limit to 50 most recent
     recent_products = recent_products[:50]
-    
+
     # Get all collections and product types for filter dropdown
     collections = Collection.objects.all()
     product_types = ProductType.objects.all()
-    
+
     context = {
         'new_drops': recent_products,
         'total_count': recent_products.count(),
@@ -245,3 +245,11 @@ def new_drops(request):
         'direction': direction,
     }
     return render(request, 'pages/new_drops.html', context)
+
+
+def jshint_report(request):
+    """Serve the JSHint validation report HTML file."""
+    file_path = os.path.join(django_settings.BASE_DIR, 'jshint-report.html')
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    return HttpResponse(content, content_type='text/html')

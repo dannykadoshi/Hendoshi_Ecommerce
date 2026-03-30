@@ -756,6 +756,7 @@ class CheckoutPostFormTests(TestCase):
 
 from unittest.mock import patch, MagicMock
 
+
 @_STATIC
 class PaymentViewTests(TestCase):
     def setUp(self):

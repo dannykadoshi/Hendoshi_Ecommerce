@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import inlineformset_factory, modelformset_factory
+from django.forms import inlineformset_factory
 from .models import Product, ProductVariant, ProductImage, DesignStory, Collection
 from .models import ProductType, ProductReview
 
@@ -96,14 +96,6 @@ class ProductForm(forms.ModelForm):
             raise forms.ValidationError('Product name must be at least 3 characters long.')
         return name
 
-    def clean_main_image(self):
-        image = self.cleaned_data.get('main_image')
-        if image:
-            # Check if it's an image
-            if not image.content_type in ['image/jpeg', 'image/png', 'image/webp']:
-                raise forms.ValidationError('Please upload a valid image file (JPEG, PNG, or WebP).')
-        return image
-
     def clean_base_price(self):
         price = self.cleaned_data.get('base_price')
         if not price:
@@ -114,6 +106,10 @@ class ProductForm(forms.ModelForm):
 
     def clean_main_image(self):
         image = self.cleaned_data.get('main_image')
+        if image:
+            # Check if it's an image
+            if image.content_type not in ['image/jpeg', 'image/png', 'image/webp']:
+                raise forms.ValidationError('Please upload a valid image file (JPEG, PNG, or WebP).')
         # Only require image if creating new product (no instance yet)
         if not image and not self.instance.pk:
             raise forms.ValidationError('Main product image is required.')
@@ -354,15 +350,15 @@ class DesignStoryForm(forms.ModelForm):
         cleaned_data = super().clean()
         title = cleaned_data.get('title')
         story = cleaned_data.get('story')
-        
+
         # If either title or story is provided, both should be provided
         if (title and not story) or (story and not title):
             raise forms.ValidationError('If you provide a design story, both title and content are required.')
-        
+
         # If story is provided, check minimum length
         if story and len(story) < 20:
             raise forms.ValidationError('Story must be at least 20 characters long.')
-        
+
         return cleaned_data
         if len(story) > 500:
             raise forms.ValidationError('Story must be at most 500 characters.')
@@ -457,6 +453,7 @@ class ProductReviewForm(forms.ModelForm):
 
 # ==================== BULK PRODUCT CREATION FORMS ====================
 
+
 class BulkProductSelectionForm(forms.Form):
     """
     Step 1: Select multiple product types and audiences for bulk creation
@@ -470,7 +467,7 @@ class BulkProductSelectionForm(forms.Form):
         label='Select Product Types',
         help_text='Choose one or more product types to create'
     )
-    
+
     audiences = forms.MultipleChoiceField(
         choices=[],  # Will be set in __init__
         widget=forms.CheckboxSelectMultiple(attrs={
@@ -480,13 +477,13 @@ class BulkProductSelectionForm(forms.Form):
         label='Select Audiences',
         help_text='Choose audiences (only applies to product types that require audience)'
     )
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Set audience choices from Product model
         from .models import Product
         self.fields['audiences'].choices = Product.AUDIENCE_CHOICES
-    
+
     def get_combinations(self):
         """
         Returns list of (product_type, audience) combinations.
@@ -494,7 +491,7 @@ class BulkProductSelectionForm(forms.Form):
         """
         product_types = self.cleaned_data.get('product_types', [])
         audiences = self.cleaned_data.get('audiences', [])
-        
+
         combinations = []
         for pt in product_types:
             if pt.requires_audience and audiences:
@@ -504,7 +501,7 @@ class BulkProductSelectionForm(forms.Form):
             else:
                 # Add single combination without audience
                 combinations.append((pt, None))
-        
+
         return combinations
 
 
@@ -521,7 +518,7 @@ class SharedBulkDataForm(forms.Form):
         required=True,
         label='Collection (shared for all products)'
     )
-    
+
     base_design_name = forms.CharField(
         max_length=200,
         widget=forms.TextInput(attrs={
@@ -533,7 +530,7 @@ class SharedBulkDataForm(forms.Form):
         label='Base Design Name',
         help_text='This will be used to generate product names'
     )
-    
+
     base_description = forms.CharField(
         widget=forms.Textarea(attrs={
             'class': 'form-control auth-form-input',
@@ -545,7 +542,7 @@ class SharedBulkDataForm(forms.Form):
         label='Base Description Template',
         help_text='Use {{product_type}} and {{audience}} as placeholders'
     )
-    
+
     meta_description = forms.CharField(
         max_length=160,
         widget=forms.Textarea(attrs={
@@ -557,7 +554,7 @@ class SharedBulkDataForm(forms.Form):
         required=False,
         label='Meta Description Template'
     )
-    
+
     design_story_title = forms.CharField(
         max_length=200,
         widget=forms.TextInput(attrs={
@@ -567,7 +564,7 @@ class SharedBulkDataForm(forms.Form):
         required=False,
         label='Design Story Title (shared for all)'
     )
-    
+
     design_story_content = forms.CharField(
         widget=forms.Textarea(attrs={
             'class': 'form-control auth-form-input',
@@ -587,7 +584,7 @@ class BulkProductItemForm(forms.Form):
     # Hidden fields to track which combination this is
     product_type_id = forms.IntegerField(widget=forms.HiddenInput())
     audience = forms.CharField(widget=forms.HiddenInput(), required=False)
-    
+
     # Product-specific fields
     name = forms.CharField(
         max_length=254,
@@ -598,7 +595,7 @@ class BulkProductItemForm(forms.Form):
         }),
         required=True
     )
-    
+
     base_price = forms.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -610,7 +607,7 @@ class BulkProductItemForm(forms.Form):
         }),
         required=True
     )
-    
+
     sale_price = forms.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -621,7 +618,7 @@ class BulkProductItemForm(forms.Form):
         }),
         required=False
     )
-    
+
     main_image = forms.ImageField(
         widget=forms.FileInput(attrs={
             'class': 'form-control auth-form-input bulk-main-image',
@@ -630,10 +627,10 @@ class BulkProductItemForm(forms.Form):
         }),
         required=True
     )
-    
+
     # Note: Gallery images are handled separately in the view using request.FILES.getlist()
     # We won't define a form field for them here to avoid the multiple files widget issue
-    
+
     # Variants
     sizes = forms.MultipleChoiceField(
         choices=[],  # Set in __init__
@@ -642,7 +639,7 @@ class BulkProductItemForm(forms.Form):
         }),
         required=False
     )
-    
+
     colors = forms.MultipleChoiceField(
         choices=[],  # Set in __init__
         widget=forms.CheckboxSelectMultiple(attrs={
@@ -650,7 +647,7 @@ class BulkProductItemForm(forms.Form):
         }),
         required=False
     )
-    
+
     stock_per_variant = forms.IntegerField(
         widget=forms.NumberInput(attrs={
             'class': 'form-control auth-form-input',
@@ -660,7 +657,7 @@ class BulkProductItemForm(forms.Form):
         label='Stock per Variant',
         help_text='Stock quantity for each size/color combination'
     )
-    
+
     is_active = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={
             'class': 'form-check-input'
@@ -668,7 +665,7 @@ class BulkProductItemForm(forms.Form):
         required=False,
         initial=True
     )
-    
+
     featured = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={
             'class': 'form-check-input'
@@ -676,27 +673,27 @@ class BulkProductItemForm(forms.Form):
         required=False,
         initial=False
     )
-    
+
     def __init__(self, *args, product_type=None, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         # Set size and color choices
         self.fields['sizes'].choices = ProductVariant.SIZE_CHOICES[1:]  # Exclude empty option
         self.fields['colors'].choices = ProductVariant.COLOR_CHOICES[1:]  # Exclude empty option
-        
+
         # Set default stock from product type
         if product_type:
             self.fields['stock_per_variant'].initial = product_type.default_stock
-            
+
             # If product type doesn't require size/color, hide those fields
             if not product_type.requires_size:
                 self.fields['sizes'].widget = forms.HiddenInput()
             if not product_type.requires_color:
                 self.fields['colors'].widget = forms.HiddenInput()
-    
+
     def clean_main_image(self):
         image = self.cleaned_data.get('main_image')
         if image:
-            if not image.content_type in ['image/jpeg', 'image/png', 'image/webp']:
+            if image.content_type not in ['image/jpeg', 'image/png', 'image/webp']:
                 raise forms.ValidationError('Please upload a valid image file (JPEG, PNG, or WebP).')
         return image

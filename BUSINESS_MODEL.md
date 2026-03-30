@@ -1,6 +1,6 @@
 # HENDOSHI Business Model
 
-**[← Back to README](README.md)**
+[![Back to README](https://img.shields.io/badge/←_Back_to_README-0d1117?style=for-the-badge&logo=github&logoColor=white)](README.md)
 
 ---
 
@@ -701,4 +701,4 @@ As a business operating in Ireland and targeting the EU market, HENDOSHI takes d
 
 ---
 
-**[← Back to README](README.md)** | **[View Testing Documentation →](TESTING.md)**
+[![Back to README](https://img.shields.io/badge/←_Back_to_README-0d1117?style=for-the-badge&logo=github&logoColor=white)](README.md) [![View Testing Documentation](https://img.shields.io/badge/View_Testing_Documentation_→-ff1493?style=for-the-badge&logo=checkmarx&logoColor=white)](TESTING.md)

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.views.decorators.cache import cache_control
@@ -26,9 +26,9 @@ def index(request):
         product_count = products.count()
         if product_count > 0:  # Only show collections that have products
             # Get most popular product (featured first, then most recently created)
-            hero_product = (products.filter(featured=True).first() or 
-                          products.order_by('-created_at').first())
-            
+            hero_product = (products.filter(featured=True).first() or
+                            products.order_by('-created_at').first())
+
             collections_data.append({
                 'name': collection.name,
                 'slug': collection.slug,
@@ -163,16 +163,17 @@ def faq(request):
     """
     return render(request, 'home/faq.html')
 
+
 def track_order(request):
     """
     View to handle order tracking
     """
     from checkout.models import Order
-    
+
     if request.method == 'POST':
         order_number = request.POST.get('order_number', '').strip()
         email = request.POST.get('email', '').strip()
-        
+
         try:
             # Find order by order number and email
             order = Order.objects.get(
@@ -183,5 +184,5 @@ def track_order(request):
             return redirect('order_detail', order_number=order.order_number)
         except Order.DoesNotExist:
             messages.error(request, 'Order not found. Please check your order number and email address.')
-    
+
     return render(request, 'home/track_order.html')

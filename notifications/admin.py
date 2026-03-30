@@ -109,7 +109,7 @@ class SentNotificationLogAdmin(admin.ModelAdmin):
 
 
 # Register NewsletterSubscriber
-from .models import NewsletterSubscriber
+from .models import NewsletterSubscriber  # noqa: E402
 
 
 @admin.register(NewsletterSubscriber)

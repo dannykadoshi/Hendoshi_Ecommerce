@@ -166,7 +166,7 @@ def add_to_cart(request, product_id):
                 discount_code = code
                 try:
                     discount_obj = DiscountCode.objects.get(code=code)
-                    is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                    is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)  # noqa: E501
                     if is_valid:
                         discount_amount = discount_obj.calculate_discount(cart_subtotal)
                     else:
@@ -259,7 +259,7 @@ def view_cart(request):
         'discount_code': discount_code,
         'total': total,
     }
-    
+
     return render(request, 'cart/cart.html', context)
 
 
@@ -270,9 +270,9 @@ def update_cart_item(request, item_id):
     if request.method == 'POST':
         cart = get_or_create_cart(request)
         cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
-        
+
         quantity = int(request.POST.get('quantity', 1))
-        
+
         # Check stock availability
         try:
             variant = cart_item.product.variants.get(
@@ -288,14 +288,14 @@ def update_cart_item(request, item_id):
                     })
                 messages.error(request, f'Only {max_stock} items available in stock.')
                 return redirect('view_cart')
-        except:
+        except Exception:
             # No stock information available - allow unlimited quantity
             pass
-        
+
         if quantity > 0:
             cart_item.quantity = quantity
             cart_item.save()
-            
+
             # AJAX response
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 # Recalculate discount from DiscountCode (if applied) based on new subtotal
@@ -308,7 +308,7 @@ def update_cart_item(request, item_id):
                     discount_code = code
                     try:
                         discount_obj = DiscountCode.objects.get(code=code)
-                        is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                        is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)  # noqa: E501
                         if is_valid:
                             discount_amount = discount_obj.calculate_discount(cart_subtotal)
                         else:
@@ -326,11 +326,11 @@ def update_cart_item(request, item_id):
                     'discount_code': discount_code,
                     'cart_total_items': cart.get_total_items()
                 })
-            
+
             messages.success(request, 'Cart updated successfully.')
         else:
             cart_item.delete()
-            
+
             # AJAX response for deletion
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 applied = request.session.get('applied_discount')
@@ -342,7 +342,7 @@ def update_cart_item(request, item_id):
                     discount_code = code
                     try:
                         discount_obj = DiscountCode.objects.get(code=code)
-                        is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                        is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)  # noqa: E501
                         if is_valid:
                             discount_amount = discount_obj.calculate_discount(cart_subtotal)
                         else:
@@ -360,9 +360,9 @@ def update_cart_item(request, item_id):
                     'discount_code': discount_code,
                     'cart_total_items': cart.get_total_items()
                 })
-            
+
             messages.success(request, 'Item removed from cart.')
-    
+
     return redirect('view_cart')
 
 
@@ -374,7 +374,7 @@ def remove_from_cart(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
     product_name = cart_item.product.name
     cart_item.delete()
-    
+
     # AJAX response
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         # Recalculate discount from DiscountCode so frontend sees updated saved amount
@@ -387,7 +387,7 @@ def remove_from_cart(request, item_id):
             discount_code = code
             try:
                 discount_obj = DiscountCode.objects.get(code=code)
-                is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)
+                is_valid, _ = discount_obj.is_valid(cart_subtotal, request.user if request.user.is_authenticated else None)  # noqa: E501
                 if is_valid:
                     discount_amount = discount_obj.calculate_discount(cart_subtotal)
                 else:
@@ -405,7 +405,7 @@ def remove_from_cart(request, item_id):
             'discount_code': discount_code,
             'cart_total_items': cart.get_total_items()
         })
-    
+
     messages.success(request, f'Removed {product_name} from your cart.')
     return redirect('view_cart')
 

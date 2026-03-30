@@ -11,11 +11,11 @@ class Collection(models.Model):
     slug = models.SlugField(max_length=254, unique=True, blank=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='collections/', null=True, blank=True)
-    
+
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Collections'
-    
+
     def save(self, *args, **kwargs):
         """
         Override save method to auto-generate slug from name
@@ -23,7 +23,7 @@ class Collection(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.name
 
@@ -38,7 +38,7 @@ class ProductType(models.Model):
         ('accessory', 'Accessory'),
         ('custom', 'Custom'),
     ]
-    
+
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True, blank=True)
     category = models.CharField(
@@ -76,7 +76,8 @@ class ProductType(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 class Product(models.Model):
     # Soft delete (archive)
     is_archived = models.BooleanField(default=False, help_text="If true, product is archived and hidden from frontend.")
@@ -89,12 +90,12 @@ class Product(models.Model):
         ('sticker', 'Sticker'),
         ('accessory', 'Accessory'),
     ]
-    
+
     # Basic Info
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, unique=True, blank=True)
     description = models.TextField()
-    
+
     # Categorization
     collection = models.ForeignKey(
         'Collection',
@@ -131,7 +132,7 @@ class Product(models.Model):
         if self.product_type:
             return self.product_type.name
         return ''
-    
+
     # Pricing
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     sale_price = models.DecimalField(
@@ -151,25 +152,25 @@ class Product(models.Model):
         blank=True,
         help_text="When the sale ends (optional)"
     )
-    
+
     # Images
     main_image = models.ImageField(upload_to='products/', null=True, blank=True)
-    
+
     # SEO & Marketing
     meta_description = models.CharField(max_length=160, blank=True)
-    
+
     # Status
     is_active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
-    
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ['-created_at']
         verbose_name_plural = 'Products'
-    
+
     def save(self, *args, **kwargs):
         """
         Override save method to auto-generate slug from name
@@ -177,16 +178,16 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.name
-    
+
     def get_available_sizes(self):
         """
         Returns list of sizes that have stock available
         """
         return self.variants.filter(stock__gt=0).values_list('size', flat=True).distinct()
-    
+
     def get_available_colors(self):
         """
         Returns list of colors that have stock available
@@ -253,8 +254,8 @@ class Product(models.Model):
         for item in distribution:
             result[item['rating']] = item['count']
         return result
-    
-    
+
+
 class ProductVariant(models.Model):
     """
     Model for product variants (size and color combinations with individual stock levels)
@@ -291,22 +292,22 @@ class ProductVariant(models.Model):
     )
     size = models.CharField(max_length=10, choices=SIZE_CHOICES, blank=True, default='')
     color = models.CharField(max_length=20, choices=COLOR_CHOICES, blank=True, default='')
-    
+
     # Stock management
     stock = models.IntegerField(default=0)
-    
+
     # POD SKU (for Printify/Printful integration)
     sku = models.CharField(max_length=100, unique=True, blank=True)
-    
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ['size', 'color']
         verbose_name_plural = 'Product Variants'
         unique_together = ['product', 'size', 'color']
-    
+
     def save(self, *args, **kwargs):
         """
         Override save to auto-generate SKU if not provided
@@ -315,24 +316,24 @@ class ProductVariant(models.Model):
             # Build SKU based on available fields
             # Use product ID to ensure uniqueness instead of just truncating slug
             sku_parts = []
-            
+
             # Add product slug (truncate if too long, but include product ID for uniqueness)
             slug_part = self.product.slug[:25] if len(self.product.slug) > 25 else self.product.slug
             sku_parts.append(slug_part)
-            
+
             # Add product ID to ensure uniqueness
             sku_parts.append(f'p{self.product.id}')
-            
+
             if self.size and self.size != 'one_size':
                 sku_parts.append(self.size)
             if self.color and self.color != 'n/a':
                 sku_parts.append(self.color)
-                
+
             # Add a unique identifier if no distinguishing features
             if len(sku_parts) == 2:  # Only slug and product ID
                 import uuid
                 sku_parts.append(str(uuid.uuid4())[:8])
-                
+
             self.sku = '-'.join(sku_parts).upper()
         super().save(*args, **kwargs)
 
@@ -343,14 +344,14 @@ class ProductVariant(models.Model):
         if self.color:
             parts.append(self.get_color_display())
         return ' - '.join(parts) if len(parts) > 1 else parts[0]
-    
+
     @property
     def is_in_stock(self):
         """
         Check if variant has stock available
         """
         return self.stock > 0
-    
+
 
 class DesignStory(models.Model):
     """
@@ -379,12 +380,13 @@ class DesignStory(models.Model):
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         verbose_name_plural = 'Design Stories'
-    
+
     def __str__(self):
-        return f"Story: {self.product.name}"    
+        return f"Story: {self.product.name}"
+
 
 class ProductImage(models.Model):
     """

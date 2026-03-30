@@ -100,7 +100,7 @@ class SeasonalThemeForm(forms.ModelForm):
             # Message Strip help texts
             'show_message_strip': 'Display a scrolling message strip below the page-hero section.',
             'strip_messages': 'Enter messages separated by | (pipe). Each message will be separated by a skull icon.',
-            'strip_color_scheme': 'Choose auto-matching theme colors, the default pink-yellow, or set a custom gradient.',
+            'strip_color_scheme': 'Choose auto-matching theme colors, the default pink-yellow, or set a custom gradient.',  # noqa: E501
             'strip_custom_gradient': 'Only used when Color Scheme is "Custom Gradient".',
             'strip_scroll_speed': 'How fast the text scrolls horizontally.',
         }

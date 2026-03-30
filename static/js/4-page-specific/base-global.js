@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         alert('Could not copy code to clipboard. Code: ' + code);
                     }
-                } catch (e) {}
+                } catch (_) {}
             });
         };
 

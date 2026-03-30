@@ -20,7 +20,7 @@ class AddressAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
         ('Address Information', {
-            'fields': ('full_name', 'phone', 'address', 'address_line_2', 'city', 'state_or_county', 'country', 'postal_code')
+            'fields': ('full_name', 'phone', 'address', 'address_line_2', 'city', 'state_or_county', 'country', 'postal_code')  # noqa: E501
         }),
         ('Settings', {
             'fields': ('is_default',)

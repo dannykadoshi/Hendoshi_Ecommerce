@@ -449,4 +449,3 @@ class OrderHistoryInvalidEndDateTests(TestCase):
     def test_order_history_invalid_end_date_does_not_crash(self):
         resp = self.client.get(reverse('order_history'), {'end_date': 'bad-end-date'})
         self.assertEqual(resp.status_code, 200)
-

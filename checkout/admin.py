@@ -14,12 +14,12 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_number', 'user', 'email', 'status', 'tracking_number', 'carrier', 'total_amount', 'created_at')
+    list_display = ('order_number', 'user', 'email', 'status', 'tracking_number', 'carrier', 'total_amount', 'created_at')  # noqa: E501
     list_filter = ('status', 'payment_status', 'carrier', 'created_at')
     search_fields = ('order_number', 'email', 'user__email', 'tracking_number')
     readonly_fields = ('order_number', 'created_at', 'updated_at', 'get_order_items')
     inlines = [OrderItemInline]
-    
+
     fieldsets = (
         ('Order Information', {
             'fields': ('order_number', 'status', 'payment_status', 'created_at', 'updated_at')
@@ -41,27 +41,27 @@ class OrderAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-    
+
     actions = ['mark_as_shipped', 'mark_as_delivered']
-    
+
     def mark_as_shipped(self, request, queryset):
         """Mark selected orders as shipped"""
         updated = queryset.update(status='shipped')
         self.message_user(request, f'{updated} order(s) marked as shipped.')
     mark_as_shipped.short_description = "Mark selected orders as shipped"
-    
+
     def mark_as_delivered(self, request, queryset):
         """Mark selected orders as delivered"""
         updated = queryset.update(status='delivered')
         self.message_user(request, f'{updated} order(s) marked as delivered.')
     mark_as_delivered.short_description = "Mark selected orders as delivered"
-    
+
     def get_order_items(self, obj):
         items = obj.orderitem_set.all()
         if not items:
             return "No items"
         return ", ".join([f"{item.product.name} x{item.quantity}" for item in items])
-    
+
     get_order_items.short_description = "Order Items"
 
 
@@ -71,10 +71,10 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_filter = ('order__created_at', 'product')
     search_fields = ('order__order_number', 'product__name')
     readonly_fields = ('order', 'product', 'size', 'color', 'quantity', 'price')
-    
+
     def has_add_permission(self, request):
         return False
-    
+
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -93,7 +93,7 @@ class DiscountCodeAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'discount_type', 'expires_at')
     search_fields = ('code',)
     readonly_fields = ('created_at', 'updated_at', 'used_count')
-    
+
     fieldsets = (
         ('Discount Details', {
             'fields': ('code', 'discount_type', 'discount_value', 'banner_message', 'banner_button')

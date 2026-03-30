@@ -6,7 +6,7 @@ def cart_contents(request):
     Context processor to make cart contents available across all templates
     """
     cart_count = 0
-    
+
     try:
         if request.user.is_authenticated:
             cart = Cart.objects.filter(user=request.user).first()
@@ -16,12 +16,12 @@ def cart_contents(request):
                 cart = Cart.objects.filter(session_key=session_key).first()
             else:
                 cart = None
-        
+
         if cart:
             cart_count = cart.get_total_items()
-    except:
+    except Exception:
         cart_count = 0
-    
+
     return {
         'cart_item_count': cart_count
     }

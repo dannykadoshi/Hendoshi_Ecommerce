@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 # Bulk archive (soft delete) products
+
+
 @login_required
 @user_passes_test(lambda u: u.is_staff or u.is_superuser)
 @require_POST
@@ -29,6 +31,8 @@ def bulk_archive_products(request):
     return redirect('products')
 
 # Bulk permanent delete products
+
+
 @login_required
 @user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def bulk_delete_products(request, product_ids=None):
@@ -45,30 +49,29 @@ def bulk_delete_products(request, product_ids=None):
     else:
         messages.info(request, 'No products were deleted.')
     return redirect('products')
-from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.utils import timezone
-from django.contrib import messages
-from django.http import JsonResponse
-from django.views.decorators.cache import cache_control
-from hendoshi_store.cookies import CookieManager
-from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful, ReviewImage
-from .image_utils import optimize_product_images
-from .forms import (
+
+
+from django.shortcuts import render, get_object_or_404, redirect  # noqa: F811,E402
+from django.db.models import Q  # noqa: E402
+from django.contrib.auth.decorators import login_required, user_passes_test  # noqa: F811,E402
+from django.utils import timezone  # noqa: E402
+from django.contrib import messages  # noqa: F811,E402
+from django.http import JsonResponse  # noqa: E402
+from django.views.decorators.cache import cache_control  # noqa: E402
+from hendoshi_store.cookies import CookieManager  # noqa: E402
+from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful, ReviewImage  # noqa: E402,E501
+from .forms import (  # noqa: E402
     ProductForm,
-    ProductVariantForm,
-    ProductImageForm,
     DesignStoryForm,
     ProductVariantFormSet,
     ProductImageFormSet,
     ProductReviewForm,
     VariantSelectionForm
 )
-from django.db import transaction, IntegrityError
-from django.utils.text import slugify
-import logging
-from decimal import Decimal, InvalidOperation
+from django.db import transaction, IntegrityError  # noqa: E402
+from django.utils.text import slugify  # noqa: E402
+import logging  # noqa: E402
+from decimal import Decimal, InvalidOperation  # noqa: E402
 
 
 def search(request):
@@ -85,25 +88,25 @@ def search(request):
     selected_audience = None
     sort = None
     direction = None
-    
+
     if 'q' in request.GET:
         query = request.GET['q'].strip()
         if query:
             # Search in product name, description, and collection tags
             queries = (
-                Q(name__icontains=query) | 
-                Q(description__icontains=query) | 
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
                 Q(collection__name__icontains=query) |
                 Q(collection__description__icontains=query)
             )
             products = products.filter(queries).distinct()
-    
+
     # Filter by collection
     if 'collection' in request.GET:
         selected_collection = request.GET['collection']
         if selected_collection:
             products = products.filter(collection__slug=selected_collection)
-    
+
     # Filter by product type
     if 'type' in request.GET:
         selected_type = request.GET['type']
@@ -113,42 +116,42 @@ def search(request):
                 products = products.filter(product_type=product_type)
             except ProductType.DoesNotExist:
                 products = products.none()
-    
+
     # Filter by audience
     if 'audience' in request.GET:
         selected_audience = request.GET['audience']
         if selected_audience:
             products = products.filter(audience=selected_audience)
-    
+
     # Sorting
     if 'sort' in request.GET:
         sortkey = request.GET['sort']
         sort = sortkey
-        
+
         if sortkey == 'name':
             sortkey = 'name'
         if sortkey == 'price':
             sortkey = 'base_price'
-        
+
         if 'direction' in request.GET:
             direction = request.GET['direction']
             if direction == 'desc':
                 sortkey = f'-{sortkey}'
-        
+
         products = products.order_by(sortkey)
-    
+
     # Pagination
     per_page = 30
     paginator = Paginator(products, per_page)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    
+
     # Get suggestions if no results (similar collections or popular products)
     suggestions = []
     if query and not products.exists():
         # Get popular products as suggestions
         suggestions = Product.objects.filter(is_active=True, is_archived=False).order_by('-id')[:4]
-    
+
     context = {
         'products': page_obj,
         'page_obj': page_obj,
@@ -163,7 +166,7 @@ def search(request):
         'sort_by': sort,
         'direction': direction,
     }
-    
+
     return render(request, 'products/search_results.html', context)
 
 
@@ -219,14 +222,14 @@ def all_products(request):
     selected_type = None
     sort = None
     direction = None
-    
+
     # Search functionality
     if 'q' in request.GET:
         query = request.GET['q']
         if query:
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
-    
+
     # Filter by collection
     if 'collection' in request.GET:
         selected_collection = request.GET['collection']
@@ -240,7 +243,7 @@ def all_products(request):
         else:
             # empty value means all audiences
             pass
-    
+
     # Filter by product type
     if 'type' in request.GET:
         selected_type = request.GET['type']
@@ -250,24 +253,24 @@ def all_products(request):
         except ProductType.DoesNotExist:
             # If type doesn't exist, return no products
             products = products.none()
-    
+
     # Sorting
     if 'sort' in request.GET:
         sortkey = request.GET['sort']
         sort = sortkey
-        
+
         if sortkey == 'name':
             sortkey = 'name'
         if sortkey == 'price':
             sortkey = 'base_price'
-        
+
         if 'direction' in request.GET:
             direction = request.GET['direction']
             if direction == 'desc':
                 sortkey = f'-{sortkey}'
-        
+
         products = products.order_by(sortkey)
-    
+
     # Pagination (30 per page)
     per_page = 30
     paginator = Paginator(products, per_page)
@@ -298,7 +301,7 @@ def all_products(request):
         'current_audience': request.GET.get('audience', None),
         'current_sorting': f'{sort}_{direction}',
     }
-    
+
     return render(request, 'products/products.html', context)
 
 
@@ -429,9 +432,9 @@ def product_detail(request, slug):
 
     # Sort sizes and colors for better display
     size_order = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl']
-    available_sizes = sorted(available_sizes, key=lambda x: size_order.index(x.lower()) if x.lower() in size_order else 999)
+    available_sizes = sorted(available_sizes, key=lambda x: size_order.index(x.lower()) if x.lower() in size_order else 999)  # noqa: E501
     available_colors = sorted(available_colors)
-    
+
     # Create size display mapping for template
     from products.models import ProductVariant
     size_choices_dict = dict(ProductVariant.SIZE_CHOICES)
@@ -440,19 +443,19 @@ def product_detail(request, slug):
     # Get bestsellers based on total quantity sold
     from django.db.models import Sum
     from checkout.models import OrderItem
-    
+
     # Get products ordered by total sales quantity
     bestseller_ids = OrderItem.objects.values('product').annotate(
         total_sold=Sum('quantity')
     ).order_by('-total_sold').values_list('product', flat=True)[:10]
-    
+
     # Get the actual product objects, excluding the current product
     related_products = Product.objects.filter(
         id__in=bestseller_ids,
         is_active=True,
         is_archived=False
     ).exclude(id=product.id)[:4]
-    
+
     # Fallback to featured products if no bestsellers exist
     if not related_products.exists():
         related_products = Product.objects.filter(
@@ -552,7 +555,7 @@ def product_detail(request, slug):
             if product.product_type and pt.id == product.product_type.id:
                 continue
 
-            pattern = rf'^{re.escape(base_design)}\s*(?:-|–)?\s*{re.escape(pt.name)}(?:\s*-\s*(Men|Women|Kids|Unisex))?\s*$'
+            pattern = rf'^{re.escape(base_design)}\s*(?:-|–)?\s*{re.escape(pt.name)}(?:\s*-\s*(Men|Women|Kids|Unisex))?\s*$'  # noqa: E501
 
             # First, try to find a match with the same audience if the current product has one
             match = None
@@ -566,7 +569,7 @@ def product_detail(request, slug):
                     Q(name__iregex=pattern) |
                     Q(name__istartswith=base_design)
                 ).exclude(id=product.id).first()
-            
+
             # If no match with same audience, try with preferred order: unisex > men > women > kids
             if not match:
                 audience_priority = Case(
@@ -577,7 +580,7 @@ def product_detail(request, slug):
                     default=5,
                     output_field=IntegerField()
                 )
-                
+
                 match = Product.objects.filter(
                     product_type=pt,
                     is_active=True,
@@ -611,18 +614,17 @@ def design_products(request, design_slug):
     View to show all products (all types and audiences) for a specific design.
     """
     import re
-    from django.db.models import Q
     from django.utils.text import slugify
-    
+
     # Convert slug back to a searchable name
     design_name = design_slug.replace('-', ' ').title()
-    
+
     # Find all products that match this design base name
     products = Product.objects.filter(
         is_active=True,
         is_archived=False
     ).select_related('product_type', 'collection')
-    
+
     # Filter products that contain the design name
     matching_products = []
     for product in products:
@@ -632,13 +634,13 @@ def design_products(request, design_slug):
         if product.product_type:
             pt_pattern = re.compile(rf'\s*(?:-|–)?\s*{re.escape(product.product_type.name)}\s*$', re.I)
             base_name = re.sub(pt_pattern, '', base_name).strip()
-        
+
         base_name = re.sub(r'\s+', ' ', base_name).strip()
-        
+
         # Check if this product matches the design
         if slugify(base_name) == design_slug:
             matching_products.append(product)
-    
+
     # Get the design name from the first product if available
     if matching_products:
         first_product = matching_products[0]
@@ -649,7 +651,7 @@ def design_products(request, design_slug):
         design_display_name = re.sub(r'\s+', ' ', design_display_name).strip()
     else:
         design_display_name = design_name
-    
+
     # Group products by type and audience for organized display
     products_by_type = {}
     for product in matching_products:
@@ -657,7 +659,7 @@ def design_products(request, design_slug):
         if type_name not in products_by_type:
             products_by_type[type_name] = []
         products_by_type[type_name].append(product)
-    
+
     from django.core.paginator import Paginator
     from django.template.loader import render_to_string
 
@@ -687,7 +689,7 @@ def design_products(request, design_slug):
         'products_by_type': products_by_type,
         'total_products': len(matching_products),
     }
-    
+
     return render(request, 'products/design_products.html', context)
 
 
@@ -931,7 +933,7 @@ def create_product(request):
                             continue
 
                         # Determine whether this audience block should be created.
-                        # Accept explicit checkbox or infer from provided files/variants so admins don't have to tick the box.
+                        # Accept explicit checkbox or infer from provided files/variants so admins don't have to tick the box.  # noqa: E501
                         explicit_flag = bool(request.POST.get(f'enable_audience_{a}'))
                         has_main_image = f'main_image_audience_{a}' in request.FILES
                         has_gallery = bool(request.FILES.getlist(f'gallery_images_audience_{a}'))
@@ -955,7 +957,7 @@ def create_product(request):
                                 featured=base_data.get('featured'),
                                 audience=a,
                             )
-                                # Apply per-audience price override if provided
+                            # Apply per-audience price override if provided
                             price_field = request.POST.get(f'base_price_audience_{a}', '').strip()
                             if price_field:
                                 try:
@@ -975,7 +977,7 @@ def create_product(request):
                             # Log owner if present
                             existing = Product.objects.filter(slug=candidate).first()
                             if existing:
-                                logger.info('Existing product with candidate slug found: id=%s slug=%s', existing.id, existing.slug)
+                                logger.info('Existing product with candidate slug found: id=%s slug=%s', existing.id, existing.slug)  # noqa: E501
 
                             # Attach main image for this audience if provided
                             main_field = f'main_image_audience_{a}'
@@ -988,8 +990,8 @@ def create_product(request):
                                 with transaction.atomic():
                                     copy.save()
                                     logger.info('Saved audience copy id=%s slug=%s', copy.id, copy.slug)
-                            except IntegrityError as ie:
-                                logger.exception('IntegrityError saving copy for audience=%s candidate=%s', a, candidate)
+                            except IntegrityError:
+                                logger.exception('IntegrityError saving copy for audience=%s candidate=%s', a, candidate)  # noqa: E501
                                 # Fallback: append a short uuid fragment to guarantee uniqueness and retry
                                 import uuid
                                 fallback = f"{candidate}-{str(uuid.uuid4())[:8]}"
@@ -998,7 +1000,7 @@ def create_product(request):
                                 try:
                                     with transaction.atomic():
                                         copy.save()
-                                        logger.info('Saved audience copy after fallback id=%s slug=%s', copy.id, copy.slug)
+                                        logger.info('Saved audience copy after fallback id=%s slug=%s', copy.id, copy.slug)  # noqa: E501
                                 except Exception:
                                     logger.exception('Second save attempt failed for audience=%s slug=%s', a, copy.slug)
                                     raise
@@ -1084,7 +1086,7 @@ def create_product(request):
                                 try:
                                     pt_copy.base_price = Decimal(price_field_type)
                                 except (InvalidOperation, ValueError):
-                                    logger.warning('Invalid type price provided for %s: %s', type_slug, price_field_type)
+                                    logger.warning('Invalid type price provided for %s: %s', type_slug, price_field_type)  # noqa: E501
 
                             # Determine audience: hoodies can be men or women based on suffix; dresses always women
                             if base_type == 'hoodie':
@@ -1134,18 +1136,18 @@ def create_product(request):
                                     if sizes and colors:
                                         for sz in sizes:
                                             for col in colors:
-                                                variants_to_create.append({'size': sz, 'color': col, 'stock': default_stock})
+                                                variants_to_create.append({'size': sz, 'color': col, 'stock': default_stock})  # noqa: E501
                                     elif sizes:
                                         for sz in sizes:
                                             variants_to_create.append({'size': sz, 'color': '', 'stock': default_stock})
                                     elif colors:
                                         for col in colors:
-                                            variants_to_create.append({'size': '', 'color': col, 'stock': default_stock})
+                                            variants_to_create.append({'size': '', 'color': col, 'stock': default_stock})  # noqa: E501
                                     else:
                                         # copy variants from primary product if available
                                         if product:
                                             for v in product.variants.all():
-                                                variants_to_create.append({'size': v.size, 'color': v.color, 'stock': v.stock})
+                                                variants_to_create.append({'size': v.size, 'color': v.color, 'stock': v.stock})  # noqa: E501
 
                                     for vv in variants_to_create:
                                         ProductVariant.objects.create(
@@ -1167,9 +1169,9 @@ def create_product(request):
                                             )
                                             ds.save()
                                         except Exception:
-                                            logger.exception('Failed to save design story for product type copy %s', type_slug)
+                                            logger.exception('Failed to save design story for product type copy %s', type_slug)  # noqa: E501
                             except IntegrityError:
-                                logger.exception('IntegrityError saving product type copy %s, retrying with uuid', type_slug)
+                                logger.exception('IntegrityError saving product type copy %s, retrying with uuid', type_slug)  # noqa: E501
                                 import uuid
                                 fallback = f"{candidate}-{str(uuid.uuid4())[:8]}"
                                 pt_copy.slug = fallback
@@ -1180,7 +1182,7 @@ def create_product(request):
                     # Success message: include created type copies
                     created_list = ', '.join(created_type_slugs) if created_type_slugs else ''
                     if 'product' in locals() and product:
-                        messages.success(request, f'Product "{product.name}" created successfully! {"Copies:" if created_list else ""} {created_list}')
+                        messages.success(request, f'Product "{product.name}" created successfully! {"Copies:" if created_list else ""} {created_list}')  # noqa: E501
                         return redirect('product_detail', slug=product.slug)
                     elif created_type_slugs:
                         # No primary product (edge case), redirect to first created copy
@@ -1217,7 +1219,7 @@ def create_product(request):
         variant_selection_form = VariantSelectionForm()
         image_formset = ProductImageFormSet(instance=None)
         design_form = DesignStoryForm()
-    
+
     context = {
         'product_form': product_form,
         'variant_selection_form': variant_selection_form,
@@ -1226,7 +1228,7 @@ def create_product(request):
         'page_title': 'Create Product',
         'is_create': True,
     }
-    
+
     return render(request, 'products/create_product.html', context)
 
 
@@ -1237,7 +1239,7 @@ def edit_product(request, slug):
     View to edit an existing product with variants, images, and design story
     """
     product = get_object_or_404(Product, slug=slug)
-    
+
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES, instance=product)
         variant_formset = ProductVariantFormSet(request.POST, instance=product)
@@ -1250,10 +1252,10 @@ def edit_product(request, slug):
             design_story_instance = None
         design_form = DesignStoryForm(request.POST, instance=design_story_instance)
 
-        if product_form.is_valid() and variant_formset.is_valid() and variant_selection_form.is_valid() and image_formset.is_valid() and design_form.is_valid():
+        if product_form.is_valid() and variant_formset.is_valid() and variant_selection_form.is_valid() and image_formset.is_valid() and design_form.is_valid():  # noqa: E501
             product = product_form.save()
             variant_formset.save()
-            
+
             # Handle new variants from selection form
             if variant_selection_form.is_valid():
                 variants_data = variant_selection_form.generate_variants_data()
@@ -1271,7 +1273,7 @@ def edit_product(request, slug):
                             color=variant_data['color'],
                             stock=variant_data['stock']
                         )
-            
+
             image_formset.save()
 
             # Save design story
@@ -1371,7 +1373,7 @@ def delete_product(request, slug):
 
     if request.method == 'POST':
         if active_order_items.exists():
-            messages.error(request, f'Cannot archive product "{product.name}" because it is part of one or more active orders.')
+            messages.error(request, f'Cannot archive product "{product.name}" because it is part of one or more active orders.')  # noqa: E501
             return redirect('edit_product', slug=product.slug)
         product_name = product.name
         product.is_archived = True
@@ -1720,6 +1722,7 @@ Each description MUST be under 500 characters."""
 # BATTLE VEST (WISHLIST) VIEWS
 # ================================
 
+
 @login_required
 def battle_vest(request):
     """
@@ -1728,20 +1731,20 @@ def battle_vest(request):
     """
     # Get or create user's battle vest
     vest, created = BattleVest.objects.get_or_create(user=request.user)
-    
+
     # Get all items in the vest with related product data
     vest_items = vest.items.select_related('product', 'product__collection').all()
-    
+
     # Calculate total value
     total_value = vest.get_total_value()
-    
+
     context = {
         'vest': vest,
         'vest_items': vest_items,
         'total_value': total_value,
         'item_count': vest.get_item_count(),
     }
-    
+
     return render(request, 'products/battle_vest.html', context)
 
 
@@ -1755,16 +1758,16 @@ def add_to_battle_vest(request, slug):
     try:
         # Get the product
         product = get_object_or_404(Product, slug=slug, is_active=True, is_archived=False)
-        
+
         # Get or create user's battle vest
         vest, created = BattleVest.objects.get_or_create(user=request.user)
-        
+
         # Try to add the item (will fail if duplicate due to unique_together)
         vest_item, item_created = BattleVestItem.objects.get_or_create(
             battle_vest=vest,
             product=product
         )
-        
+
         if item_created:
             # New item added
             return JsonResponse({
@@ -1781,7 +1784,7 @@ def add_to_battle_vest(request, slug):
                 'item_count': vest.get_item_count(),
                 'in_vest': True
             })
-    
+
     except Exception as e:
         return JsonResponse({
             'success': False,
@@ -1799,16 +1802,16 @@ def remove_from_battle_vest(request, slug):
     try:
         # Get the product
         product = get_object_or_404(Product, slug=slug)
-        
+
         # Get user's battle vest
         vest = get_object_or_404(BattleVest, user=request.user)
-        
+
         # Try to find and delete the item
         vest_item = BattleVestItem.objects.filter(
             battle_vest=vest,
             product=product
         ).first()
-        
+
         if vest_item:
             vest_item.delete()
             return JsonResponse({
@@ -1824,7 +1827,7 @@ def remove_from_battle_vest(request, slug):
                 'item_count': vest.get_item_count(),
                 'in_vest': False
             })
-    
+
     except Exception as e:
         return JsonResponse({
             'success': False,
