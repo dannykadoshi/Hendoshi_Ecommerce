@@ -24,37 +24,6 @@
 <!-- Hidden form for CSRF token -->
 <form id="csrfForm" class="d-none">{% csrf_token %}</form>
 
-<!-- Custom Modal for Remove Confirmation -->
-<div id="removeVestModal" class="modal fade vault-confirm-modal" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content vault-modal-content">
-            <div class="modal-header vault-modal-header">
-                <h2 class="modal-title vault-modal-title" id="removeVestModalLabel">
-                    <i class="fas fa-heart-broken vault-modal-icon"></i>
-                    Remove from Battle Vest
-                </h2>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body vault-modal-body">
-                <div class="vault-modal-message-wrapper">
-                    <div class="vault-modal-icon-wrapper">
-                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
-                    </div>
-                    <p class="vault-modal-message">Are you sure you want to remove this item from your Battle Vest?</p>
-                </div>
-            </div>
-            <div class="modal-footer vault-modal-footer">
-                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-danger vault-modal-btn-confirm" id="confirmRemoveVestBtn">
-                    <i class="fas fa-heart-broken"></i> Remove
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="battle-vest-page">
     <!-- Battle Vest Hero -->
     <section class="page-hero">
@@ -79,41 +48,11 @@
         </div>
     </section>
 
-    <!-- Add to Cart Modal -->
-    <div id="addToCartVestModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartVestModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered quick-add-modal-global">
-            <div class="modal-content quick-add-modal-content">
-                <div class="modal-header quick-add-modal-header">
-                    <h2 class="modal-title quick-add-modal-title" id="addToCartVestModalLabel">Add to Bag</h2>
-                    <button type="button" class="btn-close quick-add-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body quick-add-modal-body">
-                    <form id="addToCartVestForm">
-                        <input type="hidden" name="product_id" id="vestProductId">
-                        <div class="quick-add-form-group" id="vestSizeWrapper">
-                            <label class="quick-add-form-label" for="vestSizeSelect">SIZE</label>
-                            <select name="size" id="vestSizeSelect" class="form-select"></select>
-                        </div>
-                        <div class="quick-add-form-group" id="vestColorWrapper">
-                            <label class="quick-add-form-label" for="vestColorSelect">COLOR</label>
-                            <select name="color" id="vestColorSelect" class="form-select"></select>
-                        </div>
-                        <div class="quick-add-form-group">
-                            <label class="quick-add-form-label" for="vestQuantitySelect">QUANTITY</label>
-                            <input type="number" name="quantity" id="vestQuantitySelect" class="form-control" min="1" max="99" value="1" required>
-                        </div>
-                        <button type="submit" class="btn btn-pink quick-add-modal-submit w-100">
-                            <i class="fas fa-shopping-bag"></i> ADD TO BAG
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid battle-vest-container">
 
         {% if vest_items %}
         <!-- Battle Vest Grid -->
+        <h2 class="visually-hidden">Saved Items</h2>
         <div class="battle-vest-grid">
             {% for item in vest_items %}
             <div class="vest-item-card glassmorphic-card" data-slug="{{ item.product.slug }}">
@@ -196,6 +135,69 @@
         </div>
         {% endif %}
 
+    </div>
+</div>
+
+<!-- Custom Modal for Remove Confirmation -->
+<div id="removeVestModal" class="modal fade vault-confirm-modal" tabindex="-1" aria-labelledby="removeVestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content vault-modal-content">
+            <div class="modal-header vault-modal-header">
+                <h2 class="modal-title vault-modal-title" id="removeVestModalLabel">
+                    <i class="fas fa-heart-broken vault-modal-icon"></i>
+                    Remove from Battle Vest
+                </h2>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body vault-modal-body">
+                <div class="vault-modal-message-wrapper">
+                    <div class="vault-modal-icon-wrapper">
+                        <i class="fas fa-exclamation-triangle vault-modal-main-icon"></i>
+                    </div>
+                    <p class="vault-modal-message">Are you sure you want to remove this item from your Battle Vest?</p>
+                </div>
+            </div>
+            <div class="modal-footer vault-modal-footer">
+                <button type="button" class="btn btn-outline-secondary vault-modal-btn-cancel" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger vault-modal-btn-confirm" id="confirmRemoveVestBtn">
+                    <i class="fas fa-heart-broken"></i> Remove
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add to Cart Modal -->
+<div id="addToCartVestModal" class="modal fade" tabindex="-1" aria-labelledby="addToCartVestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered quick-add-modal-global">
+        <div class="modal-content quick-add-modal-content">
+            <div class="modal-header quick-add-modal-header">
+                <h2 class="modal-title quick-add-modal-title" id="addToCartVestModalLabel">Add to Bag</h2>
+                <button type="button" class="btn-close quick-add-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body quick-add-modal-body">
+                <form id="addToCartVestForm">
+                    <input type="hidden" name="product_id" id="vestProductId">
+                    <div class="quick-add-form-group" id="vestSizeWrapper">
+                        <label class="quick-add-form-label" for="vestSizeSelect">SIZE</label>
+                        <select name="size" id="vestSizeSelect" class="form-select"></select>
+                    </div>
+                    <div class="quick-add-form-group" id="vestColorWrapper">
+                        <label class="quick-add-form-label" for="vestColorSelect">COLOR</label>
+                        <select name="color" id="vestColorSelect" class="form-select"></select>
+                    </div>
+                    <div class="quick-add-form-group">
+                        <label class="quick-add-form-label" for="vestQuantitySelect">QUANTITY</label>
+                        <input type="number" name="quantity" id="vestQuantitySelect" class="form-control" min="1" max="99" value="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-pink quick-add-modal-submit w-100">
+                        <i class="fas fa-shopping-bag"></i> ADD TO BAG
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
