@@ -3,576 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSHint Code Quality Report - HENDOSHI E-Commerce</title>
+    <title>JSHint Validation Report — HENDOSHI</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f0f;
+            color: #e8e8e8;
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-bottom: 3px solid #ff1493;
             padding: 40px;
             text-align: center;
-            border-bottom: 4px solid #667eea;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
         }
 
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.95;
-            margin-bottom: 5px;
-        }
-
-        .header .timestamp {
-            font-size: 0.95em;
-            opacity: 0.85;
-            margin-top: 12px;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .metric-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid #667eea;
-            transition: transform 0.2s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .metric-card.success {
-            border-left-color: #4CAF50;
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-        }
-
-        .metric-card.warning {
-            border-left-color: #FFC107;
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
-        }
-
-        .metric-card.info {
-            border-left-color: #2196F3;
-            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
-        }
-
-        .metric-card .number {
-            font-size: 3em;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        .metric-card .label {
-            font-size: 0.95em;
-            color: #555;
-            font-weight: 500;
-        }
-
-        .section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
+        .header .subtitle {
+            color: #aaa;
+            font-size: 0.95rem;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-            font-weight: 700;
         }
 
-        .progress-container {
-            margin-bottom: 25px;
-        }
-
-        .progress-label {
+        .badge-row {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            background: #e0e0e0;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
-            display: flex;
-            align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.85em;
-            font-weight: 600;
-            transition: width 0.3s ease;
-        }
-
-        .progress-fill.warning {
-            background: linear-gradient(90deg, #FFC107 0%, #FFB300 100%);
-        }
-
-        .error-list {
-            background: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .error-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            background: white;
-            border-left: 4px solid #F44336;
-            border-radius: 4px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9em;
-        }
-
-        .error-item.info {
-            border-left-color: #2196F3;
-        }
-
-        .error-item .file {
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .error-item .location {
-            color: #999;
-            margin-left: 10px;
-        }
-
-        .error-item .message {
-            display: block;
-            margin-top: 5px;
-            color: #555;
-        }
-
-        .summary-box {
-            background: linear-gradient(135deg, #e0e7ff 0%, #f3e5f5 100%);
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 5px solid #667eea;
-            margin-bottom: 25px;
-        }
-
-        .summary-box h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .summary-box p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 8px;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
         }
 
         .badge {
-            display: inline-block;
-            padding: 4px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 0.85em;
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-right: 8px;
-            margin-bottom: 8px;
         }
 
-        .badge.error {
-            background: #FFEBEE;
-            color: #C62828;
+        .badge-pass { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #22c55e; }
+        .badge-info { background: rgba(255, 20, 147, 0.15); border: 1px solid #ff1493; color: #ff1493; }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            padding: 32px 40px;
+            background: #141414;
+            border-bottom: 1px solid #2a2a2a;
         }
 
-        .badge.warning {
-            background: #FFF3E0;
-            color: #E65100;
+        .stat-card {
+            background: #1e1e1e;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
         }
 
-        .badge.info {
-            background: #E3F2FD;
-            color: #1565C0;
+        .stat-card.pass { border-color: rgba(34, 197, 94, 0.3); }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #22c55e;
+            line-height: 1;
         }
 
-        .badge.success {
-            background: #E8F5E9;
-            color: #2E7D32;
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .recommendations {
-            background: linear-gradient(135deg, #f0f4ff 0%, #f5e6ff 100%);
-            padding: 25px;
+        .section {
+            padding: 32px 40px;
+            border-bottom: 1px solid #1e1e1e;
+        }
+
+        .section h2 {
+            font-size: 1.1rem;
+            color: #ff1493;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .config-block {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
             border-radius: 8px;
-            margin-top: 30px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #ccc;
+            white-space: pre;
+            overflow-x: auto;
         }
 
-        .recommendations h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2em;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
         }
 
-        .recommendations ol {
-            margin-left: 20px;
-            line-height: 1.8;
+        thead th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #1e1e1e;
+            color: #888;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #2a2a2a;
         }
 
-        .recommendations li {
-            margin-bottom: 10px;
-            color: #555;
+        tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #1a1a1a;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover { background: #1a1a1a; }
+
+        .file-path {
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            color: #ccc;
+        }
+
+        .file-module {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .result-pass {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 0.82rem;
         }
 
         .footer {
-            background: #f5f5f5;
-            padding: 20px 40px;
+            padding: 24px 40px;
+            background: #0a0a0a;
             text-align: center;
-            font-size: 0.9em;
-            color: #777;
-            border-top: 1px solid #ddd;
+            color: #555;
+            font-size: 0.82rem;
         }
 
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .status-indicator.success {
-            background: #4CAF50;
-        }
-
-        .status-indicator.warning {
-            background: #FFC107;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .file-category {
-            margin-bottom: 30px;
-            background: #fafafa;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .file-category-title {
-            font-weight: 700;
-            color: #667eea;
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .code-block {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-            margin: 10px 0;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.85em;
-            line-height: 1.4;
-        }
+        .footer a { color: #ff1493; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🔍 JSHint Code Quality Report</h1>
-            <p>HENDOSHI E-Commerce Platform - JavaScript Analysis</p>
-            <div class="timestamp">Generated: March 26, 2026</div>
-        </div>
 
-        <div class="content">
-            <!-- Key Metrics -->
-            <div class="metrics-grid">
-                <div class="metric-card success">
-                    <div class="label">Total Files Analyzed</div>
-                    <div class="number">34</div>
-                </div>
-                <div class="metric-card success">
-                    <div class="label">JSHint Warnings</div>
-                    <div class="number">0</div>
-                </div>
-                <div class="metric-card success">
-                    <div class="label">Errors Fixed</div>
-                    <div class="number">45+</div>
-                </div>
-                <div class="metric-card info">
-                    <div class="label">False Positives Removed</div>
-                    <div class="number">90%</div>
-                </div>
-            </div>
-
-            <!-- Overview Section -->
-            <div class="section">
-                <h2 class="section-title">📊 Project Status Overview</h2>
-                
-                <div class="summary-box">
-                    <h3><span class="status-indicator success"></span>PERFECT - Zero Errors Achieved</h3>
-                    <p>
-                        Your JavaScript codebase has been thoroughly analyzed and optimized to the highest standards. 
-                        All errors have been resolved and the code is production-ready.
-                    </p>
-                    <div style="margin-top: 12px;">
-                        <span class="badge success">✓ Zero JSHint errors</span>
-                        <span class="badge success">✓ Zero syntax errors</span>
-                        <span class="badge success">✓ Zero undefined references</span>
-                        <span class="badge success">✓ Production ready</span>
-                    </div>
-                </div>
-
-                <div class="progress-container">
-                    <div class="progress-label">
-                        <span>Code Quality Score</span>
-                        <span>100%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 100%;">100% PERFECT</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Issues Fixed Section -->
-            <div class="section">
-                <h2 class="section-title">✅ All Fixed Issues (45+)</h2>
-                
-                <div class="file-category">
-                    <div class="file-category-title">1. Undefined Functions - FIXED</div>
-                    <p style="margin-bottom: 15px; color: #666;">Created comprehensive toast notification system and exposed global functions</p>
-                    <div class="error-list">
-                        <div class="error-item info">
-                            <span class="file">✓ Created:</span> <span class="location">static/js/1-core/toast-notifications.js</span>
-                            <span class="message">Global showToast() utility with success/error/warning/info types</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">showCartDrawer()</span>
-                            <span class="message">Exposed to window scope in base-global.js</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">closeConfirmationModal()</span>
-                            <span class="message">Properly defined and exposed</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">updateCartCount()</span>
-                            <span class="message">Window scope exposure in base-global.js</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">8+ More Functions</span>
-                            <span class="message">votePhoto, likePhotoUnified, closeBulkReviewConfirmModal, etc.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="file-category">
-                    <div class="file-category-title">2. Unused Variables - REMOVED (20+)</div>
-                    <p style="margin-bottom: 15px; color: #666;">Cleaned up all unused parameters and variables</p>
-                    <div class="error-list">
-                        <div class="error-item info">
-                            <span class="file">✓ Removed:</span> <span class="location">error</span>
-                            <span class="message">Catch block parameters in product-detail.js, quick-add.js, payment.js</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Removed:</span> <span class="location">index, idx, caption, title, productName</span>
-                            <span class="message">Unused function parameters in forEach callbacks</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Removed:</span> <span class="location">discountClose, discountMessage, forceShow</span>
-                            <span class="message">Form field references in base-global.js discount banner code</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="file-category">
-                    <div class="file-category-title">3. Function Declaration Issues - FIXED (8)</div>
-                    <p style="margin-bottom: 15px; color: #666;">Converted function declarations inside blocks to expressions</p>
-                    <div class="error-list">
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">checkout.js:102</span>
-                            <span class="message">updateStateLabel function moved to const expression</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">profiles.js:36</span>
-                            <span class="message">updateOptionsState converted to function expression</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">admin-theme-form.js:50</span>
-                            <span class="message">toggleStripSettings now uses proper function expression</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">5+ More Files</span>
-                            <span class="message">create-product.js, edit-product-forms.js, and base-global.js</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="file-category">
-                    <div class="file-category-title">4. Expression Statement Errors - FIXED</div>
-                    <p style="margin-bottom: 15px; color: #666;">Fixed misleading line breaks in ternary operators</p>
-                    <div class="error-list">
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">stripe-payment.js:70</span>
-                            <span class="message">Wrapped complex expressions in parentheses for clarity</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">product-reviews.js:196</span>
-                            <span class="message">Proper ternary operator formatting</span>
-                        </div>
-                        <div class="error-item info">
-                            <span class="file">✓ Fixed:</span> <span class="location">quick-add.js:155</span>
-                            <span class="message">Expression boundary clarity improved</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Remaining Issues Section -->
-            <div class="section">
-                <h2 class="section-title">✅ Final Status - Zero Warnings</h2>
-                
-                <div class="summary-box">
-                    <h3>🎉 All JSHint errors have been resolved!</h3>
-                    <p>
-                        Your JavaScript codebase now passes JSHint validation with zero errors, zero warnings, 
-                        and zero notices. The code adheres to professional JavaScript standards and best practices.
-                    </p>
-                    <div style="margin-top: 12px;">
-                        <span class="badge success">✓ Zero errors</span>
-                        <span class="badge success">✓ Zero warnings</span>
-                        <span class="badge success">✓ Zero notices</span>
-                        <span class="badge success">✓ 100% compliant</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Configuration Section -->
-            <div class="section">
-                <h2 class="section-title">⚙️ Configuration Changes</h2>
-                
-                <div class="file-category">
-                    <div class="file-category-title">.jshintrc - Updated for Modern JavaScript</div>
-                    <p style="margin-bottom: 15px; color: #666;">Configured for ES11 (ES2020) standard with 30+ global identifiers</p>
-                    <div class="code-block">{
-  "esversion": 11,
-  "node": true,
-  "browser": true,
-  "undef": true,
-  "unused": true,
-  "globals": {
-    "Stripe": false,
-    "cloudinary": false,
-    "Quill": false,
-    "bootstrap": false,
-    "showToast": false,
-    "showCartDrawer": false,
-    "updateCartCount": false,
-    // ... 20+ more
-  }
-}</div>
-                </div>
-
-                <div class="file-category">
-                    <div class="file-category-title">base.html - Script Loading Order</div>
-                    <p style="margin-bottom: 15px; color: #666;">Toast notifications loaded first without defer for early availability</p>
-                    <div class="code-block">&lt;!-- Toast notifications must load first --&gt;
-&lt;script src="{% static 'js/1-core/toast-notifications.js' %}"&gt;&lt;/script&gt;
-&lt;!-- Other scripts with defer --&gt;
-&lt;script defer src="{% static 'js/1-core/base.js' %}"&gt;&lt;/script&gt;</div>
-                </div>
-            </div>
-
-            <!-- Recommendations Section -->
-            <div class="recommendations">
-                <h3>📋 Key Takeaways</h3>
-                <ol>
-                    <li><strong>Zero Errors Achieved:</strong> Your JavaScript code now meets the highest professional standards with zero JSHint errors, ensuring maximum code quality and maintainability.</li>
-                    <li><strong>Production Ready:</strong> The code is fully optimized and ready for production deployment with complete confidence.</li>
-                    <li><strong>Best Practices:</strong> All code follows JavaScript best practices including proper function scoping, error handling, and modern ES11+ syntax.</li>
-                    <li><strong>Maintainability:</strong> Code is clean, well-structured, and easy to maintain for future developers.</li>
-                    <li><strong>Quality Assurance:</strong> Use this report as part of your quality assurance documentation.</li>
-                </ol>
-            </div>
-
-            <!-- Summary Section -->
-            <div class="section">
-                <h2 class="section-title">🎯 Summary</h2>
-                
-                <div class="summary-box">
-                    <h3>Results: 100% Code Quality Achieved!</h3>
-                    <p><strong>Starting Point:</strong> 2,043 JSHint warnings (mostly ES6+ false positives)</p>
-                    <p><strong>Final Result:</strong> 0 warnings - Zero errors, perfect compliance</p>
-                    <p><strong>Improvement:</strong> 100% error reduction</p>
-                    <p style="margin-top: 15px; font-weight: 600;">
-                        ✅ All syntax errors eliminated<br>
-                        ✅ All undefined references fixed<br>
-                        ✅ All unused variables removed<br>
-                        ✅ All code style issues resolved<br>
-                        ✅ Production-ready JavaScript codebase
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>JSHint Code Quality Report | HENDOSHI E-Commerce | Generated March 26, 2026</p>
-            <p style="margin-top: 8px; opacity: 0.7;">Zero Errors - 100% Compliant ✓</p>
-        </div>
+<div class="header">
+    <h1>JSHint Validation Report</h1>
+    <p class="subtitle">HENDOSHI E-Commerce — JavaScript Code Quality</p>
+    <div class="badge-row">
+        <span class="badge badge-pass">✓ 0 Errors</span>
+        <span class="badge badge-pass">✓ 47 Files Passed</span>
+        <span class="badge badge-info">ESVersion: ES2020 (ES11)</span>
+        <span class="badge badge-info">Run: 30 March 2026</span>
     </div>
+</div>
+
+<div class="summary-grid">
+    <div class="stat-card pass">
+        <div class="stat-number">47</div>
+        <div class="stat-label">Files Validated</div>
+    </div>
+    <div class="stat-card pass">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Errors</div>
+    </div>
+    <div class="stat-card pass">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Warnings</div>
+    </div>
+    <div class="stat-card pass">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Pass Rate</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>JSHint Configuration</h2>
+    <div class="config-block">/* jshint esversion: 11 */
+/* jshint browser: true */
+/* jshint devel: true */
+/* globals $, jQuery, bootstrap, Stripe, Quill, ClipboardJS, grecaptcha, cloudinary, gtag */</div>
+</div>
+
+<div class="section">
+    <h2>File Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Module</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="file-path">1-core/utils.js</td><td class="file-module">Core Utilities</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">1-core/base.js</td><td class="file-module">Core Base</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">1-core/toast-notifications.js</td><td class="file-module">Core</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">2-components/navigation-dropdown.js</td><td class="file-module">Navigation</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">2-components/theme-toggle.js</td><td class="file-module">UI Component</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">2-components/carousels.js</td><td class="file-module">UI Component</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">2-components/hero-carousel.js</td><td class="file-module">UI Component</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">2-components/newsletter-popup.js</td><td class="file-module">Marketing</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">2-components/newsletter-validation.js</td><td class="file-module">Marketing</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/vault/vault.js</td><td class="file-module">Vault Gallery</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/vault/vault-hall-of-fame.js</td><td class="file-module">Vault Gallery</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/checkout/stripe-payment.js</td><td class="file-module">Checkout / Stripe</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/checkout/checkout.js</td><td class="file-module">Checkout</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/contact/order-detail.js</td><td class="file-module">Contact / Orders</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/contact/contact.js</td><td class="file-module">Contact</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/admin/admin-forms.js</td><td class="file-module">Admin</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/products/battle-vest.js</td><td class="file-module">Products / Wishlist</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/profiles/notification-preferences.js</td><td class="file-module">Profiles</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/profiles/address-form.js</td><td class="file-module">Profiles</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/profiles/profile.js</td><td class="file-module">Profiles</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">3-features/themes/seasonal_themes.js</td><td class="file-module">Seasonal Themes</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/base-global.js</td><td class="file-module">Global Page</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/cart.js</td><td class="file-module">Cart</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/payment.js</td><td class="file-module">Payment</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/product-detail.js</td><td class="file-module">Product Detail</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/product-detail-main.js</td><td class="file-module">Product Detail</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/product-reviews.js</td><td class="file-module">Product Reviews</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/quick-add.js</td><td class="file-module">Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/products-filters.js</td><td class="file-module">Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/products-infinite-scroll.js</td><td class="file-module">Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/create-product.js</td><td class="file-module">Admin / Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/create-product-mode.js</td><td class="file-module">Admin / Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/edit-product-forms.js</td><td class="file-module">Admin / Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/edit-product-quill.js</td><td class="file-module">Admin / Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/bulk-create-form.js</td><td class="file-module">Admin / Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/bulk-select-types.js</td><td class="file-module">Admin / Products</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/admin-theme-form.js</td><td class="file-module">Admin / Themes</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/admin-theme-preview.js</td><td class="file-module">Admin / Themes</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/admin-review-detail.js</td><td class="file-module">Admin / Reviews</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/theme-animation-layer.js</td><td class="file-module">Themes</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/cookie-consent.js</td><td class="file-module">Cookie Consent</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/cookie-settings.js</td><td class="file-module">Cookie Consent</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/signup.js</td><td class="file-module">Auth</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/login.js</td><td class="file-module">Auth</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/password-change.js</td><td class="file-module">Auth</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">4-page-specific/password-reset.js</td><td class="file-module">Auth</td><td><span class="result-pass">✓ Pass</span></td></tr>
+            <tr><td class="file-path">5-utils/count-up.js</td><td class="file-module">Utilities</td><td><span class="result-pass">✓ Pass</span></td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">
+    <p>JSHint v2.13.6 &nbsp;·&nbsp; ES2020 (ES11) &nbsp;·&nbsp; 47 files validated &nbsp;·&nbsp; 0 errors &nbsp;·&nbsp; 30 March 2026</p>
+    <p style="margin-top:6px;">
+        <a href="https://jshint.com/" target="_blank" rel="noopener noreferrer">jshint.com</a>
+        &nbsp;·&nbsp;
+        <a href="https://hendoshi-store.onrender.com" target="_blank" rel="noopener noreferrer">hendoshi-store.onrender.com</a>
+    </p>
+</div>
+
 </body>
 </html>
