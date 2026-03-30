@@ -570,7 +570,7 @@ Wireframes were created during the planning phase to define page layout and user
 
 **Moderation**
 
-![Vault Admin Moderation](assets/readme/moderation-queeu.png)
+![Vault Admin Moderation](assets/readme/moderation-queue.png)
 - **Moderation Queue** — All submissions are reviewed by an admin before appearing publicly
 - **Approval/Rejection Notifications** — Email sent to the submitter on status change
 ![Approval/Rejection Notifications](assets/readme/approval-email-vault.png)
@@ -821,7 +821,7 @@ Staff can generate content for products using Google Gemini AI via three built-i
 
 **Vault Moderation Queue:**
 
-![Vault Moderation Queue](assets/readme/moderation-queeu.png)
+![Vault Moderation Queue](assets/readme/moderation-queue.png)
 
 - View all pending Vault photo submissions
 - Approve (AJAX, no page reload) or reject with reason message
