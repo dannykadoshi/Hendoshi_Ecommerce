@@ -94,8 +94,7 @@
 
 ## 💼 Business Model
 
-**Click button to access it**  
-[![Business Model Documentation](https://img.shields.io/badge/Documentation-BUSINESS_MODEL-CCFF00?style=flat-square)](BUSINESS_MODEL.md)
+[![Business Model Documentation](https://img.shields.io/badge/Business_Model-Documentation-CCFF00?style=for-the-badge)](BUSINESS_MODEL.md)
 
 HENDOSHI operates on a **B2C (Business-to-Consumer) e-commerce model** with Print-on-Demand (POD) integration for sustainable inventory management.
 
