@@ -54,6 +54,28 @@
 <!-- Schema.org Product Structured Data -->
 <script type="application/ld+json">
 {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "description": "{{ product.name }} from HENDOSHI - Metal-inspired apparel with original designs",
+  "url": "{{ request.build_absolute_uri }}",
+  {% if product.main_image %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}",{% endif %}
+  "brand": {
+    "@type": "Brand",
+    "name": "HENDOSHI"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price }}",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/{% if product.stock_quantity > 0 %}InStock{% else %}OutOfStock{% endif %}"
+  }{% if product.average_rating %},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product.average_rating }}",
+    "reviewCount": "{{ product.reviews.all|length }}"
+  }{% endif %}
+}
 </script>
 
 {% endblock %}
