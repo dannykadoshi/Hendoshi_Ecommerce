@@ -2735,8 +2735,8 @@ body .vault-featured-card.glassmorphic-card {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: rgba(255, 20, 147, 0.1);
-    border: 1px solid rgba(255, 20, 147, 0.25);
+    background: rgba(255, 20, 147, 0.12);
+    border: 1px solid rgba(255, 20, 147, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2745,15 +2745,21 @@ body .vault-featured-card.glassmorphic-card {
     margin-bottom: 0.5rem;
 }
 
+.vault-empty-icon-wrap i {
+    color: var(--neon-pink);
+}
+
 .vault-empty-icon-wrap.vault-empty-filter-icon {
-    background: rgba(255, 193, 7, 0.1);
-    border-color: rgba(255, 193, 7, 0.25);
+    background: rgba(255, 193, 7, 0.12);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+
+.vault-empty-icon-wrap.vault-empty-filter-icon i {
     color: #ffc107;
 }
 
 .vault-empty-subtitle {
-    color: var(--off-white);
-    opacity: 0.7;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 0.95rem;
     margin: 0;
 }

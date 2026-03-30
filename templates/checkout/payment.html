@@ -116,7 +116,7 @@
                                 <label class="form-label" id="card-element-label">
                                     Card Details <span class="text-danger">*</span>
                                 </label>
-                                <div id="card-element" class="stripe-card-element" aria-label="Card input" aria-labelledby="card-element-label" tabindex="0"></div>
+                                <div id="card-element" class="stripe-card-element" role="group" aria-label="Card input" aria-labelledby="card-element-label" tabindex="0"></div>
                                 <div id="card-errors" class="card-errors" role="alert" aria-live="polite"></div>
                                 <small class="form-text test-card-hint">
                                     <i class="fas fa-lightbulb"></i> Test with <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0025 0000 3155</strong> (3D Secure).
@@ -204,8 +204,8 @@
 
                     <details class="order-items-details">
                         <summary class="d-flex justify-content-between align-items-center">
-                            <div class="small text-muted">View Items ({{ order.items.count }})</div>
-                            <div class="toggle-icon">▶</div>
+                            <span class="small text-muted">View Items ({{ order.items.count }})</span>
+                            <span class="toggle-icon">▶</span>
                         </summary>
                         <div class="items-list mt-2">
                             {% for item in order.items.all %}
@@ -276,14 +276,8 @@
     </div>
 </div>
 
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/3-features/checkout/stripe-payment.js' %}"></script>
-<script src="{% static 'js/4-page-specific/payment.js' %}"></script>
-
 <!-- Shipping Rate Selection Modal -->
-<div class="modal fade vault-confirm-modal" id="shippingModal" tabindex="-1" aria-labelledby="shippingModalLabel" aria-hidden="true"
+<div class="modal fade vault-confirm-modal" id="shippingModal" role="dialog" tabindex="-1" aria-labelledby="shippingModalLabel" aria-hidden="true"
      data-update-url="{% url 'update_order_shipping' order.order_number %}"
      data-order-subtotal="{{ order.subtotal|floatformat:2 }}"
      data-order-discount="{{ order.discount_amount|floatformat:2 }}"
@@ -291,10 +285,10 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content vault-modal-content">
             <div class="modal-header vault-modal-header">
-                <h5 class="modal-title vault-modal-title" id="shippingModalLabel">
+                <h3 class="modal-title vault-modal-title" id="shippingModalLabel">
                     <i class="fas fa-shipping-fast vault-modal-icon"></i>
                     Select Shipping Rate
-                </h5>
+                </h3>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body vault-modal-body">
@@ -335,7 +329,10 @@
         </div>
     </div>
 </div>
-</div>
-<!-- /page-container -->
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/3-features/checkout/stripe-payment.js' %}"></script>
+<script src="{% static 'js/4-page-specific/payment.js' %}"></script>
 {% endblock %}
