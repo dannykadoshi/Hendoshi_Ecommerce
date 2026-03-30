@@ -96,7 +96,7 @@ class Command(BaseCommand):
                         plain_message = f"""
                         Hi {photo.user.first_name or photo.user.username},
 
-                        Congratulations! Your photo has been selected as one of this week's featured photos in The HENDOSHI Vault!
+                        Congratulations! Your photo has been selected as one of this week's featured photos in The HENDOSHI Vault!  # noqa: E501
 
                         Photo: "{photo.caption or 'Untitled'}"
                         Featured until: {featured_until.strftime('%B %d, %Y')}

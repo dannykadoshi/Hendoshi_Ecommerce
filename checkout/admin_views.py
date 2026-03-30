@@ -12,6 +12,7 @@ from .forms import DiscountCodeForm
 from .forms import ShippingRateForm
 from .models import ShippingRate
 
+
 @staff_member_required
 def admin_orders_list(request):
     # Filtering
@@ -25,7 +26,7 @@ def admin_orders_list(request):
     if status:
         orders = orders.filter(status=status)
     if search:
-        orders = orders.filter(Q(order_number__icontains=search) | Q(email__icontains=search) | Q(user__email__icontains=search))
+        orders = orders.filter(Q(order_number__icontains=search) | Q(email__icontains=search) | Q(user__email__icontains=search))  # noqa: E501
     if start_date:
         try:
             start = datetime.strptime(start_date, '%Y-%m-%d')
@@ -80,7 +81,7 @@ def admin_discount_codes_list(request):
     search = request.GET.get('search', '')
     is_active = request.GET.get('is_active', '')
     sort = request.GET.get('sort', '-created_at')
-    
+
     discount_codes = DiscountCode.objects.all()
 
     if search:
@@ -90,7 +91,7 @@ def admin_discount_codes_list(request):
             discount_codes = discount_codes.filter(is_active=True)
         elif is_active == 'inactive':
             discount_codes = discount_codes.filter(is_active=False)
-    
+
     if sort:
         discount_codes = discount_codes.order_by(sort)
 
@@ -116,7 +117,7 @@ def admin_discount_codes_create(request):
             return redirect('admin_discount_codes_list')
     else:
         form = DiscountCodeForm()
-    
+
     return render(request, 'checkout/admin_discount_codes_form.html', {
         'form': form,
         'title': 'Create Discount Code',
@@ -127,7 +128,7 @@ def admin_discount_codes_create(request):
 @staff_member_required
 def admin_discount_codes_edit(request, code_id):
     code = get_object_or_404(DiscountCode, id=code_id)
-    
+
     if request.method == 'POST':
         form = DiscountCodeForm(request.POST, instance=code)
         if form.is_valid():
@@ -136,7 +137,7 @@ def admin_discount_codes_edit(request, code_id):
             return redirect('admin_discount_codes_list')
     else:
         form = DiscountCodeForm(instance=code)
-    
+
     return render(request, 'checkout/admin_discount_codes_form.html', {
         'form': form,
         'title': 'Edit Discount Code',
@@ -150,10 +151,10 @@ def admin_discount_codes_toggle(request, code_id):
         code = get_object_or_404(DiscountCode, id=code_id)
         code.is_active = not code.is_active
         code.save()
-        
+
         status = 'activated' if code.is_active else 'paused'
         messages.success(request, f'Discount code {code.code} has been {status}!')
-    
+
     return redirect('admin_discount_codes_list')
 
 
@@ -164,7 +165,7 @@ def admin_discount_codes_delete(request, code_id):
         code_name = code.code
         code.delete()
         messages.success(request, f'Discount code {code_name} has been deleted!')
-    
+
     return redirect('admin_discount_codes_list')
 
 

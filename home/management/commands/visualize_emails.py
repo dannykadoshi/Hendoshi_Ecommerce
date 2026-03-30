@@ -1,7 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-import os
 
 
 class Command(BaseCommand):
@@ -23,7 +21,7 @@ class Command(BaseCommand):
             'email': 'john.doe@example.com',
             'subject': 'Order Issue',
             'order_number': 'ORD-12345',
-            'message': 'I received the wrong item in my order. I ordered a blue hoodie but received a red one. Please help me resolve this issue.',
+            'message': 'I received the wrong item in my order. I ordered a blue hoodie but received a red one. Please help me resolve this issue.',  # noqa: E501
         }
 
         template_choice = options['template']

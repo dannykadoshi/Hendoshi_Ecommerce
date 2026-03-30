@@ -5,8 +5,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from vault.models import VaultPhoto
 from products.models import Product
-import os
-from django.core.files import File
 
 
 class Command(BaseCommand):
@@ -78,7 +76,7 @@ class Command(BaseCommand):
 
         # Send the rejection email (or simulate it)
         try:
-            subject = f'Your HENDOSHI Vault photo has been reviewed'
+            subject = 'Your HENDOSHI Vault photo has been reviewed'
             context = {
                 'user': test_user,
                 'photo': test_photo,
@@ -134,7 +132,7 @@ class Command(BaseCommand):
             )
 
             self.stdout.write(
-                self.style.SUCCESS(f'✅ Email template and logic work correctly!')
+                self.style.SUCCESS('✅ Email template and logic work correctly!')
             )
             self.stdout.write(
                 self.style.SUCCESS(f'📧 Email would be sent to: {email}')
@@ -163,8 +161,8 @@ class Command(BaseCommand):
         test_photo.save()
 
         self.stdout.write(
-            self.style.WARNING(f'Note: Test photo marked as rejected. Test user and product remain for future tests.')
+            self.style.WARNING('Note: Test photo marked as rejected. Test user and product remain for future tests.')
         )
         self.stdout.write(
-            self.style.WARNING(f'To clean up completely, you can delete the test user and product manually.')
+            self.style.WARNING('To clean up completely, you can delete the test user and product manually.')
         )

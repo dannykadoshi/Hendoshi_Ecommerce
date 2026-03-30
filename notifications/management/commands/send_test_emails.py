@@ -14,8 +14,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('recipient', nargs='?', help='Recipient email address', default='admin@hendoshi.com')
-        parser.add_argument('--throttle', type=float, default=0.0, help='Seconds to wait between sends (throttle to avoid rate limits)')
-        parser.add_argument('--only', type=str, default='', help='Comma-separated list of template paths (relative to templates/) to send; if empty sends all')
+        parser.add_argument('--throttle', type=float, default=0.0, help='Seconds to wait between sends (throttle to avoid rate limits)')  # noqa: E501
+        parser.add_argument('--only', type=str, default='', help='Comma-separated list of template paths (relative to templates/) to send; if empty sends all')  # noqa: E501
 
     def handle(self, *args, **options):
         recipient = options['recipient']
@@ -42,14 +42,14 @@ class Command(BaseCommand):
             'site_url': getattr(settings, 'SITE_URL', 'http://localhost:8000'),
             'user': SimpleNamespace(username='admin', first_name='Admin', email=recipient),
             'profile': {'name': 'Admin'},
-            'product': SimpleNamespace(name='Demo Product', description='Demo description', main_image=SimpleNamespace(url='/media/demo-product.jpg')),
+            'product': SimpleNamespace(name='Demo Product', description='Demo description', main_image=SimpleNamespace(url='/media/demo-product.jpg')),  # noqa: E501
             'photo': SimpleNamespace(image=SimpleNamespace(url='/media/demo-photo.jpg'), caption='Demo caption', id=1),
             'cart_items': [],
             'cart_total': '$0.00',
             'checkout_url': getattr(settings, 'SITE_URL', 'http://localhost:8000'),
             'unsubscribe_url': getattr(settings, 'SITE_URL', 'http://localhost:8000'),
             'preferences_url': getattr(settings, 'SITE_URL', 'http://localhost:8000'),
-            'notification': {'price_drop_percentage': 20, 'original_price': '100.00', 'new_price': '80.00', 'price_savings': '20.00'},
+            'notification': {'price_drop_percentage': 20, 'original_price': '100.00', 'new_price': '80.00', 'price_savings': '20.00'},  # noqa: E501
             'product_url': getattr(settings, 'SITE_URL', 'http://localhost:8000'),
         }
 
@@ -75,7 +75,7 @@ class Command(BaseCommand):
             # Plain-text fallback: strip tags conservatively
             text = re.sub(r'<[^>]+>', '', html)
 
-            msg = EmailMultiAlternatives(subject=subject, body=text, from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None), to=[recipient])
+            msg = EmailMultiAlternatives(subject=subject, body=text, from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', None), to=[recipient])  # noqa: E501
             msg.attach_alternative(html, 'text/html')
 
             try:
@@ -89,4 +89,4 @@ class Command(BaseCommand):
             if throttle and idx < len(template_paths) - 1:
                 time.sleep(throttle)
 
-        self.stdout.write(self.style.NOTICE(f'Done. Attempted to send {len(template_paths)} templates, succeeded sends: {sent}'))
+        self.stdout.write(self.style.NOTICE(f'Done. Attempted to send {len(template_paths)} templates, succeeded sends: {sent}'))  # noqa: E501

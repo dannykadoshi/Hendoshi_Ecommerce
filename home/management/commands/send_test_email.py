@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
 
+
 class Command(BaseCommand):
     help = 'Send a test email using Resend'
 
@@ -15,7 +16,7 @@ class Command(BaseCommand):
             message='This is a test email sent from your Django application using Resend integration.',
             from_email='HENDOSHI <noreply@mail.hendoshi.com>',
             recipient_list=[recipient],
-            html_message='<h2>Test Email from HENDOSHI</h2><p>This is a test email sent from your Django application using <strong>Resend</strong> integration.</p><p>If you received this, your email configuration is working correctly!</p>'
+            html_message='<h2>Test Email from HENDOSHI</h2><p>This is a test email sent from your Django application using <strong>Resend</strong> integration.</p><p>If you received this, your email configuration is working correctly!</p>'  # noqa: E501
         )
 
         self.stdout.write(

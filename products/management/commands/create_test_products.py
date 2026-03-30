@@ -2,11 +2,12 @@ from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from django.db import IntegrityError, transaction
 
-from products.models import Product, ProductImage, ProductVariant, DesignStory
+from products.models import Product
 
 import traceback
 
 AUDIENCES = ['men', 'women', 'kids']
+
 
 class Command(BaseCommand):
     help = 'Create three test products (men/women/kids) to reproduce slug issues'
@@ -63,7 +64,7 @@ class Command(BaseCommand):
                             copy.save()
                             self.stdout.write(f'Created copy id={copy.id} slug={copy.slug}')
                     except IntegrityError:
-                        self.stdout.write('IntegrityError caught during save. Will attempt to append uuid suffix and retry.')
+                        self.stdout.write('IntegrityError caught during save. Will attempt to append uuid suffix and retry.')  # noqa: E501
                         traceback.print_exc()
                         import uuid
                         copy.slug = f"{candidate}-{str(uuid.uuid4())[:8]}"
@@ -77,7 +78,7 @@ class Command(BaseCommand):
                             # continue to next audience instead of aborting the whole command
                             continue
 
-        except Exception as exc:
+        except Exception:
             self.stdout.write('Exception raised during create_test_products:')
             traceback.print_exc()
             raise

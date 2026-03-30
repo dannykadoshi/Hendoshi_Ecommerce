@@ -4,13 +4,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q, Sum
 from django.db.models.deletion import ProtectedError
 from django.http import JsonResponse
-from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm, VariantSelectionForm
+from .forms import CollectionForm, ProductTypeForm, ProductForm, ProductVariantFormSet, ProductImageFormSet, DesignStoryForm, VariantSelectionForm  # noqa: E501
 from .models import Collection, ProductType, Product, ProductVariant, ProductImage, DesignStory, ProductReview
-from .image_utils import optimize_product_images
-
-
-def is_staff_or_admin(user):
-    return user.is_staff or user.is_superuser
 
 
 def is_staff_or_admin(user):
@@ -235,7 +230,7 @@ def create_admin_product(request):
                             stock=variant_data['stock']
                         )
                         variants_created += 1
-                    except Exception as e:
+                    except Exception:
                         # Skip duplicates or other errors
                         pass
 
@@ -401,7 +396,7 @@ def delete_admin_product(request, pk):
             product.delete()
             messages.success(request, f'Product "{product_name}" deleted successfully!')
         except ProtectedError:
-            messages.error(request, f'Cannot delete "{product_name}" because it is referenced in existing orders. Products that have been ordered cannot be deleted to maintain order history integrity.')
+            messages.error(request, f'Cannot delete "{product_name}" because it is referenced in existing orders. Products that have been ordered cannot be deleted to maintain order history integrity.')  # noqa: E501
         return redirect('admin_list_products')
 
     context = {
@@ -461,7 +456,7 @@ def bulk_delete_admin_products(request, product_ids=None):
             products.delete()
             messages.success(request, f'{count} product(s) deleted successfully!')
         except ProtectedError:
-            messages.error(request, f'Cannot delete some products because they are referenced in existing orders. Products that have been ordered cannot be deleted to maintain order history integrity.')
+            messages.error(request, 'Cannot delete some products because they are referenced in existing orders. Products that have been ordered cannot be deleted to maintain order history integrity.')  # noqa: E501
         return redirect('admin_list_products')
 
     context = {
@@ -552,7 +547,7 @@ def list_reviews(request):
 def view_review_detail(request, review_id):
     """Admin view to display full review details"""
     review = get_object_or_404(
-        ProductReview.objects.select_related('product', 'user', 'order_item', 'admin_reply_by').prefetch_related('images'),
+        ProductReview.objects.select_related('product', 'user', 'order_item', 'admin_reply_by').prefetch_related('images'),  # noqa: E501
         id=review_id
     )
 
@@ -625,6 +620,7 @@ def delete_review_image(request, image_id):
 
 # ==================== BULK PRODUCT CREATION VIEWS ====================
 
+
 @login_required
 @user_passes_test(is_staff_or_admin)
 def bulk_create_products_step1(request):
@@ -632,21 +628,21 @@ def bulk_create_products_step1(request):
     Step 1: Select product types and audiences for bulk creation
     """
     from .forms import BulkProductSelectionForm
-    
+
     if request.method == 'POST':
         form = BulkProductSelectionForm(request.POST)
         if form.is_valid():
             # Store selections in session
             product_type_ids = [pt.id for pt in form.cleaned_data['product_types']]
             audiences = form.cleaned_data.get('audiences', [])
-            
+
             request.session['bulk_product_types'] = product_type_ids
             request.session['bulk_audiences'] = audiences
-            
+
             return redirect('bulk_create_products_step2')
     else:
         form = BulkProductSelectionForm()
-    
+
     # Group product types by category
     product_types_by_category = {}
     for pt in ProductType.objects.all().order_by('category', 'name'):
@@ -654,13 +650,13 @@ def bulk_create_products_step1(request):
         if category not in product_types_by_category:
             product_types_by_category[category] = []
         product_types_by_category[category].append(pt)
-    
+
     context = {
         'form': form,
         'product_types_by_category': product_types_by_category,
         'page_title': 'Bulk Product Creation - Step 1',
     }
-    
+
     return render(request, 'products/bulk_select_types.html', context)
 
 
@@ -672,18 +668,18 @@ def bulk_create_products_step2(request):
     """
     from .forms import SharedBulkDataForm, BulkProductItemForm
     from django.db import transaction
-    
+
     # Get selections from session
     product_type_ids = request.session.get('bulk_product_types', [])
     audiences = request.session.get('bulk_audiences', [])
-    
+
     if not product_type_ids:
         messages.error(request, 'No product types selected. Please start from step 1.')
         return redirect('bulk_create_products_step1')
-    
+
     # Get ProductType objects
     product_types = ProductType.objects.filter(id__in=product_type_ids)
-    
+
     def is_apparel_type(product_type):
         if product_type.category == 'apparel':
             return True
@@ -707,10 +703,10 @@ def bulk_create_products_step2(request):
                 'audience': None,
                 'audience_display': None
             })
-    
+
     if request.method == 'POST':
         shared_form = SharedBulkDataForm(request.POST)
-        
+
         # Create individual forms for each combination
         item_forms = []
         for idx, combo in enumerate(combinations):
@@ -718,7 +714,7 @@ def bulk_create_products_step2(request):
             form_data = request.POST.copy()
             form_data[f'{prefix}-product_type_id'] = combo['product_type'].id
             form_data[f'{prefix}-audience'] = combo['audience'] or ''
-            
+
             item_form = BulkProductItemForm(
                 form_data,
                 request.FILES,
@@ -730,26 +726,26 @@ def bulk_create_products_step2(request):
                 'combo': combo,
                 'prefix': prefix
             })
-        
+
         # Validate all forms
         all_valid = shared_form.is_valid() and all(item['form'].is_valid() for item in item_forms)
-        
+
         if all_valid:
             # Create products
             created_count = 0
             failed_count = 0
             errors = []
-            
+
             try:
                 with transaction.atomic():
                     shared_data = shared_form.cleaned_data
-                    
+
                     for item_data in item_forms:
                         try:
                             form = item_data['form']
                             combo = item_data['combo']
                             data = form.cleaned_data
-                            
+
                             # Create product
                             audience_display = combo['audience_display'] or 'Everyone'
                             product = Product(
@@ -774,12 +770,12 @@ def bulk_create_products_step2(request):
                                 featured=data.get('featured', False)
                             )
                             product.save()
-                            
+
                             # Create variants
                             sizes = data.get('sizes', [])
                             colors = data.get('colors', [])
                             stock = data.get('stock_per_variant', combo['product_type'].default_stock)
-                            
+
                             if sizes and colors:
                                 for size in sizes:
                                     for color in colors:
@@ -813,7 +809,7 @@ def bulk_create_products_step2(request):
                                     color='n/a',
                                     stock=stock
                                 )
-                            
+
                             # Handle gallery images
                             gallery_images = request.FILES.getlist(f'{item_data["prefix"]}-gallery_images')
                             for idx, img in enumerate(gallery_images):
@@ -823,7 +819,7 @@ def bulk_create_products_step2(request):
                                     alt_text=f'{product.name} - Image {idx + 1}',
                                     order=idx
                                 )
-                            
+
                             # Create design story if provided (only once for first product)
                             if created_count == 0 and shared_data.get('design_story_title'):
                                 DesignStory.objects.create(
@@ -831,28 +827,27 @@ def bulk_create_products_step2(request):
                                     title=shared_data['design_story_title'],
                                     story=shared_data.get('design_story_content', '')
                                 )
-                            
-                            
+
                             created_count += 1
-                            
+
                         except Exception as e:
                             failed_count += 1
                             errors.append(f'{data.get("name", "Unknown")}: {str(e)}')
-                    
+
                     # Clear session
                     if 'bulk_product_types' in request.session:
                         del request.session['bulk_product_types']
                     if 'bulk_audiences' in request.session:
                         del request.session['bulk_audiences']
-                    
+
                     # Success message
                     if created_count > 0:
                         messages.success(request, f'Successfully created {created_count} product(s)!')
                     if failed_count > 0:
                         messages.warning(request, f'{failed_count} product(s) failed. Errors: {"; ".join(errors)}')
-                    
+
                     return redirect('admin_list_products')
-                    
+
             except Exception as e:
                 messages.error(request, f'Error creating products: {str(e)}')
         else:
@@ -861,7 +856,7 @@ def bulk_create_products_step2(request):
                 for field, errors_list in shared_form.errors.items():
                     for error in errors_list:
                         messages.error(request, f'Shared data - {field}: {error}')
-            
+
             for item_data in item_forms:
                 if not item_data['form'].is_valid():
                     product_name = item_data['combo']['product_type'].name
@@ -881,7 +876,7 @@ def bulk_create_products_step2(request):
                 initial={
                     'product_type_id': combo['product_type'].id,
                     'audience': combo['audience'] or '',
-                    'name': f"{combo['product_type'].name}" + (f" - {combo['audience_display']}" if combo['audience'] else ""),
+                    'name': f"{combo['product_type'].name}" + (f" - {combo['audience_display']}" if combo['audience'] else ""),  # noqa: E501
                     'is_active': True,
                     'featured': False,
                     'stock_per_variant': combo['product_type'].default_stock
@@ -892,7 +887,7 @@ def bulk_create_products_step2(request):
                 'combo': combo,
                 'prefix': prefix
             })
-    
+
     context = {
         'shared_form': shared_form,
         'item_forms': item_forms,
@@ -900,5 +895,5 @@ def bulk_create_products_step2(request):
         'page_title': 'Bulk Product Creation - Step 2',
         'total_products': len(combinations)
     }
-    
+
     return render(request, 'products/bulk_create_form.html', context)
