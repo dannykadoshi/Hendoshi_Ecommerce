@@ -111,20 +111,32 @@
         </div>
         {% empty %}
         <div class="vault-empty-wrapper">
-            <p class="vault-empty">No photos yet. Be the first to submit!</p>
-            {% if user.is_authenticated %}
-            <a href="{% url 'vault:submit_photo' %}" class="btn btn-pink">Submit Your Photo</a>
+            {% if request.GET %}
+            <div class="vault-empty-state">
+                <div class="vault-empty-icon-wrap vault-empty-filter-icon">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <h3 class="vault-empty-title">No photos match this filter</h3>
+                <p class="vault-empty-subtitle">Try a different tag or browse the full gallery.</p>
+                <a href="{% url 'vault:vault_gallery' %}" class="btn btn-pink mt-2">
+                    <i class="fas fa-times"></i> Clear Filter
+                </a>
+            </div>
             {% else %}
-            <a href="{% url 'account_login' %}" class="btn btn-pink">Login to Submit</a>
+            <div class="vault-empty-state">
+                <div class="vault-empty-icon-wrap">
+                    <i class="fas fa-camera-retro"></i>
+                </div>
+                <h3 class="vault-empty-title">The Vault awaits its first legend</h3>
+                <p class="vault-empty-subtitle">No one has stepped up yet. Be the first weirdo to make history.</p>
+                <a href="{% url 'vault:hall_of_fame' %}" class="btn btn-outline-pink mt-2">
+                    <i class="fas fa-trophy"></i> Explore the Hall of Fame
+                </a>
+            </div>
             {% endif %}
         </div>
         {% endfor %}
     </div>
-    {% if not photos %}
-    <div class="text-center mt-4">
-        <p class="vault-no-photos">No photos found for the selected filter. <a href="{% url 'vault:vault_gallery' %}">Clear filter</a> to see all photos.</p>
-    </div>
-    {% endif %}
 </div>
 
     <!-- Pagination -->
