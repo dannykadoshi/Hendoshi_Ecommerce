@@ -204,7 +204,7 @@
     font-size: 2rem;
 }
 
-.quick-contact-card h4 {
+.quick-contact-card h2 {
     margin-bottom: 0.75rem;
     color: var(--neon-pink);
     font-weight: 700;
@@ -279,14 +279,14 @@
     border-color: rgba(255, 20, 147, 0.3);
 }
 
-.faq-card h5 {
+.faq-card h4 {
     margin-bottom: 0.75rem;
     color: rgba(255, 255, 255, 0.95);
     font-weight: 600;
     font-size: 1.1rem;
 }
 
-.faq-card h5 i {
+.faq-card h4 i {
     margin-right: 0.5rem;
     color: var(--neon-pink);
 }
@@ -325,7 +325,7 @@
         font-size: 1.75rem;
     }
 
-    .quick-contact-card h4 {
+    .quick-contact-card h2 {
         font-size: 1.1rem;
     }
 
@@ -937,7 +937,7 @@
     background: rgba(0, 0, 0, 0.02);
 }
 
-:root.light-mode .faq-card h5 {
+:root.light-mode .faq-card h4 {
     color: rgba(0, 0, 0, 0.87);
 }
 
