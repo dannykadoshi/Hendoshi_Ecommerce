@@ -995,11 +995,15 @@ span.gradient-text-mobile {
         gap: 0.3rem; /* reduce overall right-cluster gap on mobile */
     }
 
-    /* Slightly reduce per-icon horizontal padding to bring items closer
-       to the theme toggle while preserving touch target size */
+    /* Ensure touch targets meet WCAG 2.5.5 minimum (44×44px) on mobile */
     .mobile-icons .nav-icon {
         padding: 0 0.25rem;
         font-size: 1.1rem;
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 

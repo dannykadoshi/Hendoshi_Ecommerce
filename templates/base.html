@@ -1073,21 +1073,20 @@
         {% if user.is_authenticated %}
         <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize authenticated features (battle vest count, collections carousel)
-            if (typeof initAuthenticatedFeatures === 'function') {
-                initAuthenticatedFeatures();
-                
-                // Initialize battle vest count from server
-                {% if request.user.battle_vest %}
-                if (typeof updateVestCountBadges === 'function') {
-                    updateVestCountBadges({{ request.user.battle_vest.get_item_count }});
+            // Set battle vest badge count from server-rendered value
+            {% if request.user.battle_vest %}
+            var _vestCount = {{ request.user.battle_vest.get_item_count }};
+            {% else %}
+            var _vestCount = 0;
+            {% endif %}
+            document.querySelectorAll('.vest-count-badge').forEach(function(badge) {
+                badge.textContent = String(_vestCount);
+                if (_vestCount > 0) {
+                    badge.classList.remove('badge-hidden');
+                } else {
+                    badge.classList.add('badge-hidden');
                 }
-                {% else %}
-                if (typeof updateVestCountBadges === 'function') {
-                    updateVestCountBadges(0);
-                }
-                {% endif %}
-            }
+            });
         });
         </script>
         {% endif %}
