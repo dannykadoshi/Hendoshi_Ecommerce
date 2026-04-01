@@ -1,16 +1,24 @@
 /* ================================================
    HENDOSHI - VAULT MODALS
    ================================================
-   
-   Purpose: Styles for vault modals
-   
+
+   Purpose: Vault community page modals, gallery overlays, and shared
+            page-level layout utilities used across the site.
+
    Contains:
-   - Layout and component styles
-   - Responsive design
-   - Theme integration
-   
-   Dependencies: variables.css
-   Load Order: Load after foundation files
+   - Hall of Fame card photo overlay and view button
+   - Collection card grid and hover effects
+   - Vault-specific page-hero overrides (global hero in hero-pages.css)
+   - Page wrapper (.page-wrapper) and page content (.page-content) layout
+   - Sticky sidebar support
+   - Social share section and buttons
+   - Product quick-add modal (size/color toggle buttons, quantity controls)
+   - Button component styles (.btn-pink, .btn-outline-pink, .btn-secondary)
+   - Light mode overrides for all vault and shared components
+   - Moved inline styles from templates (notifications, auth pages)
+
+   Dependencies: variables.css, animations.css
+   Load Order: Load after foundation and component files
    ================================================ */
 
 .hall-of-fame-photo-overlay {

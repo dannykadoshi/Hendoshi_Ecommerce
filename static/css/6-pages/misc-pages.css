@@ -18,7 +18,8 @@
 
 /* .vault-page moved to vault-community.css for single canonical definition */
 
-.page-container styles consolidated to components.css .collections-title {
+/* .page-container styles consolidated to components.css */
+.collections-title {
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--neon-pink), var(--electric-yellow));
     background-clip: text;

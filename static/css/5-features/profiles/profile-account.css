@@ -1,16 +1,26 @@
 /* ================================================
    HENDOSHI - PROFILE ACCOUNT
    ================================================
-   
-   Purpose: Styles for profile account
-   
+
+   Purpose: User-facing account and authentication page styling, covering
+            the profile dashboard, notifications, auth flows, and cart/checkout
+            overrides specific to authenticated user views.
+
    Contains:
-   - Layout and component styles
-   - Responsive design
-   - Theme integration
-   
-   Dependencies: variables.css
-   Load Order: Load after foundation files
+   - Profile page layout and stat cards (orders, wishlist counts)
+   - Notification preferences page
+   - Unsubscribe and unsubscribe confirmation pages
+   - Email verification sent page
+   - Account activation / auth page (auth-icon, auth-card)
+   - Shipping and returns page content
+   - Payment section and progress bar
+   - Cart item grid (modern cart overrides)
+   - Order totals and total-row
+   - Form actions (checkout / payment buttons)
+   - Light mode overrides
+
+   Dependencies: variables.css, ui-components.css
+   Load Order: Load after foundation and components
    ================================================ */
 
 .profile-page {

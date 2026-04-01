@@ -1,16 +1,23 @@
 /* ================================================
    HENDOSHI - ADMIN THEME
    ================================================
-   
-   Purpose: Styles for admin theme
-   
+
+   Purpose: Override Django Admin's default appearance to match the
+            Hendoshi dark theme (neon-pink/electric-yellow brand colors).
+
    Contains:
-   - Layout and component styles
-   - Responsive design
-   - Theme integration
-   
-   Dependencies: variables.css
-   Load Order: Load after foundation files
+   - CSS variables re-declared for Django Admin context
+   - Base body/html background and text colors
+   - Header and branding bar overrides
+   - Submit button and Bootstrap button styling
+   - Form label, fieldset, and input styling
+   - Admin filter form styling
+   - Display, width, and height utility classes
+   - Light mode overrides (prefers-color-scheme: light)
+   - Mobile button width adjustments
+
+   Dependencies: variables.css (re-declared locally for admin context)
+   Load Order: Load before admin-pages.css
    ================================================ */
 
 :root {

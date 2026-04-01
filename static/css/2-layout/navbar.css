@@ -1,17 +1,39 @@
 /* ================================================
    HENDOSHI - NAVBAR
    ================================================
-   
-   Purpose: Styles for navbar
-   
+
+   Purpose: Complete navigation bar styling for the fixed top navbar,
+            including desktop and mobile layouts, search, dropdowns,
+            and icon badges.
+
    Contains:
-   - Layout and component styles
-   - Responsive design
-   - Theme integration
-   
+   - Base navbar (fixed positioning, discount banner offset)
+   - Navbar gradient underline accent (::after)
+   - Solid navbar state (JS-toggled on scroll)
+   - Dropdown submenu positioning (Hall of Fame sub-menu fix)
+   - Light mode base overrides
+   - Navbar container flex layout
+   - Hamburger toggle button and desktop/mobile menu visibility
+   - Brand logo (image and logo-text with skull icon)
+   - Desktop navigation links (hover effects, animated underline)
+   - Gradient text links (Sale, mobile, footer variants)
+   - Logo text shimmer animation
+   - Navbar right section (search + icons)
+   - Desktop search form and floating search box
+   - Nav icons (cart, wishlist, search) and badge counts
+   - Theme toggle button
+   - Navbar-right dropdown menus (user account)
+   - Mobile icon cluster (show/hide, WCAG 2.5.5 touch targets)
+   - Mobile slide-out menu panel and backdrop overlay
+   - Mobile menu content (discount section, nav items, mobile search)
+
    Dependencies: variables.css
    Load Order: Load after foundation files
    ================================================ */
+
+/* ========================================
+   BASE NAVBAR
+   ======================================== */
 
 .navbar {
     z-index: 1001;
@@ -61,6 +83,10 @@
     content: "";
 }
 
+/* ========================================
+   SOLID NAVBAR STATE (JS-toggled on scroll)
+   ======================================== */
+
 /* Optionally make the navbar solid without changing global glassmorphism.
    Apply the `solid-navbar` class to the `.navbar` element (JS does this automatically).
    This preserves the global glassmorphism utilities while ensuring the
@@ -71,6 +97,10 @@ body .navbar.solid-navbar {
     background: rgba(20, 20, 20, 1);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
+
+/* ========================================
+   DROPDOWN SUBMENU POSITIONING
+   ======================================== */
 
 /* Dropdown submenu positioning - fixes Hall of Fame submenu cutoff */
 .dropend .dropdown-menu {
@@ -97,6 +127,10 @@ body .navbar.solid-navbar {
     }
 }
 
+/* ========================================
+   LIGHT MODE BASE OVERRIDES
+   ======================================== */
+
 :root.light-mode .navbar {
     border-bottom-color: rgba(231, 31, 127, 0.2);
     box-shadow: 0 4px 30px rgba(231, 31, 127, 0.1);
@@ -108,6 +142,10 @@ body .navbar.solid-navbar {
     background: #ffffff;
 }
 
+/* ========================================
+   NAVBAR CONTAINER LAYOUT
+   ======================================== */
+
 .navbar-container {
     display: flex;
     flex-wrap: nowrap;
@@ -117,7 +155,9 @@ body .navbar.solid-navbar {
     gap: 0.5rem;
 }
 
-/* Desktop: Add padding to lower navbar items within the navbar */
+/* ========================================
+   HAMBURGER TOGGLE (Mobile)
+   ======================================== */
 
 .navbar-burger {
     display: none;
@@ -167,6 +207,10 @@ body .navbar.solid-navbar {
     }
 }
 
+/* ========================================
+   BRAND LOGO
+   ======================================== */
+
 .navbar-brand {
     display: flex;
     align-items: center;
@@ -190,6 +234,10 @@ body .navbar.solid-navbar {
         height: 32px;
     }
 }
+
+/* ========================================
+   DESKTOP NAVIGATION LINKS
+   ======================================== */
 
 .desktop-menu {
     display: flex;
@@ -280,6 +328,10 @@ body .navbar.solid-navbar {
 .nav-item .nav-link:hover i {
     transform: scale(1.15);
 }
+
+/* ========================================
+   GRADIENT TEXT LINKS (Sale, footer, mobile)
+   ======================================== */
 
 /* Gradient text for special links like Sale */
 .navbar .gradient-text {
@@ -380,6 +432,10 @@ span.gradient-text-mobile {
     background-clip: text;
 }
 
+/* ========================================
+   LOGO TEXT & BRAND ANIMATION
+   ======================================== */
+
 /* Logo Text Styling */
 .logo-text {
     position: relative;
@@ -461,6 +517,10 @@ span.gradient-text-mobile {
     /* Subtle moving effect on hover in light mode */
     filter: none;
 }
+
+/* ========================================
+   NAVBAR RIGHT & SEARCH FORM
+   ======================================== */
 
 .navbar-right {
     display: flex;
@@ -611,6 +671,10 @@ span.gradient-text-mobile {
     color: var(--electric-yellow);
 }
 
+/* ========================================
+   NAV ICONS & BADGE COUNTS
+   ======================================== */
+
 .nav-icon {
     display: inline-block;
     position: relative;
@@ -679,6 +743,10 @@ span.gradient-text-mobile {
     align-items: center;
     gap: 0.35rem; /* tightened spacing for mobile icons */
 }
+
+/* ========================================
+   FLOATING SEARCH BOX (Desktop)
+   ======================================== */
 
 /* Desktop Search Container with Floating Box */
 .desktop-search-container {
@@ -840,6 +908,10 @@ span.gradient-text-mobile {
     background: rgba(0, 0, 0, 0.02);
 }
 
+/* ========================================
+   THEME TOGGLE BUTTON
+   ======================================== */
+
 .theme-toggle {
     display: flex;
     align-items: center;
@@ -862,6 +934,10 @@ span.gradient-text-mobile {
     white-space: nowrap !important;
     border: 0 !important;
 }
+
+/* ========================================
+   NAVBAR-RIGHT DROPDOWN MENUS
+   ======================================== */
 
 /* Dropdown menu in navbar */
 .navbar .navbar-right .dropdown-toggle {
@@ -982,6 +1058,10 @@ span.gradient-text-mobile {
     border-color: rgba(255, 20, 147, 0.2);
 }
 
+/* ========================================
+   MOBILE ICON CLUSTER
+   ======================================== */
+
 @media (max-width: 991px) {
     body .desktop-icons {
         display: none;
@@ -1006,6 +1086,10 @@ span.gradient-text-mobile {
         justify-content: center;
     }
 }
+
+/* ========================================
+   MOBILE MENU PANEL & OVERLAY
+   ======================================== */
 
 /* Mobile Menu */
 .mobile-menu {
@@ -1039,6 +1123,10 @@ span.gradient-text-mobile {
     border-right-color: rgba(231, 31, 127, 0.2);
     background: var(--charcoal);
 }
+
+/* ========================================
+   MOBILE MENU CONTENT
+   ======================================== */
 
 /* Mobile Menu Header */
 .mobile-menu-header {
