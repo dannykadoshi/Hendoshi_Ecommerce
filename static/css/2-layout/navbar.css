@@ -1139,8 +1139,7 @@ span.gradient-text-mobile {
 }
 
 .menu-discount-section .discount-text {
-    margin-top: 0.35rem;
-    margin-bottom: 0.35rem;
+    margin-block: 0.35rem;
     color: var(--off-white);
     font-weight: 600;
     font-size: 0.9rem;

@@ -2620,8 +2620,7 @@ body.cart-drawer-open {
 .recently-viewed-products-carousel-container {
     z-index: 10;
     position: relative;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-block: 3rem;
 }
 
 .recently-viewed-products-carousel {
