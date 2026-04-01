@@ -1317,7 +1317,14 @@ Mobile Lighthouse does not test on a real phone. It simulates an **underpowered 
 
 ### robots.txt Validation
 
-**Tool:** Manual browser check + [Google Search Console](https://search.google.com/search-console)
+**Tool:** Direct browser access at `/robots.txt` — verified file is served correctly with `text/plain` content type and correct disallow rules.
+
+<details>
+<summary>📸 View Screenshot — robots.txt</summary>
+
+![robots.txt](assets/readme/seo-robots-txt.png)
+
+</details>
 
 | Check | Expected | Result |
 |-------|----------|--------|
@@ -1329,11 +1336,29 @@ Mobile Lighthouse does not test on a real phone. It simulates an **underpowered 
 
 ### sitemap.xml Validation
 
-**Tool:** Manual browser check + [XML Sitemap Validator](https://www.xml-sitemaps.com/validate-xml-sitemap.html)
+**Tool:** [XML Sitemap Validator](https://www.xml-sitemaps.com/validate-xml-sitemap.html) — tested against `https://hendoshi-store.onrender.com/sitemap.xml`
+
+**Result: Sitemap is valid ✅ — No errors, no warnings, UTF-8 character set confirmed.**
+
+<details>
+<summary>📸 View Screenshot — sitemap.xml (raw file)</summary>
+
+![sitemap.xml](assets/readme/seo-sitemap-xml.png)
+
+</details>
+
+<details>
+<summary>📸 View Screenshot — sitemap.xml Validator Result</summary>
+
+![sitemap.xml Validation](assets/readme/sitemap-xml-valid.png)
+
+</details>
 
 | Check | Expected | Result |
 |-------|----------|--------|
 | File accessible at `/sitemap.xml` | Returns 200 OK with XML | ✅ Pass |
+| XML Sitemap Validator | No errors, no warnings | ✅ Pass |
+| Character set | UTF-8 | ✅ Pass |
 | Products in sitemap | All active products listed | ✅ Pass |
 | Collections in sitemap | All collections listed | ✅ Pass |
 | Static pages in sitemap | Home, Products, Vault, Contact listed | ✅ Pass |
