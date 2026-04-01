@@ -1,7 +1,17 @@
-/**
- * Checkout Page Functionality
- * Address selection, form filling, shipping rate selection
- */
+/* ================================================
+   HENDOSHI - CHECKOUT PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for checkout page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     

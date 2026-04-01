@@ -1,7 +1,17 @@
-/**
- * Address Form Scripts
- * Handles visual feedback for filled inputs
- */
+/* ================================================
+   HENDOSHI - ADDRESS FORM
+   ================================================
+   
+   Purpose: JavaScript functionality for address form
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     // Add has-value class for filled inputs

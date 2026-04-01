@@ -1,7 +1,17 @@
-/**
- * Payment Page JavaScript
- * Handles cart totals updates, shipping rate selection, and order summary synchronization
- */
+/* ================================================
+   HENDOSHI - PAYMENT PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for payment page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 (function() {
     'use strict';

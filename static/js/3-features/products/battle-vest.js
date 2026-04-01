@@ -1,6 +1,17 @@
-/**
- * Battle Vest - Add to cart modal, remove items, update stats
- */
+/* ================================================
+   HENDOSHI - BATTLE VEST
+   ================================================
+   
+   Purpose: JavaScript functionality for battle vest
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 let vestProductId = null;
 let vestProductName = '';

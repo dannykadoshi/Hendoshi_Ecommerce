@@ -1,6 +1,17 @@
-/**
- * Contact Form - Character counter and validation
- */
+/* ================================================
+   HENDOSHI - CONTACT FORM
+   ================================================
+   
+   Purpose: JavaScript functionality for contact form
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const messageField = document.querySelector('textarea[name="message"]');

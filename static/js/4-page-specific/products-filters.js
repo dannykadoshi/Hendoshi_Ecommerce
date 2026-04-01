@@ -1,7 +1,17 @@
-/**
- * Products Page Filters and Sort
- * Handles filter dropdown, tabs, and sort functionality
- */
+/* ================================================
+   HENDOSHI - PRODUCTS FILTERS
+   ================================================
+   
+   Purpose: JavaScript functionality for products filters
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const filtersSortBtn = document.getElementById('filtersSortBtn');

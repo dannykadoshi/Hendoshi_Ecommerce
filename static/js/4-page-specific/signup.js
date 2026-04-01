@@ -1,7 +1,17 @@
-/**
- * Signup Page Scripts
- * Form input error handling and visual feedback
- */
+/* ================================================
+   HENDOSHI - SIGNUP PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for signup page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     // Show error toast if form has errors

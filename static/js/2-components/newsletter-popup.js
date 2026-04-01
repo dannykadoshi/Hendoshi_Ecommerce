@@ -1,7 +1,17 @@
-/**
- * Newsletter Popup Handler
- * Shows a marketing popup to encourage newsletter signups
- */
+/* ================================================
+   HENDOSHI - NEWSLETTER POPUP
+   ================================================
+   
+   Purpose: JavaScript functionality for newsletter popup
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 (function() {
     'use strict';

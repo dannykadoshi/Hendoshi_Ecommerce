@@ -1,7 +1,17 @@
-/**
- * Profile Page Scripts
- * Handles address management and notification preferences
- */
+/* ================================================
+   HENDOSHI - PROFILE PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for profile page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 // Address deletion confirmation
 let addressToDelete = null;

@@ -1,7 +1,17 @@
-/**
- * Theme Animation Layer Scripts
- * Initializes seasonal theme animations on hero sections
- */
+/* ================================================
+   HENDOSHI - THEME ANIMATION LAYER
+   ================================================
+   
+   Purpose: JavaScript functionality for theme animation layer
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const themeType = document.body.dataset.seasonalTheme;

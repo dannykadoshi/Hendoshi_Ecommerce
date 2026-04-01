@@ -1,7 +1,17 @@
-/**
- * Toast Notifications Utility
- * Global toast notification system for user feedback
- */
+/* ================================================
+   HENDOSHI - TOAST NOTIFICATIONS
+   ================================================
+   
+   Purpose: JavaScript functionality for toast notifications
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 /**
  * Show a toast notification

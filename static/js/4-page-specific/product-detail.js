@@ -1,7 +1,17 @@
-/**
- * Product Detail Page
- * Handles carousel interactions, vest toggles, and add to cart for carousels
- */
+/* ================================================
+   HENDOSHI - PRODUCT DETAIL PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for product detail page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     

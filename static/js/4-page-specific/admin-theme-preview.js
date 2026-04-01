@@ -1,7 +1,17 @@
-/**
- * Admin Theme Preview Scripts
- * Preview controls for seasonal theme animations
- */
+/* ================================================
+   HENDOSHI - ADMIN THEME PREVIEW
+   ================================================
+   
+   Purpose: JavaScript functionality for admin theme preview
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the theme animation for preview

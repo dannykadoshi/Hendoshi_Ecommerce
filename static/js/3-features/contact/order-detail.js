@@ -1,6 +1,17 @@
-/**
- * Order Detail - Copy tracking number utility
- */
+/* ================================================
+   HENDOSHI - ORDER DETAIL
+   ================================================
+   
+   Purpose: JavaScript functionality for order detail
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 window.copyTracking = function(trackingNumber) {
     navigator.clipboard.writeText(trackingNumber).then(function() {

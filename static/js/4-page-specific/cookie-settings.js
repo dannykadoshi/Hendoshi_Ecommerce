@@ -1,7 +1,17 @@
-/**
- * Cookie Settings Page Scripts
- * Handles cookie preference management
- */
+/* ================================================
+   HENDOSHI - COOKIE SETTINGS
+   ================================================
+   
+   Purpose: JavaScript functionality for cookie settings
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const saveBtn = document.getElementById('save-preferences');

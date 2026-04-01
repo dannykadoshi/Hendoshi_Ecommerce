@@ -1,7 +1,17 @@
-/**
- * Admin Forms Utilities
- * Simple form enhancements for admin pages
- */
+/* ================================================
+   HENDOSHI - ADMIN FORMS
+   ================================================
+   
+   Purpose: JavaScript functionality for admin forms
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 // ========================================
 // VAULT CONFIRMATION MODAL (GLOBAL SCOPE for onclick)

@@ -1,7 +1,17 @@
-/**
- * Infinite Scroll for Products Pages
- * Automatically loads next page of products when scrolling near bottom
- */
+/* ================================================
+   HENDOSHI - PRODUCTS INFINITE SCROLL
+   ================================================
+   
+   Purpose: JavaScript functionality for products infinite scroll
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const loader = document.getElementById('infiniteScrollLoader');

@@ -1,7 +1,17 @@
-/**
- * Password Change Page Scripts
- * Form input error handling and visual feedback
- */
+/* ================================================
+   HENDOSHI - PASSWORD CHANGE PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for password change page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const formInputs = document.querySelectorAll('#passwordChangeForm .form-control');

@@ -1,7 +1,17 @@
-/**
- * Admin Theme Form Scripts
- * Theme type preview and message strip toggles
- */
+/* ================================================
+   HENDOSHI - ADMIN THEME FORM
+   ================================================
+   
+   Purpose: JavaScript functionality for admin theme form
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const themeDescriptions = {

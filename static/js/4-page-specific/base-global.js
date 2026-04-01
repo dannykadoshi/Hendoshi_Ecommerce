@@ -1,7 +1,17 @@
-/**
- * Base Template Global Functions
- * Extracted inline scripts from base.html - Global functions used site-wide
- */
+/* ================================================
+   HENDOSHI - BASE GLOBAL
+   ================================================
+   
+   Purpose: JavaScript functionality for base global
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 // ============================================
 // 1. DJANGO MESSAGES TOAST DISPLAY

@@ -1,7 +1,17 @@
-/**
- * Notification Preferences Scripts
- * Handles master toggle for email notifications
- */
+/* ================================================
+   HENDOSHI - NOTIFICATION PREFERENCES
+   ================================================
+   
+   Purpose: JavaScript functionality for notification preferences
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const masterToggle = document.getElementById('email_notifications_enabled');

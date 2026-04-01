@@ -1,7 +1,17 @@
-/**
- * Product Detail Main Functionality
- * Handles variant selection, cart operations, image gallery, and battle vest for main product
- */
+/* ================================================
+   HENDOSHI - PRODUCT DETAIL MAIN
+   ================================================
+   
+   Purpose: JavaScript functionality for product detail main
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     // Size and Color Button Selection

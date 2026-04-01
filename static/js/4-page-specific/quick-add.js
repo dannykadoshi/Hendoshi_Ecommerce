@@ -1,7 +1,17 @@
-/**
- * Quick Add Modal - Shared functionality
- * Used by: products.html, sale.html, new_drops.html, design_products.html
- */
+/* ================================================
+   HENDOSHI - QUICK ADD MODAL
+   ================================================
+   
+   Purpose: JavaScript functionality for quick add modal
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const quickAddModal = document.getElementById('quickAddModalUnified');

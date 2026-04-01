@@ -1,7 +1,17 @@
-/**
- * Seasonal Themes - JavaScript Particle Engine
- * Creates and manages animated particles for seasonal themes
- */
+/* ================================================
+   HENDOSHI - SEASONAL THEMES
+   ================================================
+   
+   Purpose: JavaScript functionality for seasonal themes
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 const SeasonalThemes = {
     // Configuration

@@ -1,7 +1,17 @@
-/**
- * Product Reviews Functionality
- * Handles review submission, image upload, filtering, pagination, and helpful voting
- */
+/* ================================================
+   HENDOSHI - PRODUCT REVIEWS
+   ================================================
+   
+   Purpose: JavaScript functionality for product reviews
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const writeReviewBtn = document.getElementById('writeReviewBtn');

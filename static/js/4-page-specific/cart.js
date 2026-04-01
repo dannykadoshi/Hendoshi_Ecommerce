@@ -1,7 +1,17 @@
-/**
- * HENDOSHI E-Commerce - Shopping Cart Page
- * Handles cart updates, quantity changes, item removal, and discount code management
- */
+/* ================================================
+   HENDOSHI - SHOPPING CART PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for shopping cart page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 (function() {
     'use strict';

@@ -1,7 +1,17 @@
-/**
- * Cookie Consent Banner Scripts
- * Handles cookie consent banner and settings modal
- */
+/* ================================================
+   HENDOSHI - COOKIE CONSENT
+   ================================================
+   
+   Purpose: JavaScript functionality for cookie consent
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const banner = document.getElementById('cookie-consent-banner');

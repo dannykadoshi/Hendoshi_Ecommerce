@@ -1,7 +1,17 @@
-/**
- * Password Reset Page Scripts
- * Shows error toast if form has errors
- */
+/* ================================================
+   HENDOSHI - PASSWORD RESET PAGE
+   ================================================
+   
+   Purpose: JavaScript functionality for password reset page
+   
+   Contains:
+   - Event handlers
+   - User interactions
+   - Dynamic functionality
+   
+   Dependencies: utils.js (typically)
+   Load Order: Load as needed for specific pages
+   ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
     const hasErrors = document.querySelector('.alert-danger') || document.querySelector('[data-form-errors="true"]');
