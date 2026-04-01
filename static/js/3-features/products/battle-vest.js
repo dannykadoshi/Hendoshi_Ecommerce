@@ -11,50 +11,70 @@ window.openAddToCartVestModal = function(productId, productName) {
     vestProductId = productId;
     vestProductName = productName;
     document.getElementById('vestProductId').value = productId;
-    
+
     fetch(`/products/${productId}/variant-options/`)
         .then(response => response.json())
         .then(data => {
-            const sizeSelect = document.getElementById('vestSizeSelect');
-            const colorSelect = document.getElementById('vestColorSelect');
+            const sizeButtons = document.getElementById('vestSizeButtons');
+            const colorButtons = document.getElementById('vestColorButtons');
+            const sizeInput = document.getElementById('vestSizeInput');
+            const colorInput = document.getElementById('vestColorInput');
             const sizeWrapper = document.getElementById('vestSizeWrapper');
             const colorWrapper = document.getElementById('vestColorWrapper');
 
             const uniqueSizes = [...new Set(data.sizes)];
             const uniqueColors = [...new Set(data.colors)];
 
-            sizeSelect.innerHTML = '';
-            colorSelect.innerHTML = '';
+            sizeButtons.innerHTML = '';
+            colorButtons.innerHTML = '';
+            sizeInput.value = '';
+            colorInput.value = '';
 
-            // Show size field if required or multiple sizes exist
+            // Size toggle buttons
             if ((data.requires_size && uniqueSizes.length > 0) || uniqueSizes.length > 1) {
                 sizeWrapper.style.display = 'block';
-                sizeSelect.required = true;
                 uniqueSizes.forEach(s => {
-                    sizeSelect.innerHTML += `<option value="${s}">${s.toUpperCase()}</option>`;
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'size-btn';
+                    btn.textContent = s.toUpperCase();
+                    btn.dataset.value = s;
+                    btn.addEventListener('click', function() {
+                        sizeButtons.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                        sizeInput.value = s;
+                    });
+                    sizeButtons.appendChild(btn);
                 });
             } else {
                 sizeWrapper.style.display = 'none';
-                sizeSelect.required = false;
-                if (uniqueSizes.length === 1) {
-                    sizeSelect.innerHTML = `<option value="${uniqueSizes[0]}">${uniqueSizes[0].toUpperCase()}</option>`;
-                }
+                if (uniqueSizes.length === 1) sizeInput.value = uniqueSizes[0];
             }
 
-            // Show color field if required or multiple colors exist
+            // Color toggle buttons
             if ((data.requires_color && uniqueColors.length > 0) || uniqueColors.length > 1) {
                 colorWrapper.style.display = 'block';
-                colorSelect.required = true;
                 uniqueColors.forEach(c => {
-                    colorSelect.innerHTML += `<option value="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</option>`;
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'color-btn';
+                    btn.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+                    btn.dataset.value = c;
+                    btn.dataset.color = c.toLowerCase();
+                    btn.addEventListener('click', function() {
+                        colorButtons.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                        colorInput.value = c;
+                    });
+                    colorButtons.appendChild(btn);
                 });
             } else {
                 colorWrapper.style.display = 'none';
-                colorSelect.required = false;
-                if (uniqueColors.length === 1) {
-                    colorSelect.innerHTML = `<option value="${uniqueColors[0]}">${uniqueColors[0].charAt(0).toUpperCase() + uniqueColors[0].slice(1)}</option>`;
-                }
+                if (uniqueColors.length === 1) colorInput.value = uniqueColors[0];
             }
+
+            // Reset quantity
+            document.getElementById('vestQuantitySelect').value = 1;
 
             const modal = new bootstrap.Modal(document.getElementById('addToCartVestModal'));
             modal.show();
@@ -63,25 +83,14 @@ window.openAddToCartVestModal = function(productId, productName) {
             if (typeof showToast === 'function') {
                 showToast('Could not load product options. Redirecting...', 'error');
             }
-            
-            var card = document.querySelector('.vest-item-card[data-slug] input[value="' + productId + '"]');
+            var cards = document.querySelectorAll('.vest-item-card');
             var slug = null;
-            if (card) {
-                slug = card.closest('.vest-item-card').getAttribute('data-slug');
-            }
-            if (!slug) {
-                var cards = document.querySelectorAll('.vest-item-card');
-                cards.forEach(function(c) {
-                    if (c.innerHTML.indexOf('value="' + productId + '"') !== -1) {
-                        slug = c.getAttribute('data-slug');
-                    }
-                });
-            }
-            if (slug) {
-                window.location.href = `/products/${slug}/`;
-            } else {
-                window.location.href = '/products/';
-            }
+            cards.forEach(function(c) {
+                if (c.innerHTML.indexOf('value="' + productId + '"') !== -1) {
+                    slug = c.getAttribute('data-slug');
+                }
+            });
+            window.location.href = slug ? `/products/${slug}/` : '/products/';
         });
 };
 
@@ -196,14 +205,32 @@ function updateCartCount(count) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // +/- quantity buttons
+    const qtyMinus = document.querySelector('.vest-qty-minus');
+    const qtyPlus = document.querySelector('.vest-qty-plus');
+    const qtyInput = document.getElementById('vestQuantitySelect');
+
+    if (qtyMinus && qtyInput) {
+        qtyMinus.addEventListener('click', function() {
+            const val = parseInt(qtyInput.value) || 1;
+            if (val > 1) qtyInput.value = val - 1;
+        });
+    }
+    if (qtyPlus && qtyInput) {
+        qtyPlus.addEventListener('click', function() {
+            const val = parseInt(qtyInput.value) || 1;
+            if (val < 99) qtyInput.value = val + 1;
+        });
+    }
+
     // Add to Cart Form submit
     const addToCartVestForm = document.getElementById('addToCartVestForm');
     if (addToCartVestForm) {
         addToCartVestForm.onsubmit = function(e) {
             e.preventDefault();
             const productId = document.getElementById('vestProductId').value;
-            const size = document.getElementById('vestSizeSelect').value;
-            const color = document.getElementById('vestColorSelect').value;
+            const size = document.getElementById('vestSizeInput').value;
+            const color = document.getElementById('vestColorInput').value;
             const quantity = document.getElementById('vestQuantitySelect').value;
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             

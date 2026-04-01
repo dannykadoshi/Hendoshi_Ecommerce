@@ -180,18 +180,37 @@
             <div class="modal-body quick-add-modal-body">
                 <form id="addToCartVestForm">
                     <input type="hidden" name="product_id" id="vestProductId">
-                    <div class="quick-add-form-group" id="vestSizeWrapper">
-                        <label class="quick-add-form-label" for="vestSizeSelect">SIZE</label>
-                        <select name="size" id="vestSizeSelect" class="form-select"></select>
+
+                    <!-- Size Selection with Buttons -->
+                    <div class="quick-add-form-group" id="vestSizeWrapper" style="display: none;">
+                        <p class="quick-add-form-label" id="vestSizeLabel">Select Size <span class="required-star">*</span></p>
+                        <div class="quick-add-size-selector" id="vestSizeButtons" role="group" aria-labelledby="vestSizeLabel"></div>
+                        <input type="hidden" name="size" id="vestSizeInput">
                     </div>
-                    <div class="quick-add-form-group" id="vestColorWrapper">
-                        <label class="quick-add-form-label" for="vestColorSelect">COLOR</label>
-                        <select name="color" id="vestColorSelect" class="form-select"></select>
+
+                    <!-- Color Selection with Buttons -->
+                    <div class="quick-add-form-group" id="vestColorWrapper" style="display: none;">
+                        <p class="quick-add-form-label" id="vestColorLabel">Select Color <span class="required-star">*</span></p>
+                        <div class="quick-add-color-selector" id="vestColorButtons" role="group" aria-labelledby="vestColorLabel"></div>
+                        <input type="hidden" name="color" id="vestColorInput">
                     </div>
+
+                    <!-- Quantity -->
                     <div class="quick-add-form-group">
-                        <label class="quick-add-form-label" for="vestQuantitySelect">QUANTITY</label>
-                        <input type="number" name="quantity" id="vestQuantitySelect" class="form-control" min="1" max="99" value="1" required>
+                        <label class="quick-add-form-label" for="vestQuantitySelect">Quantity</label>
+                        <div class="quick-add-qty-wrapper">
+                            <div class="qty-control">
+                                <button type="button" class="qty-btn vest-qty-minus" aria-label="Decrease quantity">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" name="quantity" id="vestQuantitySelect" class="qty-input" min="1" max="99" value="1" readonly>
+                                <button type="button" class="qty-btn vest-qty-plus" aria-label="Increase quantity">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
+
                     <button type="submit" class="btn btn-pink quick-add-modal-submit w-100">
                         <i class="fas fa-shopping-bag"></i> ADD TO BAG
                     </button>
