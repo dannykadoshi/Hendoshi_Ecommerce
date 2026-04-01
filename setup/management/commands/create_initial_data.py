@@ -43,10 +43,20 @@ class Command(BaseCommand):
         else:
             self.stdout.write(f'Updated site domain: {site_domain}')
 
-        # Create superuser with specific credentials
-        admin_username = 'hendoshi'
-        admin_email = 'admin@hendoshi.com'
-        admin_password = 'hendoshi1058*'
+        # Create superuser with credentials from environment variables or command-line arguments
+        admin_username = options.get('admin_username') or os.environ.get('ADMIN_USERNAME', 'hendoshi')
+        admin_email = options.get('admin_email') or os.environ.get('ADMIN_EMAIL', 'admin@hendoshi.com')
+        admin_password = os.environ.get('ADMIN_PASSWORD')
+
+        # Validate that password is provided
+        if not admin_password:
+            self.stdout.write(self.style.ERROR(
+                'ADMIN_PASSWORD environment variable is required.\n'
+                'Set it before running this command:\n'
+                '  export ADMIN_PASSWORD="your-secure-password"\n'
+                '  python manage.py create_initial_data'
+            ))
+            return
 
         if not User.objects.filter(username=admin_username).exists():
             user = User.objects.create_superuser(
@@ -64,8 +74,9 @@ class Command(BaseCommand):
                 defaults={'verified': True, 'primary': True}
             )
             
-            self.stdout.write(self.style.SUCCESS(f'Created superuser: {admin_username} / {admin_password}'))
+            self.stdout.write(self.style.SUCCESS(f'Created superuser: {admin_username}'))
             self.stdout.write(self.style.SUCCESS(f'Email: {admin_email} (pre-verified)'))
+            self.stdout.write(self.style.WARNING('⚠️  Admin credentials set via environment variables'))
         else:
             self.stdout.write('Superuser already exists')
 
