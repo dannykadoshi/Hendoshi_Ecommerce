@@ -1,16 +1,16 @@
 /* ================================================
    HENDOSHI - PASSWORD RESET PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for password reset page
-   
+
+   Purpose: Detects Django form errors on the password reset page and
+            surfaces them as a toast notification
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - DOMContentLoaded handler that checks for .alert-danger or [data-form-errors="true"]
+   - Calls showToast() with a "valid email required" message if errors are found
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on password reset page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

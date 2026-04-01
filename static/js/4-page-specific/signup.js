@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - SIGNUP PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for signup page
-   
+
+   Purpose: Enhances the signup form with error toast notification,
+            inline error clearing, and has-value class toggling for floating labels
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - DOMContentLoaded check for .alert-danger or .form-error-text — shows error toast via showToast()
+   - input and change event handlers on #signupForm .form-control inputs
+   - Hides .form-error-text elements when user begins correcting a field
+   - Adds/removes .has-value class to drive floating label CSS transitions
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on signup/registration page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

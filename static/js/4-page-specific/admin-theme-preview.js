@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - ADMIN THEME PREVIEW
    ================================================
-   
-   Purpose: JavaScript functionality for admin theme preview
-   
+
+   Purpose: Initialises the seasonal theme animation on the admin
+   theme preview page. Reads theme configuration from data-* attributes
+   on <body>, calls SeasonalThemes.init(), and wires the play/pause
+   toggle button and the restart button for live preview control.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - DOMContentLoaded init: reads body.dataset and calls SeasonalThemes.init()
+   - Play/pause toggle button handler
+   - Restart animation button handler
+
+   Dependencies: seasonal_themes.js (SeasonalThemes global)
+   Load Order: Load after seasonal_themes.js on the theme preview page
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

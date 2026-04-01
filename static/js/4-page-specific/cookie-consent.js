@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - COOKIE CONSENT
    ================================================
-   
-   Purpose: JavaScript functionality for cookie consent
-   
+
+   Purpose: Manages the GDPR cookie consent banner and customisation modal,
+            persisting consent choices to the server and conditionally loading analytics
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Banner buttons: Accept All, Reject All, Customize, and Close
+   - Settings modal: granular toggle for analytics, marketing, and preference cookies
+   - setCookieConsent() — AJAX POST to /cookies/update-consent/ and sets a local cookie
+   - loadCurrentSettings() — reads existing cookie_consent cookie to pre-populate modal toggles
+   - loadAnalytics() — conditionally loads analytics scripts when consent is granted
+
+   Dependencies: base.js (getCookie, getCsrfToken helpers expected globally)
+   Load Order: Load on all pages via base.html
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

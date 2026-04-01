@@ -1,16 +1,21 @@
 /* ================================================
    HENDOSHI - ADMIN FORMS
    ================================================
-   
-   Purpose: JavaScript functionality for admin forms
-   
+
+   Purpose: Global delete confirmation modal functions for admin
+   management pages (vault photos, discount codes, shipping rates,
+   themes). Exposes functions to the global scope so they can be
+   called from inline onclick attributes in Django-rendered HTML.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - showVaultConfirmModal()   — generic vault item delete confirm
+   - confirmDiscountCodeDelete() — discount code delete confirm
+   - confirmShippingRateDelete() — shipping rate delete confirm
+   - confirmThemeDelete()      — seasonal theme delete confirm
+   - currentFormToSubmit tracking for deferred form submission
+
+   Dependencies: Bootstrap 5 (Modal)
+   Load Order: Load before any admin page that uses delete modals
    ================================================ */
 
 // ========================================

@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - PAYMENT PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for payment page
-   
+
+   Purpose: Manages the payment review page order summary — fetches live cart
+            totals and handles the shipping rate selection modal
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - fetchTotals() — AJAX GET to retrieve current cart subtotal, shipping, discount, and total
+   - updateTotals() — updates all order summary DOM elements (subtotal, shipping, discount, total, pay button)
+   - initShippingModal() — handles shipping rate radio selection and AJAX POST to update chosen rate
+   - formatMoney() — formats numeric amounts as currency strings
+
+   Dependencies: None (vanilla JS, fetch API)
+   Load Order: Load on checkout payment page only
    ================================================ */
 
 (function() {

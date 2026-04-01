@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - CREATE PRODUCT
    ================================================
-   
-   Purpose: JavaScript functionality for create product
-   
+
+   Purpose: Handles the single product creation form — floating label state,
+            dynamic image formset management, and file preview
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - has-value class toggling on form inputs for floating label CSS behavior
+   - Add Image button that clones the last image formset row and increments TOTAL_FORMS
+   - attachImageInputListeners() — file preview via FileReader and clear-X button for each image slot
+   - Inline validation error clearing on input focus and change events
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on admin single product creation page only
    ================================================ */
 
 // Create Product Page - Form Input Handlers, Image Formset, Variant Preview

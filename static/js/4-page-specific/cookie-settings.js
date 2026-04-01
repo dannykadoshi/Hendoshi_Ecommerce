@@ -1,16 +1,21 @@
 /* ================================================
    HENDOSHI - COOKIE SETTINGS
    ================================================
-   
-   Purpose: JavaScript functionality for cookie settings
-   
+
+   Purpose: Manages the cookie consent settings page. Handles the
+   Save, Accept All, and Reject All buttons by POSTing the user's
+   toggle preferences to /cookies/update-consent/ via the Fetch API,
+   then shows a success/error message and redirects on success.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Save settings handler (reads individual toggle states)
+   - Accept All handler (enables all consent categories)
+   - Reject All handler (disables all non-essential categories)
+   - updateToggles(settings) — syncs toggle UI to a consent object
+   - showMessage(text, type) — displays inline feedback message
+
+   Dependencies: Fetch API (no external libraries)
+   Load Order: Load only on the cookie settings page
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

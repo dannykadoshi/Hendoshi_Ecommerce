@@ -1,3 +1,12 @@
+{% comment %}
+HENDOSHI - PRODUCT CARDS PARTIAL
+Renders the product card grid for the main products listing page.
+Loaded via AJAX for infinite scroll pagination and filter/sort updates.
+
+Context variables:
+- products: QuerySet of Product objects to display
+- user: Current authenticated user (controls Battle Vest button visibility)
+{% endcomment %}
 {% for product in products %}
 <div class="product-card-wrapper">
     <div class="product-card glassmorphic-card">

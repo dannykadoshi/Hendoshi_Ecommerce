@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - COUNT UP
    ================================================
-   
-   Purpose: JavaScript functionality for count up
-   
+
+   Purpose: Animates stat numbers on the About page from 0 to their target value
+            using an easeOutCubic curve via requestAnimationFrame
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - easeOutCubic() — easing function for smooth deceleration
+   - animateTo() — requestAnimationFrame loop that increments a DOM element's text
+   - init() — queries all .about-stat-card .stat-number elements and kicks off animation
+   - Handles compact units (K, M) and arbitrary trailing text (%, +, etc.)
+
+   Dependencies: None (vanilla JS, no external libraries)
+   Load Order: Load on About page only
    ================================================ */
 
 // Small count-up utility for about page stats

@@ -1,16 +1,16 @@
 /* ================================================
    HENDOSHI - UTILS
    ================================================
-   
-   Purpose: JavaScript functionality for utils
-   
+
+   Purpose: Provides lightweight global utilities used across all pages:
+            auto-dismissing Bootstrap alerts and smooth anchor scroll
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Auto-dismiss: closes all .alert elements (except .guide-alert) after 4 seconds via Bootstrap Alert
+   - Smooth scroll: intercepts clicks on anchor links (href^="#") and scrolls smoothly to the target
+
+   Dependencies: Bootstrap 5 (Alert)
+   Load Order: Load on all pages via base.html (before page-specific scripts)
    ================================================ */
 
 // Auto-dismiss messages after 4 seconds (exclude guide alerts)

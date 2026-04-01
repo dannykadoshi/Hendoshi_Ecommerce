@@ -1,16 +1,20 @@
 /* ================================================
    HENDOSHI - CHECKOUT PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for checkout page
-   
+
+   Purpose: Manages saved-address selection and form auto-fill on the
+   checkout page. Allows logged-in users to click a saved address card
+   to pre-populate the shipping form fields. Also controls visibility
+   of #addressFormContainer, hiding it when a saved address is selected
+   and showing it when there are validation errors or no saved address.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Saved address card click-to-select handler
+   - fillFormFromAddress(card) — reads data-* attributes and populates form fields
+   - Address form container show/hide logic based on selection state
+
+   Dependencies: None
+   Load Order: Load on the checkout page
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

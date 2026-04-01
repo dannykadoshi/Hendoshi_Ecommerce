@@ -1,3 +1,11 @@
+{% comment %}
+HENDOSHI - CHECKOUT PROGRESS INDICATOR INCLUDE
+Renders the horizontal step-based progress bar shown at the top of checkout pages.
+Included in checkout.html and payment.html to show the user's current step.
+
+Context variables:
+- steps: List of dicts with 'label' and 'status' ('done', 'current', or 'upcoming')
+{% endcomment %}
 <!-- Progress Indicator include -->
 <div class="progress-container checkout-progress--tight">
     <div class="progress-bar-wrapper horizontal">

@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - VAULT HALL OF FAME
    ================================================
-   
-   Purpose: JavaScript functionality for vault hall of fame
-   
+
+   Purpose: Handles interactive behaviors on the Hall of Fame vault page,
+            including caption toggling, voting, and photo liking via event delegation
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - toggleCaption() — expands/collapses long photo captions with Read More/Show Less
+   - Delegated click handler for [data-action="toggle-caption"] buttons
+   - Delegated click handler for [data-action="vote"] buttons (calls votePhoto from vault.js)
+   - Delegated click handler for [data-action="like-photo"] buttons (calls likePhotoUnified from vault.js)
+
+   Dependencies: vault.js (provides votePhoto and likePhotoUnified globals)
+   Load Order: Load on Hall of Fame page only
    ================================================ */
 
 // Hall of Fame specific functionality

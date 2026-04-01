@@ -1,16 +1,20 @@
 /* ================================================
    HENDOSHI - QUICK ADD MODAL
    ================================================
-   
-   Purpose: JavaScript functionality for quick add modal
-   
+
+   Purpose: Powers the quick-add-to-cart modal triggered from product grid and
+            carousel cards, fetching variant options dynamically and submitting to cart
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - initProductCardBindings() — attaches click handlers to .product-grid-add-bag-btn and .carousel-add-cart-btn
+   - Fetches /products/{id}/variant-options/ to build size and colour selection buttons dynamically
+   - Size/colour button selection with .selected class and hidden input sync
+   - Quantity increment/decrement controls within the modal
+   - AJAX POST to /cart/add/ on form submit; updates navbar cart badge and shows toast
+   - Re-initialises bindings on newly appended cards (e.g. after infinite scroll)
+
+   Dependencies: Bootstrap 5 (Modal), base.js (showToast)
+   Load Order: Load on product listing and product detail pages
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

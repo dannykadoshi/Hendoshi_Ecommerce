@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - NAVIGATION DROPDOWN
    ================================================
-   
-   Purpose: JavaScript functionality for navigation dropdown
-   
+
+   Purpose: Enhances desktop navbar dropdowns with hover-open behavior and
+            assigns CSS --item-index variables for staggered menu animations
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Sets --item-index CSS custom property on .menu-item-animate and .submenu-item-animate elements
+   - Desktop hover-to-open/close Bootstrap dropdown with 100ms hide delay
+   - Closes any open dropdown when hovering over a non-dropdown nav link
+   - Blurs toggle buttons after hide to prevent lingering focus ring
+
+   Dependencies: Bootstrap 5 (Dropdown)
+   Load Order: Load on all pages via base.html
    ================================================ */
 
 // Dropdown hover behavior for desktop

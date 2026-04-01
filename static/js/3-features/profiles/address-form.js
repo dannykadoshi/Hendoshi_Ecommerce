@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - ADDRESS FORM
    ================================================
-   
-   Purpose: JavaScript functionality for address form
-   
+
+   Purpose: Adds the .has-value CSS class to address form inputs
+   that already contain a value on page load, enabling CSS-driven
+   visual feedback (e.g. floating labels, filled-field styles) for
+   pre-populated fields without waiting for a change event.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - DOMContentLoaded handler that iterates .address-form inputs
+   - .has-value class toggling based on input.value truthiness
+
+   Dependencies: None
+   Load Order: Load on any page that renders the address form
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

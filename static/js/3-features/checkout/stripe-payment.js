@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - STRIPE PAYMENT
    ================================================
-   
-   Purpose: JavaScript functionality for stripe payment
-   
+
+   Purpose: Initializes the Stripe card element and handles the full payment
+            submission flow including validation, loading state, and error display
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - startStripeInit() — creates Stripe instance, mounts the card element to #card-element
+   - Card element real-time error display on 'change' events
+   - Form submit handler that calls stripe.confirmCardPayment() with the PaymentIntent client secret
+   - Loading overlay toggle and submit button disable during processing
+   - Graceful error messaging if Stripe.js or config keys are missing
+
+   Dependencies: Stripe.js (loaded from js.stripe.com)
+   Load Order: Load on checkout payment page only
    ================================================ */
 
 // Stripe payment flow for Hendoshi checkout

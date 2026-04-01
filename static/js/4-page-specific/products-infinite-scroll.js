@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - PRODUCTS INFINITE SCROLL
    ================================================
-   
-   Purpose: JavaScript functionality for products infinite scroll
-   
+
+   Purpose: Implements infinite scroll on the product listing page using
+            IntersectionObserver to load additional pages as the user scrolls down
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - IntersectionObserver watching #infiniteScrollLoader with 200px rootMargin pre-trigger
+   - loadNextPage() — fetches the next page URL, parses returned HTML, and appends new product cards to #productsGrid
+   - Updates data-has-next and data-next-page attributes on the loader for sequential pagination
+   - Stops observing when all pages are exhausted
+
+   Dependencies: None (vanilla JS, fetch API, IntersectionObserver)
+   Load Order: Load on product listing pages only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

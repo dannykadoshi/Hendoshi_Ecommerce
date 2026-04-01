@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - BASE GLOBAL
    ================================================
-   
-   Purpose: JavaScript functionality for base global
-   
+
+   Purpose: Global behaviours loaded on every page — Django toast display,
+            admin/vault/content-moderation submenus, and the mobile slide-out menu
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Django messages toast auto-dismiss with hover-pause and staggered animation
+   - Admin panel, vault, and content moderation click-triggered submenus with outside-click dismissal
+   - Mobile hamburger menu toggle (navBurger, mobileMenu, mobileMenuOverlay) with body scroll lock
+   - Mobile submenu accordion with back-button navigation
+   - Mobile search toggle, currency switcher, and mobile theme toggle handlers
+
+   Dependencies: Bootstrap 5 (Dropdown)
+   Load Order: Load on all pages via base.html
    ================================================ */
 
 // ============================================

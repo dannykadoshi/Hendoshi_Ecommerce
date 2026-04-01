@@ -1,3 +1,11 @@
+{% comment %}
+HENDOSHI - REVIEW CARD INCLUDE
+Renders a single product review card for the product detail page.
+Included inside the review list loop in product_detail.html.
+
+Context variables:
+- review: ProductReview object with user, rating, body, is_verified_purchase
+{% endcomment %}
 <div class="review-card" data-review-id="{{ review.id }}">
     <div class="review-header">
         <div>

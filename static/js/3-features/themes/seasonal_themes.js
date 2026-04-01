@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - SEASONAL THEMES
    ================================================
-   
-   Purpose: JavaScript functionality for seasonal themes
-   
+
+   Purpose: Implements the seasonal particle animation system — spawning themed
+            emoji/icon particles on hero containers with configurable speed and density
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - SeasonalThemes global object with themeConfigs for 11 themes (christmas, valentines, etc.)
+   - init() — merges options, finds .page-hero/.vault-hero containers, starts animation loop
+   - createParticle() — spawns a randomised particle element with theme-specific animation class
+   - requestAnimationFrame loop that spawns and removes particles based on density/speed settings
+   - densityMap and speedMap for light/medium/heavy and slow/normal/fast configuration
+
+   Dependencies: theme-animation-layer.js (calls SeasonalThemes.init())
+   Load Order: Load on all pages before theme-animation-layer.js
    ================================================ */
 
 const SeasonalThemes = {

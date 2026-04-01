@@ -1,16 +1,16 @@
 /* ================================================
    HENDOSHI - LOGIN PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for login page
-   
+
+   Purpose: Detects Django form authentication errors on the login page and
+            surfaces them as a toast notification
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - DOMContentLoaded handler that checks for .alert-danger or [data-form-errors="true"]
+   - Calls showToast() with an invalid credentials message if errors are found
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on login page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

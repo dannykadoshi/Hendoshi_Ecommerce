@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - NEWSLETTER POPUP
    ================================================
-   
-   Purpose: JavaScript functionality for newsletter popup
-   
+
+   Purpose: Displays a timed newsletter subscription popup for unauthenticated
+            visitors, suppressed via a 7-day cookie after dismissal
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Cookie-based display suppression (hendoshi_newsletter_popup_dismissed, 7-day expiry)
+   - Skips popup for authenticated users and newsletter confirmation/unsubscribe pages
+   - Popup HTML injected dynamically into the DOM after a 3-second delay
+   - AJAX subscription form with email validation and GDPR consent checkbox
+   - Close handlers for backdrop click, close button, and post-success auto-dismiss
+
+   Dependencies: None (vanilla JS, fetch API)
+   Load Order: Load on all pages via base.html
    ================================================ */
 
 (function() {

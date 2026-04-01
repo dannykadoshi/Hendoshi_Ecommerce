@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - ADMIN THEME FORM
    ================================================
-   
-   Purpose: JavaScript functionality for admin theme form
-   
+
+   Purpose: Drives the admin seasonal theme configuration form — live theme
+            preview descriptions and conditional message strip settings visibility
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - updateThemePreview() — shows emoji and description for the selected theme type in #themeTypePreview
+   - themeDescriptions map for all 11 seasonal theme types
+   - toggleStripSettings() — shows/hides #stripSettingsContainer based on #id_show_message_strip checkbox
+   - Strip preview visibility toggle via .strip-preview-hidden CSS class on checkbox change
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on admin theme management form page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -1,16 +1,20 @@
 /* ================================================
    HENDOSHI - PRODUCT DETAIL MAIN
    ================================================
-   
-   Purpose: JavaScript functionality for product detail main
-   
+
+   Purpose: Drives the core product detail page interactions — size/colour variant
+            selection, quantity controls, sticky bar sync, and add-to-cart validation
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Size and colour button selection with .selected class and hidden input sync
+   - syncStickyFromInputs() — keeps sticky bar dropdowns in sync with the main variant buttons
+   - Quantity increment/decrement with min-value guard and manual input validation
+   - incrementQuantity() / decrementQuantity() exposed as window globals for inline onclick use
+   - Add-to-cart form validation: requires size/colour selection before submit, shows toast on error
+   - Login redirect button for unauthenticated users attempting to add to cart
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on product detail page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

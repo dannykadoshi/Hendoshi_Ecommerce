@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - NEWSLETTER VALIDATION
    ================================================
-   
-   Purpose: JavaScript functionality for newsletter validation
-   
+
+   Purpose: Validates and submits the inline newsletter subscription form via AJAX,
+            enforcing email format and GDPR consent checkbox requirements
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Submit handler on #newsletterForm with client-side email and consent validation
+   - AJAX POST to /notifications/newsletter/subscribe/ with CSRF token
+   - showError() — displays inline error message and auto-hides after 4 seconds
+   - showSuccessMessage() — shows green confirmation message on successful subscription
+   - Handles 200 (success), 409 (already subscribed), and error HTTP responses
+
+   Dependencies: None (vanilla JS, fetch API)
+   Load Order: Load on pages containing the newsletter form (e.g. homepage footer)
    ================================================ */
 
 // Newsletter Form Validation

@@ -1,3 +1,11 @@
+{% comment %}
+HENDOSHI - RELATED PRODUCT CARDS PARTIAL
+Renders product cards for the "You Might Also Like" carousel on the product detail page.
+
+Context variables:
+- related_products: QuerySet of Product objects in the same collection/type
+- user: Current user (controls Battle Vest button visibility)
+{% endcomment %}
 {% for related in related_products %}
 <div class="related-product-item">
     <div class="product-card">

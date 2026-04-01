@@ -1,16 +1,20 @@
 /* ================================================
    HENDOSHI - BULK CREATE FORM
    ================================================
-   
-   Purpose: JavaScript functionality for bulk create form
-   
+
+   Purpose: Drives the admin bulk product creation form — auto-filling names,
+            setting default prices, previewing images, and tracking form completion progress
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Auto-fill product names from a base design name (on blur and button click)
+   - Set default price across all unfilled price inputs via prompt dialog
+   - Expand All / Collapse All accordion sections
+   - Image preview on file input change using FileReader
+   - Progress indicator that counts how many accordion items have all required fields filled
+   - showStyledAlert() / closeStyledAlert() — custom modal alert (replaces browser alert)
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on admin bulk product creation form page only
    ================================================ */
 
 // Bulk Create Form - Auto-fill, Progress Tracking, Image Preview, AI Generation

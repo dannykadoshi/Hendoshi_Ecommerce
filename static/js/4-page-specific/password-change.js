@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - PASSWORD CHANGE PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for password change page
-   
+
+   Purpose: Enhances the password change form with inline error clearing
+            and has-value class toggling for floating label styling
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - input and change event handlers on #passwordChangeForm .form-control inputs
+   - Hides .form-error-text elements when user begins correcting a field
+   - Adds/removes .has-value class to drive floating label CSS transitions
+   - Initialises .has-value on fields that already contain a value on page load
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on password change page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

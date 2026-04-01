@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - PRODUCTS FILTERS
    ================================================
-   
-   Purpose: JavaScript functionality for products filters
-   
+
+   Purpose: Controls the product listing filter panel and sort controls —
+            opening/closing the filter drawer, tab switching, and URL-based sort/filter submission
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Open/close handlers for the #filtersDropdown drawer and #filtersOverlay backdrop
+   - Filter tab switching between .filter-tab-pane content areas
+   - Sort selector (#sortSelector) change handler that updates URL query parameters
+   - Filter checkbox single-selection enforcement within each named group
+   - Apply and Clear filter button handlers that submit or reset the filter form
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on product listing pages only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

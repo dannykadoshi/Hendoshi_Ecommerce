@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - CONTACT FORM
    ================================================
-   
-   Purpose: JavaScript functionality for contact form
-   
+
+   Purpose: Enhances the contact form with a live message character counter
+            and client-side validation before submit
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Live character counter on the message textarea (1000-char limit) with warning/danger CSS states
+   - Client-side validation of name, email format, subject selection, and message length on submit
+   - showValidationError() — calls showToast() or falls back to window.alert for error messages
+   - isValidEmail() — regex-based email format validation
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on contact page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

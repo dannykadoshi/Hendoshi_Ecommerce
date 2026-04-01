@@ -1,3 +1,12 @@
+{% comment %}
+HENDOSHI - RECENTLY VIEWED PRODUCT CARDS PARTIAL
+Renders product cards for the "Recently Viewed" section on the product detail page.
+Products are tracked via session-based recently viewed list.
+
+Context variables:
+- recently_viewed_products: QuerySet of recently viewed Product objects
+- user: Current user (controls Battle Vest button visibility)
+{% endcomment %}
 {% for viewed_product in recently_viewed_products %}
 <div class="recently-viewed-product-item">
     <div class="product-card">

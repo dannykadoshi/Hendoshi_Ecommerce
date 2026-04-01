@@ -1,3 +1,11 @@
+{% comment %}
+HENDOSHI - VAULT PRODUCT CARDS PARTIAL
+Renders product cards for products tagged in a Vault photo.
+Included inside the photo detail/lightbox view to show shoppable items.
+
+Context variables:
+- photo: VaultPhoto object whose tagged_products are iterated
+{% endcomment %}
 {% for product in photo.tagged_products.all %}
 <div class="col-lg-4 col-md-6">
     <div class="vault-product-card">

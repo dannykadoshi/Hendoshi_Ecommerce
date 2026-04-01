@@ -1,16 +1,17 @@
 /* ================================================
    HENDOSHI - THEME ANIMATION LAYER
    ================================================
-   
-   Purpose: JavaScript functionality for theme animation layer
-   
+
+   Purpose: Reads seasonal theme configuration from body data attributes and
+            activates the particle animation system on .page-hero and .vault-hero elements
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Reads data-seasonal-theme, data-seasonal-speed, data-seasonal-density, data-seasonal-paused from <body>
+   - Applies .theme-active and .theme-speed-{speed} CSS classes to hero containers
+   - Calls SeasonalThemes.init() from seasonal_themes.js if a theme is active
+
+   Dependencies: seasonal_themes.js (SeasonalThemes global)
+   Load Order: Load on all pages after seasonal_themes.js
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -1,16 +1,16 @@
 /* ================================================
    HENDOSHI - ORDER DETAIL
    ================================================
-   
-   Purpose: JavaScript functionality for order detail
-   
+
+   Purpose: Provides copy-to-clipboard functionality for tracking numbers
+            on the order detail page
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - window.copyTracking() — copies a tracking number to the clipboard via navigator.clipboard
+   - Shows a showToast() success or error notification on copy result
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on order detail page only
    ================================================ */
 
 window.copyTracking = function(trackingNumber) {

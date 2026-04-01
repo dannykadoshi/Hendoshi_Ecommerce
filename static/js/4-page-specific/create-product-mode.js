@@ -1,16 +1,16 @@
 /* ================================================
    HENDOSHI - CREATE PRODUCT MODE
    ================================================
-   
-   Purpose: JavaScript functionality for create product mode
-   
+
+   Purpose: Handles the Single vs Bulk mode toggle on the product creation
+            entry page, redirecting to the bulk creation tool when selected
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Click handler on #bulkModeBtn to redirect to the bulk create URL (from data attribute)
+   - Hover handlers that update the #modeDescription hint text dynamically
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on admin product creation mode selection page only
    ================================================ */
 
 // Creation Mode Toggle - Single vs Bulk

@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - NOTIFICATION PREFERENCES
    ================================================
-   
-   Purpose: JavaScript functionality for notification preferences
-   
+
+   Purpose: Controls the master email notification toggle on the
+   notification preferences page. Enables or disables the full
+   #notificationOptions section based on the master checkbox state,
+   preventing sub-options from being submitted when email is off.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Master toggle change listener on email_notifications_enabled
+   - Enable/disable logic for #notificationOptions fieldset
+
+   Dependencies: None
+   Load Order: Load on the notification preferences page
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

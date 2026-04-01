@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - BULK SELECT TYPES
    ================================================
-   
-   Purpose: JavaScript functionality for bulk select types
-   
+
+   Purpose: Drives the product type and audience selection step of bulk creation,
+            calculating the total number of products to be created and enabling form submission
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Click handlers on .product-type-card and .audience-card to toggle checkbox selection
+   - updateSelection() — shows/hides audience section for apparel types requiring gender targeting
+   - isApparelType() — detects apparel categories by data attribute or product name keywords
+   - Total product count calculation and summary display in #selectionSummary
+   - Submit button enable/disable logic based on valid type + audience combinations
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on admin bulk product type selection page only
    ================================================ */
 
 // Bulk Select Types - Product Type & Audience Selection, Total Calculation

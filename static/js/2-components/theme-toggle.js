@@ -1,16 +1,17 @@
 /* ================================================
    HENDOSHI - THEME TOGGLE
    ================================================
-   
-   Purpose: JavaScript functionality for theme toggle
-   
+
+   Purpose: Implements dark/light mode switching, persisting the user's
+            preference to localStorage and respecting the OS preference as default
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Reads saved theme from localStorage or falls back to prefers-color-scheme media query
+   - setTheme() — adds/removes .light-mode on <html> and updates the toggle button icon
+   - Click handler on #themeToggle to flip between dark and light modes
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on all pages via base.html
    ================================================ */
 
 // Theme Toggle Functionality

@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - EDIT PRODUCT QUILL
    ================================================
-   
-   Purpose: JavaScript functionality for edit product quill
-   
+
+   Purpose: Initializes the Quill rich text editor for the product story/description
+            field and provides character counters for both story and SEO meta description
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Quill editor initialization on #quill-editor with snow theme (bold, italic, lists, link)
+   - text-change listener that syncs Quill plain text to the hidden #id_story textarea
+   - updateStoryCharCountAndPreview() — live 500-char counter and preview for story field
+   - updateMetaCharCount() — live 160-char counter for SEO meta description field
+   - getCookie() helper to read Django CSRF token from document.cookie
+
+   Dependencies: Quill.js (snow theme)
+   Load Order: Load on admin edit product page only
    ================================================ */
 
 // Edit Product - Quill Editor Initialization and AI Generation for Meta/Story/Description

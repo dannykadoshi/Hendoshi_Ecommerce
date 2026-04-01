@@ -1,16 +1,20 @@
 /* ================================================
    HENDOSHI - PROFILE PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for profile page
-   
+
+   Purpose: Handles interactive behaviour on the user profile page:
+   address deletion confirmation flow and notification preferences
+   master toggle. Keeps destructive actions behind a confirmation
+   modal so accidental deletions are prevented.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - showDeleteConfirmation(addressId, addressDisplay) — opens modal
+   - closeConfirmationModal()                          — closes modal
+   - executeDeleteConfirmation()                       — submits delete
+   - Notification preferences master toggle listener
+
+   Dependencies: None
+   Load Order: Load on the profile/account page
    ================================================ */
 
 // Address deletion confirmation

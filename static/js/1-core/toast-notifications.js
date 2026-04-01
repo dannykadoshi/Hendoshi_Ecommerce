@@ -1,16 +1,23 @@
 /* ================================================
    HENDOSHI - TOAST NOTIFICATIONS
    ================================================
-   
-   Purpose: JavaScript functionality for toast notifications
-   
+
+   Purpose: Provides a global window.showToast() utility for
+   displaying non-blocking, auto-dismissing toast messages anywhere
+   in the site. Supports four types (success, error, info, warning),
+   each with a distinct colour and icon. Toasts are created as DOM
+   elements, appended to a container, and removed after a configurable
+   duration or when clicked.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - window.showToast(message, type, duration) — public API
+   - Toast DOM element creation and styled injection
+   - Auto-remove timer and click-to-dismiss handler
+   - Toast container (#toast-container) lazy creation
+
+   Dependencies: None
+   Load Order: Load in <head> or early in base.html before any script
+               that may call showToast()
    ================================================ */
 
 /**

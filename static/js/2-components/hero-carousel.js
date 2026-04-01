@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - HERO CAROUSEL
    ================================================
-   
-   Purpose: JavaScript functionality for hero carousel
-   
+
+   Purpose: Controls the homepage hero section's background image slideshow,
+            including dot navigation, auto-play, and accessibility inert management
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - showSlide() — transitions between .carousel-slide elements and updates nav dots
+   - Auto-play timer (5s interval) with startHeroAutoplay / stopHeroAutoplay / resetHeroAutoplay
+   - Navigation dot click handlers to jump to a specific slide
+   - Pause on hover (mouseenter/mouseleave) and on touch (touchstart/touchend)
+   - Page visibility API listener to stop auto-play when the tab is inactive
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on homepage only
    ================================================ */
 
 // Hero background carousel with navigation dots

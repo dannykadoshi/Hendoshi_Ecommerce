@@ -1,16 +1,15 @@
 /* ================================================
    HENDOSHI - PRODUCTS OLD PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for products old page
-   
+
+   Purpose: Legacy sort selector handler for the old product listing page;
+            redirects to the selected sort URL on change (superseded by products-filters.js)
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - change event listener on #sort-selector that sets window.location.href to the selected value
+
+   Dependencies: None (vanilla JS)
+   Load Order: Legacy — only loaded if the old product listing template is still in use
    ================================================ */
 
 document.getElementById('sort-selector').addEventListener('change', function() {

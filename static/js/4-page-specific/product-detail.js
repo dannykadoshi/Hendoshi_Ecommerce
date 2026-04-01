@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - PRODUCT DETAIL PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for product detail page
-   
+
+   Purpose: Handles secondary product detail interactions — making related and
+            recently-viewed carousel cards clickable, vest (wishlist) toggling, and
+            quick add-to-cart from carousel items
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - makeCarouselCardsClickable() — delegated click/touchend handler to navigate to product URL
+   - Vest toggle: AJAX POST to /vault/toggle_vest/{slug}/ with icon and badge count update
+   - Carousel add-to-cart: AJAX POST to /cart/add/ for .carousel-add-cart-btn buttons
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on product detail page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

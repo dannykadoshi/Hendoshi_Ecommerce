@@ -1,16 +1,20 @@
 /* ================================================
    HENDOSHI - BATTLE VEST
    ================================================
-   
-   Purpose: JavaScript functionality for battle vest
-   
+
+   Purpose: Handles the Add-to-Cart modal flow for Battle Vest
+   products. Fetches available variant options (sizes and colours)
+   via AJAX, builds toggle button UI dynamically, manages quantity
+   +/- controls, and submits the selected variant to the cart.
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - openAddToCartVestModal(productId) — fetches /products/{id}/variant-options/
+   - Dynamic size/colour toggle button rendering
+   - Quantity increment/decrement handlers
+   - Add-to-cart form submission handler
+
+   Dependencies: Fetch API (no external libraries)
+   Load Order: Load on product detail and product listing pages
    ================================================ */
 
 let vestProductId = null;

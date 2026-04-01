@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - CAROUSELS
    ================================================
-   
-   Purpose: JavaScript functionality for carousels
-   
+
+   Purpose: Powers the Collections carousel on the homepage with manual
+            prev/next navigation, looping, and auto-play that pauses on hover
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - updateCollectionsCarousel() — translates the carousel track to show the current index
+   - nextCollectionsSlide() / prevCollectionsSlide() — advance with looping support
+   - Auto-play timer (4s interval) with startAutoPlay / stopAutoPlay / resetAutoPlay
+   - Mouseenter/mouseleave listeners on the container and individual cards to pause auto-play
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on homepage only
    ================================================ */
 
 // Collections Carousel

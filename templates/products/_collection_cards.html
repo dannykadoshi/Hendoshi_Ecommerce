@@ -1,3 +1,11 @@
+{% comment %}
+HENDOSHI - COLLECTION CARDS PARTIAL
+Renders product card-style tiles for each collection on the collections page.
+Clicking the card navigates to the collection detail page.
+
+Context variables:
+- collections: QuerySet of Collection objects
+{% endcomment %}
 {% for collection in collections %}
 <div class="product-card-wrapper">
     <div class="product-card glassmorphic-card cursor-pointer" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">

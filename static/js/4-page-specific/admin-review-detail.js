@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - ADMIN REVIEW DETAIL
    ================================================
-   
-   Purpose: JavaScript functionality for admin review detail
-   
+
+   Purpose: Drives the admin review moderation UI — approve/reject status updates,
+            admin reply submission/removal, and image deletion via AJAX
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - updateStatus() / proceedWithStatusUpdate() — AJAX POST to approve or reject a review
+   - Admin reply form submission and clearReply() — save or remove admin reply via fetch
+   - deleteImage() — AJAX DELETE for individual review images
+   - showReviewConfirmModal() / closeReviewConfirmModal() — Bootstrap modal confirmation dialog
+
+   Dependencies: Bootstrap 5 (Modal), base.js (showToast)
+   Load Order: Load on admin review detail page only
    ================================================ */
 
 // Admin Review Detail - Review Status Update, Admin Reply, Image Deletion

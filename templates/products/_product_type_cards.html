@@ -1,3 +1,11 @@
+{% comment %}
+HENDOSHI - PRODUCT TYPE CARDS PARTIAL
+Renders product card-style tiles for each product type (e.g. T-Shirt, Hoodie).
+Clicking the card filters the products page by that type.
+
+Context variables:
+- product_types: QuerySet of ProductType objects
+{% endcomment %}
 {% for product_type in product_types %}
 <div class="product-card-wrapper">
     <div class="product-card glassmorphic-card cursor-pointer" onclick="window.location.href='{% url 'products' %}?type={{ product_type.slug }}'">

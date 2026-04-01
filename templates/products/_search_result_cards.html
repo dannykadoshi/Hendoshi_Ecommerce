@@ -1,3 +1,12 @@
+{% comment %}
+HENDOSHI - SEARCH RESULT CARDS PARTIAL
+Renders product cards for the search results page.
+Returned by the AJAX search endpoint and injected into the results grid.
+
+Context variables:
+- products: QuerySet of Product objects matching the search query
+- user: Current user (controls Battle Vest button visibility)
+{% endcomment %}
 {% for product in products %}
 <div class="product-card-wrapper">
     <div class="product-card glassmorphic-card">

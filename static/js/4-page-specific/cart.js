@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - SHOPPING CART PAGE
    ================================================
-   
-   Purpose: JavaScript functionality for shopping cart page
-   
+
+   Purpose: Manages all cart page interactions — quantity updates via AJAX,
+            item removal with confirmation modal, and live total/badge sync
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - incrementQty() / decrementQty() — adjust quantity inputs with stock-limit checks
+   - updateCartAjax() — AJAX POST to update item quantity; updates subtotals, totals, and cart badge
+   - confirmRemove() — shows a Bootstrap confirmation modal before item removal
+   - updateCartCountBadge() — syncs the navbar cart badge count after any change
+   - syncCheckoutButtons() — enables/disables checkout buttons based on cart item count
+
+   Dependencies: base.js (showToast), Bootstrap 5 (Modal)
+   Load Order: Load on cart page only
    ================================================ */
 
 (function() {

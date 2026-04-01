@@ -1,16 +1,19 @@
 /* ================================================
    HENDOSHI - PRODUCT REVIEWS
    ================================================
-   
-   Purpose: JavaScript functionality for product reviews
-   
+
+   Purpose: Handles review eligibility checking, submission, image preview,
+            and load-more pagination on the product detail reviews section
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - Write review button: AJAX eligibility check before revealing the review form
+   - Review form submit: validates rating and minimum text length, submits via AJAX with CSRF
+   - Image preview: FileReader-based preview for up to 3 uploaded review images (5 MB limit each)
+   - Cancel button: resets and hides the form, clears image previews
+   - Load more button: fetches and appends additional review cards via AJAX pagination
+
+   Dependencies: base.js (showToast)
+   Load Order: Load on product detail page only
    ================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {

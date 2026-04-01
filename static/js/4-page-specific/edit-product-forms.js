@@ -1,16 +1,18 @@
 /* ================================================
    HENDOSHI - EDIT PRODUCT FORMS
    ================================================
-   
-   Purpose: JavaScript functionality for edit product forms
-   
+
+   Purpose: Manages the edit product form — floating label states, image file
+            preview with clear buttons, formset image rows, and variant status toggling
+
    Contains:
-   - Event handlers
-   - User interactions
-   - Dynamic functionality
-   
-   Dependencies: utils.js (typically)
-   Load Order: Load as needed for specific pages
+   - File input change/clear logic for main image and additional image formset rows
+   - FileReader-based live image preview for main and additional images
+   - has-value class toggling on all text, select, and number form inputs
+   - Inline form validation error clearing on input and change events
+
+   Dependencies: None (vanilla JS)
+   Load Order: Load on admin edit product page only
    ================================================ */
 
 // Edit Product - Form Input Handlers, File Previews, Image Formset, Variant Status
