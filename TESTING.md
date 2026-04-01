@@ -1365,6 +1365,25 @@ Mobile Lighthouse does not test on a real phone. It simulates an **underpowered 
 | Priority values set | Products: 0.9, Collections: 0.7, Static: 1.0 | ✅ Pass |
 | Changefreq set | `weekly` for products/collections, `monthly` for static | ✅ Pass |
 
+### Google Search Console Verification
+
+**Method:** HTML meta tag (`<meta name="google-site-verification" ...>`) added to `base.html`.
+
+**Result: Ownership verified ✅**
+
+<details>
+<summary>📸 View Screenshot — Google Search Console Verified</summary>
+
+![Google Search Console Verified](assets/readme/google-search-console-verified.png)
+
+</details>
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| Verification method | HTML meta tag | ✅ Pass |
+| Ownership confirmed | Verified in Search Console | ✅ Pass |
+| Meta tag present in `<head>` | `google-site-verification` content attribute | ✅ Pass |
+
 ### `rel` Attributes on External Links
 
 | Link | Location | `rel` Value | Result |
