@@ -63,6 +63,13 @@
 - [Testing](#-testing)
 - [Deployment](#-deployment)
 - [SEO & Marketing](#-seo--marketing)
+- [System Architecture](#-system-architecture)
+  - [Technology Stack](#technology-stack)
+  - [Data Model Architecture](#data-model-architecture)
+  - [Request Flow Diagram](#request-flow-diagram)
+  - [Authentication Flow](#authentication-flow)
+  - [Payment Flow](#payment-flow---stripe-integration)
+- [Environment Variables Reference](#-environment-variables-reference)
 - [Credits](#-credits)
 - [Acknowledgments](#-acknowledgments)
 - [Contact](#-contact)
@@ -1349,6 +1356,563 @@ All links pointing to external resources implement the correct `rel` attributes:
 - ✅ **Double opt-in** — Newsletter requires email confirmation
 - ✅ **One-click unsubscribe** — Token-based, no login required
 - ✅ **Consent logging** — Timestamp and consent flag stored per subscriber
+
+---
+
+## 📐 System Architecture
+
+### Technology Stack
+
+```
+Frontend Layer
+├── HTML5 / Django Templates
+├── CSS3 (Logical Properties, Grid, Flexbox)
+├── JavaScript (Vanilla ES6+)
+└── Bootstrap 5.3
+
+Application Layer
+├── Django 5.2.10
+├── Django REST Framework (API)
+├── Django Allauth (Authentication)
+├── Unfold Admin (Custom Admin UI)
+└── Management Commands (Data seeding)
+
+Database Layer
+├── PostgreSQL 14+ (Production)
+├── SQLite3 (Development/Testing)
+└── Django ORM (Query Management)
+
+External Services
+├── Stripe (Payments & Webhooks)
+├── Cloudinary (Media Storage)
+├── Resend API (Email Delivery)
+└── Google Gemini (AI Content)
+```
+
+### Data Model Architecture
+
+#### Core Entity Relationship Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        USER SYSTEM                              │
+├─────────────────────────────────────────────────────────────────┤
+│  User (Django Auth)                                             │
+│  ├─ id: PK                                                      │
+│  ├─ username: CharField (unique)                               │
+│  ├─ email: EmailField (unique)                                 │
+│  ├─ password: CharField (hashed)                               │
+│  ├─ is_active: BooleanField                                    │
+│  ├─ is_staff: BooleanField                                     │
+│  ├─ is_superuser: BooleanField                                 │
+│  ├─ date_joined: DateTimeField                                 │
+│  └─ last_login: DateTimeField (nullable)                       │
+│                                                                 │
+│  Profile (1:1 extension)                                       │
+│  ├─ user: OneToOneField → User                                 │
+│  ├─ bio: TextField (optional)                                  │
+│  ├─ avatar: ImageField (optional)                              │
+│  ├─ phone: CharField (optional)                                │
+│  ├─ preferences: JSONField                                     │
+│  └─ created_at: DateTimeField                                  │
+│                                                                 │
+│  Address (1:N - multiple addresses per user)                   │
+│  ├─ user: ForeignKey → User                                    │
+│  ├─ address_line_1: CharField                                  │
+│  ├─ address_line_2: CharField (optional)                       │
+│  ├─ city: CharField                                            │
+│  ├─ postcode: CharField                                        │
+│  ├─ country: CharField                                         │
+│  ├─ address_type: CharField (Billing/Shipping)                 │
+│  ├─ is_default: BooleanField                                   │
+│  └─ created_at: DateTimeField                                  │
+└─────────────────────────────────────────────────────────────────┘
+         ↓                                    ↓
+         │                                    │
+┌────────┴──────────────────────────┐  ┌─────┴────────────────────┐
+│                                   │  │                          │
+v                                   v  v                          │
+┌─────────────────────────────────────────────────────────────────┐
+│                    PRODUCT CATALOG                              │
+├─────────────────────────────────────────────────────────────────┤
+│  Product                                                        │
+│  ├─ id: PK                                                      │
+│  ├─ title: CharField                                           │
+│  ├─ slug: SlugField (unique)                                   │
+│  ├─ description: TextField                                     │
+│  ├─ price: DecimalField                                        │
+│  ├─ discount_price: DecimalField (nullable)                    │
+│  ├─ product_type: ForeignKey → ProductType                     │
+│  ├─ collection: ManyToManyField → Collection                   │
+│  ├─ is_active: BooleanField                                    │
+│  ├─ is_featured: BooleanField                                  │
+│  ├─ stock_quantity: IntegerField                               │
+│  ├─ sku: CharField (unique)                                    │
+│  ├─ rating: FloatField (average, denormalized)                 │
+│  ├─ rating_count: IntegerField                                 │
+│  ├─ created_at: DateTimeField                                  │
+│  └─ updated_at: DateTimeField                                  │
+│                                                                 │
+│  ProductImage (1:N - multiple images per product)              │
+│  ├─ product: ForeignKey → Product                              │
+│  ├─ image: ImageField                                          │
+│  ├─ alt_text: CharField (SEO)                                  │
+│  ├─ order: IntegerField (display order)                        │
+│  └─ created_at: DateTimeField                                  │
+│                                                                 │
+│  ProductType (Classification)                                  │
+│  ├─ id: PK                                                      │
+│  ├─ name: CharField (T-Shirt, Hoodie, etc)                     │
+│  ├─ slug: SlugField                                            │
+│  └─ description: TextField (optional)                          │
+│                                                                 │
+│  Collection (Category grouping)                                │
+│  ├─ id: PK                                                      │
+│  ├─ name: CharField (Skulls, Animals, etc)                     │
+│  ├─ slug: SlugField                                            │
+│  ├─ description: TextField                                     │
+│  ├─ image: ImageField (optional)                               │
+│  └─ is_featured: BooleanField                                  │
+│                                                                 │
+│  ProductReview (1:N - reviews per product)                     │
+│  ├─ product: ForeignKey → Product                              │
+│  ├─ user: ForeignKey → User                                    │
+│  ├─ rating: IntegerField (1-5 stars)                           │
+│  ├─ title: CharField                                           │
+│  ├─ content: TextField                                         │
+│  ├─ helpful_votes: IntegerField                                │
+│  ├─ is_verified_purchase: BooleanField                         │
+│  ├─ created_at: DateTimeField                                  │
+│  └─ updated_at: DateTimeField                                  │
+└─────────────────────────────────────────────────────────────────┘
+         ↓                                                        │
+         │                                                        │
+         └────────────────────┬─────────────────────────────────┘
+                              │
+         ┌────────────────────┴──────────────┐
+         v                                   v
+┌─────────────────────────────────────────────────────────────────┐
+│                    SHOPPING SYSTEM                              │
+├─────────────────────────────────────────────────────────────────┤
+│  Cart (Session-based ephemeral data)                            │
+│  └─ session_key: CharField (Django session)                     │
+│     ├─ cart_items: List[CartItem]                              │
+│     ├─ subtotal: DecimalField (calculated)                     │
+│     ├─ tax: DecimalField (calculated)                          │
+│     └─ total: DecimalField (calculated)                        │
+│                                                                 │
+│  CartItem (Session-stored)                                     │
+│  ├─ product: ForeignKey → Product                              │
+│  ├─ quantity: IntegerField                                     │
+│  ├─ selected_size: CharField (optional)                        │
+│  ├─ selected_color: CharField (optional)                       │
+│  ├─ unit_price: DecimalField (snapshot)                        │
+│  └─ line_total: DecimalField (quantity × unit_price)          │
+│                                                                 │
+│  Order (Persisted transaction)                                 │
+│  ├─ id: PK                                                      │
+│  ├─ order_number: CharField (unique, human-readable)           │
+│  ├─ user: ForeignKey → User (nullable for guests)              │
+│  ├─ status: CharField (Pending/Processing/Shipped/Delivered)   │
+│  ├─ shipping_address: ForeignKey → Address                     │
+│  ├─ billing_address: ForeignKey → Address                      │
+│  ├─ email: EmailField (for notifications)                      │
+│  ├─ phone: CharField                                           │
+│  ├─ subtotal: DecimalField                                     │
+│  ├─ tax_amount: DecimalField                                   │
+│  ├─ shipping_cost: DecimalField                                │
+│  ├─ discount_amount: DecimalField                              │
+│  ├─ total: DecimalField                                        │
+│  ├─ discount_code: ForeignKey → DiscountCode (nullable)        │
+│  ├─ payment_method: CharField (stripe)                         │
+│  ├─ stripe_payment_intent_id: CharField (unique)               │
+│  ├─ payment_status: CharField (Pending/Completed/Failed)       │
+│  ├─ notes: TextField (customer notes, nullable)                │
+│  ├─ created_at: DateTimeField                                  │
+│  └─ updated_at: DateTimeField                                  │
+│                                                                 │
+│  OrderItem (1:N - items in order)                              │
+│  ├─ order: ForeignKey → Order                                  │
+│  ├─ product: ForeignKey → Product                              │
+│  ├─ quantity: IntegerField                                     │
+│  ├─ unit_price: DecimalField (historical snapshot)             │
+│  ├─ product_title: CharField (historical record)               │
+│  ├─ selected_size: CharField (optional)                        │
+│  ├─ selected_color: CharField (optional)                       │
+│  └─ line_total: DecimalField                                   │
+│                                                                 │
+│  OrderStatusLog (Audit trail, 1:N)                             │
+│  ├─ order: ForeignKey → Order                                  │
+│  ├─ old_status: CharField                                      │
+│  ├─ new_status: CharField                                      │
+│  ├─ admin_user: ForeignKey → User (nullable)                   │
+│  ├─ timestamp: DateTimeField (auto_now_add)                    │
+│  ├─ note: TextField (optional)                                 │
+│  └─ metadata: JSONField (tracking info, optional)              │
+│                                                                 │
+│  DiscountCode (Promotional)                                    │
+│  ├─ id: PK                                                      │
+│  ├─ code: CharField (unique, case-insensitive)                 │
+│  ├─ discount_type: CharField (percentage/fixed)                │
+│  ├─ discount_value: DecimalField                               │
+│  ├─ max_uses: IntegerField (nullable = unlimited)              │
+│  ├─ current_uses: IntegerField                                 │
+│  ├─ min_order_amount: DecimalField (nullable)                  │
+│  ├─ is_active: BooleanField                                    │
+│  ├─ created_at: DateTimeField                                  │
+│  ├─ expires_at: DateTimeField (nullable)                       │
+│  ├─ banner_message: TextField (promotional text)               │
+│  └─ banner_button: CharField (call-to-action)                  │
+└─────────────────────────────────────────────────────────────────┘
+         ↓
+         │
+         └─────────────────────┬──────────────────────┐
+                               │                      │
+         ┌─────────────────────┴──────────────────┐   │
+         v                                        v   │
+┌────────────────────────────────────────┐  ┌────┴───────────────┐
+│     COMMUNITY ENGAGEMENT               │  │  NOTIFICATIONS     │
+├────────────────────────────────────────┤  ├────────────────────┤
+│  VaultPost (User submissions)          │  │  Notification      │
+│  ├─ id: PK                             │  │  ├─ user: FK→User  │
+│  ├─ user: ForeignKey → User            │  │  ├─ event: Char    │
+│  ├─ title: CharField                   │  │  ├─ message: Text  │
+│  ├─ description: TextField             │  │  ├─ is_read: Bool  │
+│  ├─ image: ImageField                  │  │  ├─ link: URL      │
+│  ├─ likes_count: IntegerField          │  │  └─ created: DT    │
+│  ├─ created_at: DateTimeField          │  └────────────────────┘
+│  └─ updated_at: DateTimeField          │
+│                                        │
+│  VaultComment (1:N per post)           │
+│  ├─ vault_post: FK → VaultPost         │
+│  ├─ user: ForeignKey → User            │
+│  ├─ content: TextField                 │
+│  ├─ created_at: DateTimeField          │
+│  └─ updated_at: DateTimeField          │
+│                                        │
+│  BattleVest (Wishlist, 1:N)            │
+│  ├─ user: ForeignKey → User            │
+│  ├─ product: ForeignKey → Product      │
+│  ├─ added_at: DateTimeField            │
+│  └─ notes: TextField (optional)        │
+└────────────────────────────────────────┘
+```
+
+#### Database Relationships Summary
+
+| Source | Relationship | Target | Cardinality | Notes |
+|--------|-------------|--------|-------------|-------|
+| User | 1:1 | Profile | One-to-One | Extended user data |
+| User | 1:N | Address | One-to-Many | Multiple addresses allowed |
+| User | 1:N | Order | One-to-Many | Guest checkout optional |
+| User | 1:N | ProductReview | One-to-Many | Can review multiple products |
+| User | 1:N | VaultPost | One-to-Many | Community submissions |
+| Product | 1:N | ProductImage | One-to-Many | Multiple images per product |
+| Product | M:N | Collection | Many-to-Many | Products in multiple collections |
+| Product | 1:N | ProductReview | One-to-Many | Multiple reviews per product |
+| Product | 1:N | CartItem | One-to-Many | Added to carts |
+| Product | 1:N | BattleVest | One-to-Many | Wishlist items |
+| Order | 1:N | OrderItem | One-to-Many | Multiple items per order |
+| Order | 1:N | OrderStatusLog | One-to-Many | Audit trail |
+| DiscountCode | N:1 | Order | Many-to-One | Applied to orders |
+| VaultPost | 1:N | VaultComment | One-to-Many | Comments on posts |
+
+### Request Flow Diagram
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  USER REQUEST → DJANGO MIDDLEWARE PIPELINE                       │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+┌──────────────────────────────────────────────────────────────────┐
+│  1. SecurityMiddleware (CSRF, XSS protection)                    │
+│  2. SessionMiddleware (Load session data)                        │
+│  3. AuthenticationMiddleware (Attach user to request)            │
+│  4. MessageMiddleware (Flash messages)                           │
+│  5. CustomContextMiddleware (Add custom context)                 │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+┌──────────────────────────────────────────────────────────────────┐
+│  URL Router (urls.py)                                            │
+│  Match request path to URL pattern                               │
+│  Extract route parameters (e.g., product_id)                    │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+┌──────────────────────────────────────────────────────────────────┐
+│  View Execution (views.py / viewsets.py)                         │
+│  ├─ Permission checks (IsAuthenticated, IsAdmin, etc)             │
+│  ├─ Query database via ORM (models.py)                            │
+│  └─ Business logic (calculations, validations)                    │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+┌──────────────────────────────────────────────────────────────────┐
+│  Context Processor (context_processors.py)                       │
+│  ├─ user context                                                  │
+│  ├─ cart context (from session)                                   │
+│  ├─ theme context                                                 │
+│  └─ discount context                                              │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+┌──────────────────────────────────────────────────────────────────┐
+│  Template Rendering (templates/*.html)                           │
+│  ├─ Template tags & filters                                       │
+│  ├─ Static file injection (CSS/JS)                                │
+│  └─ Response object creation                                      │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+┌──────────────────────────────────────────────────────────────────┐
+│  RESPONSE WITH HTTP HEADERS                                      │
+│  ├─ Content-Type, Content-Length                                  │
+│  ├─ Cache-Control, ETag                                           │
+│  ├─ Security headers (CSP, X-Frame-Options)                      │
+│  └─ CORS headers (if API)                                         │
+└──────────────────────────────────────────────────────────────────┘
+    ↓
+BROWSER: Render HTML → Load CSS/JS → Execute ClientSide Logic
+```
+
+### Authentication Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  LOGIN PAGE                                                         │
+│  User enters: email, password                                       │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  FORM VALIDATION                                                    │
+│  ├─ Email format validation                                         │
+│  ├─ Password length check                                           │
+│  ├─ CSRF token verification                                         │
+│  └─ Rate limiting (prevent brute force)                            │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  DATABASE LOOKUP                                                    │
+│  ├─ Query: User.objects.get(email=provided_email)                  │
+│  └─ Results: User object or AuthenticationFailed                   │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  PASSWORD VERIFICATION                                              │
+│  ├─ Hash provided password with stored salt                         │
+│  ├─ Compare hashes (constant-time comparison)                       │
+│  └─ Success: Proceed | Failure: Raise ValidationError              │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  EMAIL VERIFICATION CHECK (Allauth)                                │
+│  ├─ Query: EmailAddress.objects.get(user=user)                    │
+│  ├─ If verified: Continue                                           │
+│  └─ If not: Send verification email, redirect to verify page       │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  SESSION CREATION                                                   │
+│  ├─ Generate session_id (cryptographically random)                 │
+│  ├─ Store session data: {user_id, auth_backend}                    │
+│  ├─ Store in database (default) or cache backend                   │
+│  └─ Set session cookie (HttpOnly, Secure, SameSite)               │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  USER MIDDLEWARE ATTACHMENT                                        │
+│  ├─ RequestUser = User object now attached to request              │
+│  ├─ Available as ctx.user in views & templates                     │
+│  └─ request.user.is_authenticated = True                           │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  CONTEXT PROCESSOR INITIALIZATION                                   │
+│  ├─ user context populated ({{ user.username }})                   │
+│  ├─ user.profile accessible                                         │
+│  ├─ user.battleVests (wishlists) loaded                            │
+│  └─ user.notification_count populated                               │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│  REDIRECT TO DASHBOARD                                              │
+│  Set-Cookie header + Location header                                │
+│  Browser stores session cookie + navigates to /dashboard            │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+SUBSEQUENT REQUESTS: Session cookie automatically included in headers
+    ↓
+LOGOUT: Delete session, clear cookie, redirect to /
+```
+
+### Payment Flow - Stripe Integration
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│  CHECKOUT PAGE                                                         │
+│  User reviews cart, enters shipping/billing, clicks "Pay Now"          │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  CHECKOUT FORM SUBMISSION (POST /checkout/)                            │
+│  ├─ Form validation (address, email, discount code)                    │
+│  ├─ Discount code verification & application                          │
+│  ├─ Calculate final total (subtotal + tax + shipping - discount)      │
+│  └─ Create Order instance (status=PENDING)                             │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  CREATE STRIPE PAYMENT INTENT (API Call)                               │
+│  POST https://api.stripe.com/v1/payment_intents                        │
+│  ├─ amount: converted to cents (5000 = $50.00)                         │
+│  ├─ currency: "usd"                                                    │
+│  ├─ metadata: {order_id, user_id}                                      │
+│  └─ response: payment_intent object with client_secret                 │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  STRIPE ELEMENTS INITIALIZATION                                        │
+│  ├─ Load Stripe.js library                                             │
+│  ├─ Create Stripe instance with public key                             │
+│  ├─ Initialize card element                                            │
+│  └─ Display pre-filled card form to user                               │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  USER ENTERS PAYMENT DETAILS                                           │
+│  Card number, expiry, CVC (NEVER sent to your server!)                 │
+│  Stripe.js handles secure tokenization                                 │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  CONFIRM PAYMENT INTENT (Client-side via Stripe.js)                   │
+│  stripe.confirmCardPayment(client_secret, {                            │
+│      payment_method: { card: cardElement }                             │
+│  })                                                                     │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  STRIPE PROCESSES PAYMENT                                              │
+│  ├─ Validate card details                                              │
+│  ├─ Perform 3D Secure verification (if required)                      │
+│  ├─ Charge customer's card                                             │
+│  └─ Return status: succeeded/requires_action/failed                   │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  PAYMENT CONFIRMATION                                                  │
+│  ├─ If SUCCEEDED:                                                       │
+│  │  ├─ Order.payment_status = COMPLETED                               │
+│  │  ├─ Order.status = PROCESSING                                      │
+│  │  ├─ Create OrderStatusLog entry                                     │
+│  │  ├─ Reduce product stock_quantity                                   │
+│  │  └─ Clear session cart                                              │
+│  ├─ If FAILED:                                                          │
+│  │  ├─ Order.payment_status = FAILED                                  │
+│  │  ├─ Show error to user                                              │
+│  │  └─ Keep order for recovery (allow user to retry)                  │
+│  └─ If REQUIRES_ACTION:                                                 │
+│     └─ Show 3D Secure modal to user                                    │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  STRIPE WEBHOOK (Asynchronous confirmation)                            │
+│  POST /webhook/stripe/                                                 │
+│  ├─ Event type: payment_intent.succeeded                               │
+│  ├─ Verify webhook signature with webhook secret                      │
+│  ├─ Extract metadata: order_id                                         │
+│  ├─ Double-check order status in database                              │
+│  └─ Send confirmation email to customer                                │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+┌────────────────────────────────────────────────────────────────────────┐
+│  ORDER CONFIRMATION                                                    │
+│  ├─ Display success page with order number                             │
+│  ├─ Send confirmation email (Resend API)                               │
+│  │  ├─ Order number, items, total                                      │
+│  │  ├─ Tracking link                                                   │
+│  │  └─ Return policy                                                   │
+│  ├─ Create Notification entries for user                               │
+│  └─ Create OrderStatusLog: PENDING → PROCESSING                        │
+└────────────────────────────────────────────────────────────────────────┘
+    ↓
+CUSTOMER CAN TRACK ORDER: /track/{order_number}/
+```
+
+---
+
+## 🔧 Environment Variables Reference
+
+### Complete Configuration Guide
+
+#### Essential Variables (Required)
+
+| Variable | Type | Example | Purpose |
+|----------|------|---------|---------|
+| `DEBUG` | Boolean | `False` | Production safety |
+| `SECRET_KEY` | String | `django-insecure-...` | Django security |
+| `DATABASE_URL` | String | `postgresql://user:pass@host/db` | Database connection |
+| `ADMIN_PASSWORD` | String | `secure-password-here` | Initial admin password |
+| `ALLOWED_HOSTS` | String | `localhost,127.0.0.1` | Allowed domain list |
+
+#### Email Configuration
+
+| Variable | Type | Example | Purpose |
+|----------|------|---------|---------|
+| `EMAIL_BACKEND` | String | `anymail.backends.resend.EmailBackend` | Email provider |
+| `RESEND_API_KEY` | String | `re_xxx...` | Resend API authentication |
+| `DEFAULT_FROM_EMAIL` | String | `noreply@hendoshi.com` | Sender email address |
+| `ADMIN_EMAIL` | String | `admin@hendoshi.com` | Admin notification address |
+
+#### Payment Configuration
+
+| Variable | Type | Example | Purpose |
+|----------|------|---------|---------|
+| `STRIPE_PUBLIC_KEY` | String | `pk_live_...` | Stripe public key |
+| `STRIPE_SECRET_KEY` | String | `sk_live_...` | Stripe secret key |
+| `STRIPE_WEBHOOK_SECRET` | String | `whsec_...` | Webhook signing key |
+
+#### Storage Configuration
+
+| Variable | Type | Example | Purpose |
+|----------|------|---------|---------|
+| `CLOUDINARY_URL` | String | `cloudinary://key:secret@cloud` | Media storage connection |
+
+#### AI/Third-party Services
+
+| Variable | Type | Example | Purpose |
+|----------|------|---------|---------|
+| `GOOGLE_GEMINI_API_KEY` | String | `AIza...` | AI content generation |
+| `GOOGLE_ANALYTICS_ID` | String | `G-XXXXXXXXXX` | Analytics tracking |
+
+#### Site Configuration
+
+| Variable | Type | Example | Purpose |
+|----------|------|---------|---------|
+| `SITE_ID` | Integer | `1` | Django sites framework |
+| `SITE_NAME` | String | `HENDOSHI Store` | Brand name |
+| `CUSTOM_DOMAIN` | String | `hendoshi.com` | Production domain |
+
+### Development vs. Production
+
+**Development (.env.local)**
+```
+DEBUG=True
+SECRET_KEY=django-insecure-dev-key
+DATABASE_URL=sqlite:///db.sqlite3
+ALLOWED_HOSTS=localhost,127.0.0.1
+```
+
+**Production (.env)**
+```
+DEBUG=False
+SECRET_KEY=[strong-random-key-from-secret-manager]
+DATABASE_URL=[encrypted-database-url]
+ALLOWED_HOSTS=hendoshi.com,www.hendoshi.com
+```
+
+### Validation & Error Handling
+
+- Missing `ADMIN_PASSWORD` on first setup → Command displays clear error message
+- Missing `SECRET_KEY` → Django raises ImproperlyConfigured
+- Invalid `DATABASE_URL` → Django displays database connection error
+- Missing `STRIPE_SECRET_KEY` → Payment features disabled with warning
 
 ---
 
