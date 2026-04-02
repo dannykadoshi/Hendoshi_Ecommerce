@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -570,7 +570,7 @@ def hall_of_fame(request):
     page = request.GET.get('page')
     try:
         hall_photos_page = paginator.page(page)
-    except Exception:
+    except (PageNotAnInteger, EmptyPage):
         hall_photos_page = paginator.page(1)
 
     context = {

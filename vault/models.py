@@ -1,11 +1,19 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import timezone
-from products.models import Product
-from PIL import Image
+from __future__ import annotations
+
 from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from typing import Union
+import logging
 import sys
+
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db import models
+from django.utils import timezone
+from PIL import Image
+from products.models import Product
+
+logger = logging.getLogger(__name__)
 
 
 class VaultPhoto(models.Model):
@@ -46,15 +54,20 @@ class VaultPhoto(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.caption or 'No caption'} ({self.status})"
 
-    def save(self, *args, **kwargs):
-        """Compress image on upload"""
+    def save(self, *args, **kwargs) -> None:
+        """Compress image on upload."""
         if self.image and hasattr(self.image, 'file'):
             self.image = self.compress_image(self.image)
         super().save(*args, **kwargs)
 
     @staticmethod
-    def compress_image(image, max_width=1920, quality=85):
-        """Compress and resize uploaded images for better performance"""
+    def compress_image(image, max_width: int = 1920, quality: int = 85) -> Union[InMemoryUploadedFile, object]:
+        """Compress and resize uploaded images for better performance."""
+        # Guard against oversized uploads before decompression (prevents memory abuse)
+        MAX_UPLOAD_BYTES = 10 * 1024 * 1024  # 10 MB
+        if hasattr(image, 'size') and image.size > MAX_UPLOAD_BYTES:
+            raise ValidationError("Image file too large. Maximum allowed size is 10 MB.")
+
         try:
             img = Image.open(image)
 
@@ -90,5 +103,5 @@ class VaultPhoto(models.Model):
             )
         except Exception as e:
             # If compression fails, return original
-            print(f"Image compression failed: {e}")
+            logger.warning("Image compression failed: %s", e)
             return image
