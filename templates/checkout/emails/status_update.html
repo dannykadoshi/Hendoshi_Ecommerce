@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!-- HTML Email Template: Order Status Update
+     Sent to the customer when an admin changes the order status.
+     Context variables: order, old_status, new_status, note, site_url -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Order status update email from Hendoshi Store">
+    <title>Order Status Update - Hendoshi Store</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0.5rem auto;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 40px 20px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        /* Status change display */
+        .status-change {
+            background: linear-gradient(135deg, rgba(255, 45, 161, 0.08), rgba(255, 0, 122, 0.04));
+            border: 2px solid #FF2DA1;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .status-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+        .status-pill {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: capitalize;
+        }
+        .status-old {
+            background: #f0f0f0;
+            color: #888;
+        }
+        .status-arrow {
+            font-size: 22px;
+            color: #FF2DA1;
+        }
+        .status-new {
+            background: #FF2DA1;
+            color: white;
+        }
+        /* Order info box */
+        .order-info {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .order-info-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF2DA1;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .order-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .order-detail:last-child {
+            border-bottom: none;
+        }
+        .order-detail-label {
+            font-weight: 600;
+            color: #666;
+        }
+        .order-detail-value {
+            color: #333;
+        }
+        /* Admin note box */
+        .admin-note {
+            background: #fff8e1;
+            border-left: 4px solid #FF2DA1;
+            border-radius: 4px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .admin-note-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #FF2DA1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .admin-note-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+        /* Support box */
+        .support-info {
+            background: #fff3f8;
+            border-left: 4px solid #FF2DA1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .support-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .support-link {
+            color: #FF2DA1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        /* CTA button */
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF2DA1, #FF007A);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 25px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        /* Footer */
+        .footer {
+            background: #f9f9f9;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+            margin: 10px 0;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #FF2DA1;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .tagline {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FF2DA1;
+            margin: 10px 0;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            .header {
+                padding: 30px 15px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .content {
+                padding: 30px 15px;
+            }
+            .status-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div style="font-size:28px;font-weight:900;color:#ffffff;text-shadow:0 2px 6px rgba(0,0,0,0.35);margin-bottom:10px;">HENDOSHI</div>
+            <div class="header-icon">🔔</div>
+            <h1>Order Status Update</h1>
+            <p>Your order has been updated</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p class="greeting">Hey {{ order.full_name }}! 🤘</p>
+
+            <p class="message">
+                We have an update on your order <strong>#{{ order.order_number }}</strong>.
+                Here's what changed:
+            </p>
+
+            <!-- Status change visual -->
+            <div class="status-change">
+                <div class="status-label">Order Status</div>
+                <div class="status-row">
+                    <span class="status-pill status-old">{{ old_status|title }}</span>
+                    <span class="status-arrow">→</span>
+                    <span class="status-pill status-new">{{ new_status|title }}</span>
+                </div>
+            </div>
+
+            <!-- Admin note (only shown if provided) -->
+            {% if note %}
+            <div class="admin-note">
+                <div class="admin-note-title">Note from our team</div>
+                <p class="admin-note-text">{{ note }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Order details -->
+            <div class="order-info">
+                <div class="order-info-title">Order Details</div>
+                <div class="order-detail">
+                    <span class="order-detail-label">Order Number</span>
+                    <span class="order-detail-value">#{{ order.order_number }}</span>
+                </div>
+                <div class="order-detail">
+                    <span class="order-detail-label">Order Date</span>
+                    <span class="order-detail-value">{{ order.created_at|date:"N j, Y" }}</span>
+                </div>
+                <div class="order-detail">
+                    <span class="order-detail-label">Total</span>
+                    <span class="order-detail-value">€{{ order.total_amount }}</span>
+                </div>
+                <div class="order-detail">
+                    <span class="order-detail-label">Current Status</span>
+                    <span class="order-detail-value" style="color:#FF2DA1;font-weight:700;">{{ new_status|title }}</span>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align:center;margin:30px 0;">
+                <a href="{{ site_url }}/checkout/order/{{ order.order_number }}/" class="button">
+                    View Your Order
+                </a>
+            </div>
+
+            <!-- Support -->
+            <div class="support-info">
+                <p><strong>Questions about your order?</strong></p>
+                <p>
+                    Our support team is here to help! Contact us at
+                    <a href="mailto:support@hendoshi.com" class="support-link">support@hendoshi.com</a>
+                    and include your order number for faster assistance.
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="tagline">WEAR YOUR WEIRD</p>
+
+            <div class="social-links">
+                <a href="https://www.instagram.com/hendoshiart/" class="social-link">Instagram</a> |
+                <a href="https://www.facebook.com/hendoshiart" class="social-link">Facebook</a> |
+                <a href="https://x.com/hendoshiart" class="social-link">Twitter</a>
+            </div>
+
+            <p class="footer-text">
+                © 2025 HENDOSHI · Wear Your Weird<br>
+                <a href="https://hendoshi.com" style="color: #FF2DA1; text-decoration: none;">hendoshi.com</a>
+            </p>
+
+            <p class="footer-text" style="font-size: 12px; color: #999; margin-top: 20px;">
+                This email was sent to {{ order.email }} because you placed an order with HENDOSHI.<br>
+                If you have any concerns, please contact us at support@hendoshi.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>

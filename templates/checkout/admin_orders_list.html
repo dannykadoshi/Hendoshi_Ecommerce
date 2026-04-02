@@ -59,7 +59,7 @@
         </div>
         <div class="col-12 col-md-3">
             <label>Search</label>
-            <input type="text" name="search" class="form-control" placeholder="Order # or Email" value="{{ search }}">
+            <input type="text" name="search" id="orders-search-input" class="form-control" placeholder="Order # or Email" value="{{ search }}" autocomplete="off">
         </div>
         <div class="col-12 col-md-2">
             <label>Sort By</label>
@@ -81,6 +81,17 @@
         </div>
                 </div>
                 </form>
+
+                <!-- Active search indicator -->
+                {% if search %}
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <small class="text-muted">Showing results for:</small>
+                    <span class="badge bg-secondary">{{ search }}</span>
+                    <a href="{% url 'admin_orders_list' %}" class="btn btn-sm btn-outline-secondary ms-1" title="Clear search">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                </div>
+                {% endif %}
 
                 <!-- Orders Table/Card View -->
                 {% if page_obj %}
@@ -206,4 +217,20 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-clear the search field after results load so the user can type the next
+// search immediately without manually deleting the previous term.
+(function () {
+    const input = document.getElementById('orders-search-input');
+    if (!input) return;
+    {% if search %}
+    input.value = '';
+    input.placeholder = 'Search again…';
+    {% endif %}
+    input.focus();
+})();
+</script>
 {% endblock %}

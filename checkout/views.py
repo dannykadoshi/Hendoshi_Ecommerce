@@ -949,14 +949,26 @@ https://hendoshi.com
                         admin_user=request.user,
                         note=note
                     )
-                    # Send email notification to customer
+                    # Send styled HTML email notification to customer
                     try:
-                        subject = f"Your order {order.order_number} status updated"
-                        message = f"Hello,\n\nYour order status has changed from {old_status} to {new_status}."
-                        if note:
-                            message += f"\n\nNote from admin: {note}"
-                        message += "\n\nThank you for shopping with us!"
-                        send_mail(subject, message, None, [order.email], fail_silently=True)
+                        subject = f"Your HENDOSHI order {order.order_number} has been updated"
+                        email_context = {
+                            'order': order,
+                            'old_status': old_status,
+                            'new_status': new_status,
+                            'note': note,
+                            'site_url': settings.SITE_URL if hasattr(settings, 'SITE_URL') else 'http://localhost:8000',
+                        }
+                        html_message = render_to_string('checkout/emails/status_update.html', email_context)
+                        plain_message = (
+                            f"Hello {order.full_name},\n\n"
+                            f"Your order #{order.order_number} status has changed "
+                            f"from {old_status} to {new_status}."
+                            + (f"\n\nNote from our team: {note}" if note else "")
+                            + "\n\nThank you for shopping with HENDOSHI!\nWear Your Weird 🤘"
+                        )
+                        send_mail(subject, plain_message, None, [order.email],
+                                  html_message=html_message, fail_silently=True)
                     except Exception:
                         pass
                     messages.success(request, f"Order status updated to {new_status} and customer notified.")

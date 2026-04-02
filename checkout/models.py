@@ -1,11 +1,14 @@
-from django.db import models
+from __future__ import annotations
+
+from decimal import Decimal
+from typing import Optional, Tuple
+import uuid
+
 from django.contrib.auth.models import User
+from django.db import models
 from django.utils import timezone
 from products.models import Product
 from profiles.models import Address
-import uuid
-
-# ...existing code...
 
 
 class OrderStatusLog(models.Model):
@@ -18,13 +21,6 @@ class OrderStatusLog(models.Model):
 
     def __str__(self):
         return f"Order {self.order.order_number}: {self.old_status} → {self.new_status} by {self.admin_user} at {self.timestamp}"  # noqa: E501
-
-
-from django.db import models  # noqa: F811,E402
-from django.contrib.auth.models import User  # noqa: F811,E402
-from products.models import Product  # noqa: F811,E402
-from profiles.models import Address  # noqa: F401,F811,E402
-import uuid  # noqa: F811,E402
 
 
 class Order(models.Model):
@@ -100,18 +96,23 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.order_number}"
 
-    def save(self, *args, **kwargs):
-        """Generate unique order number on creation"""
+    def save(self, *args, **kwargs) -> None:
+        """Generate unique order number on creation."""
         if not self.order_number:
-            # Generate order number: ORD-TIMESTAMP-UUID
             self.order_number = f"ORD-{uuid.uuid4().hex[:8].upper()}"
         super().save(*args, **kwargs)
 
-    def get_shipping_address_display(self):
-        """Return formatted shipping address"""
+    def get_shipping_address_display(self) -> str:
+        """Return formatted shipping address."""
+        parts = [self.full_name, self.address]
+        if self.address_line_2:
+            parts.append(self.address_line_2)
+        parts.append(f"{self.city}, {self.state_or_county} {self.postal_code}")
+        parts.append(self.country)
+        return "\n".join(parts)
 
-    def get_tracking_url(self):
-        """Return tracking URL based on carrier"""
+    def get_tracking_url(self) -> Optional[str]:
+        """Return tracking URL based on carrier."""
         if not self.tracking_number or not self.carrier:
             return None
 
@@ -124,12 +125,11 @@ class Order(models.Model):
 
         return tracking_urls.get(self.carrier)
 
-    def get_carrier_display_name(self):
-        """Return carrier display name"""
+    def get_carrier_display_name(self) -> Optional[str]:
+        """Return carrier display name."""
         if not self.carrier:
             return None
         return dict(self.CARRIER_CHOICES).get(self.carrier)
-        return f"{self.full_name}\n{self.address}\n{self.address_line_2 or ''}\n{self.city}, {self.state_or_county} {self.postal_code}\n{self.country}"  # noqa: E501
 
 
 class OrderItem(models.Model):
@@ -149,10 +149,10 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.product.name} (Order {self.order.order_number})"
 
-    def get_total_price(self):
-        """Calculate total price for this item"""
+    def get_total_price(self) -> Decimal:
+        """Calculate total price for this item."""
         if self.price is None or self.quantity is None:
-            return 0
+            return Decimal('0')
         return self.price * self.quantity
 
 
@@ -185,8 +185,8 @@ class DiscountCode(models.Model):
     def __str__(self):
         return f"{self.code} ({self.discount_value}{'%' if self.discount_type == 'percentage' else '€'})"
 
-    def is_valid(self, subtotal=0, user=None):
-        """Check if discount code is valid for use"""
+    def is_valid(self, subtotal: Decimal = Decimal('0'), user: Optional[User] = None) -> Tuple[bool, str]:
+        """Check if discount code is valid for use."""
         if not self.is_active:
             return False, "Discount code is inactive"
 
@@ -207,15 +207,15 @@ class DiscountCode(models.Model):
 
         return True, ""
 
-    def calculate_discount(self, subtotal):
-        """Calculate discount amount"""
+    def calculate_discount(self, subtotal: Decimal) -> Decimal:
+        """Calculate discount amount."""
         if self.discount_type == 'percentage':
             return subtotal * (self.discount_value / 100)
         else:
             return min(self.discount_value, subtotal)
 
-    def use_code(self):
-        """Increment usage count"""
+    def use_code(self) -> None:
+        """Increment usage count."""
         self.used_count += 1
         self.save(update_fields=['used_count'])
 

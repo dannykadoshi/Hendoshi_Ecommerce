@@ -31,14 +31,14 @@ def admin_orders_list(request):
         try:
             start = datetime.strptime(start_date, '%Y-%m-%d')
             orders = orders.filter(created_at__gte=start)
-        except Exception:
+        except ValueError:
             pass
     if end_date:
         try:
             end = datetime.strptime(end_date, '%Y-%m-%d')
             end = timezone.make_aware(datetime.combine(end, datetime.max.time()))
             orders = orders.filter(created_at__lte=end)
-        except Exception:
+        except ValueError:
             pass
     if sort:
         orders = orders.order_by(sort)
