@@ -41,6 +41,7 @@ window.executeDeleteConfirmation = function() {
     closeConfirmationModal();
 };
 
+
 // Notification preferences toggle
 document.addEventListener('DOMContentLoaded', function() {
     const masterToggle = document.getElementById('email_notifications_enabled');

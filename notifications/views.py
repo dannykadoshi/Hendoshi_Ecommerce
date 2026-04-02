@@ -10,7 +10,6 @@ from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
-from .models import NewsletterSubscriber  # noqa: F811
 from django.urls import reverse
 from django.core.cache import cache
 from django.contrib.admin.views.decorators import staff_member_required

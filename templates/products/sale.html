@@ -263,12 +263,21 @@
                     </div>
 
                 {% else %}
+                    {% if filters_active %}
                     <div class="no-products text-center py-5">
                         <i class="fas fa-search fa-4x mb-3 text-pink"></i>
                         <h2>No Products Found</h2>
                         <p>Try adjusting your filters or search terms.</p>
-                        <a href="{% url 'products' %}" class="btn btn-pink mt-3">View All Products</a>
+                        <a href="{% url 'sale' %}" class="btn btn-pink mt-3">Clear Filters</a>
                     </div>
+                    {% else %}
+                    <div class="no-products text-center py-5">
+                        <i class="fas fa-tag fa-4x mb-3 text-pink"></i>
+                        <h2>No Sales Running Right Now</h2>
+                        <p>Check back soon — new deals drop regularly. In the meantime, explore our full range.</p>
+                        <a href="{% url 'products' %}" class="btn btn-pink mt-3">Shop All Products</a>
+                    </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

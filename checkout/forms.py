@@ -3,10 +3,6 @@ from django.core.exceptions import ValidationError
 import re
 from .models import DiscountCode
 
-# ...existing code...
-
-# Restore EditAccountForm for profile editing (must be below all imports and other class definitions)
-
 
 class EditAccountForm(forms.Form):
     """Form for users to edit their account information"""
@@ -51,11 +47,6 @@ class EditAccountForm(forms.Form):
             self.add_error('email', 'This email is already registered. Please use another.')
 
         return cleaned_data
-
-
-from django import forms  # noqa: F811,E402
-from django.core.exceptions import ValidationError  # noqa: F811,E402
-import re  # noqa: F811,E402
 
 
 COUNTRY_CHOICES = [

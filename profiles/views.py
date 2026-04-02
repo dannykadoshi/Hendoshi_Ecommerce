@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 import os
 import base64
@@ -217,6 +217,9 @@ def edit_account(request):
 @login_required
 def set_default_address(request, address_id):
     """Set an address as default"""
+    if request.method != 'POST':
+        return redirect('profile')
+
     address = get_object_or_404(Address, id=address_id, user=request.user)
 
     # Unset all other defaults
@@ -225,6 +228,9 @@ def set_default_address(request, address_id):
     # Set this one as default
     address.is_default = True
     address.save()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'success': True})
 
     messages.success(request, 'Default address updated!')
     return redirect('profile')

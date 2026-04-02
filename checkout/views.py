@@ -21,7 +21,6 @@ from cart.models import Cart, CartItem  # noqa: F401
 from cart.views import get_or_create_cart
 from products.models import Product  # noqa: F401
 from profiles.models import Address
-from profiles.models import Address  # noqa: F811
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -1015,7 +1014,7 @@ def reorder(request, order_number):
             variant = item.product.variants.get(size=item.size, color=item.color)
             if variant.stock >= item.quantity:
                 # Add to cart
-                from cart.models import CartItem  # noqa: F811
+                from cart.models import CartItem
                 cart_item, created = CartItem.objects.get_or_create(
                     cart=cart,
                     product=item.product,

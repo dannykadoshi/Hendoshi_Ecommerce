@@ -210,9 +210,11 @@
                 </div>
                 </div>
                 {% else %}
-                <div class="text-center">
-                    <h3>No new drops available at the moment.</h3>
-                    <p>Check back soon for fresh metal designs!</p>
+                <div class="no-products text-center py-5">
+                    <i class="fas fa-bolt fa-4x mb-3 text-pink"></i>
+                    <h2 class="page-hero-title" style="font-size:1.8rem;">No New Drops Right Now</h2>
+                    <p class="page-hero-subtitle">The next drop is being forged. Check back soon for fresh metal designs!</p>
+                    <a href="{% url 'products' %}" class="btn btn-pink mt-3">Shop All Products</a>
                 </div>
                 {% endif %}
             </div>

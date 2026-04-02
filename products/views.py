@@ -1,8 +1,32 @@
 
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required, user_passes_test
+from decimal import Decimal, InvalidOperation
+import logging
+
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db import transaction, IntegrityError
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from django.utils.text import slugify
+from django.views.decorators.cache import cache_control
+from django.views.decorators.http import require_POST
+
+from hendoshi_store.cookies import CookieManager
+from .models import (
+    Product, Collection, ProductVariant, ProductImage, DesignStory,
+    BattleVest, BattleVestItem, ProductType, ProductReview,
+    ReviewHelpful, ReviewImage
+)
+from .forms import (
+    ProductForm,
+    DesignStoryForm,
+    ProductVariantFormSet,
+    ProductImageFormSet,
+    ProductReviewForm,
+    VariantSelectionForm
+)
 
 # Bulk archive (soft delete) products
 
@@ -50,28 +74,6 @@ def bulk_delete_products(request, product_ids=None):
         messages.info(request, 'No products were deleted.')
     return redirect('products')
 
-
-from django.shortcuts import render, get_object_or_404, redirect  # noqa: F811,E402
-from django.db.models import Q  # noqa: E402
-from django.contrib.auth.decorators import login_required, user_passes_test  # noqa: F811,E402
-from django.utils import timezone  # noqa: E402
-from django.contrib import messages  # noqa: F811,E402
-from django.http import JsonResponse  # noqa: E402
-from django.views.decorators.cache import cache_control  # noqa: E402
-from hendoshi_store.cookies import CookieManager  # noqa: E402
-from .models import Product, Collection, ProductVariant, ProductImage, DesignStory, BattleVest, BattleVestItem, ProductType, ProductReview, ReviewHelpful, ReviewImage  # noqa: E402,E501
-from .forms import (  # noqa: E402
-    ProductForm,
-    DesignStoryForm,
-    ProductVariantFormSet,
-    ProductImageFormSet,
-    ProductReviewForm,
-    VariantSelectionForm
-)
-from django.db import transaction, IntegrityError  # noqa: E402
-from django.utils.text import slugify  # noqa: E402
-import logging  # noqa: E402
-from decimal import Decimal, InvalidOperation  # noqa: E402
 
 
 def search(request):
@@ -403,7 +405,8 @@ def sale_products(request):
         'current_collection': selected_collection,
         'current_type': selected_type,
         'current_sorting': f'{sort}_{direction}',
-        'is_sale_page': True,  # Flag to indicate this is the sale page
+        'is_sale_page': True,
+        'filters_active': bool(query or selected_collection or selected_type or request.GET.get('audience')),
     }
 
     return render(request, 'products/sale.html', context)
