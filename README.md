@@ -1163,6 +1163,26 @@ Product → PriceHistory
 
 ## 🚀 Deployment
 
+### Live Demo — Assessor Access
+
+The deployed site is live and pre-populated with product data for immediate assessment:
+
+| | |
+|---|---|
+| **Live URL** | [https://hendoshi-store.onrender.com](https://hendoshi-store.onrender.com) |
+| **Admin panel** | [https://hendoshi-store.onrender.com/admin/](https://hendoshi-store.onrender.com/admin/) |
+| **Admin username** | `admin` |
+| **Admin password** | `HendoshiAdmin2025!` |
+
+> The database is pre-populated with all products, collections, and product types via the fixture at `fixtures/initial_data.json`. No setup is required — the site is fully functional from the first visit.
+
+A regular user account is also available for testing the shopping flow:
+
+| | |
+|---|---|
+| **Test email** | `testuser@hendoshi.com` |
+| **Test password** | `HendoshiTest2025!` |
+
 ### Prerequisites
 - Python 3.10+
 - PostgreSQL 14+
