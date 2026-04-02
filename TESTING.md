@@ -1301,6 +1301,59 @@ Mobile Lighthouse does not test on a real phone. It simulates an **underpowered 
 | Stripe webhook verification | ✅ Webhook signature validated using `STRIPE_WEBHOOK_SECRET` |
 | Payment intent confirmation | ✅ Order only confirmed after server-side payment intent verification |
 
+### Stripe CLI — Local Webhook Testing
+
+Stripe webhooks are tested locally using the [Stripe CLI](https://stripe.com/docs/stripe-cli), which creates a secure tunnel that forwards Stripe events to the local Django server.
+
+#### Prerequisites
+
+1. Install the Stripe CLI — [https://stripe.com/docs/stripe-cli#install](https://stripe.com/docs/stripe-cli#install)
+2. Authenticate with your Stripe account:
+   ```bash
+   stripe login
+   ```
+
+#### Start Local Webhook Listener
+
+In a separate terminal (while Django dev server is running), run:
+
+```bash
+stripe listen --forward-to localhost:8000/checkout/stripe/webhook/
+```
+
+The CLI will output a **webhook signing secret** (starts with `whsec_`):
+
+```
+> Ready! You are using Stripe API Version [2024-06-05]. Your webhook signing secret is whsec_xxxxxxxxxxxxx
+```
+
+Copy this value and set it as your local `STRIPE_WEBHOOK_SECRET` in `.env`:
+
+```
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxx
+```
+
+#### Trigger Test Events
+
+In another terminal, trigger Stripe test events:
+
+```bash
+# Simulate a successful payment
+stripe trigger payment_intent.succeeded
+
+# Simulate a failed payment
+stripe trigger payment_intent.payment_failed
+```
+
+#### What Was Tested
+
+| Webhook Event | Expected Outcome | Result |
+|--------------|-----------------|--------|
+| `payment_intent.succeeded` | Order status set to `confirmed`, confirmation email sent | ✅ Pass |
+| `payment_intent.payment_failed` | Order status set to `failed`, payment error recorded | ✅ Pass |
+| Invalid webhook signature | Returns `400 Bad Request` | ✅ Pass |
+| Missing `STRIPE_WEBHOOK_SECRET` | Raises `ValueError`, returns `400` | ✅ Pass |
+
 ### Data Protection
 
 | Test | Result |
