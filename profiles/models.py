@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_countries.fields import CountryField
 
 
 class UserProfile(models.Model):
@@ -21,7 +22,7 @@ class UserProfile(models.Model):
     default_town_or_city = models.CharField(max_length=40, null=True, blank=True)
     default_county = models.CharField(max_length=80, null=True, blank=True)
     default_postcode = models.CharField(max_length=20, null=True, blank=True)
-    default_country = models.CharField(max_length=40, null=True, blank=True)
+    default_country = CountryField(blank_label='(Select Country)', null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -38,7 +39,7 @@ class Address(models.Model):
     address_line_2 = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=100)
     state_or_county = models.CharField(max_length=100)
-    country = models.CharField(max_length=40)
+    country = CountryField()
     postal_code = models.CharField(max_length=20)
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -22,11 +22,16 @@ class UserProfileForm(forms.ModelForm):
             'default_town_or_city': 'Town or City',
             'default_county': 'County, State or Locality',
             'default_postcode': 'Postal Code',
-            'default_country': 'Country',
         }
 
         for field in self.fields:
-            placeholder = placeholders[field]
-            self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'form-control profile-form-input'
-            self.fields[field].label = False
+            # Skip country field - it's a Select widget, not TextInput
+            if field == 'default_country':
+                self.fields[field].widget.attrs['class'] = 'form-control profile-form-input'
+                self.fields[field].label = False
+            else:
+                placeholder = placeholders.get(field)
+                if placeholder:
+                    self.fields[field].widget.attrs['placeholder'] = placeholder
+                self.fields[field].widget.attrs['class'] = 'form-control profile-form-input'
+                self.fields[field].label = False

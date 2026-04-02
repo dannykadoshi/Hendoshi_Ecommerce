@@ -1,0 +1,4699 @@
+[
+{
+  "model": "products.producttype",
+  "pk": 5,
+  "fields": {
+    "name": "Tshirt",
+    "slug": "tshirt",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 6,
+  "fields": {
+    "name": "Sticker",
+    "slug": "sticker",
+    "category": "custom",
+    "requires_size": false,
+    "requires_color": false,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 7,
+  "fields": {
+    "name": "Hoodie",
+    "slug": "hoodie",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 9,
+  "fields": {
+    "name": "Dresses",
+    "slug": "dresses",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 10,
+  "fields": {
+    "name": "Mugs",
+    "slug": "mugs",
+    "category": "custom",
+    "requires_size": false,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 11,
+  "fields": {
+    "name": "Travel Mug",
+    "slug": "travel-mug",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 12,
+  "fields": {
+    "name": "Candles",
+    "slug": "candles",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 13,
+  "fields": {
+    "name": "Notebook",
+    "slug": "notebook",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 14,
+  "fields": {
+    "name": "Tote Bags",
+    "slug": "tote-bags",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 15,
+  "fields": {
+    "name": "Canvas",
+    "slug": "canvas",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.producttype",
+  "pk": 16,
+  "fields": {
+    "name": "Phone Cases",
+    "slug": "phone-cases",
+    "category": "custom",
+    "requires_size": true,
+    "requires_color": true,
+    "requires_audience": true,
+    "default_stock": 500
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 1,
+  "fields": {
+    "name": "Skulls & Death",
+    "slug": "skulls-death",
+    "description": "Dark and deadly designs featuring skulls, skeletons, and the macabre. For those who wear their mortality with pride.",
+    "image": "collections/Cool_Skull_T-Shirt_Designs_-_Zombie_Skull.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 2,
+  "fields": {
+    "name": "Weird Animals",
+    "slug": "weird-animals",
+    "description": "Pugs in battle helmets, roosters as rockstars, and other animals gone metal. Wholesome weird at its finest.",
+    "image": "collections/Pug_Christmas_Design_-_Merch_by_Amazon_T-Shirt.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 3,
+  "fields": {
+    "name": "Gym Therapy",
+    "slug": "gym-therapy",
+    "description": "Iron therapy meets metal aesthetics. Motivational designs for warriors who lift heavy and embrace the grind.",
+    "image": "collections/63-_Gym_Dark_Designs.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 4,
+  "fields": {
+    "name": "Dark Humor",
+    "slug": "dark-humor",
+    "description": "Twisted, sarcastic, and darkly funny designs. For those who laugh at the absurd.",
+    "image": "collections/f-caw-f_viking_crow.png"
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 5,
+  "fields": {
+    "name": "Vikings",
+    "slug": "vikings",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 11,
+  "fields": {
+    "name": "Horror",
+    "slug": "horror",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.collection",
+  "pk": 12,
+  "fields": {
+    "name": "Fantasy",
+    "slug": "fantasy",
+    "description": "",
+    "image": ""
+  }
+},
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "is_archived": false,
+    "name": "F-CAW-F Raven Skull Gothic T-Shirt – Heavy Metal Dark Art Tee",
+    "slug": "dead-tired-pug-tee",
+    "description": "Channel legendary power with the F-Caw-F Tee! Featuring an epic viking crow engulfed in flames and bold \"F-Caw-F\" text, this striking graphic t-shirt brings myth to life. It's more than just apparel; it's a symbol of strength. Experience ultimate comfort in this high-quality, unique design. Perfect for everyday heroes and anyone seeking a powerful, eye-catching tee. Add this iconic F-Caw-F shirt to your collection today!",
+    "collection": 2,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "35.99",
+    "sale_price": "29.99",
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/F-caw-F.png",
+    "meta_description": "Unleash dark energy with the F-CAW-F gothic raven t-shirt. Heavy metal festival vibes, bold occult artwork, and fearless alternative style.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-01-13T23:52:21.304Z",
+    "updated_at": "2026-02-02T13:51:26.617Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "is_archived": false,
+    "name": "War Pig Metal Tee",
+    "slug": "war-pig-metal-tee",
+    "description": "A ferocious war pig with tongue out, ready for battle. This design screams attitude and rebellion. For those who refuse to be tamed.",
+    "collection": 2,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/Firefly_Gemini_Flash_Add_the_pig_design_to_the_t-shir_624349_n8m.png",
+    "meta_description": "War Pig metal t-shirt - fierce animal design with punk rock attitude. Original Hendoshi artwork.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-01-13T23:54:44.432Z",
+    "updated_at": "2026-02-01T23:28:14.226Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "is_archived": false,
+    "name": "This Is My Jolly Face Tee",
+    "slug": "this-is-my-jolly-face-tee",
+    "description": "Dark Santa pug with glowing red eyes and a menacing grin. This is as jolly as it gets. Perfect for those who celebrate the holidays with a touch of darkness.",
+    "collection": 4,
+    "audience": "unisex",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/Pug_Christmas_Design_-_Smartboard.png",
+    "meta_description": "This Is My Jolly Face - dark humor Christmas pug t-shirt. Twisted holiday design for metal fans.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-01-13T23:57:21.304Z",
+    "updated_at": "2026-02-01T16:50:21.951Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "is_archived": true,
+    "name": "Exercise Your Demons Hoodie",
+    "slug": "exercise-your-demons-hoodie",
+    "description": "A skeletal warrior lifting weights in a gothic shield design. Turn your inner demons into gains. Premium heavyweight hoodie for cold gym sessions and dark aesthetics.",
+    "collection": 3,
+    "audience": "unisex",
+    "product_type": 7,
+    "base_price": "49.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/29-_Gym_Dark_Designs.png",
+    "meta_description": "Exercise Your Demons hoodie - skeleton gym design. Premium heavyweight hoodie for lifters who embrace darkness.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-01-13T23:59:32.915Z",
+    "updated_at": "2026-02-09T14:41:10.048Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "is_archived": false,
+    "name": "Meltdown Skull Tee",
+    "slug": "meltdown-skull-tee",
+    "description": "A psychedelic melting skull in vibrant chaos. Reality is overrated. This trippy design blends death metal with surreal artistry for a truly unique look.",
+    "collection": 1,
+    "audience": "unisex",
+    "product_type": 5,
+    "base_price": "28.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/Cool_Skull_T-Shirt_Designs_-_Smartboard-9.png",
+    "meta_description": "Meltdown Skull t-shirt - psychedelic death metal design. Surreal skull artwork for alternative fashion lovers.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-01-14T00:02:51.427Z",
+    "updated_at": "2026-02-01T16:50:20.639Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 6,
+  "fields": {
+    "is_archived": true,
+    "name": "Hendoshi Logo Sticker Pack",
+    "slug": "hendoshi-logo-sticker-pack",
+    "description": "Unleash your inner weird with the Hendoshi Logo Sticker Pack! Get 5 weatherproof, die-cut skull pug stickers perfect for laptops, water bottles, guitars, and more. Show off your unique style and Hendoshi love wherever you go. These iconic stickers are built to last and make a statement. Grab your pack today and wear your weird with pride!",
+    "collection": null,
+    "audience": "unisex",
+    "product_type": 6,
+    "base_price": "9.99",
+    "sale_price": "8.99",
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/1.png",
+    "meta_description": "Unleash your weird! Get 5 weatherproof, die-cut Hendoshi skull pug stickers. Perfect for laptops, water bottles & more. Show your unique style. Grab yours!",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-01-14T00:04:04.373Z",
+    "updated_at": "2026-02-09T14:41:10.041Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 11,
+  "fields": {
+    "is_archived": false,
+    "name": "Recreate Test Tee",
+    "slug": "recreate-test-tee",
+    "description": "Test product for notification send",
+    "collection": null,
+    "audience": "unisex",
+    "product_type": 5,
+    "base_price": "20.00",
+    "sale_price": "15.00",
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/Firefly_Gemini_Flash_Create_a_reinventing_design_usin_371497_ymb.png",
+    "meta_description": "",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-01-18T10:02:20.762Z",
+    "updated_at": "2026-02-01T16:50:19.306Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 12,
+  "fields": {
+    "is_archived": false,
+    "name": "Test Product for Email - That's a very long name",
+    "slug": "test-product-for-email",
+    "description": "Test product for email testing",
+    "collection": null,
+    "audience": "unisex",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/1764718152894.jpg",
+    "meta_description": "",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-01-20T17:03:00.845Z",
+    "updated_at": "2026-02-01T21:56:01.783Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 13,
+  "fields": {
+    "is_archived": false,
+    "name": "Skull King T-Shirt",
+    "slug": "skull-king-tshirt",
+    "description": "Premium cotton t-shirt featuring our iconic skull king design.",
+    "collection": 1,
+    "audience": "unisex",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/Firefly_Gemini_Flash_Reinvent_this_design_in_a_creati_191521_6PT.png",
+    "meta_description": "Buy Skull King T-Shirt from Hendoshi Store",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-01-28T16:12:42.193Z",
+    "updated_at": "2026-02-01T16:50:17.788Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 15,
+  "fields": {
+    "is_archived": false,
+    "name": "Horror Sticker Pack",
+    "slug": "horror-sticker-pack",
+    "description": "Set of 5 horror-themed stickers.",
+    "collection": 11,
+    "audience": "unisex",
+    "product_type": 6,
+    "base_price": "12.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/modelo_2.png",
+    "meta_description": "Buy Horror Sticker Pack from Hendoshi Store",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-01-28T16:12:42.201Z",
+    "updated_at": "2026-02-01T16:50:23.570Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 18,
+  "fields": {
+    "is_archived": false,
+    "name": "sticker field",
+    "slug": "sticker-field",
+    "description": "aksdjfaskdjfhalskdfjhaskldjfhaslkjdfh",
+    "collection": 11,
+    "audience": "unisex",
+    "product_type": 6,
+    "base_price": "20.00",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/Firefly_Gemini_Flash_Give_me_this_design_against_a_bl_310095_UY3.png",
+    "meta_description": "",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-01-29T09:53:37.066Z",
+    "updated_at": "2026-02-01T16:50:16.171Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 20,
+  "fields": {
+    "is_archived": false,
+    "name": "Headbanger Graphic Tee",
+    "slug": "headbanger-graphic-tee",
+    "description": "Turn up the volume and embrace the chaos. The Headbanger Graphic Tee is a tribute to the front-row energy of a sold-out metal show. Featuring a gritty, spiked-helmet skull with electrified details and fire-red eyes, this shirt captures the raw power of underground rock culture.\r\n\r\nCrafted from premium, soft-touch cotton for a comfortable fit that survives the mosh pit and the streets alike. Whether you’re a lifelong metalhead or just love a bold, aggressive aesthetic, this tee is built to make a statement.",
+    "collection": 1,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/headbanger-male-1_6yUIG6k",
+    "meta_description": "Shop the Headbanger Graphic Tee at Hendoshi. High-quality streetwear featuring a vintage heavy metal skull design. Perfect for metal fans and edgy style lovers.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-02T00:09:12.994Z",
+    "updated_at": "2026-02-02T00:09:12.994Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 33,
+  "fields": {
+    "is_archived": false,
+    "name": "Testing",
+    "slug": "testing",
+    "description": "testing again",
+    "collection": 1,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/viking-metal-male_UldkZao",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-02T00:28:36.693Z",
+    "updated_at": "2026-02-02T00:28:36.693Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 34,
+  "fields": {
+    "is_archived": false,
+    "name": "Testing",
+    "slug": "testing-women",
+    "description": "testing again",
+    "collection": 1,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/viking-metal-female",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-02T00:28:38.773Z",
+    "updated_at": "2026-02-02T00:28:38.773Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 35,
+  "fields": {
+    "is_archived": false,
+    "name": "testing",
+    "slug": "testing-1",
+    "description": "testing",
+    "collection": 1,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/dead-tired-male-3",
+    "meta_description": "testint",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-02T01:08:01.791Z",
+    "updated_at": "2026-02-02T01:08:01.791Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 36,
+  "fields": {
+    "is_archived": false,
+    "name": "testing",
+    "slug": "testing-women-1",
+    "description": "testing",
+    "collection": 1,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/headbanger-female-1",
+    "meta_description": "testint",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-02T01:08:03.756Z",
+    "updated_at": "2026-02-02T01:08:03.756Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 37,
+  "fields": {
+    "is_archived": false,
+    "name": "Testing again",
+    "slug": "testing-again",
+    "description": "testing",
+    "collection": 11,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/burrythe-weakness-male",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T10:23:20.459Z",
+    "updated_at": "2026-02-02T10:23:20.459Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 38,
+  "fields": {
+    "is_archived": false,
+    "name": "Testing again",
+    "slug": "testing-again-women",
+    "description": "testing",
+    "collection": 11,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/skull-cat-woman-2",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T10:23:21.884Z",
+    "updated_at": "2026-02-03T08:36:19.885Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 39,
+  "fields": {
+    "is_archived": false,
+    "name": "Testing again",
+    "slug": "testing-again-kids",
+    "description": "testing",
+    "collection": 11,
+    "audience": "kids",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/loud-and-proud-ad-1",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T10:23:24.794Z",
+    "updated_at": "2026-02-02T10:23:24.794Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 40,
+  "fields": {
+    "is_archived": false,
+    "name": "lets go",
+    "slug": "lets-go",
+    "description": "falsdfalkdfjh",
+    "collection": 2,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/court-coil-female",
+    "meta_description": "",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T10:29:59.420Z",
+    "updated_at": "2026-02-02T10:29:59.420Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 41,
+  "fields": {
+    "is_archived": false,
+    "name": "lets go",
+    "slug": "lets-go-hoodie_men",
+    "description": "falsdfalkdfjh",
+    "collection": 2,
+    "audience": "men",
+    "product_type": 7,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/installing-muscles-ad",
+    "meta_description": "",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T10:30:01.099Z",
+    "updated_at": "2026-02-02T10:30:01.099Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 42,
+  "fields": {
+    "is_archived": false,
+    "name": "Lets try again",
+    "slug": "lets-try-again",
+    "description": "lets see if it works",
+    "collection": 11,
+    "audience": "unisex",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/dark-pug-ad",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T13:12:22.993Z",
+    "updated_at": "2026-02-02T13:13:25.429Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 45,
+  "fields": {
+    "is_archived": false,
+    "name": "Pink Pug Skull - Hendoshi Mascot Mugs",
+    "slug": "pink-pug-skull-hendoshi-mascot-mugs",
+    "description": "This Mugs is perfect for Everyone who appreciate unique designs. Unleash your inner rebel with the iconic Pink Pug Skull - Hendoshi Mascot! This unique design blends cute pug charm with an edgy skull twist, perfect for those who dare to stand out. Make a bold statement and show off your alternative style. Ideal for pug lovers and trendsetters! Get your Hendoshi Mascot today and rock the look.",
+    "collection": 1,
+    "audience": "unisex",
+    "product_type": 10,
+    "base_price": "15.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/skull-pug-mug_82SG7e1",
+    "meta_description": "Unleash your rebel with the Pink Pug Skull Hendoshi Mascot! Blends cute pug charm with edgy style. Stand out & make a bold stateEveryonet. Shop now!",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T14:29:29.549Z",
+    "updated_at": "2026-02-02T14:29:29.549Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 46,
+  "fields": {
+    "is_archived": false,
+    "name": "Pink Pug Skull - Hendoshi Mascot Notebook",
+    "slug": "pink-pug-skull-hendoshi-mascot-notebook",
+    "description": "This Notebook is perfect for Everyone who appreciate unique designs. Unleash your inner rebel with the iconic Pink Pug Skull - Hendoshi Mascot! This unique design blends cute pug charm with an edgy skull twist, perfect for those who dare to stand out. Make a bold statement and show off your alternative style. Ideal for pug lovers and trendsetters! Get your Hendoshi Mascot today and rock the look.",
+    "collection": 1,
+    "audience": "unisex",
+    "product_type": 13,
+    "base_price": "10.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/skull-pug-notebook_3cjdofZ",
+    "meta_description": "Unleash your rebel with the Pink Pug Skull Hendoshi Mascot! Blends cute pug charm with edgy style. Stand out & make a bold stateEveryonet. Shop now!",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T14:29:32.654Z",
+    "updated_at": "2026-02-02T14:29:32.654Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 47,
+  "fields": {
+    "is_archived": false,
+    "name": "PINK PUG SKULL - HENDOSHI MASCOT Tshirt - Men",
+    "slug": "pink-pug-skull-hendoshi-mascot-tshirt-men",
+    "description": "This Tshirt is perfect for Men who appreciate unique designs. Unleash your inner rebel with the iconic Pink Pug Skull - Hendoshi Mascot! This unique design blends cute pug charm with an edgy skull twist, perfect for those who dare to stand out. Make a bold statement and show off your alternative style. Ideal for pug lovers and trendsetters! Get your Hendoshi Mascot today and rock the look.",
+    "collection": 1,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/pug-skull-ad",
+    "meta_description": "Unleash your rebel with the Pink Pug Skull Hendoshi Mascot! Blends cute pug charm with edgy style. Stand out & make a bold stateEveryonet. Shop now!",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T15:04:33.426Z",
+    "updated_at": "2026-02-02T15:04:33.426Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 48,
+  "fields": {
+    "is_archived": false,
+    "name": "PINK PUG SKULL - HENDOSHI MASCOT Tshirt - Women",
+    "slug": "pink-pug-skull-hendoshi-mascot-tshirt-women",
+    "description": "This Tshirt is perfect for Women who appreciate unique designs. Unleash your inner rebel with the iconic Pink Pug Skull - Hendoshi Mascot! This unique design blends cute pug charm with an edgy skull twist, perfect for those who dare to stand out. Make a bold statement and show off your alternative style. Ideal for pug lovers and trendsetters! Get your Hendoshi Mascot today and rock the look.",
+    "collection": 1,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/pug-skull-female_TYAONlL",
+    "meta_description": "Unleash your rebel with the Pink Pug Skull Hendoshi Mascot! Blends cute pug charm with edgy style. Stand out & make a bold stateEveryonet. Shop now!",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T15:04:35.428Z",
+    "updated_at": "2026-02-02T15:27:32.889Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 49,
+  "fields": {
+    "is_archived": false,
+    "name": "War Pig Metal Mugs",
+    "slug": "war-pig-metal-mugs",
+    "description": "A ferocious war pig with tongue out, ready for battle. This design screams attitude and rebellion. For those who refuse to be tamed.",
+    "collection": 2,
+    "audience": "unisex",
+    "product_type": 10,
+    "base_price": "15.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/war-pig-mug",
+    "meta_description": "War Pig metal t-shirt - fierce animal design with punk rock attitude. Original Hendoshi artwork.",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T15:38:34.447Z",
+    "updated_at": "2026-02-02T15:38:34.447Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 50,
+  "fields": {
+    "is_archived": false,
+    "name": "War Pig Metal Tshirt - Men",
+    "slug": "war-pig-metal-tshirt-men",
+    "description": "A ferocious war pig with tongue out, ready for battle. This design screams attitude and rebellion. For those who refuse to be tamed.",
+    "collection": 2,
+    "audience": "men",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/war-pig-model",
+    "meta_description": "War Pig metal t-shirt - fierce animal design with punk rock attitude. Original Hendoshi artwork.",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-02T15:38:37.324Z",
+    "updated_at": "2026-02-02T15:38:37.324Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 51,
+  "fields": {
+    "is_archived": false,
+    "name": "War Pig Metal Tshirt - Women",
+    "slug": "war-pig-metal-tshirt-women",
+    "description": "A ferocious war pig with tongue out, ready for battle. This design screams attitude and rebellion. For those who refuse to be tamed.",
+    "collection": 2,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": "28.99",
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/war-pig-female-4",
+    "meta_description": "War Pig metal t-shirt - fierce animal design with punk rock attitude. Original Hendoshi artwork.",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-02T15:38:39.567Z",
+    "updated_at": "2026-02-02T15:38:39.567Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 52,
+  "fields": {
+    "is_archived": false,
+    "name": "testing one more time",
+    "slug": "testing-one-more-time",
+    "description": "testing again",
+    "collection": 3,
+    "audience": "unisex",
+    "product_type": 15,
+    "base_price": "1.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/dark-pug-female_D2CMK5Z",
+    "meta_description": "testing",
+    "is_active": true,
+    "featured": true,
+    "created_at": "2026-02-03T05:45:36.715Z",
+    "updated_at": "2026-02-03T05:45:36.715Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 54,
+  "fields": {
+    "is_archived": false,
+    "name": "Crow Vintage Tshirt - Women",
+    "slug": "crow-vintage-tshirt-women",
+    "description": "Unleash your unique style with our Crow Vintage Tshirt for Women! This women's graphic tee combines retro charm with modern comfort. Featuring an iconic crow design on super-soft fabric, it's perfect for effortless everyday wear or dressing up. Stand out from the crowd and embrace timeless fashion. Grab your new favorite vintage tee today!",
+    "collection": 4,
+    "audience": "women",
+    "product_type": 5,
+    "base_price": "29.99",
+    "sale_price": null,
+    "sale_start": null,
+    "sale_end": null,
+    "main_image": "products/pug-skull-female-1",
+    "meta_description": "testing myself",
+    "is_active": true,
+    "featured": false,
+    "created_at": "2026-02-03T05:52:13.830Z",
+    "updated_at": "2026-02-07T14:03:31.829Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "size": "m",
+    "color": "black",
+    "stock": 50,
+    "sku": "DEAD-TIRED-PUG-TEE-M-BLACK",
+    "created_at": "2026-01-13T23:52:21.306Z",
+    "updated_at": "2026-01-13T23:52:21.306Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 2,
+  "fields": {
+    "product": 1,
+    "size": "l",
+    "color": "black",
+    "stock": 50,
+    "sku": "DEAD-TIRED-PUG-TEE-L-BLACK",
+    "created_at": "2026-01-13T23:52:21.308Z",
+    "updated_at": "2026-01-13T23:52:21.308Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 3,
+  "fields": {
+    "product": 1,
+    "size": "xl",
+    "color": "black",
+    "stock": 50,
+    "sku": "DEAD-TIRED-PUG-TEE-XL-BLACK",
+    "created_at": "2026-01-13T23:52:21.308Z",
+    "updated_at": "2026-01-13T23:52:21.308Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 4,
+  "fields": {
+    "product": 1,
+    "size": "m",
+    "color": "white",
+    "stock": 30,
+    "sku": "DEAD-TIRED-PUG-TEE-M-WHITE",
+    "created_at": "2026-01-13T23:52:21.308Z",
+    "updated_at": "2026-01-13T23:52:21.308Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 5,
+  "fields": {
+    "product": 1,
+    "size": "l",
+    "color": "white",
+    "stock": 30,
+    "sku": "DEAD-TIRED-PUG-TEE-L-WHITE",
+    "created_at": "2026-01-13T23:52:21.309Z",
+    "updated_at": "2026-01-13T23:52:21.309Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 6,
+  "fields": {
+    "product": 2,
+    "size": "m",
+    "color": "black",
+    "stock": 50,
+    "sku": "WAR-PIG-METAL-TEE-M-BLACK",
+    "created_at": "2026-01-13T23:54:44.433Z",
+    "updated_at": "2026-01-13T23:54:44.433Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 7,
+  "fields": {
+    "product": 2,
+    "size": "l",
+    "color": "black",
+    "stock": 50,
+    "sku": "WAR-PIG-METAL-TEE-L-BLACK",
+    "created_at": "2026-01-13T23:54:44.434Z",
+    "updated_at": "2026-01-13T23:54:44.434Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 8,
+  "fields": {
+    "product": 2,
+    "size": "xl",
+    "color": "black",
+    "stock": 50,
+    "sku": "WAR-PIG-METAL-TEE-XL-BLACK",
+    "created_at": "2026-01-13T23:54:44.434Z",
+    "updated_at": "2026-01-13T23:54:44.434Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 9,
+  "fields": {
+    "product": 2,
+    "size": "2xl",
+    "color": "black",
+    "stock": 30,
+    "sku": "WAR-PIG-METAL-TEE-2XL-BLACK",
+    "created_at": "2026-01-13T23:54:44.434Z",
+    "updated_at": "2026-01-13T23:54:44.434Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 10,
+  "fields": {
+    "product": 3,
+    "size": "s",
+    "color": "white",
+    "stock": 40,
+    "sku": "THIS-IS-MY-JOLLY-FACE-TEE-S-WHITE",
+    "created_at": "2026-01-13T23:57:21.304Z",
+    "updated_at": "2026-01-13T23:57:21.304Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 11,
+  "fields": {
+    "product": 3,
+    "size": "m",
+    "color": "white",
+    "stock": 50,
+    "sku": "THIS-IS-MY-JOLLY-FACE-TEE-M-WHITE",
+    "created_at": "2026-01-13T23:57:21.305Z",
+    "updated_at": "2026-01-13T23:57:21.305Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 12,
+  "fields": {
+    "product": 3,
+    "size": "l",
+    "color": "white",
+    "stock": 50,
+    "sku": "THIS-IS-MY-JOLLY-FACE-TEE-L-WHITE",
+    "created_at": "2026-01-13T23:57:21.305Z",
+    "updated_at": "2026-01-13T23:57:21.305Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 13,
+  "fields": {
+    "product": 3,
+    "size": "xl",
+    "color": "white",
+    "stock": 40,
+    "sku": "THIS-IS-MY-JOLLY-FACE-TEE-XL-WHITE",
+    "created_at": "2026-01-13T23:57:21.305Z",
+    "updated_at": "2026-01-13T23:57:21.305Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 14,
+  "fields": {
+    "product": 3,
+    "size": "m",
+    "color": "black",
+    "stock": 30,
+    "sku": "THIS-IS-MY-JOLLY-FACE-TEE-M-BLACK",
+    "created_at": "2026-01-13T23:57:21.305Z",
+    "updated_at": "2026-01-13T23:57:21.305Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 15,
+  "fields": {
+    "product": 3,
+    "size": "l",
+    "color": "black",
+    "stock": 30,
+    "sku": "THIS-IS-MY-JOLLY-FACE-TEE-L-BLACK",
+    "created_at": "2026-01-13T23:57:21.305Z",
+    "updated_at": "2026-01-13T23:57:21.305Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 16,
+  "fields": {
+    "product": 4,
+    "size": "m",
+    "color": "black",
+    "stock": 30,
+    "sku": "EXERCISE-YOUR-DEMONS-HOODIE-M-BLACK",
+    "created_at": "2026-01-13T23:59:32.915Z",
+    "updated_at": "2026-01-13T23:59:32.915Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 17,
+  "fields": {
+    "product": 4,
+    "size": "l",
+    "color": "black",
+    "stock": 30,
+    "sku": "EXERCISE-YOUR-DEMONS-HOODIE-L-BLACK",
+    "created_at": "2026-01-13T23:59:32.916Z",
+    "updated_at": "2026-01-13T23:59:32.916Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 18,
+  "fields": {
+    "product": 4,
+    "size": "xl",
+    "color": "black",
+    "stock": 30,
+    "sku": "EXERCISE-YOUR-DEMONS-HOODIE-XL-BLACK",
+    "created_at": "2026-01-13T23:59:32.916Z",
+    "updated_at": "2026-01-13T23:59:32.916Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 19,
+  "fields": {
+    "product": 4,
+    "size": "2xl",
+    "color": "black",
+    "stock": 20,
+    "sku": "EXERCISE-YOUR-DEMONS-HOODIE-2XL-BLACK",
+    "created_at": "2026-01-13T23:59:32.916Z",
+    "updated_at": "2026-01-13T23:59:32.916Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 20,
+  "fields": {
+    "product": 5,
+    "size": "s",
+    "color": "black",
+    "stock": 100,
+    "sku": "MELTDOWN-SKULL-TEE-S-BLACK",
+    "created_at": "2026-01-14T00:02:51.428Z",
+    "updated_at": "2026-01-26T00:04:46.269Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 21,
+  "fields": {
+    "product": 5,
+    "size": "m",
+    "color": "black",
+    "stock": 100,
+    "sku": "MELTDOWN-SKULL-TEE-M-BLACK",
+    "created_at": "2026-01-14T00:02:51.428Z",
+    "updated_at": "2026-01-26T00:04:46.265Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 22,
+  "fields": {
+    "product": 5,
+    "size": "l",
+    "color": "black",
+    "stock": 100,
+    "sku": "MELTDOWN-SKULL-TEE-L-BLACK",
+    "created_at": "2026-01-14T00:02:51.428Z",
+    "updated_at": "2026-01-26T00:04:46.263Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 23,
+  "fields": {
+    "product": 5,
+    "size": "xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "MELTDOWN-SKULL-TEE-XL-BLACK",
+    "created_at": "2026-01-14T00:02:51.428Z",
+    "updated_at": "2026-01-26T00:04:46.272Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 24,
+  "fields": {
+    "product": 5,
+    "size": "2xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "MELTDOWN-SKULL-TEE-2XL-BLACK",
+    "created_at": "2026-01-14T00:02:51.428Z",
+    "updated_at": "2026-01-26T00:04:46.258Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 25,
+  "fields": {
+    "product": 6,
+    "size": "m",
+    "color": "black",
+    "stock": 250,
+    "sku": "HENDOSHI-LOGO-STICKER-PACK-M-BLACK",
+    "created_at": "2026-01-14T00:04:04.374Z",
+    "updated_at": "2026-01-26T00:11:29.113Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 28,
+  "fields": {
+    "product": 11,
+    "size": "m",
+    "color": "black",
+    "stock": 50,
+    "sku": "RECREATE-TEST-TEE-M-BLACK",
+    "created_at": "2026-01-26T00:12:45.786Z",
+    "updated_at": "2026-01-26T00:12:45.786Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 29,
+  "fields": {
+    "product": 18,
+    "size": "m",
+    "color": "n/a",
+    "stock": 500,
+    "sku": "STICKER-FIELD-255EA716",
+    "created_at": "2026-01-29T09:53:37.075Z",
+    "updated_at": "2026-01-29T10:30:48.066Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 30,
+  "fields": {
+    "product": 15,
+    "size": "one_size",
+    "color": "",
+    "stock": 500,
+    "sku": "HORROR-STICKER-PACK-ONE_SIZE",
+    "created_at": "2026-01-29T09:55:59.625Z",
+    "updated_at": "2026-01-29T09:55:59.625Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 32,
+  "fields": {
+    "product": 13,
+    "size": "m",
+    "color": "white",
+    "stock": 100,
+    "sku": "SKULL-KING-TSHIRT-M-WHITE",
+    "created_at": "2026-01-29T10:04:58.807Z",
+    "updated_at": "2026-01-29T10:04:58.807Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 33,
+  "fields": {
+    "product": 12,
+    "size": "m",
+    "color": "black",
+    "stock": 100,
+    "sku": "TEST-PRODUCT-FOR-EMAIL-M-BLACK",
+    "created_at": "2026-01-29T10:12:35.821Z",
+    "updated_at": "2026-01-29T10:12:35.821Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 34,
+  "fields": {
+    "product": 18,
+    "size": "s",
+    "color": "n/a",
+    "stock": 100,
+    "sku": "STICKER-FIELD-S-N/A",
+    "created_at": "2026-01-29T10:30:48.069Z",
+    "updated_at": "2026-01-29T10:30:48.069Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 36,
+  "fields": {
+    "product": 1,
+    "size": "xs",
+    "color": "black",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XS-BLACK",
+    "created_at": "2026-01-31T20:59:59.862Z",
+    "updated_at": "2026-01-31T20:59:59.862Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 37,
+  "fields": {
+    "product": 1,
+    "size": "xs",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XS-WHITE",
+    "created_at": "2026-01-31T20:59:59.864Z",
+    "updated_at": "2026-01-31T20:59:59.864Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 38,
+  "fields": {
+    "product": 1,
+    "size": "xs",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XS-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.866Z",
+    "updated_at": "2026-01-31T20:59:59.866Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 39,
+  "fields": {
+    "product": 1,
+    "size": "xs",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XS-NAVY",
+    "created_at": "2026-01-31T20:59:59.868Z",
+    "updated_at": "2026-01-31T20:59:59.868Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 40,
+  "fields": {
+    "product": 1,
+    "size": "xs",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XS-RED",
+    "created_at": "2026-01-31T20:59:59.870Z",
+    "updated_at": "2026-01-31T20:59:59.870Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 41,
+  "fields": {
+    "product": 1,
+    "size": "s",
+    "color": "black",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-S-BLACK",
+    "created_at": "2026-01-31T20:59:59.873Z",
+    "updated_at": "2026-01-31T20:59:59.873Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 42,
+  "fields": {
+    "product": 1,
+    "size": "s",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-S-WHITE",
+    "created_at": "2026-01-31T20:59:59.875Z",
+    "updated_at": "2026-01-31T20:59:59.875Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 43,
+  "fields": {
+    "product": 1,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-S-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.877Z",
+    "updated_at": "2026-01-31T20:59:59.877Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 44,
+  "fields": {
+    "product": 1,
+    "size": "s",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-S-NAVY",
+    "created_at": "2026-01-31T20:59:59.880Z",
+    "updated_at": "2026-01-31T20:59:59.880Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 45,
+  "fields": {
+    "product": 1,
+    "size": "s",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-S-RED",
+    "created_at": "2026-01-31T20:59:59.882Z",
+    "updated_at": "2026-01-31T20:59:59.882Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 46,
+  "fields": {
+    "product": 1,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-M-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.885Z",
+    "updated_at": "2026-01-31T20:59:59.885Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 47,
+  "fields": {
+    "product": 1,
+    "size": "m",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-M-NAVY",
+    "created_at": "2026-01-31T20:59:59.887Z",
+    "updated_at": "2026-01-31T20:59:59.887Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 48,
+  "fields": {
+    "product": 1,
+    "size": "m",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-M-RED",
+    "created_at": "2026-01-31T20:59:59.888Z",
+    "updated_at": "2026-01-31T20:59:59.888Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 49,
+  "fields": {
+    "product": 1,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-L-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.891Z",
+    "updated_at": "2026-01-31T20:59:59.891Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 50,
+  "fields": {
+    "product": 1,
+    "size": "l",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-L-NAVY",
+    "created_at": "2026-01-31T20:59:59.893Z",
+    "updated_at": "2026-01-31T20:59:59.893Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 51,
+  "fields": {
+    "product": 1,
+    "size": "l",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-L-RED",
+    "created_at": "2026-01-31T20:59:59.894Z",
+    "updated_at": "2026-01-31T20:59:59.894Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 52,
+  "fields": {
+    "product": 1,
+    "size": "xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XL-WHITE",
+    "created_at": "2026-01-31T20:59:59.896Z",
+    "updated_at": "2026-01-31T20:59:59.896Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 53,
+  "fields": {
+    "product": 1,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XL-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.898Z",
+    "updated_at": "2026-01-31T20:59:59.898Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 54,
+  "fields": {
+    "product": 1,
+    "size": "xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XL-NAVY",
+    "created_at": "2026-01-31T20:59:59.900Z",
+    "updated_at": "2026-01-31T20:59:59.900Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 55,
+  "fields": {
+    "product": 1,
+    "size": "xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-XL-RED",
+    "created_at": "2026-01-31T20:59:59.902Z",
+    "updated_at": "2026-01-31T20:59:59.902Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 56,
+  "fields": {
+    "product": 1,
+    "size": "2xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-2XL-BLACK",
+    "created_at": "2026-01-31T20:59:59.903Z",
+    "updated_at": "2026-01-31T20:59:59.903Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 57,
+  "fields": {
+    "product": 1,
+    "size": "2xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-2XL-WHITE",
+    "created_at": "2026-01-31T20:59:59.905Z",
+    "updated_at": "2026-01-31T20:59:59.905Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 58,
+  "fields": {
+    "product": 1,
+    "size": "2xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-2XL-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.907Z",
+    "updated_at": "2026-01-31T20:59:59.907Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 59,
+  "fields": {
+    "product": 1,
+    "size": "2xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-2XL-NAVY",
+    "created_at": "2026-01-31T20:59:59.909Z",
+    "updated_at": "2026-01-31T20:59:59.909Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 60,
+  "fields": {
+    "product": 1,
+    "size": "2xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-2XL-RED",
+    "created_at": "2026-01-31T20:59:59.911Z",
+    "updated_at": "2026-01-31T20:59:59.911Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 61,
+  "fields": {
+    "product": 1,
+    "size": "3xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-3XL-BLACK",
+    "created_at": "2026-01-31T20:59:59.912Z",
+    "updated_at": "2026-01-31T20:59:59.912Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 62,
+  "fields": {
+    "product": 1,
+    "size": "3xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-3XL-WHITE",
+    "created_at": "2026-01-31T20:59:59.914Z",
+    "updated_at": "2026-01-31T20:59:59.914Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 63,
+  "fields": {
+    "product": 1,
+    "size": "3xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-3XL-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.916Z",
+    "updated_at": "2026-01-31T20:59:59.916Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 64,
+  "fields": {
+    "product": 1,
+    "size": "3xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-3XL-NAVY",
+    "created_at": "2026-01-31T20:59:59.918Z",
+    "updated_at": "2026-01-31T20:59:59.918Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 65,
+  "fields": {
+    "product": 1,
+    "size": "3xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-3XL-RED",
+    "created_at": "2026-01-31T20:59:59.920Z",
+    "updated_at": "2026-01-31T20:59:59.920Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 66,
+  "fields": {
+    "product": 1,
+    "size": "4xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-4XL-BLACK",
+    "created_at": "2026-01-31T20:59:59.922Z",
+    "updated_at": "2026-01-31T20:59:59.922Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 67,
+  "fields": {
+    "product": 1,
+    "size": "4xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-4XL-WHITE",
+    "created_at": "2026-01-31T20:59:59.924Z",
+    "updated_at": "2026-01-31T20:59:59.924Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 68,
+  "fields": {
+    "product": 1,
+    "size": "4xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-4XL-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.925Z",
+    "updated_at": "2026-01-31T20:59:59.925Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 69,
+  "fields": {
+    "product": 1,
+    "size": "4xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-4XL-NAVY",
+    "created_at": "2026-01-31T20:59:59.927Z",
+    "updated_at": "2026-01-31T20:59:59.927Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 70,
+  "fields": {
+    "product": 1,
+    "size": "4xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-4XL-RED",
+    "created_at": "2026-01-31T20:59:59.929Z",
+    "updated_at": "2026-01-31T20:59:59.929Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 71,
+  "fields": {
+    "product": 1,
+    "size": "5xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-5XL-BLACK",
+    "created_at": "2026-01-31T20:59:59.930Z",
+    "updated_at": "2026-01-31T20:59:59.930Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 72,
+  "fields": {
+    "product": 1,
+    "size": "5xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-5XL-WHITE",
+    "created_at": "2026-01-31T20:59:59.932Z",
+    "updated_at": "2026-01-31T20:59:59.932Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 73,
+  "fields": {
+    "product": 1,
+    "size": "5xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-5XL-CHARCOAL",
+    "created_at": "2026-01-31T20:59:59.934Z",
+    "updated_at": "2026-01-31T20:59:59.934Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 74,
+  "fields": {
+    "product": 1,
+    "size": "5xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-5XL-NAVY",
+    "created_at": "2026-01-31T20:59:59.936Z",
+    "updated_at": "2026-01-31T20:59:59.936Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 75,
+  "fields": {
+    "product": 1,
+    "size": "5xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "DEAD-TIRED-PUG-TEE-5XL-RED",
+    "created_at": "2026-01-31T20:59:59.938Z",
+    "updated_at": "2026-01-31T20:59:59.938Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 76,
+  "fields": {
+    "product": 20,
+    "size": "xs",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XS-BLACK",
+    "created_at": "2026-02-02T00:09:13.005Z",
+    "updated_at": "2026-02-02T00:09:13.005Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 77,
+  "fields": {
+    "product": 20,
+    "size": "xs",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XS-WHITE",
+    "created_at": "2026-02-02T00:09:13.006Z",
+    "updated_at": "2026-02-02T00:09:13.006Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 78,
+  "fields": {
+    "product": 20,
+    "size": "xs",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XS-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.007Z",
+    "updated_at": "2026-02-02T00:09:13.007Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 79,
+  "fields": {
+    "product": 20,
+    "size": "xs",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XS-NAVY",
+    "created_at": "2026-02-02T00:09:13.007Z",
+    "updated_at": "2026-02-02T00:09:13.007Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 80,
+  "fields": {
+    "product": 20,
+    "size": "xs",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XS-RED",
+    "created_at": "2026-02-02T00:09:13.007Z",
+    "updated_at": "2026-02-02T00:09:13.007Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 81,
+  "fields": {
+    "product": 20,
+    "size": "s",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-S-BLACK",
+    "created_at": "2026-02-02T00:09:13.007Z",
+    "updated_at": "2026-02-02T00:09:13.007Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 82,
+  "fields": {
+    "product": 20,
+    "size": "s",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-S-WHITE",
+    "created_at": "2026-02-02T00:09:13.008Z",
+    "updated_at": "2026-02-02T00:09:13.008Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 83,
+  "fields": {
+    "product": 20,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-S-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.008Z",
+    "updated_at": "2026-02-02T00:09:13.008Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 84,
+  "fields": {
+    "product": 20,
+    "size": "s",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-S-NAVY",
+    "created_at": "2026-02-02T00:09:13.008Z",
+    "updated_at": "2026-02-02T00:09:13.009Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 85,
+  "fields": {
+    "product": 20,
+    "size": "s",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-S-RED",
+    "created_at": "2026-02-02T00:09:13.009Z",
+    "updated_at": "2026-02-02T00:09:13.009Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 86,
+  "fields": {
+    "product": 20,
+    "size": "m",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-M-BLACK",
+    "created_at": "2026-02-02T00:09:13.009Z",
+    "updated_at": "2026-02-02T00:09:13.009Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 87,
+  "fields": {
+    "product": 20,
+    "size": "m",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-M-WHITE",
+    "created_at": "2026-02-02T00:09:13.009Z",
+    "updated_at": "2026-02-02T00:09:13.009Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 88,
+  "fields": {
+    "product": 20,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-M-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.009Z",
+    "updated_at": "2026-02-02T00:09:13.009Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 89,
+  "fields": {
+    "product": 20,
+    "size": "m",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-M-NAVY",
+    "created_at": "2026-02-02T00:09:13.010Z",
+    "updated_at": "2026-02-02T00:09:13.010Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 90,
+  "fields": {
+    "product": 20,
+    "size": "m",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-M-RED",
+    "created_at": "2026-02-02T00:09:13.010Z",
+    "updated_at": "2026-02-02T00:09:13.010Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 91,
+  "fields": {
+    "product": 20,
+    "size": "l",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-L-BLACK",
+    "created_at": "2026-02-02T00:09:13.010Z",
+    "updated_at": "2026-02-02T00:09:13.010Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 92,
+  "fields": {
+    "product": 20,
+    "size": "l",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-L-WHITE",
+    "created_at": "2026-02-02T00:09:13.010Z",
+    "updated_at": "2026-02-02T00:09:13.010Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 93,
+  "fields": {
+    "product": 20,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-L-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.010Z",
+    "updated_at": "2026-02-02T00:09:13.010Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 94,
+  "fields": {
+    "product": 20,
+    "size": "l",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-L-NAVY",
+    "created_at": "2026-02-02T00:09:13.011Z",
+    "updated_at": "2026-02-02T00:09:13.011Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 95,
+  "fields": {
+    "product": 20,
+    "size": "l",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-L-RED",
+    "created_at": "2026-02-02T00:09:13.011Z",
+    "updated_at": "2026-02-02T00:09:13.011Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 96,
+  "fields": {
+    "product": 20,
+    "size": "xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XL-BLACK",
+    "created_at": "2026-02-02T00:09:13.011Z",
+    "updated_at": "2026-02-02T00:09:13.011Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 97,
+  "fields": {
+    "product": 20,
+    "size": "xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XL-WHITE",
+    "created_at": "2026-02-02T00:09:13.011Z",
+    "updated_at": "2026-02-02T00:09:13.011Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 98,
+  "fields": {
+    "product": 20,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XL-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.011Z",
+    "updated_at": "2026-02-02T00:09:13.011Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 99,
+  "fields": {
+    "product": 20,
+    "size": "xl",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XL-NAVY",
+    "created_at": "2026-02-02T00:09:13.012Z",
+    "updated_at": "2026-02-02T00:09:13.012Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 100,
+  "fields": {
+    "product": 20,
+    "size": "xl",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-XL-RED",
+    "created_at": "2026-02-02T00:09:13.012Z",
+    "updated_at": "2026-02-02T00:09:13.012Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 101,
+  "fields": {
+    "product": 20,
+    "size": "2xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-2XL-BLACK",
+    "created_at": "2026-02-02T00:09:13.012Z",
+    "updated_at": "2026-02-02T00:09:13.012Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 102,
+  "fields": {
+    "product": 20,
+    "size": "2xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-2XL-WHITE",
+    "created_at": "2026-02-02T00:09:13.012Z",
+    "updated_at": "2026-02-02T00:09:13.012Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 103,
+  "fields": {
+    "product": 20,
+    "size": "2xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-2XL-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.012Z",
+    "updated_at": "2026-02-02T00:09:13.012Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 104,
+  "fields": {
+    "product": 20,
+    "size": "2xl",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-2XL-NAVY",
+    "created_at": "2026-02-02T00:09:13.013Z",
+    "updated_at": "2026-02-02T00:09:13.013Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 105,
+  "fields": {
+    "product": 20,
+    "size": "2xl",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-2XL-RED",
+    "created_at": "2026-02-02T00:09:13.013Z",
+    "updated_at": "2026-02-02T00:09:13.013Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 106,
+  "fields": {
+    "product": 20,
+    "size": "3xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-3XL-BLACK",
+    "created_at": "2026-02-02T00:09:13.013Z",
+    "updated_at": "2026-02-02T00:09:13.013Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 107,
+  "fields": {
+    "product": 20,
+    "size": "3xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-3XL-WHITE",
+    "created_at": "2026-02-02T00:09:13.013Z",
+    "updated_at": "2026-02-02T00:09:13.013Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 108,
+  "fields": {
+    "product": 20,
+    "size": "3xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-3XL-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.014Z",
+    "updated_at": "2026-02-02T00:09:13.014Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 109,
+  "fields": {
+    "product": 20,
+    "size": "3xl",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-3XL-NAVY",
+    "created_at": "2026-02-02T00:09:13.014Z",
+    "updated_at": "2026-02-02T00:09:13.014Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 110,
+  "fields": {
+    "product": 20,
+    "size": "3xl",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-3XL-RED",
+    "created_at": "2026-02-02T00:09:13.014Z",
+    "updated_at": "2026-02-02T00:09:13.014Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 111,
+  "fields": {
+    "product": 20,
+    "size": "4xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-4XL-BLACK",
+    "created_at": "2026-02-02T00:09:13.014Z",
+    "updated_at": "2026-02-02T00:09:13.014Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 112,
+  "fields": {
+    "product": 20,
+    "size": "4xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-4XL-WHITE",
+    "created_at": "2026-02-02T00:09:13.015Z",
+    "updated_at": "2026-02-02T00:09:13.015Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 113,
+  "fields": {
+    "product": 20,
+    "size": "4xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-4XL-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.015Z",
+    "updated_at": "2026-02-02T00:09:13.015Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 114,
+  "fields": {
+    "product": 20,
+    "size": "4xl",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-4XL-NAVY",
+    "created_at": "2026-02-02T00:09:13.015Z",
+    "updated_at": "2026-02-02T00:09:13.015Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 115,
+  "fields": {
+    "product": 20,
+    "size": "4xl",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-4XL-RED",
+    "created_at": "2026-02-02T00:09:13.015Z",
+    "updated_at": "2026-02-02T00:09:13.015Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 116,
+  "fields": {
+    "product": 20,
+    "size": "5xl",
+    "color": "black",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-5XL-BLACK",
+    "created_at": "2026-02-02T00:09:13.016Z",
+    "updated_at": "2026-02-02T00:09:13.016Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 117,
+  "fields": {
+    "product": 20,
+    "size": "5xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-5XL-WHITE",
+    "created_at": "2026-02-02T00:09:13.016Z",
+    "updated_at": "2026-02-02T00:09:13.016Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 118,
+  "fields": {
+    "product": 20,
+    "size": "5xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-5XL-CHARCOAL",
+    "created_at": "2026-02-02T00:09:13.016Z",
+    "updated_at": "2026-02-02T00:09:13.016Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 119,
+  "fields": {
+    "product": 20,
+    "size": "5xl",
+    "color": "navy",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-5XL-NAVY",
+    "created_at": "2026-02-02T00:09:13.016Z",
+    "updated_at": "2026-02-02T00:09:13.016Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 120,
+  "fields": {
+    "product": 20,
+    "size": "5xl",
+    "color": "red",
+    "stock": 100,
+    "sku": "HEADBANGER-GRAPHIC-TEE-5XL-RED",
+    "created_at": "2026-02-02T00:09:13.016Z",
+    "updated_at": "2026-02-02T00:09:13.016Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 121,
+  "fields": {
+    "product": 33,
+    "size": "s",
+    "color": "white",
+    "stock": 100,
+    "sku": "TESTING-S-WHITE",
+    "created_at": "2026-02-02T00:28:36.701Z",
+    "updated_at": "2026-02-02T00:28:36.701Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 122,
+  "fields": {
+    "product": 33,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "TESTING-S-CHARCOAL",
+    "created_at": "2026-02-02T00:28:36.702Z",
+    "updated_at": "2026-02-02T00:28:36.702Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 123,
+  "fields": {
+    "product": 33,
+    "size": "m",
+    "color": "white",
+    "stock": 100,
+    "sku": "TESTING-M-WHITE",
+    "created_at": "2026-02-02T00:28:36.702Z",
+    "updated_at": "2026-02-02T00:28:36.702Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 124,
+  "fields": {
+    "product": 33,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "TESTING-M-CHARCOAL",
+    "created_at": "2026-02-02T00:28:36.703Z",
+    "updated_at": "2026-02-02T00:28:36.703Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 125,
+  "fields": {
+    "product": 34,
+    "size": "xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "TESTING-WOMEN-XL-WHITE",
+    "created_at": "2026-02-02T00:28:38.774Z",
+    "updated_at": "2026-02-02T00:28:38.774Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 126,
+  "fields": {
+    "product": 34,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "TESTING-WOMEN-XL-CHARCOAL",
+    "created_at": "2026-02-02T00:28:38.774Z",
+    "updated_at": "2026-02-02T00:28:38.774Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 127,
+  "fields": {
+    "product": 34,
+    "size": "2xl",
+    "color": "white",
+    "stock": 100,
+    "sku": "TESTING-WOMEN-2XL-WHITE",
+    "created_at": "2026-02-02T00:28:38.774Z",
+    "updated_at": "2026-02-02T00:28:38.774Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 128,
+  "fields": {
+    "product": 34,
+    "size": "2xl",
+    "color": "charcoal",
+    "stock": 100,
+    "sku": "TESTING-WOMEN-2XL-CHARCOAL",
+    "created_at": "2026-02-02T00:28:38.774Z",
+    "updated_at": "2026-02-02T00:28:38.774Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 129,
+  "fields": {
+    "product": 35,
+    "size": "m",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-1-M-WHITE",
+    "created_at": "2026-02-02T01:08:01.798Z",
+    "updated_at": "2026-02-02T01:08:01.798Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 130,
+  "fields": {
+    "product": 35,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-1-M-CHARCOAL",
+    "created_at": "2026-02-02T01:08:01.800Z",
+    "updated_at": "2026-02-02T01:08:01.800Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 131,
+  "fields": {
+    "product": 35,
+    "size": "l",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-1-L-WHITE",
+    "created_at": "2026-02-02T01:08:01.800Z",
+    "updated_at": "2026-02-02T01:08:01.800Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 132,
+  "fields": {
+    "product": 35,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-1-L-CHARCOAL",
+    "created_at": "2026-02-02T01:08:01.800Z",
+    "updated_at": "2026-02-02T01:08:01.800Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 133,
+  "fields": {
+    "product": 36,
+    "size": "2xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "TESTING-WOMEN-1-2XL-BLACK",
+    "created_at": "2026-02-02T01:08:03.757Z",
+    "updated_at": "2026-02-02T01:08:03.757Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 134,
+  "fields": {
+    "product": 36,
+    "size": "2xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-WOMEN-1-2XL-WHITE",
+    "created_at": "2026-02-02T01:08:03.757Z",
+    "updated_at": "2026-02-02T01:08:03.757Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 135,
+  "fields": {
+    "product": 36,
+    "size": "3xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "TESTING-WOMEN-1-3XL-BLACK",
+    "created_at": "2026-02-02T01:08:03.757Z",
+    "updated_at": "2026-02-02T01:08:03.757Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 136,
+  "fields": {
+    "product": 36,
+    "size": "3xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-WOMEN-1-3XL-WHITE",
+    "created_at": "2026-02-02T01:08:03.757Z",
+    "updated_at": "2026-02-02T01:08:03.757Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 137,
+  "fields": {
+    "product": 37,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-XL-CHARCOAL",
+    "created_at": "2026-02-02T10:23:20.466Z",
+    "updated_at": "2026-02-02T10:23:20.466Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 138,
+  "fields": {
+    "product": 37,
+    "size": "xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-XL-NAVY",
+    "created_at": "2026-02-02T10:23:20.467Z",
+    "updated_at": "2026-02-02T10:23:20.467Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 139,
+  "fields": {
+    "product": 37,
+    "size": "2xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-2XL-CHARCOAL",
+    "created_at": "2026-02-02T10:23:20.467Z",
+    "updated_at": "2026-02-02T10:23:20.467Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 140,
+  "fields": {
+    "product": 37,
+    "size": "2xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-2XL-NAVY",
+    "created_at": "2026-02-02T10:23:20.467Z",
+    "updated_at": "2026-02-02T10:23:20.467Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 141,
+  "fields": {
+    "product": 40,
+    "size": "xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "LETS-GO-XL-WHITE",
+    "created_at": "2026-02-02T10:29:59.430Z",
+    "updated_at": "2026-02-02T10:29:59.430Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 142,
+  "fields": {
+    "product": 41,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "LETS-GO-HOODIE_MEN-XL-CHARCOAL",
+    "created_at": "2026-02-02T10:30:01.100Z",
+    "updated_at": "2026-02-02T10:30:01.100Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 143,
+  "fields": {
+    "product": 42,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "LETS-TRY-AGAIN-M-CHARCOAL",
+    "created_at": "2026-02-02T13:12:22.999Z",
+    "updated_at": "2026-02-02T13:12:22.999Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 149,
+  "fields": {
+    "product": 45,
+    "size": "one_size",
+    "color": "black",
+    "stock": 500,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P45-BLACK",
+    "created_at": "2026-02-02T14:29:29.557Z",
+    "updated_at": "2026-02-02T14:29:29.557Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 150,
+  "fields": {
+    "product": 46,
+    "size": "one_size",
+    "color": "black",
+    "stock": 500,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P46-BLACK",
+    "created_at": "2026-02-02T14:29:32.655Z",
+    "updated_at": "2026-02-02T14:29:32.655Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 151,
+  "fields": {
+    "product": 47,
+    "size": "s",
+    "color": "black",
+    "stock": 500,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P47-S-BLACK",
+    "created_at": "2026-02-02T15:04:33.436Z",
+    "updated_at": "2026-02-02T15:04:33.436Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 152,
+  "fields": {
+    "product": 47,
+    "size": "m",
+    "color": "black",
+    "stock": 500,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P47-M-BLACK",
+    "created_at": "2026-02-02T15:04:33.438Z",
+    "updated_at": "2026-02-02T15:04:33.438Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 153,
+  "fields": {
+    "product": 48,
+    "size": "one_size",
+    "color": "n/a",
+    "stock": 500,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-BC5DA389",
+    "created_at": "2026-02-02T15:04:35.428Z",
+    "updated_at": "2026-02-02T15:04:35.429Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 154,
+  "fields": {
+    "product": 48,
+    "size": "xs",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XS-BLACK",
+    "created_at": "2026-02-02T15:27:32.893Z",
+    "updated_at": "2026-02-02T15:27:32.893Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 155,
+  "fields": {
+    "product": 48,
+    "size": "xs",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XS-WHITE",
+    "created_at": "2026-02-02T15:27:32.895Z",
+    "updated_at": "2026-02-02T15:27:32.895Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 156,
+  "fields": {
+    "product": 48,
+    "size": "xs",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XS-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.897Z",
+    "updated_at": "2026-02-02T15:27:32.897Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 157,
+  "fields": {
+    "product": 48,
+    "size": "xs",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XS-NAVY",
+    "created_at": "2026-02-02T15:27:32.898Z",
+    "updated_at": "2026-02-02T15:27:32.898Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 158,
+  "fields": {
+    "product": 48,
+    "size": "xs",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XS-RED",
+    "created_at": "2026-02-02T15:27:32.901Z",
+    "updated_at": "2026-02-02T15:27:32.901Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 159,
+  "fields": {
+    "product": 48,
+    "size": "s",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-S-BLACK",
+    "created_at": "2026-02-02T15:27:32.903Z",
+    "updated_at": "2026-02-02T15:27:32.903Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 160,
+  "fields": {
+    "product": 48,
+    "size": "s",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-S-WHITE",
+    "created_at": "2026-02-02T15:27:32.905Z",
+    "updated_at": "2026-02-02T15:27:32.905Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 161,
+  "fields": {
+    "product": 48,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-S-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.907Z",
+    "updated_at": "2026-02-02T15:27:32.907Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 162,
+  "fields": {
+    "product": 48,
+    "size": "s",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-S-NAVY",
+    "created_at": "2026-02-02T15:27:32.909Z",
+    "updated_at": "2026-02-02T15:27:32.909Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 163,
+  "fields": {
+    "product": 48,
+    "size": "s",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-S-RED",
+    "created_at": "2026-02-02T15:27:32.911Z",
+    "updated_at": "2026-02-02T15:27:32.911Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 164,
+  "fields": {
+    "product": 48,
+    "size": "m",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-M-BLACK",
+    "created_at": "2026-02-02T15:27:32.913Z",
+    "updated_at": "2026-02-02T15:27:32.913Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 165,
+  "fields": {
+    "product": 48,
+    "size": "m",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-M-WHITE",
+    "created_at": "2026-02-02T15:27:32.915Z",
+    "updated_at": "2026-02-02T15:27:32.915Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 166,
+  "fields": {
+    "product": 48,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-M-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.917Z",
+    "updated_at": "2026-02-02T15:27:32.917Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 167,
+  "fields": {
+    "product": 48,
+    "size": "m",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-M-NAVY",
+    "created_at": "2026-02-02T15:27:32.919Z",
+    "updated_at": "2026-02-02T15:27:32.919Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 168,
+  "fields": {
+    "product": 48,
+    "size": "m",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-M-RED",
+    "created_at": "2026-02-02T15:27:32.922Z",
+    "updated_at": "2026-02-02T15:27:32.922Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 169,
+  "fields": {
+    "product": 48,
+    "size": "l",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-L-BLACK",
+    "created_at": "2026-02-02T15:27:32.924Z",
+    "updated_at": "2026-02-02T15:27:32.924Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 170,
+  "fields": {
+    "product": 48,
+    "size": "l",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-L-WHITE",
+    "created_at": "2026-02-02T15:27:32.926Z",
+    "updated_at": "2026-02-02T15:27:32.926Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 171,
+  "fields": {
+    "product": 48,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-L-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.928Z",
+    "updated_at": "2026-02-02T15:27:32.928Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 172,
+  "fields": {
+    "product": 48,
+    "size": "l",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-L-NAVY",
+    "created_at": "2026-02-02T15:27:32.930Z",
+    "updated_at": "2026-02-02T15:27:32.930Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 173,
+  "fields": {
+    "product": 48,
+    "size": "l",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-L-RED",
+    "created_at": "2026-02-02T15:27:32.931Z",
+    "updated_at": "2026-02-02T15:27:32.931Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 174,
+  "fields": {
+    "product": 48,
+    "size": "xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XL-BLACK",
+    "created_at": "2026-02-02T15:27:32.933Z",
+    "updated_at": "2026-02-02T15:27:32.933Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 175,
+  "fields": {
+    "product": 48,
+    "size": "xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XL-WHITE",
+    "created_at": "2026-02-02T15:27:32.935Z",
+    "updated_at": "2026-02-02T15:27:32.935Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 176,
+  "fields": {
+    "product": 48,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XL-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.937Z",
+    "updated_at": "2026-02-02T15:27:32.937Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 177,
+  "fields": {
+    "product": 48,
+    "size": "xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XL-NAVY",
+    "created_at": "2026-02-02T15:27:32.939Z",
+    "updated_at": "2026-02-02T15:27:32.939Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 178,
+  "fields": {
+    "product": 48,
+    "size": "xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-XL-RED",
+    "created_at": "2026-02-02T15:27:32.942Z",
+    "updated_at": "2026-02-02T15:27:32.942Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 179,
+  "fields": {
+    "product": 48,
+    "size": "2xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-2XL-BLACK",
+    "created_at": "2026-02-02T15:27:32.943Z",
+    "updated_at": "2026-02-02T15:27:32.943Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 180,
+  "fields": {
+    "product": 48,
+    "size": "2xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-2XL-WHITE",
+    "created_at": "2026-02-02T15:27:32.946Z",
+    "updated_at": "2026-02-02T15:27:32.946Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 181,
+  "fields": {
+    "product": 48,
+    "size": "2xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-2XL-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.948Z",
+    "updated_at": "2026-02-02T15:27:32.948Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 182,
+  "fields": {
+    "product": 48,
+    "size": "2xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-2XL-NAVY",
+    "created_at": "2026-02-02T15:27:32.949Z",
+    "updated_at": "2026-02-02T15:27:32.949Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 183,
+  "fields": {
+    "product": 48,
+    "size": "2xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-2XL-RED",
+    "created_at": "2026-02-02T15:27:32.951Z",
+    "updated_at": "2026-02-02T15:27:32.951Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 184,
+  "fields": {
+    "product": 48,
+    "size": "3xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-3XL-BLACK",
+    "created_at": "2026-02-02T15:27:32.953Z",
+    "updated_at": "2026-02-02T15:27:32.953Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 185,
+  "fields": {
+    "product": 48,
+    "size": "3xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-3XL-WHITE",
+    "created_at": "2026-02-02T15:27:32.955Z",
+    "updated_at": "2026-02-02T15:27:32.955Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 186,
+  "fields": {
+    "product": 48,
+    "size": "3xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-3XL-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.957Z",
+    "updated_at": "2026-02-02T15:27:32.957Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 187,
+  "fields": {
+    "product": 48,
+    "size": "3xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-3XL-NAVY",
+    "created_at": "2026-02-02T15:27:32.959Z",
+    "updated_at": "2026-02-02T15:27:32.959Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 188,
+  "fields": {
+    "product": 48,
+    "size": "3xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-3XL-RED",
+    "created_at": "2026-02-02T15:27:32.961Z",
+    "updated_at": "2026-02-02T15:27:32.961Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 189,
+  "fields": {
+    "product": 48,
+    "size": "4xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-4XL-BLACK",
+    "created_at": "2026-02-02T15:27:32.963Z",
+    "updated_at": "2026-02-02T15:27:32.963Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 190,
+  "fields": {
+    "product": 48,
+    "size": "4xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-4XL-WHITE",
+    "created_at": "2026-02-02T15:27:32.964Z",
+    "updated_at": "2026-02-02T15:27:32.964Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 191,
+  "fields": {
+    "product": 48,
+    "size": "4xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-4XL-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.966Z",
+    "updated_at": "2026-02-02T15:27:32.966Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 192,
+  "fields": {
+    "product": 48,
+    "size": "4xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-4XL-NAVY",
+    "created_at": "2026-02-02T15:27:32.968Z",
+    "updated_at": "2026-02-02T15:27:32.968Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 193,
+  "fields": {
+    "product": 48,
+    "size": "4xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-4XL-RED",
+    "created_at": "2026-02-02T15:27:32.970Z",
+    "updated_at": "2026-02-02T15:27:32.970Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 194,
+  "fields": {
+    "product": 48,
+    "size": "5xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-5XL-BLACK",
+    "created_at": "2026-02-02T15:27:32.971Z",
+    "updated_at": "2026-02-02T15:27:32.971Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 195,
+  "fields": {
+    "product": 48,
+    "size": "5xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-5XL-WHITE",
+    "created_at": "2026-02-02T15:27:32.973Z",
+    "updated_at": "2026-02-02T15:27:32.973Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 196,
+  "fields": {
+    "product": 48,
+    "size": "5xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-5XL-CHARCOAL",
+    "created_at": "2026-02-02T15:27:32.975Z",
+    "updated_at": "2026-02-02T15:27:32.975Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 197,
+  "fields": {
+    "product": 48,
+    "size": "5xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-5XL-NAVY",
+    "created_at": "2026-02-02T15:27:32.977Z",
+    "updated_at": "2026-02-02T15:27:32.977Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 198,
+  "fields": {
+    "product": 48,
+    "size": "5xl",
+    "color": "red",
+    "stock": 10,
+    "sku": "PINK-PUG-SKULL-HENDOSHI-M-P48-5XL-RED",
+    "created_at": "2026-02-02T15:27:32.978Z",
+    "updated_at": "2026-02-02T15:27:32.978Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 199,
+  "fields": {
+    "product": 49,
+    "size": "one_size",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-MUGS-P49-BLACK",
+    "created_at": "2026-02-02T15:38:34.449Z",
+    "updated_at": "2026-02-02T15:38:34.449Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 200,
+  "fields": {
+    "product": 50,
+    "size": "xs",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XS-BLACK",
+    "created_at": "2026-02-02T15:38:37.324Z",
+    "updated_at": "2026-02-02T15:38:37.324Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 201,
+  "fields": {
+    "product": 50,
+    "size": "xs",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XS-WHITE",
+    "created_at": "2026-02-02T15:38:37.325Z",
+    "updated_at": "2026-02-02T15:38:37.325Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 202,
+  "fields": {
+    "product": 50,
+    "size": "xs",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XS-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.325Z",
+    "updated_at": "2026-02-02T15:38:37.325Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 203,
+  "fields": {
+    "product": 50,
+    "size": "xs",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XS-NAVY",
+    "created_at": "2026-02-02T15:38:37.325Z",
+    "updated_at": "2026-02-02T15:38:37.325Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 204,
+  "fields": {
+    "product": 50,
+    "size": "xs",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XS-RED",
+    "created_at": "2026-02-02T15:38:37.325Z",
+    "updated_at": "2026-02-02T15:38:37.325Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 205,
+  "fields": {
+    "product": 50,
+    "size": "s",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-S-BLACK",
+    "created_at": "2026-02-02T15:38:37.325Z",
+    "updated_at": "2026-02-02T15:38:37.325Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 206,
+  "fields": {
+    "product": 50,
+    "size": "s",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-S-WHITE",
+    "created_at": "2026-02-02T15:38:37.326Z",
+    "updated_at": "2026-02-02T15:38:37.326Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 207,
+  "fields": {
+    "product": 50,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-S-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.326Z",
+    "updated_at": "2026-02-02T15:38:37.326Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 208,
+  "fields": {
+    "product": 50,
+    "size": "s",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-S-NAVY",
+    "created_at": "2026-02-02T15:38:37.326Z",
+    "updated_at": "2026-02-02T15:38:37.326Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 209,
+  "fields": {
+    "product": 50,
+    "size": "s",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-S-RED",
+    "created_at": "2026-02-02T15:38:37.326Z",
+    "updated_at": "2026-02-02T15:38:37.326Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 210,
+  "fields": {
+    "product": 50,
+    "size": "m",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-M-BLACK",
+    "created_at": "2026-02-02T15:38:37.326Z",
+    "updated_at": "2026-02-02T15:38:37.326Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 211,
+  "fields": {
+    "product": 50,
+    "size": "m",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-M-WHITE",
+    "created_at": "2026-02-02T15:38:37.327Z",
+    "updated_at": "2026-02-02T15:38:37.327Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 212,
+  "fields": {
+    "product": 50,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-M-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.327Z",
+    "updated_at": "2026-02-02T15:38:37.327Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 213,
+  "fields": {
+    "product": 50,
+    "size": "m",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-M-NAVY",
+    "created_at": "2026-02-02T15:38:37.327Z",
+    "updated_at": "2026-02-02T15:38:37.327Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 214,
+  "fields": {
+    "product": 50,
+    "size": "m",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-M-RED",
+    "created_at": "2026-02-02T15:38:37.327Z",
+    "updated_at": "2026-02-02T15:38:37.327Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 215,
+  "fields": {
+    "product": 50,
+    "size": "l",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-L-BLACK",
+    "created_at": "2026-02-02T15:38:37.327Z",
+    "updated_at": "2026-02-02T15:38:37.327Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 216,
+  "fields": {
+    "product": 50,
+    "size": "l",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-L-WHITE",
+    "created_at": "2026-02-02T15:38:37.328Z",
+    "updated_at": "2026-02-02T15:38:37.328Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 217,
+  "fields": {
+    "product": 50,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-L-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.328Z",
+    "updated_at": "2026-02-02T15:38:37.328Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 218,
+  "fields": {
+    "product": 50,
+    "size": "l",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-L-NAVY",
+    "created_at": "2026-02-02T15:38:37.328Z",
+    "updated_at": "2026-02-02T15:38:37.328Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 219,
+  "fields": {
+    "product": 50,
+    "size": "l",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-L-RED",
+    "created_at": "2026-02-02T15:38:37.328Z",
+    "updated_at": "2026-02-02T15:38:37.328Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 220,
+  "fields": {
+    "product": 50,
+    "size": "xl",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XL-BLACK",
+    "created_at": "2026-02-02T15:38:37.328Z",
+    "updated_at": "2026-02-02T15:38:37.328Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 221,
+  "fields": {
+    "product": 50,
+    "size": "xl",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XL-WHITE",
+    "created_at": "2026-02-02T15:38:37.329Z",
+    "updated_at": "2026-02-02T15:38:37.329Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 222,
+  "fields": {
+    "product": 50,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XL-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.329Z",
+    "updated_at": "2026-02-02T15:38:37.329Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 223,
+  "fields": {
+    "product": 50,
+    "size": "xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XL-NAVY",
+    "created_at": "2026-02-02T15:38:37.329Z",
+    "updated_at": "2026-02-02T15:38:37.329Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 224,
+  "fields": {
+    "product": 50,
+    "size": "xl",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-XL-RED",
+    "created_at": "2026-02-02T15:38:37.329Z",
+    "updated_at": "2026-02-02T15:38:37.329Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 225,
+  "fields": {
+    "product": 50,
+    "size": "2xl",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-2XL-BLACK",
+    "created_at": "2026-02-02T15:38:37.330Z",
+    "updated_at": "2026-02-02T15:38:37.330Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 226,
+  "fields": {
+    "product": 50,
+    "size": "2xl",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-2XL-WHITE",
+    "created_at": "2026-02-02T15:38:37.330Z",
+    "updated_at": "2026-02-02T15:38:37.330Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 227,
+  "fields": {
+    "product": 50,
+    "size": "2xl",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-2XL-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.330Z",
+    "updated_at": "2026-02-02T15:38:37.330Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 228,
+  "fields": {
+    "product": 50,
+    "size": "2xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-2XL-NAVY",
+    "created_at": "2026-02-02T15:38:37.330Z",
+    "updated_at": "2026-02-02T15:38:37.330Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 229,
+  "fields": {
+    "product": 50,
+    "size": "2xl",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-2XL-RED",
+    "created_at": "2026-02-02T15:38:37.331Z",
+    "updated_at": "2026-02-02T15:38:37.331Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 230,
+  "fields": {
+    "product": 50,
+    "size": "3xl",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-3XL-BLACK",
+    "created_at": "2026-02-02T15:38:37.331Z",
+    "updated_at": "2026-02-02T15:38:37.331Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 231,
+  "fields": {
+    "product": 50,
+    "size": "3xl",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-3XL-WHITE",
+    "created_at": "2026-02-02T15:38:37.331Z",
+    "updated_at": "2026-02-02T15:38:37.331Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 232,
+  "fields": {
+    "product": 50,
+    "size": "3xl",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-3XL-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.331Z",
+    "updated_at": "2026-02-02T15:38:37.331Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 233,
+  "fields": {
+    "product": 50,
+    "size": "3xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-3XL-NAVY",
+    "created_at": "2026-02-02T15:38:37.332Z",
+    "updated_at": "2026-02-02T15:38:37.332Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 234,
+  "fields": {
+    "product": 50,
+    "size": "3xl",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-3XL-RED",
+    "created_at": "2026-02-02T15:38:37.332Z",
+    "updated_at": "2026-02-02T15:38:37.332Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 235,
+  "fields": {
+    "product": 50,
+    "size": "4xl",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-4XL-BLACK",
+    "created_at": "2026-02-02T15:38:37.332Z",
+    "updated_at": "2026-02-02T15:38:37.332Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 236,
+  "fields": {
+    "product": 50,
+    "size": "4xl",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-4XL-WHITE",
+    "created_at": "2026-02-02T15:38:37.332Z",
+    "updated_at": "2026-02-02T15:38:37.332Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 237,
+  "fields": {
+    "product": 50,
+    "size": "4xl",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-4XL-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.332Z",
+    "updated_at": "2026-02-02T15:38:37.332Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 238,
+  "fields": {
+    "product": 50,
+    "size": "4xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-4XL-NAVY",
+    "created_at": "2026-02-02T15:38:37.333Z",
+    "updated_at": "2026-02-02T15:38:37.333Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 239,
+  "fields": {
+    "product": 50,
+    "size": "4xl",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-4XL-RED",
+    "created_at": "2026-02-02T15:38:37.333Z",
+    "updated_at": "2026-02-02T15:38:37.333Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 240,
+  "fields": {
+    "product": 50,
+    "size": "5xl",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-5XL-BLACK",
+    "created_at": "2026-02-02T15:38:37.333Z",
+    "updated_at": "2026-02-02T15:38:37.333Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 241,
+  "fields": {
+    "product": 50,
+    "size": "5xl",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-5XL-WHITE",
+    "created_at": "2026-02-02T15:38:37.333Z",
+    "updated_at": "2026-02-02T15:38:37.333Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 242,
+  "fields": {
+    "product": 50,
+    "size": "5xl",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-5XL-CHARCOAL",
+    "created_at": "2026-02-02T15:38:37.333Z",
+    "updated_at": "2026-02-02T15:38:37.333Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 243,
+  "fields": {
+    "product": 50,
+    "size": "5xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-5XL-NAVY",
+    "created_at": "2026-02-02T15:38:37.334Z",
+    "updated_at": "2026-02-02T15:38:37.334Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 244,
+  "fields": {
+    "product": 50,
+    "size": "5xl",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-MEN-P50-5XL-RED",
+    "created_at": "2026-02-02T15:38:37.334Z",
+    "updated_at": "2026-02-02T15:38:37.334Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 245,
+  "fields": {
+    "product": 51,
+    "size": "xs",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XS-BLACK",
+    "created_at": "2026-02-02T15:38:39.568Z",
+    "updated_at": "2026-02-02T15:38:39.568Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 246,
+  "fields": {
+    "product": 51,
+    "size": "xs",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XS-WHITE",
+    "created_at": "2026-02-02T15:38:39.568Z",
+    "updated_at": "2026-02-02T15:38:39.568Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 247,
+  "fields": {
+    "product": 51,
+    "size": "xs",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XS-CHARCOAL",
+    "created_at": "2026-02-02T15:38:39.568Z",
+    "updated_at": "2026-02-02T15:38:39.568Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 248,
+  "fields": {
+    "product": 51,
+    "size": "xs",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XS-NAVY",
+    "created_at": "2026-02-02T15:38:39.568Z",
+    "updated_at": "2026-02-02T15:38:39.569Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 249,
+  "fields": {
+    "product": 51,
+    "size": "xs",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XS-RED",
+    "created_at": "2026-02-02T15:38:39.569Z",
+    "updated_at": "2026-02-02T15:38:39.569Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 250,
+  "fields": {
+    "product": 51,
+    "size": "s",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-S-BLACK",
+    "created_at": "2026-02-02T15:38:39.569Z",
+    "updated_at": "2026-02-02T15:38:39.569Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 251,
+  "fields": {
+    "product": 51,
+    "size": "s",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-S-WHITE",
+    "created_at": "2026-02-02T15:38:39.569Z",
+    "updated_at": "2026-02-02T15:38:39.569Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 252,
+  "fields": {
+    "product": 51,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-S-CHARCOAL",
+    "created_at": "2026-02-02T15:38:39.569Z",
+    "updated_at": "2026-02-02T15:38:39.569Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 253,
+  "fields": {
+    "product": 51,
+    "size": "s",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-S-NAVY",
+    "created_at": "2026-02-02T15:38:39.570Z",
+    "updated_at": "2026-02-02T15:38:39.570Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 254,
+  "fields": {
+    "product": 51,
+    "size": "s",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-S-RED",
+    "created_at": "2026-02-02T15:38:39.570Z",
+    "updated_at": "2026-02-02T15:38:39.570Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 255,
+  "fields": {
+    "product": 51,
+    "size": "m",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-M-BLACK",
+    "created_at": "2026-02-02T15:38:39.570Z",
+    "updated_at": "2026-02-02T15:38:39.570Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 256,
+  "fields": {
+    "product": 51,
+    "size": "m",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-M-WHITE",
+    "created_at": "2026-02-02T15:38:39.570Z",
+    "updated_at": "2026-02-02T15:38:39.570Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 257,
+  "fields": {
+    "product": 51,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-M-CHARCOAL",
+    "created_at": "2026-02-02T15:38:39.570Z",
+    "updated_at": "2026-02-02T15:38:39.570Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 258,
+  "fields": {
+    "product": 51,
+    "size": "m",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-M-NAVY",
+    "created_at": "2026-02-02T15:38:39.571Z",
+    "updated_at": "2026-02-02T15:38:39.571Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 259,
+  "fields": {
+    "product": 51,
+    "size": "m",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-M-RED",
+    "created_at": "2026-02-02T15:38:39.571Z",
+    "updated_at": "2026-02-02T15:38:39.571Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 260,
+  "fields": {
+    "product": 51,
+    "size": "l",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-L-BLACK",
+    "created_at": "2026-02-02T15:38:39.571Z",
+    "updated_at": "2026-02-02T15:38:39.571Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 261,
+  "fields": {
+    "product": 51,
+    "size": "l",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-L-WHITE",
+    "created_at": "2026-02-02T15:38:39.571Z",
+    "updated_at": "2026-02-02T15:38:39.571Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 262,
+  "fields": {
+    "product": 51,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-L-CHARCOAL",
+    "created_at": "2026-02-02T15:38:39.571Z",
+    "updated_at": "2026-02-02T15:38:39.571Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 263,
+  "fields": {
+    "product": 51,
+    "size": "l",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-L-NAVY",
+    "created_at": "2026-02-02T15:38:39.572Z",
+    "updated_at": "2026-02-02T15:38:39.572Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 264,
+  "fields": {
+    "product": 51,
+    "size": "l",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-L-RED",
+    "created_at": "2026-02-02T15:38:39.572Z",
+    "updated_at": "2026-02-02T15:38:39.572Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 265,
+  "fields": {
+    "product": 51,
+    "size": "xl",
+    "color": "black",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XL-BLACK",
+    "created_at": "2026-02-02T15:38:39.572Z",
+    "updated_at": "2026-02-02T15:38:39.572Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 266,
+  "fields": {
+    "product": 51,
+    "size": "xl",
+    "color": "white",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XL-WHITE",
+    "created_at": "2026-02-02T15:38:39.572Z",
+    "updated_at": "2026-02-02T15:38:39.572Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 267,
+  "fields": {
+    "product": 51,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XL-CHARCOAL",
+    "created_at": "2026-02-02T15:38:39.572Z",
+    "updated_at": "2026-02-02T15:38:39.572Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 268,
+  "fields": {
+    "product": 51,
+    "size": "xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XL-NAVY",
+    "created_at": "2026-02-02T15:38:39.573Z",
+    "updated_at": "2026-02-02T15:38:39.573Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 269,
+  "fields": {
+    "product": 51,
+    "size": "xl",
+    "color": "red",
+    "stock": 500,
+    "sku": "WAR-PIG-METAL-TSHIRT-WOME-P51-XL-RED",
+    "created_at": "2026-02-02T15:38:39.573Z",
+    "updated_at": "2026-02-02T15:38:39.573Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 270,
+  "fields": {
+    "product": 52,
+    "size": "m",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-M-WHITE",
+    "created_at": "2026-02-03T05:45:36.720Z",
+    "updated_at": "2026-02-03T05:45:36.720Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 271,
+  "fields": {
+    "product": 52,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-M-CHARCOAL",
+    "created_at": "2026-02-03T05:45:36.723Z",
+    "updated_at": "2026-02-03T05:45:36.723Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 272,
+  "fields": {
+    "product": 52,
+    "size": "m",
+    "color": "navy",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-M-NAVY",
+    "created_at": "2026-02-03T05:45:36.723Z",
+    "updated_at": "2026-02-03T05:45:36.723Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 273,
+  "fields": {
+    "product": 52,
+    "size": "l",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-L-WHITE",
+    "created_at": "2026-02-03T05:45:36.724Z",
+    "updated_at": "2026-02-03T05:45:36.724Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 274,
+  "fields": {
+    "product": 52,
+    "size": "l",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-L-CHARCOAL",
+    "created_at": "2026-02-03T05:45:36.724Z",
+    "updated_at": "2026-02-03T05:45:36.724Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 275,
+  "fields": {
+    "product": 52,
+    "size": "l",
+    "color": "navy",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-L-NAVY",
+    "created_at": "2026-02-03T05:45:36.725Z",
+    "updated_at": "2026-02-03T05:45:36.725Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 276,
+  "fields": {
+    "product": 52,
+    "size": "xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-XL-WHITE",
+    "created_at": "2026-02-03T05:45:36.725Z",
+    "updated_at": "2026-02-03T05:45:36.725Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 277,
+  "fields": {
+    "product": 52,
+    "size": "xl",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-XL-CHARCOAL",
+    "created_at": "2026-02-03T05:45:36.725Z",
+    "updated_at": "2026-02-03T05:45:36.725Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 278,
+  "fields": {
+    "product": 52,
+    "size": "xl",
+    "color": "navy",
+    "stock": 10,
+    "sku": "TESTING-ONE-MORE-TIME-P52-XL-NAVY",
+    "created_at": "2026-02-03T05:45:36.725Z",
+    "updated_at": "2026-02-03T05:45:36.725Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 282,
+  "fields": {
+    "product": 54,
+    "size": "2xl",
+    "color": "navy",
+    "stock": 500,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-2XL-NAVY",
+    "created_at": "2026-02-03T05:52:13.830Z",
+    "updated_at": "2026-02-03T05:52:13.830Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 283,
+  "fields": {
+    "product": 38,
+    "size": "xs",
+    "color": "black",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-XS-BLACK",
+    "created_at": "2026-02-03T08:36:19.892Z",
+    "updated_at": "2026-02-03T08:36:19.892Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 284,
+  "fields": {
+    "product": 38,
+    "size": "xs",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-XS-WHITE",
+    "created_at": "2026-02-03T08:36:19.896Z",
+    "updated_at": "2026-02-03T08:36:19.896Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 285,
+  "fields": {
+    "product": 38,
+    "size": "xs",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-XS-CHARCOAL",
+    "created_at": "2026-02-03T08:36:19.900Z",
+    "updated_at": "2026-02-03T08:36:19.900Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 286,
+  "fields": {
+    "product": 38,
+    "size": "s",
+    "color": "black",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-S-BLACK",
+    "created_at": "2026-02-03T08:36:19.902Z",
+    "updated_at": "2026-02-03T08:36:19.902Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 287,
+  "fields": {
+    "product": 38,
+    "size": "s",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-S-WHITE",
+    "created_at": "2026-02-03T08:36:19.905Z",
+    "updated_at": "2026-02-03T08:36:19.905Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 288,
+  "fields": {
+    "product": 38,
+    "size": "s",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-S-CHARCOAL",
+    "created_at": "2026-02-03T08:36:19.906Z",
+    "updated_at": "2026-02-03T08:36:19.906Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 289,
+  "fields": {
+    "product": 38,
+    "size": "m",
+    "color": "black",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-M-BLACK",
+    "created_at": "2026-02-03T08:36:19.910Z",
+    "updated_at": "2026-02-03T08:36:19.910Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 290,
+  "fields": {
+    "product": 38,
+    "size": "m",
+    "color": "white",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-M-WHITE",
+    "created_at": "2026-02-03T08:36:19.913Z",
+    "updated_at": "2026-02-03T08:36:19.913Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 291,
+  "fields": {
+    "product": 38,
+    "size": "m",
+    "color": "charcoal",
+    "stock": 10,
+    "sku": "TESTING-AGAIN-WOMEN-P38-M-CHARCOAL",
+    "created_at": "2026-02-03T08:36:19.916Z",
+    "updated_at": "2026-02-03T08:36:19.916Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 292,
+  "fields": {
+    "product": 54,
+    "size": "xs",
+    "color": "black",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-XS-BLACK",
+    "created_at": "2026-02-07T14:03:31.833Z",
+    "updated_at": "2026-02-07T14:03:31.833Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 293,
+  "fields": {
+    "product": 54,
+    "size": "xs",
+    "color": "white",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-XS-WHITE",
+    "created_at": "2026-02-07T14:03:31.836Z",
+    "updated_at": "2026-02-07T14:03:31.836Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 294,
+  "fields": {
+    "product": 54,
+    "size": "xs",
+    "color": "navy",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-XS-NAVY",
+    "created_at": "2026-02-07T14:03:31.839Z",
+    "updated_at": "2026-02-07T14:03:31.839Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 295,
+  "fields": {
+    "product": 54,
+    "size": "s",
+    "color": "black",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-S-BLACK",
+    "created_at": "2026-02-07T14:03:31.840Z",
+    "updated_at": "2026-02-07T14:03:31.840Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 296,
+  "fields": {
+    "product": 54,
+    "size": "s",
+    "color": "white",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-S-WHITE",
+    "created_at": "2026-02-07T14:03:31.842Z",
+    "updated_at": "2026-02-07T14:03:31.842Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 297,
+  "fields": {
+    "product": 54,
+    "size": "s",
+    "color": "navy",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-S-NAVY",
+    "created_at": "2026-02-07T14:03:31.843Z",
+    "updated_at": "2026-02-07T14:03:31.843Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 298,
+  "fields": {
+    "product": 54,
+    "size": "2xl",
+    "color": "black",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-2XL-BLACK",
+    "created_at": "2026-02-07T14:03:31.845Z",
+    "updated_at": "2026-02-07T14:03:31.845Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 299,
+  "fields": {
+    "product": 54,
+    "size": "2xl",
+    "color": "white",
+    "stock": 10,
+    "sku": "CROW-VINTAGE-TSHIRT-WOMEN-P54-2XL-WHITE",
+    "created_at": "2026-02-07T14:03:31.846Z",
+    "updated_at": "2026-02-07T14:03:31.846Z"
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 5,
+    "image": "products/gallery/Cool_Skull_T-Shirt_Designs_-_Artboard_17",
+    "alt_text": "Cool skull loud and proud",
+    "order": 1
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 5,
+    "image": "products/gallery/Cool_Skull_T-Shirt_Designs_-_illustrationImage_3",
+    "alt_text": "Cool skull loud and proud",
+    "order": 2
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 4,
+  "fields": {
+    "product": 6,
+    "image": "products/gallery/Hendoshi_gothic_logo",
+    "alt_text": "",
+    "order": 0
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 6,
+  "fields": {
+    "product": 20,
+    "image": "products/gallery/headbanger-ad_hKOomqa",
+    "alt_text": "",
+    "order": 0
+  }
+}
+]

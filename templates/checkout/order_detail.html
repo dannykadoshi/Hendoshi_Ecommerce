@@ -154,6 +154,8 @@
                             <label for="carrier"><i class="fas fa-truck"></i> Carrier (Optional):</label>
                             <select name="carrier" id="carrier" class="form-control">
                                 <option value="">Select carrier...</option>
+                                <option value="anpost" {% if order.carrier == 'anpost' %}selected{% endif %}>An Post</option>
+                                <option value="dpd" {% if order.carrier == 'dpd' %}selected{% endif %}>DPD</option>
                                 <option value="usps" {% if order.carrier == 'usps' %}selected{% endif %}>USPS</option>
                                 <option value="ups" {% if order.carrier == 'ups' %}selected{% endif %}>UPS</option>
                                 <option value="fedex" {% if order.carrier == 'fedex' %}selected{% endif %}>FedEx</option>

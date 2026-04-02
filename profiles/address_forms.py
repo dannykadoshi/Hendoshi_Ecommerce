@@ -36,9 +36,8 @@ class AddressForm(forms.ModelForm):
                 'class': 'profile-form-input',
                 'placeholder': 'State/County',
             }),
-            'country': forms.TextInput(attrs={
+            'country': forms.Select(attrs={
                 'class': 'profile-form-input',
-                'placeholder': 'Country',
             }),
             'postal_code': forms.TextInput(attrs={
                 'class': 'profile-form-input',

@@ -7,6 +7,7 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from django_countries.fields import CountryField
 from products.models import Product
 from profiles.models import Address
 
@@ -45,6 +46,8 @@ class Order(models.Model):
     ]
 
     CARRIER_CHOICES = [
+        ('anpost', 'An Post'),
+        ('dpd', 'DPD'),
         ('usps', 'USPS'),
         ('ups', 'UPS'),
         ('fedex', 'FedEx'),
@@ -63,7 +66,7 @@ class Order(models.Model):
     address_line_2 = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=100)
     state_or_county = models.CharField(max_length=100)
-    country = models.CharField(max_length=40)
+    country = CountryField()
     postal_code = models.CharField(max_length=20)
 
     # Pricing
@@ -117,6 +120,8 @@ class Order(models.Model):
             return None
 
         tracking_urls = {
+            'anpost': f'https://www.anpost.ie/AnPost/TrackingInformation?pin={self.tracking_number}',
+            'dpd': f'https://tracking.dpd.ie/?reference={self.tracking_number}',
             'usps': f'https://tools.usps.com/go/TrackConfirmAction?tLabels={self.tracking_number}',
             'ups': f'https://www.ups.com/track?tracknum={self.tracking_number}',
             'fedex': f'https://www.fedex.com/fedextrack/?tracknumbers={self.tracking_number}',

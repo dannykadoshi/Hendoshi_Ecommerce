@@ -68,11 +68,15 @@
     font-size: 2rem;
 }
 
-.tracking-info-cards h5 {
+.tracking-info-cards h4 {
     margin-bottom: 0.75rem;
     color: var(--off-white);
     font-weight: 700;
     font-size: 1.1rem;
+}
+
+.tracking-info-cards .info-card p {
+    color: rgba(255, 255, 255, 0.75) !important;
 }
 
 .carriers-card .carriers-grid {
@@ -176,6 +180,10 @@
 :root.light-mode .tracking-info-cards .info-card,
 :root.light-mode .carrier-item {
     background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light-mode .tracking-info-cards .info-card p {
+    color: rgba(0, 0, 0, 0.7);
 }
 
 /* Override universal styles for track order page */

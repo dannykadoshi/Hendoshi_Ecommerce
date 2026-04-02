@@ -100,6 +100,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_countries',
 ]
 
 # Add setup app only in development mode
