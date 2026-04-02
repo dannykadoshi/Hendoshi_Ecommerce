@@ -41,9 +41,8 @@ class HybridCloudinaryStorage(Storage):
         # Ensure cloudinary is configured
         _ensure_cloudinary_configured()
 
-        # Debug: Print to stdout so it shows in Render logs
-        print(f"[CLOUDINARY _save] Starting upload for: {name}", flush=True)
-        print(f"[CLOUDINARY _save] Cloud name: {cloudinary.config().cloud_name}", flush=True)
+        logger.debug("[CLOUDINARY _save] Starting upload for: %s", name)
+        logger.debug("[CLOUDINARY _save] Cloud name: %s", cloudinary.config().cloud_name)
 
         try:
             # Reset file position to beginning (Django may have read it already)
@@ -54,7 +53,7 @@ class HybridCloudinaryStorage(Storage):
             # Remove extension for Cloudinary public_id
             public_id = os.path.splitext(name)[0]
 
-            print(f"[CLOUDINARY _save] Uploading with public_id: {public_id}", flush=True)
+            logger.debug("[CLOUDINARY _save] Uploading with public_id: %s", public_id)
             logger.info(f"Uploading to Cloudinary: {public_id} (cloud: {cloudinary.config().cloud_name})")
 
             # Upload to Cloudinary
@@ -65,23 +64,23 @@ class HybridCloudinaryStorage(Storage):
                 resource_type='auto'
             )
 
-            print(f"[CLOUDINARY _save] Upload successful! public_id: {result['public_id']}", flush=True)
+            logger.debug("[CLOUDINARY _save] Upload successful! public_id: %s", result['public_id'])
             logger.info(f"Cloudinary upload successful: {result['public_id']}")
             # Return the public_id (without extension) which Cloudinary uses
             return result['public_id']
         except Exception as e:
             # Log the error with full details
-            print(f"[CLOUDINARY _save] ERROR: {e}", flush=True)
+            logger.error("[CLOUDINARY _save] ERROR: %s", e)
             logger.error(f"Cloudinary upload failed for {name}: {e}", exc_info=True)
 
             # In production (DEBUG=False), don't fall back to local storage
             # because Render's filesystem is ephemeral and files won't persist
-            print(f"[CLOUDINARY _save] DEBUG={settings.DEBUG}", flush=True)
+            logger.debug("[CLOUDINARY _save] DEBUG=%s", settings.DEBUG)
             if not settings.DEBUG:
                 raise Exception(f"Cloudinary upload failed: {e}. Local fallback disabled in production.")
 
             # In development, fall back to local storage
-            print("[CLOUDINARY _save] Falling back to local storage", flush=True)
+            logger.warning("[CLOUDINARY _save] Falling back to local storage")
             logger.warning(f"Falling back to local storage for {name}")
             return self.local_storage._save(name, content)
 

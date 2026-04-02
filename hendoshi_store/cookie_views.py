@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
 from hendoshi_store.cookies import CookieManager
 import json
 
@@ -52,7 +51,6 @@ def cookie_settings(request):
 
 
 @require_POST
-@csrf_exempt
 def update_cookie_consent(request):
     """AJAX endpoint to update cookie consent"""
     try:

@@ -59,6 +59,10 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_REFERRER_POLICY = 'same-origin'
 
 
 # Application definition
@@ -92,13 +96,15 @@ INSTALLED_APPS = [
     'notifications',
     'vault',
     'themes',
-    'setup',  # Temporary app for initial data setup
-
     # Allauth apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 ]
+
+# Add setup app only in development mode
+if DEBUG:
+    INSTALLED_APPS += ['setup']
 
 # Django Sites Framework (required by allauth)
 SITE_ID = 1
@@ -193,18 +199,34 @@ DATABASES = {
 }
 
 # Cache configuration
-# Uses in-memory cache per process — fast, zero infrastructure required.
-# Per-site cache headers are set on public, read-heavy views (product list, vault gallery).
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'hendoshi-cache',
-        'TIMEOUT': 300,  # 5 minutes default TTL
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000,
-        },
+# Uses Redis when REDIS_URL is set (production/Render), falls back to per-process
+# in-memory cache for local development. LocMemCache is per-process so multiple
+# Gunicorn workers will not share state; Redis solves this for production.
+REDIS_URL = config('REDIS_URL', default='')
+
+if REDIS_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'TIMEOUT': 300,  # 5 minutes default TTL
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'MAX_ENTRIES': 1000,
+            },
+        }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'hendoshi-cache',
+            'TIMEOUT': 300,  # 5 minutes default TTL
+            'OPTIONS': {
+                'MAX_ENTRIES': 1000,
+            },
+        }
+    }
 
 
 # Password validation
@@ -261,8 +283,11 @@ COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Cloudinary Configuration for Media Files
+import logging
 import cloudinary
 import re
+
+logger = logging.getLogger(__name__)
 
 # Support both CLOUDINARY_URL format and individual variables
 CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
@@ -274,7 +299,7 @@ if CLOUDINARY_URL:
     # Extract cloud_name from the URL for our settings
     match = re.search(r'@([^/]+)$', CLOUDINARY_URL)
     CLOUDINARY_CLOUD_NAME = match.group(1) if match else ''
-    print(f"Cloudinary configured from URL. Cloud name: {CLOUDINARY_CLOUD_NAME}")
+    logger.debug("Cloudinary configured from URL. Cloud name: %s", CLOUDINARY_CLOUD_NAME)
 else:
     # Use individual environment variables
     CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
@@ -283,7 +308,7 @@ else:
         api_key=config('CLOUDINARY_API_KEY', default=''),
         api_secret=config('CLOUDINARY_API_SECRET', default=''),
     )
-    print(f"Cloudinary configured from individual vars. Cloud name: {CLOUDINARY_CLOUD_NAME}")
+    logger.debug("Cloudinary configured from individual vars. Cloud name: %s", CLOUDINARY_CLOUD_NAME)
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
@@ -312,3 +337,37 @@ SITE_URL = config('SITE_URL', default='http://localhost:8000')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
