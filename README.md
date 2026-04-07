@@ -1109,8 +1109,8 @@ Product → PriceHistory
 ### Deployment & Hosting
 | Service | Purpose |
 |--------|---------|
-| **Render.com** | Application hosting (web service) |
-| **Render PostgreSQL** | Managed PostgreSQL database hosting |
+| **Render.com** | Application hosting (web service — Starter plan) |
+| **Supabase** | Managed PostgreSQL database hosting (free tier, US West region) |
 | **Cloudinary** | Media file storage and CDN |
 
 ---
@@ -1267,7 +1267,7 @@ Visit `http://127.0.0.1:8000/`
 | `SECRET_KEY` | Django secret key (generate a new one) |
 | `DEBUG` | `False` |
 | `ALLOWED_HOSTS` | `hendoshi-ecommerce.onrender.com` |
-| `DATABASE_URL` | Connection string from Render PostgreSQL (auto-provided) |
+| `DATABASE_URL` | Supabase PostgreSQL connection string (session pooler, port 5432) |
 | `STRIPE_PUBLIC_KEY` | Stripe live/test public key |
 | `STRIPE_SECRET_KEY` | Stripe live/test secret key |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret |
