@@ -662,12 +662,10 @@
     margin-top: 0 !important;
 }
 
-/* Small-screen behavior: allow content to scroll and reduce strict vertical centering */
+/* Small-screen behavior: allow content to scroll naturally as one page */
 @media (max-width: 768px) {
     .auth-page {
-        /* On small screens still exclude header/footer height so content
-           area matches available space and scrolling behaves predictably. */
-        min-height: calc(100vh - var(--site-header-height, 64px) - var(--site-footer-height, 72px));
+        min-height: auto;
     }
     .auth-page > .page-hero + .page-container,
     .auth-page > .page-container {
@@ -675,7 +673,6 @@
         justify-content: flex-start;
         padding-top: 1.25rem;
         padding-bottom: 1rem;
-        overflow-y: auto;
-        max-height: calc(100vh - var(--site-header-height, 64px) - var(--site-footer-height, 72px));
+        /* No overflow-y or max-height here — let the page scroll as a whole */
     }
 }
