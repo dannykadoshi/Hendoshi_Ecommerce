@@ -58,6 +58,8 @@
     - [24. Discount Codes & Promotional Banner](#24-discount-codes--promotional-banner)
   - [Social Media Presence](#social-media-presence)
     - [25. Social Media Channels](#25-social-media-channels)
+  - [Progressive Web App](#progressive-web-app-pwa)
+    - [26. Progressive Web App (PWA)](#26-progressive-web-app-pwa)
 - [Database Schema](#-database-schema)
 - [Technologies Used](#-technologies-used)
 - [Testing](#-testing)
@@ -893,6 +895,53 @@ HENDOSHI maintains an active presence across four social media platforms. All li
 | **Facebook** | `hendoshiart` | [![Facebook](https://img.shields.io/badge/Facebook-hendoshiart-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/hendoshiart) |
 | **X (Twitter)** | `@hendoshiart` | [![X](https://img.shields.io/badge/X-@hendoshiart-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/hendoshiart) |
 | **Pinterest** | `hendoshiart` | [![Pinterest](https://img.shields.io/badge/Pinterest-hendoshiart-E60023?style=for-the-badge&logo=pinterest&logoColor=white)](https://ie.pinterest.com/hendoshiart/) |
+
+---
+
+### Progressive Web App (PWA)
+
+#### 26. Progressive Web App (PWA)
+
+HENDOSHI is a fully installable Progressive Web App. Users can add it to their phone or desktop home screen and it behaves like a native app — no App Store required.
+
+**Offline Page**
+![PWA Offline Page](assets/readme/feature-pwa-offline.png)
+
+**What users get:**
+
+| Feature | Detail |
+|---|---|
+| Installable | "Add to Home Screen" prompt on Android & iOS |
+| Standalone display | Launches without browser chrome — no address bar |
+| Offline support | Cached assets load instantly; branded offline page shown when disconnected |
+| Home screen icon | Pug skull icon on all platforms |
+| Theme color | Neon pink `#FF1493` status bar on Android |
+
+**Caching strategy:**
+
+| Request type | Strategy |
+|---|---|
+| Static assets (`/static/`, `/media/`) | Cache-first — served instantly |
+| Pages | Network-first — fresh when online, cached when offline |
+| Cart / Checkout / Admin / Accounts | Always network — never intercepted |
+| No cache + no network | Branded `/offline/` page |
+
+**Offline page** — when the user loses connection and visits a page that isn't cached, they see a branded page with the pug skull, a clear message, and a **Retry Connection** button. Their cart and saved items are unaffected.
+
+**Android install note** — Google Play Protect may show a warning when installing the PWA. This is a standard Android message for any app installed outside the Play Store and is safe to dismiss with *Install anyway*.
+
+**Technical files:**
+
+| File | Purpose |
+|---|---|
+| `templates/pwa/manifest.json` | Web App Manifest (name, icons, colors, display) |
+| `templates/pwa/service-worker.js` | Caching service worker |
+| `templates/offline.html` | Branded offline fallback page |
+| `static/images/icons/icon-192.png` | Android / Chrome home screen icon |
+| `static/images/icons/icon-512.png` | Splash screen icon |
+| `static/images/icons/apple-touch-icon.png` | iOS home screen icon |
+
+Served via Django views at `/manifest.json`, `/service-worker.js`, and `/offline/`.
 
 ---
 
