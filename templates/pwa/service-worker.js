@@ -1,10 +1,10 @@
 {% load static %}
 const CACHE_VERSION = 'hendoshi-v1';
 const STATIC_CACHE = 'hendoshi-static-v1';
+const OFFLINE_URL = '/offline/';
 
-// Core assets to pre-cache on install
-const PRECACHE_URLS = [
-    '/offline/',
+// Optional assets to cache on install — failures are silently ignored
+const OPTIONAL_CACHE_URLS = [
     '{% static "images/icons/icon-192.png" %}',
     '{% static "images/icons/icon-512.png" %}',
     '{% static "images/pug-skull.webp" %}',
@@ -15,51 +15,60 @@ const PRECACHE_URLS = [
     '{% static "js/1-core/utils.js" %}',
 ];
 
-// ── Install: pre-cache core assets ──────────────────────────────────────────
+// ── Install: cache offline page first (critical), then others best-effort ──
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(STATIC_CACHE)
-            .then(cache => cache.addAll(PRECACHE_URLS))
-            .then(() => self.skipWaiting())
+        (async () => {
+            const cache = await caches.open(STATIC_CACHE);
+            // Offline page MUST be cached — fail install if it can't be fetched
+            await cache.add(OFFLINE_URL);
+            // Everything else is best-effort — a single failure won't block install
+            await Promise.allSettled(
+                OPTIONAL_CACHE_URLS.map(url =>
+                    cache.add(url).catch(() => { /* ignore */ })
+                )
+            );
+            await self.skipWaiting();
+        })()
     );
 });
 
-// ── Activate: remove old caches ──────────────────────────────────────────────
+// ── Activate: remove stale caches ────────────────────────────────────────────
 self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(
+        caches.keys()
+            .then(keys => Promise.all(
                 keys
                     .filter(key => key !== CACHE_VERSION && key !== STATIC_CACHE)
                     .map(key => caches.delete(key))
-            )
-        ).then(() => self.clients.claim())
+            ))
+            .then(() => self.clients.claim())
     );
 });
 
-// ── Fetch: strategy per request type ────────────────────────────────────────
+// ── Fetch: strategy per request type ─────────────────────────────────────────
 self.addEventListener('fetch', event => {
     const { request } = event;
     const url = new URL(request.url);
 
-    // Only handle same-origin requests
+    // Only handle same-origin GET requests
     if (url.origin !== location.origin) return;
-
-    // Skip non-GET, cart/checkout/admin/accounts (always need server)
     if (request.method !== 'GET') return;
+
+    // Skip pages that always need the server
     if (/^\/(cart|checkout|admin|accounts|profile|notifications)/.test(url.pathname)) return;
 
-    // Static assets → cache-first
+    // Static & media assets → cache-first
     if (/^\/(static|media)\//.test(url.pathname)) {
         event.respondWith(cacheFirst(request));
         return;
     }
 
-    // Pages → network-first with offline fallback
+    // All other pages → network-first with offline fallback
     event.respondWith(networkFirstWithOfflineFallback(request));
 });
 
-// Cache-first: serve from cache, fetch and update cache if missing
+// Cache-first: return cached copy instantly; fetch + update cache if missing
 async function cacheFirst(request) {
     const cached = await caches.match(request);
     if (cached) return cached;
@@ -71,11 +80,11 @@ async function cacheFirst(request) {
         }
         return response;
     } catch {
-        return new Response('', { status: 408 });
+        return new Response('Asset unavailable offline', { status: 408 });
     }
 }
 
-// Network-first: try network, fall back to offline page on failure
+// Network-first: try network → fall back to cache → fall back to offline page
 async function networkFirstWithOfflineFallback(request) {
     try {
         const response = await fetch(request);
@@ -85,8 +94,16 @@ async function networkFirstWithOfflineFallback(request) {
         }
         return response;
     } catch {
+        // Try cached version of this specific page
         const cached = await caches.match(request);
         if (cached) return cached;
-        return caches.match('/offline/');
+        // Last resort: show branded offline page
+        const offlinePage = await caches.match(OFFLINE_URL);
+        if (offlinePage) return offlinePage;
+        // Absolute fallback if offline page itself isn't cached somehow
+        return new Response(
+            '<h1 style="font-family:sans-serif;text-align:center;padding:4rem">You are offline</h1>',
+            { status: 503, headers: { 'Content-Type': 'text/html' } }
+        );
     }
 }
