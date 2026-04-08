@@ -1080,6 +1080,14 @@ span.gradient-text-mobile {
         font-size: 1rem;
         min-width: 32px;
     }
+
+    /* Re-anchor vest badge to the icon glyph, not the wider touch-target container.
+       The 32px min-width pushes right:-8px too far from the actual icon.
+       Keep top:-8px to match the cart badge height. */
+    .mobile-icons .nav-icon .vest-count-badge {
+        right: 0;
+        top: -8px;
+    }
 }
 
 /* ========================================
