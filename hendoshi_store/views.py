@@ -253,3 +253,23 @@ def jshint_report(request):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     return HttpResponse(content, content_type='text/html')
+
+
+def pwa_manifest(request):
+    """Serve the PWA web app manifest."""
+    response = render(request, 'pwa/manifest.json')
+    response['Content-Type'] = 'application/manifest+json'
+    return response
+
+
+def pwa_service_worker(request):
+    """Serve the PWA service worker at the root scope."""
+    response = render(request, 'pwa/service-worker.js')
+    response['Content-Type'] = 'application/javascript'
+    response['Service-Worker-Allowed'] = '/'
+    return response
+
+
+def offline(request):
+    """Branded offline fallback page for the PWA."""
+    return render(request, 'offline.html')

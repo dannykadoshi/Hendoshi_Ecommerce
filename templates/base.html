@@ -116,7 +116,15 @@
               type="image/png"
               sizes="32x32"
               href="{% static 'images/pug-skull.png' %}">
-        <link rel="apple-touch-icon" href="{% static 'images/pug-skull.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'images/icons/apple-touch-icon.png' %}">
+
+        <!-- PWA -->
+        <link rel="manifest" href="/manifest.json">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="HENDOSHI">
+        <meta name="theme-color" content="#FF1493">
         
         <!-- Resource Hints for Performance -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -1139,5 +1147,17 @@
 
         <!-- Cookie Consent Banner -->
         {% include 'cookies/cookie_consent.html' %}
+
+        <!-- PWA Service Worker Registration -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+                        .catch(function (err) {
+                            console.warn('Service worker registration failed:', err);
+                        });
+                });
+            }
+        </script>
     </body>
 </html>
