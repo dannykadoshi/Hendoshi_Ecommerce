@@ -741,7 +741,7 @@ span.gradient-text-mobile {
 .mobile-icons {
     display: none;
     align-items: center;
-    gap: 0.35rem; /* tightened spacing for mobile icons */
+    gap: 0;
 }
 
 /* ========================================
@@ -1072,18 +1072,13 @@ span.gradient-text-mobile {
     }
 
     .navbar-right {
-        gap: 0.3rem; /* reduce overall right-cluster gap on mobile */
+        gap: 0.1rem;
     }
 
-    /* Ensure touch targets meet WCAG 2.5.5 minimum (44×44px) on mobile */
     .mobile-icons .nav-icon {
-        padding: 0 0.25rem;
-        font-size: 1.1rem;
-        min-width: 44px;
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        padding: 0 0.1rem;
+        font-size: 1rem;
+        min-width: 32px;
     }
 }
 
