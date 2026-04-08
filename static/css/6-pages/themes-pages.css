@@ -662,6 +662,76 @@
     margin-top: 0 !important;
 }
 
+/* Password visibility toggle — seamless eye button inside the input border */
+.password-field-wrapper {
+    display: flex;
+}
+
+.password-field-wrapper .form-control,
+.password-field-wrapper .auth-form-input {
+    border-right: none !important;
+    border-radius: 4px 0 0 4px !important;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Keep focus ring on the input without the border-right seam */
+.password-field-wrapper .form-control:focus,
+.password-field-wrapper .auth-form-input:focus {
+    border-right: none !important;
+    box-shadow: none !important;
+    z-index: 1;
+}
+
+/* Highlight the whole wrapper on input focus */
+.password-field-wrapper:focus-within .form-control,
+.password-field-wrapper:focus-within .auth-form-input {
+    border-color: var(--neon-pink) !important;
+}
+
+.password-field-wrapper:focus-within .password-toggle {
+    border-color: var(--neon-pink) !important;
+}
+
+.password-toggle {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    padding: 0;
+    border: 2px solid var(--gray);
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background: var(--black);
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+    color: var(--neon-pink);
+    background: var(--black);
+    border-color: var(--neon-pink);
+    outline: none;
+    box-shadow: none;
+}
+
+:root.light-mode .password-toggle {
+    border-color: #ccc;
+    background: #fff;
+    color: rgba(0, 0, 0, 0.35);
+}
+
+:root.light-mode .password-toggle:hover,
+:root.light-mode .password-toggle:focus {
+    color: var(--neon-pink);
+    border-color: var(--neon-pink);
+    background: #fff;
+}
+
 /* Small-screen behavior: allow content to scroll naturally as one page */
 @media (max-width: 768px) {
     .auth-page {

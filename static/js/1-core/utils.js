@@ -24,6 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 4000);
 });
 
+// Password visibility toggle
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.password-toggle');
+    if (!btn) return;
+    const wrapper = btn.closest('.password-field-wrapper');
+    if (!wrapper) return;
+    const input = wrapper.querySelector('input[type="password"], input[type="text"]');
+    if (!input) return;
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    const icon = btn.querySelector('i');
+    if (icon) {
+        icon.classList.toggle('fa-eye', !isHidden);
+        icon.classList.toggle('fa-eye-slash', isHidden);
+    }
+    btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+});
+
 // Smooth scroll for anchor links (exclude href="#")
 document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
