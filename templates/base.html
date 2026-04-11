@@ -203,7 +203,7 @@
         <!-- 7. SEASONAL THEMES (Dynamic, Loaded Last) -->
         {% if seasonal_theme %}
         <link rel="stylesheet" href="{% static 'css/5-features/themes/seasonal_themes.css' %}?v=3.0">
-        <link rel="stylesheet" href="{% static 'css/5-features/themes/theme_' %}{{ seasonal_theme.theme_type }}.css?v=3.0">
+        <link rel="stylesheet" href="{% get_static_prefix %}css/5-features/themes/theme_{{ seasonal_theme.theme_type }}.css?v=3.0">
         {% endif %}
 
         {% block extra_css %}{% endblock %}

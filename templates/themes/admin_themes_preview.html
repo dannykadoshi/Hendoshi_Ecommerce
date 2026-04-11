@@ -18,8 +18,8 @@
 {% block body_attrs %}data-theme-type="{{ theme.theme_type }}" data-anim-speed="{{ theme.animation_speed }}" data-density="{{ theme.particle_density }}" data-is-paused="{% if theme.is_paused %}true{% else %}false{% endif %}"{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/features/themes/seasonal_themes.css' %}">
-<link rel="stylesheet" href="{% static 'css/features/themes/theme_' %}{{ theme.theme_type }}.css">
+<link rel="stylesheet" href="{% static 'css/5-features/themes/seasonal_themes.css' %}">
+<link rel="stylesheet" href="{% get_static_prefix %}css/5-features/themes/theme_{{ theme.theme_type }}.css">
 
 {% endblock %}
 
