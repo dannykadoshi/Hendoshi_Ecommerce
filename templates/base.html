@@ -1124,8 +1124,11 @@
                 if (vaultHero) {
                     // Insert the strip right after the page-hero
                     vaultHero.parentNode.insertBefore(messageStrip, vaultHero.nextSibling);
-                    // Mark the hero so CSS can remove bottom spacing when a strip is present
-                    vaultHero.classList.add('has-strip');
+                    // Remove margin below hero so strip sits flush against it
+                    // setProperty with 'important' beats any stylesheet !important rule
+                    vaultHero.style.setProperty('margin-bottom', '0', 'important');
+                    messageStrip.style.setProperty('margin-top', '0', 'important');
+                    messageStrip.style.setProperty('margin-bottom', '1.5rem', 'important');
                     messageStrip.style.display = 'block';
                 }
             }

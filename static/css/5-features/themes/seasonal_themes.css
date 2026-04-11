@@ -211,6 +211,7 @@
 
 .seasonal-message-strip {
     position: relative;
+    z-index: 11;
     margin-top: 0;
     padding: 0.5rem 0;
     overflow: hidden;
@@ -229,12 +230,12 @@ body .page-hero.has-strip {
 
 body .page-hero.has-strip + .seasonal-message-strip {
     margin-top: 0;
-    padding-top: 0.4rem; /* small padding so text doesn't butt directly to hero */
+    padding-top: 0;
 }
 
 /* Ensure the strip itself has no external margins that could create gaps */
 .seasonal-message-strip {
-    margin: 0;
+    margin: 0 0 1.5rem;
 }
 
 /* Gradient border accents */

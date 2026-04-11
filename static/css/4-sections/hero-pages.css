@@ -19,7 +19,7 @@
     z-index: 10;
     position: relative;
     width: 100vw;
-    margin: 0 calc(-50vw + 50%);
+    margin: 0 calc(-50vw + 50%) 1.5rem;
     padding: 0.5rem 0 1rem; /* No top padding - wrapper provides spacing from navbar */
     overflow: hidden;
     border-bottom: none;

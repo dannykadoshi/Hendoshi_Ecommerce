@@ -47,9 +47,6 @@
     --vault-max-width: 1400px;
 }
 
-.page-hero {
-    margin-bottom: 1.5rem !important; /* Override default hero spacing for better mobile layout */
-}
 
 /* Canonical card-body padding */
 .card-body {
