@@ -24,6 +24,12 @@
     color: #cccccc !important; /* Lighter gray for better visibility in dark mode */
 }
 
+/* Admin card headings — Bootstrap doesn't set explicit white in dark contexts */
+.auth-card h3,
+.auth-card h4 {
+    color: var(--off-white, #f5f5f5);
+}
+
 /* ================================
    BULK OPERATIONS & ARCHIVE BAR
    ================================ */
