@@ -250,7 +250,7 @@ class Product(models.Model):
         distribution = self.reviews.filter(status='approved').values('rating').annotate(
             count=Count('rating')
         ).order_by('rating')
-        result = {i: 0 for i in range(1, 6)}
+        result = {i: 0 for i in range(5, 0, -1)}
         for item in distribution:
             result[item['rating']] = item['count']
         return result
