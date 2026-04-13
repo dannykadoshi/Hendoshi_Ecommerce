@@ -59,3 +59,52 @@
         height: 28px;
     }
 }
+
+/* ================================================
+   Discount Codes — Tab Overrides
+   ================================================ */
+
+.discount-code-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.discount-code-tabs .nav-link {
+    color: rgba(255, 255, 255, 0.5) !important;
+    border-color: transparent !important;
+    background: transparent !important;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.discount-code-tabs .nav-link:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+    border-color: transparent !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.discount-code-tabs .nav-link.active {
+    color: #ff1493 !important;
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.12) rgba(255, 255, 255, 0.12) transparent !important;
+}
+
+.discount-code-tabs .nav-link.tab-customer-active {
+    color: #ffd700 !important;
+}
+
+.bg-pink {
+    background-color: #ff1493 !important;
+    color: #fff !important;
+}
+
+.discount-tab-hint {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin: 0 0 16px 0;
+    padding: 6px 10px;
+    border-left: 3px solid rgba(255, 20, 147, 0.7);
+}
+
+.discount-tab-hint--customer {
+    border-left-color: rgba(255, 215, 0, 0.7);
+}

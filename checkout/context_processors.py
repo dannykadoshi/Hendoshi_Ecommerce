@@ -29,9 +29,10 @@ def discount_banner(request):
         # Import here to prevent import errors if model doesn't exist
         from .models import DiscountCode
 
-        # Get all active discount codes
+        # Get all active shop-created discount codes (exclude auto-generated customer codes)
         active_discounts = DiscountCode.objects.filter(
-            is_active=True
+            is_active=True,
+            is_auto_generated=False
         ).exclude(
             expires_at__lte=timezone.now()
         ).order_by('created_at')
