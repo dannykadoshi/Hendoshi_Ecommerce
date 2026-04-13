@@ -1,7 +1,10 @@
 from decimal import Decimal, ROUND_HALF_UP
 import json
+import logging
 import stripe
 import secrets
+
+logger = logging.getLogger(__name__)
 
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -496,7 +499,7 @@ def send_order_confirmation_email(order):
         )
     except Exception as e:
         # Log error but don't fail the order
-        print(f"Error sending confirmation email for order {order.order_number}: {str(e)}")
+        logger.error("Error sending confirmation email for order %s: %s", order.order_number, str(e))
 
 
 @require_http_methods(['POST'])
