@@ -1935,6 +1935,22 @@ body .admin-reply-section small.text-muted {
     color: #333;
 }
 
+/* Audience Switcher - Light Mode */
+:root.light-mode .audience-switcher .form-label {
+    color: #000000;
+}
+
+:root.light-mode .audience-switcher .btn-outline-light {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: #000000;
+}
+
+:root.light-mode .audience-switcher .btn-outline-light:hover {
+    border-color: var(--neon-pink);
+    background-color: rgba(231, 31, 127, 0.1);
+    color: #000000;
+}
+
 :root.light-mode .sticky-add-to-cart {
     background: rgba(255, 255, 255, 0.95);
 }

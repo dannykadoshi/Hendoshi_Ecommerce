@@ -2383,6 +2383,21 @@ h2.gradient-title {
    LIGHT MODE OVERRIDES - Products Page
    ================================================ */
 
+/* No products container - make text black in light mode */
+:root.light-mode .no-products,
+:root.light-mode .no-products h2,
+:root.light-mode .no-products p {
+    color: #000000;
+}
+
+:root.light-mode .no-results-title {
+    background: linear-gradient(135deg, #e71f7f, #ff6b6b);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
 /* Product card text */
 :root.light-mode .product-info h3 {
     color: #222;
@@ -2500,4 +2515,14 @@ h2.gradient-title {
 
 :root.light-mode .product-card:hover {
     border-color: var(--neon-pink);
+}
+
+/* Light mode - clear button text pink for visibility */
+:root.light-mode .btn-clear-ghost {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .btn-clear-ghost:hover,
+:root.light-mode .btn-clear-ghost:focus {
+    color: var(--electric-yellow);
 }

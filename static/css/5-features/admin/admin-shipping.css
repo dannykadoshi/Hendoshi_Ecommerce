@@ -108,3 +108,41 @@
 .discount-tab-hint--customer {
     border-left-color: rgba(255, 215, 0, 0.7);
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES - DISCOUNT CODES
+   ================================================ */
+
+:root.light-mode .discount-code-tabs {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+:root.light-mode .discount-code-tabs .nav-link {
+    color: #666666 !important;
+}
+
+:root.light-mode .discount-code-tabs .nav-link:hover {
+    color: var(--neon-pink) !important;
+    background: rgba(255, 20, 147, 0.05) !important;
+}
+
+:root.light-mode .discount-code-tabs .nav-link.active {
+    color: var(--neon-pink) !important;
+    border-color: transparent transparent rgba(255, 20, 147, 0.3) !important;
+}
+
+:root.light-mode .discount-code-tabs .nav-link.tab-customer-active {
+    color: #d9b000 !important;
+}
+
+:root.light-mode .discount-tab-hint {
+    color: #333333 !important;
+    border-left-color: rgba(255, 20, 147, 0.4);
+    background: rgba(255, 20, 147, 0.08);
+}
+
+:root.light-mode .discount-tab-hint--customer {
+    color: #333333 !important;
+    border-left-color: rgba(204, 255, 0, 0.4);
+    background: rgba(204, 255, 0, 0.08);
+}
