@@ -276,7 +276,7 @@ def send_welcome_email_with_discount(subscriber, request):
     )
 
     shop_url = request.build_absolute_uri('/')
-    vault_url = request.build_absolute_uri(reverse('vault_gallery'))
+    vault_url = request.build_absolute_uri(reverse('vault:vault_gallery'))
     unsubscribe_url = request.build_absolute_uri(reverse('newsletter_unsubscribe', args=[subscriber.confirmation_token]))  # noqa: E501
 
     context = {
