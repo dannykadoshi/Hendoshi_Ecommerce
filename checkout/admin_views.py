@@ -77,12 +77,14 @@ def admin_orders_list(request):
 
 @staff_member_required
 def admin_discount_codes_list(request):
-    # Filtering
+    # Tab: 'shop' (admin-created) or 'customer' (auto-generated)
+    tab = request.GET.get('tab', 'shop')
     search = request.GET.get('search', '')
     is_active = request.GET.get('is_active', '')
     sort = request.GET.get('sort', '-created_at')
 
-    discount_codes = DiscountCode.objects.all()
+    is_auto = tab == 'customer'
+    discount_codes = DiscountCode.objects.filter(is_auto_generated=is_auto)
 
     if search:
         discount_codes = discount_codes.filter(Q(code__icontains=search))
@@ -99,11 +101,17 @@ def admin_discount_codes_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    shop_count = DiscountCode.objects.filter(is_auto_generated=False).count()
+    customer_count = DiscountCode.objects.filter(is_auto_generated=True).count()
+
     return render(request, 'checkout/admin_discount_codes_list.html', {
         'page_obj': page_obj,
         'search': search,
         'is_active': is_active,
         'sort': sort,
+        'tab': tab,
+        'shop_count': shop_count,
+        'customer_count': customer_count,
     })
 
 

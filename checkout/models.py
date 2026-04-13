@@ -178,6 +178,10 @@ class DiscountCode(models.Model):
     max_uses_per_user = models.PositiveIntegerField(default=0, help_text="Maximum uses per user (0 = unlimited)")
     used_count = models.PositiveIntegerField(default=0, help_text="Number of times used")
     is_active = models.BooleanField(default=True)
+    is_auto_generated = models.BooleanField(
+        default=False,
+        help_text="True for customer welcome codes (auto-generated). These are excluded from the discount banner."
+    )
     banner_message = models.CharField(max_length=200, blank=True, help_text="Custom banner message (leave blank for default)")  # noqa: E501
     banner_button = models.CharField(max_length=20, choices=[('none', 'No Button'), ('shop_now', 'Shop Now'), ('sale', 'Sale')], default='none', help_text="Button to display with the discount code")  # noqa: E501
     expires_at = models.DateTimeField(null=True, blank=True, help_text="Expiration date (optional)")

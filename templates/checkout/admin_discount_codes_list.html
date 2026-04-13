@@ -34,6 +34,7 @@
                             <i class="fas fa-plus"></i> Create New Code
                         </a>
                     </div>
+                    <p class="page-hero-subtitle mt-2" style="font-size: 13px; opacity: 0.7;">Customer welcome codes are auto-generated and managed separately.</p>
                 </div>
             </div>
         </div>
@@ -44,8 +45,31 @@
         <div class="col-12 mx-auto">
             <div class="auth-card">
 
+                <!-- Tabs -->
+                <ul class="nav nav-tabs discount-code-tabs mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link {% if tab == 'shop' %}active{% endif %}" href="?tab=shop">
+                            <i class="fas fa-store me-1"></i> Shop Codes
+                            <span class="badge ms-1 {% if tab == 'shop' %}bg-pink{% else %}bg-secondary{% endif %}">{{ shop_count }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if tab == 'customer' %}active tab-customer-active{% endif %}" href="?tab=customer">
+                            <i class="fas fa-user me-1"></i> Customer Codes
+                            <span class="badge ms-1 {% if tab == 'customer' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">{{ customer_count }}</span>
+                        </a>
+                    </li>
+                </ul>
+
+                {% if tab == 'shop' %}
+                <p class="discount-tab-hint" style="color: rgba(255,255,255,0.85); font-size: 13px;"><i class="fas fa-megaphone me-1"></i> Active shop codes appear in the discount banner.</p>
+                {% else %}
+                <p class="discount-tab-hint discount-tab-hint--customer" style="color: rgba(255,255,255,0.85); font-size: 13px;"><i class="fas fa-lock me-1"></i> Auto-generated welcome codes — never shown in the banner.</p>
+                {% endif %}
+
                 <!-- Filters and Search -->
                 <form method="get" class="mb-4 p-3 rounded admin-filter-form">
+                <input type="hidden" name="tab" value="{{ tab }}">
                     <div class="row g-3 align-items-end">
         <div class="col-12 col-md-3">
             <label>Status</label>
@@ -142,9 +166,11 @@
                                     </button>
                                 </form>
                             {% endif %}
+                            {% if not code.is_auto_generated %}
                             <a href="{% url 'admin_discount_codes_edit' code.id %}" class="btn btn-sm btn-primary btn-width-32 btn-height-32" title="Edit Code">
                                 <i class="fas fa-edit"></i>
                             </a>
+                            {% endif %}
                             <form method="post" action="{% url 'admin_discount_codes_delete' code.id %}" class="display-inline">
                                 {% csrf_token %}
                                 <button type="button" class="btn btn-sm btn-danger btn-width-32 btn-height-32" onclick="confirmDiscountCodeDelete({{ code.id }}, '{{ code.code }}')" title="Delete Code">
@@ -236,10 +262,12 @@
                                         </button>
                                     </form>
                                 {% endif %}
+                                {% if not code.is_auto_generated %}
                                 <a href="{% url 'admin_discount_codes_edit' code.id %}" class="btn btn-sm btn-primary btn-width-80 btn-height-32" title="Edit Code">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <form method="post" action="{% url 'admin_discount_codes_delete' code.id %}" class="display-inline" 
+                                {% endif %}
+                                <form method="post" action="{% url 'admin_discount_codes_delete' code.id %}" class="display-inline"
                                       onsubmit="return confirm('Are you sure you want to delete this discount code?')">
                                     {% csrf_token %}
                                     <button type="button" class="btn btn-sm btn-danger btn-width-80 btn-height-32" onclick="confirmDiscountCodeDelete({{ code.id }}, '{{ code.code }}')" title="Delete Code">
@@ -261,7 +289,7 @@
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Previous</a>
+                    <a class="page-link" href="?tab={{ tab }}&page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Previous</a>
                 </li>
             {% endif %}
 
@@ -270,14 +298,14 @@
                     <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ num }}</a>
+                        <a class="page-link" href="?tab={{ tab }}&page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ num }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Next</a>
+                    <a class="page-link" href="?tab={{ tab }}&page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if is_active %}&is_active={{ is_active }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">Next</a>
                 </li>
             {% endif %}
         </ul>
