@@ -8,10 +8,41 @@
    - Shipping action buttons
    - Button sizing and animations
    - Hover effects for shipping controls
+   - Admin shipping form styling
    
    Dependencies: variables.css, admin-theme.css
    Load Order: Load after admin-theme
    ================================================ */
+
+/* ================================================
+   Admin Shipping Form Styling
+   ================================================ */
+
+/* Style the submit button in admin shipping form */
+.mt-4.d-flex.gap-2.justify-content-center button[type="submit"].btn-pink {
+    min-width: 180px;
+    padding: 1rem 2rem;
+    border: 2px solid var(--neon-pink, #ff1493);
+    border-radius: 12px;
+    background-color: var(--neon-pink, #ff1493);
+    color: #000;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.mt-4.d-flex.gap-2.justify-content-center button[type="submit"].btn-pink:hover {
+    transform: translateY(-1px);
+    border-color: var(--electric-yellow, #ccff00);
+    background-color: var(--electric-yellow, #ccff00);
+    box-shadow: 0 10px 24px rgba(204, 255, 0, 0.25);
+    color: #000;
+}
+
+.mt-4.d-flex.gap-2.justify-content-center button[type="submit"].btn-pink:active {
+    transform: translateY(0);
+}
 
 .shipping-admin-actions .btn {
     display: inline-flex;
