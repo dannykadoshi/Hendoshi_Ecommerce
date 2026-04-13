@@ -22,4 +22,5 @@ urlpatterns = [
     path('newsletter/confirm/<str:token>/', views.newsletter_confirm, name='newsletter_confirm'),
     path('newsletter/unsubscribe/<str:token>/', views.newsletter_unsubscribe, name='newsletter_unsubscribe'),
     path('admin/subscribers/', views.admin_list_subscribers, name='admin_list_subscribers'),
+    path('admin/subscribers/resend/<str:token>/', views.admin_resend_email, name='admin_resend_email'),
 ]

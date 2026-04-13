@@ -36,6 +36,7 @@
     <div class="row">
         <div class="col-12">
             <div class="auth-card">
+                {% csrf_token %}
                 <!-- Search Form -->
                 <form method="get" class="search-card mb-4 p-3 rounded">
                     <div class="d-flex justify-content-start align-items-center">
@@ -73,9 +74,13 @@
                                 <td>{{ s.created_at|date:"Y-m-d H:i" }}</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{% url 'newsletter_confirm' s.confirmation_token %}" class="btn btn-outline-primary btn-sm" title="Resend confirmation email to subscriber">
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm resend-btn"
+                                                data-token="{{ s.confirmation_token }}"
+                                                data-confirmed="{{ s.is_confirmed|yesno:'true,false' }}"
+                                                title="{% if s.is_confirmed %}Resend welcome email{% else %}Resend confirmation email{% endif %}">
                                             <i class="fas fa-envelope"></i> Resend
-                                        </a>
+                                        </button>
                                         <a href="{% url 'admin:notifications_newslettersubscriber_changelist' %}?q={{ s.email }}" class="btn btn-outline-info btn-sm" title="Open subscriber in Django admin panel">
                                             <i class="fas fa-external-link-alt"></i> Admin
                                         </a>
@@ -111,9 +116,13 @@
                                             </div>
                                         </div>
                                         <div class="btn-group-vertical btn-group-sm flex-shrink-0" role="group">
-                                            <a href="{% url 'newsletter_confirm' s.confirmation_token %}" class="btn btn-outline-primary btn-sm" title="Resend confirmation email to subscriber">
+                                            <button type="button"
+                                                    class="btn btn-outline-primary btn-sm resend-btn"
+                                                    data-token="{{ s.confirmation_token }}"
+                                                    data-confirmed="{{ s.is_confirmed|yesno:'true,false' }}"
+                                                    title="{% if s.is_confirmed %}Resend welcome email{% else %}Resend confirmation email{% endif %}">
                                                 <i class="fas fa-envelope"></i> Resend
-                                            </a>
+                                            </button>
                                             <a href="{% url 'admin:notifications_newslettersubscriber_changelist' %}?q={{ s.email }}" class="btn btn-outline-info btn-sm" title="Open subscriber in Django admin panel">
                                                 <i class="fas fa-external-link-alt"></i> Admin
                                             </a>
@@ -160,6 +169,61 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingIndicator = document.getElementById('search-loading');
     let searchTimeout;
     let currentPage = 1;
+
+    // ── Toast helper ──────────────────────────────────────────────────
+    function showToast(message, success) {
+        let toast = document.getElementById('resend-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'resend-toast';
+            toast.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;border-radius:8px;font-size:0.875rem;max-width:360px;box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:opacity 0.3s';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.style.background = success ? 'rgba(0,180,80,0.92)' : 'rgba(220,30,60,0.92)';
+        toast.style.color = '#fff';
+        toast.style.opacity = '1';
+        clearTimeout(toast._hide);
+        toast._hide = setTimeout(() => { toast.style.opacity = '0'; }, 3500);
+    }
+
+    // ── Resend via AJAX ───────────────────────────────────────────────
+    function attachResendHandlers(container) {
+        container.querySelectorAll('.resend-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const token = this.dataset.token;
+                const confirmed = this.dataset.confirmed === 'true';
+                const original = this.innerHTML;
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value
+                               || document.cookie.match(/csrftoken=([^;]+)/)?.[1] || '';
+
+                fetch(`/notifications/admin/subscribers/resend/${token}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                })
+                .then(r => r.json())
+                .then(data => {
+                    showToast(data.message, data.success);
+                    this.disabled = false;
+                    this.innerHTML = original;
+                })
+                .catch(() => {
+                    showToast('Network error — please try again.', false);
+                    this.disabled = false;
+                    this.innerHTML = original;
+                });
+            });
+        });
+    }
+
+    // Attach handlers to the server-rendered rows on initial load
+    attachResendHandlers(document.body);
 
     // Function to perform AJAX search
     function performSearch(query = '', page = 1) {
@@ -215,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const confirmedText = subscriber.is_confirmed ? 'Yes' : 'No';
                 const confirmedClass = subscriber.is_confirmed ? 'text-green' : 'text-red';
 
+                const resendTitle = subscriber.is_confirmed ? 'Resend welcome email' : 'Resend confirmation email';
                 html += `
                     <tr>
                         <td>${subscriber.email}</td>
@@ -223,9 +288,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td>${subscriber.created_at}</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="/notifications/newsletter/confirm/${subscriber.confirmation_token}/" class="btn btn-outline-primary btn-sm" title="Resend confirmation email to subscriber">
+                                <button type="button"
+                                        class="btn btn-outline-primary btn-sm resend-btn"
+                                        data-token="${subscriber.confirmation_token}"
+                                        data-confirmed="${subscriber.is_confirmed}"
+                                        title="${resendTitle}">
                                     <i class="fas fa-envelope"></i> Resend
-                                </a>
+                                </button>
                                 <a href="/admin/notifications/newslettersubscriber/?q=${subscriber.email}" class="btn btn-outline-info btn-sm" title="Open subscriber in Django admin panel">
                                     <i class="fas fa-external-link-alt"></i> Admin
                                 </a>
@@ -262,9 +331,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                         <div class="btn-group-vertical btn-group-sm flex-shrink-0" role="group">
-                                            <a href="/notifications/newsletter/confirm/${subscriber.confirmation_token}/" class="btn btn-outline-primary btn-sm" title="Resend confirmation email to subscriber">
+                                            <button type="button"
+                                                    class="btn btn-outline-primary btn-sm resend-btn"
+                                                    data-token="${subscriber.confirmation_token}"
+                                                    data-confirmed="${subscriber.is_confirmed}"
+                                                    title="${resendTitle}">
                                                 <i class="fas fa-envelope"></i> Resend
-                                            </a>
+                                            </button>
                                             <a href="/admin/notifications/newslettersubscriber/?q=${subscriber.email}" class="btn btn-outline-info btn-sm" title="Open subscriber in Django admin panel">
                                                 <i class="fas fa-external-link-alt"></i> Admin
                                             </a>
@@ -311,6 +384,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         resultsContainer.innerHTML = html;
+
+        // Re-attach resend handlers on newly rendered rows
+        attachResendHandlers(resultsContainer);
 
         // Add event listeners to pagination links
         resultsContainer.querySelectorAll('.page-link[data-page]').forEach(link => {

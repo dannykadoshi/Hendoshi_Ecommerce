@@ -340,6 +340,34 @@ def newsletter_unsubscribe(request, token):
 
 
 @staff_member_required
+@require_POST
+def admin_resend_email(request, token):
+    """
+    Staff-only: resend confirmation or welcome email to a newsletter subscriber.
+    - Unconfirmed → resend the double opt-in confirmation email.
+    - Confirmed   → resend the welcome email with a fresh discount code.
+    Called via AJAX from the admin subscribers panel.
+    """
+    try:
+        subscriber = NewsletterSubscriber.objects.get(confirmation_token=token)
+    except NewsletterSubscriber.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Subscriber not found.'}, status=404)
+
+    if subscriber.is_confirmed:
+        try:
+            send_welcome_email_with_discount(subscriber, request)
+            return JsonResponse({'success': True, 'message': f'Welcome email resent to {subscriber.email}.'})
+        except Exception:
+            logger.exception('admin_resend_email: failed to send welcome email to %s', subscriber.email)
+            return JsonResponse({'success': False, 'message': 'Failed to send welcome email.'}, status=500)
+    else:
+        sent = send_newsletter_confirmation_email(subscriber, request)
+        if sent:
+            return JsonResponse({'success': True, 'message': f'Confirmation email resent to {subscriber.email}.'})
+        return JsonResponse({'success': False, 'message': 'Failed to send confirmation email.'}, status=500)
+
+
+@staff_member_required
 def admin_list_subscribers(request):
     """Simple staff view listing newsletter subscribers (frontend admin panel)."""
     qs = NewsletterSubscriber.objects.all().order_by('-created_at')
