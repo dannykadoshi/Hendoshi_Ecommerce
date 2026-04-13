@@ -118,9 +118,11 @@
                                 </label>
                                 <div id="card-element" class="stripe-card-element" role="group" aria-label="Card input" aria-labelledby="card-element-label" tabindex="0"></div>
                                 <div id="card-errors" class="card-errors" role="alert" aria-live="polite"></div>
+                                {% if debug %}
                                 <small class="form-text test-card-hint">
                                     <i class="fas fa-lightbulb"></i> Test with <strong>4242 4242 4242 4242</strong> (success) or <strong>4000 0025 0000 3155</strong> (3D Secure).
                                 </small>
+                                {% endif %}
                             </div>
 
                             <div class="row">
