@@ -64,9 +64,10 @@ def vault_gallery(request):
     """
     from django.db.models import Exists, OuterRef, Count
 
-    # Auto-feature: ensure at least 2 featured photos are active at all times
+    # Auto-feature: keep featured count in sync with approved photos (up to 6)
     active_featured_count = VaultPhoto.objects.filter(is_featured=True, featured_until__gt=timezone.now()).count()
-    if active_featured_count < 2 and VaultPhoto.objects.filter(status='approved').exists():
+    total_approved = VaultPhoto.objects.filter(status='approved').count()
+    if active_featured_count < min(6, total_approved):
         _auto_feature_photos()
 
     # Base queryset with optimized queries
