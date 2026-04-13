@@ -1162,7 +1162,7 @@ span.gradient-text-mobile {
     border: 1px solid rgba(255, 20, 147, 0.3);
     border-radius: 50%;
     background: rgba(255, 20, 147, 0.1);
-    color: var(--off-white);
+    color: var(--neon-pink);
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1316,6 +1316,16 @@ span.gradient-text-mobile {
 :root.light-mode .menu-main,
 :root.light-mode .menu-submenu {
     background-color: #ffffff;
+}
+
+/* Light mode mobile menu header - black background for logo visibility */
+:root.light-mode .mobile-menu-header {
+    background: #000000;
+}
+
+/* Light mode discount section text - make code text black for visibility */
+:root.light-mode .menu-discount-section .discount-code {
+    color: #000000;
 }
 
 .menu-submenu {

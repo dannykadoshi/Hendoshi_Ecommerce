@@ -48,7 +48,7 @@
                     <div class="profile-stat-icon">
                         <i class="fas fa-shopping-bag"></i>
                     </div>
-                    <div class="profile-stat-value">{{ profile.orders.count|default:"0" }}</div>
+                    <div class="profile-stat-value">{{ total_orders }}</div>
                     <div class="profile-stat-label">Total Orders</div>
                 </div>
             </div>
@@ -66,8 +66,8 @@
                     <div class="profile-stat-icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <div class="profile-stat-value">{{ user.date_joined|timesince|truncatewords:2 }}</div>
-                    <div class="profile-stat-label">Member For</div>
+                    <div class="profile-stat-value">{{ user.date_joined|date:"M Y" }}</div>
+                    <div class="profile-stat-label">Member Since</div>
                 </div>
             </div>
             <div class="col-md-3 col-6">
@@ -75,7 +75,7 @@
                     <div class="profile-stat-icon">
                         <i class="fas fa-heart"></i>
                     </div>
-                    <div class="profile-stat-value">{{ profile.wishlist_items.count|default:"0" }}</div>
+                    <div class="profile-stat-value">{{ wishlist_count }}</div>
                     <div class="profile-stat-label">Wishlist Items</div>
                 </div>
             </div>

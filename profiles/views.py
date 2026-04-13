@@ -32,6 +32,13 @@ def profile(request):
     from notifications.models import NewsletterSubscriber
     newsletter_emails = [email.lower() for email in NewsletterSubscriber.objects.values_list('email', flat=True)]
 
+    # Stat counts
+    total_orders = request.user.orders.count() if hasattr(request.user, 'orders') else 0
+    try:
+        wishlist_count = request.user.battle_vest.items.count()
+    except Exception:
+        wishlist_count = 0
+
     template = 'profiles/profile.html'
     context = {
         'profile': profile,
@@ -39,6 +46,8 @@ def profile(request):
         'on_profile_page': True,
         'notification_prefs': notification_prefs,
         'newsletter_emails': newsletter_emails,
+        'total_orders': total_orders,
+        'wishlist_count': wishlist_count,
     }
 
     return render(request, template, context)
