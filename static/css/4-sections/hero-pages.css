@@ -163,7 +163,7 @@
     .page-hero {
         min-height: auto;
         padding: 0 0 1rem;
-        margin-bottom: -2rem;
+        margin-bottom: 0;
     }
 
     body .page-hero .d-flex {
