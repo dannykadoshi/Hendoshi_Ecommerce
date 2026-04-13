@@ -1,0 +1,10 @@
+{% autoescape off %}Hello,
+
+You attempted to reset a password for {{ email }}, but we don't have a matching account.
+
+If this wasn't you, you can safely ignore this email. If you'd like to create an account, visit:
+
+{{ signup_url }}
+
+— The HENDOSHI Team
+{% endautoescape %}
