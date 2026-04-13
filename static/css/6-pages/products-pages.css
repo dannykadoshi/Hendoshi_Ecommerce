@@ -939,6 +939,13 @@ body .admin-reply .text-muted {
     padding: 25px;
 }
 
+.modal-alert-text {
+    color: var(--off-white, #f5f5f5);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 8px;
+}
+
 /* Style Django's CheckboxSelectMultiple output */
 .variant-toggles ul {
     display: flex;
