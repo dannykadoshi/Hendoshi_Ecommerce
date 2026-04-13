@@ -361,13 +361,34 @@ body .discount-message-container {
 }
 
 :root.light-mode .discount-banner .discount-code-text {
-    background: none;
-    background-clip: unset;
-    color: #000000;
+    background: linear-gradient(135deg, #e71f7f, #d9b000);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 700;
+    font-size: 1.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+:root.light-mode .discount-banner .discount-code-text:hover {
+    background: linear-gradient(135deg, #d9b000, #e71f7f);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 3px rgba(255, 20, 147, 0.4));
 }
 
 :root.light-mode .discount-button.shop-now {
-    color: #ffffff;
+    background: linear-gradient(45deg, #e71f7f, #ff69b4);
+    color: white;
+}
+
+:root.light-mode .discount-button.shop-now:hover {
+    background: linear-gradient(45deg, #ff69b4, #d9b000);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(231, 31, 127, 0.4);
 }
 
 :root.light-mode .discount-button.sale,
