@@ -276,6 +276,8 @@ def send_welcome_email_with_discount(subscriber, request):
     )
 
     shop_url = request.build_absolute_uri('/')
+    collections_url = request.build_absolute_uri(reverse('collections'))
+    products_url = request.build_absolute_uri(reverse('products'))
     vault_url = request.build_absolute_uri(reverse('vault:vault_gallery'))
     unsubscribe_url = request.build_absolute_uri(reverse('newsletter_unsubscribe', args=[subscriber.confirmation_token]))  # noqa: E501
 
@@ -284,6 +286,8 @@ def send_welcome_email_with_discount(subscriber, request):
         'discount_code': discount_code.code,
         'expires_at': discount_code.expires_at,
         'shop_url': shop_url,
+        'collections_url': collections_url,
+        'products_url': products_url,
         'vault_url': vault_url,
         'unsubscribe_url': unsubscribe_url,
         'site_name': getattr(settings, 'SITE_NAME', 'HENDOSHI'),

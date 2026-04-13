@@ -30,7 +30,7 @@
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
             <tr>
                 <td style="border-radius: 25px; background: linear-gradient(135deg, #ff1493, #ff69b4); background-color: #ff1493;">
-                    <a href="{{ shop_url }}" style="display: inline-block; padding: 14px 36px; color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 25px; white-space: nowrap;">Shop the Collection</a>
+                    <a href="{{ collections_url }}" style="display: inline-block; padding: 14px 36px; color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 25px; white-space: nowrap;">Shop the Collection</a>
                 </td>
             </tr>
         </table>
@@ -73,7 +73,8 @@
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tr>
                 {% for product in featured_products %}
-                <td style="width: 33%; padding: 0 6px; vertical-align: top; text-align: center;" {% if forloop.first %}{% else %}{% endif %}>
+                <td style="width: 33%; padding: 0 6px; vertical-align: top; text-align: center;">
+                    <a href="{{ shop_url }}products/{{ product.slug }}/" style="text-decoration: none; color: inherit; display: block;">
                     {% if product.main_image %}
                     <img src="{{ product.main_image.url }}" alt="{{ product.name }}" width="160" style="width: 100%; max-width: 160px; height: 160px; object-fit: cover; border-radius: 8px; display: block; margin: 0 auto 10px auto;">
                     {% else %}
@@ -89,6 +90,7 @@
                         €{{ product.base_price }}
                         {% endif %}
                     </div>
+                    </a>
                 </td>
                 {% endfor %}
             </tr>
@@ -98,7 +100,7 @@
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
                 <tr>
                     <td style="border-radius: 20px; border: 2px solid #ff1493;">
-                        <a href="{{ shop_url }}" style="display: inline-block; padding: 10px 28px; color: #ff1493 !important; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 20px; white-space: nowrap;">View All Products</a>
+                        <a href="{{ products_url }}" style="display: inline-block; padding: 10px 28px; color: #ff1493 !important; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 20px; white-space: nowrap;">View All Products</a>
                     </td>
                 </tr>
             </table>
