@@ -753,7 +753,26 @@ def payment(request, order_number):
 
     # Get shipping rates for modal
     shipping_rates = list(ShippingRate.objects.filter(is_active=True).order_by('price'))
+    
+    # Determine currently selected shipping id: prefer session, else prefer a rate marked as standard, else cheapest
     selected_shipping_id = request.session.get('selected_shipping_id')
+    
+    if not selected_shipping_id and shipping_rates:
+        # Try to find a rate explicitly marked as standard
+        standard = next((r for r in shipping_rates if getattr(r, 'is_standard', False)), None)
+        if not standard:
+            # Fallback: look for a rate named 'standard' (case-insensitive)
+            standard = next((r for r in shipping_rates if r.name and r.name.strip().lower() == 'standard'), None)
+        if standard:
+            selected_shipping_id = standard.id
+            # Update session to persist the selection
+            request.session['selected_shipping_id'] = standard.id
+            request.session.modified = True
+        else:
+            # Fallback to cheapest rate
+            selected_shipping_id = shipping_rates[0].id
+            request.session['selected_shipping_id'] = shipping_rates[0].id
+            request.session.modified = True
 
     context = {
         'order': order,
