@@ -1,41 +1,69 @@
-Welcome to HENDOSHI - 10% OFF Your First Order!
+Welcome to HENDOSHI — Wear Your Weird 🖤
+==========================================
 
-Hey there, Dark Soul! 🖤
+Hey there, welcome to the cult.
 
-Welcome to HENDOSHI - where weird meets wonderful and metal meets fashion! We're stoked to have you join our community of misfits, metalheads, and gothic fashionistas.
+You're now part of something weird, loud, and unapologetically metal.
+HENDOSHI is where skull art, alternative fashion, and raw individuality
+collide into gear you'll actually want to wear every day.
 
-🎁 YOUR EXCLUSIVE 10% OFF CODE 🎁
-
-{{ discount_code }}
-
-Valid for your first purchase only
-{% if expires_at %}Expires: {{ expires_at|date:"F d, Y" }}{% else %}No expiration date{% endif %}
-
-Start Shopping: {{ shop_url }}
-
-WHAT YOU GET AS A HENDOSHI INSIDER:
-
-🎨 Original Designs - Unique skull, animal, and gym-inspired artwork you won't find anywhere else
-
-⚡ Exclusive Drops - Be the first to know about new collections and limited editions
-
-🎁 Special Offers - Get access to subscriber-only deals and surprise discounts
-
-🚚 Fast Shipping - Quick delivery across Europe so you can rock your new gear ASAP
-
-Can't wait to see you wearing HENDOSHI! Follow us on social media for style inspiration, behind-the-scenes content, and more.
-
-Questions? Just reply to this email - we're here to help!
+Shop now: {{ shop_url }}
 
 ---
-HENDOSHI - Wear Your Weird
+
+THE BRAND
+---------
+Every HENDOSHI design is an original illustration — skulls, animals,
+gym culture, and dark symbolism fused into apparel that stands out in
+any crowd. No mass-produced prints. No generic designs. Just art that
+means something.
+
+💀 Original Art — Skull & animal designs you won't find anywhere else
+⚡ New Drops — Fresh collections & limited editions launched regularly
+🖤 Community — A tribe of misfits, metalheads & alternative fashion lovers
+
+---
+
+{% if featured_products %}
+LATEST DROPS
+------------
+{% for product in featured_products %}
+► {{ product.name }} — {% if product.sale_price %}€{{ product.sale_price }} (was €{{ product.base_price }}){% else %}€{{ product.base_price }}{% endif %}
+  {{ shop_url }}products/{{ product.slug }}/
+{% endfor %}
+
+Browse all products: {{ shop_url }}
+
+---
+{% endif %}
+
+THE VAULT 🔐
+------------
+Our community gallery — real people, real HENDOSHI gear.
+Submit your photo, get featured, and show the world how you wear your weird.
+
+Explore The Vault: {{ vault_url }}
+
+---
+
+YOUR WELCOME GIFT 🎁
+--------------------
+10% off your first order. One use only — make it count.
+
+Your code: {{ discount_code }}
+
+Single use · First order only{% if expires_at %} · Expires {{ expires_at|date:"d M Y" }}{% endif %}
+
+Use it here: {{ shop_url }}
+
+---
+
+HENDOSHI — Wear Your Weird
 Metal-inspired apparel with original skull, animal, and gym designs
 
 Instagram: https://www.instagram.com/hendoshiart/
-Facebook: https://www.facebook.com/hendoshiart
-Twitter: https://twitter.com/hendoshiart
+Facebook:  https://www.facebook.com/hendoshiart
+Twitter:   https://x.com/hendoshiart
 
-Shop: {{ shop_url }}
-New Drops: {{ shop_url }}/new-drops/
-Contact: {{ shop_url }}/contact/
 Unsubscribe: {{ unsubscribe_url }}
+Contact: {{ shop_url }}contact/

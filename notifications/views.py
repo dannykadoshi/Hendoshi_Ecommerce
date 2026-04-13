@@ -44,7 +44,8 @@ def notification_preferences(request):
                             send_newsletter_confirmation_email(sub, request)
                 except NewsletterSubscriber.DoesNotExist:
                     if subscribe:
-                        NewsletterSubscriber.objects.create(email=request.user.email, consent=True)
+                        sub = NewsletterSubscriber.objects.create(email=request.user.email, consent=True)
+                        send_newsletter_confirmation_email(sub, request)
 
             # Check if AJAX request
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -225,10 +226,12 @@ def send_newsletter_confirmation_email(subscriber, request):
 
 
 def send_welcome_email_with_discount(subscriber, request):
-    """Generate unique discount code and send welcome email after confirmation."""
+    """Generate unique discount code and send welcome newsletter after confirmation."""
     import string
     import random
     from checkout.models import DiscountCode
+    from products.models import Product
+    from vault.models import VaultPhoto
     from datetime import timedelta
 
     # Generate unique discount code: WELCOME10-XXXXX
@@ -248,17 +251,32 @@ def send_welcome_email_with_discount(subscriber, request):
         discount_type='percentage',
         discount_value=10,
         minimum_order_value=0,
-        max_uses=1,  # Single use only
+        max_uses=1,
         max_uses_per_user=1,
         is_active=True,
+        is_auto_generated=True,
         expires_at=expires_at,
         banner_message=f'Welcome! Get 10% off your first order with code {unique_code}',
         banner_button='shop_now'
     )
 
-    # Send welcome email
-    subject = 'Welcome to HENDOSHI - Here\'s Your 10% Off! 🎁'
+    # Fetch up to 3 active products (newest first) for the featured section
+    featured_products = list(
+        Product.objects.filter(is_active=True, is_archived=False)
+        .order_by('-created_at')
+        .only('name', 'slug', 'base_price', 'sale_price', 'main_image')[:3]
+    )
+
+    # Fetch up to 3 currently featured vault photos
+    vault_photos = list(
+        VaultPhoto.objects.filter(status='approved', is_featured=True)
+        .order_by('-featured_date')
+        .only('image', 'caption', 'user')
+        .select_related('user')[:3]
+    )
+
     shop_url = request.build_absolute_uri('/')
+    vault_url = request.build_absolute_uri(reverse('vault_gallery'))
     unsubscribe_url = request.build_absolute_uri(reverse('newsletter_unsubscribe', args=[subscriber.confirmation_token]))  # noqa: E501
 
     context = {
@@ -266,10 +284,14 @@ def send_welcome_email_with_discount(subscriber, request):
         'discount_code': discount_code.code,
         'expires_at': discount_code.expires_at,
         'shop_url': shop_url,
+        'vault_url': vault_url,
         'unsubscribe_url': unsubscribe_url,
         'site_name': getattr(settings, 'SITE_NAME', 'HENDOSHI'),
+        'featured_products': featured_products,
+        'vault_photos': vault_photos,
     }
 
+    subject = 'Welcome to HENDOSHI — Meet the Brand 🖤'
     text_body = render_to_string('notifications/emails/newsletter_welcome.txt', context)
     html_body = render_to_string('notifications/emails/newsletter_welcome.html', context)
 
@@ -278,7 +300,6 @@ def send_welcome_email_with_discount(subscriber, request):
     try:
         msg.send(fail_silently=False)
     except Exception:
-        # Log error but don't fail the confirmation process
         logger.exception('Failed to send welcome email to %s', subscriber.email)
 
 
@@ -295,7 +316,10 @@ def newsletter_confirm(request, token):
         subscriber.save()
 
         # Generate unique discount code and send welcome email
-        send_welcome_email_with_discount(subscriber, request)
+        try:
+            send_welcome_email_with_discount(subscriber, request)
+        except Exception:
+            logger.exception('Failed to send welcome email to %s', subscriber.email)
 
     return render(request, 'notifications/newsletter_confirm.html', {'success': True, 'subscriber': subscriber})
 

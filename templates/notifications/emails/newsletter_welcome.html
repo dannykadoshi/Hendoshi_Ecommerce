@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<!-- HTML Email Template - Meta description/keywords not needed for emails -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to HENDOSHI - 10% Off Your First Order!</title>
+    <title>Welcome to HENDOSHI — Meet the Brand</title>
     <style>
         /* Tight spacing override: make inner containers nearly touch outer container */
         body { padding: 0.5rem !important; }
@@ -12,134 +11,175 @@
         .battle-vest-note { margin: 0.5rem 0 !important; }
     </style>
 </head>
-<body style="font-family: 'Montserrat', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; background-color: #f8f9fa; padding: 0.5rem;">
-    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #000000, #333333); color: white; padding: 0.5rem; text-align: center;">
-            <div style="font-size: 28px; font-weight: 900; background: linear-gradient(135deg, #fff 0%, #ff1493 50%, #ffff00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5)); margin-bottom: 0.5rem;">HENDOSHI</div>
-            <h1 style="margin: 0; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Welcome to the Family!</h1>
-        </div>
+<body style="margin: 0; padding: 0; font-family: 'Montserrat', Arial, sans-serif; background-color: #f8f9fa; color: #333;">
 
-        <!-- Body -->
-        <div style="padding: 0.5rem; text-align: center;">
-            <p style="font-size: 18px; margin-bottom: 0.5rem; color: #333;">Hey there, Dark Soul! 🖤</p>
+<div style="max-width: 600px; margin: 20px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.12);">
 
-            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 0.5rem; color: #555;">Welcome to HENDOSHI - where weird meets wonderful and metal meets fashion! We're stoked to have you join our community of misfits, metalheads, and gothic fashionistas.</p>
+    <!-- ===== HEADER ===== -->
+    <div style="background: linear-gradient(135deg, #000000, #1a1a1a); padding: 36px 40px; text-align: center;">
+        <div style="font-size: 36px; font-weight: 900; background: linear-gradient(135deg, #ffffff 0%, #ff1493 50%, #ffff00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 12px rgba(255,20,147,0.6)); letter-spacing: 3px;">HENDOSHI</div>
+        <div style="color: rgba(255,255,255,0.7); font-size: 13px; letter-spacing: 4px; text-transform: uppercase; margin-top: 6px;">Wear Your Weird</div>
+    </div>
 
-            <!-- Discount Box -->
-            <div style="background: linear-gradient(135deg, #ff1493, #ff69b4); color: white; padding: 0.5rem; border-radius: 12px; margin: 0.5rem 0; box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);">
-                <h2 style="margin: 0 0 0.5rem 0; font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px;">🎁 10% OFF Your First Order!</h2>
-                <p style="margin: 0.25rem 0; font-size: 14px;">Use this exclusive code at checkout:</p>
-                <div style="background: rgba(255, 255, 255, 0.2); border: 2px dashed white; padding: 0.5rem 1rem; border-radius: 8px; font-size: 20px; font-weight: 900; letter-spacing: 2px; margin: 0.5rem auto; display: inline-block; font-family: 'Courier New', monospace;">{{ discount_code }}</div>
-                <div style="font-size: 12px; opacity: 0.9; margin-top: 0.5rem;">
-                    Valid for your first purchase only<br>
-                    {% if expires_at %}Expires: {{ expires_at|date:"F d, Y" }}{% else %}No expiration date{% endif %}
-                </div>
-            </div>
+    <!-- ===== HERO INTRO ===== -->
+    <div style="background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%); padding: 40px; text-align: center; border-bottom: 1px solid rgba(255,20,147,0.2);">
+        <div style="font-size: 28px; font-weight: 900; color: #ffffff; margin-bottom: 12px; line-height: 1.2;">Welcome to the Cult. 🖤</div>
+        <p style="color: rgba(255,255,255,0.75); font-size: 15px; line-height: 1.8; margin: 0 0 24px 0;">You're now part of something weird, loud, and unapologetically metal. HENDOSHI is where skull art, alternative fashion, and raw individuality collide into gear you'll actually want to wear every day.</p>
 
-            <a href="{{ shop_url }}" style="display: inline-block; background: linear-gradient(135deg, #ffff00, #ccff00); color: #000; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0.5rem 0; box-shadow: 0 4px 15px rgba(255, 255, 0, 0.3);">Start Shopping Now</a>
+        <!-- Shop Now button -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+            <tr>
+                <td style="border-radius: 25px; background: linear-gradient(135deg, #ff1493, #ff69b4); background-color: #ff1493;">
+                    <a href="{{ shop_url }}" style="display: inline-block; padding: 14px 36px; color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 25px; white-space: nowrap;">Shop the Collection</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <!-- Benefits Section -->
-            <div style="background: #f8f9fa; padding: 0.5rem; border-radius: 8px; margin: 0.5rem 0;">
-                <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0;">
-                    <tr>
-                        <td style="padding: 0.5rem 0;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td width="40" style="vertical-align: top;">
-                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff1493, #ff69b4); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; text-align: center; line-height: 40px;">🎨</div>
-                                    </td>
-                                    <td style="padding-left: 0.5rem; text-align: left;">
-                                        <div style="color: #333; font-size: 15px;">
-                                            <strong>Original Designs</strong><br>
-                                            Unique skull, animal, and gym-inspired artwork you won't find anywhere else
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td width="40" style="vertical-align: top;">
-                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff1493, #ff69b4); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; text-align: center; line-height: 40px;">⚡</div>
-                                    </td>
-                                    <td style="padding-left: 15px; text-align: left;">
-                                        <div style="color: #333; font-size: 15px;">
-                                            <strong>Exclusive Drops</strong><br>
-                                            Be the first to know about new collections and limited editions
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td width="40" style="vertical-align: top;">
-                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff1493, #ff69b4); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; text-align: center; line-height: 40px;">🎁</div>
-                                    </td>
-                                    <td style="padding-left: 15px; text-align: left;">
-                                        <div style="color: #333; font-size: 15px;">
-                                            <strong>Special Offers</strong><br>
-                                            Get access to subscriber-only deals and surprise discounts
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td width="40" style="vertical-align: top;">
-                                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff1493, #ff69b4); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; text-align: center; line-height: 40px;">🚚</div>
-                                    </td>
-                                    <td style="padding-left: 15px; text-align: left;">
-                                        <div style="color: #333; font-size: 15px;">
-                                            <strong>Fast Shipping</strong><br>
-                                            Quick delivery across Europe so you can rock your new gear ASAP
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+    <!-- ===== WHAT HENDOSHI IS ===== -->
+    <div style="padding: 36px 40px; background: #ffffff; border-bottom: 1px solid #f0f0f0;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff1493; margin-bottom: 8px;">The Brand</div>
+        <h2 style="margin: 0 0 16px 0; font-size: 22px; font-weight: 900; color: #111;">Original art. Worn on your back.</h2>
+        <p style="color: #555; font-size: 14px; line-height: 1.8; margin: 0 0 20px 0;">Every HENDOSHI design is an original illustration — skulls, animals, gym culture, and dark symbolism fused into apparel that stands out in any crowd. No mass-produced prints. No generic designs. Just art that means something.</p>
 
-            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 0.5rem; color: #555;">Can't wait to see you wearing HENDOSHI! Follow us on social media for style inspiration, behind-the-scenes content, and more.</p>
+        <!-- 3 pillars -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td style="padding: 12px; text-align: center; width: 33%;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">💀</div>
+                    <div style="font-weight: 700; font-size: 13px; color: #111; margin-bottom: 4px;">Original Art</div>
+                    <div style="font-size: 12px; color: #777; line-height: 1.5;">Skull &amp; animal designs you won't find anywhere else</div>
+                </td>
+                <td style="padding: 12px; text-align: center; width: 33%;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">⚡</div>
+                    <div style="font-weight: 700; font-size: 13px; color: #111; margin-bottom: 4px;">New Drops</div>
+                    <div style="font-size: 12px; color: #777; line-height: 1.5;">Fresh collections &amp; limited editions launched regularly</div>
+                </td>
+                <td style="padding: 12px; text-align: center; width: 33%;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🖤</div>
+                    <div style="font-weight: 700; font-size: 13px; color: #111; margin-bottom: 4px;">Community</div>
+                    <div style="font-size: 12px; color: #777; line-height: 1.5;">A tribe of misfits, metalheads &amp; alternative fashion lovers</div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <div style="font-size: 12px; color: #777; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #eee;">
-                Questions? Just reply to this email - we're here to help!
-                <br><br>
-                <a href="{{ unsubscribe_url }}" style="color: #ff1493;">Manage your preferences</a>
-            </div>
-        </div>
+    <!-- ===== FEATURED PRODUCTS ===== -->
+    {% if featured_products %}
+    <div style="padding: 36px 40px; background: #fafafa; border-bottom: 1px solid #f0f0f0;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff1493; margin-bottom: 8px;">Latest Drops</div>
+        <h2 style="margin: 0 0 24px 0; font-size: 22px; font-weight: 900; color: #111;">Fresh from the studio</h2>
 
-        <!-- Footer -->
-        <div style="background: #f8f9fa; padding: 30px 40px; text-align: center; border-top: 1px solid #e9ecef;">
-            <p style="margin: 5px 0; color: #6c757d; font-size: 14px;"><strong>HENDOSHI</strong> - Wear Your Weird</p>
-            <p style="margin: 5px 0; color: #6c757d; font-size: 14px;">Metal-inspired apparel with original skull, animal, and gym designs</p>
-            
-            <div style="margin: 20px 0;">
-                <a href="https://www.instagram.com/hendoshiart/" style="display: inline-block; width: 36px; height: 36px; background: #6c757d; color: white; border-radius: 50%; text-decoration: none; margin: 0 5px; line-height: 36px;">📷</a>
-                <a href="https://www.facebook.com/hendoshiart" style="display: inline-block; width: 36px; height: 36px; background: #6c757d; color: white; border-radius: 50%; text-decoration: none; margin: 0 5px; line-height: 36px;">👥</a>
-                <a href="https://twitter.com/hendoshiart" style="display: inline-block; width: 36px; height: 36px; background: #6c757d; color: white; border-radius: 50%; text-decoration: none; margin: 0 5px; line-height: 36px;">🐦</a>
-            </div>
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                {% for product in featured_products %}
+                <td style="width: 33%; padding: 0 6px; vertical-align: top; text-align: center;" {% if forloop.first %}{% else %}{% endif %}>
+                    {% if product.main_image %}
+                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}" width="160" style="width: 100%; max-width: 160px; height: 160px; object-fit: cover; border-radius: 8px; display: block; margin: 0 auto 10px auto;">
+                    {% else %}
+                    <div style="width: 100%; max-width: 160px; height: 160px; background: linear-gradient(135deg, #1a1a1a, #333); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto;">
+                        <span style="font-size: 32px;">💀</span>
+                    </div>
+                    {% endif %}
+                    <div style="font-weight: 700; font-size: 13px; color: #111; line-height: 1.4; margin-bottom: 4px;">{{ product.name }}</div>
+                    <div style="font-size: 13px; color: #ff1493; font-weight: 700;">
+                        {% if product.sale_price %}
+                        <span style="text-decoration: line-through; color: #aaa; font-weight: 400; margin-right: 4px;">€{{ product.base_price }}</span>€{{ product.sale_price }}
+                        {% else %}
+                        €{{ product.base_price }}
+                        {% endif %}
+                    </div>
+                </td>
+                {% endfor %}
+            </tr>
+        </table>
 
-            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e9ecef;">
-                <a href="{{ shop_url }}" style="color: #6c757d; margin: 0 8px; text-decoration: underline; font-size: 12px;">Shop</a> |
-                <a href="{{ shop_url }}/new-drops/" style="color: #6c757d; margin: 0 8px; text-decoration: underline; font-size: 12px;">New Drops</a> |
-                <a href="{{ shop_url }}/contact/" style="color: #6c757d; margin: 0 8px; text-decoration: underline; font-size: 12px;">Contact</a> |
-                <a href="{{ unsubscribe_url }}" style="color: #6c757d; margin: 0 8px; text-decoration: underline; font-size: 12px;">Unsubscribe</a>
-            </div>
+        <div style="text-align: center; margin-top: 24px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                <tr>
+                    <td style="border-radius: 20px; border: 2px solid #ff1493;">
+                        <a href="{{ shop_url }}" style="display: inline-block; padding: 10px 28px; color: #ff1493 !important; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 20px; white-space: nowrap;">View All Products</a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
+    {% endif %}
+
+    <!-- ===== THE VAULT ===== -->
+    <div style="padding: 36px 40px; background: #0d0d0d; border-bottom: 1px solid rgba(255,20,147,0.2);">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff1493; margin-bottom: 8px;">The Community</div>
+        <h2 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 900; color: #ffffff;">The Vault 🔐</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.8; margin: 0 0 20px 0;">Our community gallery — real people, real HENDOSHI gear. Submit your photo, get featured, and show the world how you wear your weird.</p>
+
+        {% if vault_photos %}
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 20px;">
+            <tr>
+                {% for photo in vault_photos %}
+                <td style="width: 33%; padding: 0 4px; vertical-align: top;">
+                    <img src="{{ photo.image.url }}" alt="Community Vault Photo" width="160" style="width: 100%; max-width: 160px; height: 140px; object-fit: cover; border-radius: 8px; border: 2px solid rgba(255,20,147,0.3); display: block; margin: 0 auto;">
+                </td>
+                {% endfor %}
+            </tr>
+        </table>
+        {% endif %}
+
+        <div style="text-align: center;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                <tr>
+                    <td style="border-radius: 20px; border: 2px solid #ffff00;">
+                        <a href="{{ vault_url }}" style="display: inline-block; padding: 10px 28px; color: #ffff00 !important; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 20px; white-space: nowrap;">Explore The Vault</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ===== DISCOUNT REMINDER ===== -->
+    <div style="padding: 36px 40px; background: linear-gradient(135deg, #ff1493, #cc0066); text-align: center;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Your Gift</div>
+        <h2 style="margin: 0 0 8px 0; font-size: 26px; font-weight: 900; color: #ffffff;">10% Off Your First Order 🎁</h2>
+        <p style="color: rgba(255,255,255,0.85); font-size: 14px; margin: 0 0 20px 0;">Use the code below at checkout. One use only — make it count.</p>
+
+        <div style="background: rgba(255,255,255,0.15); border: 2px dashed rgba(255,255,255,0.6); padding: 14px 24px; border-radius: 10px; display: inline-block; margin-bottom: 16px;">
+            <div style="font-family: 'Courier New', Courier, monospace; font-size: 24px; font-weight: 900; color: #ffffff; letter-spacing: 3px;">{{ discount_code }}</div>
+        </div>
+
+        <div style="color: rgba(255,255,255,0.75); font-size: 12px; margin-bottom: 24px;">
+            Single use · First order only{% if expires_at %} · Expires {{ expires_at|date:"d M Y" }}{% endif %}
+        </div>
+
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+            <tr>
+                <td style="border-radius: 25px; background-color: #ffffff;">
+                    <a href="{{ shop_url }}" style="display: inline-block; padding: 14px 36px; color: #ff1493 !important; text-decoration: none; font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 25px; white-space: nowrap;">Use My Discount</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div style="padding: 28px 40px; background: #f8f9fa; text-align: center; border-top: 1px solid #e9ecef;">
+        <div style="font-weight: 900; font-size: 16px; color: #111; letter-spacing: 2px; margin-bottom: 4px;">HENDOSHI</div>
+        <div style="font-size: 12px; color: #999; margin-bottom: 16px;">Metal-inspired apparel with original skull, animal, and gym designs</div>
+
+        <div style="margin-bottom: 20px;">
+            <a href="https://www.instagram.com/hendoshiart/" style="display: inline-block; margin: 0 6px; color: #666; font-size: 12px; text-decoration: none;">Instagram</a>
+            <span style="color: #ddd;">|</span>
+            <a href="https://www.facebook.com/hendoshiart" style="display: inline-block; margin: 0 6px; color: #666; font-size: 12px; text-decoration: none;">Facebook</a>
+            <span style="color: #ddd;">|</span>
+            <a href="https://x.com/hendoshiart" style="display: inline-block; margin: 0 6px; color: #666; font-size: 12px; text-decoration: none;">Twitter / X</a>
+        </div>
+
+        <div style="font-size: 11px; color: #bbb; line-height: 1.8;">
+            You're receiving this because you subscribed at hendoshi.com<br>
+            <a href="{{ unsubscribe_url }}" style="color: #ff1493; text-decoration: none;">Unsubscribe</a>
+            &nbsp;·&nbsp;
+            <a href="{{ shop_url }}contact/" style="color: #bbb; text-decoration: none;">Contact Us</a>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
