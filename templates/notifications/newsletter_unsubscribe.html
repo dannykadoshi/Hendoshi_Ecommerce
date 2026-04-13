@@ -11,7 +11,7 @@
 
     .unsubscribe-card {
         max-width: 480px;
-        margin: 0 auto 4rem auto;
+        margin: 0 auto;
         padding: 2.5rem 2rem;
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
@@ -133,7 +133,8 @@
         </div>
     </section>
 
-    <div class="container">
+    <div class="page-container">
+        <div class="container">
         <div class="unsubscribe-card">
             {% if success is None %}
                 <div class="unsubscribe-icon">
@@ -166,6 +167,7 @@
                 <p>We couldn't find your subscription. The link may have already been used or expired. Please contact support if you continue having issues.</p>
                 <a href="{% url 'home' %}" class="btn btn-pink">Return Home</a>
             {% endif %}
+        </div>
         </div>
     </div>
 
