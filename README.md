@@ -423,6 +423,20 @@ Wireframes were created during the planning phase to define page layout and user
 
 ![Product Design Story](assets/readme/feature-design-story.png)
 
+**View this product for — Audience Switcher:**
+
+![View This Product For - Audience Switcher](assets/readme/feature-product-audience-switcher.png)
+
+When the same design is available in multiple audience variants (Men, Women, Kids, Unisex), the product detail page displays a **"View this product for"** pill selector. Clicking an audience label navigates directly to the same design in its audience-specific product listing — no need to return to the catalog or use the filters. This is automatically shown only when sibling products with the same design exist for different audiences.
+
+**View this design in — Product Type Switcher:**
+
+![View This Design In - Product Type Switcher](assets/readme/feature-product-type-switcher.png)
+
+When the same artwork is available across multiple product types (e.g. T-Shirt, Hoodie, Sticker, Accessory), the product detail page displays a **"View this design in"** switcher. Each button links to the same design in a different product format, letting shoppers find the exact item type they want without leaving the product detail page.
+
+Both switchers are rendered dynamically from the database and are only shown when related products exist, keeping the product page clean for designs that are only available in a single format.
+
 #### 3. Shopping Cart & Checkout
 
 **Cart Drawer Features:**
