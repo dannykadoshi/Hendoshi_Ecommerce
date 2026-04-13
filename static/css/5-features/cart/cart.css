@@ -1588,6 +1588,7 @@ main {
 .collections-preview {
     position: relative;
     overflow: hidden;
+    margin-top: -1rem;
     backdrop-filter: blur(25px);
     background:
         radial-gradient(circle at 30% 70%, rgba(0, 255, 0, 0.08) 0%, transparent 50%),

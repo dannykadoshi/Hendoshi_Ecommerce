@@ -196,3 +196,8 @@
 .contact-page .mb-4 {
     margin-top: 0.5rem !important;
 }
+
+/* Pink-tinted horizontal rule used in track order results */
+.border-top-pink {
+    border-color: rgba(255, 105, 180, 0.2) !important;
+}

@@ -110,7 +110,18 @@
     margin-bottom: 1rem;
     color: var(--off-white);
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.8rem;
+}
+
+/* Narrower container for single-column forms/preferences (max 640px) */
+.container-narrow {
+    max-width: 640px;
+}
+
+/* Smaller subtitle text (13px, reduced opacity) */
+.subtitle-small {
+    font-size: 13px;
+    opacity: 0.7;
 }
 
 .no-results-text {

@@ -6366,3 +6366,8 @@ body > iframe[name*="__privateStripeFrame"] {
         padding-bottom: -0rem;
     }
 }
+
+/* Pink-tinted divider line in order summary */
+.hr-pink {
+    border-color: rgba(255, 105, 180, 0.3);
+}
