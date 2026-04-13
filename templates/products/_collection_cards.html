@@ -8,7 +8,7 @@ Context variables:
 {% endcomment %}
 {% for collection in collections %}
 <div class="product-card-wrapper">
-    <div class="product-card glassmorphic-card cursor-pointer" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
+    <div class="product-card glassmorphic-card cursor-pointer no-hover-flip" onclick="window.location.href='{% url 'collection_detail' collection.slug %}'">
         <div class="product-card-inner">
             <div class="product-image product-image-relative">
                 {% if collection.representative_product and collection.representative_product.main_image %}

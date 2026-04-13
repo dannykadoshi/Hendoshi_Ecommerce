@@ -27,15 +27,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const collectionsItems = collectionsTrack.children;
-    const itemWidth = 210 + 24; // item width + gap
     let currentIndex = 0;
     const totalItems = collectionsItems.length;
-    // Force max 3 visible items for better UX, always scrollable
-    const visibleItems = Math.min(3, totalItems);
-    const maxIndex = Math.max(0, totalItems - visibleItems);
+    let visibleItems = 3;
+    let maxIndex = Math.max(0, totalItems - visibleItems);
+
+    function getItemWidth() {
+        if (!collectionsItems[0]) return 234;
+        return collectionsItems[0].offsetWidth + 24; // actual width + gap
+    }
+
+    function updateVisibleItems() {
+        const w = window.innerWidth;
+        if (w <= 480) {
+            visibleItems = 1;
+        } else if (w <= 768) {
+            visibleItems = 2;
+        } else {
+            visibleItems = 3;
+        }
+        maxIndex = Math.max(0, totalItems - visibleItems);
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+    }
 
     function updateCollectionsCarousel() {
-        const translateX = -currentIndex * itemWidth;
+        const translateX = -currentIndex * getItemWidth();
         collectionsTrack.style.transform = `translateX(${translateX}px)`;
 
         // Update button states - always enabled for looping
@@ -140,19 +156,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initialize carousel
+    updateVisibleItems();
     updateCollectionsCarousel();
 
     // Update on window resize
     window.addEventListener('resize', () => {
-        // Recalculate on resize, but keep max 3 visible
-        const newVisibleItems = Math.min(3, totalItems);
-        const newMaxIndex = Math.max(0, totalItems - newVisibleItems);
-
-        // Adjust current index if it's now out of bounds
-        if (currentIndex > newMaxIndex) {
-            currentIndex = newMaxIndex;
-        }
-
+        updateVisibleItems();
         updateCollectionsCarousel();
     });
 });

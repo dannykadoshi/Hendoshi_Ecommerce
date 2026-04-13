@@ -9,7 +9,7 @@ Context variables:
 {% endcomment %}
 {% for product in products %}
 <div class="product-card-wrapper">
-    <div class="product-card glassmorphic-card">
+    <div class="product-card glassmorphic-card{% if not product.images.first %} no-hover-flip{% endif %}">
         <div class="product-card-inner">
             <!-- Battle Vest Button (always same style) -->
             {% if user.is_authenticated %}

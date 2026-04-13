@@ -974,9 +974,9 @@ h2.gradient-title {
     opacity: 0;
 }
 
-/* Desktop hover effect */
+/* Desktop hover effect — only on cards that have a hover image */
 @media (min-width: 992px) {
-    .product-card:hover .product-img-main {
+    .product-card:not(.no-hover-flip):hover .product-img-main {
         opacity: 0;
     }
 
@@ -985,9 +985,9 @@ h2.gradient-title {
     }
 }
 
-/* Mobile tap/click effect */
+/* Mobile tap/click effect — only on cards that have a hover image */
 @media (max-width: 991px) {
-    .product-card.image-flipped .product-img-main {
+    .product-card:not(.no-hover-flip).image-flipped .product-img-main {
         opacity: 0;
     }
 

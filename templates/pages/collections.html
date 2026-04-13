@@ -34,11 +34,10 @@
         </div>
     </section>
 
-    <div class="container-fluid page-container">
+    <div class="container-fluid page-container pb-5">
         {% if collections %}
         <div class="products-grid">
             {% include 'products/_collection_cards.html' with collections=collections %}
-        </div>
         </div>
         {% else %}
         <div class="text-center">
