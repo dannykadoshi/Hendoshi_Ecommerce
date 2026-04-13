@@ -52,7 +52,7 @@ class CacheHeaderMiddleware:
             response['Expires'] = '0'
             return response
         
-        # Public read-heavy pages - cache for 1 hour
+        # Public read-heavy pages - short cache to keep discount banner fresh
         if any(public_path in path for public_path in [
             '/products/',
             '/collections/',
@@ -65,20 +65,21 @@ class CacheHeaderMiddleware:
             '/size-guide/',
             '/track-order/',
         ]):
-            # Cache for 1 hour, but allow intermediate CDN caches
-            response['Cache-Control'] = 'public, max-age=3600'
+            # 60s max-age: short enough that banner changes appear quickly
+            # Vary: Cookie ensures CDN creates separate entries per session
+            response['Cache-Control'] = 'public, max-age=60'
             response['ETag'] = None  # Let HTTP caching handle it
             patch_vary_headers(response, ['Accept-Encoding', 'Cookie'])
             return response
-        
-        # Homepage - cache for 30 minutes (more volatile due to dynamic collections)
+
+        # Homepage - short cache (contains dynamic discount banner)
         if path == '/' or path == '/home/':
-            response['Cache-Control'] = 'public, max-age=1800'
-            patch_vary_headers(response, ['Accept-Encoding'])
+            response['Cache-Control'] = 'public, max-age=60'
+            patch_vary_headers(response, ['Accept-Encoding', 'Cookie'])
             return response
-        
-        # Default: cache for 5 minutes as fallback
-        response['Cache-Control'] = 'public, max-age=300'
-        patch_vary_headers(response, ['Accept-Encoding'])
+
+        # Default: short fallback cache
+        response['Cache-Control'] = 'public, max-age=60'
+        patch_vary_headers(response, ['Accept-Encoding', 'Cookie'])
         
         return response

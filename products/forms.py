@@ -107,8 +107,8 @@ class ProductForm(forms.ModelForm):
     def clean_main_image(self):
         image = self.cleaned_data.get('main_image')
         if image:
-            # Check if it's an image
-            if image.content_type not in ['image/jpeg', 'image/png', 'image/webp']:
+            # Only newly uploaded files have content_type; existing ImageFieldFile objects don't
+            if hasattr(image, 'content_type') and image.content_type not in ['image/jpeg', 'image/png', 'image/webp']:
                 raise forms.ValidationError('Please upload a valid image file (JPEG, PNG, or WebP).')
         # Only require image if creating new product (no instance yet)
         if not image and not self.instance.pk:

@@ -1,5 +1,6 @@
 from django.utils import timezone
 import hashlib
+import re
 import time
 import json
 
@@ -76,8 +77,8 @@ def discount_banner(request):
                     'is_high_value': (discount.discount_value >= 20)
                 }
                 if discount.banner_message:
-                    # Replace {CODE} or {code} placeholders with clickable code
-                    message = discount.banner_message.replace('{CODE}', clickable_code).replace('{code}', clickable_code)  # noqa: E501
+                    # Replace any {PLACEHOLDER} with the clickable code span
+                    message = re.sub(r'\{[^}]+\}', clickable_code, discount.banner_message)
                     # Append button at the end if present
                     if button_html:
                         message += f' {button_html}'
@@ -123,8 +124,8 @@ def discount_banner(request):
 
             # Use custom banner message if provided, otherwise use default
             if selected_discount.banner_message:
-                # Replace {CODE} or {code} placeholders with clickable code
-                message = selected_discount.banner_message.replace('{CODE}', clickable_code).replace('{code}', clickable_code)  # noqa: E501
+                # Replace any {PLACEHOLDER} with the clickable code span
+                message = re.sub(r'\{[^}]+\}', clickable_code, selected_discount.banner_message)
                 # Append button at the end if present
                 if button_html:
                     message += f' {button_html}'
