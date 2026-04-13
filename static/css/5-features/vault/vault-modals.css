@@ -2526,6 +2526,13 @@ body .page-hero .battle-vest-stats {
     text-align: center;
 }
 
+@media (max-width: 767px) {
+    .newsletter-benefits,
+    .newsletter-management {
+        margin-bottom: 0.75rem;
+    }
+}
+
 .btn-outline-primary {
     border-color: var(--neon-pink);
     background: transparent;
