@@ -320,7 +320,7 @@ def admin_list_subscribers(request):
     """Simple staff view listing newsletter subscribers (frontend admin panel)."""
     qs = NewsletterSubscriber.objects.all().order_by('-created_at')
     # simple search
-    q = request.GET.get('q')
+    q = request.GET.get('q', '').strip()
     if q:
         qs = qs.filter(email__icontains=q)
 
