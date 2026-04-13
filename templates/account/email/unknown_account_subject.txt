@@ -1,1 +1,1 @@
-{% autoescape off %}[{{ current_site.name }}] Password Reset Request{% endautoescape %}
+{% autoescape off %}Password Reset Request{% endautoescape %}

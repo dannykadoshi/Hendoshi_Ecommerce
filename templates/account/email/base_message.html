@@ -5,25 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ subject|default:current_site.name }}</title>
     <style>
-        :root { --neon-pink: #ff1493; --electric-yellow: #ffff00; }
-        body { font-family: 'Montserrat', Arial, sans-serif; line-height:1.6; color:#333; background-color:#f8f9fa; margin:0; padding:20px; }
-        .email-container { max-width:600px; margin:0 auto; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.08); }
-        .email-header { background:linear-gradient(135deg,#000,#333); color:#fff; padding:30px 24px; text-align:center; }
-        .logo { font-size:28px; font-weight:900; background:linear-gradient(135deg,#fff 0%,var(--neon-pink) 50%,var(--electric-yellow) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        .email-body { padding:28px 24px; text-align:left; }
-        .greeting { font-size:18px; margin-bottom:12px; }
-        .message { font-size:15px; color:#555; margin-bottom:16px; }
-        .cta-button { display:inline-block; background:linear-gradient(135deg,var(--neon-pink),#ff69b4); color:#fff; padding:12px 28px; border-radius:24px; text-decoration:none; font-weight:700; }
-        .footer-note { font-size:13px; color:#777; margin-top:18px; padding-top:12px; border-top:1px solid #eee; }
-        .email-footer { background:#f8f9fa; padding:20px 24px; text-align:center; color:#6c757d; font-size:13px; }
-        @media (max-width:480px){ .email-body{padding:16px;} .email-header{padding:20px;} }
+        :root {
+            --neon-pink: #ff1493;
+            --electric-yellow: #ffff00;
+        }
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .email-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .email-header {
+            background: linear-gradient(135deg, #000000, #333333);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+        .email-header .logo {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-pink) 50%, var(--electric-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
+            margin-bottom: 10px;
+            display: block;
+        }
+        .email-body {
+            padding: 40px;
+            text-align: left;
+        }
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #222;
+        }
+        .message {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .cta-wrapper {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.35);
+        }
+        .footer-note {
+            font-size: 13px;
+            color: #888;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            line-height: 1.6;
+        }
+        .footer-note a {
+            color: var(--neon-pink);
+            text-decoration: none;
+        }
+        .email-footer {
+            background: #f8f9fa;
+            padding: 24px 40px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .email-footer p {
+            margin: 4px 0;
+            color: #6c757d;
+            font-size: 13px;
+        }
+        @media (max-width: 480px) {
+            .email-body  { padding: 24px 20px; }
+            .email-header { padding: 24px 20px; }
+            .email-footer { padding: 20px; }
+        }
     </style>
 </head>
 <body>
     <div class="email-container">
         <div class="email-header">
-            <div class="logo">HENDOSHI</div>
-            <h2 style="margin:6px 0 0; font-size:18px; font-weight:700;">{{ subject|default:current_site.name }}</h2>
+            <span class="logo">HENDOSHI</span>
+            <h1>{{ subject|default:current_site.name }}</h1>
         </div>
 
         <div class="email-body">
@@ -31,7 +124,7 @@
         </div>
 
         <div class="email-footer">
-            <p><strong>HENDOSHI</strong> - Wear Your Weird</p>
+            <p><strong>HENDOSHI</strong> — Wear Your Weird</p>
             <p>Metal-inspired apparel with original skull, animal, and gym designs</p>
         </div>
     </div>

@@ -8,7 +8,15 @@
 
     <p class="message">If this wasn't you, you can safely ignore this email. If you'd like to create an account, click the button below to sign up.</p>
 
-    <p style="text-align:center; margin:18px 0;"><a href="{{ signup_url }}" class="cta-button">Create an Account</a></p>
+    <div class="cta-wrapper">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+            <tr>
+                <td style="border-radius: 25px; background: linear-gradient(135deg, #ff1493, #ff69b4); background-color: #ff1493; box-shadow: 0 4px 15px rgba(255,20,147,0.35);">
+                    <a href="{{ signup_url }}" style="display: inline-block; padding: 15px 40px; color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Montserrat', Arial, sans-serif; border-radius: 25px; mso-padding-alt: 0;">Create an Account</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <div class="footer-note">Questions? Reply to this email or visit <a href="{{ SITE_URL }}" style="color:var(--neon-pink);">{{ current_site.domain }}</a>.</div>
 {% endblock %}

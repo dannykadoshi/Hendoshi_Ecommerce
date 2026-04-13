@@ -1,1 +1,1 @@
-{% autoescape off %}[{{ current_site.name }}] Please Confirm Your Email Address{% endautoescape %}
+{% autoescape off %}Please Confirm Your Email Address{% endautoescape %}
