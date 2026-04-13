@@ -352,3 +352,111 @@
         background-image: url("/static/images/hendoshi-gothic-tee.webp");
     }
 }
+
+/* ================================================
+   LIGHT MODE OVERRIDES - NEWSLETTER POPUP
+   ================================================ */
+
+:root.light-mode .newsletter-popup-backdrop {
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+:root.light-mode .newsletter-popup {
+    border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow:
+        0 8px 32px 0 rgba(255, 20, 147, 0.15),
+        0 20px 60px 0 rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba(255, 20, 147, 0.2);
+}
+
+:root.light-mode .newsletter-popup-content {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+:root.light-mode .newsletter-popup-logo {
+    background: linear-gradient(135deg, #e71f7f, #ff69b4);
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:root.light-mode .newsletter-popup-title {
+    color: #1a1a1a;
+}
+
+:root.light-mode .newsletter-popup-subtitle {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .newsletter-popup-input {
+    border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
+}
+
+:root.light-mode .newsletter-popup-input:focus {
+    border-color: var(--neon-pink);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow:
+        0 0 20px rgba(255, 20, 147, 0.3),
+        inset 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+:root.light-mode .newsletter-popup-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+:root.light-mode .newsletter-popup-consent label {
+    color: #333333;
+}
+
+:root.light-mode .newsletter-popup-consent a {
+    color: var(--neon-pink);
+}
+
+:root.light-mode .newsletter-popup-close {
+    border-color: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 20, 147, 0.08);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .newsletter-popup-close:hover {
+    border-color: var(--neon-pink);
+    background: rgba(255, 20, 147, 0.15);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .newsletter-popup-btn-primary {
+    box-shadow: 0 4px 20px rgba(255, 20, 147, 0.25);
+}
+
+:root.light-mode .newsletter-popup-btn-primary:hover {
+    box-shadow: 0 6px 30px rgba(255, 20, 147, 0.4);
+}
+
+:root.light-mode .newsletter-popup-btn-secondary {
+    border-color: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.05);
+    color: #333333;
+}
+
+:root.light-mode .newsletter-popup-btn-secondary:hover {
+    border-color: rgba(255, 20, 147, 0.3);
+    background: rgba(255, 20, 147, 0.05);
+    color: var(--neon-pink);
+}
+
+:root.light-mode .newsletter-popup-error {
+    background: rgba(228, 92, 92, 0.1);
+    color: #dc3545;
+    border-color: rgba(228, 92, 92, 0.3);
+}
+
+:root.light-mode .newsletter-popup-success {
+    background: rgba(52, 168, 83, 0.1);
+    color: #28a745;
+    border-color: rgba(52, 168, 83, 0.3);
+}
