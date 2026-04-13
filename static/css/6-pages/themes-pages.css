@@ -286,14 +286,19 @@
     margin: 0.25rem auto 0.5rem auto !important;
     padding: 0.85rem 1rem !important;
     border-radius: 10px !important;
-    border: 1px solid rgba(0,0,0,0.06) !important;
-    background: #ffffff !important;
-    box-shadow: 0 8px 18px rgba(255,20,147,0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: none !important;
     font-size: 0.95rem !important;
+}
+.auth-page #password-reset-from-key-container .auth-card .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.35) !important;
 }
 .auth-page #password-reset-from-key-container .auth-card .form-control:focus {
     outline: none !important;
-    box-shadow: 0 10px 30px rgba(255,20,147,0.12) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 0 0 2px rgba(255, 20, 147, 0.4) !important;
     border-color: var(--neon-pink) !important;
 }
 .auth-page #password-reset-from-key-container .password-requirements {
