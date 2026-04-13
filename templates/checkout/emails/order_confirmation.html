@@ -248,7 +248,7 @@
             <!-- Next Steps -->
             <div class="section">
                 <h2 class="section-title">What's Next?</h2>
-                {% if order.user and not order.account_activated %}
+                {% if order.activation_token and not order.account_activated %}
                     <p style="margin-bottom: 20px;"><strong>Complete Your Account Setup</strong></p>
                     <p>You've checked out as a guest. Create your account now to access your order history and future purchases!</p>
                     <div style="text-align: center; margin: 25px 0;">

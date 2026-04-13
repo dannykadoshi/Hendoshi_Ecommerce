@@ -27,7 +27,7 @@ Tax:                €{{ order.tax_amount }}
 TOTAL AMOUNT:       €{{ order.total_amount }}
 
 WHAT'S NEXT?
-{% if order.user and not order.account_activated %}
+{% if order.activation_token and not order.account_activated %}
 COMPLETE YOUR ACCOUNT SETUP
 
 You've checked out as a guest. Activate your account now to access your order history and save time on future purchases!
