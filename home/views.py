@@ -51,6 +51,18 @@ def contact(request):
     View to handle contact form submissions.
     Sends notification email to admin and confirmation email to customer.
     """
+    if getattr(settings, 'CONTACT_FORM_DISABLED', False):
+        form = ContactForm()
+        if request.method == 'POST':
+            messages.warning(
+                request,
+                'The contact form is temporarily unavailable while we add spam protection. Please try again soon.'
+            )
+        return render(request, 'home/contact.html', {
+            'form': form,
+            'contact_form_disabled': True,
+        })
+
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():

@@ -75,6 +75,11 @@
                             <button type="button" class="contact-close-btn" onclick="history.back()" title="Close" aria-label="Close">
                                 <i class="fas fa-times"></i>
                             </button>
+                            {% if contact_form_disabled %}
+                                <div class="alert alert-warning mb-4" role="alert">
+                                    The contact form is temporarily unavailable while we add spam protection. Please try again soon.
+                                </div>
+                            {% endif %}
                             <form method="post" class="contact-form" id="contactForm" novalidate>
                                 {% csrf_token %}
 
@@ -164,7 +169,7 @@
                                 </div>
 
                                 <!-- Submit Button -->
-                                <button type="submit" class="btn btn-pink w-100">
+                                <button type="submit" class="btn btn-pink w-100"{% if contact_form_disabled %} disabled{% endif %}>
                                     <i class="fas fa-paper-plane"></i> Send Message
                                 </button>
                             </form>
