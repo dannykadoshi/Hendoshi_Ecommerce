@@ -55,7 +55,7 @@ def contact(request):
         form = ContactForm()
         messages.warning(
             request,
-            'Contact form is temporarily unavailable due to maintenance. Please try again later.'
+            'The contact form is temporarily unavailable while we add spam protection. Please try again soon.'
         )
         return render(request, 'home/contact.html', {
             'form': form,
