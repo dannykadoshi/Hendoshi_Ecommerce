@@ -53,10 +53,11 @@ def contact(request):
     """
     if getattr(settings, 'CONTACT_FORM_DISABLED', False):
         form = ContactForm()
-        messages.warning(
-            request,
-            'The contact form is temporarily unavailable while we add spam protection. Please try again soon.'
-        )
+        if request.method == 'POST':
+            messages.warning(
+                request,
+                'The contact form is temporarily unavailable while we add spam protection. Please try again soon.'
+            )
         return render(request, 'home/contact.html', {
             'form': form,
             'contact_form_disabled': True,
