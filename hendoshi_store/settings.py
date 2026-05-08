@@ -143,6 +143,9 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='HENDOSHI <noreply@mail.hendoshi.com>')
 
+# Feature flags
+CONTACT_FORM_DISABLED = config('CONTACT_FORM_DISABLED', default=True, cast=bool)
+
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',

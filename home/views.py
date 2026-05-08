@@ -51,7 +51,7 @@ def contact(request):
     View to handle contact form submissions.
     Sends notification email to admin and confirmation email to customer.
     """
-    if getattr(settings, 'CONTACT_FORM_DISABLED', True):
+    if getattr(settings, 'CONTACT_FORM_DISABLED', False):
         messages.warning(
             request,
             'Contact form is temporarily unavailable due to maintenance. Please try again later.'
