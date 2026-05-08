@@ -51,6 +51,12 @@ def contact(request):
     View to handle contact form submissions.
     Sends notification email to admin and confirmation email to customer.
     """
+    messages.warning(
+        request,
+        'Contact form is temporarily unavailable due to maintenance. Please try again later.'
+    )
+    return render(request, 'home/contact.html', {'form': ContactForm()})
+
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
