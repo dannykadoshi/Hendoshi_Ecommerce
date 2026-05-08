@@ -52,11 +52,15 @@ def contact(request):
     Sends notification email to admin and confirmation email to customer.
     """
     if getattr(settings, 'CONTACT_FORM_DISABLED', False):
+        form = ContactForm()
         messages.warning(
             request,
             'Contact form is temporarily unavailable due to maintenance. Please try again later.'
         )
-        return render(request, 'home/contact.html', {'form': ContactForm()})
+        return render(request, 'home/contact.html', {
+            'form': form,
+            'contact_form_disabled': True,
+        })
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
